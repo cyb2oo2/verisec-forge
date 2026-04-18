@@ -1,0 +1,93 @@
+{
+  "summary": {
+    "num_examples": 5,
+    "accuracy": 1.0,
+    "format_pass_rate": 1.0,
+    "avg_tokens": 17.8,
+    "timeout_rate": 0.0,
+    "invalid_answer_rate": 0.0,
+    "repeated_reasoning_rate": 0.0
+  },
+  "by_difficulty": {
+    "easy": {
+      "count": 4,
+      "accuracy": 1.0
+    },
+    "medium": {
+      "count": 1,
+      "accuracy": 1.0
+    }
+  },
+  "rows": [
+    {
+      "id": "math-eval-0001",
+      "correct": true,
+      "format_ok": true,
+      "token_count": 13,
+      "timeout": false,
+      "invalid_answer": false,
+      "repeated_reasoning": false,
+      "reasoning_failure": false,
+      "extraction_failure": false,
+      "difficulty": "easy",
+      "source": "synthetic_math_v1",
+      "model_version": "mock-baseline-v1"
+    },
+    {
+      "id": "math-eval-0002",
+      "correct": true,
+      "format_ok": true,
+      "token_count": 17,
+      "timeout": false,
+      "invalid_answer": false,
+      "repeated_reasoning": false,
+      "reasoning_failure": false,
+      "extraction_failure": false,
+      "difficulty": "easy",
+      "source": "synthetic_math_v1",
+      "model_version": "mock-baseline-v1"
+    },
+    {
+      "id": "math-eval-0003",
+      "correct": true,
+      "format_ok": true,
+      "token_count": 18,
+      "timeout": false,
+      "invalid_answer": false,
+      "repeated_reasoning": false,
+      "reasoning_failure": false,
+      "extraction_failure": false,
+      "difficulty": "easy",
+      "source": "synthetic_math_v1",
+      "model_version": "mock-baseline-v1"
+    },
+    {
+      "id": "math-eval-0004",
+      "correct": true,
+      "format_ok": true,
+      "token_count": 23,
+      "timeout": false,
+      "invalid_answer": false,
+      "repeated_reasoning": false,
+      "reasoning_failure": false,
+      "extraction_failure": false,
+      "difficulty": "medium",
+      "source": "synthetic_math_v1",
+      "model_version": "mock-baseline-v1"
+    },
+    {
+      "id": "math-eval-0005",
+      "correct": true,
+      "format_ok": true,
+      "token_count": 18,
+      "timeout": false,
+      "invalid_answer": false,
+      "repeated_reasoning": false,
+      "reasoning_failure": false,
+      "extraction_failure": false,
+      "difficulty": "easy",
+      "source": "synthetic_math_v1",
+      "model_version": "mock-baseline-v1"
+    }
+  ]
+}

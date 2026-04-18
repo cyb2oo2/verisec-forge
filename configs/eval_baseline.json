@@ -1,0 +1,12 @@
+{
+  "dataset_path": "data/processed/eval_math.jsonl",
+  "generations_path": "outputs/baseline_generations.jsonl",
+  "report_json_path": "reports/baseline_eval_report.json",
+  "report_csv_path": "reports/baseline_eval_rows.csv",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "metrics": {
+    "timeout_ms_threshold": 120000,
+    "repeated_reasoning_ngram_size": 3,
+    "repeated_reasoning_threshold": 2
+  }
+}

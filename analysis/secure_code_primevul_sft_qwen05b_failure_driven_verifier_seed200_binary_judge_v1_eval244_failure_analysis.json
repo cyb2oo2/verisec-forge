@@ -1,0 +1,320 @@
+{
+  "failure_buckets": {
+    "high_confidence_error": 146,
+    "label_failure": 26,
+    "format_failure": 49,
+    "evidence_failure": 1,
+    "correct": 22
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 21.6721
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "structured_json": 183,
+      "none": 61
+    },
+    "parse_trigger_counts": {
+      "missing_evidence,confidence_out_of_range": 47,
+      "missing_evidence": 52,
+      "none": 33,
+      "missing_evidence,pair_block_output": 20,
+      "pair_block_output": 5,
+      "non_structured_output": 61,
+      "missing_evidence,confidence_out_of_range,pair_block_output": 22,
+      "confidence_out_of_range": 3,
+      "confidence_out_of_range,pair_block_output": 1
+    },
+    "avg_parse_confidence": 0.4914
+  },
+  "label_error_breakdown": {
+    "cwe_mismatch": 15,
+    "false_positive": 11
+  },
+  "format_error_breakdown": {
+    "non_structured_output": 49
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 94,
+      "accuracy": 0.0319,
+      "high_confidence_error_rate": 0.9681
+    },
+    "0.75-0.89": {
+      "count": 62,
+      "accuracy": 0.0968,
+      "high_confidence_error_rate": 0.9032
+    },
+    "0.5-0.74": {
+      "count": 1,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 0.0
+    },
+    "0.0-0.49": {
+      "count": 3,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 0.0
+    },
+    "missing": {
+      "count": 84,
+      "accuracy": 0.1667,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "89049",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::enableVertexAttribArray(unsigned long index)\n{\n    makeContextCurrent();\n    if (index < NumTrackedPointerStates)\n        m_vertexAttribPointerState[index].enabled = true;\n    glEnableVertexAttribArray(index);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"Not supported.\", \"fix_principle\": \"No change.\", \"confidence\": 0.8, \"fix_choice\": null }",
+        "token_count": 19,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.8
+      },
+      {
+        "id": "90048",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nDataObjectItem* DataObjectItem::CreateFromSharedBuffer(\n    scoped_refptr<SharedBuffer> buffer,\n    const KURL& source_url,\n    const String& filename_extension,\n    const AtomicString& content_disposition) {\n  DataObjectItem* item = MakeGarbageCollected<DataObjectItem>(\n      kFileKind,\n      MIMETypeRegistry::GetWellKnownMIMETypeForExtension(filename_extension));\n  item->shared_buffer_ = std::move(buffer);\n  item->filename_extension_ = filename_extension;\n  item->title_ = content_disposition;\n  item->base_url_ = source_url;\n  return item;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": \"Not supported.\", \"evidence\": \"\", \"explanation\": \"Not supported.\", \"fix_principle\": \"No change.\", \"confidence\": 0.8, \"fix_choice\": null }",
+        "token_count": 20,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.8
+      },
+      {
+        "id": "90050",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nDataObjectItem* DataObjectItem::CreateFromURL(const String& url,\n                                              const String& title) {\n  DataObjectItem* item =\n      MakeGarbageCollected<DataObjectItem>(kStringKind, kMimeTypeTextURIList);\n  item->data_ = url;\n  item->title_ = title;\n  return item;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: null, severity: \"Not supported.\", evidence: null, explanation: \"Not applicable.\", fix_principle: \"None.\", confidence: \"Not supported.\", fix_choice: null}",
+        "token_count": 19,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "non_structured_output",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "195337",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic struct sock *pep_sock_accept(struct sock *sk, int flags, int *errp,\n\t\t\t\t    bool kern)\n{\n\tstruct pep_sock *pn = pep_sk(sk), *newpn;\n\tstruct sock *newsk = NULL;\n\tstruct sk_buff *skb;\n\tstruct pnpipehdr *hdr;\n\tstruct sockaddr_pn dst, src;\n\tint err;\n\tu16 peer_type;\n\tu8 pipe_handle, enabled, n_sb;\n\tu8 aligned = 0;\n\n\tskb = skb_recv_datagram(sk, 0, flags & O_NONBLOCK, errp);\n\tif (!skb)\n\t\treturn NULL;\n\n\tlock_sock(sk);\n\tif (sk->sk_state != TCP_LISTEN) {\n\t\terr = -EINVAL;\n\t\tgoto drop;\n\t}\n\tsk_acceptq_removed(sk);\n\n\terr = -EPROTO;\n\tif (!pskb_may_pull(skb, sizeof(*hdr) + 4))\n\t\tgoto drop;\n\n\thdr = pnp_hdr(skb);\n\tpipe_handle = hdr->pipe_handle;\n\tswitch (hdr->state_after_connect) {\n\tcase PN_PIPE_DISABLE:\n\t\tenabled = 0;\n\t\tbreak;\n\tcase PN_PIPE_ENABLE:\n\t\tenabled = 1;\n\t\tbreak;\n\tdefault:\n\t\tpep_reject_conn(sk, skb, PN_PIPE_ERR_INVALID_PARAM,\n\t\t\t\tGFP_KERNEL);\n\t\tgoto drop;\n\t}\n\tpeer_type = hdr->other_pep_type << 8;\n\n\t/* Parse sub-blocks (options) */\n\tn_sb = hdr->data[3];\n\twhile (n_sb > 0) {\n\t\tu8 type, buf[1], len = sizeof(buf);\n\t\tconst u8 *data = pep_get_sb(skb, &type, &len, buf);\n\n\t\tif (data == NULL)\n\t\t\tgoto drop;\n\t\tswitch (type) {\n\t\tcase PN_PIPE_SB_CONNECT_REQ_PEP_SUB_TYPE:\n\t\t\tif (len < 1)\n\t\t\t\tgoto drop;\n\t\t\tpeer_type = (peer_type & 0xff00) | data[0];\n\t\t\tbreak;\n\t\tcase PN_PIPE_SB_ALIGNED_DATA:\n\t\t\taligned = data[0] != 0;\n\t\t\tbreak;\n\t\t}\n\t\tn_sb--;\n\t}\n\n\t/* Check for duplicate pipe handle */\n\tnewsk = pep_find_pipe(&pn->hlist, &dst, pipe_handle);\n\tif (unlikely(newsk)) {\n\t\t__sock_put(newsk);\n\t\tnewsk = NULL;\n\t\tpep_reject_conn(sk, skb, PN_PIPE_ERR_PEP_IN_USE, GFP_KERNEL);\n\t\tgoto drop;\n\t}\n\n\t/* Create a new to-be-accepted sock */\n\tnewsk = sk_alloc(sock_net(sk), PF_PHONET, GFP_KERNEL, sk->sk_prot,\n\t\t\t kern);\n\tif (!newsk) {\n\t\tpep_reject_conn(sk, skb, PN_PIPE_ERR_OVERLOAD, GFP_KERNEL);\n\t\terr = -ENOBUFS;\n\t\tgoto drop;\n\t}\n\n\tsock_init_data(NULL, newsk);\n\tnewsk->sk_state = TCP_SYN_RECV;\n\tnewsk->sk_backlog_rcv = pipe_do_rcv;\n\tnewsk->sk_protocol = sk->sk_protocol;\n\tnewsk->sk_destruct = pipe_destruct;\n\n\tnewpn = pep_sk(newsk);\n\tpn_skb_get_dst_sockaddr(skb, &dst);\n\tpn_skb_get_src_sockaddr(skb, &src);\n\tnewpn->pn_sk.sobject = pn_sockaddr_get_object(&dst);\n\tnewpn->pn_sk.dobject = pn_sockaddr_get_object(&src);\n\tnewpn->pn_sk.resource = pn_sockaddr_get_resource(&dst);\n\tsock_hold(sk);\n\tnewpn->listener = sk;\n\tskb_queue_head_init(&newpn->ctrlreq_queue);\n\tnewpn->pipe_handle = pipe_handle;\n\tatomic_set(&newpn->tx_credits, 0);\n\tnewpn->ifindex = 0;\n\tnewpn->peer_type = peer_type;\n\tnewpn->rx_credits = 0;\n\tnewpn->rx_fc = newpn->tx_fc = PN_LEGACY_FLOW_CONTROL;\n\tnewpn->init_enable = enabled;\n\tnewpn->aligned = aligned;\n\n\terr = pep_accept_conn(newsk, skb);\n\tif (err) {\n\t\tsock_put(newsk);\n\t\tnewsk = NULL;\n\t\tgoto drop;\n\t}\n\tsk_add_node(newsk, &pn->hlist);\ndrop:\n\trelease_sock(sk);\n\tkfree_skb(skb);\n\t*errp = err;\n\treturn newsk;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-200",
+        "raw_text": "{true,\"Broken Pipe\",\"Medium\",[\"A packet is sent from the client to the server.\", \"The function does not check if the peer's pipe handle is already in use.\", \"To improve this issue, ensure that the peer's pipe handle is not already in use before creating a new connection.\"],\"Escalate.\",\"No change.\"}",
+        "token_count": 46,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "non_structured_output",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195345",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nGF_Err gf_isom_box_parse_ex(GF_Box **outBox, GF_BitStream *bs, u32 parent_type, Bool is_root_box)\n{\n\tu32 type, uuid_type, hdr_size;\n\tu64 size, start, payload_start, end;\n\tchar uuid[16];\n\tGF_Err e;\n\tGF_Box *newBox;\n\tBool skip_logs = gf_bs_get_cookie(bs) ? GF_TRUE : GF_FALSE;\n\tBool is_special = GF_TRUE;\n\n\tif ((bs == NULL) || (outBox == NULL) ) return GF_BAD_PARAM;\n\t*outBox = NULL;\n\tif (gf_bs_available(bs) < 8) {\n\t\treturn GF_ISOM_INCOMPLETE_FILE;\n\t}\n\n\tstart = gf_bs_get_position(bs);\n\n\tuuid_type = 0;\n\tsize = (u64) gf_bs_read_u32(bs);\n\thdr_size = 4;\n\t/*fix for some boxes found in some old hinted files*/\n\tif ((size >= 2) && (size <= 4)) {\n\t\tsize = 4;\n\t\ttype = GF_ISOM_BOX_TYPE_VOID;\n\t} else {\n\t\ttype = gf_bs_read_u32(bs);\n\t\thdr_size += 4;\n\t\t/*no size means till end of file - EXCEPT FOR some old QuickTime boxes...*/\n\t\tif (type == GF_ISOM_BOX_TYPE_TOTL)\n\t\t\tsize = 12;\n\t\tif (!size) {\n\t\t\tif (is_root_box) {\n\t\t\t\tif (!skip_logs) {\n\t\t\t\t\tGF_LOG(GF_LOG_DEBUG, GF_LOG_CONTAINER, (\"[iso file] Warning Read Box type %s (0x%08X) size 0 reading till the end of file\\n\", gf_4cc_to_str(type), type));\n\t\t\t\t}\n\t\t\t\tsize = gf_bs_available(bs) + 8;\n\t\t\t} else {\n\t\t\t\tif (!skip_logs) {\n\t\t\t\t\tGF_LOG(GF_LOG_ERROR, GF_LOG_CONTAINER, (\"[iso file] Read Box type %s (0x%08X) at position \"LLU\" has size 0 but is not at root/file level, skipping\\n\", gf_4cc_to_str(type), type, start));\n\t\t\t\t}\n\t\t\t\treturn GF_OK;\n//\t\t\t\treturn GF_ISOM_INVALID_FILE;\n\t\t\t}\n\t\t}\n\t}\n\t/*handle uuid*/\n\tmemset(uuid, 0, 16);\n\tif (type == GF_ISOM_BOX_TYPE_UUID ) {\n\t\tif (gf_bs_available(bs) < 16) {\n\t\t\treturn GF_ISOM_INCOMPLETE_FILE;\n\t\t}\n\t\tgf_bs_read_data(bs, uuid, 16);\n\t\thdr_size += 16;\n\t\tuuid_type = gf_isom_solve_uuid_box(uuid);\n\t}\n\n\t//handle large box\n\tif (size == 1) {\n\t\tif (gf_bs_available(bs) < 8) {\n\t\t\treturn GF_ISOM_INCOMPLETE_FILE;\n\t\t}\n\t\tsize = gf_bs_read_u64(bs);\n\t\thdr_size += 8;\n\t}\n\tGF_LOG(GF_LOG_DEBUG, GF_LOG_CONTAINER, (\"[iso file] Read Box type %s size \"LLD\" start \"LLD\"\\n\", gf_4cc_to_str(type), LLD_CAST size, LLD_CAST start));\n\n\tif ( size < hdr_size ) {\n\t\tGF_LOG(GF_LOG_DEBUG, GF_LOG_CONTAINER, (\"[iso file] Box size \"LLD\" less than box header size %d\\n\", LLD_CAST size, hdr_size));\n\t\treturn GF_ISOM_INVALID_FILE;\n\t}\n\n\t//some special boxes (references and track groups) are handled by a single generic box with an associated ref/group type\n\tif (parent_type && (parent_type == GF_ISOM_BOX_TYPE_TREF)) {\n\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_REFT);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t\t((GF_TrackReferenceTypeBox*)newBox)->reference_type = type;\n\t} else if (parent_type && (parent_type == GF_ISOM_BOX_TYPE_IREF)) {\n\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_REFI);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t\t((GF_ItemReferenceTypeBox*)newBox)->reference_type = type;\n\t} else if (parent_type && (parent_type == GF_ISOM_BOX_TYPE_TRGR)) {\n\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_TRGT);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t\t((GF_TrackGroupTypeBox*)newBox)->group_type = type;\n\t} else if (parent_type && (parent_type == GF_ISOM_BOX_TYPE_GRPL)) {\n\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_GRPT);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t\t((GF_EntityToGroupTypeBox*)newBox)->grouping_type = type;\n\t} else {\n\t\t//OK, create the box based on the type\n\t\tis_special = GF_FALSE;\n\t\tnewBox = gf_isom_box_new_ex(uuid_type ? uuid_type : type, parent_type, skip_logs, is_root_box);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t}\n\n\t//OK, init and read this box\n\tif (type==GF_ISOM_BOX_TYPE_UUID && !is_special) {\n\t\tmemcpy(((GF_UUIDBox *)newBox)->uuid, uuid, 16);\n\t\t((GF_UUIDBox *)newBox)->internal_4cc = uuid_type;\n\t}\n\n\tif (!newBox->type) newBox->type = type;\n\tpayload_start = gf_bs_get_position(bs);\n\nretry_unknown_box:\n\n\tend = gf_bs_available(bs);\n\tif (size - hdr_size > end ) {\n\t\tnewBox->size = size - hdr_size - end;\n\t\t*outBox = newBox;\n\t\treturn GF_ISOM_INCOMPLETE_FILE;\n\t}\n\n\tnewBox->size = size - hdr_size;\n\n\tif (newBox->size) {\n\t\te = gf_isom_full_box_read(newBox, bs);\n\t\tif (!e) e = gf_isom_box_read(newBox, bs);\n\t\tnewBox->size = size;\n\t\tend = gf_bs_get_position(bs);\n\t} else {\n\t\tnewBox->size = size;\n\t\t//empty box\n\t\te = GF_OK;\n\t\tend = gf_bs_get_position(bs);\n\t}\n\n\tif (e && (e != GF_ISOM_INCOMPLETE_FILE)) {\n\t\tgf_isom_box_del(newBox);\n\t\t*outBox = NULL;\n\n\t\tif (parent_type==GF_ISOM_BOX_TYPE_STSD) {\n\t\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_UNKNOWN);\n\t\t\t((GF_UnknownBox *)newBox)->original_4cc = type;\n\t\t\tnewBox->size = size;\n\t\t\tgf_bs_seek(bs, payload_start);\n\t\t\tgoto retry_unknown_box;\n\t\t}\n\t\tif (!skip_logs) {\n\t\t\tGF_LOG(GF_LOG_ERROR, GF_LOG_CONTAINER, (\"[iso file] Read Box \\\"%s\\\" (start \"LLU\") failed (%s) - skipping\\n\", gf_4cc_to_str(type), start, gf_error_to_string(e)));\n\t\t}\n\t\t//we don't try to reparse known boxes that have been failing (too dangerous)\n\t\treturn e;\n\t}\n\n\tif (end-start > size) {\n\t\tif (!skip_logs) {\n\t\t\tGF_LOG(GF_LOG_WARNING, GF_LOG_CONTAINER, (\"[iso file] Box \\\"%s\\\" size \"LLU\" (start \"LLU\") invalid (read \"LLU\")\\n\", gf_4cc_to_str(type), LLU_CAST size, start, LLU_CAST (end-start) ));\n\t\t}\n\t\t/*let's still try to load the file since no error was notified*/\n\t\tgf_bs_seek(bs, start+size);\n\t} else if (end-start < size) {\n\t\tu32 to_skip = (u32) (size-(end-start));\n\t\tif (!skip_logs) {\n\t\t\tif ((to_skip!=4) || gf_bs_peek_bits(bs, 32, 0)) {\n\t\t\t\tGF_LOG(GF_LOG_WARNING, GF_LOG_CONTAINER, (\"[iso file] Box \\\"%s\\\" (start \"LLU\") has %u extra bytes\\n\", gf_4cc_to_str(type), start, to_skip));\n\t\t\t}\n\t\t}\n\t\tgf_bs_skip_bytes(bs, to_skip);\n\t}\n\t*outBox = newBox;\n\n\treturn e;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-476",
+        "raw_text": "_ISOM_BOX_TYPE_GROUP)) {\n\t\tnewBox = gf_isom_box_new(GF_ISOM_BOX_TYPE_GROUP);\n\t\tif (!newBox) return GF_OUT_OF_MEM;\n\t\t((GF_GroupTypeBox*)newBox)->group_type = type;\n\t} else if (parent_type && (parent_type == GF_ISOM_BOX_TYPE_TRACKGROUP))",
+        "token_count": 20,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "non_structured_output",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195564",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  static bool TryParse(const char* inp, int length,\n                       TypedValue* buf, Variant& out,\n                       JSONContainerType container_type, bool is_tsimplejson) {\n    SimpleParser parser(inp, length, buf, container_type, is_tsimplejson);\n    bool ok = parser.parseValue();\n    parser.skipSpace();\n    if (!ok || parser.p != inp + length) {\n      // Unsupported, malformed, or trailing garbage. Release entire stack.\n      tvDecRefRange(buf, parser.top);\n      return false;\n    }\n    out = Variant::attach(*--parser.top);\n    return true;\n  }",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-125",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: null, severity: \"Not supported.\", evidence: null, explanation: 'Not supported.', fix_principle: 'No change.', confidence: 'Not supported.', fix_choice: null}",
+        "token_count": 20,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "non_structured_output",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "195007",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int xbuf_format_converter(char **outbuf, const char *fmt, va_list ap)\n{\n  register char *s = nullptr;\n  char *q;\n  int s_len;\n\n  register int min_width = 0;\n  int precision = 0;\n  enum {\n    LEFT, RIGHT\n  } adjust;\n  char pad_char;\n  char prefix_char;\n\n  double fp_num;\n  wide_int i_num = (wide_int) 0;\n  u_wide_int ui_num;\n\n  char num_buf[NUM_BUF_SIZE];\n  char char_buf[2];      /* for printing %% and %<unknown> */\n\n#ifdef HAVE_LOCALE_H\n  struct lconv *lconv = nullptr;\n#endif\n\n  /*\n   * Flag variables\n   */\n  length_modifier_e modifier;\n  boolean_e alternate_form;\n  boolean_e print_sign;\n  boolean_e print_blank;\n  boolean_e adjust_precision;\n  boolean_e adjust_width;\n  int is_negative;\n\n  int size = 240;\n  char *result = (char *)malloc(size);\n  int outpos = 0;\n\n  while (*fmt) {\n    if (*fmt != '%') {\n      appendchar(&result, &outpos, &size, *fmt);\n    } else {\n      /*\n       * Default variable settings\n       */\n      adjust = RIGHT;\n      alternate_form = print_sign = print_blank = NO;\n      pad_char = ' ';\n      prefix_char = NUL;\n\n      fmt++;\n\n      /*\n       * Try to avoid checking for flags, width or precision\n       */\n      if (isascii((int)*fmt) && !islower((int)*fmt)) {\n        /*\n         * Recognize flags: -, #, BLANK, +\n         */\n        for (;; fmt++) {\n          if (*fmt == '-')\n            adjust = LEFT;\n          else if (*fmt == '+')\n            print_sign = YES;\n          else if (*fmt == '#')\n            alternate_form = YES;\n          else if (*fmt == ' ')\n            print_blank = YES;\n          else if (*fmt == '0')\n            pad_char = '0';\n          else\n            break;\n        }\n\n        /*\n         * Check if a width was specified\n         */\n        if (isdigit((int)*fmt)) {\n          STR_TO_DEC(fmt, min_width);\n          adjust_width = YES;\n        } else if (*fmt == '*') {\n          min_width = va_arg(ap, int);\n          fmt++;\n          adjust_width = YES;\n          if (min_width < 0) {\n            adjust = LEFT;\n            min_width = -min_width;\n          }\n        } else\n          adjust_width = NO;\n\n        /*\n         * Check if a precision was specified\n         *\n         * XXX: an unreasonable amount of precision may be specified\n         * resulting in overflow of num_buf. Currently we\n         * ignore this possibility.\n         */\n        if (*fmt == '.') {\n          adjust_precision = YES;\n          fmt++;\n          if (isdigit((int)*fmt)) {\n            STR_TO_DEC(fmt, precision);\n          } else if (*fmt == '*') {\n            precision = va_arg(ap, int);\n            fmt++;\n            if (precision < 0)\n              precision = 0;\n          } else\n            precision = 0;\n        } else\n          adjust_precision = NO;\n      } else\n        adjust_precision = adjust_width = NO;\n\n      /*\n       * Modifier check\n       */\n      switch (*fmt) {\n        case 'L':\n          fmt++;\n          modifier = LM_LONG_DOUBLE;\n          break;\n        case 'I':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == '6' && *(fmt+1) == '4') {\n            fmt += 2;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            if (*fmt == '3' && *(fmt+1) == '2') {\n              fmt += 2;\n              modifier = LM_LONG;\n            } else {\n#ifdef _WIN64\n              modifier = LM_LONG_LONG;\n#else\n              modifier = LM_LONG;\n#endif\n            }\n          break;\n        case 'l':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == 'l') {\n            fmt++;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            modifier = LM_LONG;\n          break;\n        case 'z':\n          fmt++;\n          modifier = LM_SIZE_T;\n          break;\n        case 'j':\n          fmt++;\n#if SIZEOF_INTMAX_T\n          modifier = LM_INTMAX_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 't':\n          fmt++;\n#if SIZEOF_PTRDIFF_T\n          modifier = LM_PTRDIFF_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 'h':\n          fmt++;\n          if (*fmt == 'h') {\n            fmt++;\n          }\n          /* these are promoted to int, so no break */\n        default:\n          modifier = LM_STD;\n          break;\n      }\n\n      /*\n       * Argument extraction and printing.\n       * First we determine the argument type.\n       * Then, we convert the argument to a string.\n       * On exit from the switch, s points to the string that\n       * must be printed, s_len has the length of the string\n       * The precision requirements, if any, are reflected in s_len.\n       *\n       * NOTE: pad_char may be set to '0' because of the 0 flag.\n       *   It is reset to ' ' by non-numeric formats\n       */\n      switch (*fmt) {\n        case 'u':\n          switch(modifier) {\n            default:\n              i_num = (wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              i_num = (wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              i_num = (wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              i_num = (wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              i_num = (wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              i_num = (wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          /*\n           * The rest also applies to other integer formats, so fall\n           * into that case.\n           */\n        case 'd':\n        case 'i':\n          /*\n           * Get the arg if we haven't already.\n           */\n          if ((*fmt) != 'u') {\n            switch(modifier) {\n              default:\n                i_num = (wide_int) va_arg(ap, int);\n                break;\n              case LM_LONG_DOUBLE:\n                goto fmt_error;\n              case LM_LONG:\n                i_num = (wide_int) va_arg(ap, long int);\n                break;\n              case LM_SIZE_T:\n#if SIZEOF_SSIZE_T\n                i_num = (wide_int) va_arg(ap, ssize_t);\n#else\n                i_num = (wide_int) va_arg(ap, size_t);\n#endif\n                break;\n#if SIZEOF_LONG_LONG\n              case LM_LONG_LONG:\n                i_num = (wide_int) va_arg(ap, wide_int);\n                break;\n#endif\n#if SIZEOF_INTMAX_T\n              case LM_INTMAX_T:\n                i_num = (wide_int) va_arg(ap, intmax_t);\n                break;\n#endif\n#if SIZEOF_PTRDIFF_T\n              case LM_PTRDIFF_T:\n                i_num = (wide_int) va_arg(ap, ptrdiff_t);\n                break;\n#endif\n            }\n          }\n          s = ap_php_conv_10(i_num, (*fmt) == 'u', &is_negative,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n\n          if (*fmt != 'u') {\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'o':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 3, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && *s != '0') {\n            *--s = '0';\n            s_len++;\n          }\n          break;\n\n\n        case 'x':\n        case 'X':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 4, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && i_num != 0) {\n            *--s = *fmt;  /* 'x' or 'X' */\n            *--s = '0';\n            s_len += 2;\n          }\n          break;\n\n\n        case 's':\n        case 'v':\n          s = va_arg(ap, char *);\n          if (s != nullptr) {\n            s_len = strlen(s);\n            if (adjust_precision && precision < s_len)\n              s_len = precision;\n          } else {\n            s = const_cast<char*>(s_null);\n            s_len = S_NULL_LEN;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case 'f':\n        case 'F':\n        case 'e':\n        case 'E':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n            s = const_cast<char*>(\"nan\");\n            s_len = 3;\n          } else if (std::isinf(fp_num)) {\n            s = const_cast<char*>(\"inf\");\n            s_len = 3;\n          } else {\n#ifdef HAVE_LOCALE_H\n            if (!lconv) {\n              lconv = localeconv();\n            }\n#endif\n            s = php_conv_fp((*fmt == 'f')?'F':*fmt, fp_num, alternate_form,\n             (adjust_precision == NO) ? FLOAT_DIGITS : precision,\n             (*fmt == 'f')?LCONV_DECIMAL_POINT:'.',\n                  &is_negative, &num_buf[1], &s_len);\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'g':\n        case 'k':\n        case 'G':\n        case 'H':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n             s = const_cast<char*>(\"NAN\");\n             s_len = 3;\n             break;\n           } else if (std::isinf(fp_num)) {\n             if (fp_num > 0) {\n               s = const_cast<char*>(\"INF\");\n               s_len = 3;\n             } else {\n               s = const_cast<char*>(\"-INF\");\n               s_len = 4;\n             }\n             break;\n           }\n\n          if (adjust_precision == NO)\n            precision = FLOAT_DIGITS;\n          else if (precision == 0)\n            precision = 1;\n          /*\n           * * We use &num_buf[ 1 ], so that we have room for the sign\n           */\n#ifdef HAVE_LOCALE_H\n          if (!lconv) {\n            lconv = localeconv();\n          }\n#endif\n          s = php_gcvt(fp_num, precision,\n                       (*fmt=='H' || *fmt == 'k') ? '.' : LCONV_DECIMAL_POINT,\n                       (*fmt == 'G' || *fmt == 'H')?'E':'e', &num_buf[1]);\n          if (*s == '-')\n            prefix_char = *s++;\n          else if (print_sign)\n            prefix_char = '+';\n          else if (print_blank)\n            prefix_char = ' ';\n\n          s_len = strlen(s);\n\n          if (alternate_form && (q = strchr(s, '.')) == nullptr)\n            s[s_len++] = '.';\n          break;\n\n\n        case 'c':\n          char_buf[0] = (char) (va_arg(ap, int));\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case '%':\n          char_buf[0] = '%';\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case 'n':\n          *(va_arg(ap, int *)) = outpos;\n          goto skip_output;\n\n          /*\n           * Always extract the argument as a \"char *\" pointer. We\n           * should be using \"void *\" but there are still machines\n           * that don't understand it.\n           * If the pointer size is equal to the size of an unsigned\n           * integer we convert the pointer to a hex number, otherwise\n           * we print \"%p\" to indicate that we don't handle \"%p\".\n           */\n        case 'p':\n          if (sizeof(char *) <= sizeof(u_wide_int)) {\n            ui_num = (u_wide_int)((size_t) va_arg(ap, char *));\n            s = ap_php_conv_p2(ui_num, 4, 'x',\n                &num_buf[NUM_BUF_SIZE], &s_len);\n            if (ui_num != 0) {\n              *--s = 'x';\n              *--s = '0';\n              s_len += 2;\n            }\n          } else {\n            s = const_cast<char*>(\"%p\");\n            s_len = 2;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case NUL:\n          /*\n           * The last character of the format string was %.\n           * We ignore it.\n           */\n          continue;\n\n\nfmt_error:\n        throw Exception(\"Illegal length modifier specified '%c'\", *fmt);\n\n          /*\n           * The default case is for unrecognized %'s.\n           * We print %<char> to help the user identify what\n           * option is not understood.\n           * This is also useful in case the user wants to pass\n           * the output of format_converter to another function\n           * that understands some other %<char> (like syslog).\n           * Note that we can't point s inside fmt because the\n           * unknown <char> could be preceded by width etc.\n           */\n        default:\n          char_buf[0] = '%';\n          char_buf[1] = *fmt;\n          s = char_buf;\n          s_len = 2;\n          pad_char = ' ';\n          break;\n      }\n\n      if (prefix_char != NUL) {\n        *--s = prefix_char;\n        s_len++;\n      }\n      if (adjust_width && adjust == RIGHT && min_width > s_len) {\n        if (pad_char == '0' && prefix_char != NUL) {\n          appendchar(&result, &outpos, &size, *s);\n          s++;\n          s_len--;\n          min_width--;\n        }\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n      /*\n       * Print the (for now) non-null terminated string s.\n       */\n      appendsimplestring(&result, &outpos, &size, s, s_len);\n\n      if (adjust_width && adjust == LEFT && min_width > s_len) {\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n    }\nskip_output:\n    fmt++;\n  }\n  /*\n   * Add the terminating null here since it wasn't added incrementally above\n   * once the whole string has been composed.\n   */\n  result[outpos] = NUL;\n  *outbuf = result;\n  return outpos;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"cwe-11\", \"severity\": \"unknown\", \"evidence\": \"\", \"explanation\": \"Not supported.\", \"fix_principle\": \"No change.\", \"confidence\": 0.1, \"fix_choice\": null}",
+        "token_count": 18,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "missing_evidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-11",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.1
+      },
+      {
+        "id": "195084",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int stszin(int size)\n{\n    int cnt;\n    uint32_t ofs;\n\n    // version/flags\n    u32in();\n    // Sample size\n    u32in();\n    // Number of entries\n    mp4config.frame.ents = u32in();\n    // fixme: check atom size\n    mp4config.frame.data = malloc(sizeof(*mp4config.frame.data)\n                                  * (mp4config.frame.ents + 1));\n\n    if (!mp4config.frame.data)\n        return ERR_FAIL;\n\n    ofs = 0;\n    mp4config.frame.data[0] = ofs;\n    for (cnt = 0; cnt < mp4config.frame.ents; cnt++)\n    {\n        uint32_t fsize = u32in();\n\n        ofs += fsize;\n        if (mp4config.frame.maxsize < fsize)\n            mp4config.frame.maxsize = fsize;\n\n        mp4config.frame.data[cnt + 1] = ofs;\n\n        if (ofs < mp4config.frame.data[cnt])\n            return ERR_FAIL;\n    }\n\n    return size;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"coding_pattern\", \"severity\": \"high\", \"evidence\": \"The code contains a potential buffer overflow due to incorrect handling of data sizes.\", \"explanation\": \"Supported.\", \"fix_principle\": \"Escalate.\", \"confidence\": 0.8, \"fix_choice",
+        "token_count": 28,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.8,
+        "parse_trigger": "pair_block_output",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "coding-pattern",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195217",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nmrb_proc_copy(mrb_state *mrb, struct RProc *a, struct RProc *b)\n{\n  if (a->body.irep) {\n    /* already initialized proc */\n    return;\n  }\n  a->flags = b->flags;\n  a->body = b->body;\n  a->upper = b->upper;\n  if (!MRB_PROC_CFUNC_P(a) && a->body.irep) {\n    mrb_irep_incref(mrb, (mrb_irep*)a->body.irep);\n  }\n  a->e.env = b->e.env;\n  /* a->e.target_class = a->e.target_class; */\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-122",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"NULL\", \"severity\": \"NOT_SUPPORTED\", \"evidence\": \"\", \"explanation\": \"Not supported.\", \"fix_principle\": \"No change.\", \"confidence\": 0.1, \"fix_choice\": null }",
+        "token_count": 19,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "missing_evidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "null",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.1
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "197476",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nCallResult<bool> JSObject::putComputedWithReceiver_RJS(\n    Handle<JSObject> selfHandle,\n    Runtime *runtime,\n    Handle<> nameValHandle,\n    Handle<> valueHandle,\n    Handle<> receiver,\n    PropOpFlags opFlags) {\n  assert(\n      !opFlags.getMustExist() &&\n      \"mustExist flag cannot be used with computed properties\");\n\n  // Try the fast-path first: has \"index-like\" properties, the \"name\"\n  // already is a valid integer index, selfHandle and receiver are the\n  // same, and it is present in storage.\n  if (selfHandle->flags_.fastIndexProperties) {\n    if (auto arrayIndex = toArrayIndexFastPath(*nameValHandle)) {\n      if (selfHandle.getHermesValue().getRaw() == receiver->getRaw()) {\n        if (haveOwnIndexed(selfHandle.get(), runtime, *arrayIndex)) {\n          auto result =\n              setOwnIndexed(selfHandle, runtime, *arrayIndex, valueHandle);\n          if (LLVM_UNLIKELY(result == ExecutionStatus::EXCEPTION))\n            return ExecutionStatus::EXCEPTION;\n          if (LLVM_LIKELY(*result))\n            return true;\n          if (opFlags.getThrowOnError()) {\n            // TODO: better message.\n            return runtime->raiseTypeError(\n                \"Cannot assign to read-only property\");\n          }\n          return false;\n        }\n      }\n    }\n  }\n\n  // If nameValHandle is an object, we should convert it to string now,\n  // because toString may have side-effect, and we want to do this only\n  // once.\n  auto converted = toPropertyKeyIfObject(runtime, nameValHandle);\n  if (LLVM_UNLIKELY(converted == ExecutionStatus::EXCEPTION)) {\n    return ExecutionStatus::EXCEPTION;\n  }\n  auto nameValPrimitiveHandle = *converted;\n\n  ComputedPropertyDescriptor desc;\n\n  // Look for the property in this object or along the prototype chain.\n  MutableHandle<JSObject> propObj{runtime};\n  if (LLVM_UNLIKELY(\n          getComputedPrimitiveDescriptor(\n              selfHandle, runtime, nameValPrimitiveHandle, propObj, desc) ==\n          ExecutionStatus::EXCEPTION)) {\n    return ExecutionStatus::EXCEPTION;\n  }\n\n  // If the property exists (or, we hit a proxy/hostobject on the way\n  // up the chain)\n  if (propObj) {\n    // Get the simple case out of the way: If the property already\n    // exists on selfHandle, is not an accessor, selfHandle and\n    // receiver are the same, selfHandle is not a host\n    // object/proxy/internal setter, and the property is writable,\n    // just write into the same slot.\n\n    if (LLVM_LIKELY(\n            selfHandle == propObj &&\n            selfHandle.getHermesValue().getRaw() == receiver->getRaw() &&\n            !desc.flags.accessor && !desc.flags.internalSetter &&\n            !desc.flags.hostObject && !desc.flags.proxyObject &&\n            desc.flags.writable)) {\n      if (LLVM_UNLIKELY(\n              setComputedSlotValue(selfHandle, runtime, desc, valueHandle) ==\n              ExecutionStatus::EXCEPTION)) {\n        return ExecutionStatus::EXCEPTION;\n      }\n      return true;\n    }\n\n    // Is it an accessor?\n    if (LLVM_UNLIKELY(desc.flags.accessor)) {\n      auto *accessor = vmcast<PropertyAccessor>(\n          getComputedSlotValue(propObj.get(), runtime, desc));\n\n      // If it is a read-only accessor, fail.\n      if (!accessor->setter) {\n        if (opFlags.getThrowOnError()) {\n          return runtime->raiseTypeErrorForValue(\n              \"Cannot assign to property \",\n              nameValPrimitiveHandle,\n              \" which has only a getter\");\n        }\n        return false;\n      }\n\n      // Execute the accessor on this object.\n      if (accessor->setter.get(runtime)->executeCall1(\n              runtime->makeHandle(accessor->setter),\n              runtime,\n              receiver,\n              valueHandle.get()) == ExecutionStatus::EXCEPTION) {\n        return ExecutionStatus::EXCEPTION;\n      }\n      return true;\n    }\n\n    if (LLVM_UNLIKELY(desc.flags.proxyObject)) {\n      assert(\n          !opFlags.getMustExist() &&\n          \"MustExist cannot be used with Proxy objects\");\n      CallResult<Handle<>> key = toPropertyKey(runtime, nameValPrimitiveHandle);\n      if (key == ExecutionStatus::EXCEPTION)\n        return ExecutionStatus::EXCEPTION;\n      CallResult<bool> setRes =\n          JSProxy::setComputed(propObj, runtime, *key, valueHandle, receiver);\n      if (LLVM_UNLIKELY(setRes == ExecutionStatus::EXCEPTION)) {\n        return ExecutionStatus::EXCEPTION;\n      }\n      if (!*setRes && opFlags.getThrowOnError()) {\n        // TODO: better message.\n        return runtime->raiseTypeError(\n            TwineChar16(\"Proxy trap returned false for property\"));\n      }\n      return setRes;\n    }\n\n    if (LLVM_UNLIKELY(!desc.flags.writable)) {\n      if (desc.flags.staticBuiltin) {\n        SymbolID id{};\n        LAZY_TO_IDENTIFIER(runtime, nameValPrimitiveHandle, id);\n        return raiseErrorForOverridingStaticBuiltin(\n            selfHandle, runtime, runtime->makeHandle(id));\n      }\n      if (opFlags.getThrowOnError()) {\n        return runtime->raiseTypeErrorForValue(\n            \"Cannot assign to read-only property \", nameValPrimitiveHandle, \"\");\n      }\n      return false;\n    }\n\n    if (selfHandle == propObj && desc.flags.internalSetter) {\n      SymbolID id{};\n      LAZY_TO_IDENTIFIER(runtime, nameValPrimitiveHandle, id);\n      return internalSetter(\n          selfHandle,\n          runtime,\n          id,\n          desc.castToNamedPropertyDescriptorRef(),\n          valueHandle,\n          opFlags);\n    }\n  }\n\n  // The property does not exist as an conventional own property on\n  // this object.\n\n  MutableHandle<JSObject> receiverHandle{runtime, *selfHandle};\n  if (selfHandle.getHermesValue().getRaw() != receiver->getRaw() ||\n      receiverHandle->isHostObject() || receiverHandle->isProxyObject()) {\n    if (selfHandle.getHermesValue().getRaw() != receiver->getRaw()) {\n      receiverHandle = dyn_vmcast<JSObject>(*receiver);\n    }\n    if (!receiverHandle) {\n      return false;\n    }\n    CallResult<bool> descDefinedRes = getOwnComputedPrimitiveDescriptor(\n        receiverHandle, runtime, nameValPrimitiveHandle, IgnoreProxy::No, desc);\n    if (LLVM_UNLIKELY(descDefinedRes == ExecutionStatus::EXCEPTION)) {\n      return ExecutionStatus::EXCEPTION;\n    }\n    DefinePropertyFlags dpf;\n    if (*descDefinedRes) {\n      if (LLVM_UNLIKELY(desc.flags.accessor || !desc.flags.writable)) {\n        return false;\n      }\n\n      if (LLVM_LIKELY(\n              !desc.flags.internalSetter && !receiverHandle->isHostObject() &&\n              !receiverHandle->isProxyObject())) {\n        if (LLVM_UNLIKELY(\n                setComputedSlotValue(\n                    receiverHandle, runtime, desc, valueHandle) ==\n                ExecutionStatus::EXCEPTION)) {\n          return ExecutionStatus::EXCEPTION;\n        }\n        return true;\n      }\n    }\n\n    if (LLVM_UNLIKELY(\n            desc.flags.internalSetter || receiverHandle->isHostObject() ||\n            receiverHandle->isProxyObject())) {\n      SymbolID id{};\n      LAZY_TO_IDENTIFIER(runtime, nameValPrimitiveHandle, id);\n      if (desc.flags.internalSetter) {\n        return internalSetter(\n            receiverHandle,\n            runtime,\n            id,\n            desc.castToNamedPropertyDescriptorRef(),\n            valueHandle,\n            opFlags);\n      } else if (receiverHandle->isHostObject()) {\n        return vmcast<HostObject>(receiverHandle.get())->set(id, *valueHandle);\n      }\n      assert(\n          receiverHandle->isProxyObject() && \"descriptor flags are impossible\");\n      if (*descDefinedRes) {\n        dpf.setValue = 1;\n      } else {\n        dpf = DefinePropertyFlags::getDefaultNewPropertyFlags();\n      }\n      return JSProxy::defineOwnProperty(\n          receiverHandle,\n          runtime,\n          nameValPrimitiveHandle,\n          dpf,\n          valueHandle,\n          opFlags);\n    }\n  }\n\n  /// Can we add more properties?\n  if (LLVM_UNLIKELY(!receiverHandle->isExtensible())) {\n    if (opFlags.getThrowOnError()) {\n      return runtime->raiseTypeError(\n          \"cannot add a new property\"); // TODO: better message.\n    }\n    return false;\n  }\n\n  // If we have indexed storage we must check whether the property is an index,\n  // and if it is, store it in indexed storage.\n  if (receiverHandle->flags_.indexedStorage) {\n    OptValue<uint32_t> arrayIndex;\n    MutableHandle<StringPrimitive> strPrim{runtime};\n    TO_ARRAY_INDEX(runtime, nameValPrimitiveHandle, strPrim, arrayIndex);\n    if (arrayIndex) {\n      // Check whether we need to update array's \".length\" property.\n      if (auto *array = dyn_vmcast<JSArray>(receiverHandle.get())) {\n        if (LLVM_UNLIKELY(*arrayIndex >= JSArray::getLength(array))) {\n          auto cr = putNamed_RJS(\n              receiverHandle,\n              runtime,\n              Predefined::getSymbolID(Predefined::length),\n              runtime->makeHandle(\n                  HermesValue::encodeNumberValue(*arrayIndex + 1)),\n              opFlags);\n          if (LLVM_UNLIKELY(cr == ExecutionStatus::EXCEPTION))\n            return ExecutionStatus::EXCEPTION;\n          if (LLVM_UNLIKELY(!*cr))\n            return false;\n        }\n      }\n\n      auto result =\n          setOwnIndexed(receiverHandle, runtime, *arrayIndex, valueHandle);\n      if (LLVM_UNLIKELY(result == ExecutionStatus::EXCEPTION))\n        return ExecutionStatus::EXCEPTION;\n      if (LLVM_LIKELY(*result))\n        return true;\n\n      if (opFlags.getThrowOnError()) {\n        // TODO: better message.\n        return runtime->raiseTypeError(\"Cannot assign to read-only property\");\n      }\n      return false;\n    }\n  }\n\n  SymbolID id{};\n  LAZY_TO_IDENTIFIER(runtime, nameValPrimitiveHandle, id);\n\n  // Add a new named property.\n  return addOwnProperty(\n      receiverHandle,\n      runtime,\n      id,\n      DefinePropertyFlags::getDefaultNewPropertyFlags(),\n      valueHandle,\n      opFlags);\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-125",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"CWE-125\", \"severity\": \"High\", \"evidence\": \"\", \"explanation\": \"Supported.\", \"fix_principle\": \"Escalate.\", \"confidence\": 0.8, \"fix_choice\": \"No change.\"}",
+        "token_count": 17,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "missing_evidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-125",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": 0.8
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "194999",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nString preg_quote(const String& str,\n                  const String& delimiter /* = null_string */) {\n  const char* in_str = str.data();\n  const char* in_str_end = in_str + str.size();\n\n  /* Nothing to do if we got an empty string */\n  if (in_str == in_str_end) {\n    return str;\n  }\n\n  char delim_char = 0;      /* Delimiter character to be quoted */\n  bool quote_delim = false; /* Whether to quote additional delim char */\n  if (!delimiter.empty()) {\n    delim_char = delimiter.charAt(0);\n    quote_delim = true;\n  }\n\n  /* Allocate enough memory so that even if each character\n     is quoted, we won't run out of room */\n  String ret(4 * str.size() + 1, ReserveString);\n  char* out_str = ret.mutableData();\n\n  /* Go through the string and quote necessary characters */\n  const char* p;\n  char* q;\n  for (p = in_str, q = out_str; p != in_str_end; p++) {\n    char c = *p;\n    switch (c) {\n    case '.': case '\\\\': case '+': case '*': case '?':\n    case '[': case '^':  case ']': case '$': case '(':\n    case ')': case '{':  case '}': case '=': case '!':\n    case '>': case '<':  case '|': case ':': case '-':\n    case '#':\n      *q++ = '\\\\';\n      *q++ = c;\n      break;\n\n    case '\\0':\n      *q++ = '\\\\';\n      *q++ = '0';\n      *q++ = '0';\n      *q++ = '0';\n      break;\n\n    default:\n      if (quote_delim && c == delim_char)\n        *q++ = '\\\\';\n      *q++ = c;\n      break;\n    }\n  }\n  *q = '\\0';\n\n  return ret.setSize(q - out_str);\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \" CWE-289\", \"severity\": \"Unsupported.\", \"evidence\": \"\", \"explanation\": \"Supported.\", \"fix_principle\": \"Escalate.\", \"confidence\": 65, \"fix_choice\": \"Use std::string instead.\" }",
+        "token_count": 20,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.5,
+        "parse_trigger": "missing_evidence,confidence_out_of_range",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-289",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 65.0
+      },
+      {
+        "id": "195020",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CPlayListASX::LoadData(std::istream& stream)\n{\n  CLog::Log(LOGINFO, \"Parsing ASX\");\n\n  if(stream.peek() == '[')\n  {\n    return LoadAsxIniInfo(stream);\n  }\n  else\n  {\n    CXBMCTinyXML xmlDoc;\n    stream >> xmlDoc;\n\n    if (xmlDoc.Error())\n    {\n      CLog::Log(LOGERROR, \"Unable to parse ASX info Error: {}\", xmlDoc.ErrorDesc());\n      return false;\n    }\n\n    TiXmlElement *pRootElement = xmlDoc.RootElement();\n\n    // lowercase every element\n    TiXmlNode *pNode = pRootElement;\n    TiXmlNode *pChild = NULL;\n    std::string value;\n    value = pNode->Value();\n    StringUtils::ToLower(value);\n    pNode->SetValue(value);\n    while(pNode)\n    {\n      pChild = pNode->IterateChildren(pChild);\n      if(pChild)\n      {\n        if (pChild->Type() == TiXmlNode::TINYXML_ELEMENT)\n        {\n          value = pChild->Value();\n          StringUtils::ToLower(value);\n          pChild->SetValue(value);\n\n          TiXmlAttribute* pAttr = pChild->ToElement()->FirstAttribute();\n          while(pAttr)\n          {\n            value = pAttr->Name();\n            StringUtils::ToLower(value);\n            pAttr->SetName(value);\n            pAttr = pAttr->Next();\n          }\n        }\n\n        pNode = pChild;\n        pChild = NULL;\n        continue;\n      }\n\n      pChild = pNode;\n      pNode = pNode->Parent();\n    }\n    std::string roottitle;\n    TiXmlElement *pElement = pRootElement->FirstChildElement();\n    while (pElement)\n    {\n      value = pElement->Value();\n      if (value == \"title\" && !pElement->NoChildren())\n      {\n        roottitle = pElement->FirstChild()->ValueStr();\n      }\n      else if (value == \"entry\")\n      {\n        std::string title(roottitle);\n\n        TiXmlElement *pRef = pElement->FirstChildElement(\"ref\");\n        TiXmlElement *pTitle = pElement->FirstChildElement(\"title\");\n\n        if(pTitle && !pTitle->NoChildren())\n          title = pTitle->FirstChild()->ValueStr();\n\n        while (pRef)\n        { // multiple references may appear for one entry\n          // duration may exist on this level too\n          value = XMLUtils::GetAttribute(pRef, \"href\");\n          if (!value.empty())\n          {\n            if(title.empty())\n              title = value;\n\n            CLog::Log(LOGINFO, \"Adding element {}, {}\", title, value);\n            CFileItemPtr newItem(new CFileItem(title));\n            newItem->SetPath(value);\n            Add(newItem);\n          }\n          pRef = pRef->NextSiblingElement(\"ref\");\n        }\n      }\n      else if (value == \"entryref\")\n      {\n        value = XMLUtils::GetAttribute(pElement, \"href\");\n        if (!value.empty())\n        { // found an entryref, let's try loading that url\n          std::unique_ptr<CPlayList> playlist(CPlayListFactory::Create(value));\n          if (nullptr != playlist)\n            if (playlist->Load(value))\n              Add(*playlist);\n        }\n      }\n      pElement = pElement->NextSiblingElement();\n    }\n  }\n\n  return true;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-120",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": \"Unknown\",\n  \"severity\": \"Not supported.\",\n  \"evidence\": \"\",\n  \"explanation\": \"Supported.\",\n  \"fix_principle\": \"Escalate.\",\n  \"confidence\": 0.8,\n  \"fix_choice\": \"No change.\" }",
+        "token_count": 19,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "195042",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nTfLiteStatus EvalFloat(TfLiteContext* context, TfLiteNode* node,\n                       TfLiteFullyConnectedParams* params, OpData* data,\n                       const TfLiteTensor* input, const TfLiteTensor* filter,\n                       const TfLiteTensor* bias, TfLiteTensor* output) {\n  float output_activation_min, output_activation_max;\n  CalculateActivationRange(params->activation, &output_activation_min,\n                           &output_activation_max);\n  if (kernel_type == kReference) {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      reference_ops::FullyConnectedSparseWeight(\n          sparsity, op_params, GetTensorShape(input),\n          GetTensorData<float>(input), GetTensorShape(filter),\n          GetTensorData<float>(filter), GetTensorShape(bias),\n          GetTensorData<float>(bias), GetTensorShape(output),\n          GetTensorData<float>(output));\n    } else {\n      reference_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output));\n    }\n  } else if (kernel_type == kLegacyPie) {\n    return EvalPie(context, node, params, data, input, filter, bias, output);\n  } else {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      if (!SupportedSparsityFormat(sparsity)) {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n      if (sparsity.dim_metadata_size == kDimMetadataSizeRandomSparse) {\n        // Random sparse.\n        optimized_ops::FullyConnectedSparseWeight(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output));\n      } else if (sparsity.dim_metadata_size == kDimMetadataSizeBlockSparse &&\n                 sparsity.dim_metadata[2].dense_size == 4) {\n        // Block sparse with block size of 1x4.\n        optimized_ops::FullyConnectedSparseWeight1x4(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output),\n            CpuBackendContext::GetFromContext(context));\n      } else {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n    } else {\n      op_params.lhs_cacheable = IsConstantTensor(filter);\n      op_params.rhs_cacheable = IsConstantTensor(input);\n      optimized_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output),\n          CpuBackendContext::GetFromContext(context));\n    }\n  }\n\n  return kTfLiteOk;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"\", \"severity\": \"Not supported.\", \"evidence\": \"\", \"explanation\": \"Not supported.\", \"fix_principle\": \"No change.\", \"confidence\": 0.8, \"fix_choice\": \"\" }",
+        "token_count": 20,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.8
+      }
+    ]
+  },
+  "low_confidence_examples": [],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "failure_buckets": {
+    "high_confidence_error": 35,
+    "format_failure": 75,
+    "label_failure": 34,
+    "evidence_failure": 2,
+    "correct": 98
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 41.8443
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "structured_json": 112,
+      "none": 112,
+      "second_pass_model": 20
+    },
+    "parse_trigger_counts": {
+      "low_confidence": 29,
+      "hard_fail": 123,
+      "none": 91,
+      "multiple_json_objects": 1
+    },
+    "avg_parse_confidence": 0.5164
+  },
+  "label_error_breakdown": {
+    "false_negative": 33,
+    "false_positive": 1
+  },
+  "format_error_breakdown": {
+    "hard_fail": 75
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 67,
+      "accuracy": 0.4179,
+      "high_confidence_error_rate": 0.5821
+    },
+    "0.75-0.89": {
+      "count": 1,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 1.0
+    },
+    "0.5-0.74": {
+      "count": 1,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 0.0
+    },
+    "0.0-0.49": {
+      "count": 2,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 0.0
+    },
+    "missing": {
+      "count": 173,
+      "accuracy": 0.4162,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "89023",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nWebGraphicsContext3DDefaultImpl::VertexAttribPointerState::VertexAttribPointerState()\n    : enabled(false)\n    , buffer(0)\n    , indx(0)\n    , size(0)\n    , type(0)\n    , normalized(false)\n    , stride(0)\n    , offset(0)\n{\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": 1, \"evidence\": null, \"explanation\": null, \"fix_principle\": null, \"confidence\": 1, \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 1.0
+      },
+      {
+        "id": "89024",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)\n{\n    if (texture < GL_TEXTURE0 || texture > GL_TEXTURE0+32)\n        return;\n\n    makeContextCurrent();\n    glActiveTexture(texture);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided function `WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)` does not contain any known vulnerabilities or security issues that could be exploited. It is designed to handle valid texture indices within the range of 0 to 31.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }",
+        "token_count": 50,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 100.0
+      },
+      {
+        "id": "89026",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::angleDestroyCompilers()\n{\n    if (m_fragmentCompiler) {\n        ShDestruct(m_fragmentCompiler);\n        m_fragmentCompiler = 0;\n    }\n    if (m_vertexCompiler) {\n        ShDestruct(m_vertexCompiler);\n        m_vertexCompiler = 0;\n    }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": null, \"explanation\": null, \"fix_principle\": null, \"confidence\": null, \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "195007",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int xbuf_format_converter(char **outbuf, const char *fmt, va_list ap)\n{\n  register char *s = nullptr;\n  char *q;\n  int s_len;\n\n  register int min_width = 0;\n  int precision = 0;\n  enum {\n    LEFT, RIGHT\n  } adjust;\n  char pad_char;\n  char prefix_char;\n\n  double fp_num;\n  wide_int i_num = (wide_int) 0;\n  u_wide_int ui_num;\n\n  char num_buf[NUM_BUF_SIZE];\n  char char_buf[2];      /* for printing %% and %<unknown> */\n\n#ifdef HAVE_LOCALE_H\n  struct lconv *lconv = nullptr;\n#endif\n\n  /*\n   * Flag variables\n   */\n  length_modifier_e modifier;\n  boolean_e alternate_form;\n  boolean_e print_sign;\n  boolean_e print_blank;\n  boolean_e adjust_precision;\n  boolean_e adjust_width;\n  int is_negative;\n\n  int size = 240;\n  char *result = (char *)malloc(size);\n  int outpos = 0;\n\n  while (*fmt) {\n    if (*fmt != '%') {\n      appendchar(&result, &outpos, &size, *fmt);\n    } else {\n      /*\n       * Default variable settings\n       */\n      adjust = RIGHT;\n      alternate_form = print_sign = print_blank = NO;\n      pad_char = ' ';\n      prefix_char = NUL;\n\n      fmt++;\n\n      /*\n       * Try to avoid checking for flags, width or precision\n       */\n      if (isascii((int)*fmt) && !islower((int)*fmt)) {\n        /*\n         * Recognize flags: -, #, BLANK, +\n         */\n        for (;; fmt++) {\n          if (*fmt == '-')\n            adjust = LEFT;\n          else if (*fmt == '+')\n            print_sign = YES;\n          else if (*fmt == '#')\n            alternate_form = YES;\n          else if (*fmt == ' ')\n            print_blank = YES;\n          else if (*fmt == '0')\n            pad_char = '0';\n          else\n            break;\n        }\n\n        /*\n         * Check if a width was specified\n         */\n        if (isdigit((int)*fmt)) {\n          STR_TO_DEC(fmt, min_width);\n          adjust_width = YES;\n        } else if (*fmt == '*') {\n          min_width = va_arg(ap, int);\n          fmt++;\n          adjust_width = YES;\n          if (min_width < 0) {\n            adjust = LEFT;\n            min_width = -min_width;\n          }\n        } else\n          adjust_width = NO;\n\n        /*\n         * Check if a precision was specified\n         *\n         * XXX: an unreasonable amount of precision may be specified\n         * resulting in overflow of num_buf. Currently we\n         * ignore this possibility.\n         */\n        if (*fmt == '.') {\n          adjust_precision = YES;\n          fmt++;\n          if (isdigit((int)*fmt)) {\n            STR_TO_DEC(fmt, precision);\n          } else if (*fmt == '*') {\n            precision = va_arg(ap, int);\n            fmt++;\n            if (precision < 0)\n              precision = 0;\n          } else\n            precision = 0;\n        } else\n          adjust_precision = NO;\n      } else\n        adjust_precision = adjust_width = NO;\n\n      /*\n       * Modifier check\n       */\n      switch (*fmt) {\n        case 'L':\n          fmt++;\n          modifier = LM_LONG_DOUBLE;\n          break;\n        case 'I':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == '6' && *(fmt+1) == '4') {\n            fmt += 2;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            if (*fmt == '3' && *(fmt+1) == '2') {\n              fmt += 2;\n              modifier = LM_LONG;\n            } else {\n#ifdef _WIN64\n              modifier = LM_LONG_LONG;\n#else\n              modifier = LM_LONG;\n#endif\n            }\n          break;\n        case 'l':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == 'l') {\n            fmt++;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            modifier = LM_LONG;\n          break;\n        case 'z':\n          fmt++;\n          modifier = LM_SIZE_T;\n          break;\n        case 'j':\n          fmt++;\n#if SIZEOF_INTMAX_T\n          modifier = LM_INTMAX_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 't':\n          fmt++;\n#if SIZEOF_PTRDIFF_T\n          modifier = LM_PTRDIFF_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 'h':\n          fmt++;\n          if (*fmt == 'h') {\n            fmt++;\n          }\n          /* these are promoted to int, so no break */\n        default:\n          modifier = LM_STD;\n          break;\n      }\n\n      /*\n       * Argument extraction and printing.\n       * First we determine the argument type.\n       * Then, we convert the argument to a string.\n       * On exit from the switch, s points to the string that\n       * must be printed, s_len has the length of the string\n       * The precision requirements, if any, are reflected in s_len.\n       *\n       * NOTE: pad_char may be set to '0' because of the 0 flag.\n       *   It is reset to ' ' by non-numeric formats\n       */\n      switch (*fmt) {\n        case 'u':\n          switch(modifier) {\n            default:\n              i_num = (wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              i_num = (wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              i_num = (wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              i_num = (wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              i_num = (wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              i_num = (wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          /*\n           * The rest also applies to other integer formats, so fall\n           * into that case.\n           */\n        case 'd':\n        case 'i':\n          /*\n           * Get the arg if we haven't already.\n           */\n          if ((*fmt) != 'u') {\n            switch(modifier) {\n              default:\n                i_num = (wide_int) va_arg(ap, int);\n                break;\n              case LM_LONG_DOUBLE:\n                goto fmt_error;\n              case LM_LONG:\n                i_num = (wide_int) va_arg(ap, long int);\n                break;\n              case LM_SIZE_T:\n#if SIZEOF_SSIZE_T\n                i_num = (wide_int) va_arg(ap, ssize_t);\n#else\n                i_num = (wide_int) va_arg(ap, size_t);\n#endif\n                break;\n#if SIZEOF_LONG_LONG\n              case LM_LONG_LONG:\n                i_num = (wide_int) va_arg(ap, wide_int);\n                break;\n#endif\n#if SIZEOF_INTMAX_T\n              case LM_INTMAX_T:\n                i_num = (wide_int) va_arg(ap, intmax_t);\n                break;\n#endif\n#if SIZEOF_PTRDIFF_T\n              case LM_PTRDIFF_T:\n                i_num = (wide_int) va_arg(ap, ptrdiff_t);\n                break;\n#endif\n            }\n          }\n          s = ap_php_conv_10(i_num, (*fmt) == 'u', &is_negative,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n\n          if (*fmt != 'u') {\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'o':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 3, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && *s != '0') {\n            *--s = '0';\n            s_len++;\n          }\n          break;\n\n\n        case 'x':\n        case 'X':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 4, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && i_num != 0) {\n            *--s = *fmt;  /* 'x' or 'X' */\n            *--s = '0';\n            s_len += 2;\n          }\n          break;\n\n\n        case 's':\n        case 'v':\n          s = va_arg(ap, char *);\n          if (s != nullptr) {\n            s_len = strlen(s);\n            if (adjust_precision && precision < s_len)\n              s_len = precision;\n          } else {\n            s = const_cast<char*>(s_null);\n            s_len = S_NULL_LEN;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case 'f':\n        case 'F':\n        case 'e':\n        case 'E':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n            s = const_cast<char*>(\"nan\");\n            s_len = 3;\n          } else if (std::isinf(fp_num)) {\n            s = const_cast<char*>(\"inf\");\n            s_len = 3;\n          } else {\n#ifdef HAVE_LOCALE_H\n            if (!lconv) {\n              lconv = localeconv();\n            }\n#endif\n            s = php_conv_fp((*fmt == 'f')?'F':*fmt, fp_num, alternate_form,\n             (adjust_precision == NO) ? FLOAT_DIGITS : precision,\n             (*fmt == 'f')?LCONV_DECIMAL_POINT:'.',\n                  &is_negative, &num_buf[1], &s_len);\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'g':\n        case 'k':\n        case 'G':\n        case 'H':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n             s = const_cast<char*>(\"NAN\");\n             s_len = 3;\n             break;\n           } else if (std::isinf(fp_num)) {\n             if (fp_num > 0) {\n               s = const_cast<char*>(\"INF\");\n               s_len = 3;\n             } else {\n               s = const_cast<char*>(\"-INF\");\n               s_len = 4;\n             }\n             break;\n           }\n\n          if (adjust_precision == NO)\n            precision = FLOAT_DIGITS;\n          else if (precision == 0)\n            precision = 1;\n          /*\n           * * We use &num_buf[ 1 ], so that we have room for the sign\n           */\n#ifdef HAVE_LOCALE_H\n          if (!lconv) {\n            lconv = localeconv();\n          }\n#endif\n          s = php_gcvt(fp_num, precision,\n                       (*fmt=='H' || *fmt == 'k') ? '.' : LCONV_DECIMAL_POINT,\n                       (*fmt == 'G' || *fmt == 'H')?'E':'e', &num_buf[1]);\n          if (*s == '-')\n            prefix_char = *s++;\n          else if (print_sign)\n            prefix_char = '+';\n          else if (print_blank)\n            prefix_char = ' ';\n\n          s_len = strlen(s);\n\n          if (alternate_form && (q = strchr(s, '.')) == nullptr)\n            s[s_len++] = '.';\n          break;\n\n\n        case 'c':\n          char_buf[0] = (char) (va_arg(ap, int));\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case '%':\n          char_buf[0] = '%';\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case 'n':\n          *(va_arg(ap, int *)) = outpos;\n          goto skip_output;\n\n          /*\n           * Always extract the argument as a \"char *\" pointer. We\n           * should be using \"void *\" but there are still machines\n           * that don't understand it.\n           * If the pointer size is equal to the size of an unsigned\n           * integer we convert the pointer to a hex number, otherwise\n           * we print \"%p\" to indicate that we don't handle \"%p\".\n           */\n        case 'p':\n          if (sizeof(char *) <= sizeof(u_wide_int)) {\n            ui_num = (u_wide_int)((size_t) va_arg(ap, char *));\n            s = ap_php_conv_p2(ui_num, 4, 'x',\n                &num_buf[NUM_BUF_SIZE], &s_len);\n            if (ui_num != 0) {\n              *--s = 'x';\n              *--s = '0';\n              s_len += 2;\n            }\n          } else {\n            s = const_cast<char*>(\"%p\");\n            s_len = 2;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case NUL:\n          /*\n           * The last character of the format string was %.\n           * We ignore it.\n           */\n          continue;\n\n\nfmt_error:\n        throw Exception(\"Illegal length modifier specified '%c'\", *fmt);\n\n          /*\n           * The default case is for unrecognized %'s.\n           * We print %<char> to help the user identify what\n           * option is not understood.\n           * This is also useful in case the user wants to pass\n           * the output of format_converter to another function\n           * that understands some other %<char> (like syslog).\n           * Note that we can't point s inside fmt because the\n           * unknown <char> could be preceded by width etc.\n           */\n        default:\n          char_buf[0] = '%';\n          char_buf[1] = *fmt;\n          s = char_buf;\n          s_len = 2;\n          pad_char = ' ';\n          break;\n      }\n\n      if (prefix_char != NUL) {\n        *--s = prefix_char;\n        s_len++;\n      }\n      if (adjust_width && adjust == RIGHT && min_width > s_len) {\n        if (pad_char == '0' && prefix_char != NUL) {\n          appendchar(&result, &outpos, &size, *s);\n          s++;\n          s_len--;\n          min_width--;\n        }\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n      /*\n       * Print the (for now) non-null terminated string s.\n       */\n      appendsimplestring(&result, &outpos, &size, s, s_len);\n\n      if (adjust_width && adjust == LEFT && min_width > s_len) {\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n    }\nskip_output:\n    fmt++;\n  }\n  /*\n   * Add the terminating null here since it wasn't added incrementally above\n   * once the whole string has been composed.\n   */\n  result[outpos] = NUL;\n  *outbuf = result;\n  return outpos;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "```json\n{\n  \"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": [\n    {\n      \"type\": \"Windows\",\n      \"details\": [\n        {\n          \"line\": 1,\n          \"message\": \"register char *s = nullptr;\",\n          \"description\": \"This line is likely causing a buffer overflow in the `xbuf_format_converter` function.\"\n        },\n        {\n          \"line\": 42,\n          \"message\": \"if (*fmt != '%') { ... } else { ... }\",\n          \"description\": \"This block of code is attempting to format a string without checking for valid characters, which could lead to a buffer overflow.\"\n        }\n      ]\n    }\n  ],\n  \"fix_principle\": \"Ensure that all input strings are checked for validity before formatting.\",\n  \"confidence\": 0.8,\n  \"fix_choice",
+        "token_count": 95,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195020",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CPlayListASX::LoadData(std::istream& stream)\n{\n  CLog::Log(LOGINFO, \"Parsing ASX\");\n\n  if(stream.peek() == '[')\n  {\n    return LoadAsxIniInfo(stream);\n  }\n  else\n  {\n    CXBMCTinyXML xmlDoc;\n    stream >> xmlDoc;\n\n    if (xmlDoc.Error())\n    {\n      CLog::Log(LOGERROR, \"Unable to parse ASX info Error: {}\", xmlDoc.ErrorDesc());\n      return false;\n    }\n\n    TiXmlElement *pRootElement = xmlDoc.RootElement();\n\n    // lowercase every element\n    TiXmlNode *pNode = pRootElement;\n    TiXmlNode *pChild = NULL;\n    std::string value;\n    value = pNode->Value();\n    StringUtils::ToLower(value);\n    pNode->SetValue(value);\n    while(pNode)\n    {\n      pChild = pNode->IterateChildren(pChild);\n      if(pChild)\n      {\n        if (pChild->Type() == TiXmlNode::TINYXML_ELEMENT)\n        {\n          value = pChild->Value();\n          StringUtils::ToLower(value);\n          pChild->SetValue(value);\n\n          TiXmlAttribute* pAttr = pChild->ToElement()->FirstAttribute();\n          while(pAttr)\n          {\n            value = pAttr->Name();\n            StringUtils::ToLower(value);\n            pAttr->SetName(value);\n            pAttr = pAttr->Next();\n          }\n        }\n\n        pNode = pChild;\n        pChild = NULL;\n        continue;\n      }\n\n      pChild = pNode;\n      pNode = pNode->Parent();\n    }\n    std::string roottitle;\n    TiXmlElement *pElement = pRootElement->FirstChildElement();\n    while (pElement)\n    {\n      value = pElement->Value();\n      if (value == \"title\" && !pElement->NoChildren())\n      {\n        roottitle = pElement->FirstChild()->ValueStr();\n      }\n      else if (value == \"entry\")\n      {\n        std::string title(roottitle);\n\n        TiXmlElement *pRef = pElement->FirstChildElement(\"ref\");\n        TiXmlElement *pTitle = pElement->FirstChildElement(\"title\");\n\n        if(pTitle && !pTitle->NoChildren())\n          title = pTitle->FirstChild()->ValueStr();\n\n        while (pRef)\n        { // multiple references may appear for one entry\n          // duration may exist on this level too\n          value = XMLUtils::GetAttribute(pRef, \"href\");\n          if (!value.empty())\n          {\n            if(title.empty())\n              title = value;\n\n            CLog::Log(LOGINFO, \"Adding element {}, {}\", title, value);\n            CFileItemPtr newItem(new CFileItem(title));\n            newItem->SetPath(value);\n            Add(newItem);\n          }\n          pRef = pRef->NextSiblingElement(\"ref\");\n        }\n      }\n      else if (value == \"entryref\")\n      {\n        value = XMLUtils::GetAttribute(pElement, \"href\");\n        if (!value.empty())\n        { // found an entryref, let's try loading that url\n          std::unique_ptr<CPlayList> playlist(CPlayListFactory::Create(value));\n          if (nullptr != playlist)\n            if (playlist->Load(value))\n              Add(*playlist);\n        }\n      }\n      pElement = pElement->NextSiblingElement();\n    }\n  }\n\n  return true;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-120",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": null,\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null\n}",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195270",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool VariableUnserializer::matchString(folly::StringPiece str) {\n  const char* p = m_buf;\n  assertx(p <= m_end);\n  int total = 0;\n  if (*p == 'S') {\n    total = 2 + 8 + 1;\n    if (p + total > m_end) return false;\n    p++;\n    if (*p++ != ':') return false;\n    auto const sd = *reinterpret_cast<StringData*const*>(p);\n    assertx(sd->isStatic());\n    if (str.compare(sd->slice()) != 0) return false;\n    p += size_t(8);\n  } else {\n    const auto ss = str.size();\n    if (ss >= 100) return false;\n    int digits = ss >= 10 ? 2 : 1;\n    total = 2 + digits + 2 + ss + 2;\n    if (p + total > m_end) return false;\n    if (*p++ != 's') return false;\n    if (*p++ != ':') return false;\n    if (digits == 2) {\n      if (*p++ != '0' + ss/10) return false;\n      if (*p++ != '0' + ss%10) return false;\n    } else {\n      if (*p++ != '0' + ss) return false;\n    }\n    if (*p++ != ':') return false;\n    if (*p++ != '\\\"') return false;\n    if (memcmp(p, str.data(), ss)) return false;\n    p += ss;\n    if (*p++ != '\\\"') return false;\n  }\n  if (*p++ != ';') return false;\n  assertx(m_buf + total == p);\n  m_buf = p;\n  return true;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-119",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Buffer Overflow\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    \"The function `matchString` reads a string from a buffer and compares it to another string.\",\n    \"The comparison is done using a fixed-size slice of the input string.\",\n    \"This can lead to a buffer overflow attack if the input string exceeds the allocated buffer size.\",\n    \"The function does not handle null bytes or invalid characters in the input string.\",\n    \"The use of static strings may also cause issues due to potential memory leaks.\"\n  ],\n  \"explanation\": \"The function reads a large string from a buffer and then attempts to compare it to another string.\",\n  \"fix_principle\": \"Ensure that the input string does not exceed the allocated buffer size.\",\n  \"confidence\": 95,\n  \"fix_choice\": \"Increase the buffer size or handle null bytes",
+        "token_count": 125,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "195057",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nuint8_t ethereum_extractThorchainData(const EthereumSignTx *msg,\n                                          char *buffer) {\n  // Swap data begins 164 chars into data buffer:\n  // offset = deposit function hash + address + address + uint256\n  uint16_t offset = 4 + (5 * 32);\n  int16_t len = msg->data_length - offset;\n  if (msg->has_data_length && len > 0) {\n    memcpy(buffer, msg->data_initial_chunk.bytes + offset, len);\n    // String length must be < 255 characters\n    return len < 256 ? (uint8_t)len : 0;\n  }\n  return 0;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities or security issues.\", \"fix_principle\": null, \"confidence\": null, \"fix_choice\": null }",
+        "token_count": 28,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195217",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nmrb_proc_copy(mrb_state *mrb, struct RProc *a, struct RProc *b)\n{\n  if (a->body.irep) {\n    /* already initialized proc */\n    return;\n  }\n  a->flags = b->flags;\n  a->body = b->body;\n  a->upper = b->upper;\n  if (!MRB_PROC_CFUNC_P(a) && a->body.irep) {\n    mrb_irep_incref(mrb, (mrb_irep*)a->body.irep);\n  }\n  a->e.env = b->e.env;\n  /* a->e.target_class = a->e.target_class; */\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-122",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": \"\",\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195244",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nint64_t TensorByteSize(const TensorProto& t) {\n  // num_elements returns -1 if shape is not fully defined.\n  int64_t num_elems = TensorShape(t.tensor_shape()).num_elements();\n  return num_elems < 0 ? -1 : num_elems * DataTypeSize(t.dtype());\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-617",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": \"\",\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "195084",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int stszin(int size)\n{\n    int cnt;\n    uint32_t ofs;\n\n    // version/flags\n    u32in();\n    // Sample size\n    u32in();\n    // Number of entries\n    mp4config.frame.ents = u32in();\n    // fixme: check atom size\n    mp4config.frame.data = malloc(sizeof(*mp4config.frame.data)\n                                  * (mp4config.frame.ents + 1));\n\n    if (!mp4config.frame.data)\n        return ERR_FAIL;\n\n    ofs = 0;\n    mp4config.frame.data[0] = ofs;\n    for (cnt = 0; cnt < mp4config.frame.ents; cnt++)\n    {\n        uint32_t fsize = u32in();\n\n        ofs += fsize;\n        if (mp4config.frame.maxsize < fsize)\n            mp4config.frame.maxsize = fsize;\n\n        mp4config.frame.data[cnt + 1] = ofs;\n\n        if (ofs < mp4config.frame.data[cnt])\n            return ERR_FAIL;\n    }\n\n    return size;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Buffer Overflow\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    \"The function `stszin` is vulnerable to buffer overflow due to improper handling of data allocation.\",\n    \"The function attempts to allocate memory using `malloc()` which can lead to stack overflow if not handled correctly.\"\n  ],\n  \"explanation\": \"The function allocates memory for the frame's data but does not properly handle the size of the data array. This results in an attempt to overwrite the end of the allocated memory block, leading to a buffer overflow.\",\n  \"fix_principle\": \"Ensure that the size of the data array is correctly calculated before allocating memory.\",\n  \"confidence\": 95,\n  \"fix_choice\": \"Increase the maximum size of the frame's data by at least 1 byte.\" }",
+        "token_count": 114,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "buffer-overflow",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": 95.0
+      },
+      {
+        "id": "96965",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nTranslateInfoBarDelegate* TranslateManager::GetTranslateInfoBarDelegate(\n    TabContents* tab) {\n  for (int i = 0; i < tab->infobar_delegate_count(); ++i) {\n    TranslateInfoBarDelegate* delegate =\n        tab->GetInfoBarDelegateAt(i)->AsTranslateInfoBarDelegate();\n    if (delegate)\n      return delegate;\n  }\n  return NULL;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: \"Unknown\", severity: \"Low\",\n  evidence: \"The function `GetTranslateInfoBarDelegate` does not check if the delegate is valid before returning it.\",\n  explanation: \"This function assumes that all delegates returned by `tab->GetInfoBarDelegateAt(i)` will be valid, which may not always be true due to potential null or invalid delegate values.\",\n  fix_principle: \"Ensure that delegates are checked for validity before being returned from the function.\",\n  confidence: 1,\n  fix_choice: \"Add checks to ensure delegates are valid before returning them.\"}",
+        "token_count": 75,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "low",
+        "label_correct": true,
+        "confidence": 1.0
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "194999",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nString preg_quote(const String& str,\n                  const String& delimiter /* = null_string */) {\n  const char* in_str = str.data();\n  const char* in_str_end = in_str + str.size();\n\n  /* Nothing to do if we got an empty string */\n  if (in_str == in_str_end) {\n    return str;\n  }\n\n  char delim_char = 0;      /* Delimiter character to be quoted */\n  bool quote_delim = false; /* Whether to quote additional delim char */\n  if (!delimiter.empty()) {\n    delim_char = delimiter.charAt(0);\n    quote_delim = true;\n  }\n\n  /* Allocate enough memory so that even if each character\n     is quoted, we won't run out of room */\n  String ret(4 * str.size() + 1, ReserveString);\n  char* out_str = ret.mutableData();\n\n  /* Go through the string and quote necessary characters */\n  const char* p;\n  char* q;\n  for (p = in_str, q = out_str; p != in_str_end; p++) {\n    char c = *p;\n    switch (c) {\n    case '.': case '\\\\': case '+': case '*': case '?':\n    case '[': case '^':  case ']': case '$': case '(':\n    case ')': case '{':  case '}': case '=': case '!':\n    case '>': case '<':  case '|': case ':': case '-':\n    case '#':\n      *q++ = '\\\\';\n      *q++ = c;\n      break;\n\n    case '\\0':\n      *q++ = '\\\\';\n      *q++ = '0';\n      *q++ = '0';\n      *q++ = '0';\n      break;\n\n    default:\n      if (quote_delim && c == delim_char)\n        *q++ = '\\\\';\n      *q++ = c;\n      break;\n    }\n  }\n  *q = '\\0';\n\n  return ret.setSize(q - out_str);\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": \"low\", \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities related to string manipulation or quoting functions.\", \"fix_principle\": \"No changes needed as the function already handles quoting correctly.\", \"confidence\": 100, \"fix_choice\": \"None\"}",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "low",
+        "label_correct": false,
+        "confidence": 100.0
+      },
+      {
+        "id": "195042",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nTfLiteStatus EvalFloat(TfLiteContext* context, TfLiteNode* node,\n                       TfLiteFullyConnectedParams* params, OpData* data,\n                       const TfLiteTensor* input, const TfLiteTensor* filter,\n                       const TfLiteTensor* bias, TfLiteTensor* output) {\n  float output_activation_min, output_activation_max;\n  CalculateActivationRange(params->activation, &output_activation_min,\n                           &output_activation_max);\n  if (kernel_type == kReference) {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      reference_ops::FullyConnectedSparseWeight(\n          sparsity, op_params, GetTensorShape(input),\n          GetTensorData<float>(input), GetTensorShape(filter),\n          GetTensorData<float>(filter), GetTensorShape(bias),\n          GetTensorData<float>(bias), GetTensorShape(output),\n          GetTensorData<float>(output));\n    } else {\n      reference_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output));\n    }\n  } else if (kernel_type == kLegacyPie) {\n    return EvalPie(context, node, params, data, input, filter, bias, output);\n  } else {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      if (!SupportedSparsityFormat(sparsity)) {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n      if (sparsity.dim_metadata_size == kDimMetadataSizeRandomSparse) {\n        // Random sparse.\n        optimized_ops::FullyConnectedSparseWeight(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output));\n      } else if (sparsity.dim_metadata_size == kDimMetadataSizeBlockSparse &&\n                 sparsity.dim_metadata[2].dense_size == 4) {\n        // Block sparse with block size of 1x4.\n        optimized_ops::FullyConnectedSparseWeight1x4(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output),\n            CpuBackendContext::GetFromContext(context));\n      } else {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n    } else {\n      op_params.lhs_cacheable = IsConstantTensor(filter);\n      op_params.rhs_cacheable = IsConstantTensor(input);\n      optimized_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output),\n          CpuBackendContext::GetFromContext(context));\n    }\n  }\n\n  return kTfLiteOk;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities or security issues.\", \"fix_principle\": null, \"confidence\": 0.95, \"fix_choice\": null }",
+        "token_count": 28,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.95
+      },
+      {
+        "id": "195247",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nTfLiteStatus Prepare(TfLiteContext* context, TfLiteNode* node) {\n  auto* params =\n      reinterpret_cast<TfLiteDepthwiseConvParams*>(node->builtin_data);\n  OpData* data = reinterpret_cast<OpData*>(node->user_data);\n\n  bool has_bias = NumInputs(node) == 3;\n\n  TF_LITE_ENSURE(context, has_bias || NumInputs(node) == 2);\n  const TfLiteTensor* input;\n  TF_LITE_ENSURE_OK(context, GetInputSafe(context, node, kInputTensor, &input));\n  const TfLiteTensor* filter;\n  TF_LITE_ENSURE_OK(context,\n                    GetInputSafe(context, node, kFilterTensor, &filter));\n  const TfLiteTensor* bias = nullptr;\n\n  TF_LITE_ENSURE_EQ(context, NumOutputs(node), 1);\n  TfLiteTensor* output;\n  TF_LITE_ENSURE_OK(context,\n                    GetOutputSafe(context, node, kOutputTensor, &output));\n\n  TF_LITE_ENSURE_EQ(context, NumDimensions(input), 4);\n  TF_LITE_ENSURE_EQ(context, NumDimensions(filter), 4);\n\n  const TfLiteType data_type = input->type;\n\n  const TfLiteType filter_type = filter->type;\n  const bool is_hybrid =\n      data_type == kTfLiteFloat32 && filter_type == kTfLiteInt8;\n  TF_LITE_ENSURE(context,\n                 data_type == kTfLiteFloat32 || data_type == kTfLiteUInt8 ||\n                     data_type == kTfLiteInt8 || data_type == kTfLiteInt16);\n  TF_LITE_ENSURE_TYPES_EQ(context, output->type, data_type);\n  if (!is_hybrid) {\n    TF_LITE_ENSURE(context,\n                   filter->type == data_type || data_type == kTfLiteInt16);\n  }\n\n  if (data_type == kTfLiteInt16) {\n    TF_LITE_ENSURE_EQ(context, input->params.zero_point, 0);\n    TF_LITE_ENSURE_EQ(context, output->params.zero_point, 0);\n  }\n\n  // Filter in DepthwiseConv is expected to be [1, H, W, O].\n  TF_LITE_ENSURE_EQ(context, SizeOfDimension(filter, 0), 1);\n\n  if (has_bias) {\n    TF_LITE_ENSURE_OK(context, GetInputSafe(context, node, kBiasTensor, &bias));\n    if (data_type == kTfLiteUInt8 || data_type == kTfLiteInt8) {\n      TF_LITE_ENSURE_TYPES_EQ(context, bias->type, kTfLiteInt32);\n      TF_LITE_ENSURE_EQ(context, bias->params.zero_point, 0);\n    } else if (data_type == kTfLiteInt16) {\n      TF_LITE_ENSURE_TYPES_EQ(context, bias->type, kTfLiteInt64);\n      TF_LITE_ENSURE_EQ(context, bias->params.zero_point, 0);\n    } else {\n      TF_LITE_ENSURE_TYPES_EQ(context, bias->type, data_type);\n    }\n    TF_LITE_ENSURE_EQ(context, NumDimensions(bias), 1);\n    TF_LITE_ENSURE_EQ(context, SizeOfDimension(filter, 3),\n                      SizeOfDimension(bias, 0));\n  }\n\n  int channels_out = SizeOfDimension(filter, 3);\n  int width = SizeOfDimension(input, 2);\n  int height = SizeOfDimension(input, 1);\n  int filter_width = SizeOfDimension(filter, 2);\n  int filter_height = SizeOfDimension(filter, 1);\n  int batches = SizeOfDimension(input, 0);\n\n  // Matching GetWindowedOutputSize in TensorFlow.\n  auto padding = params->padding;\n  int out_width, out_height;\n\n  data->padding = ComputePaddingHeightWidth(\n      params->stride_height, params->stride_width,\n      params->dilation_height_factor, params->dilation_width_factor, height,\n      width, filter_height, filter_width, padding, &out_height, &out_width);\n\n  // Note that quantized inference requires that all tensors have their\n  // parameters set. This is usually done during quantized training or\n  // calibration.\n  if (data_type != kTfLiteFloat32) {\n    TF_LITE_ENSURE_EQ(context, filter->quantization.type,\n                      kTfLiteAffineQuantization);\n    TF_LITE_ENSURE(context, filter->quantization.type != kTfLiteNoQuantization);\n    const auto* affine_quantization =\n        reinterpret_cast<TfLiteAffineQuantization*>(\n            filter->quantization.params);\n    TF_LITE_ENSURE(context, affine_quantization);\n    TF_LITE_ENSURE(context, affine_quantization->scale);\n    TF_LITE_ENSURE(context, (affine_quantization->scale->size == 1 ||\n                             affine_quantization->scale->size == channels_out));\n\n    data->per_channel_output_multiplier.resize(channels_out);\n    data->per_channel_output_shift.resize(channels_out);\n    TF_LITE_ENSURE_STATUS(tflite::PopulateConvolutionQuantizationParams(\n        context, input, filter, bias, output, params->activation,\n        &data->output_multiplier, &data->output_shift,\n        &data->output_activation_min, &data->output_activation_max,\n        data->per_channel_output_multiplier.data(),\n        data->per_channel_output_shift.data(), channels_out));\n  }\n\n  if (is_hybrid) {\n    TF_LITE_ENSURE(context, filter->quantization.type != kTfLiteNoQuantization);\n    const auto* affine_quantization =\n        reinterpret_cast<TfLiteAffineQuantization*>(\n            filter->quantization.params);\n    TF_LITE_ENSURE(context, affine_quantization);\n    TF_LITE_ENSURE(context, affine_quantization->scale);\n    TF_LITE_ENSURE_EQ(\n        context, affine_quantization->scale->size,\n        filter->dims->data[affine_quantization->quantized_dimension]);\n\n    int temporaries_count = 0;\n    data->input_quantized_index = temporaries_count;\n    if (data->input_quantized_id == kTensorNotAllocated) {\n      TF_LITE_ENSURE_OK(\n          context, context->AddTensors(context, 1, &data->input_quantized_id));\n    }\n    ++temporaries_count;\n    data->scaling_factors_index = temporaries_count;\n    if (data->scaling_factors_id == kTensorNotAllocated) {\n      TF_LITE_ENSURE_OK(\n          context, context->AddTensors(context, 1, &data->scaling_factors_id));\n    }\n    ++temporaries_count;\n    data->input_offset_index = temporaries_count;\n    if (data->input_offset_id == kTensorNotAllocated) {\n      TF_LITE_ENSURE_OK(\n          context, context->AddTensors(context, 1, &data->input_offset_id));\n    }\n    ++temporaries_count;\n\n    TfLiteIntArrayFree(node->temporaries);\n    node->temporaries = TfLiteIntArrayCreate(temporaries_count);\n\n    node->temporaries->data[data->input_quantized_index] =\n        data->input_quantized_id;\n    TfLiteTensor* input_quantized;\n    TF_LITE_ENSURE_OK(\n        context, GetTemporarySafe(context, node, data->input_quantized_index,\n                                  &input_quantized));\n    input_quantized->type = kTfLiteInt8;\n    input_quantized->allocation_type = kTfLiteArenaRw;\n    if (!TfLiteIntArrayEqual(input_quantized->dims, input->dims)) {\n      TfLiteIntArray* input_quantized_size = TfLiteIntArrayCopy(input->dims);\n      TF_LITE_ENSURE_OK(context, context->ResizeTensor(context, input_quantized,\n                                                       input_quantized_size));\n    }\n    node->temporaries->data[data->scaling_factors_index] =\n        data->scaling_factors_id;\n    TfLiteTensor* scaling_factors;\n    TF_LITE_ENSURE_OK(\n        context, GetTemporarySafe(context, node, data->scaling_factors_index,\n                                  &scaling_factors));\n    scaling_factors->type = kTfLiteFloat32;\n    scaling_factors->allocation_type = kTfLiteArenaRw;\n    const int batch_size = SizeOfDimension(input, 0);\n    int scaling_dims[1] = {batch_size};\n    if (!TfLiteIntArrayEqualsArray(scaling_factors->dims, 1, scaling_dims)) {\n      TfLiteIntArray* scaling_factors_size = TfLiteIntArrayCreate(1);\n      scaling_factors_size->data[0] = batch_size;\n      TF_LITE_ENSURE_OK(context, context->ResizeTensor(context, scaling_factors,\n                                                       scaling_factors_size));\n    }\n    node->temporaries->data[data->input_offset_index] = data->input_offset_id;\n    TfLiteTensor* input_offsets;\n    TF_LITE_ENSURE_OK(context,\n                      GetTemporarySafe(context, node, data->input_offset_index,\n                                       &input_offsets));\n    input_offsets->type = kTfLiteInt32;\n    input_offsets->allocation_type = kTfLiteArenaRw;\n    if (!TfLiteIntArrayEqualsArray(input_offsets->dims, 1, scaling_dims)) {\n      TfLiteIntArray* input_offsets_size = TfLiteIntArrayCreate(1);\n      input_offsets_size->data[0] = batch_size;\n      TF_LITE_ENSURE_OK(context, context->ResizeTensor(context, input_offsets,\n                                                       input_offsets_size));\n    }\n  }\n\n  TfLiteIntArray* outputSize = TfLiteIntArrayCreate(4);\n  outputSize->data[0] = batches;\n  outputSize->data[1] = out_height;\n  outputSize->data[2] = out_width;\n  outputSize->data[3] = channels_out;\n  return context->ResizeTensor(context, output, outputSize);\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-369",
+        "raw_text": "```json\n{\n  \"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": [\n    {\n      \"type\": \"window\",\n      \"index\": 1,\n      \"line\": 1,\n      \"column\": 8,\n      \"text\": \"if (!is_hybrid) {\\n\"\n    },\n    {\n      \"type\": \"window\",\n      \"index\": 33,\n      \"line\": 33,\n      \"column\": 55,\n      \"text\": \"if (data_type == kTfLiteInt16) {\\n\"\n    },\n    {\n      \"type\": \"window\",\n      \"index\": 34,\n      \"line\": 34,\n      \"column\": 55,\n      \"text\": \"TF_LITE_ENSURE_EQ(context, input->params.zero_point, 0);\\n\"",
+        "token_count": 53,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 1.0
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "194999",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nString preg_quote(const String& str,\n                  const String& delimiter /* = null_string */) {\n  const char* in_str = str.data();\n  const char* in_str_end = in_str + str.size();\n\n  /* Nothing to do if we got an empty string */\n  if (in_str == in_str_end) {\n    return str;\n  }\n\n  char delim_char = 0;      /* Delimiter character to be quoted */\n  bool quote_delim = false; /* Whether to quote additional delim char */\n  if (!delimiter.empty()) {\n    delim_char = delimiter.charAt(0);\n    quote_delim = true;\n  }\n\n  /* Allocate enough memory so that even if each character\n     is quoted, we won't run out of room */\n  String ret(4 * str.size() + 1, ReserveString);\n  char* out_str = ret.mutableData();\n\n  /* Go through the string and quote necessary characters */\n  const char* p;\n  char* q;\n  for (p = in_str, q = out_str; p != in_str_end; p++) {\n    char c = *p;\n    switch (c) {\n    case '.': case '\\\\': case '+': case '*': case '?':\n    case '[': case '^':  case ']': case '$': case '(':\n    case ')': case '{':  case '}': case '=': case '!':\n    case '>': case '<':  case '|': case ':': case '-':\n    case '#':\n      *q++ = '\\\\';\n      *q++ = c;\n      break;\n\n    case '\\0':\n      *q++ = '\\\\';\n      *q++ = '0';\n      *q++ = '0';\n      *q++ = '0';\n      break;\n\n    default:\n      if (quote_delim && c == delim_char)\n        *q++ = '\\\\';\n      *q++ = c;\n      break;\n    }\n  }\n  *q = '\\0';\n\n  return ret.setSize(q - out_str);\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-190",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": \"low\", \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities related to string manipulation or quoting functions.\", \"fix_principle\": \"No changes needed as the function already handles quoting correctly.\", \"confidence\": 100, \"fix_choice\": \"None\"}"
+    },
+    {
+      "id": "195084",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int stszin(int size)\n{\n    int cnt;\n    uint32_t ofs;\n\n    // version/flags\n    u32in();\n    // Sample size\n    u32in();\n    // Number of entries\n    mp4config.frame.ents = u32in();\n    // fixme: check atom size\n    mp4config.frame.data = malloc(sizeof(*mp4config.frame.data)\n                                  * (mp4config.frame.ents + 1));\n\n    if (!mp4config.frame.data)\n        return ERR_FAIL;\n\n    ofs = 0;\n    mp4config.frame.data[0] = ofs;\n    for (cnt = 0; cnt < mp4config.frame.ents; cnt++)\n    {\n        uint32_t fsize = u32in();\n\n        ofs += fsize;\n        if (mp4config.frame.maxsize < fsize)\n            mp4config.frame.maxsize = fsize;\n\n        mp4config.frame.data[cnt + 1] = ofs;\n\n        if (ofs < mp4config.frame.data[cnt])\n            return ERR_FAIL;\n    }\n\n    return size;\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-787",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "buffer-overflow",
+      "label_correct": true,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Buffer Overflow\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    \"The function `stszin` is vulnerable to buffer overflow due to improper handling of data allocation.\",\n    \"The function attempts to allocate memory using `malloc()` which can lead to stack overflow if not handled correctly.\"\n  ],\n  \"explanation\": \"The function allocates memory for the frame's data but does not properly handle the size of the data array. This results in an attempt to overwrite the end of the allocated memory block, leading to a buffer overflow.\",\n  \"fix_principle\": \"Ensure that the size of the data array is correctly calculated before allocating memory.\",\n  \"confidence\": 95,\n  \"fix_choice\": \"Increase the maximum size of the frame's data by at least 1 byte.\" }"
+    },
+    {
+      "id": "195362",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nsnmp_ber_decode_string_len_buffer(unsigned char *buf, uint32_t *buff_len, const char **str, uint32_t *length)\n{\n  uint8_t type, i, length_bytes;\n\n  buf = snmp_ber_decode_type(buf, buff_len, &type);\n\n  if(buf == NULL || type != BER_DATA_TYPE_OCTET_STRING) {\n    /*\n     * Sanity check\n     * Invalid type in buffer\n     */\n    return NULL;\n  }\n\n  if((*buf & 0x80) == 0) {\n    *length = (uint32_t)*buf++;\n    (*buff_len)--;\n  } else {\n\n    length_bytes = (uint8_t)(*buf++ & 0x7F);\n    (*buff_len)--;\n    if(length_bytes > 4) {\n      /*\n       * Sanity check\n       * It will not fit in the uint32_t\n       */\n      return NULL;\n    }\n\n    *length = (uint32_t)*buf++;\n    (*buff_len)--;\n    for(i = 1; i < length_bytes; ++i) {\n      *length <<= 8;\n      *length |= *buf++;\n      (*buff_len)--;\n    }\n  }\n\n  *str = (const char *)buf;\n  *buff_len -= *length;\n\n  return buf + *length;\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-125",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"buffer_overread\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"* The function reads an octet string from a buffer without checking its size.\",\n    \"* If the buffer is too small to hold the entire string, it overwrites part of it.\",\n    \"* This can lead to data corruption or loss.\"\n  ],\n  \"explanation\": \"The function reads an octet string from a buffer without checking its size. If the buffer is too small to hold the entire string, it overwrites part of it. This can result in data corruption or loss.\",\n  \"fix_principle\": \"Ensure that the buffer size is sufficient to hold the entire string before reading it.\",\n  \"confidence\": 95,\n  \"fix_choice\": \"Increase the buffer size by at least 1 byte when reading the octet string.\" }"
+    },
+    {
+      "id": "195564",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  static bool TryParse(const char* inp, int length,\n                       TypedValue* buf, Variant& out,\n                       JSONContainerType container_type, bool is_tsimplejson) {\n    SimpleParser parser(inp, length, buf, container_type, is_tsimplejson);\n    bool ok = parser.parseValue();\n    parser.skipSpace();\n    if (!ok || parser.p != inp + length) {\n      // Unsupported, malformed, or trailing garbage. Release entire stack.\n      tvDecRefRange(buf, parser.top);\n      return false;\n    }\n    out = Variant::attach(*--parser.top);\n    return true;\n  }",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-125",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities that could be exploited to cause harm. It uses a simple parser function to attempt parsing a string into a `TypedValue` object.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }"
+    },
+    {
+      "id": "195663",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  void Compute(OpKernelContext* ctx) override {\n    const Tensor& input = ctx->input(0);\n    const Tensor& input_min_tensor = ctx->input(1);\n    const Tensor& input_max_tensor = ctx->input(2);\n\n    int num_slices = 1;\n    if (axis_ > -1) {\n      num_slices = input.dim_size(axis_);\n    }\n\n    Tensor* output = nullptr;\n    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, input.shape(), &output));\n    Tensor float_output =\n        need_cast_ ? tensorflow::Tensor(DT_FLOAT, input.shape()) : *output;\n    if (num_slices == 1) {\n      const float min_range = input_min_tensor.flat<float>()(0);\n      const float max_range = input_max_tensor.flat<float>()(0);\n      DequantizeTensor(ctx, input, min_range, max_range, &float_output);\n    } else {\n      OP_REQUIRES(ctx, mode_ != QUANTIZE_MODE_MIN_FIRST,\n                  errors::Unimplemented(\"MIN_FIRST mode is not implemented for \"\n                                        \"Dequantize with axis != -1.\"));\n\n      int64 pre_dim = 1, post_dim = 1;\n      for (int i = 0; i < axis_; ++i) {\n        pre_dim *= float_output.dim_size(i);\n      }\n      for (int i = axis_ + 1; i < float_output.dims(); ++i) {\n        post_dim *= float_output.dim_size(i);\n      }\n      auto input_tensor = input.template bit_casted_shaped<T, 3>(\n          {pre_dim, num_slices, post_dim});\n      auto output_tensor =\n          float_output.flat_inner_outer_dims<float, 3>(axis_ - 1);\n      auto min_ranges = input_min_tensor.vec<float>();\n      auto max_ranges = input_max_tensor.vec<float>();\n      for (int i = 0; i < num_slices; ++i) {\n        DequantizeSlice(ctx->eigen_device<Device>(), ctx,\n                        input_tensor.template chip<1>(i), min_ranges(i),\n                        max_ranges(i), output_tensor.template chip<1>(i));\n      }\n    }\n    if (need_cast_) {\n      S* out_ptr = output->flat<S>().data();\n      float* in_ptr = float_output.flat<float>().data();\n      for (int64 i = 0; i < float_output.NumElements(); ++i) {\n        out_ptr[i] = static_cast<S>(in_ptr[i]);\n      }\n    }\n  }",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-20",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities or security issues.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

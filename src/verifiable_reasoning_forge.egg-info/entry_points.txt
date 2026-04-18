@@ -1,0 +1,2 @@
+[console_scripts]
+vrf = vrf.cli:main

@@ -1,0 +1,63 @@
+{
+  "failure_buckets": {
+    "correct": 5
+  },
+  "avg_length_by_difficulty": {
+    "easy": 6.25,
+    "medium": 16.0
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "structured_json": 5
+    },
+    "parse_trigger_counts": {
+      "none": 5
+    },
+    "avg_parse_confidence": 1.0
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "math-eval-0001",
+        "prompt": "Mia has 3 apples and buys 4 more. How many apples does she have now?",
+        "gold_answer": "7",
+        "raw_text": "{\"reasoning\":\"Add 3 and 4 to get 7.\", \"final_answer\":\"7\"}",
+        "token_count": 8,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none"
+      },
+      {
+        "id": "math-eval-0002",
+        "prompt": "A baker made 24 muffins and sold 9. How many muffins are left?",
+        "gold_answer": "15",
+        "raw_text": "{\"reasoning\":\"Subtract the number of muffins sold from the total number.\", \"final_answer\":\"15\"}",
+        "token_count": 11,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none"
+      },
+      {
+        "id": "math-eval-0003",
+        "prompt": "There are 6 boxes with 7 pencils in each box. How many pencils are there in total?",
+        "gold_answer": "42",
+        "raw_text": "{\"reasoning\":\"6 x 7 = 42\",\"final_answer\":\"42\"}",
+        "token_count": 5,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none"
+      }
+    ],
+    "format_failure": [],
+    "reasoning_failure": [],
+    "verbosity_inflation": [],
+    "extraction_failure": []
+  },
+  "low_confidence_examples": [],
+  "questions_answered": {
+    "reasoning_vs_extraction": "Failures are separated into reasoning_failure and extraction_failure buckets.",
+    "long_question_regression": "Use avg_length_by_difficulty plus eval difficulty breakdown to track regression.",
+    "verbosity_inflation": "Outputs with token_count > 40 on the sample data are flagged for review.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered."
+  }
+}

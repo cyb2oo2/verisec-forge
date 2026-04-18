@@ -1,0 +1,30 @@
+{
+  "stage": "grpo",
+  "model_name": "hf-internal-testing/tiny-random-GPT2LMHeadModel",
+  "tokenizer_name": "hf-internal-testing/tiny-random-GPT2LMHeadModel",
+  "train_dataset_path": "data/processed/train_grpo.jsonl",
+  "eval_dataset_path": "data/processed/eval_math.jsonl",
+  "output_dir": "checkpoints/smoke_grpo",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You solve short math word problems. Return valid JSON only with exactly two string fields: {\"reasoning\": \"...\", \"final_answer\": \"...\"}. Keep reasoning concise. Do not include markdown, code fences, or extra text.",
+  "response_prefix": "{\"reasoning\":\"",
+  "reward": {
+    "correctness_weight": 1.0,
+    "format_weight": 0.2,
+    "length_penalty_weight": 0.05,
+    "max_reasoning_tokens": 80
+  },
+  "training_args": {
+    "num_train_epochs": 1,
+    "max_steps": 2,
+    "learning_rate": 1e-5,
+    "per_device_train_batch_size": 2,
+    "gradient_accumulation_steps": 1,
+    "logging_steps": 1,
+    "save_steps": 10,
+    "max_prompt_length": 128,
+    "max_completion_length": 64,
+    "num_generations": 2,
+    "generation_batch_size": 2
+  }
+}

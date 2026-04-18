@@ -1,0 +1,7 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_eval_balanced_244.jsonl",
+  "generations_path": "outputs/baseline_sft_secure_code_primevul_qwen05b_balanced_recall_v1_eval244_generations.jsonl",
+  "report_json_path": "reports/secure_code_primevul_sft_qwen05b_balanced_recall_v1_eval244_report.json",
+  "report_csv_path": "reports/secure_code_primevul_sft_qwen05b_balanced_recall_v1_eval244_report.csv",
+  "tracker_path": "artifacts/experiments.jsonl"
+}

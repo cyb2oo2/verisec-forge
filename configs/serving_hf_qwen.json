@@ -1,0 +1,20 @@
+{
+  "backend": {
+    "type": "huggingface",
+    "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "temperature": 0.0,
+    "max_new_tokens": 160,
+    "device_map": "auto",
+    "torch_dtype": "float16",
+    "output_format": "structured_json",
+    "system_prompt": "You solve short math word problems. Return valid JSON only with exactly two string fields: {\"reasoning\": \"...\", \"final_answer\": \"...\"}. Keep reasoning concise. Do not include markdown, code fences, or extra text. Example: {\"reasoning\":\"Add 3 and 4.\",\"final_answer\":\"7\"}",
+    "response_prefix": "{\"reasoning\":\"",
+    "enable_second_pass": true,
+    "second_pass_confidence_threshold": 0.75,
+    "extraction_max_new_tokens": 24,
+    "extraction_system_prompt": "You extract the final answer from a math solution. Return JSON only as {\"final_answer\": \"...\"} with no extra text. Example: {\"final_answer\":\"15\"}",
+    "extraction_response_prefix": "{\"final_answer\":\""
+  },
+  "host": "127.0.0.1",
+  "port": 8000
+}

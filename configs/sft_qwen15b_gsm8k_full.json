@@ -1,0 +1,28 @@
+{
+  "stage": "sft",
+  "model_name": "C:/Users/cyb/.cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/train_sft_gsm8k_structured.jsonl",
+  "eval_dataset_path": "data/processed/eval_gsm8k_dev100.jsonl",
+  "output_dir": "checkpoints/sft_qwen15b_gsm8k_full",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You solve grade-school math word problems. Return valid JSON only with exactly two string fields: {\"reasoning\": \"...\", \"final_answer\": \"...\"}. Keep reasoning concise but sufficient. Do not include markdown, code fences, or extra text.",
+  "response_field": "response",
+  "response_format": "structured_json",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20,
+    "save_steps": 500,
+    "max_seq_length": 768
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  }
+}

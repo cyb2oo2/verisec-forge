@@ -1,0 +1,24 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_eval_balanced_244.jsonl",
+  "output_path": "outputs/baseline_sft_secure_code_primevul_qwen05b_failure_driven_verifier_seed200_decision_only_v1_eval244_generations.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "backend": {
+    "type": "huggingface",
+    "model_name": "checkpoints/sft_secure_code_primevul_qwen05b_failure_driven_verifier_seed200_decision_only_v1",
+    "temperature": 0.0,
+    "max_new_tokens": 80,
+    "max_input_tokens": 1024,
+    "max_prompt_chars": 8000,
+    "device_map": "auto",
+    "torch_dtype": "float16",
+    "local_files_only": true,
+    "output_format": "structured_json",
+    "system_prompt": "You are a decision-only second-pass secure-code verifier. Return exactly one tiny JSON object with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. Only emit canonical cwe-* labels or none.",
+    "response_prefix": "{",
+    "enable_second_pass": false,
+    "second_pass_confidence_threshold": 0.8,
+    "extraction_max_new_tokens": 48,
+    "extraction_system_prompt": "You are a structured security extraction module. Return exactly one tiny JSON object with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. Only emit canonical cwe-* labels or none.",
+    "extraction_response_prefix": "{"
+  }
+}

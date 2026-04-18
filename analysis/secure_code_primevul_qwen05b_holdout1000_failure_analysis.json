@@ -1,0 +1,413 @@
+{
+  "failure_buckets": {
+    "format_failure": 208,
+    "high_confidence_error": 157,
+    "label_failure": 346,
+    "evidence_failure": 9,
+    "correct": 280
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 52.037
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "none": 307,
+      "structured_json": 331,
+      "second_pass_model": 362
+    },
+    "parse_trigger_counts": {
+      "hard_fail": 525,
+      "low_confidence": 196,
+      "none": 241,
+      "multiple_json_objects": 14,
+      "verbose_explanation": 9,
+      "pair_block_output": 12,
+      "markdown_fence_in_output": 2,
+      "verbose_explanation,multiple_json_objects": 1
+    },
+    "avg_parse_confidence": 0.6643
+  },
+  "label_error_breakdown": {
+    "false_negative": 135,
+    "cwe_mismatch": 75,
+    "false_positive": 136
+  },
+  "format_error_breakdown": {
+    "hard_fail": 208
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 242,
+      "accuracy": 0.3099,
+      "high_confidence_error_rate": 0.6901
+    },
+    "0.75-0.89": {
+      "count": 6,
+      "accuracy": 0.5,
+      "high_confidence_error_rate": 0.5
+    },
+    "0.0-0.49": {
+      "count": 24,
+      "accuracy": 0.1667,
+      "high_confidence_error_rate": 0.0
+    },
+    "missing": {
+      "count": 728,
+      "accuracy": 0.2885,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "10600",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int jpeg_size(unsigned char* data, unsigned int data_size,\n                     int *width, int *height)\n{\n    int i = 0;\n    if (i + 3 < data_size && data[i] == 0xFF && data[i+1] == 0xD8 &&\n            data[i+2] == 0xFF && data[i+3] == 0xE0) {\n        i += 4;\n        if(i + 6 < data_size &&\n                data[i+2] == 'J' && data[i+3] == 'F' && data[i+4] == 'I' &&\n                data[i+5] == 'F' && data[i+6] == 0x00) {\n            unsigned short block_length = data[i] * 256 + data[i+1];\n            while(i<data_size) {\n                i+=block_length;\n                if((i + 1) >= data_size)\n                    return -1;\n                if(data[i] != 0xFF)\n                    return -1;\n                if(data[i+1] == 0xC0) {\n                    *height = data[i+5]*256 + data[i+6];\n                    *width = data[i+7]*256 + data[i+8];\n                     return 0;\n                 }\n                 i+=2;\n                block_length = data[i] * 256 + data[i+1];\n             }\n         }\n     }\n\n    return -1;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-125",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"Buffer Overflow\", \"severity\": \"High\", \"evidence\": \"The function reads four bytes from the input buffer and then attempts to read another two bytes of data. If these bytes do not match the expected format ('J', 'F', 'I'), it returns an error.\", \"explanation\": \"This vulnerability allows an attacker to overwrite the end of the buffer with arbitrary data, potentially leading to a buffer overflow attack.\", \"fix_principle\": \"Implement input validation checks to ensure that the input does not exceed the maximum allowed size of the buffer.\", \"confidence\": 90, \"fix_choice\": \"Add input validation checks to ensure that the input does not exceed the maximum allowed size of the buffer.\" }",
+        "token_count": 109,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-787",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "10629",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n LIBOPENMPT_MODPLUG_API unsigned int ModPlug_SampleName(ModPlugFile* file, unsigned int qual, char* buff)\n {\n \tconst char* str;\n\tunsigned int retval;\n\tsize_t tmpretval;\n \tif(!file) return 0;\n \tstr = openmpt_module_get_sample_name(file->mod,qual-1);\n\tif(!str){\n\t\tif(buff){\n\t\t\t*buff = '\\0';\n\t\t}\n\t\treturn 0;\n\t}\n\ttmpretval = strlen(str);\n\tif(tmpretval>=INT_MAX){\n\t\ttmpretval = INT_MAX-1;\n \t}\n\tretval = (int)tmpretval;\n \tif(buff){\n\t\tmemcpy(buff,str,retval+1);\n\t\tbuff[retval] = '\\0';\n \t}\n\topenmpt_free_string(str);\n\treturn retval;\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-120",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": null,\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-787",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "13139",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int cieabcdomain(i_ctx_t * i_ctx_p, ref *space, float *ptr)\n{\n    int code;\n    ref CIEdict, *tempref;\n\n    code = array_get(imemory, space, 1, &CIEdict);\n    if (code < 0)\n        return code;\n\n    /* If we have a RangeABC, get the values from that */\n    code = dict_find_string(&CIEdict, \"RangeABC\", &tempref);\n    if (code > 0 && !r_has_type(tempref, t_null)) {\n        code = get_cie_param_array(imemory, tempref, 6, ptr);\n        if (code < 0)\n            return code;\n    } else {\n        /* Default values for CIEBasedABC */\n    \tmemcpy(ptr, default_0_1, 6*sizeof(float));\n    }\n    return 0;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "cwe-704",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": \"\",\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null\n}",
+        "token_count": 17,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "10007",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nconst service_manager::Manifest& GetChromeContentBrowserOverlayManifest() {\n  static base::NoDestructor<service_manager::Manifest> manifest {\n    service_manager::ManifestBuilder()\n        .ExposeCapability(\"gpu\",\n                          service_manager::Manifest::InterfaceList<\n                              metrics::mojom::CallStackProfileCollector>())\n        .ExposeCapability(\"renderer\",\n                          service_manager::Manifest::InterfaceList<\n                              chrome::mojom::AvailableOfflineContentProvider,\n                              chrome::mojom::CacheStatsRecorder,\n                              chrome::mojom::NetBenchmarking,\n                              data_reduction_proxy::mojom::DataReductionProxy,\n                              metrics::mojom::CallStackProfileCollector,\n#if defined(OS_WIN)\n                              mojom::ModuleEventSink,\n#endif\n                              rappor::mojom::RapporRecorder,\n                              safe_browsing::mojom::SafeBrowsing>())\n        .RequireCapability(\"ash\", \"system_ui\")\n        .RequireCapability(\"ash\", \"test\")\n        .RequireCapability(\"ash\", \"display\")\n        .RequireCapability(\"assistant\", \"assistant\")\n        .RequireCapability(\"assistant_audio_decoder\", \"assistant:audio_decoder\")\n        .RequireCapability(\"chrome\", \"input_device_controller\")\n        .RequireCapability(\"chrome_printing\", \"converter\")\n        .RequireCapability(\"cups_ipp_parser\", \"ipp_parser\")\n        .RequireCapability(\"device\", \"device:fingerprint\")\n        .RequireCapability(\"device\", \"device:geolocation_config\")\n        .RequireCapability(\"device\", \"device:geolocation_control\")\n        .RequireCapability(\"device\", \"device:ip_geolocator\")\n        .RequireCapability(\"ime\", \"input_engine\")\n        .RequireCapability(\"mirroring\", \"mirroring\")\n        .RequireCapability(\"nacl_broker\", \"browser\")\n        .RequireCapability(\"nacl_loader\", \"browser\")\n        .RequireCapability(\"noop\", \"noop\")\n        .RequireCapability(\"patch\", \"patch_file\")\n        .RequireCapability(\"preferences\", \"pref_client\")\n        .RequireCapability(\"preferences\", \"pref_control\")\n        .RequireCapability(\"profile_import\", \"import\")\n        .RequireCapability(\"removable_storage_writer\",\n                           \"removable_storage_writer\")\n        .RequireCapability(\"secure_channel\", \"secure_channel\")\n        .RequireCapability(\"ui\", \"ime_registrar\")\n        .RequireCapability(\"ui\", \"input_device_controller\")\n        .RequireCapability(\"ui\", \"window_manager\")\n        .RequireCapability(\"unzip\", \"unzip_file\")\n        .RequireCapability(\"util_win\", \"util_win\")\n        .RequireCapability(\"xr_device_service\", \"xr_device_provider\")\n        .RequireCapability(\"xr_device_service\", \"xr_device_test_hook\")\n#if defined(OS_CHROMEOS)\n        .RequireCapability(\"multidevice_setup\", \"multidevice_setup\")\n#endif\n        .ExposeInterfaceFilterCapability_Deprecated(\n            \"navigation:frame\", \"renderer\",\n            service_manager::Manifest::InterfaceList<\n                autofill::mojom::AutofillDriver,\n                autofill::mojom::PasswordManagerDriver,\n                chrome::mojom::OfflinePageAutoFetcher,\n#if defined(OS_CHROMEOS)\n                 chromeos_camera::mojom::CameraAppHelper,\n                 chromeos::cellular_setup::mojom::CellularSetup,\n                 chromeos::crostini_installer::mojom::PageHandlerFactory,\n                chromeos::crostini_upgrader::mojom::PageHandlerFactory,\n                 chromeos::ime::mojom::InputEngineManager,\n                 chromeos::machine_learning::mojom::PageHandler,\n                 chromeos::media_perception::mojom::MediaPerception,\n                chromeos::multidevice_setup::mojom::MultiDeviceSetup,\n                chromeos::multidevice_setup::mojom::PrivilegedHostDeviceSetter,\n                chromeos::network_config::mojom::CrosNetworkConfig,\n                cros::mojom::CameraAppDeviceProvider,\n#endif\n                contextual_search::mojom::ContextualSearchJsApiService,\n#if BUILDFLAG(ENABLE_EXTENSIONS)\n                extensions::KeepAlive,\n#endif\n                media::mojom::MediaEngagementScoreDetailsProvider,\n                media_router::mojom::MediaRouter,\n                page_load_metrics::mojom::PageLoadMetrics,\n                translate::mojom::ContentTranslateDriver,\n\n                downloads::mojom::PageHandlerFactory,\n                feed_internals::mojom::PageHandler,\n                new_tab_page::mojom::PageHandlerFactory,\n#if defined(OS_ANDROID)\n                explore_sites_internals::mojom::PageHandler,\n#else\n                app_management::mojom::PageHandlerFactory,\n#endif\n#if defined(OS_WIN) || defined(OS_MACOSX) || defined(OS_LINUX) || \\\n    defined(OS_CHROMEOS)\n                discards::mojom::DetailsProvider, discards::mojom::GraphDump,\n#endif\n#if defined(OS_CHROMEOS)\n                add_supervision::mojom::AddSupervisionHandler,\n#endif\n                mojom::BluetoothInternalsHandler,\n                mojom::InterventionsInternalsPageHandler,\n                mojom::OmniboxPageHandler, mojom::ResetPasswordHandler,\n                mojom::SiteEngagementDetailsProvider,\n                mojom::UsbInternalsPageHandler,\n                snippets_internals::mojom::PageHandlerFactory>())\n        .PackageService(prefs::GetManifest())\n#if defined(OS_CHROMEOS)\n        .PackageService(chromeos::multidevice_setup::GetManifest())\n#endif  // defined(OS_CHROMEOS)\n        .Build()\n  };\n  return *manifest;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-20",
+        "raw_text": "chromeos::crash_reporter::CrashReporter,\n#endif\n                chromeos::crust::mojom::CrustClient,\n                chromeos::crust::mojom::CrustClientFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,\n                chromeos::crust::mojom::CrustClientFactoryFactory,",
+        "token_count": 14,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "10057",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid ImageLoader::DoUpdateFromElement(BypassMainWorldBehavior bypass_behavior,\n                                      UpdateFromElementBehavior update_behavior,\n                                      const KURL& url,\n                                      ReferrerPolicy referrer_policy,\n                                      UpdateType update_type) {\n  pending_task_.reset();\n  std::unique_ptr<IncrementLoadEventDelayCount> load_delay_counter;\n  load_delay_counter.swap(delay_until_do_update_from_element_);\n\n  Document& document = element_->GetDocument();\n  if (!document.IsActive())\n    return;\n\n  AtomicString image_source_url = element_->ImageSourceURL();\n  ImageResourceContent* new_image_content = nullptr;\n  if (!url.IsNull() && !url.IsEmpty()) {\n    ResourceLoaderOptions resource_loader_options;\n    resource_loader_options.initiator_info.name = GetElement()->localName();\n    ResourceRequest resource_request(url);\n    if (update_behavior == kUpdateForcedReload) {\n      resource_request.SetCacheMode(mojom::FetchCacheMode::kBypassCache);\n      resource_request.SetPreviewsState(WebURLRequest::kPreviewsNoTransform);\n    }\n\n    if (referrer_policy != kReferrerPolicyDefault) {\n      resource_request.SetHTTPReferrer(SecurityPolicy::GenerateReferrer(\n           referrer_policy, url, document.OutgoingReferrer()));\n     }\n \n     if (IsHTMLPictureElement(GetElement()->parentNode()) ||\n        !GetElement()->FastGetAttribute(HTMLNames::srcsetAttr).IsNull())\n       resource_request.SetRequestContext(\n           WebURLRequest::kRequestContextImageSet);\n \n     bool page_is_being_dismissed =\n         document.PageDismissalEventBeingDispatched() != Document::kNoDismissal;\n    if (page_is_being_dismissed) {\n      resource_request.SetHTTPHeaderField(HTTPNames::Cache_Control,\n                                          \"max-age=0\");\n      resource_request.SetKeepalive(true);\n      resource_request.SetRequestContext(WebURLRequest::kRequestContextPing);\n    }\n\n    FetchParameters params(resource_request, resource_loader_options);\n    ConfigureRequest(params, bypass_behavior, *element_,\n                     document.GetClientHintsPreferences());\n\n    if (update_behavior != kUpdateForcedReload && document.GetFrame())\n      document.GetFrame()->MaybeAllowImagePlaceholder(params);\n\n    new_image_content = ImageResourceContent::Fetch(params, document.Fetcher());\n\n    if (page_is_being_dismissed)\n      new_image_content = nullptr;\n\n    ClearFailedLoadURL();\n  } else {\n    if (!image_source_url.IsNull()) {\n      DispatchErrorEvent();\n    }\n    NoImageResourceToLoad();\n  }\n\n  ImageResourceContent* old_image_content = image_content_.Get();\n  if (old_image_content != new_image_content)\n    RejectPendingDecodes(update_type);\n\n  if (update_behavior == kUpdateSizeChanged && element_->GetLayoutObject() &&\n      element_->GetLayoutObject()->IsImage() &&\n      new_image_content == old_image_content) {\n    ToLayoutImage(element_->GetLayoutObject())->IntrinsicSizeChanged();\n  } else {\n    if (pending_load_event_.IsActive())\n      pending_load_event_.Cancel();\n\n    if (pending_error_event_.IsActive() && new_image_content)\n      pending_error_event_.Cancel();\n\n    UpdateImageState(new_image_content);\n\n    UpdateLayoutObject();\n    if (new_image_content) {\n      new_image_content->AddObserver(this);\n    }\n    if (old_image_content) {\n      old_image_content->RemoveObserver(this);\n    }\n  }\n\n  if (LayoutImageResource* image_resource = GetLayoutImageResource())\n    image_resource->ResetAnimation();\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-20",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": null,\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null\n}",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "10086",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigationRequest::OnRequestRedirected(\n    const net::RedirectInfo& redirect_info,\n    const scoped_refptr<network::ResourceResponse>& response) {\n  response_ = response;\n  ssl_info_ = response->head.ssl_info;\n#if defined(OS_ANDROID)\n  base::WeakPtr<NavigationRequest> this_ptr(weak_factory_.GetWeakPtr());\n\n  bool should_override_url_loading = false;\n  if (!GetContentClient()->browser()->ShouldOverrideUrlLoading(\n          frame_tree_node_->frame_tree_node_id(), browser_initiated_,\n          redirect_info.new_url, redirect_info.new_method,\n          false, true, frame_tree_node_->IsMainFrame(),\n          common_params_.transition, &should_override_url_loading)) {\n    return;\n  }\n\n  if (!this_ptr)\n    return;\n\n  if (should_override_url_loading) {\n    navigation_handle_->set_net_error_code(net::ERR_ABORTED);\n    common_params_.url = redirect_info.new_url;\n    common_params_.method = redirect_info.new_method;\n    navigation_handle_->UpdateStateFollowingRedirect(\n        GURL(redirect_info.new_referrer),\n        base::Bind(&NavigationRequest::OnRedirectChecksComplete,\n                   base::Unretained(this)));\n    frame_tree_node_->ResetNavigationRequest(false, true);\n    return;\n  }\n#endif\n  if (!ChildProcessSecurityPolicyImpl::GetInstance()->CanRedirectToURL(\n           redirect_info.new_url)) {\n     DVLOG(1) << \"Denied redirect for \"\n              << redirect_info.new_url.possibly_invalid_spec();\n    navigation_handle_->set_net_error_code(net::ERR_UNSAFE_REDIRECT);\n    frame_tree_node_->ResetNavigationRequest(false, true);\n     return;\n   }\n \n  if (!browser_initiated_ && source_site_instance() &&\n      !ChildProcessSecurityPolicyImpl::GetInstance()->CanRequestURL(\n          source_site_instance()->GetProcess()->GetID(),\n           redirect_info.new_url)) {\n     DVLOG(1) << \"Denied unauthorized redirect for \"\n              << redirect_info.new_url.possibly_invalid_spec();\n    navigation_handle_->set_net_error_code(net::ERR_UNSAFE_REDIRECT);\n    frame_tree_node_->ResetNavigationRequest(false, true);\n     return;\n   }\n \n  if (redirect_info.new_method != \"POST\")\n    common_params_.post_data = nullptr;\n\n  if (commit_params_.navigation_timing.redirect_start.is_null()) {\n    commit_params_.navigation_timing.redirect_start =\n        commit_params_.navigation_timing.fetch_start;\n  }\n  commit_params_.navigation_timing.redirect_end = base::TimeTicks::Now();\n  commit_params_.navigation_timing.fetch_start = base::TimeTicks::Now();\n\n  commit_params_.redirect_response.push_back(response->head);\n  commit_params_.redirect_infos.push_back(redirect_info);\n\n  if (commit_params_.origin_to_commit)\n    commit_params_.origin_to_commit.reset();\n\n  commit_params_.redirects.push_back(common_params_.url);\n  common_params_.url = redirect_info.new_url;\n  common_params_.method = redirect_info.new_method;\n  common_params_.referrer.url = GURL(redirect_info.new_referrer);\n  common_params_.referrer =\n      Referrer::SanitizeForRequest(common_params_.url, common_params_.referrer);\n\n  net::Error net_error =\n      CheckContentSecurityPolicy(true /* has_followed_redirect */,\n                                 redirect_info.insecure_scheme_was_upgraded,\n                                 false /* is_response_check */);\n  if (net_error != net::OK) {\n    OnRequestFailedInternal(\n        network::URLLoaderCompletionStatus(net_error), false /*skip_throttles*/,\n        base::nullopt /*error_page_content*/, false /*collapse_frame*/);\n\n    return;\n  }\n\n  if (CheckCredentialedSubresource() ==\n          CredentialedSubresourceCheckResult::BLOCK_REQUEST ||\n      CheckLegacyProtocolInSubresource() ==\n          LegacyProtocolInSubresourceCheckResult::BLOCK_REQUEST) {\n    OnRequestFailedInternal(\n        network::URLLoaderCompletionStatus(net::ERR_ABORTED),\n        false /*skip_throttles*/, base::nullopt /*error_page_content*/,\n        false /*collapse_frame*/);\n\n    return;\n  }\n\n  scoped_refptr<SiteInstance> site_instance =\n      frame_tree_node_->render_manager()->GetSiteInstanceForNavigationRequest(\n          *this);\n  speculative_site_instance_ =\n      site_instance->HasProcess() ? site_instance : nullptr;\n\n  if (!site_instance->HasProcess()) {\n    RenderProcessHostImpl::NotifySpareManagerAboutRecentlyUsedBrowserContext(\n        site_instance->GetBrowserContext());\n  }\n\n  common_params_.previews_state =\n      GetContentClient()->browser()->DetermineAllowedPreviews(\n          common_params_.previews_state, navigation_handle_.get(),\n          common_params_.url);\n\n  RenderProcessHost* expected_process =\n      site_instance->HasProcess() ? site_instance->GetProcess() : nullptr;\n\n  navigation_handle_->WillRedirectRequest(\n      common_params_.referrer.url, expected_process,\n      base::Bind(&NavigationRequest::OnRedirectChecksComplete,\n                 base::Unretained(this)));\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-20",
+        "raw_text": "_.url, common_params_.method, common_params_.referrer,\n          common_params_.post_data, common_params_.fetch_start,\n          common_params_.fetch_end, common_params_.redirect_response,\n          common_params_.redirect_infos, common_params_.referrer.url,\n          common_params_.referrer,\n          common_params_.origin_to_commit, common_params_.navigation_timing,\n          common_params_.post_data, common_params_.fetch_start,\n          common_params_.fetch_end, common_params_.redirect_response,\n          common_params_.redirect_infos, common_params_.referrer.url,\n          common_params_.referrer,\n          common_params_.origin_to_commit, common_params_.navigation_timing,\n          common_params_.post_data, common_params_.fetch_start,\n          common_params_.fetch_end, common_params_.redirect_response,\n          common_params_.redirect_infos, common_params_.referrer.url,\n          common_params_.referrer,\n          common_params_.origin_to_commit, common_params_.navigation_timing,\n          common",
+        "token_count": 31,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "10126",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic jlong Region_createFromParcel(JNIEnv* env, jobject clazz, jobject parcel)\n{\n if (parcel == NULL) {\n return NULL;\n }\n\n \n     android::Parcel* p = android::parcelForJavaObject(env, parcel);\n \n     SkRegion* region = new SkRegion;\n    size_t size = p->readInt32();\n    region->readFromMemory(p->readInplace(size), size);\n \n     return reinterpret_cast<jlong>(region);\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-264",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": \"\",\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "10169",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatus_t DRMSource::read(MediaBuffer **buffer, const ReadOptions *options) {\n Mutex::Autolock autoLock(mDRMLock);\n status_t err;\n if ((err = mOriginalMediaSource->read(buffer, options)) != OK) {\n return err;\n }\n\n size_t len = (*buffer)->range_length();\n\n char *src = (char *)(*buffer)->data() + (*buffer)->range_offset();\n\n DrmBuffer encryptedDrmBuffer(src, len);\n DrmBuffer decryptedDrmBuffer;\n    decryptedDrmBuffer.length = len;\n    decryptedDrmBuffer.data = new char[len];\n DrmBuffer *pDecryptedDrmBuffer = &decryptedDrmBuffer;\n\n if ((err = mDrmManagerClient->decrypt(mDecryptHandle, mTrackId,\n &encryptedDrmBuffer, &pDecryptedDrmBuffer)) != NO_ERROR) {\n\n if (decryptedDrmBuffer.data) {\n delete [] decryptedDrmBuffer.data;\n            decryptedDrmBuffer.data = NULL;\n }\n\n return err;\n }\n    CHECK(pDecryptedDrmBuffer == &decryptedDrmBuffer);\n\n const char *mime;\n    CHECK(getFormat()->findCString(kKeyMIMEType, &mime));\n\n if (!strcasecmp(mime, MEDIA_MIMETYPE_VIDEO_AVC) && !mWantsNALFragments) {\n uint8_t *dstData = (uint8_t*)src;\n size_t srcOffset = 0;\n size_t dstOffset = 0;\n\n        len = decryptedDrmBuffer.length;\n while (srcOffset < len) {\n            CHECK(srcOffset + mNALLengthSize <= len);\n size_t nalLength = 0;\n const uint8_t* data = (const uint8_t*)(&decryptedDrmBuffer.data[srcOffset]);\n\n switch (mNALLengthSize) {\n case 1:\n                    nalLength = *data;\n break;\n case 2:\n                    nalLength = U16_AT(data);\n break;\n case 3:\n                    nalLength = ((size_t)data[0] << 16) | U16_AT(&data[1]);\n break;\n case 4:\n                    nalLength = U32_AT(data);\n break;\n default:\n                    CHECK(!\"Should not be here.\");\n break;\n }\n\n            srcOffset += mNALLengthSize;\n\n size_t end = srcOffset + nalLength;\n if (end > len || end < srcOffset) {\n if (decryptedDrmBuffer.data) {\n delete [] decryptedDrmBuffer.data;\n                    decryptedDrmBuffer.data = NULL;\n }\n\n return ERROR_MALFORMED;\n }\n\n if (nalLength == 0) {\n\n                 continue;\n             }\n \n            CHECK(dstOffset + 4 <= (*buffer)->size());\n \n             dstData[dstOffset++] = 0;\n             dstData[dstOffset++] = 0;\n            dstData[dstOffset++] = 0;\n            dstData[dstOffset++] = 1;\n            memcpy(&dstData[dstOffset], &decryptedDrmBuffer.data[srcOffset], nalLength);\n            srcOffset += nalLength;\n            dstOffset += nalLength;\n }\n\n        CHECK_EQ(srcOffset, len);\n (*buffer)->set_range((*buffer)->range_offset(), dstOffset);\n\n } else {\n        memcpy(src, decryptedDrmBuffer.data, decryptedDrmBuffer.length);\n (*buffer)->set_range((*buffer)->range_offset(), decryptedDrmBuffer.length);\n }\n\n if (decryptedDrmBuffer.data) {\n delete [] decryptedDrmBuffer.data;\n        decryptedDrmBuffer.data = NULL;\n }\n\n return OK;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-119",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"Memory Corruption\", \"severity\": \"High\", \"evidence\": \"The function reads from a buffer but does not handle memory corruption by checking the length of the read data.\", \"explanation\": \"This function reads from a buffer without properly verifying its contents or handling potential memory corruption. It can lead to data loss or corruption due to incorrect data access.\", \"fix_principle\": \"Ensure that the length of the read data is checked before accessing it.\" }, {\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": \"Low\", \"evidence\": \"No specific evidence provided in the code snippet.\", \"explanation\": \"No additional information was given about any known vulnerabilities or weaknesses in this function.\", \"fix_principle\": null, \"confidence\": 95, \"fix_choice\": null}",
+        "token_count": 109,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "memory-corruption",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "10205",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatus_t BnSoundTriggerHwService::onTransact(\n uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags)\n{\n switch(code) {\n\n         case LIST_MODULES: {\n             CHECK_INTERFACE(ISoundTriggerHwService, data, reply);\n             unsigned int numModulesReq = data.readInt32();\n             unsigned int numModules = numModulesReq;\n             struct sound_trigger_module_descriptor *modules =\n                     (struct sound_trigger_module_descriptor *)calloc(numModulesReq,\n                                                    sizeof(struct sound_trigger_module_descriptor));\n             status_t status = listModules(modules, &numModules);\n             reply->writeInt32(status);\n             reply->writeInt32(numModules);\n            ALOGV(\"LIST_MODULES status %d got numModules %d\", status, numModules);\n\n if (status == NO_ERROR) {\n if (numModulesReq > numModules) {\n                    numModulesReq = numModules;\n }\n                reply->write(modules,\n                             numModulesReq * sizeof(struct sound_trigger_module_descriptor));\n }\n            free(modules);\n return NO_ERROR;\n }\n\n case ATTACH: {\n            CHECK_INTERFACE(ISoundTriggerHwService, data, reply);\n sound_trigger_module_handle_t handle;\n            data.read(&handle, sizeof(sound_trigger_module_handle_t));\n            sp<ISoundTriggerClient> client =\n                    interface_cast<ISoundTriggerClient>(data.readStrongBinder());\n            sp<ISoundTrigger> module;\n status_t status = attach(handle, client, module);\n            reply->writeInt32(status);\n if (module != 0) {\n                reply->writeInt32(1);\n                reply->writeStrongBinder(IInterface::asBinder(module));\n } else {\n                reply->writeInt32(0);\n }\n return NO_ERROR;\n } break;\n\n case SET_CAPTURE_STATE: {\n            CHECK_INTERFACE(ISoundTriggerHwService, data, reply);\n            reply->writeInt32(setCaptureState((bool)data.readInt32()));\n return NO_ERROR;\n } break;\n\n default:\n return BBinder::onTransact(code, data, reply, flags);\n }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided code does not contain any known vulnerabilities or security issues.\", \"fix_principle\": null, \"confidence\": null, \"fix_choice\": null }",
+        "token_count": 28,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "10328",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n pvscsi_ring_init_data(PVSCSIRingInfo *m, PVSCSICmdDescSetupRings *ri)\n {\n     int i;\n    uint32_t txr_len_log2, rxr_len_log2;\n     uint32_t req_ring_size, cmp_ring_size;\n     m->rs_pa = ri->ringsStatePPN << VMW_PAGE_SHIFT;\n \n    if ((ri->reqRingNumPages > PVSCSI_SETUP_RINGS_MAX_NUM_PAGES)\n        || (ri->cmpRingNumPages > PVSCSI_SETUP_RINGS_MAX_NUM_PAGES)) {\n        return -1;\n    }\n     req_ring_size = ri->reqRingNumPages * PVSCSI_MAX_NUM_REQ_ENTRIES_PER_PAGE;\n     cmp_ring_size = ri->cmpRingNumPages * PVSCSI_MAX_NUM_CMP_ENTRIES_PER_PAGE;\n     txr_len_log2 = pvscsi_log2(req_ring_size - 1);\n    }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-125",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"buffer_overread\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"The function `pvscsi_ring_init_data` reads more than one page from the ring in each request.\",\n    \"This can lead to buffer overreads when multiple requests are made concurrently.\"\n  ],\n  \"explanation\": \"The function is vulnerable due to reading more than one page from the ring in each request, which can result in buffer overreads. This could be exploited by an attacker to overwrite memory or cause other security vulnerabilities.\",\n  \"fix_principle\": \"Implement a mechanism to limit the number of pages read per request.\",\n  \"confidence\": 0.8,\n  \"fix_choice\": \"Increase the maximum number of pages that can be read per request.\" }",
+        "token_count": 103,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-125",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": 0.8
+      },
+      {
+        "id": "10417",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid *load_device_tree(const char *filename_path, int *sizep)\n{\n    int dt_size;\n    int dt_file_load_size;\n    int ret;\n    void *fdt = NULL;\n\n    *sizep = 0;\n    dt_size = get_image_size(filename_path);\n    if (dt_size < 0) {\n        error_report(\"Unable to get size of device tree file '%s'\",\n                     filename_path);\n        goto fail;\n    }\n\n    /* Expand to 2x size to give enough room for manipulation.  */\n    dt_size += 10000;\n    dt_size *= 2;\n     /* First allocate space in qemu for device tree */\n     fdt = g_malloc0(dt_size);\n \n    dt_file_load_size = load_image(filename_path, fdt);\n     if (dt_file_load_size < 0) {\n         error_report(\"Unable to open device tree file '%s'\",\n                      filename_path);\n        goto fail;\n    }\n\n    ret = fdt_open_into(fdt, fdt, dt_size);\n    if (ret) {\n        error_report(\"Unable to copy device tree in memory\");\n        goto fail;\n    }\n\n    /* Check sanity of device tree */\n    if (fdt_check_header(fdt)) {\n        error_report(\"Device tree file loaded into memory is invalid: %s\",\n                     filename_path);\n        goto fail;\n    }\n    *sizep = dt_size;\n    return fdt;\n\nfail:\n    g_free(fdt);\n    return NULL;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-119",
+        "raw_text": "{\"has_vulnerability\": false,\n  \"vulnerability_type\": null,\n  \"severity\": null,\n  \"evidence\": null,\n  \"explanation\": null,\n  \"fix_principle\": null,\n  \"confidence\": null,\n  \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-787",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "10758",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid faad_resetbits(bitfile *ld, int bits)\n{\n    uint32_t tmp;\n    int words = bits >> 5;\n    int remainder = bits & 0x1F;\n\n    ld->bytes_left = ld->buffer_size - words*4;\n\n    if (ld->bytes_left >= 4)\n    {\n        tmp = getdword(&ld->start[words]);\n        ld->bytes_left -= 4;\n    } else {\n        tmp = getdword_n(&ld->start[words], ld->bytes_left);\n        ld->bytes_left = 0;\n    }\n    ld->bufa = tmp;\n\n    if (ld->bytes_left >= 4)\n    {\n        tmp = getdword(&ld->start[words+1]);\n        ld->bytes_left -= 4;\n    } else {\n        tmp = getdword_n(&ld->start[words+1], ld->bytes_left);\n        ld->bytes_left = 0;\n    }\n    ld->bufb = tmp;\n\n    ld->bits_left = 32 - remainder;\n    ld->tail = &ld->start[words+2];\n\n    /* recheck for reading too many bytes */\n    ld->error = 0;\n//    if (ld->bytes_left == 0)\n//        ld->no_more_reading = 1;\n//    if (ld->bytes_left < 0)\n//        ld->error = 1;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-119",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Buffer Overflow\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    \"The function reads more than 32 bits from memory without checking bounds or using bounds checking.\",\n    \"This can lead to a buffer overflow attack by allowing an attacker to overwrite the end of the allocated buffer.\"\n  ],\n  \"explanation\": \"The function attempts to read up to 32 bits from memory, which is not checked for bounds. This allows an attacker to potentially overwrite the end of the allocated buffer, leading to a buffer overflow.\",\n  \"fix_principle\": \"Implement bounds checking on the read operation to prevent buffer overflows.\",\n  \"confidence\": 95,\n  \"fix_choice\": \"Add bounds checking to ensure that the read operation does not exceed the allocated buffer size.\" }",
+        "token_count": 114,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-787",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "10008",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool IDNSpoofChecker::SafeToDisplayAsUnicode(base::StringPiece16 label,\n                                             bool is_tld_ascii) {\n  UErrorCode status = U_ZERO_ERROR;\n  int32_t result =\n      uspoof_check(checker_, label.data(),\n                   base::checked_cast<int32_t>(label.size()), NULL, &status);\n  if (U_FAILURE(status) || (result & USPOOF_ALL_CHECKS))\n    return false;\n\n  icu::UnicodeString label_string(FALSE, label.data(),\n                                  base::checked_cast<int32_t>(label.size()));\n\n  if (deviation_characters_.containsSome(label_string))\n    return false;\n\n  result &= USPOOF_RESTRICTION_LEVEL_MASK;\n  if (result == USPOOF_ASCII)\n    return true;\n  if (result == USPOOF_SINGLE_SCRIPT_RESTRICTIVE &&\n      kana_letters_exceptions_.containsNone(label_string) &&\n      combining_diacritics_exceptions_.containsNone(label_string)) {\n    return !is_tld_ascii || !IsMadeOfLatinAlikeCyrillic(label_string);\n  }\n\n  if (non_ascii_latin_letters_.containsSome(label_string) &&\n      !lgc_letters_n_ascii_.containsAll(label_string))\n    return false;\n\n  if (!tls_index.initialized())\n    tls_index.Initialize(&OnThreadTermination);\n  icu::RegexMatcher* dangerous_pattern =\n      reinterpret_cast<icu::RegexMatcher*>(tls_index.Get());\n  if (!dangerous_pattern) {\n    dangerous_pattern = new icu::RegexMatcher(\n        icu::UnicodeString(\n            R\"([^\\p{scx=kana}\\p{scx=hira}\\p{scx=hani}])\"\n            R\"([\\u30ce\\u30f3\\u30bd\\u30be])\"\n            R\"([^\\p{scx=kana}\\p{scx=hira}\\p{scx=hani}]|)\"\n            R\"([^\\p{scx=kana}\\p{scx=hira}]\\u30fc|^\\u30fc|)\"\n            R\"([^\\p{scx=kana}][\\u30fd\\u30fe]|^[\\u30fd\\u30fe]|)\"\n            R\"(^[\\p{scx=kana}]+[\\u3078-\\u307a][\\p{scx=kana}]+$|)\"\n            R\"(^[\\p{scx=hira}]+[\\u30d8-\\u30da][\\p{scx=hira}]+$|)\"\n            R\"([a-z]\\u30fb|\\u30fb[a-z]|)\"\n            R\"(^[\\u0585\\u0581]+[a-z]|[a-z][\\u0585\\u0581]+$|)\"\n            R\"([a-z][\\u0585\\u0581]+[a-z]|)\"\n             R\"(^[og]+[\\p{scx=armn}]|[\\p{scx=armn}][og]+$|)\"\n             R\"([\\p{scx=armn}][og]+[\\p{scx=armn}]|)\"\n             R\"([\\p{sc=cans}].*[a-z]|[a-z].*[\\p{sc=cans}]|)\"\n             R\"([^\\p{scx=latn}\\p{scx=grek}\\p{scx=cyrl}][\\u0300-\\u0339])\",\n             -1, US_INV),\n         0, status);\n    tls_index.Set(dangerous_pattern);\n  }\n  dangerous_pattern->reset(label_string);\n  return !dangerous_pattern->find();\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-20",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"code injection\", \"severity\": \"high\", \"evidence\": \"The function uses `ICU::RegexMatcher` to check for specific patterns in the label string.\", \"explanation\": \"This function attempts to use ICU's regex matcher to detect certain types of characters that might indicate potential DNS spoofing or other malicious content. However, it does not properly handle Unicode characters and may fail to identify them correctly.\" , \"fix_principle\": \"Ensure proper handling of Unicode characters by using ICU's regex pattern matching capabilities,\" \"confidence\": 100, \"fix_choice\": \"Add proper Unicode character detection logic within the regex matcher.\" }",
+        "token_count": 90,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.55,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-94",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": 100.0
+      },
+      {
+        "id": "10121",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nxsltDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI)\n{\n    xsltTransformContextPtr tctxt;\n    xmlURIPtr uri;\n    xmlChar *fragment;\n    xsltDocumentPtr idoc; /* document info */\n    xmlDocPtr doc;\n    xmlXPathContextPtr xptrctxt = NULL;\n    xmlXPathObjectPtr resObj = NULL;\n\n    tctxt = xsltXPathGetTransformContext(ctxt);\n    if (tctxt == NULL) {\n\txsltTransformError(NULL, NULL, NULL,\n\t    \"document() : internal error tctxt == NULL\\n\");\n\tvaluePush(ctxt, xmlXPathNewNodeSet(NULL));\n\treturn;\n    }\n\n    uri = xmlParseURI((const char *) URI);\n    if (uri == NULL) {\n\txsltTransformError(tctxt, NULL, NULL,\n\t    \"document() : failed to parse URI\\n\");\n\tvaluePush(ctxt, xmlXPathNewNodeSet(NULL));\n\treturn;\n    }\n\n    /*\n     * check for and remove fragment identifier\n     */\n    fragment = (xmlChar *)uri->fragment;\n    if (fragment != NULL) {\n        xmlChar *newURI;\n\turi->fragment = NULL;\n\tnewURI = xmlSaveUri(uri);\n\tidoc = xsltLoadDocument(tctxt, newURI);\n\txmlFree(newURI);\n    } else\n\tidoc = xsltLoadDocument(tctxt, URI);\n    xmlFreeURI(uri);\n\n    if (idoc == NULL) {\n\tif ((URI == NULL) ||\n\t    (URI[0] == '#') ||\n\t    ((tctxt->style->doc != NULL) &&\n\t    (xmlStrEqual(tctxt->style->doc->URL, URI))))\n\t{\n\t    /*\n\t    * This selects the stylesheet's doc itself.\n\t    */\n\t    doc = tctxt->style->doc;\n\t} else {\n\t    valuePush(ctxt, xmlXPathNewNodeSet(NULL));\n\n\t    if (fragment != NULL)\n\t\txmlFree(fragment);\n\n\t    return;\n\t}\n    } else\n\tdoc = idoc->doc;\n\n    if (fragment == NULL) {\n\tvaluePush(ctxt, xmlXPathNewNodeSet((xmlNodePtr) doc));\n\treturn;\n    }\n\n    /* use XPointer of HTML location for fragment ID */\n#ifdef LIBXML_XPTR_ENABLED\n    xptrctxt = xmlXPtrNewContext(doc, NULL, NULL);\n    if (xptrctxt == NULL) {\n\txsltTransformError(tctxt, NULL, NULL,\n\t    \"document() : internal error xptrctxt == NULL\\n\");\n\tgoto out_fragment;\n    }\n\n     resObj = xmlXPtrEval(fragment, xptrctxt);\n     xmlXPathFreeContext(xptrctxt);\n #endif\n    xmlFree(fragment);\n \n     if (resObj == NULL)\n \tgoto out_fragment;\n\n    switch (resObj->type) {\n\tcase XPATH_NODESET:\n\t    break;\n\tcase XPATH_UNDEFINED:\n\tcase XPATH_BOOLEAN:\n\tcase XPATH_NUMBER:\n\tcase XPATH_STRING:\n\tcase XPATH_POINT:\n\tcase XPATH_USERS:\n\tcase XPATH_XSLT_TREE:\n\tcase XPATH_RANGE:\n\tcase XPATH_LOCATIONSET:\n\t    xsltTransformError(tctxt, NULL, NULL,\n\t\t\"document() : XPointer does not select a node set: #%s\\n\",\n\t\tfragment);\n\tgoto out_object;\n     }\n \n     valuePush(ctxt, resObj);\n     return;\n \n out_object:\n     xmlXPathFreeObject(resObj);\n \n out_fragment:\n     valuePush(ctxt, xmlXPathNewNodeSet(NULL));\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-119",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: null, severity: null, evidence: null, explanation: null, fix_principle: null, confidence: null, fix_choice: null}, {has_vulnerability: true, vulnerability_type: \"DOM\", severity: \"High\", evidence: \"The function checks for and removes a fragment identifier from an XML URI.\", explanation: \"This could lead to XSS attacks by allowing attackers to inject malicious JavaScript that targets specific elements within the parsed XML content.\", fix_principle: \"Implement proper validation and sanitization of fragments before using them in XPath expressions.\", confidence: 95, fix_choice: \"Add proper validation and sanitization of fragments before using them in XPath expressions.\"}",
+        "token_count": 89,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.55,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "dom",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": 95.0
+      },
+      {
+        "id": "10128",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatus_t GraphicBuffer::unflatten(\n void const*& buffer, size_t& size, int const*& fds, size_t& count) {\n if (size < 8*sizeof(int)) return NO_MEMORY;\n\n int const* buf = static_cast<int const*>(buffer);\n if (buf[0] != 'GBFR') return BAD_TYPE;\n\n\n     const size_t numFds  = buf[8];\n     const size_t numInts = buf[9];\n \n     const size_t sizeNeeded = (10 + numInts) * sizeof(int);\n     if (size < sizeNeeded) return NO_MEMORY;\n \n    size_t fdCountNeeded = 0;\n     if (count < fdCountNeeded) return NO_MEMORY;\n \n     if (handle) {\n        free_handle();\n }\n\n if (numFds || numInts) {\n        width  = buf[1];\n        height = buf[2];\n        stride = buf[3];\n\n         format = buf[4];\n         usage  = buf[5];\n         native_handle* h = native_handle_create(numFds, numInts);\n         memcpy(h->data,          fds,     numFds*sizeof(int));\n         memcpy(h->data + numFds, &buf[10], numInts*sizeof(int));\n         handle = h;\n } else {\n        width = height = stride = format = usage = 0;\n        handle = NULL;\n }\n\n    mId = static_cast<uint64_t>(buf[6]) << 32;\n    mId |= static_cast<uint32_t>(buf[7]);\n\n    mOwner = ownHandle;\n\n if (handle != 0) {\n status_t err = mBufferMapper.registerBuffer(handle);\n if (err != NO_ERROR) {\n            width = height = stride = format = usage = 0;\n            handle = NULL;\n            ALOGE(\"unflatten: registerBuffer failed: %s (%d)\",\n                    strerror(-err), err);\n return err;\n }\n }\n\n    buffer = reinterpret_cast<void const*>(static_cast<int const*>(buffer) + sizeNeeded);\n    size -= sizeNeeded;\n    fds += numFds;\n    count -= numFds;\n\n return NO_ERROR;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-189",
+        "raw_text": "{\"has_vulnerability\": false,\n\"vulnerability_type\": null,\n\"severity\": null,\n\"evidence\": [\n{\n\"type\": \"string\",\n\"value\": \"int const* buf = static_cast<int const*>(buffer);\"\n},\n{\n\"type\": \"string\",\n\"value\": \"if (buf[0] != 'GBFR')\"\n}\n],\n\"explanation\": \"The function `GraphicBuffer::unflatten` does not check if the provided buffer is large enough to hold the required data types (`int`, `int`, etc.). This can lead to undefined behavior if the buffer is too small.\",\n\"fix_principle\": \"Ensure that the buffer's size is sufficient before attempting to access its contents.\",\n\"confidence\": 0.9,\n\"fix_choice\": \"Add a check to ensure the buffer's size is at least 8 bytes larger than the required data type sizes.\"\n}",
+        "token_count": 102,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.9
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "10008",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool IDNSpoofChecker::SafeToDisplayAsUnicode(base::StringPiece16 label,\n                                             bool is_tld_ascii) {\n  UErrorCode status = U_ZERO_ERROR;\n  int32_t result =\n      uspoof_check(checker_, label.data(),\n                   base::checked_cast<int32_t>(label.size()), NULL, &status);\n  if (U_FAILURE(status) || (result & USPOOF_ALL_CHECKS))\n    return false;\n\n  icu::UnicodeString label_string(FALSE, label.data(),\n                                  base::checked_cast<int32_t>(label.size()));\n\n  if (deviation_characters_.containsSome(label_string))\n    return false;\n\n  result &= USPOOF_RESTRICTION_LEVEL_MASK;\n  if (result == USPOOF_ASCII)\n    return true;\n  if (result == USPOOF_SINGLE_SCRIPT_RESTRICTIVE &&\n      kana_letters_exceptions_.containsNone(label_string) &&\n      combining_diacritics_exceptions_.containsNone(label_string)) {\n    return !is_tld_ascii || !IsMadeOfLatinAlikeCyrillic(label_string);\n  }\n\n  if (non_ascii_latin_letters_.containsSome(label_string) &&\n      !lgc_letters_n_ascii_.containsAll(label_string))\n    return false;\n\n  if (!tls_index.initialized())\n    tls_index.Initialize(&OnThreadTermination);\n  icu::RegexMatcher* dangerous_pattern =\n      reinterpret_cast<icu::RegexMatcher*>(tls_index.Get());\n  if (!dangerous_pattern) {\n    dangerous_pattern = new icu::RegexMatcher(\n        icu::UnicodeString(\n            R\"([^\\p{scx=kana}\\p{scx=hira}\\p{scx=hani}])\"\n            R\"([\\u30ce\\u30f3\\u30bd\\u30be])\"\n            R\"([^\\p{scx=kana}\\p{scx=hira}\\p{scx=hani}]|)\"\n            R\"([^\\p{scx=kana}\\p{scx=hira}]\\u30fc|^\\u30fc|)\"\n            R\"([^\\p{scx=kana}][\\u30fd\\u30fe]|^[\\u30fd\\u30fe]|)\"\n            R\"(^[\\p{scx=kana}]+[\\u3078-\\u307a][\\p{scx=kana}]+$|)\"\n            R\"(^[\\p{scx=hira}]+[\\u30d8-\\u30da][\\p{scx=hira}]+$|)\"\n            R\"([a-z]\\u30fb|\\u30fb[a-z]|)\"\n            R\"(^[\\u0585\\u0581]+[a-z]|[a-z][\\u0585\\u0581]+$|)\"\n            R\"([a-z][\\u0585\\u0581]+[a-z]|)\"\n             R\"(^[og]+[\\p{scx=armn}]|[\\p{scx=armn}][og]+$|)\"\n             R\"([\\p{scx=armn}][og]+[\\p{scx=armn}]|)\"\n             R\"([\\p{sc=cans}].*[a-z]|[a-z].*[\\p{sc=cans}]|)\"\n             R\"([^\\p{scx=latn}\\p{scx=grek}\\p{scx=cyrl}][\\u0300-\\u0339])\",\n             -1, US_INV),\n         0, status);\n    tls_index.Set(dangerous_pattern);\n  }\n  dangerous_pattern->reset(label_string);\n  return !dangerous_pattern->find();\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-20",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "cwe-94",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.55,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"code injection\", \"severity\": \"high\", \"evidence\": \"The function uses `ICU::RegexMatcher` to check for specific patterns in the label string.\", \"explanation\": \"This function attempts to use ICU's regex matcher to detect certain types of characters that might indicate potential DNS spoofing or other malicious content. However, it does not properly handle Unicode characters and may fail to identify them correctly.\" , \"fix_principle\": \"Ensure proper handling of Unicode characters by using ICU's regex pattern matching capabilities,\" \"confidence\": 100, \"fix_choice\": \"Add proper Unicode character detection logic within the regex matcher.\" }"
+    },
+    {
+      "id": "10121",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nxsltDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI)\n{\n    xsltTransformContextPtr tctxt;\n    xmlURIPtr uri;\n    xmlChar *fragment;\n    xsltDocumentPtr idoc; /* document info */\n    xmlDocPtr doc;\n    xmlXPathContextPtr xptrctxt = NULL;\n    xmlXPathObjectPtr resObj = NULL;\n\n    tctxt = xsltXPathGetTransformContext(ctxt);\n    if (tctxt == NULL) {\n\txsltTransformError(NULL, NULL, NULL,\n\t    \"document() : internal error tctxt == NULL\\n\");\n\tvaluePush(ctxt, xmlXPathNewNodeSet(NULL));\n\treturn;\n    }\n\n    uri = xmlParseURI((const char *) URI);\n    if (uri == NULL) {\n\txsltTransformError(tctxt, NULL, NULL,\n\t    \"document() : failed to parse URI\\n\");\n\tvaluePush(ctxt, xmlXPathNewNodeSet(NULL));\n\treturn;\n    }\n\n    /*\n     * check for and remove fragment identifier\n     */\n    fragment = (xmlChar *)uri->fragment;\n    if (fragment != NULL) {\n        xmlChar *newURI;\n\turi->fragment = NULL;\n\tnewURI = xmlSaveUri(uri);\n\tidoc = xsltLoadDocument(tctxt, newURI);\n\txmlFree(newURI);\n    } else\n\tidoc = xsltLoadDocument(tctxt, URI);\n    xmlFreeURI(uri);\n\n    if (idoc == NULL) {\n\tif ((URI == NULL) ||\n\t    (URI[0] == '#') ||\n\t    ((tctxt->style->doc != NULL) &&\n\t    (xmlStrEqual(tctxt->style->doc->URL, URI))))\n\t{\n\t    /*\n\t    * This selects the stylesheet's doc itself.\n\t    */\n\t    doc = tctxt->style->doc;\n\t} else {\n\t    valuePush(ctxt, xmlXPathNewNodeSet(NULL));\n\n\t    if (fragment != NULL)\n\t\txmlFree(fragment);\n\n\t    return;\n\t}\n    } else\n\tdoc = idoc->doc;\n\n    if (fragment == NULL) {\n\tvaluePush(ctxt, xmlXPathNewNodeSet((xmlNodePtr) doc));\n\treturn;\n    }\n\n    /* use XPointer of HTML location for fragment ID */\n#ifdef LIBXML_XPTR_ENABLED\n    xptrctxt = xmlXPtrNewContext(doc, NULL, NULL);\n    if (xptrctxt == NULL) {\n\txsltTransformError(tctxt, NULL, NULL,\n\t    \"document() : internal error xptrctxt == NULL\\n\");\n\tgoto out_fragment;\n    }\n\n     resObj = xmlXPtrEval(fragment, xptrctxt);\n     xmlXPathFreeContext(xptrctxt);\n #endif\n    xmlFree(fragment);\n \n     if (resObj == NULL)\n \tgoto out_fragment;\n\n    switch (resObj->type) {\n\tcase XPATH_NODESET:\n\t    break;\n\tcase XPATH_UNDEFINED:\n\tcase XPATH_BOOLEAN:\n\tcase XPATH_NUMBER:\n\tcase XPATH_STRING:\n\tcase XPATH_POINT:\n\tcase XPATH_USERS:\n\tcase XPATH_XSLT_TREE:\n\tcase XPATH_RANGE:\n\tcase XPATH_LOCATIONSET:\n\t    xsltTransformError(tctxt, NULL, NULL,\n\t\t\"document() : XPointer does not select a node set: #%s\\n\",\n\t\tfragment);\n\tgoto out_object;\n     }\n \n     valuePush(ctxt, resObj);\n     return;\n \n out_object:\n     xmlXPathFreeObject(resObj);\n \n out_fragment:\n     valuePush(ctxt, xmlXPathNewNodeSet(NULL));\n }\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-119",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "dom",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.55,
+      "raw_text": "{has_vulnerability: false, vulnerability_type: null, severity: null, evidence: null, explanation: null, fix_principle: null, confidence: null, fix_choice: null}, {has_vulnerability: true, vulnerability_type: \"DOM\", severity: \"High\", evidence: \"The function checks for and removes a fragment identifier from an XML URI.\", explanation: \"This could lead to XSS attacks by allowing attackers to inject malicious JavaScript that targets specific elements within the parsed XML content.\", fix_principle: \"Implement proper validation and sanitization of fragments before using them in XPath expressions.\", confidence: 95, fix_choice: \"Add proper validation and sanitization of fragments before using them in XPath expressions.\"}"
+    },
+    {
+      "id": "10274",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic void become_daemon(const char *pidfile)\n{\n#ifndef _WIN32\n    pid_t pid, sid;\n\n    pid = fork();\n    if (pid < 0) {\n        exit(EXIT_FAILURE);\n    }\n    if (pid > 0) {\n        exit(EXIT_SUCCESS);\n    }\n\n    if (pidfile) {\n        if (!ga_open_pidfile(pidfile)) {\n            g_critical(\"failed to create pidfile\");\n            exit(EXIT_FAILURE);\n         }\n     }\n \n    umask(0);\n     sid = setsid();\n     if (sid < 0) {\n         goto fail;\n    }\n    if ((chdir(\"/\")) < 0) {\n        goto fail;\n    }\n\n    reopen_fd_to_null(STDIN_FILENO);\n    reopen_fd_to_null(STDOUT_FILENO);\n    reopen_fd_to_null(STDERR_FILENO);\n    return;\n\nfail:\n    if (pidfile) {\n        unlink(pidfile);\n    }\n    g_critical(\"failed to daemonize\");\n    exit(EXIT_FAILURE);\n#endif\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-264",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "security",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.55,
+      "raw_text": "{\"has_vulnerability\": true,\n\"vulnerability_type\": \"Security\",\n\"severity\": \"High\",\n\"evidence\": [\n  \"The function forks into multiple processes, which can lead to potential security vulnerabilities such as process hijacking or unauthorized access.\",\n  \"The use of `setsid()` without proper handling can result in the system being left in an unprivileged state, allowing attackers to take control of the terminal session.\",\n  \"The lack of proper error handling and cleanup mechanisms can leave the system vulnerable to further security issues.\"\n],\n\"explanation\": \"This code snippet is vulnerable due to its improper use of `fork()`, `setsid()`, and `chdir()`. These functions should be used carefully to avoid security risks.\",\n\"fix_principle\": \"Implement proper error handling and cleanup mechanisms to ensure that the system remains secure even in the event of errors.\",\n\"confidence\": 100,\n\"fix_choice\": \""
+    },
+    {
+      "id": "10275",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nxmlDocPtr soap_xmlParseFile(const char *filename TSRMLS_DC)\n{\n\txmlParserCtxtPtr ctxt = NULL;\n\txmlDocPtr ret;\n\tzend_bool old_allow_url_fopen;\n\n/*\n\txmlInitParser();\n*/\n\n\told_allow_url_fopen = PG(allow_url_fopen);\n\tPG(allow_url_fopen) = 1;\n\tctxt = xmlCreateFileParserCtxt(filename);\n        PG(allow_url_fopen) = old_allow_url_fopen;\n        if (ctxt) {\n                ctxt->keepBlanks = 0;\n               ctxt->options -= XML_PARSE_DTDLOAD;\n                ctxt->sax->ignorableWhitespace = soap_ignorableWhitespace;\n                ctxt->sax->comment = soap_Comment;\n                ctxt->sax->warning = NULL;\n\t\tctxt->sax->error = NULL;\n\t\t/*ctxt->sax->fatalError = NULL;*/\n\t\txmlParseDocument(ctxt);\n\t\tif (ctxt->wellFormed) {\n\t\t\tret = ctxt->myDoc;\n\t\t\tif (ret->URL == NULL && ctxt->directory != NULL) {\n\t\t\t\tret->URL = xmlCharStrdup(ctxt->directory);\n\t\t\t}\n\t\t} else {\n\t\t\tret = NULL;\n\t\t\txmlFreeDoc(ctxt->myDoc);\n\t\t\tctxt->myDoc = NULL;\n\t\t}\n\t\txmlFreeParserCtxt(ctxt);\n\t} else {\n\t\tret = NULL;\n\t}\n\n/*\n\txmlCleanupParser();\n*/\n\n\tif (ret) {\n\t\tcleanup_xml_node((xmlNodePtr)ret);\n\t}\n\treturn ret;\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-200",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": true,\n\"vulnerability_type\": \"XML Parsing\",\n\"severity\": \"High\",\n\"evidence\": [\n    {\n        \"type\": \"code_snippet\",\n        \"value\": \"if (ctxt->wellFormed) {\"\n    }\n],\n\"explanation\": \"The code checks if the document is well-formed before parsing it. If the document is not well-formed, it sets `ret` to `NULL`.\",\n\"fix_principle\": \"Ensure that the document is well-formed before attempting to parse it.\",\n\"confidence\": 95,\n\"fix_choice\": \"Add a check to ensure the document is well-formed before parsing it.\"\n}"
+    },
+    {
+      "id": "10277",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nxmlDocPtr soap_xmlParseFile(const char *filename TSRMLS_DC)\n{\n\txmlParserCtxtPtr ctxt = NULL;\n\txmlDocPtr ret;\n\tzend_bool old_allow_url_fopen;\n\n/*\n\txmlInitParser();\n*/\n\n\told_allow_url_fopen = PG(allow_url_fopen);\n\tPG(allow_url_fopen) = 1;\n\tctxt = xmlCreateFileParserCtxt(filename);\n        PG(allow_url_fopen) = old_allow_url_fopen;\n        if (ctxt) {\n                ctxt->keepBlanks = 0;\n                ctxt->sax->ignorableWhitespace = soap_ignorableWhitespace;\n                ctxt->sax->comment = soap_Comment;\n                ctxt->sax->warning = NULL;\n\t\t/*ctxt->sax->fatalError = NULL;*/\n\t\txmlParseDocument(ctxt);\n\t\tif (ctxt->wellFormed) {\n\t\t\tret = ctxt->myDoc;\n\t\t\tif (ret->URL == NULL && ctxt->directory != NULL) {\n\t\t\t\tret->URL = xmlCharStrdup(ctxt->directory);\n\t\t\t}\n\t\t} else {\n\t\t\tret = NULL;\n\t\t\txmlFreeDoc(ctxt->myDoc);\n\t\t\tctxt->myDoc = NULL;\n\t\t}\n\t\txmlFreeParserCtxt(ctxt);\n\t} else {\n\t\tret = NULL;\n\t}\n\n/*\n\txmlCleanupParser();\n*/\n\n\tif (ret) {\n\t\tcleanup_xml_node((xmlNodePtr)ret);\n\t}\n\treturn ret;\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-200",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": false,\n\"vulnerability_type\": null,\n\"severity\": null,\n\"evidence\": [\n    {\n        \"type\": \"code\",\n        \"value\": \"xmlParseFile() function does not handle URL encoding properly.\"\n    }\n],\n\"explanation\": \"The `xmlParseFile()` function in the given code snippet is designed to parse XML documents using the SAX parser. However, it lacks proper handling of URL encoding. This can lead to issues such as malformed URLs or incorrect parsing of XML data.\",\n\"fix_principle\": \"Implement URL encoding validation before parsing XML content.\",\n\"confidence\": 95,\n\"fix_choice\": \"Add URL encoding validation to the `xmlParseFile()` function.\" }"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "stage": "sft",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "train_dataset_path": "data/processed/train_sft_structured.jsonl",
+  "eval_dataset_path": "data/processed/eval_math.jsonl",
+  "output_dir": "checkpoints/sft",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You solve short math word problems. Return valid JSON only with exactly two string fields: {\"reasoning\": \"...\", \"final_answer\": \"...\"}. Keep reasoning concise. Do not include markdown, code fences, or extra text.",
+  "response_field": "response",
+  "response_format": "structured_json",
+  "training_args": {
+    "num_train_epochs": 3,
+    "learning_rate": 1e-4,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logging_steps": 1,
+    "save_steps": 20,
+    "max_seq_length": 768
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  }
+}

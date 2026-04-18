@@ -1,0 +1,14 @@
+{
+  "dataset_path": "data/processed/eval_secure_code_sample.jsonl",
+  "output_path": "outputs/baseline_secure_code_mock_generations.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "backend": {
+    "type": "mock",
+    "model_name": "mock-secure-code-backend",
+    "temperature": 0.0,
+    "max_new_tokens": 256,
+    "output_format": "structured_json",
+    "enable_second_pass": true,
+    "second_pass_confidence_threshold": 0.8
+  }
+}

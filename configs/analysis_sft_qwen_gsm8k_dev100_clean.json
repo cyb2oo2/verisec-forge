@@ -1,0 +1,5 @@
+{
+  "dataset_path": "data/processed/eval_gsm8k_dev100.jsonl",
+  "generations_path": "outputs/baseline_sft_qwen_gsm8k_dev100_clean_generations.jsonl",
+  "analysis_output_path": "analysis/sft_qwen_gsm8k_dev100_clean_failure_analysis.json"
+}

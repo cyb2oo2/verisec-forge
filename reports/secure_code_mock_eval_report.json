@@ -1,0 +1,73 @@
+{
+  "summary": {
+    "num_examples": 3,
+    "label_accuracy": 1.0,
+    "evidence_support_rate": 0.6667,
+    "explanation_support_rate": 1.0,
+    "format_pass_rate": 1.0,
+    "avg_tokens": 38.3333,
+    "invalid_output_rate": 0.0,
+    "high_confidence_error_rate": 0.0,
+    "repeated_explanation_rate": 0.0,
+    "avg_parse_confidence": 0.8833,
+    "second_pass_parse_rate": 0.0,
+    "low_confidence_trigger_rate": 0.3333
+  },
+  "by_difficulty": {
+    "easy": {
+      "count": 2,
+      "accuracy": 1.0
+    },
+    "medium": {
+      "count": 1,
+      "accuracy": 1.0
+    }
+  },
+  "rows": [
+    {
+      "id": "sec-eval-0001",
+      "task_type": "weakness_identification",
+      "label_correct": true,
+      "evidence_supported": true,
+      "explanation_supported": true,
+      "format_ok": true,
+      "high_confidence_error": false,
+      "invalid_output": false,
+      "token_count": 46,
+      "difficulty": "easy",
+      "source": "secure_code_mock_v1",
+      "language": "python",
+      "model_version": "mock-secure-code-backend"
+    },
+    {
+      "id": "sec-eval-0002",
+      "task_type": "weakness_identification",
+      "label_correct": true,
+      "evidence_supported": true,
+      "explanation_supported": true,
+      "format_ok": true,
+      "high_confidence_error": false,
+      "invalid_output": false,
+      "token_count": 32,
+      "difficulty": "easy",
+      "source": "secure_code_mock_v1",
+      "language": "python",
+      "model_version": "mock-secure-code-backend"
+    },
+    {
+      "id": "sec-eval-0003",
+      "task_type": "fix_ranking",
+      "label_correct": true,
+      "evidence_supported": false,
+      "explanation_supported": true,
+      "format_ok": true,
+      "high_confidence_error": false,
+      "invalid_output": false,
+      "token_count": 37,
+      "difficulty": "medium",
+      "source": "secure_code_mock_v1",
+      "language": "python",
+      "model_version": "mock-secure-code-backend"
+    }
+  ]
+}

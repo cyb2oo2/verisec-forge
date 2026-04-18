@@ -1,0 +1,275 @@
+{
+  "failure_buckets": {
+    "correct": 158,
+    "high_confidence_error": 19,
+    "format_failure": 22,
+    "label_failure": 1
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 31.475
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "none": 68,
+      "structured_json": 122,
+      "second_pass_model": 10
+    },
+    "parse_trigger_counts": {
+      "hard_fail": 76,
+      "low_confidence": 20,
+      "none": 103,
+      "multiple_json_objects": 1
+    },
+    "avg_parse_confidence": 0.6338
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "89023",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nWebGraphicsContext3DDefaultImpl::VertexAttribPointerState::VertexAttribPointerState()\n    : enabled(false)\n    , buffer(0)\n    , indx(0)\n    , size(0)\n    , type(0)\n    , normalized(false)\n    , stride(0)\n    , offset(0)\n{\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": 1, \"evidence\": null, \"explanation\": null, \"fix_principle\": null, \"confidence\": 1, \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "confidence": 1.0
+      },
+      {
+        "id": "89024",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)\n{\n    if (texture < GL_TEXTURE0 || texture > GL_TEXTURE0+32)\n        return;\n\n    makeContextCurrent();\n    glActiveTexture(texture);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided function `WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)` does not contain any known vulnerabilities or security issues that could be exploited. It is designed to handle valid texture indices within the range of 0 to 31.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }",
+        "token_count": 50,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "confidence": 100.0
+      },
+      {
+        "id": "89026",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::angleDestroyCompilers()\n{\n    if (m_fragmentCompiler) {\n        ShDestruct(m_fragmentCompiler);\n        m_fragmentCompiler = 0;\n    }\n    if (m_vertexCompiler) {\n        ShDestruct(m_vertexCompiler);\n        m_vertexCompiler = 0;\n    }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": null, \"explanation\": null, \"fix_principle\": null, \"confidence\": null, \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "confidence": null
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "89034",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::copyTexSubImage2D(unsigned long target, long level, long xoffset, long yoffset,\n                                                        long x, long y, unsigned long width, unsigned long height)\n{\n    makeContextCurrent();\n\n    bool needsResolve = (m_attributes.antialias && m_boundFBO == m_multisampleFBO);\n    if (needsResolve) {\n        resolveMultisampledFramebuffer(x, y, width, height);\n        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);\n    }\n\n    glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);\n\n    if (needsResolve)\n        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_boundFBO);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"OpenGL\", \"severity\": 5, \"evidence\": \"\\n\\n1. The function `copyTexSubImage2D` is vulnerable to an OpenGL texture aliasing attack.\\n\\n2. The function attempts to copy a subimage from a multisampled framebuffer to another multisampled framebuffer without resolving any of its dependencies.\\n\\n3. This can lead to incorrect rendering or data corruption due to texture aliasing issues.\",\n  \"fix_principle\": \"Ensure that all necessary dependencies are resolved before attempting to access textures.\",\n  \"confidence\": 0.8,\n  \"fix_choice\": \"Add a check to ensure that all required dependencies are resolved before accessing textures.\"\n}",
+        "token_count": 85,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "opengl",
+        "predicted_severity": "unknown",
+        "confidence": 0.8
+      },
+      {
+        "id": "89068",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::isGLES2NPOTStrict()\n{\n    return false;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"LogicError\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    {\n      \"type\": \"FunctionCall\",\n      \"arguments\": {\n        \"function_name\": \"WebGraphicsContext3DDefaultImpl::isGLES2NPOTStrict\"\n      }\n    },\n    {\n      \"type\": \"ReturnStatement\",\n      \"arguments\": {}\n    }\n  ],\n  \"explanation\": \"The function call `WebGraphicsContext3DDefaultImpl::isGLES2NPOTStrict` is returning `false`, which can lead to logical errors if not handled properly.\",\n  \"fix_principle\": \"Ensure that the function returns a value of type `bool` or handle it differently based on its intended use case.\",\n  \"confidence\": 100,\n  \"fix_choice\": \"Add a check to ensure the function always returns a boolean value.\"",
+        "token_count": 78,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "confidence": null
+      },
+      {
+        "id": "89072",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::readBackFramebuffer(unsigned char* pixels, size_t bufferSize)\n{\n    if (bufferSize != static_cast<size_t>(4 * width() * height()))\n        return false;\n\n    makeContextCurrent();\n\n\n    resolveMultisampledFramebuffer(0, 0, m_cachedWidth, m_cachedHeight);\n    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);\n\n    GLint packAlignment = 4;\n    bool mustRestorePackAlignment = false;\n    glGetIntegerv(GL_PACK_ALIGNMENT, &packAlignment);\n    if (packAlignment > 4) {\n        glPixelStorei(GL_PACK_ALIGNMENT, 4);\n        mustRestorePackAlignment = true;\n    }\n\n    glReadPixels(0, 0, m_cachedWidth, m_cachedHeight, GL_BGRA, GL_UNSIGNED_BYTE, pixels);\n\n    if (mustRestorePackAlignment)\n        glPixelStorei(GL_PACK_ALIGNMENT, packAlignment);\n\n    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_boundFBO);\n\n#ifdef FLIP_FRAMEBUFFER_VERTICALLY\n    if (pixels)\n        flipVertically(pixels, m_cachedWidth, m_cachedHeight);\n#endif\n\n    return true;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Buffer Overread\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    {\n      \"type\": \"Code Analysis\",\n      \"message\": \"The buffer size is not correctly checked before reading from it.\",\n      \"details\": \"The function reads from a framebuffer that does not have enough space to hold the entire image.\"\n    }\n  ],\n  \"explanation\": \"This issue occurs because the function checks the buffer size but does not ensure that there is sufficient memory available to read the entire frame. This can lead to a buffer overread error when attempting to read beyond the bounds of the framebuffer.\",\n  \"fix_principle\": \"Ensure that the buffer size is checked before attempting to read from it.\",\n  \"confidence\": 1,\n  \"fix_choice\": \"Add a check to verify that the buffer size is greater than or equal to the required size before",
+        "token_count": 125,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "101615",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  CaptureVideoDecoderTest() {\n    message_loop_.reset(new MessageLoop(MessageLoop::TYPE_IO));\n    message_loop_proxy_ =\n        base::MessageLoopProxy::current().get();\n    vc_manager_ = new MockVideoCaptureImplManager();\n    media::VideoCaptureCapability capability;\n    capability.width = kWidth;\n    capability.height = kHeight;\n    capability.frame_rate = kFPS;\n    capability.expected_capture_delay = 0;\n    capability.color = media::VideoCaptureCapability::kI420;\n    capability.interlaced = false;\n\n    decoder_ = new CaptureVideoDecoder(message_loop_proxy_,\n                                       kVideoStreamId, vc_manager_, capability);\n    EXPECT_CALL(statistics_cb_object_, OnStatistics(_))\n        .Times(AnyNumber());\n\n    read_cb_ = base::Bind(&CaptureVideoDecoderTest::FrameReady,\n                          base::Unretained(this));\n\n    vc_impl_.reset(new MockVideoCaptureImpl(\n        kVideoStreamId, message_loop_proxy_, new VideoCaptureMessageFilter()));\n  }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"Buffering\", \"severity\": \"High\", \"evidence\": \"The code does not implement proper buffering to handle video frames asynchronously.\", \"explanation\": \"This issue occurs because the `message_loop_proxy_` is reset before the `vc_manager_` is initialized, leading to an asynchronous call to `OnStatistics` without waiting for the `vc_manager_`. This can result in unbuffered frames being sent to the video stream.\" }, {\"has_vulnerability\": true, \"vulnerability_type\": \"Security\", \"severity\": \"Medium\", \"evidence\": \"The code uses a `MockVideoCaptureImpl` that may contain sensitive data or be vulnerable to buffer overflow attacks if not properly managed.\", \"explanation\": \"This issue arises from the use of a mock implementation where sensitive data could potentially be exposed due to improper handling of buffers.\" }, {\"has",
+        "token_count": 112,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "buffering",
+        "predicted_severity": "high",
+        "confidence": null
+      }
+    ],
+    "evidence_failure": [],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "89025",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::angleCreateCompilers()\n{\n    if (!ShInitialize())\n        return false;\n\n    ShBuiltInResources resources;\n    ShInitBuiltInResources(&resources);\n    getIntegerv(GL_MAX_VERTEX_ATTRIBS, &resources.MaxVertexAttribs);\n    getIntegerv(MAX_VERTEX_UNIFORM_VECTORS, &resources.MaxVertexUniformVectors);\n    getIntegerv(MAX_VARYING_VECTORS, &resources.MaxVaryingVectors);\n    getIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &resources.MaxVertexTextureImageUnits);\n    getIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &resources.MaxCombinedTextureImageUnits);\n    getIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &resources.MaxTextureImageUnits);\n    getIntegerv(MAX_FRAGMENT_UNIFORM_VECTORS, &resources.MaxFragmentUniformVectors);\n    resources.MaxDrawBuffers = 1;\n\n    m_fragmentCompiler = ShConstructCompiler(SH_FRAGMENT_SHADER, SH_WEBGL_SPEC, &resources);\n    m_vertexCompiler = ShConstructCompiler(SH_VERTEX_SHADER, SH_WEBGL_SPEC, &resources);\n    return (m_fragmentCompiler && m_vertexCompiler);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Logic Error\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    {\n      \"type\": \"Code Injection\",\n      \"description\": \"The function attempts to construct shaders using uninitialized resources.\",\n      \"source\": \"WebGraphicsContext3DDefaultImpl::angleCreateCompilers()\"\n    }\n  ],\n  \"explanation\": \"This function is vulnerable due to potential logic injection by attempting to use uninitialized resources in constructing shaders.\",\n  \"fix_principle\": \"Ensure that all resources are properly initialized before constructing shaders.\",\n  \"confidence\": 0.9,\n  \"fix_choice\": \"Add checks to ensure all required resources are initialized before constructing shaders.\"\n}",
+        "token_count": 73,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "logic-error",
+        "predicted_severity": "high",
+        "confidence": 0.9
+      },
+      {
+        "id": "89035",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::copyTextureToParentTextureCHROMIUM(unsigned id, unsigned id2)\n{\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": null, \"explanation\": null, \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }",
+        "token_count": 17,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "null",
+        "predicted_severity": "low",
+        "confidence": 100.0
+      },
+      {
+        "id": "89047",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::disableVertexAttribArray(unsigned long index)\n{\n    makeContextCurrent();\n    if (index < NumTrackedPointerStates)\n        m_vertexAttribPointerState[index].enabled = false;\n    glDisableVertexAttribArray(index);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Logic Error\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    {\n      \"type\": \"Code Injection\",\n      \"description\": \"The function disables a pointer attribute without checking if it's already enabled.\",\n      \"source\": \"WebGraphicsContext3DDefaultImpl::disableVertexAttribArray(unsigned long index)\",\n      \"expected\": \"m_vertexAttribPointerState[index].enabled = false;\",\n      \"actual\": \"glDisableVertexAttribArray(index);\"\n    }\n  ],\n  \"explanation\": \"This logic error allows an attacker to disable a pointer attribute that is currently enabled by another thread or process.\",\n  \"fix_principle\": \"Ensure that pointers are disabled only when they are explicitly enabled.\",\n  \"confidence\": 100,\n  \"fix_choice\": \"Add a check before disabling a pointer attribute.\"\n}",
+        "token_count": 83,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "logic-error",
+        "predicted_severity": "high",
+        "confidence": 100.0
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "89024",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)\n{\n    if (texture < GL_TEXTURE0 || texture > GL_TEXTURE0+32)\n        return;\n\n    makeContextCurrent();\n    glActiveTexture(texture);\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": true,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided function `WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)` does not contain any known vulnerabilities or security issues that could be exploited. It is designed to handle valid texture indices within the range of 0 to 31.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }"
+    },
+    {
+      "id": "89047",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::disableVertexAttribArray(unsigned long index)\n{\n    makeContextCurrent();\n    if (index < NumTrackedPointerStates)\n        m_vertexAttribPointerState[index].enabled = false;\n    glDisableVertexAttribArray(index);\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "logic-error",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"Logic Error\",\n  \"severity\": \"High\",\n  \"evidence\": [\n    {\n      \"type\": \"Code Injection\",\n      \"description\": \"The function disables a pointer attribute without checking if it's already enabled.\",\n      \"source\": \"WebGraphicsContext3DDefaultImpl::disableVertexAttribArray(unsigned long index)\",\n      \"expected\": \"m_vertexAttribPointerState[index].enabled = false;\",\n      \"actual\": \"glDisableVertexAttribArray(index);\"\n    }\n  ],\n  \"explanation\": \"This logic error allows an attacker to disable a pointer attribute that is currently enabled by another thread or process.\",\n  \"fix_principle\": \"Ensure that pointers are disabled only when they are explicitly enabled.\",\n  \"confidence\": 100,\n  \"fix_choice\": \"Add a check before disabling a pointer attribute.\"\n}"
+    },
+    {
+      "id": "89053",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::getActiveAttrib(WebGLId program, unsigned long index, ActiveInfo& info)\n{\n    makeContextCurrent();\n    if (!program) {\n        synthesizeGLError(GL_INVALID_VALUE);\n        return false;\n    }\n    GLint maxNameLength = -1;\n    glGetProgramiv(program, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxNameLength);\n    if (maxNameLength < 0)\n        return false;\n    GLchar* name = 0;\n    if (!tryFastMalloc(maxNameLength * sizeof(GLchar)).getValue(name)) {\n        synthesizeGLError(GL_OUT_OF_MEMORY);\n        return false;\n    }\n    GLsizei length = 0;\n    GLint size = -1;\n    GLenum type = 0;\n    glGetActiveAttrib(program, index, maxNameLength,\n                      &length, &size, &type, name);\n    if (size < 0) {\n        fastFree(name);\n        return false;\n    }\n    info.name = WebString::fromUTF8(name, length);\n    info.type = type;\n    info.size = size;\n    fastFree(name);\n    return true;\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "security",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"Security\", \"severity\": \"High\", \"evidence\": \"The function `WebGraphicsContext3DDefaultImpl::getActiveAttrib` attempts to access an invalid attribute using `glGetActiveAttrib` without checking if the program is active.\", \"explanation\": \"This function may lead to undefined behavior if the program is not currently active, as it does not check if the program exists before attempting to access its attributes.\", \"fix_principle\": \"Ensure that the program is always active before accessing any of its attributes.\", \"confidence\": 95, \"fix_choice\": \"Add a check to ensure the program is active before accessing its attributes.\" }"
+    },
+    {
+      "id": "89054",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::getActiveUniform(WebGLId program, unsigned long index, ActiveInfo& info)\n{\n    makeContextCurrent();\n    GLint maxNameLength = -1;\n    glGetProgramiv(program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxNameLength);\n    if (maxNameLength < 0)\n        return false;\n    GLchar* name = 0;\n    if (!tryFastMalloc(maxNameLength * sizeof(GLchar)).getValue(name)) {\n        synthesizeGLError(GL_OUT_OF_MEMORY);\n        return false;\n    }\n    GLsizei length = 0;\n    GLint size = -1;\n    GLenum type = 0;\n    glGetActiveUniform(program, index, maxNameLength,\n                       &length, &size, &type, name);\n    if (size < 0) {\n        fastFree(name);\n        return false;\n    }\n    info.name = WebString::fromUTF8(name, length);\n    info.type = type;\n    info.size = size;\n    fastFree(name);\n    return true;\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "buffer-overflow",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"Buffer Overflow\", \"severity\": \"High\", \"evidence\": \"The function `getActiveUniform` attempts to allocate memory for an array of strings (`name`) that exceeds the maximum allowed by the OpenGL API.\", \"explanation\": \"This vulnerability allows an attacker to overwrite the allocated memory with arbitrary data, potentially leading to a buffer overflow attack.\", \"fix_principle\": \"Implement bounds checking on the `name` variable before accessing its elements.\", \"confidence\": 95, \"fix_choice\": \"Add bounds checking in the `name` variable.\" }"
+    },
+    {
+      "id": "89058",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::getIntegerv(unsigned long pname, int* value)\n{\n    makeContextCurrent();\n    switch (pname) {\n    case IMPLEMENTATION_COLOR_READ_FORMAT:\n        *value = GL_RGB;\n        break;\n    case IMPLEMENTATION_COLOR_READ_TYPE:\n        *value = GL_UNSIGNED_BYTE;\n        break;\n    case MAX_FRAGMENT_UNIFORM_VECTORS:\n        glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, value);\n        *value /= 4;\n        break;\n    case MAX_VERTEX_UNIFORM_VECTORS:\n        glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, value);\n        *value /= 4;\n        break;\n    case MAX_VARYING_VECTORS:\n        glGetIntegerv(GL_MAX_VARYING_FLOATS, value);\n        *value /= 4;\n        break;\n    default:\n        glGetIntegerv(pname, value);\n    }\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": true,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.65,
+      "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": null, \"severity\": null, \"evidence\": \"\", \"explanation\": \"The provided function `getIntegerv` does not contain any known vulnerabilities or exploits that could be exploited to gain unauthorized access or cause harm. It is designed to read and manipulate OpenGL color formats, fragment uniform vectors, vertex uniform vectors, and varying components using glGetIntegerv.\", \"fix_principle\": null, \"confidence\": 100, \"fix_choice\": null }"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered."
+  }
+}

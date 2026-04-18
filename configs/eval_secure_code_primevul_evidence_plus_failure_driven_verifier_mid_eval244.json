@@ -1,0 +1,12 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_eval_balanced_244.jsonl",
+  "generations_path": "outputs/secure_code_primevul_evidence_plus_failure_driven_verifier_mid_eval244_generations.jsonl",
+  "report_json_path": "reports/secure_code_primevul_evidence_plus_failure_driven_verifier_mid_eval244_report.json",
+  "report_csv_path": "reports/secure_code_primevul_evidence_plus_failure_driven_verifier_mid_eval244_rows.csv",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "metrics": {
+    "timeout_ms_threshold": 120000,
+    "repeated_reasoning_threshold": 0.2,
+    "repeated_reasoning_ngram_size": 3
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "dataset_path": "data/processed/secure_code_crossvul_eval_20.jsonl",
+  "generations_path": "outputs/baseline_secure_code_crossvul_qwen15b_eval20_generations.jsonl",
+  "report_json_path": "reports/secure_code_crossvul_qwen15b_eval20_report.json",
+  "report_csv_path": "reports/secure_code_crossvul_qwen15b_eval20_report.csv",
+  "tracker_path": "artifacts/experiments.jsonl"
+}

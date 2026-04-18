@@ -1,0 +1,28 @@
+{
+  "stage": "sft",
+  "model_name": "REPLACE_WITH_MODEL_OR_CHECKPOINT",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/train_secure_code_sft.jsonl",
+  "eval_dataset_path": "data/processed/eval_secure_code_sample.jsonl",
+  "output_dir": "checkpoints/sft_secure_code",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You are a defensive secure-code analysis model. Return valid JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice.",
+  "response_field": "response",
+  "response_format": "structured_json",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20,
+    "save_steps": 100,
+    "max_seq_length": 1024
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "failure_buckets": {
+    "format_failure": 188,
+    "label_failure": 7,
+    "correct": 5
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 25.585
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "none": 188,
+      "second_pass_model": 7,
+      "structured_json": 5
+    },
+    "parse_trigger_counts": {
+      "hard_fail": 195,
+      "none": 5
+    },
+    "avg_parse_confidence": 0.06
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "89041",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int createTextureObject(GLenum target)\n{\n    GLuint texture = 0;\n    glGenTextures(1, &texture);\n    glBindTexture(target, texture);\n    glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);\n    glTexParameterf(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);\n    return texture;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"cwe-39\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 33,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "cwe-39",
+        "predicted_severity": "none",
+        "confidence": 0.75
+      },
+      {
+        "id": "89058",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::getIntegerv(unsigned long pname, int* value)\n{\n    makeContextCurrent();\n    switch (pname) {\n    case IMPLEMENTATION_COLOR_READ_FORMAT:\n        *value = GL_RGB;\n        break;\n    case IMPLEMENTATION_COLOR_READ_TYPE:\n        *value = GL_UNSIGNED_BYTE;\n        break;\n    case MAX_FRAGMENT_UNIFORM_VECTORS:\n        glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS, value);\n        *value /= 4;\n        break;\n    case MAX_VERTEX_UNIFORM_VECTORS:\n        glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, value);\n        *value /= 4;\n        break;\n    case MAX_VARYING_VECTORS:\n        glGetIntegerv(GL_MAX_VARYING_FLOATS, value);\n        *value /= 4;\n        break;\n    default:\n        glGetIntegerv(pname, value);\n    }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"cwe-16\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 33,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "cwe-16",
+        "predicted_severity": "none",
+        "confidence": 0.75
+      },
+      {
+        "id": "101624",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  NullVideoFrame() {}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"cwe-129\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 33,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "cwe-129",
+        "predicted_severity": "none",
+        "confidence": 0.75
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "89023",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nWebGraphicsContext3DDefaultImpl::VertexAttribPointerState::VertexAttribPointerState()\n    : enabled(false)\n    , buffer(0)\n    , indx(0)\n    , size(0)\n    , type(0)\n    , normalized(false)\n    , stride(0)\n    , offset(0)\n{\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{false, {}, {}, {}, {}, true, 0.9, { \"WebGraphicsContext3DDefaultImpl\", \"VertexAttribPointerState\" } }",
+        "token_count": 12,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "confidence": null
+      },
+      {
+        "id": "89024",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)\n{\n    if (texture < GL_TEXTURE0 || texture > GL_TEXTURE0+32)\n        return;\n\n    makeContextCurrent();\n    glActiveTexture(texture);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\", true, 1, {\"WebGraphicsContext3DDefaultImpl.cpp\", 46 }, {\"Uninitialized variable\", false, 0, {} } },\n{\"vulnerability_type\", \"uninitialized_variable\"}, {\"severity\", 0}, {\"evidence\", WebGraphicsContext3DDefaultImpl::evidence()}, {\"explanation\", \"\"}, {\"fix_principle\", \"Avoid uninitialized variables early in code\", 0}, {\"confidence\", 0.9}, {\"fix_choice\", \"\"}},",
+        "token_count": 33,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "confidence": null
+      },
+      {
+        "id": "89025",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool WebGraphicsContext3DDefaultImpl::angleCreateCompilers()\n{\n    if (!ShInitialize())\n        return false;\n\n    ShBuiltInResources resources;\n    ShInitBuiltInResources(&resources);\n    getIntegerv(GL_MAX_VERTEX_ATTRIBS, &resources.MaxVertexAttribs);\n    getIntegerv(MAX_VERTEX_UNIFORM_VECTORS, &resources.MaxVertexUniformVectors);\n    getIntegerv(MAX_VARYING_VECTORS, &resources.MaxVaryingVectors);\n    getIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &resources.MaxVertexTextureImageUnits);\n    getIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &resources.MaxCombinedTextureImageUnits);\n    getIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &resources.MaxTextureImageUnits);\n    getIntegerv(MAX_FRAGMENT_UNIFORM_VECTORS, &resources.MaxFragmentUniformVectors);\n    resources.MaxDrawBuffers = 1;\n\n    m_fragmentCompiler = ShConstructCompiler(SH_FRAGMENT_SHADER, SH_WEBGL_SPEC, &resources);\n    m_vertexCompiler = ShConstructCompiler(SH_VERTEX_SHADER, SH_WEBGL_SPEC, &resources);\n    return (m_fragmentCompiler && m_vertexCompiler);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{{\"has_vulnerability\", true}, {\"vulnerability_type\", \"cwe-190\"}, {\"severity\", \"unknown\"}, {\"evidence\", \"\"}, {\"explanation\", \"No clear security weakness is evident from the provided snippet alone\"], {\"fix_principle\", \"validate_input_and_output}, {\"confidence\", 0.75}, {\"fix_choice\", \"\"}}}",
+        "token_count": 26,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "89036",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nunsigned WebGraphicsContext3DDefaultImpl::createBuffer()\n{\n    makeContextCurrent();\n    GLuint o;\n    glGenBuffersARB(1, &o);\n    return o;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\", false, 0, \"An untrusted function call in an insecure context can lead to buffer overread vulnerabilities.\", },",
+        "token_count": 18,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-498",
+        "predicted_severity": "unknown",
+        "confidence": 0.75
+      },
+      {
+        "id": "89037",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nunsigned WebGraphicsContext3DDefaultImpl::createFramebuffer()\n{\n    makeContextCurrent();\n    GLuint o = 0;\n    glGenFramebuffersEXT(1, &o);\n    return o;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\", false, 0, \"An untrusted function call in an insecure context can lead to sensitive information being exposed.\", },",
+        "token_count": 19,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-498",
+        "predicted_severity": "unknown",
+        "confidence": 0.75
+      },
+      {
+        "id": "89038",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nunsigned WebGraphicsContext3DDefaultImpl::createRenderbuffer()\n{\n    makeContextCurrent();\n    GLuint o;\n    glGenRenderbuffersEXT(1, &o);\n    return o;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\", false, 0, \"An untrusted function call in an insecure context can lead to sensitive information being exposed.\", },",
+        "token_count": 19,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-489",
+        "predicted_severity": "unknown",
+        "confidence": 0.75
+      }
+    ],
+    "evidence_failure": [],
+    "explanation_failure": [],
+    "high_confidence_error": []
+  },
+  "low_confidence_examples": [],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered."
+  }
+}

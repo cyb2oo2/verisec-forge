@@ -1,0 +1,28 @@
+{
+  "stage": "sft",
+  "model_name": "C:\\Users\\cyb\\.cache\\huggingface\\hub\\models--Qwen--Qwen2.5-0.5B-Instruct\\snapshots\\7ae557604adf67be50417f59c2c2f167def9a775",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/train_secure_code_primevul_sft_failure_driven_verifier_seed200_label_only.jsonl",
+  "eval_dataset_path": "data/processed/secure_code_primevul_eval_balanced_244.jsonl",
+  "output_dir": "checkpoints/sft_secure_code_primevul_qwen05b_failure_driven_verifier_seed200_label_only_v1",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You are a label-only second-pass secure-code verifier. Return exactly one tiny JSON object with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. Only emit canonical cwe-* labels or none. Explanation must be either 'Supported.' or 'Not supported.'. Fix principle must be either 'Escalate.' or 'No change.'. Evidence must be an empty array.",
+  "response_field": "response",
+  "response_format": "structured_json",
+  "training_args": {
+    "num_train_epochs": 2,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 10,
+    "save_steps": 50,
+    "max_seq_length": 1024
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  }
+}

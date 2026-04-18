@@ -1,0 +1,348 @@
+{
+  "failure_buckets": {
+    "label_failure": 43,
+    "high_confidence_error": 23,
+    "format_failure": 94,
+    "correct": 84
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 33.8197
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "structured_json": 113,
+      "second_pass_model": 37,
+      "none": 94
+    },
+    "parse_trigger_counts": {
+      "pair_block_output": 44,
+      "none": 62,
+      "low_confidence": 15,
+      "hard_fail": 123
+    },
+    "avg_parse_confidence": 0.5676
+  },
+  "label_error_breakdown": {
+    "false_negative": 36,
+    "cwe_mismatch": 4,
+    "false_positive": 3
+  },
+  "format_error_breakdown": {
+    "hard_fail": 94
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 32,
+      "accuracy": 0.3125,
+      "high_confidence_error_rate": 0.6875
+    },
+    "0.75-0.89": {
+      "count": 101,
+      "accuracy": 0.5347,
+      "high_confidence_error_rate": 0.0297
+    },
+    "missing": {
+      "count": 111,
+      "accuracy": 0.2883,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "89023",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nWebGraphicsContext3DDefaultImpl::VertexAttribPointerState::VertexAttribPointerState()\n    : enabled(false)\n    , buffer(0)\n    , indx(0)\n    , size(0)\n    , type(0)\n    , normalized(false)\n    , stride(0)\n    , offset(0)\n{\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: \"none\", severity: \"none\", evidence: [], explanation: \"No clear security weakness is evident from the provided snippet alone.\", fix_principle: \"Preserve safe coding practices and input validation.\", confidence: 0.75, fix_choice: \"\"}",
+        "token_count": 32,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.75
+      },
+      {
+        "id": "89024",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::activeTexture(unsigned long texture)\n{\n    if (texture < GL_TEXTURE0 || texture > GL_TEXTURE0+32)\n        return;\n\n    makeContextCurrent();\n    glActiveTexture(texture);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"\" , \"severity\": \"\" , \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 35,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.75
+      },
+      {
+        "id": "89026",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid WebGraphicsContext3DDefaultImpl::angleDestroyCompilers()\n{\n    if (m_fragmentCompiler) {\n        ShDestruct(m_fragmentCompiler);\n        m_fragmentCompiler = 0;\n    }\n    if (m_vertexCompiler) {\n        ShDestruct(m_vertexCompiler);\n        m_vertexCompiler = 0;\n    }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: \"none\", severity: \"none\", evidence: [], explanation: \"No clear security weakness is evident from the provided snippet alone.\", fix_principle: \"Preserve safe coding practices and input validation.\", confidence: 1, fix_choice: \"\" }",
+        "token_count": 33,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 1.0
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "195042",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nTfLiteStatus EvalFloat(TfLiteContext* context, TfLiteNode* node,\n                       TfLiteFullyConnectedParams* params, OpData* data,\n                       const TfLiteTensor* input, const TfLiteTensor* filter,\n                       const TfLiteTensor* bias, TfLiteTensor* output) {\n  float output_activation_min, output_activation_max;\n  CalculateActivationRange(params->activation, &output_activation_min,\n                           &output_activation_max);\n  if (kernel_type == kReference) {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      reference_ops::FullyConnectedSparseWeight(\n          sparsity, op_params, GetTensorShape(input),\n          GetTensorData<float>(input), GetTensorShape(filter),\n          GetTensorData<float>(filter), GetTensorShape(bias),\n          GetTensorData<float>(bias), GetTensorShape(output),\n          GetTensorData<float>(output));\n    } else {\n      reference_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output));\n    }\n  } else if (kernel_type == kLegacyPie) {\n    return EvalPie(context, node, params, data, input, filter, bias, output);\n  } else {\n    FullyConnectedParams op_params;\n    op_params.float_activation_min = output_activation_min;\n    op_params.float_activation_max = output_activation_max;\n    if (filter->sparsity != nullptr) {\n      const auto& sparsity = *filter->sparsity;\n      if (!SupportedSparsityFormat(sparsity)) {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n      if (sparsity.dim_metadata_size == kDimMetadataSizeRandomSparse) {\n        // Random sparse.\n        optimized_ops::FullyConnectedSparseWeight(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output));\n      } else if (sparsity.dim_metadata_size == kDimMetadataSizeBlockSparse &&\n                 sparsity.dim_metadata[2].dense_size == 4) {\n        // Block sparse with block size of 1x4.\n        optimized_ops::FullyConnectedSparseWeight1x4(\n            sparsity, op_params, GetTensorShape(input),\n            GetTensorData<float>(input), GetTensorShape(filter),\n            GetTensorData<float>(filter), GetTensorShape(bias),\n            GetTensorData<float>(bias), GetTensorShape(output),\n            GetTensorData<float>(output),\n            CpuBackendContext::GetFromContext(context));\n      } else {\n        TF_LITE_KERNEL_LOG(context,\n                           \"Unsupported sparse fully-connected weight format.\");\n        return kTfLiteError;\n      }\n\n    } else {\n      op_params.lhs_cacheable = IsConstantTensor(filter);\n      op_params.rhs_cacheable = IsConstantTensor(input);\n      optimized_ops::FullyConnected(\n          op_params, GetTensorShape(input), GetTensorData<float>(input),\n          GetTensorShape(filter), GetTensorData<float>(filter),\n          GetTensorShape(bias), GetTensorData<float>(bias),\n          GetTensorShape(output), GetTensorData<float>(output),\n          CpuBackendContext::GetFromContext(context));\n    }\n  }\n\n  return kTfLiteOk;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"\": \"has_vulnerability\", \"vulnerability_type\": \"\", \"severity\": \"\", \"evidence\": [], \"explanation\": \"\" \"A defensive security weakness is present in the provided code snippet.\" }, \"has_vulnerability\", \"vulnerability_type\": \",severity\", \"evidence\": [], \"explanation\": \"\" A defensive security weakness is present in the provided code snippet.\", \"fix_principle\": \"Remove the vulnerable behavior, validate untrusted input, and prefer safer APIs.\", \"confidence\": 0.9, \"fix_choice\": \"\" No change is required for safety.",
+        "token_count": 62,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.9
+      },
+      {
+        "id": "195057",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nuint8_t ethereum_extractThorchainData(const EthereumSignTx *msg,\n                                          char *buffer) {\n  // Swap data begins 164 chars into data buffer:\n  // offset = deposit function hash + address + address + uint256\n  uint16_t offset = 4 + (5 * 32);\n  int16_t len = msg->data_length - offset;\n  if (msg->has_data_length && len > 0) {\n    memcpy(buffer, msg->data_initial_chunk.bytes + offset, len);\n    // String length must be < 255 characters\n    return len < 256 ? (uint8_t)len : 0;\n  }\n  return 0;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{{\"has_vulnerability\"\"false\",\"{\"}}}}}",
+        "token_count": 1,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "195217",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nmrb_proc_copy(mrb_state *mrb, struct RProc *a, struct RProc *b)\n{\n  if (a->body.irep) {\n    /* already initialized proc */\n    return;\n  }\n  a->flags = b->flags;\n  a->body = b->body;\n  a->upper = b->upper;\n  if (!MRB_PROC_CFUNC_P(a) && a->body.irep) {\n    mrb_irep_incref(mrb, (mrb_irep*)a->body.irep);\n  }\n  a->e.env = b->e.env;\n  /* a->e.target_class = a->e.target_class; */\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-122",
+        "raw_text": "{{\"has_vulnerability\"],[\"vulnerable\"],[\"none\"]},{\"vulnerability_type\"],[\" Defensive security weakness \"]},{\"severity\"],[\"unknown \"}#,{\"evidence\":[{\"line\":21,\"column\":35,\"source\":\"rbc\",\"code\":\"mrb_proc_copy(mrb_state *mrb, struct RProc *a, struct RProc *b)\",\"text\":\"\\nmrb_proc_copy(mrb_state *mrb, struct RProc *a, struct RProc *b)\\n{\\n  if (a->body.irep) {\\n    /* already initialized proc */\\n    return;\\n  }\\n\\na->flags = b->flags;\\n\\na->body = b->body;\\n\\na->upper = b->upper;\\n\\nif (!MRB_PROC_CFUNC_P(a) && a->body.irep) {\\n  mrb_irep_incref(mrb, (",
+        "token_count": 42,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "194999",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nString preg_quote(const String& str,\n                  const String& delimiter /* = null_string */) {\n  const char* in_str = str.data();\n  const char* in_str_end = in_str + str.size();\n\n  /* Nothing to do if we got an empty string */\n  if (in_str == in_str_end) {\n    return str;\n  }\n\n  char delim_char = 0;      /* Delimiter character to be quoted */\n  bool quote_delim = false; /* Whether to quote additional delim char */\n  if (!delimiter.empty()) {\n    delim_char = delimiter.charAt(0);\n    quote_delim = true;\n  }\n\n  /* Allocate enough memory so that even if each character\n     is quoted, we won't run out of room */\n  String ret(4 * str.size() + 1, ReserveString);\n  char* out_str = ret.mutableData();\n\n  /* Go through the string and quote necessary characters */\n  const char* p;\n  char* q;\n  for (p = in_str, q = out_str; p != in_str_end; p++) {\n    char c = *p;\n    switch (c) {\n    case '.': case '\\\\': case '+': case '*': case '?':\n    case '[': case '^':  case ']': case '$': case '(':\n    case ')': case '{':  case '}': case '=': case '!':\n    case '>': case '<':  case '|': case ':': case '-':\n    case '#':\n      *q++ = '\\\\';\n      *q++ = c;\n      break;\n\n    case '\\0':\n      *q++ = '\\\\';\n      *q++ = '0';\n      *q++ = '0';\n      *q++ = '0';\n      break;\n\n    default:\n      if (quote_delim && c == delim_char)\n        *q++ = '\\\\';\n      *q++ = c;\n      break;\n    }\n  }\n  *q = '\\0';\n\n  return ret.setSize(q - out_str);\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"\" \"\", \"severity\": \"\" \"\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 35,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.8,
+        "parse_trigger": "pair_block_output",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "\"-\"",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.75
+      },
+      {
+        "id": "195007",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int xbuf_format_converter(char **outbuf, const char *fmt, va_list ap)\n{\n  register char *s = nullptr;\n  char *q;\n  int s_len;\n\n  register int min_width = 0;\n  int precision = 0;\n  enum {\n    LEFT, RIGHT\n  } adjust;\n  char pad_char;\n  char prefix_char;\n\n  double fp_num;\n  wide_int i_num = (wide_int) 0;\n  u_wide_int ui_num;\n\n  char num_buf[NUM_BUF_SIZE];\n  char char_buf[2];      /* for printing %% and %<unknown> */\n\n#ifdef HAVE_LOCALE_H\n  struct lconv *lconv = nullptr;\n#endif\n\n  /*\n   * Flag variables\n   */\n  length_modifier_e modifier;\n  boolean_e alternate_form;\n  boolean_e print_sign;\n  boolean_e print_blank;\n  boolean_e adjust_precision;\n  boolean_e adjust_width;\n  int is_negative;\n\n  int size = 240;\n  char *result = (char *)malloc(size);\n  int outpos = 0;\n\n  while (*fmt) {\n    if (*fmt != '%') {\n      appendchar(&result, &outpos, &size, *fmt);\n    } else {\n      /*\n       * Default variable settings\n       */\n      adjust = RIGHT;\n      alternate_form = print_sign = print_blank = NO;\n      pad_char = ' ';\n      prefix_char = NUL;\n\n      fmt++;\n\n      /*\n       * Try to avoid checking for flags, width or precision\n       */\n      if (isascii((int)*fmt) && !islower((int)*fmt)) {\n        /*\n         * Recognize flags: -, #, BLANK, +\n         */\n        for (;; fmt++) {\n          if (*fmt == '-')\n            adjust = LEFT;\n          else if (*fmt == '+')\n            print_sign = YES;\n          else if (*fmt == '#')\n            alternate_form = YES;\n          else if (*fmt == ' ')\n            print_blank = YES;\n          else if (*fmt == '0')\n            pad_char = '0';\n          else\n            break;\n        }\n\n        /*\n         * Check if a width was specified\n         */\n        if (isdigit((int)*fmt)) {\n          STR_TO_DEC(fmt, min_width);\n          adjust_width = YES;\n        } else if (*fmt == '*') {\n          min_width = va_arg(ap, int);\n          fmt++;\n          adjust_width = YES;\n          if (min_width < 0) {\n            adjust = LEFT;\n            min_width = -min_width;\n          }\n        } else\n          adjust_width = NO;\n\n        /*\n         * Check if a precision was specified\n         *\n         * XXX: an unreasonable amount of precision may be specified\n         * resulting in overflow of num_buf. Currently we\n         * ignore this possibility.\n         */\n        if (*fmt == '.') {\n          adjust_precision = YES;\n          fmt++;\n          if (isdigit((int)*fmt)) {\n            STR_TO_DEC(fmt, precision);\n          } else if (*fmt == '*') {\n            precision = va_arg(ap, int);\n            fmt++;\n            if (precision < 0)\n              precision = 0;\n          } else\n            precision = 0;\n        } else\n          adjust_precision = NO;\n      } else\n        adjust_precision = adjust_width = NO;\n\n      /*\n       * Modifier check\n       */\n      switch (*fmt) {\n        case 'L':\n          fmt++;\n          modifier = LM_LONG_DOUBLE;\n          break;\n        case 'I':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == '6' && *(fmt+1) == '4') {\n            fmt += 2;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            if (*fmt == '3' && *(fmt+1) == '2') {\n              fmt += 2;\n              modifier = LM_LONG;\n            } else {\n#ifdef _WIN64\n              modifier = LM_LONG_LONG;\n#else\n              modifier = LM_LONG;\n#endif\n            }\n          break;\n        case 'l':\n          fmt++;\n#if SIZEOF_LONG_LONG\n          if (*fmt == 'l') {\n            fmt++;\n            modifier = LM_LONG_LONG;\n          } else\n#endif\n            modifier = LM_LONG;\n          break;\n        case 'z':\n          fmt++;\n          modifier = LM_SIZE_T;\n          break;\n        case 'j':\n          fmt++;\n#if SIZEOF_INTMAX_T\n          modifier = LM_INTMAX_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 't':\n          fmt++;\n#if SIZEOF_PTRDIFF_T\n          modifier = LM_PTRDIFF_T;\n#else\n          modifier = LM_SIZE_T;\n#endif\n          break;\n        case 'h':\n          fmt++;\n          if (*fmt == 'h') {\n            fmt++;\n          }\n          /* these are promoted to int, so no break */\n        default:\n          modifier = LM_STD;\n          break;\n      }\n\n      /*\n       * Argument extraction and printing.\n       * First we determine the argument type.\n       * Then, we convert the argument to a string.\n       * On exit from the switch, s points to the string that\n       * must be printed, s_len has the length of the string\n       * The precision requirements, if any, are reflected in s_len.\n       *\n       * NOTE: pad_char may be set to '0' because of the 0 flag.\n       *   It is reset to ' ' by non-numeric formats\n       */\n      switch (*fmt) {\n        case 'u':\n          switch(modifier) {\n            default:\n              i_num = (wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              i_num = (wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              i_num = (wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              i_num = (wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              i_num = (wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              i_num = (wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          /*\n           * The rest also applies to other integer formats, so fall\n           * into that case.\n           */\n        case 'd':\n        case 'i':\n          /*\n           * Get the arg if we haven't already.\n           */\n          if ((*fmt) != 'u') {\n            switch(modifier) {\n              default:\n                i_num = (wide_int) va_arg(ap, int);\n                break;\n              case LM_LONG_DOUBLE:\n                goto fmt_error;\n              case LM_LONG:\n                i_num = (wide_int) va_arg(ap, long int);\n                break;\n              case LM_SIZE_T:\n#if SIZEOF_SSIZE_T\n                i_num = (wide_int) va_arg(ap, ssize_t);\n#else\n                i_num = (wide_int) va_arg(ap, size_t);\n#endif\n                break;\n#if SIZEOF_LONG_LONG\n              case LM_LONG_LONG:\n                i_num = (wide_int) va_arg(ap, wide_int);\n                break;\n#endif\n#if SIZEOF_INTMAX_T\n              case LM_INTMAX_T:\n                i_num = (wide_int) va_arg(ap, intmax_t);\n                break;\n#endif\n#if SIZEOF_PTRDIFF_T\n              case LM_PTRDIFF_T:\n                i_num = (wide_int) va_arg(ap, ptrdiff_t);\n                break;\n#endif\n            }\n          }\n          s = ap_php_conv_10(i_num, (*fmt) == 'u', &is_negative,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n\n          if (*fmt != 'u') {\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'o':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 3, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && *s != '0') {\n            *--s = '0';\n            s_len++;\n          }\n          break;\n\n\n        case 'x':\n        case 'X':\n          switch(modifier) {\n            default:\n              ui_num = (u_wide_int) va_arg(ap, unsigned int);\n              break;\n            case LM_LONG_DOUBLE:\n              goto fmt_error;\n            case LM_LONG:\n              ui_num = (u_wide_int) va_arg(ap, unsigned long int);\n              break;\n            case LM_SIZE_T:\n              ui_num = (u_wide_int) va_arg(ap, size_t);\n              break;\n#if SIZEOF_LONG_LONG\n            case LM_LONG_LONG:\n              ui_num = (u_wide_int) va_arg(ap, u_wide_int);\n              break;\n#endif\n#if SIZEOF_INTMAX_T\n            case LM_INTMAX_T:\n              ui_num = (u_wide_int) va_arg(ap, uintmax_t);\n              break;\n#endif\n#if SIZEOF_PTRDIFF_T\n            case LM_PTRDIFF_T:\n              ui_num = (u_wide_int) va_arg(ap, ptrdiff_t);\n              break;\n#endif\n          }\n          s = ap_php_conv_p2(ui_num, 4, *fmt,\n                &num_buf[NUM_BUF_SIZE], &s_len);\n          FIX_PRECISION(adjust_precision, precision, s, s_len);\n          if (alternate_form && i_num != 0) {\n            *--s = *fmt;  /* 'x' or 'X' */\n            *--s = '0';\n            s_len += 2;\n          }\n          break;\n\n\n        case 's':\n        case 'v':\n          s = va_arg(ap, char *);\n          if (s != nullptr) {\n            s_len = strlen(s);\n            if (adjust_precision && precision < s_len)\n              s_len = precision;\n          } else {\n            s = const_cast<char*>(s_null);\n            s_len = S_NULL_LEN;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case 'f':\n        case 'F':\n        case 'e':\n        case 'E':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n            s = const_cast<char*>(\"nan\");\n            s_len = 3;\n          } else if (std::isinf(fp_num)) {\n            s = const_cast<char*>(\"inf\");\n            s_len = 3;\n          } else {\n#ifdef HAVE_LOCALE_H\n            if (!lconv) {\n              lconv = localeconv();\n            }\n#endif\n            s = php_conv_fp((*fmt == 'f')?'F':*fmt, fp_num, alternate_form,\n             (adjust_precision == NO) ? FLOAT_DIGITS : precision,\n             (*fmt == 'f')?LCONV_DECIMAL_POINT:'.',\n                  &is_negative, &num_buf[1], &s_len);\n            if (is_negative)\n              prefix_char = '-';\n            else if (print_sign)\n              prefix_char = '+';\n            else if (print_blank)\n              prefix_char = ' ';\n          }\n          break;\n\n\n        case 'g':\n        case 'k':\n        case 'G':\n        case 'H':\n          switch(modifier) {\n            case LM_LONG_DOUBLE:\n              fp_num = (double) va_arg(ap, long double);\n              break;\n            case LM_STD:\n              fp_num = va_arg(ap, double);\n              break;\n            default:\n              goto fmt_error;\n          }\n\n          if (std::isnan(fp_num)) {\n             s = const_cast<char*>(\"NAN\");\n             s_len = 3;\n             break;\n           } else if (std::isinf(fp_num)) {\n             if (fp_num > 0) {\n               s = const_cast<char*>(\"INF\");\n               s_len = 3;\n             } else {\n               s = const_cast<char*>(\"-INF\");\n               s_len = 4;\n             }\n             break;\n           }\n\n          if (adjust_precision == NO)\n            precision = FLOAT_DIGITS;\n          else if (precision == 0)\n            precision = 1;\n          /*\n           * * We use &num_buf[ 1 ], so that we have room for the sign\n           */\n#ifdef HAVE_LOCALE_H\n          if (!lconv) {\n            lconv = localeconv();\n          }\n#endif\n          s = php_gcvt(fp_num, precision,\n                       (*fmt=='H' || *fmt == 'k') ? '.' : LCONV_DECIMAL_POINT,\n                       (*fmt == 'G' || *fmt == 'H')?'E':'e', &num_buf[1]);\n          if (*s == '-')\n            prefix_char = *s++;\n          else if (print_sign)\n            prefix_char = '+';\n          else if (print_blank)\n            prefix_char = ' ';\n\n          s_len = strlen(s);\n\n          if (alternate_form && (q = strchr(s, '.')) == nullptr)\n            s[s_len++] = '.';\n          break;\n\n\n        case 'c':\n          char_buf[0] = (char) (va_arg(ap, int));\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case '%':\n          char_buf[0] = '%';\n          s = &char_buf[0];\n          s_len = 1;\n          pad_char = ' ';\n          break;\n\n\n        case 'n':\n          *(va_arg(ap, int *)) = outpos;\n          goto skip_output;\n\n          /*\n           * Always extract the argument as a \"char *\" pointer. We\n           * should be using \"void *\" but there are still machines\n           * that don't understand it.\n           * If the pointer size is equal to the size of an unsigned\n           * integer we convert the pointer to a hex number, otherwise\n           * we print \"%p\" to indicate that we don't handle \"%p\".\n           */\n        case 'p':\n          if (sizeof(char *) <= sizeof(u_wide_int)) {\n            ui_num = (u_wide_int)((size_t) va_arg(ap, char *));\n            s = ap_php_conv_p2(ui_num, 4, 'x',\n                &num_buf[NUM_BUF_SIZE], &s_len);\n            if (ui_num != 0) {\n              *--s = 'x';\n              *--s = '0';\n              s_len += 2;\n            }\n          } else {\n            s = const_cast<char*>(\"%p\");\n            s_len = 2;\n          }\n          pad_char = ' ';\n          break;\n\n\n        case NUL:\n          /*\n           * The last character of the format string was %.\n           * We ignore it.\n           */\n          continue;\n\n\nfmt_error:\n        throw Exception(\"Illegal length modifier specified '%c'\", *fmt);\n\n          /*\n           * The default case is for unrecognized %'s.\n           * We print %<char> to help the user identify what\n           * option is not understood.\n           * This is also useful in case the user wants to pass\n           * the output of format_converter to another function\n           * that understands some other %<char> (like syslog).\n           * Note that we can't point s inside fmt because the\n           * unknown <char> could be preceded by width etc.\n           */\n        default:\n          char_buf[0] = '%';\n          char_buf[1] = *fmt;\n          s = char_buf;\n          s_len = 2;\n          pad_char = ' ';\n          break;\n      }\n\n      if (prefix_char != NUL) {\n        *--s = prefix_char;\n        s_len++;\n      }\n      if (adjust_width && adjust == RIGHT && min_width > s_len) {\n        if (pad_char == '0' && prefix_char != NUL) {\n          appendchar(&result, &outpos, &size, *s);\n          s++;\n          s_len--;\n          min_width--;\n        }\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n      /*\n       * Print the (for now) non-null terminated string s.\n       */\n      appendsimplestring(&result, &outpos, &size, s, s_len);\n\n      if (adjust_width && adjust == LEFT && min_width > s_len) {\n        for (int i = 0; i < min_width - s_len; i++) {\n          appendchar(&result, &outpos, &size, pad_char);\n        }\n      }\n    }\nskip_output:\n    fmt++;\n  }\n  /*\n   * Add the terminating null here since it wasn't added incrementally above\n   * once the whole string has been composed.\n   */\n  result[outpos] = NUL;\n  *outbuf = result;\n  return outpos;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-190",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\"}",
+        "token_count": 32,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.75
+      },
+      {
+        "id": "195084",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int stszin(int size)\n{\n    int cnt;\n    uint32_t ofs;\n\n    // version/flags\n    u32in();\n    // Sample size\n    u32in();\n    // Number of entries\n    mp4config.frame.ents = u32in();\n    // fixme: check atom size\n    mp4config.frame.data = malloc(sizeof(*mp4config.frame.data)\n                                  * (mp4config.frame.ents + 1));\n\n    if (!mp4config.frame.data)\n        return ERR_FAIL;\n\n    ofs = 0;\n    mp4config.frame.data[0] = ofs;\n    for (cnt = 0; cnt < mp4config.frame.ents; cnt++)\n    {\n        uint32_t fsize = u32in();\n\n        ofs += fsize;\n        if (mp4config.frame.maxsize < fsize)\n            mp4config.frame.maxsize = fsize;\n\n        mp4config.frame.data[cnt + 1] = ofs;\n\n        if (ofs < mp4config.frame.data[cnt])\n            return ERR_FAIL;\n    }\n\n    return size;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 33,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.75
+      }
+    ],
+    "evidence_failure": [],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "195020",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CPlayListASX::LoadData(std::istream& stream)\n{\n  CLog::Log(LOGINFO, \"Parsing ASX\");\n\n  if(stream.peek() == '[')\n  {\n    return LoadAsxIniInfo(stream);\n  }\n  else\n  {\n    CXBMCTinyXML xmlDoc;\n    stream >> xmlDoc;\n\n    if (xmlDoc.Error())\n    {\n      CLog::Log(LOGERROR, \"Unable to parse ASX info Error: {}\", xmlDoc.ErrorDesc());\n      return false;\n    }\n\n    TiXmlElement *pRootElement = xmlDoc.RootElement();\n\n    // lowercase every element\n    TiXmlNode *pNode = pRootElement;\n    TiXmlNode *pChild = NULL;\n    std::string value;\n    value = pNode->Value();\n    StringUtils::ToLower(value);\n    pNode->SetValue(value);\n    while(pNode)\n    {\n      pChild = pNode->IterateChildren(pChild);\n      if(pChild)\n      {\n        if (pChild->Type() == TiXmlNode::TINYXML_ELEMENT)\n        {\n          value = pChild->Value();\n          StringUtils::ToLower(value);\n          pChild->SetValue(value);\n\n          TiXmlAttribute* pAttr = pChild->ToElement()->FirstAttribute();\n          while(pAttr)\n          {\n            value = pAttr->Name();\n            StringUtils::ToLower(value);\n            pAttr->SetName(value);\n            pAttr = pAttr->Next();\n          }\n        }\n\n        pNode = pChild;\n        pChild = NULL;\n        continue;\n      }\n\n      pChild = pNode;\n      pNode = pNode->Parent();\n    }\n    std::string roottitle;\n    TiXmlElement *pElement = pRootElement->FirstChildElement();\n    while (pElement)\n    {\n      value = pElement->Value();\n      if (value == \"title\" && !pElement->NoChildren())\n      {\n        roottitle = pElement->FirstChild()->ValueStr();\n      }\n      else if (value == \"entry\")\n      {\n        std::string title(roottitle);\n\n        TiXmlElement *pRef = pElement->FirstChildElement(\"ref\");\n        TiXmlElement *pTitle = pElement->FirstChildElement(\"title\");\n\n        if(pTitle && !pTitle->NoChildren())\n          title = pTitle->FirstChild()->ValueStr();\n\n        while (pRef)\n        { // multiple references may appear for one entry\n          // duration may exist on this level too\n          value = XMLUtils::GetAttribute(pRef, \"href\");\n          if (!value.empty())\n          {\n            if(title.empty())\n              title = value;\n\n            CLog::Log(LOGINFO, \"Adding element {}, {}\", title, value);\n            CFileItemPtr newItem(new CFileItem(title));\n            newItem->SetPath(value);\n            Add(newItem);\n          }\n          pRef = pRef->NextSiblingElement(\"ref\");\n        }\n      }\n      else if (value == \"entryref\")\n      {\n        value = XMLUtils::GetAttribute(pElement, \"href\");\n        if (!value.empty())\n        { // found an entryref, let's try loading that url\n          std::unique_ptr<CPlayList> playlist(CPlayListFactory::Create(value));\n          if (nullptr != playlist)\n            if (playlist->Load(value))\n              Add(*playlist);\n        }\n      }\n      pElement = pElement->NextSiblingElement();\n    }\n  }\n\n  return true;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-120",
+        "raw_text": "{{\"has_vulnerability\", False}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"无明显安全弱点在提供。\"}, {\"fix_principle\", \"仅保留可访问的安全政策和结构化输出\"},\n{\"confidence\", 0.75}, {\"fix_choice\", \"仅保留已知有效的安全实践\"}}, {\"none\"}, {\"none\"}}",
+        "token_count": 18,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "defensive-security-vulnerability",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 1.0
+      },
+      {
+        "id": "195675",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid CLua::init_libraries()\n{\n    lua_stack_cleaner clean(state());\n\n    // Open Crawl bindings\n    cluaopen_kills(_state);\n    cluaopen_you(_state);\n    cluaopen_item(_state);\n    cluaopen_food(_state);\n    cluaopen_crawl(_state);\n    cluaopen_file(_state);\n    cluaopen_moninf(_state);\n    cluaopen_options(_state);\n    cluaopen_travel(_state);\n    cluaopen_view(_state);\n    cluaopen_spells(_state);\n\n    cluaopen_globals(_state);\n\n    execfile(\"dlua/macro.lua\", true, true);\n\n    // All hook names must be chk_????\n    execstring(\"chk_startgame = { }\", \"base\");\n\n    lua_register(_state, \"loadfile\", _clua_loadfile);\n    lua_register(_state, \"dofile\", _clua_dofile);\n\n    lua_register(_state, \"crawl_require\", _clua_require);\n\n    execfile(\"dlua/util.lua\", true, true);\n    execfile(\"dlua/iter.lua\", true, true);\n    execfile(\"dlua/tags.lua\", true, true);\n    execfile(\"dlua/init.lua\", true, true);\n\n    if (managed_vm)\n    {\n        lua_register(_state, \"pcall\", _clua_guarded_pcall);\n        execfile(\"dlua/userbase.lua\", true, true);\n        execfile(\"dlua/persist.lua\", true, true);\n    }\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-434",
+        "raw_text": "{has_vulnerability: false, vulnerability_type: \"\"}, {\"vulnerability_type\": \"\"}, {\"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Preserve safe coding practices and input validation.\", \"confidence\": 0.75, \"fix_choice\": \"\"}, {\"json_coerce_type\": \"null\"}",
+        "token_count": 36,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "vulnerable",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "195697",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nint32_t *enc_untrusted_create_wait_queue() {\n  MessageWriter input;\n  MessageReader output;\n  input.Push<uint64_t>(sizeof(int32_t));\n  const auto status = NonSystemCallDispatcher(\n      ::asylo::host_call::kLocalLifetimeAllocHandler, &input, &output);\n  CheckStatusAndParamCount(status, output, \"enc_untrusted_create_wait_queue\",\n                           2);\n  int32_t *queue = reinterpret_cast<int32_t *>(output.next<uintptr_t>());\n  int klinux_errno = output.next<int>();\n  if (queue == nullptr) {\n    errno = FromkLinuxErrorNumber(klinux_errno);\n  }\n  enc_untrusted_disable_waiting(queue);\n  return queue;\n}",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-787",
+        "raw_text": "{{\"has_vulnerability\"\"false\",\"{\"}}}\"",
+        "token_count": 1,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "\"vulnerable\\napi\\nsafe\\n",
+        "predicted_severity": "low",
+        "label_correct": false,
+        "confidence": 0.9
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "195020",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CPlayListASX::LoadData(std::istream& stream)\n{\n  CLog::Log(LOGINFO, \"Parsing ASX\");\n\n  if(stream.peek() == '[')\n  {\n    return LoadAsxIniInfo(stream);\n  }\n  else\n  {\n    CXBMCTinyXML xmlDoc;\n    stream >> xmlDoc;\n\n    if (xmlDoc.Error())\n    {\n      CLog::Log(LOGERROR, \"Unable to parse ASX info Error: {}\", xmlDoc.ErrorDesc());\n      return false;\n    }\n\n    TiXmlElement *pRootElement = xmlDoc.RootElement();\n\n    // lowercase every element\n    TiXmlNode *pNode = pRootElement;\n    TiXmlNode *pChild = NULL;\n    std::string value;\n    value = pNode->Value();\n    StringUtils::ToLower(value);\n    pNode->SetValue(value);\n    while(pNode)\n    {\n      pChild = pNode->IterateChildren(pChild);\n      if(pChild)\n      {\n        if (pChild->Type() == TiXmlNode::TINYXML_ELEMENT)\n        {\n          value = pChild->Value();\n          StringUtils::ToLower(value);\n          pChild->SetValue(value);\n\n          TiXmlAttribute* pAttr = pChild->ToElement()->FirstAttribute();\n          while(pAttr)\n          {\n            value = pAttr->Name();\n            StringUtils::ToLower(value);\n            pAttr->SetName(value);\n            pAttr = pAttr->Next();\n          }\n        }\n\n        pNode = pChild;\n        pChild = NULL;\n        continue;\n      }\n\n      pChild = pNode;\n      pNode = pNode->Parent();\n    }\n    std::string roottitle;\n    TiXmlElement *pElement = pRootElement->FirstChildElement();\n    while (pElement)\n    {\n      value = pElement->Value();\n      if (value == \"title\" && !pElement->NoChildren())\n      {\n        roottitle = pElement->FirstChild()->ValueStr();\n      }\n      else if (value == \"entry\")\n      {\n        std::string title(roottitle);\n\n        TiXmlElement *pRef = pElement->FirstChildElement(\"ref\");\n        TiXmlElement *pTitle = pElement->FirstChildElement(\"title\");\n\n        if(pTitle && !pTitle->NoChildren())\n          title = pTitle->FirstChild()->ValueStr();\n\n        while (pRef)\n        { // multiple references may appear for one entry\n          // duration may exist on this level too\n          value = XMLUtils::GetAttribute(pRef, \"href\");\n          if (!value.empty())\n          {\n            if(title.empty())\n              title = value;\n\n            CLog::Log(LOGINFO, \"Adding element {}, {}\", title, value);\n            CFileItemPtr newItem(new CFileItem(title));\n            newItem->SetPath(value);\n            Add(newItem);\n          }\n          pRef = pRef->NextSiblingElement(\"ref\");\n        }\n      }\n      else if (value == \"entryref\")\n      {\n        value = XMLUtils::GetAttribute(pElement, \"href\");\n        if (!value.empty())\n        { // found an entryref, let's try loading that url\n          std::unique_ptr<CPlayList> playlist(CPlayListFactory::Create(value));\n          if (nullptr != playlist)\n            if (playlist->Load(value))\n              Add(*playlist);\n        }\n      }\n      pElement = pElement->NextSiblingElement();\n    }\n  }\n\n  return true;\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-120",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "defensive-security-vulnerability",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{{\"has_vulnerability\", False}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"无明显安全弱点在提供。\"}, {\"fix_principle\", \"仅保留可访问的安全政策和结构化输出\"},\n{\"confidence\", 0.75}, {\"fix_choice\", \"仅保留已知有效的安全实践\"}}, {\"none\"}, {\"none\"}}"
+    },
+    {
+      "id": "195664",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nCallResult<PseudoHandle<>> JSObject::getComputedWithReceiver_RJS(\n    Handle<JSObject> selfHandle,\n    Runtime *runtime,\n    Handle<> nameValHandle,\n    Handle<> receiver) {\n  // Try the fast-path first: no \"index-like\" properties and the \"name\" already\n  // is a valid integer index.\n  if (selfHandle->flags_.fastIndexProperties) {\n    if (auto arrayIndex = toArrayIndexFastPath(*nameValHandle)) {\n      // Do we have this value present in our array storage? If so, return it.\n      PseudoHandle<> ourValue = createPseudoHandle(\n          getOwnIndexed(selfHandle.get(), runtime, *arrayIndex));\n      if (LLVM_LIKELY(!ourValue->isEmpty()))\n        return ourValue;\n    }\n  }\n\n  // If nameValHandle is an object, we should convert it to string now,\n  // because toString may have side-effect, and we want to do this only\n  // once.\n  auto converted = toPropertyKeyIfObject(runtime, nameValHandle);\n  if (LLVM_UNLIKELY(converted == ExecutionStatus::EXCEPTION)) {\n    return ExecutionStatus::EXCEPTION;\n  }\n  auto nameValPrimitiveHandle = *converted;\n\n  ComputedPropertyDescriptor desc;\n\n  // Locate the descriptor. propObj contains the object which may be anywhere\n  // along the prototype chain.\n  MutableHandle<JSObject> propObj{runtime};\n  if (LLVM_UNLIKELY(\n          getComputedPrimitiveDescriptor(\n              selfHandle, runtime, nameValPrimitiveHandle, propObj, desc) ==\n          ExecutionStatus::EXCEPTION)) {\n    return ExecutionStatus::EXCEPTION;\n  }\n\n  if (!propObj)\n    return createPseudoHandle(HermesValue::encodeUndefinedValue());\n\n  if (LLVM_LIKELY(\n          !desc.flags.accessor && !desc.flags.hostObject &&\n          !desc.flags.proxyObject))\n    return createPseudoHandle(\n        getComputedSlotValue(propObj.get(), runtime, desc));\n\n  if (desc.flags.accessor) {\n    auto *accessor = vmcast<PropertyAccessor>(\n        getComputedSlotValue(propObj.get(), runtime, desc));\n    if (!accessor->getter)\n      return createPseudoHandle(HermesValue::encodeUndefinedValue());\n\n    // Execute the accessor on this object.\n    return accessor->getter.get(runtime)->executeCall0(\n        runtime->makeHandle(accessor->getter), runtime, receiver);\n  } else if (desc.flags.hostObject) {\n    SymbolID id{};\n    LAZY_TO_IDENTIFIER(runtime, nameValPrimitiveHandle, id);\n    auto propRes = vmcast<HostObject>(selfHandle.get())->get(id);\n    if (propRes == ExecutionStatus::EXCEPTION)\n      return ExecutionStatus::EXCEPTION;\n    return createPseudoHandle(*propRes);\n  } else {\n    assert(desc.flags.proxyObject && \"descriptor flags are impossible\");\n    CallResult<Handle<>> key = toPropertyKey(runtime, nameValPrimitiveHandle);\n    if (key == ExecutionStatus::EXCEPTION)\n      return ExecutionStatus::EXCEPTION;\n    return JSProxy::getComputed(propObj, runtime, *key, receiver);\n  }\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-125",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.7,
+      "raw_text": "{{\"has_vulnerability\", false}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"无明显安全弱点迹象\"}, {\"fix_principle\", \"仅提供安全建议\"}, {\"confidence\", 0.75}, {\"fix_choice\", \"\"}}"
+    },
+    {
+      "id": "195727",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nR_API void r_core_fini(RCore *c) {\n\tif (!c) {\n\t\treturn;\n\t}\n\tr_core_task_break_all (&c->tasks);\n\tr_core_task_join (&c->tasks, NULL, -1);\n\tr_core_wait (c);\n\t/* TODO: it leaks as shit */\n\t//update_sdb (c);\n\t// avoid double free\n\tr_list_free (c->ropchain);\n\tr_event_free (c->ev);\n\tfree (c->cmdlog);\n\tfree (c->lastsearch);\n\tR_FREE (c->cons->pager);\n\tfree (c->cmdqueue);\n\tfree (c->lastcmd);\n\tfree (c->stkcmd);\n\tr_list_free (c->visual.tabs);\n\tfree (c->block);\n\tr_core_autocomplete_free (c->autocomplete);\n\n\tr_list_free (c->gadgets);\n\tr_list_free (c->undos);\n\tr_num_free (c->num);\n\t// TODO: sync or not? sdb_sync (c->sdb);\n\t// TODO: sync all dbs?\n\t//r_core_file_free (c->file);\n\t//c->file = NULL;\n\tfree (c->table_query);\n\tr_list_free (c->files);\n\tr_list_free (c->watchers);\n\tr_list_free (c->scriptstack);\n\tr_core_task_scheduler_fini (&c->tasks);\n\tc->rcmd = r_cmd_free (c->rcmd);\n\tr_list_free (c->cmd_descriptors);\n\tc->anal = r_anal_free (c->anal);\n\tr_asm_free (c->assembler);\n\tc->assembler = NULL;\n\tc->print = r_print_free (c->print);\n\tc->bin = (r_bin_free (c->bin), NULL);\n\tc->lang = (r_lang_free (c->lang), NULL);\n\tc->dbg = (r_debug_free (c->dbg), NULL);\n\tr_io_free (c->io);\n\tr_config_free (c->config);\n\t/* after r_config_free, the value of I.teefile is trashed */\n\t/* rconfig doesnt knows how to deinitialize vars, so we\n\tshould probably need to add a r_config_free_payload callback */\n\tr_cons_free ();\n\tr_cons_singleton ()->teefile = NULL; // HACK\n\tr_search_free (c->search);\n\tr_flag_free (c->flags);\n\tr_fs_free (c->fs);\n\tr_egg_free (c->egg);\n\tr_lib_free (c->lib);\n\tr_buf_free (c->yank_buf);\n\tr_agraph_free (c->graph);\n\tfree (c->asmqjmps);\n\tsdb_free (c->sdb);\n\tr_core_log_free (c->log);\n\tr_parse_free (c->parser);\n\tfree (c->times);\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-703",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "defensive-security-vulnerability",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{{\"has_vulnerability\", false}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"No clear security weakness is evident from the provided snippet alone.\", \"Fix Principle\": \"Remove or validate untrusted input, prefer safer APIs, and sanitize inputs.\", \"Confidence\": 0.975, \"Fix_choice\": \"\"}}, {\"has_vulnerability\", false}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"No explicit security weakness is presented in the provided snippet.\", \"Fix Principle\": \"Preserve safe coding practices, input validation, and prefer safer APIs.\", \"Confidence\": 1.0}, {\"has_vulnerability\", false}, {\"vulnerability_type\", \"none\"}, {\"severity\", \"none\"}, {\"evidence\", \"\"}, {\"explanation\", \"No evident"
+    },
+    {
+      "id": "196763",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  void Compute(OpKernelContext* ctx) override {\n    const Tensor& indices_tensor = ctx->input(0);\n    OP_REQUIRES(ctx,\n                TensorShapeUtils::IsVector(indices_tensor.shape()) ||\n                    TensorShapeUtils::IsScalar(indices_tensor.shape()),\n                errors::InvalidArgument(\n                    \"The indices can only be scalar or vector, got \\\"\",\n                    indices_tensor.shape().DebugString(), \"\\\"\"));\n\n    const Tensor& dims_tensor = ctx->input(1);\n    OP_REQUIRES(\n        ctx, TensorShapeUtils::IsVector(dims_tensor.shape()),\n        errors::InvalidArgument(\"The indices can only be 1-D, got \\\"\",\n                                dims_tensor.shape().DebugString(), \"\\\"\"));\n\n    auto dims = dims_tensor.vec<Tidx>();\n\n    // Chek to make sure indices is not out of boundary\n    Eigen::Tensor<Tidx, 0, Eigen::RowMajor> dims_prod_eigen = dims.prod();\n    Tidx dims_prod = dims_prod_eigen();\n    const Tidx* indices = indices_tensor.flat<Tidx>().data();\n    int64 size = indices_tensor.NumElements();\n    bool check = std::all_of(indices, indices + size,\n                             [&](Tidx index) { return index < dims_prod; });\n    OP_REQUIRES(ctx, check,\n                errors::InvalidArgument(\"index is out of bound as with dims\"));\n\n    Eigen::array<bool, 1> reverse({true});\n\n    Tensor strides_tensor;\n    OP_REQUIRES_OK(ctx,\n                   ctx->allocate_temp(DataTypeToEnum<Tidx>::value,\n                                      TensorShape({dims_tensor.NumElements()}),\n                                      &strides_tensor));\n\n    auto strides = strides_tensor.vec<Tidx>();\n    strides = dims.reverse(reverse)\n                  .scan(0, Eigen::internal::ProdReducer<Tidx>(), false)\n                  .reverse(reverse);\n\n    Tensor strides_shifted_tensor;\n    OP_REQUIRES_OK(ctx,\n                   ctx->allocate_temp(DataTypeToEnum<Tidx>::value,\n                                      TensorShape({dims_tensor.NumElements()}),\n                                      &strides_shifted_tensor));\n\n    auto strides_shifted = strides_shifted_tensor.vec<Tidx>();\n    strides_shifted = dims.reverse(reverse)\n                          .scan(0, Eigen::internal::ProdReducer<Tidx>(), true)\n                          .reverse(reverse);\n\n    Tensor* output_tensor = nullptr;\n    if (TensorShapeUtils::IsScalar(indices_tensor.shape())) {\n      OP_REQUIRES_OK(\n          ctx, ctx->allocate_output(0, TensorShape({dims_tensor.NumElements()}),\n                                    &output_tensor));\n\n      auto output = output_tensor->vec<Tidx>();\n\n      output = output.constant(indices_tensor.scalar<Tidx>()());\n      output = output.binaryExpr(strides, mod_op<Tidx>()) / strides_shifted;\n    } else {\n      OP_REQUIRES_OK(\n          ctx, ctx->allocate_output(0,\n                                    TensorShape({dims_tensor.NumElements(),\n                                                 indices_tensor.NumElements()}),\n                                    &output_tensor));\n\n      auto output = output_tensor->matrix<Tidx>();\n\n      Eigen::array<Eigen::Index, 2> reshape{\n          {static_cast<Eigen::Index>(dims_tensor.NumElements()), 1}};\n      Eigen::array<Eigen::Index, 2> bcast(\n          {1, static_cast<Eigen::Index>(indices_tensor.NumElements())});\n      Eigen::array<Eigen::Index, 2> indices_reshape{\n          {1, static_cast<Eigen::Index>(indices_tensor.NumElements())}};\n      Eigen::array<Eigen::Index, 2> indices_bcast(\n          {static_cast<Eigen::Index>(dims_tensor.NumElements()), 1});\n\n      output = indices_tensor.vec<Tidx>()\n                   .reshape(indices_reshape)\n                   .broadcast(indices_bcast);\n      output = output.binaryExpr(strides.reshape(reshape).broadcast(bcast),\n                                 mod_op<Tidx>()) /\n               strides_shifted.reshape(reshape).broadcast(bcast);\n    }\n  }",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-369",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "vulnerable",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.45,
+      "raw_text": "{{\"has_vulnerability\", True}, {\"vulnerability_type\", \"vulnerable\"}, {\"severity\", \"unknown\"}, {\"evidence\", \"\"}, {\"explanation\", \"A defensive security weakness is present in the provided code snippet.\", \"Fixes are recommended but not provided.\"}, {\"fix_principle\", \"Remove the vulnerable behavior, validate untrusted input, and prefer safer APIs.\", \"\"}}"
+    },
+    {
+      "id": "196858",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n  bool matches(const Http::RequestHeaderMap& headers) const override {\n    if (BaseMatcherImpl::matchRoute(headers)) {\n      const Http::HeaderString& path = headers.Path()->value();\n      const absl::string_view query_string = Http::Utility::findQueryStringStart(path);\n      absl::string_view path_view = path.getStringView();\n      path_view.remove_suffix(query_string.length());\n      if (path_matcher_->match(path_view)) {\n        ENVOY_LOG(debug, \"Regex requirement '{}' matched.\", regex_str_);\n        return true;\n      }\n    }\n    return false;\n  }",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-703",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "vulnerable",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.7,
+      "raw_text": "{{\"has_vulnerability\", false}}\n{\"vulnerability_type\", \"vulnerable\"}\n{\"severity\", \"unknown\"}\n{\"evidence\", \"\"}}\n{\"explanation\", \"A defensive security weakness is present in the provided code snippet.\"}\n{\"fix_principle\", \"remove-vulnerable-code\"}郸医安全检查未发现此脆弱性。"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_holdout_eval_balanced_1000.jsonl",
+  "generations_path": "outputs/baseline_sft_secure_code_primevul_qwen05b_balanced_evidence_only_v1_holdout1000_generations.jsonl",
+  "report_json_path": "reports/secure_code_primevul_sft_qwen05b_balanced_evidence_only_v1_holdout1000_report.json",
+  "report_csv_path": "reports/secure_code_primevul_sft_qwen05b_balanced_evidence_only_v1_holdout1000_report.csv",
+  "tracker_path": "artifacts/experiments.jsonl"
+}

@@ -1,0 +1,20 @@
+{
+  "stage": "dpo",
+  "model_name": "hf-internal-testing/tiny-random-GPT2LMHeadModel",
+  "reference_model_name": "hf-internal-testing/tiny-random-GPT2LMHeadModel",
+  "preference_dataset_path": "data/processed/train_preferences.jsonl",
+  "eval_dataset_path": "data/processed/eval_math.jsonl",
+  "output_dir": "checkpoints/smoke_dpo",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 1e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "logging_steps": 1,
+    "save_steps": 10,
+    "max_prompt_length": 128,
+    "max_length": 256,
+    "beta": 0.1
+  }
+}

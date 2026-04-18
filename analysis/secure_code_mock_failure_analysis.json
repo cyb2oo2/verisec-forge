@@ -1,0 +1,102 @@
+{
+  "failure_buckets": {
+    "correct": 2,
+    "evidence_failure": 1
+  },
+  "avg_length_by_difficulty": {
+    "easy": 39.0,
+    "medium": 37.0
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "structured_json": 3
+    },
+    "parse_trigger_counts": {
+      "multiple_json_objects": 1,
+      "none": 1,
+      "low_confidence": 1
+    },
+    "avg_parse_confidence": 0.8833
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "sec-eval-0001",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following Python snippet for defensive security issues and return JSON only.\n\ncode:\nuser_input = request.args['cmd']\nos.system(user_input)\n",
+        "language": "python",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-78",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"cwe-78\", \"severity\": \"high\", \"evidence\": [{\"file_path\": \"snippet.py\", \"line_start\": 1, \"line_end\": 1, \"snippet\": \"Potential unsafe command execution sink detected.\"}], \"explanation\": \"User-controlled data appears to reach an execution sink without sanitization.\", \"fix_principle\": \"Avoid direct execution of untrusted input and use allowlisted commands.\", \"confidence\": 0.86, \"fix_choice\": \"\"}",
+        "token_count": 46,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-78",
+        "predicted_severity": "high",
+        "confidence": 0.86
+      },
+      {
+        "id": "sec-eval-0002",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following Python snippet for defensive security issues and return JSON only.\n\ncode:\ndef add(a, b):\n    return a + b\n",
+        "language": "python",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No clear security weakness is evident from the provided snippet alone.\", \"fix_principle\": \"Keep validating inputs and minimizing attack surface.\", \"confidence\": 0.55, \"fix_choice\": \"\"}",
+        "token_count": 32,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "confidence": 0.55
+      }
+    ],
+    "format_failure": [],
+    "label_failure": [],
+    "evidence_failure": [
+      {
+        "id": "sec-eval-0003",
+        "task_type": "fix_ranking",
+        "prompt": "Choose the safer patch candidate and explain why. Return JSON only.\n\nCandidate A:\nquery = \"SELECT * FROM users WHERE name = '\" + user + \"'\"\n\nCandidate B:\nquery = \"SELECT * FROM users WHERE name = ?\"\nparams = [user]\n",
+        "language": "python",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "cwe-20",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"cwe-20\", \"severity\": \"medium\", \"evidence\": [], \"explanation\": \"Candidate B preserves validation and reduces insecure behavior compared with the weaker option.\", \"fix_principle\": \"Prefer the patch that adds validation and least privilege checks.\", \"confidence\": 0.74, \"fix_choice\": \"candidate_b\"}",
+        "token_count": 37,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-20",
+        "predicted_severity": "medium",
+        "confidence": 0.74
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": []
+  },
+  "low_confidence_examples": [
+    {
+      "id": "sec-eval-0003",
+      "prompt": "Choose the safer patch candidate and explain why. Return JSON only.\n\nCandidate A:\nquery = \"SELECT * FROM users WHERE name = '\" + user + \"'\"\n\nCandidate B:\nquery = \"SELECT * FROM users WHERE name = ?\"\nparams = [user]\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "cwe-20",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "cwe-20",
+      "label_correct": true,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"cwe-20\", \"severity\": \"medium\", \"evidence\": [], \"explanation\": \"Candidate B preserves validation and reduces insecure behavior compared with the weaker option.\", \"fix_principle\": \"Prefer the patch that adds validation and least privilege checks.\", \"confidence\": 0.74, \"fix_choice\": \"candidate_b\"}"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered."
+  }
+}

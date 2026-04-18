@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: verifiable-reasoning-forge
+Version: 0.1.0
+Summary: A reproducible post-training stack for verifiable math reasoning.
+Author: Codex
+License: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: pydantic>=2.9.0
+Requires-Dist: uvicorn>=0.30.0
+Provides-Extra: train
+Requires-Dist: accelerate>=0.34.0; extra == "train"
+Requires-Dist: datasets>=2.21.0; extra == "train"
+Requires-Dist: peft>=0.12.0; extra == "train"
+Requires-Dist: transformers>=4.44.0; extra == "train"
+Requires-Dist: trl>=0.10.1; extra == "train"
+Requires-Dist: torch>=2.4.0; extra == "train"
+Provides-Extra: serve
+Requires-Dist: vllm>=0.6.0; extra == "serve"
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.0; extra == "dev"
+
+# Verifiable Reasoning Forge
+
+Verifiable Reasoning Forge is a reproducible post-training stack for verifiable math reasoning. It is designed to take a small open-weight model through a full reasoning post-training lifecycle:
+
+`Base -> SFT -> DPO -> mini-GRPO -> Evaluation -> Failure Analysis -> Serving`
+
+The v1 scope is intentionally narrow:
+
+- Task: verifiable math reasoning
+- Deployment target: local or single-node serving
+- Training budget: single consumer GPU with PEFT by default
+- Product shape: CLI plus API, not a broad chat product
+
+## What ships in this repo
+
+- Reproducible repo structure for data, training, reward, eval, analysis, serving, and reports
+- Unified schemas for datasets, generations, and experiment tracking
+- Baseline inference runner with a deterministic mock backend and optional Hugging Face backend
+- Automated evaluator with correctness, format, length, timeout, invalid-output, and repetition metrics
+- Failure analysis that separates reasoning failures from answer extraction or formatting failures
+- Training entrypoints for SFT, DPO, mini reward modeling, and GRPO
+- FastAPI service and CLI wrappers
+- Report templates, experiment configs, and sample datasets
+
+## Quick start
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e .[dev]
+vrf baseline --config configs\baseline.json
+vrf evaluate --config configs\eval_baseline.json
+vrf analyze --config configs\analysis_baseline.json
+vrf serve --config configs\serving_mock.json
+```

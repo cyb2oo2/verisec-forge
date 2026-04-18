@@ -1,0 +1,11 @@
+{
+  "dataset_path": "data/processed/eval_math.jsonl",
+  "output_path": "outputs/baseline_generations.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "backend": {
+    "type": "mock",
+    "model_name": "mock-baseline-v1",
+    "temperature": 0.0,
+    "max_new_tokens": 128
+  }
+}

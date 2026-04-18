@@ -1,0 +1,30 @@
+{
+  "stage": "grpo",
+  "model_name": "checkpoints/dpo",
+  "tokenizer_name": "checkpoints/dpo",
+  "train_dataset_path": "data/processed/train_grpo.jsonl",
+  "eval_dataset_path": "data/processed/eval_math.jsonl",
+  "output_dir": "checkpoints/grpo",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You solve short math word problems. Return valid JSON only with exactly two string fields: {\"reasoning\": \"...\", \"final_answer\": \"...\"}. Keep reasoning concise. Do not include markdown, code fences, or extra text.",
+  "response_prefix": "{\"reasoning\":\"",
+  "reward": {
+    "correctness_weight": 1.0,
+    "format_weight": 0.2,
+    "length_penalty_weight": 0.05,
+    "max_reasoning_tokens": 180
+  },
+  "training_args": {
+    "num_train_epochs": 1,
+    "max_steps": 6,
+    "learning_rate": 5e-6,
+    "per_device_train_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 5,
+    "save_steps": 20,
+    "max_prompt_length": 768,
+    "max_completion_length": 256,
+    "num_generations": 2,
+    "generation_batch_size": 2
+  }
+}

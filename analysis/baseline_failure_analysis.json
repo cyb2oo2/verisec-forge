@@ -1,0 +1,43 @@
+{
+  "failure_buckets": {
+    "correct": 5
+  },
+  "avg_length_by_difficulty": {
+    "easy": 16.5,
+    "medium": 23.0
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "math-eval-0001",
+        "prompt": "Mia has 3 apples and buys 4 more. How many apples does she have now?",
+        "gold_answer": "7",
+        "raw_text": "Reasoning: Add the known quantities: 3 + 4 = 7.\nFinal Answer: 7",
+        "token_count": 13
+      },
+      {
+        "id": "math-eval-0002",
+        "prompt": "A baker made 24 muffins and sold 9. How many muffins are left?",
+        "gold_answer": "15",
+        "raw_text": "Reasoning: Subtract the amount removed from the starting amount: 24 - 9 = 15.\nFinal Answer: 15",
+        "token_count": 17
+      },
+      {
+        "id": "math-eval-0003",
+        "prompt": "There are 6 boxes with 7 pencils in each box. How many pencils are there in total?",
+        "gold_answer": "42",
+        "raw_text": "Reasoning: Multiply the repeated amount by the number of groups: 6 x 7 = 42.\nFinal Answer: 42",
+        "token_count": 18
+      }
+    ],
+    "format_failure": [],
+    "reasoning_failure": [],
+    "verbosity_inflation": [],
+    "extraction_failure": []
+  },
+  "questions_answered": {
+    "reasoning_vs_extraction": "Failures are separated into reasoning_failure and extraction_failure buckets.",
+    "long_question_regression": "Use avg_length_by_difficulty plus eval difficulty breakdown to track regression.",
+    "verbosity_inflation": "Outputs with token_count > 40 on the sample data are flagged for review."
+  }
+}

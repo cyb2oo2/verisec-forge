@@ -1,0 +1,22 @@
+{
+  "stage": "dpo",
+  "training_mode": "adapter_only",
+  "model_name": "checkpoints/sft_secure_code_primevul_qwen05b_balanced_lossfix",
+  "reference_model_name": "checkpoints/sft_secure_code_primevul_qwen05b_balanced_lossfix",
+  "tokenizer_name": "checkpoints/sft_secure_code_primevul_qwen05b_balanced_lossfix",
+  "preference_dataset_path": "data/processed/train_secure_code_primevul_dpo_calibrated_balanced_6000.jsonl",
+  "eval_dataset_path": "data/processed/secure_code_primevul_eval_balanced_244.jsonl",
+  "output_dir": "checkpoints/dpo_secure_code_primevul_qwen05b_calibrated_lora_v1",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You are a defensive secure-code analysis model. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice.",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-6,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logging_steps": 20,
+    "save_steps": 100,
+    "max_length": 1024,
+    "beta": 0.05
+  }
+}

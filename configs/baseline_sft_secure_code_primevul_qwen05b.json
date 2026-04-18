@@ -1,0 +1,24 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_eval_200.jsonl",
+  "output_path": "outputs/baseline_sft_secure_code_primevul_qwen05b_generations.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "backend": {
+    "type": "huggingface",
+    "model_name": "checkpoints/sft_secure_code_primevul_qwen05b",
+    "temperature": 0.0,
+    "max_new_tokens": 192,
+    "max_input_tokens": 1024,
+    "max_prompt_chars": 8000,
+    "device_map": "auto",
+    "torch_dtype": "float16",
+    "local_files_only": true,
+    "output_format": "structured_json",
+    "system_prompt": "You are a defensive secure-code analysis model. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice.",
+    "response_prefix": "{",
+    "enable_second_pass": true,
+    "second_pass_confidence_threshold": 0.8,
+    "extraction_max_new_tokens": 96,
+    "extraction_system_prompt": "You are a structured security extraction module. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice.",
+    "extraction_response_prefix": "{"
+  }
+}
