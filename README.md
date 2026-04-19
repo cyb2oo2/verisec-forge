@@ -1,38 +1,88 @@
 # VeriSec Forge
 
-VeriSec Forge is a reproducible research system for structured secure-code reasoning, post-training, and auto-benchmarking. The project focuses on defensive analysis rather than exploit generation: given code, the model must decide whether a security weakness is present, assign a structured vulnerability label, explain the judgment, and stay inside a machine-checkable output contract.
+**Verifiable post-training and auto-benchmarking for structured secure-code reasoning.**
 
-The repo is built around a tight benchmark-and-training loop:
+VeriSec Forge is a research-first codebase for studying whether open-weight LLMs can make **trustworthy, structured security judgments about code**. The project focuses on **defensive analysis**, not exploit generation: given a code snippet, the model must decide whether a vulnerability is present, assign a structured weakness label, justify the decision, and stay inside a machine-checkable output contract.
 
-- real secure-code benchmark data
-- JSON-first generation and parser-aware recovery
-- automated evaluation and failure taxonomy
-- `Base -> SFT -> DPO` style post-training
-- reportable, reproducible experiment artifacts
+This repository is built to answer a practical research question:
 
-## One-line project goal
+> Can we improve secure-code reasoning with structured post-training while separating true semantic failure from parser noise, explanation drift, and calibration mistakes?
 
-Train and evaluate open-weight models to produce trustworthy, structured secure-code judgments, while separating true reasoning failure from parser noise, explanation drift, and calibration mistakes.
+## Why This Repo Exists
 
-## Current scope
+Most secure-code LLM demos blur together several different failure modes:
 
-- Domain: defensive secure-code reasoning
-- Primary task: weakness identification on code snippets
-- Secondary task: secure fix ranking
-- Deployment target: local or single-node API serving
-- Training budget: single consumer GPU with PEFT-first recipes
-- Product shape: research benchmark plus post-training platform, not a general assistant
+- the model judged the code incorrectly
+- the model used the right label but the wrong rationale
+- the output format broke, so the benchmark undercounted it
+- the model was confidently wrong
+- a second-pass verifier improved recall, but only by becoming noisy
 
-## Research questions
+VeriSec Forge is designed to **untangle those cases**. It combines:
 
-1. Can structured post-training improve secure-code reasoning correctness and stability?
-2. Are model explanations actually supported by code evidence?
-3. How much apparent benchmark failure is caused by formatting and parsing noise rather than true semantic failure?
-4. Do larger zero-shot models become more trustworthy, or just more security-fluent?
+- structured secure-code tasks
+- JSON-first prompting and parser-aware recovery
+- automated evaluation
+- failure taxonomy
+- SFT / DPO / verifier experiments
+- reproducible reports and diagnostics
 
-## Core output contract
+## Current Headline Results
 
-The primary secure-code task returns structured JSON shaped like:
+Primary benchmark:
+
+- `PrimeVul eval244`
+- balanced split: `122 vulnerable + 122 safe`
+
+Harder generalization check:
+
+- `PrimeVul holdout1000`
+- balanced split: `500 vulnerable + 500 safe`
+- excludes the current SFT training ids
+
+Current best family:
+
+- `Qwen2.5-0.5B-Instruct`
+- balanced `PrimeVul`
+- completion-only SFT
+- tolerant parser
+
+Best current checkpoint:
+
+- [checkpoints/sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1](D:/code/start/checkpoints/sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1)
+
+### Snapshot on `eval244`
+
+| Model | Label Accuracy | Format Pass Rate | High-Confidence Error Rate |
+| --- | ---: | ---: | ---: |
+| Base 0.5B | 0.4098 | 0.5410 | 0.1639 |
+| SFT 0.5B | 0.4795 | 0.8279 | 0.0287 |
+| SFT 0.5B (`safe->none`) | **0.4959** | 0.8033 | 0.0328 |
+| Base 1.5B | 0.0697 | 0.8484 | 0.1066 |
+
+### Snapshot on `holdout1000`
+
+| Model | Label Accuracy | Format Pass Rate | High-Confidence Error Rate |
+| --- | ---: | ---: | ---: |
+| Base 0.5B | 0.2920 | 0.6930 | 0.1700 |
+| SFT 0.5B | 0.4200 | 0.7820 | 0.0220 |
+| SFT 0.5B (`safe->none`) | **0.4540** | **0.8150** | 0.0290 |
+
+## Main Research Takeaways So Far
+
+- **Completion-only SFT is the strongest reliable method** in this repository so far.
+- **A larger zero-shot base model is not automatically more trustworthy.**
+  The `1.5B` zero-shot model sounds more security-fluent, but badly over-detects vulnerabilities.
+- **DPO has not beaten the SFT anchor yet.**
+  Several secure-code DPO variants degraded either output structure or semantic reliability.
+- **Verifier-style second review is interesting, but not solved.**
+  We found real recall signal, especially in failure-driven verifier training, but no verifier variant has yet produced a trustworthy net gain over the main auditor.
+- **The dominant remaining problem is false negatives.**
+  The strongest models are still too conservative on vulnerable code.
+
+## What the Model Must Output
+
+The core secure-code task uses a structured JSON contract like:
 
 ```json
 {
@@ -54,104 +104,46 @@ The primary secure-code task returns structured JSON shaped like:
 }
 ```
 
-In practice, the stack also supports tolerant parsing and second-pass recovery for JSON-like outputs so we can measure model reasoning separately from protocol breakage.
+The stack also supports tolerant parsing and second-pass recovery for JSON-like generations, so we can distinguish:
 
-## What is implemented
+- parser/protocol failure
+- semantic failure
+- calibration failure
 
-- Unified schemas for secure-code samples, structured generations, eval rows, and experiment tracking
-- JSON-first prompting, schema-first parsing, tolerant parsing, and second-pass extraction
-- CLI baseline runner and FastAPI serving entrypoints
-- Secure-code evaluator with metrics for:
-  - `label_accuracy`
-  - `format_pass_rate`
-  - `invalid_output_rate`
-  - `high_confidence_error_rate`
-  - `evidence_support_rate`
-  - `explanation_support_rate`
-- Failure analysis that separates:
-  - `label_failure`
-  - `format_failure`
-  - `evidence_failure`
-  - `explanation_failure`
-  - `high_confidence_error`
-- SFT and DPO training entrypoints for secure-code tasks
-- Real benchmark artifacts, reports, and analysis summaries
+## System Overview
 
-## Real benchmark status
+```mermaid
+flowchart LR
+  A["Secure-code sample<br/>code / label / context"] --> B["Prompt builder<br/>JSON-first task profile"]
+  B --> C["LLM auditor<br/>base or post-trained checkpoint"]
+  C --> D["Parser layer<br/>schema-first + tolerant parsing + fallback"]
+  D --> E["Structured prediction<br/>label / CWE / evidence / confidence"]
+  E --> F["Evaluator<br/>accuracy / format / calibration / support"]
+  F --> G["Failure taxonomy<br/>false_negative / false_positive / hard_fail / high_confidence_error"]
+  G --> H["Training loop<br/>SFT / DPO / verifier experiments"]
+```
 
-The main current benchmark is a balanced `PrimeVul eval244` split with:
+## Repository Contents
 
-- `122 vulnerable`
-- `122 safe`
+- [src/vrf](D:/code/start/src/vrf)  
+  Core inference, parsing, evaluation, analysis, training, and serving code.
 
-This is the current anchor benchmark for model comparison and failure analysis.
+- [configs](D:/code/start/configs)  
+  Runnable experiment configs for baseline, SFT, DPO, verifier, and reporting pipelines.
 
-## Current best result
+- [scripts](D:/code/start/scripts)  
+  Dataset preparation, benchmark building, diagnostics, and report generation utilities.
 
-The strongest model in the repo right now is:
+- [reports](D:/code/start/reports)  
+  Research summary, technical report, visual diagnostics, and experiment comparisons.
 
-- `Qwen2.5-0.5B-Instruct`
-- balanced `PrimeVul` SFT
-- completion-only loss
-- tolerant parser
+- [analysis](D:/code/start/analysis)  
+  Failure-analysis artifacts for completed runs.
 
-Checkpoint:
-- [checkpoints/sft_secure_code_primevul_qwen05b_balanced_lossfix](D:/code/start/checkpoints/sft_secure_code_primevul_qwen05b_balanced_lossfix)
+- [data](D:/code/start/data)  
+  Small benchmark slices and data layout notes. Large raw corpora and generated training datasets are not tracked by default.
 
-On balanced `PrimeVul eval244`, it currently reaches:
-
-- `label_accuracy = 0.4795`
-- `format_pass_rate = 0.8279`
-- `invalid_output_rate = 0.1598`
-- `high_confidence_error_rate = 0.0287`
-
-This is currently stronger and more trustworthy than every DPO variant explored so far.
-
-## Current comparison snapshot
-
-| Model | Label Accuracy | Format Pass Rate | Invalid Output Rate | High-Confidence Error Rate | Avg Tokens |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Base 0.5B | 0.4098 | 0.5410 | 0.2131 | 0.1639 | 41.8443 |
-| SFT 0.5B | 0.4795 | 0.8279 | 0.1598 | 0.0287 | 35.9918 |
-| Base 1.5B | 0.0697 | 0.8484 | 0.1311 | 0.1066 | 95.4426 |
-| Hard DPO v2 | 0.2090 | 0.3033 | 0.6926 | 0.0205 | 57.6475 |
-| Calibrated LoRA-only DPO v1 | 0.3648 | 0.6598 | 0.2910 | 0.0082 | 34.6475 |
-| Label-focused LoRA-only DPO v1 | 0.2418 | 0.4549 | 0.2541 | 0.0738 | 30.0738 |
-
-Key readout:
-
-- `SFT 0.5B` is the current best model.
-- `Base 1.5B` is much more security-fluent in tone, but badly over-detects vulnerabilities.
-- The DPO runs explored so far do not beat the SFT anchor and often destabilize the output protocol.
-
-See:
-- [reports/SECURE_CODE_RESEARCH_SUMMARY.md](D:/code/start/reports/SECURE_CODE_RESEARCH_SUMMARY.md)
-- [reports/TECHNICAL_REPORT.md](D:/code/start/reports/TECHNICAL_REPORT.md)
-- [reports/training_comparison.md](D:/code/start/reports/training_comparison.md)
-
-## Repo layout
-
-- [src/vrf](D:/code/start/src/vrf): core inference, parsing, evaluation, analysis, training, and serving code
-- [configs](D:/code/start/configs): runnable experiment configs
-- [data/processed](D:/code/start/data/processed): normalized benchmark slices and training datasets
-- [checkpoints](D:/code/start/checkpoints): trained adapters and model artifacts
-- [reports](D:/code/start/reports): experiment summaries and research notes
-- [analysis](D:/code/start/analysis): failure-analysis outputs
-- [scripts](D:/code/start/scripts): data preparation and reporting utilities
-
-## What gets versioned
-
-The GitHub-ready repo is intended to track:
-
-- source code
-- configs
-- small benchmark slices
-- research reports
-
-Large raw datasets, derived training corpora, outputs, and checkpoints are kept
-out of version control by default. See [data/README.md](D:/code/start/data/README.md).
-
-## Quick start
+## Quick Start
 
 ### 1. Install
 
@@ -161,7 +153,7 @@ python -m venv .venv
 python -m pip install -e .[dev]
 ```
 
-### 2. Run a mock secure-code baseline
+### 2. Run the mock secure-code pipeline
 
 ```powershell
 vrf baseline --config configs\baseline_secure_code_mock.json
@@ -169,7 +161,7 @@ vrf evaluate --config configs\eval_secure_code_mock.json
 vrf analyze --config configs\analysis_secure_code_mock.json
 ```
 
-### 3. Run the real PrimeVul 0.5B baseline on eval244
+### 3. Run the real `PrimeVul` 0.5B baseline on `eval244`
 
 ```powershell
 vrf baseline --config configs\baseline_secure_code_primevul_qwen05b_eval244.json
@@ -177,26 +169,92 @@ vrf evaluate --config configs\eval_secure_code_primevul_qwen05b_eval244.json
 vrf analyze --config configs\analysis_secure_code_primevul_qwen05b_eval244.json
 ```
 
-### 4. Run the current best SFT checkpoint on eval244
+### 4. Run the current best SFT checkpoint on `eval244`
 
 ```powershell
-vrf baseline --config configs\baseline_sft_secure_code_primevul_qwen05b_balanced_lossfix_eval244.json
-vrf evaluate --config configs\eval_sft_secure_code_primevul_qwen05b_balanced_lossfix_eval244.json
-vrf analyze --config configs\analysis_sft_secure_code_primevul_qwen05b_balanced_lossfix_eval244.json
+vrf baseline --config configs\baseline_sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1_eval244.json
+vrf evaluate --config configs\eval_sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1_eval244.json
+vrf analyze --config configs\analysis_sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1_eval244.json
 ```
 
-## Training entrypoints
+## Core Experiment Tracks
 
-Representative training configs:
+### Main auditor
 
-- SFT:
-  - [configs/sft_secure_code_primevul_qwen05b_balanced_lossfix.json](D:/code/start/configs/sft_secure_code_primevul_qwen05b_balanced_lossfix.json)
-- DPO:
-  - [configs/dpo_secure_code_primevul_qwen05b_calibrated_lora_v1.json](D:/code/start/configs/dpo_secure_code_primevul_qwen05b_calibrated_lora_v1.json)
-  - [configs/dpo_secure_code_primevul_qwen05b_label_focused_lora_v1.json](D:/code/start/configs/dpo_secure_code_primevul_qwen05b_label_focused_lora_v1.json)
+- Base 0.5B
+- Base 1.5B
+- completion-only SFT
+- safe-label cleanup SFT
+- evidence-focused SFT
 
-## Environment notes
+### Preference tuning
 
-- The repo currently runs on Windows with CLI, FastAPI, Hugging Face, and TRL-based training entrypoints.
-- `vLLM` is still the preferred Linux GPU serving path, but the active local workflow uses the FastAPI plus Hugging Face route.
-- The secure-code benchmark and report pipeline is fully local once the datasets are downloaded and normalized.
+- hard DPO
+- calibrated DPO
+- label-focused LoRA-only DPO
+
+### Verifier branch
+
+- self-verifier
+- generic strict verifier
+- failure-driven verifier
+- compact verifier
+- decision-only verifier
+- binary-judge verifier
+- label-only verifier
+
+The key result here is not just “which one is best,” but **which designs fail in what way**.
+
+## Best Places to Start Reading
+
+If you want the fast overview:
+
+- [reports/SECURE_CODE_RESEARCH_SUMMARY.md](D:/code/start/reports/SECURE_CODE_RESEARCH_SUMMARY.md)
+
+If you want the fuller methods and results:
+
+- [reports/TECHNICAL_REPORT.md](D:/code/start/reports/TECHNICAL_REPORT.md)
+
+If you want experiment-by-experiment comparisons:
+
+- [reports/training_comparison.md](D:/code/start/reports/training_comparison.md)
+
+If you want the failure and calibration diagnostics:
+
+- [reports/SECURE_CODE_DIAGNOSTICS.md](D:/code/start/reports/SECURE_CODE_DIAGNOSTICS.md)
+- [reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md](D:/code/start/reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md)
+
+## What Gets Versioned
+
+This GitHub repository is designed to track:
+
+- source code
+- configs
+- small benchmark slices
+- research reports
+
+It intentionally does **not** track:
+
+- large raw datasets
+- full processed training corpora
+- generated outputs
+- checkpoints
+
+See [data/README.md](D:/code/start/data/README.md) for the data layout and regeneration notes.
+
+## Environment Notes
+
+- The active local workflow runs on Windows with CLI, FastAPI, Hugging Face, and TRL-based training entrypoints.
+- `vLLM` is still the preferred Linux GPU serving path for a future serving-focused version.
+- The published repository is a research artifact and reproducible experiment stack, not a general-purpose secure coding assistant.
+
+## Project Status
+
+This repository is already useful as:
+
+- a secure-code reasoning benchmark harness
+- a structured post-training testbed
+- a failure-taxonomy and calibration study
+- a negative-result record for verifier and DPO variants that did **not** beat the SFT anchor
+
+That last point matters: the repo does not only record what worked, but also what looked promising and then failed under stricter evaluation.
