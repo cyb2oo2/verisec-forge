@@ -1,0 +1,12 @@
+{
+  "dataset_path": "data/processed/secure_code_codexglue_holdout_eval_balanced_2000.jsonl",
+  "generations_path": "outputs/baseline_sft_secure_code_codexglue_qwen15bcoder_evidence_only_6000_v1_holdout2000_generations.jsonl",
+  "report_json_path": "reports/secure_code_codexglue_sft_qwen15bcoder_evidence_only_6000_v1_holdout2000_report.json",
+  "report_csv_path": "reports/secure_code_codexglue_sft_qwen15bcoder_evidence_only_6000_v1_holdout2000_rows.csv",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "metrics": {
+    "timeout_ms_threshold": 120000,
+    "repeated_reasoning_threshold": 0.2,
+    "repeated_reasoning_ngram_size": 3
+  }
+}

@@ -130,6 +130,11 @@ To test whether the low-recall behavior was mostly a `PrimeVul` realism/length m
 - The discriminative LoRA classifier is the strongest control in this branch. On the same `eval1000`, it reaches `presence_accuracy = 0.567` and `vulnerable_recall = 0.492`, far above every generative JSON model.
 - The hybrid detector+auditor system is the first concrete dual-path result in the repo. It preserves the classifier's binary detection strength exactly, while converting outputs into stable structured records with `format_pass_rate = 1.0` and `invalid_output_rate = 0.0`.
 - That hybrid still inherits the classifier's binary tradeoff (`safe_specificity = 0.642`), and many positive detections lack strong evidence spans. So it is better understood as a practical systems pattern than as a new model-level breakthrough.
+- Threshold sweeps strengthen this systems conclusion. The classifier is not really a single point model here; it exposes distinct operating regimes:
+  - `0.2`: recall-heavy detector (`vulnerable_recall = 0.956`, `safe_specificity = 0.098`)
+  - `0.5`: balanced detector (`vulnerable_recall = 0.488`, `safe_specificity = 0.642`)
+  - `0.8`: conservative detector (`vulnerable_recall = 0.188`, `safe_specificity = 0.974`)
+- Rebuilding the hybrid at those thresholds preserves the same tradeoff while keeping `format_pass_rate = 1.0`. So the detector+a auditor path is now more than a one-off result: it is an operating-point family that can be tuned for triage, balanced review, or conservative auditing.
 - The current working hypothesis is therefore stronger than before: for small-to-mid code models in this repo, the core bottleneck is not just benchmark realism or data size, but the interaction between generative structured SFT and the decision boundary for vulnerable vs. safe code.
 
 *Hybrid `high_confidence_error_rate` is reported as `0.0` because the current stitched records leave confidence unset. That should be read as "not measured" rather than "perfectly calibrated."

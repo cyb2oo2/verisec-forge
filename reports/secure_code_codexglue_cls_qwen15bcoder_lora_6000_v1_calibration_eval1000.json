@@ -1,0 +1,51 @@
+{
+  "num_examples": 1000,
+  "expected_calibration_error": 0.0691,
+  "buckets": [
+    {
+      "bucket": "0.0-0.2",
+      "count": 71,
+      "share": 0.071,
+      "avg_probability": 0.1159,
+      "empirical_vulnerable_rate": 0.3099,
+      "gap": 0.1939,
+      "suggested_policy": "recall-heavy triage if recall is critical; otherwise not trustworthy enough for conservative auditing"
+    },
+    {
+      "bucket": "0.2-0.4",
+      "count": 231,
+      "share": 0.231,
+      "avg_probability": 0.3192,
+      "empirical_vulnerable_rate": 0.4286,
+      "gap": 0.1094,
+      "suggested_policy": "recall-heavy triage if recall is critical; otherwise not trustworthy enough for conservative auditing"
+    },
+    {
+      "bucket": "0.4-0.6",
+      "count": 511,
+      "share": 0.511,
+      "avg_probability": 0.4954,
+      "empirical_vulnerable_rate": 0.4814,
+      "gap": 0.014,
+      "suggested_policy": "balanced review zone; strong candidate for detector-driven audit"
+    },
+    {
+      "bucket": "0.6-0.8",
+      "count": 80,
+      "share": 0.08,
+      "avg_probability": 0.6586,
+      "empirical_vulnerable_rate": 0.4875,
+      "gap": 0.1711,
+      "suggested_policy": "specificity-favoring review zone; useful for moderate-confidence escalation"
+    },
+    {
+      "bucket": "0.8-1.0",
+      "count": 107,
+      "share": 0.107,
+      "avg_probability": 0.9647,
+      "empirical_vulnerable_rate": 0.8785,
+      "gap": 0.0862,
+      "suggested_policy": "conservative trustworthy zone; best fit for low-false-positive auditing"
+    }
+  ]
+}

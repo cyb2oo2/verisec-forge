@@ -165,6 +165,14 @@ To test whether the low-recall pattern on `PrimeVul` was mainly caused by long, 
 
 The classifier and hybrid rows are the strongest control results in the entire `CodeXGLUE` branch. They show that the current bottleneck is not simply model scale or benchmark fit: under the same data and base model, a discriminative detector can maintain much stronger recall than any of the generative JSON auditors.
 
+Threshold sweeps on the classifier make this even clearer. The detector has at least three practically useful operating points on the same balanced `eval1000`:
+
+- `threshold = 0.2`: recall-heavy triage (`vulnerable_recall = 0.956`, `safe_specificity = 0.098`)
+- `threshold = 0.5`: balanced review (`vulnerable_recall = 0.488`, `safe_specificity = 0.642`)
+- `threshold = 0.8`: conservative trustworthy mode (`vulnerable_recall = 0.188`, `safe_specificity = 0.974`)
+
+When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top.
+
 ## Failure Analysis
 
 ### Main Patterns
