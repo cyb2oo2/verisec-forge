@@ -69,6 +69,38 @@ This summary consolidates the current `PrimeVul eval244` secure-code reasoning r
 - The most trustworthy current model is not the one that sounds most security-fluent. `Base 1.5B` looks more expert but is much less calibrated than the `0.5B` SFT checkpoint.
 - The next research step should prioritize benchmark expansion, calibration analysis, and failure taxonomy over more aggressive preference tuning by default.
 
+## CodeXGLUE Coder-1.5B Readout
+
+We also ran a second mainline on a shorter, more community-typical benchmark:
+
+- dataset: `CodeXGLUE defect detection`
+- model: `Qwen/Qwen2.5-Coder-1.5B-Instruct`
+- eval slice: balanced `eval1000`
+
+| Model | Presence Accuracy | Vulnerable Recall | Safe Specificity | Label Accuracy | Format Pass Rate | Invalid Output Rate | High-Confidence Error Rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Base 1.5B Coder | 0.437 | 0.358 | 0.516 | 0.330 | 0.886 | 0.093 | 0.014 |
+| SFT 1.5B Coder (`safe->none`, 3k) | 0.477 | 0.078 | 0.876 | 0.477 | 0.939 | 0.061 | 0.248 |
+| SFT 1.5B Coder (`safe->none`, 6k) | 0.473 | 0.072 | 0.874 | 0.473 | 0.937 | 0.061 | 0.227 |
+| SFT 1.5B Coder (`standard`, 6k) | 0.477 | 0.078 | 0.876 | 0.477 | 0.939 | 0.061 | 0.229 |
+| SFT 1.5B Coder (`evidence_only`, 6k) | 0.474 | 0.082 | 0.866 | 0.474 | 0.942 | 0.058 | 0.182 |
+| SFT 1.5B Coder (`recall_focused`, 6k) | 0.472 | 0.076 | 0.868 | 0.472 | 0.935 | 0.064 | 0.185 |
+| SFT 1.5B Coder (`vulnerable_oversample_clean`, 6k) | 0.482 | 0.138 | 0.826 | 0.482 | 0.940 | 0.059 | 0.405 |
+| Classifier 1.5B Coder (LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a |
+| Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* |
+
+- `CodeXGLUE` validates that earlier `PrimeVul` experiments were not purely "too much benchmark realism for a small model." On shorter function-level data, the pipeline is healthier and easier to train.
+- But it also strengthens the deeper conclusion: even on the shorter binary benchmark, structured generative SFT still tends to move the model toward conservative safe-biased behavior.
+- The `standard 6k` run is especially important. It shows that low recall is not primarily caused by `safe->none` canonicalization, because removing that cleanup barely changes the operating point.
+- Scaling balanced data from `3k -> 6k` also barely changes recall, so the current bottleneck is not simply dataset size.
+- The only recipe that materially improves `vulnerable_recall` is `vulnerable_oversample_clean`, but its `high_confidence_error_rate = 0.405` makes it hard to justify as a trustworthy auditor.
+- The discriminative LoRA classifier is the clearest control result in this branch. It substantially outperforms the generative JSON models on both binary accuracy and vulnerable recall, which means the remaining bottleneck is not just model size or dataset fit.
+- The new hybrid detector+auditor pipeline turns that classifier result into a systems result. By letting the classifier decide `has_vulnerability` and the generative auditor provide structured fields, we preserve `presence_accuracy = 0.567` and `vulnerable_recall = 0.492` while achieving `format_pass_rate = 1.0`.
+- This hybrid is not a perfect secure-code judge yet: it still inherits the classifier's precision/specificity tradeoff, and many classifier-positive cases do not come with strong evidence spans. But it is the first route in the repo that cleanly separates "high-recall detection" from "well-formed structured auditing."
+- The current CodeXGLUE conclusion is therefore: data-model fit matters, but under this repo's generative JSON setup the recall/calibration tradeoff remains the real open problem.
+
+*Hybrid `high_confidence_error_rate` currently reads as `0.0` because confidence is unset in the stitched records. Treat this as "not yet calibrated" rather than "fully trustworthy."
+
 ## Holdout1000 Generalization Check
 
 To reduce the risk of overfitting our conclusions to the small `eval244` slice, we built a second benchmark:

@@ -1,0 +1,408 @@
+{
+  "failure_buckets": {
+    "high_confidence_error": 405,
+    "label_failure": 54,
+    "evidence_failure": 68,
+    "format_failure": 60,
+    "correct": 413
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 120.895
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "second_pass_model": 783,
+      "structured_json": 157,
+      "none": 60
+    },
+    "parse_trigger_counts": {
+      "low_confidence": 488,
+      "multiple_json_objects": 88,
+      "hard_fail": 408,
+      "none": 16
+    },
+    "avg_parse_confidence": 0.8908
+  },
+  "label_error_breakdown": {
+    "false_negative": 52,
+    "false_positive": 2
+  },
+  "format_error_breakdown": {
+    "hard_fail": 60
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 811,
+      "accuracy": 0.5006,
+      "high_confidence_error_rate": 0.4994
+    },
+    "0.75-0.89": {
+      "count": 112,
+      "accuracy": 0.6071,
+      "high_confidence_error_rate": 0.0
+    },
+    "0.0-0.49": {
+      "count": 7,
+      "accuracy": 0.2857,
+      "high_confidence_error_rate": 0.0
+    },
+    "missing": {
+      "count": 70,
+      "accuracy": 0.0857,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "51",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)\n\n{\n\n    int32_t datalen;\n\n    int lun;\n\n\n\n    DPRINTF(\"do_busid_cmd: busid 0x%x\\n\", busid);\n\n    lun = busid & 7;\n\n    s->current_req = scsi_req_new(s->current_dev, 0, lun, NULL);\n\n    datalen = scsi_req_enqueue(s->current_req, buf);\n\n    s->ti_size = datalen;\n\n    if (datalen != 0) {\n\n        s->rregs[ESP_RSTAT] = STAT_TC;\n\n        s->dma_left = 0;\n\n        s->dma_counter = 0;\n\n        if (datalen > 0) {\n\n            s->rregs[ESP_RSTAT] |= STAT_DI;\n\n        } else {\n\n            s->rregs[ESP_RSTAT] |= STAT_DO;\n\n        }\n\n        scsi_req_continue(s->current_req);\n\n    }\n\n    s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;\n\n    s->rregs[ESP_RSEQ] = SEQ_CD;\n\n    esp_raise_irq(s);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)\n\n{\n\n    int32_t datalen;\n\n    int lun;\n\n\n\n    DPRINTF(\"do_busid_cmd: busid 0x%x\\n\", busid);\n\n    lun = busid & 7;\n\n    s->current_req = scsi_req_new(s->current_dev, 0, lun, NULL);\n\n    datalen = scsi_req_enqueue(s->current_req, buf);\n\n    s->ti_size = datalen;\n\n    if (datalen != 0) {\n\n        s->rregs[ESP_RSTAT] = STAT_TC;\n\n        s->dma_left = 0;\n\n        s->dma_counter = 0;\n\n        if (datalen > 0) {\n\n            s->rregs[ESP_RSTAT] |= STAT_DI;\n\n        } else {\n\n            s->rregs[ESP_RSTAT] |= STAT_DO;\n\n        }\n\n        scsi_req_continue(s->current_req);\n\n    }\n\n    s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;\n\n    s->rregs[ESP_RSEQ] = SEQ_CD;\n\n    esp_raise_irq(s);\n\n}\n\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 182,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "71",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)\n\n{\n\n    va_list va;\n\n    char buf[256];\n\n    char *p;\n\n    target_ulong addr;\n\n    uint64_t i64;\n\n    GDBState *s;\n\n\n\n    s = gdbserver_state;\n\n    if (!s)\n\n        return;\n\n    gdb_current_syscall_cb = cb;\n\n    s->state = RS_SYSCALL;\n\n#ifndef CONFIG_USER_ONLY\n\n    vm_stop(EXCP_DEBUG);\n\n#endif\n\n    s->state = RS_IDLE;\n\n    va_start(va, fmt);\n\n    p = buf;\n\n    *(p++) = 'F';\n\n    while (*fmt) {\n\n        if (*fmt == '%') {\n\n            fmt++;\n\n            switch (*fmt++) {\n\n            case 'x':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx, addr);\n\n                break;\n\n            case 'l':\n\n                if (*(fmt++) != 'x')\n\n                    goto bad_format;\n\n                i64 = va_arg(va, uint64_t);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, \"%\" PRIx64, i64);\n\n                break;\n\n            case 's':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx \"/%x\",\n\n                              addr, va_arg(va, int));\n\n                break;\n\n            default:\n\n            bad_format:\n\n                fprintf(stderr, \"gdbstub: Bad syscall format string '%s'\\n\",\n\n                        fmt - 1);\n\n                break;\n\n            }\n\n        } else {\n\n            *(p++) = *(fmt++);\n\n        }\n\n    }\n\n    *p = 0;\n\n    va_end(va);\n\n    put_packet(s, buf);\n\n#ifdef CONFIG_USER_ONLY\n\n    gdb_handlesig(s->c_cpu, 0);\n\n#else\n\n    cpu_interrupt(s->c_cpu, CPU_INTERRUPT_EXIT);\n\n#endif\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)\n\n{\n\n    va_list va;\n\n    char buf[256];\n\n    char *p;\n\n    target_ulong addr;\n\n    uint64_t i64;\n\n    GDBState *s;\n\n\n\n    s = gdbserver_state;\n\n    if (!s)\n\n        return;\n\n    gdb_current_syscall_cb = cb;\n\n    s->state = RS_SYSCALL;\n\n#ifndef CONFIG_USER_ONLY\n\n    vm_stop(EXCP_DEBUG);\n\n#endif\n\n    s->state = RS_IDLE;\n\n    va_start(va, fmt);\n\n    p = buf;\n\n    *(p++) = 'F';\n\n    while (*fmt) {\n\n        if (*fmt == '%') {\n\n            fmt++;\n\n            switch (*fmt++) {\n\n            case 'x':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx, addr);\n\n                break;\n\n            case 'l':\n\n                if (*(fmt++) != 'x')\n\n                    goto bad_format;\n\n                i64 = va_arg(va, uint64_t);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, \"%\" PRIx64, i64);\n\n                break;\n\n            case 's':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx \"/%x\",\n\n                              addr, va_arg(va, int));\n\n                break;\n\n            default:\n\n            bad_format:\n\n                fprintf(stderr, \"gdbstub: Bad syscall format string '%s'\\n\",\n\n                        fmt - 1);\n\n                break;\n\n            }\n\n        } else {\n\n            *(p++) = *(fmt++);\n\n        }\n\n    }\n\n    *p = 0;\n\n    va_end(va);\n\n    put_packet(s, buf);\n\n#ifdef CONFIG_USER_ONLY\n\n    gdb_handlesig(s->c_cpu, 0);\n\n#else\n\n    cpu_interrupt(s->c_cpu, CPU_INTERRUPT_EXIT);\n\n#endif\n\n}\n\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 257,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "75",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void gen_cp0 (CPUState *env, DisasContext *ctx, uint32_t opc, int rt, int rd)\n\n{\n\n    const char *opn = \"ldst\";\n\n\n\n    switch (opc) {\n\n    case OPC_MFC0:\n\n        if (rt == 0) {\n\n            /* Treat as NOP */\n\n            return;\n\n        }\n\n        gen_mfc0(ctx, rd, ctx->opcode & 0x7);\n\n        gen_op_store_T0_gpr(rt);\n\n        opn = \"mfc0\";\n\n        break;\n\n    case OPC_MTC0:\n\n        GEN_LOAD_REG_TN(T0, rt);\n\n        gen_mtc0(ctx, rd, ctx->opcode & 0x7);\n\n        opn = \"mtc0\";\n\n        break;\n\n#ifdef TARGET_MIPS64\n\n    case OPC_DMFC0:\n\n        if (rt == 0) {\n\n            /* Treat as NOP */\n\n            return;\n\n        }\n\n        gen_dmfc0(ctx, rd, ctx->opcode & 0x7);\n\n        gen_op_store_T0_gpr(rt);\n\n        opn = \"dmfc0\";\n\n        break;\n\n    case OPC_DMTC0:\n\n        GEN_LOAD_REG_TN(T0, rt);\n\n        gen_dmtc0(ctx, rd, ctx->opcode & 0x7);\n\n        opn = \"dmtc0\";\n\n        break;\n\n#endif\n\n    case OPC_TLBWI:\n\n        opn = \"tlbwi\";\n\n        if (!env->do_tlbwi)\n\n            goto die;\n\n        gen_op_tlbwi();\n\n        break;\n\n    case OPC_TLBWR:\n\n        opn = \"tlbwr\";\n\n        if (!env->do_tlbwr)\n\n            goto die;\n\n        gen_op_tlbwr();\n\n        break;\n\n    case OPC_TLBP:\n\n        opn = \"tlbp\";\n\n        if (!env->do_tlbp)\n\n            goto die;\n\n        gen_op_tlbp();\n\n        break;\n\n    case OPC_TLBR:\n\n        opn = \"tlbr\";\n\n        if (!env->do_tlbr)\n\n            goto die;\n\n        gen_op_tlbr();\n\n        break;\n\n    case OPC_ERET:\n\n        opn = \"eret\";\n\n        save_cpu_state(ctx, 0);\n\n        gen_op_eret();\n\n        ctx->bstate = BS_EXCP;\n\n        break;\n\n    case OPC_DERET:\n\n        opn = \"deret\";\n\n        if (!(ctx->hflags & MIPS_HFLAG_DM)) {\n\n            MIPS_INVAL(opn);\n\n            generate_exception(ctx, EXCP_RI);\n\n        } else {\n\n            save_cpu_state(ctx, 0);\n\n            gen_op_deret();\n\n            ctx->bstate = BS_EXCP;\n\n        }\n\n        break;\n\n    case OPC_WAIT:\n\n        opn = \"wait\";\n\n        /* If we get an exception, we want to restart at next instruction */\n\n        ctx->pc += 4;\n\n        save_cpu_state(ctx, 1);\n\n        ctx->pc -= 4;\n\n        gen_op_wait();\n\n        ctx->bstate = BS_EXCP;\n\n        break;\n\n    default:\n\n die:\n\n        MIPS_INVAL(opn);\n\n        generate_exception(ctx, EXCP_RI);\n\n        return;\n\n    }\n\n    MIPS_DEBUG(\"%s %s %d\", opn, regnames[rt], rd);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{GEN_LOAD_REG_TN(T0, rt);\n\n        gen_dmtc0(ctx, rd, ctx->opcode & 0x7);\n\n        opn = \"dmtc0\";\n\n        break;\n\n#endif\n\n    case OPC_TLBWI:\n\n        opn = \"tlbwi\";\n\n        if (!env->do_tlbwi)\n\n            goto die;\n\n        gen_op_tlbwi();\n\n        break;\n\n    case OPC_TLBWR:\n\n        opn = \"tlbwr\";\n\n        if (!env->do_tlbwr)\n\n            goto die;\n\n        gen_op_tlbwr();\n\n        break;\n\n    case OPC_TLBP:\n\n        opn = \"tlbp\";\n\n        if (!env->do_tlbp)\n\n            goto die;\n\n        gen_op_tlbp();\n\n        break;\n\n    case OPC_TLBR:\n\n        opn = \"tlbr\";\n\n        if (!env->do_tlbr)\n\n            goto die;\n\n        gen_op_tlbr();\n\n        break;\n\n    case OPC_ERET:\n\n        opn = \"eret\";\n\n        save_cpu_state(ctx, 0);\n\n        gen_op_eret();\n\n        ctx->bstate = BS_EXCP;\n\n        break;\n\n    case OPC_DERET:\n\n        opn = \"deret\";\n\n        if (!(ctx->hflags & MIPS_HFLAG_DM)) {\n\n            MIPS_INVAL(opn);\n\n            generate_exception(ctx, EXCP_RI);\n\n        } else {\n\n            save_cpu_state(ctx, 0);\n\n            gen_op_deret();\n\n            ctx->bstate = BS_EXCP;\n\n        }\n\n        break;\n\n    case OPC_WAIT:\n\n        opn = \"wait\";\n\n        /* If we get an exception, we want to restart at next instruction */\n\n        ctx->pc += 4;\n\n        save_cpu_state(ctx, 1);\n\n        ctx->pc -= 4;\n\n        gen_op_wait();\n\n        ctx->bstate = BS_EXCP;\n\n        break;\n\n    default:\n\n die:\n\n        MIPS_INVAL(opn);\n\n        generate_exception(ctx, EXCP_RI);\n\n        return;\n\n    }\n\n    MIPS_DEBUG(\"%s %s %d\", opn, regnames[rt], rd);\n\n}\n\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 178,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.9
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "747",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height, int linesize_align[4]){\n\n    int w_align= 1;\n\n    int h_align= 1;\n\n\n\n    switch(s->pix_fmt){\n\n    case PIX_FMT_YUV420P:\n\n    case PIX_FMT_YUYV422:\n\n    case PIX_FMT_UYVY422:\n\n    case PIX_FMT_YUV422P:\n\n    case PIX_FMT_YUV440P:\n\n    case PIX_FMT_YUV444P:\n\n    case PIX_FMT_GRAY8:\n\n    case PIX_FMT_GRAY16BE:\n\n    case PIX_FMT_GRAY16LE:\n\n    case PIX_FMT_YUVJ420P:\n\n    case PIX_FMT_YUVJ422P:\n\n    case PIX_FMT_YUVJ440P:\n\n    case PIX_FMT_YUVJ444P:\n\n    case PIX_FMT_YUVA420P:\n\n    case PIX_FMT_YUV420P9LE:\n\n    case PIX_FMT_YUV420P9BE:\n\n    case PIX_FMT_YUV420P10LE:\n\n    case PIX_FMT_YUV420P10BE:\n\n    case PIX_FMT_YUV422P10LE:\n\n    case PIX_FMT_YUV422P10BE:\n\n\n\n\n\n        w_align= 16; //FIXME check for non mpeg style codecs and use less alignment\n\n        h_align= 16;\n\n        if(s->codec_id == CODEC_ID_MPEG2VIDEO || s->codec_id == CODEC_ID_MJPEG || s->codec_id == CODEC_ID_AMV || s->codec_id == CODEC_ID_THP || s->codec_id == CODEC_ID_H264)\n\n            h_align= 32; // interlaced is rounded up to 2 MBs\n\n        break;\n\n    case PIX_FMT_YUV411P:\n\n    case PIX_FMT_UYYVYY411:\n\n        w_align=32;\n\n        h_align=8;\n\n        break;\n\n    case PIX_FMT_YUV410P:\n\n        if(s->codec_id == CODEC_ID_SVQ1){\n\n            w_align=64;\n\n            h_align=64;\n\n        }\n\n    case PIX_FMT_RGB555:\n\n        if(s->codec_id == CODEC_ID_RPZA){\n\n            w_align=4;\n\n            h_align=4;\n\n        }\n\n    case PIX_FMT_PAL8:\n\n    case PIX_FMT_BGR8:\n\n    case PIX_FMT_RGB8:\n\n        if(s->codec_id == CODEC_ID_SMC){\n\n            w_align=4;\n\n            h_align=4;\n\n        }\n\n        break;\n\n    case PIX_FMT_BGR24:\n\n        if((s->codec_id == CODEC_ID_MSZH) || (s->codec_id == CODEC_ID_ZLIB)){\n\n            w_align=4;\n\n            h_align=4;\n\n        }\n\n        break;\n\n    default:\n\n        w_align= 1;\n\n        h_align= 1;\n\n        break;\n\n    }\n\n\n\n    *width = FFALIGN(*width , w_align);\n\n    *height= FFALIGN(*height, h_align);\n\n    if(s->codec_id == CODEC_ID_H264 || s->lowres)\n\n        *height+=2; // some of the optimized chroma MC reads one line too much\n\n                    // which is also done in mpeg decoders with lowres > 0\n\n\n\n    linesize_align[0] =\n\n    linesize_align[1] =\n\n    linesize_align[2] =\n\n    linesize_align[3] = STRIDE_ALIGN;\n\n//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes\n\n//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the\n\n//picture size unneccessarily in some cases. The solution here is not\n\n//pretty and better ideas are welcome!\n\n#if HAVE_MMX\n\n    if(s->codec_id == CODEC_ID_SVQ1 || s->codec_id == CODEC_ID_VP5 ||\n\n       s->codec_id == CODEC_ID_VP6 || s->codec_id == CODEC_ID_VP6F ||\n\n       s->codec_id == CODEC_ID_VP6A) {\n\n        linesize_align[0] =\n\n        linesize_align[1] =\n\n        linesize_align[2] = 16;\n\n    }\n\n#endif\n\n}",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{4;\n\n            h_align=4;\n\n        }\n\n        break;\n\n    default:\n\n        w_align= 1;\n\n        h_align= 1;\n\n        break;\n\n    }\n\n\n\n    *width = FFALIGN(*width , w_align);\n\n    *height= FFALIGN(*height, h_align);\n\n    if(s->codec_id == CODEC_ID_H264 || s->lowres)\n\n        *height+=2; // some of the optimized chroma MC reads one line too much\n\n                    // which is also done in mpeg decoders with lowres > 0\n\n\n\n    linesize_align[0] =\n\n    linesize_align[1] =\n\n    linesize_align[2] =\n\n    linesize_align[3] = STRIDE_ALIGN;\n\n//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes\n\n//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the\n\n//picture size unneccessarily in some cases. The solution here is not\n\n//pretty and better ideas are welcome!\n\n#if HAVE_MMX\n\n    if(s->codec_id == CODEC_ID_SVQ1 || s->codec_id == CODEC_ID_VP5 ||\n\n       s->codec_id == CODEC_ID_VP6 || s->codec_id == CODEC_ID_VP6F ||\n\n       s->codec_id == CODEC_ID_VP6A) {\n\n        linesize_align[0] =\n\n        linesize_align[1] =\n\n        linesize_align[2] = 16;\n\n    }\n\n#endif\n\n}\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 174,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "1088",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic int mxf_parse_structural_metadata(MXFContext *mxf)\n\n{\n\n    MXFPackage *material_package = NULL;\n\n    MXFPackage *temp_package = NULL;\n\n    int i, j, k;\n\n\n\n    av_dlog(mxf->fc, \"metadata sets count %d\\n\", mxf->metadata_sets_count);\n\n    /* TODO: handle multiple material packages (OP3x) */\n\n    for (i = 0; i < mxf->packages_count; i++) {\n\n        material_package = mxf_resolve_strong_ref(mxf, &mxf->packages_refs[i], MaterialPackage);\n\n        if (material_package) break;\n\n    }\n\n    if (!material_package) {\n\n        av_log(mxf->fc, AV_LOG_ERROR, \"no material package found\\n\");\n\n        return AVERROR_INVALIDDATA;\n\n    }\n\n\n\n    for (i = 0; i < material_package->tracks_count; i++) {\n\n        MXFPackage *source_package = NULL;\n\n        MXFTrack *material_track = NULL;\n\n        MXFTrack *source_track = NULL;\n\n        MXFTrack *temp_track = NULL;\n\n        MXFDescriptor *descriptor = NULL;\n\n        MXFStructuralComponent *component = NULL;\n\n        UID *essence_container_ul = NULL;\n\n        const MXFCodecUL *codec_ul = NULL;\n\n        const MXFCodecUL *container_ul = NULL;\n\n        AVStream *st;\n\n\n\n        if (!(material_track = mxf_resolve_strong_ref(mxf, &material_package->tracks_refs[i], Track))) {\n\n            av_log(mxf->fc, AV_LOG_ERROR, \"could not resolve material track strong ref\\n\");\n\n            continue;\n\n        }\n\n\n\n        if (!(material_track->sequence = mxf_resolve_strong_ref(mxf, &material_track->sequence_ref, Sequence))) {\n\n            av_log(mxf->fc, AV_LOG_ERROR, \"could not resolve material track sequence strong ref\\n\");\n\n            continue;\n\n        }\n\n\n\n        /* TODO: handle multiple source clips */\n\n        for (j = 0; j < material_track->sequence->structural_components_count; j++) {\n\n            /* TODO: handle timecode component */\n\n            component = mxf_resolve_strong_ref(mxf, &material_track->sequence->structural_components_refs[j], SourceClip);\n\n            if (!component)\n\n                continue;\n\n\n\n            for (k = 0; k < mxf->packages_count; k++) {\n\n                temp_package = mxf_resolve_strong_ref(mxf, &mxf->packages_refs[k], SourcePackage);\n\n                if (!temp_package)\n\n                    continue;\n\n                if (!memcmp(temp_package->package_uid, component->source_package_uid, 16)) {\n\n                    source_package = temp_package;\n\n                    break;\n\n                }\n\n            }\n\n            if (!source_package) {\n\n                av_log(mxf->fc, AV_LOG_ERROR, \"material track %d: no corresponding source package found\\n\", material_track->track_id);\n\n                break;\n\n            }\n\n            for (k = 0; k < source_package->tracks_count; k++) {\n\n                if (!(temp_track = mxf_resolve_strong_ref(mxf, &source_package->tracks_refs[k], Track))) {\n\n                    av_log(mxf->fc, AV_LOG_ERROR, \"could not resolve source track strong ref\\n\");\n\n                    return AVERROR_INVALIDDATA;\n\n                }\n\n                if (temp_track->track_id == component->source_track_id) {\n\n                    source_track = temp_track;\n\n                    break;\n\n                }\n\n            }\n\n            if (!source_track) {\n\n                av_log(mxf->fc, AV_LOG_ERROR, \"material track %d: no corresponding source track found\\n\", material_track->track_id);\n\n                break;\n\n            }\n\n        }\n\n        if (!source_track)\n\n            continue;\n\n\n\n        st = avformat_new_stream(mxf->fc, NULL);\n\n        if (!st) {\n\n            av_log(mxf->fc, AV_LOG_ERROR, \"could not allocate stream\\n\");\n\n            return AVERROR(ENOMEM);\n\n        }\n\n        st->id = source_track->track_id;\n\n        st->priv_data = source_track;\n\n        st->duration = component->duration;\n\n        if (st->duration == -1)\n\n            st->duration = AV_NOPTS_VALUE;\n\n        st->start_time = component->start_position;\n\n        avpriv_set_pts_info(st, 64, material_track->edit_rate.num, material_track->edit_rate.den);\n\n\n\n        if (!(source_track->sequence = mxf_resolve_strong_ref(mxf, &source_track->sequence_ref, Sequence))) {\n\n            av_log(mxf->fc, AV_LOG_ERROR, \"could not resolve source track sequence strong ref\\n\");\n\n            return AVERROR_INVALIDDATA;\n\n        }\n\n\n\n        PRINT_KEY(mxf->fc, \"data definition   ul\", source_track->sequence->data_definition_ul);\n\n        codec_ul = mxf_get_codec_ul(ff_mxf_data_definition_uls, &source_track->sequence->data_definition_ul);\n\n        st->codec->codec_type = codec_ul->id;\n\n\n\n        source_package->descriptor = mxf_resolve_strong_ref(mxf, &source_package->descriptor_ref, AnyType);\n\n        if (source_package->descriptor) {\n\n            if (source_package->descriptor->type == MultipleDescriptor) {\n\n                for (j = 0; j < source_package->descriptor->sub_descriptors_count; j++) {\n\n                    MXFDescriptor *sub_descriptor = mxf_resolve_strong_ref(mxf, &source_package->descriptor->sub_descriptors_refs[j], Descriptor);\n\n\n\n                    if (!sub_descriptor) {\n\n                        av_log(mxf->fc, AV_LOG_ERROR, \"could not resolve sub descriptor strong ref\\n\");\n\n                        continue;\n\n                    }\n\n                    if (sub_descriptor->linked_track_id == source_track->track_id) {\n\n                        descriptor = sub_descriptor;\n\n                        break;\n\n                    }\n\n                }\n\n            } else if (source_package->descriptor->type == Descriptor)\n\n                descriptor = source_package->descriptor;\n\n        }\n\n        if (!descriptor) {\n\n            av_log(mxf->fc, AV_LOG_INFO, \"source track %d: stream %d, no descriptor found\\n\", source_track->track_id, st->index);\n\n            continue;\n\n        }\n\n        PRINT_KEY(mxf->fc, \"essence codec     ul\", descriptor->essence_codec_ul);\n\n        PRINT_KEY(mxf->fc, \"essence container ul\", descriptor->essence_container_ul);\n\n        essence_container_ul = &descriptor->essence_container_ul;\n\n        /* HACK: replacing the original key with mxf_encrypted_essence_container\n\n         * is not allowed according to s429-6, try to find correct information anyway */\n\n        if (IS_KLV_KEY(essence_container_ul, mxf_encrypted_essence_container)) {\n\n            av_log(mxf->fc, AV_LOG_INFO, \"broken encrypted mxf file\\n\");\n\n            for (k = 0; k < mxf->metadata_sets_count; k++) {\n\n                MXFMetadataSet *metadata = mxf->metadata_sets[k];\n\n                if (metadata->type == CryptoContext) {\n\n                    essence_container_ul = &((MXFCryptoContext *)metadata)->source_container_ul;\n\n                    break;\n\n                }\n\n            }\n\n        }\n\n        /* TODO: drop PictureEssenceCoding and SoundEssenceCompression, only check EssenceContainer */\n\n        codec_ul = mxf_get_codec_ul(ff_mxf_codec_uls, &descriptor->essence_codec_ul);\n\n        st->codec->codec_id = codec_ul->id;\n\n        if (descriptor->extradata) {\n\n            st->codec->extradata = descriptor->extradata;\n\n            st->codec->extradata_size = descriptor->extradata_size;\n\n        }\n\n        if (st->codec->codec_type == AVMEDIA_TYPE_VIDEO) {\n\n            container_ul = mxf_get_codec_ul(mxf_essence_container_uls, essence_container_ul);\n\n            if (st->codec->codec_id == CODEC_ID_NONE)\n\n                st->codec->codec_id = container_ul->id;\n\n            st->codec->width = descriptor->width;\n\n            st->codec->height = descriptor->height;\n\n            if (st->codec->codec_id == CODEC_ID_RAWVIDEO)\n\n                st->codec->pix_fmt = descriptor->pix_fmt;\n\n            st->need_parsing = AVSTREAM_PARSE_HEADERS;\n\n        } else if (st->codec->codec_type == AVMEDIA_TYPE_AUDIO) {\n\n            container_ul = mxf_get_codec_ul(mxf_essence_container_uls, essence_container_ul);\n\n            if (st->codec->codec_id == CODEC_ID_NONE)\n\n                st->codec->codec_id = container_ul->id;\n\n            st->codec->channels = descriptor->channels;\n\n            st->codec->bits_per_coded_sample = descriptor->bits_per_sample;\n\n            st->codec->sample_rate = descriptor->sample_rate.num / descriptor->sample_rate.den;\n\n            /* TODO: implement CODEC_ID_RAWAUDIO */\n\n            if (st->codec->codec_id == CODEC_ID_PCM_S16LE) {\n\n                if (descriptor->bits_per_sample > 16 && descriptor->bits_per_sample <= 24)\n\n                    st->codec->codec_id = CODEC_ID_PCM_S24LE;\n\n                else if (descriptor->bits_per_sample == 32)\n\n                    st->codec->codec_id = CODEC_ID_PCM_S32LE;\n\n            } else if (st->codec->codec_id == CODEC_ID_PCM_S16BE) {\n\n                if (descriptor->bits_per_sample > 16 && descriptor->bits_per_sample <= 24)\n\n                    st->codec->codec_id = CODEC_ID_PCM_S24BE;\n\n                else if (descriptor->bits_per_sample == 32)\n\n                    st->codec->codec_id = CODEC_ID_PCM_S32BE;\n\n            } else if (st->codec->codec_id == CODEC_ID_MP2) {\n\n                st->need_parsing = AVSTREAM_PARSE_FULL;\n\n            }\n\n        }\n\n        if (st->codec->codec_type != AVMEDIA_TYPE_DATA && (*essence_container_ul)[15] > 0x01) {\n\n            av_log(mxf->fc, AV_LOG_WARNING, \"only frame wrapped mappings are correctly supported\\n\");\n\n            st->need_parsing = AVSTREAM_PARSE_FULL;\n\n        }\n\n    }\n\n    return 0;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "EncryptedMxfMetadataSet && metadata->key == mxf_encrypted_essence_container) {\n\n                    essence_container_ul = &metadata->value.encrypted_essence_container_ul;\n\n                    break;\n\n                }\n\n            }\n\n            if (!essence_container_ul) {\n\n                av_log(mxf->fc, AV_LOG_ERROR, \"broken encrypted mxf file\\n\");\n\n                return AVERROR_INVALIDDATA;\n\n            }\n\n        }\n\n        container_ul = &descriptor->container_ul;\n\n        PRINT_KEY(mxf->fc, \"container codec     ul\", container_ul);\n\n        st->codecpar->codec_tag = ff_mxf_codec_tags[container_ul->id];\n\n        st->codecpar->codec_id = ff_mpeg_get_id(container_ul->id);\n\n        st->codecpar->width = descriptor",
+        "token_count": 42,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "1278",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid gen_intermediate_code(CPUState *cs, TranslationBlock *tb)\n\n{\n\n    CPUM68KState *env = cs->env_ptr;\n\n    DisasContext dc1, *dc = &dc1;\n\n    target_ulong pc_start;\n\n    int pc_offset;\n\n    int num_insns;\n\n    int max_insns;\n\n\n\n    /* generate intermediate code */\n\n    pc_start = tb->pc;\n\n\n\n    dc->tb = tb;\n\n\n\n    dc->env = env;\n\n    dc->is_jmp = DISAS_NEXT;\n\n    dc->pc = pc_start;\n\n    dc->cc_op = CC_OP_DYNAMIC;\n\n    dc->cc_op_synced = 1;\n\n    dc->singlestep_enabled = cs->singlestep_enabled;\n\n    dc->user = (env->sr & SR_S) == 0;\n\n    dc->done_mac = 0;\n\n    dc->writeback_mask = 0;\n\n    num_insns = 0;\n\n    max_insns = tb->cflags & CF_COUNT_MASK;\n\n    if (max_insns == 0) {\n\n        max_insns = CF_COUNT_MASK;\n\n    }\n\n    if (max_insns > TCG_MAX_INSNS) {\n\n        max_insns = TCG_MAX_INSNS;\n\n    }\n\n\n\n    gen_tb_start(tb);\n\n    do {\n\n        pc_offset = dc->pc - pc_start;\n\n        gen_throws_exception = NULL;\n\n        tcg_gen_insn_start(dc->pc, dc->cc_op);\n\n        num_insns++;\n\n\n\n        if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {\n\n            gen_exception(dc, dc->pc, EXCP_DEBUG);\n\n            dc->is_jmp = DISAS_JUMP;\n\n            /* The address covered by the breakpoint must be included in\n\n               [tb->pc, tb->pc + tb->size) in order to for it to be\n\n               properly cleared -- thus we increment the PC here so that\n\n               the logic setting tb->size below does the right thing.  */\n\n            dc->pc += 2;\n\n            break;\n\n        }\n\n\n\n        if (num_insns == max_insns && (tb->cflags & CF_LAST_IO)) {\n\n            gen_io_start();\n\n        }\n\n\n\n        dc->insn_pc = dc->pc;\n\n\tdisas_m68k_insn(env, dc);\n\n    } while (!dc->is_jmp && !tcg_op_buf_full() &&\n\n             !cs->singlestep_enabled &&\n\n             !singlestep &&\n\n             (pc_offset) < (TARGET_PAGE_SIZE - 32) &&\n\n             num_insns < max_insns);\n\n\n\n    if (tb->cflags & CF_LAST_IO)\n\n        gen_io_end();\n\n    if (unlikely(cs->singlestep_enabled)) {\n\n        /* Make sure the pc is updated, and raise a debug exception.  */\n\n        if (!dc->is_jmp) {\n\n            update_cc_op(dc);\n\n            tcg_gen_movi_i32(QREG_PC, dc->pc);\n\n        }\n\n        gen_helper_raise_exception(cpu_env, tcg_const_i32(EXCP_DEBUG));\n\n    } else {\n\n        switch(dc->is_jmp) {\n\n        case DISAS_NEXT:\n\n            update_cc_op(dc);\n\n            gen_jmp_tb(dc, 0, dc->pc);\n\n            break;\n\n        default:\n\n        case DISAS_JUMP:\n\n        case DISAS_UPDATE:\n\n            update_cc_op(dc);\n\n            /* indicate that the hash table must be used to find the next TB */\n\n            tcg_gen_exit_tb(0);\n\n            break;\n\n        case DISAS_TB_JUMP:\n\n            /* nothing more to generate */\n\n            break;\n\n        }\n\n    }\n\n    gen_tb_end(tb, num_insns);\n\n\n\n#ifdef DEBUG_DISAS\n\n    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)\n\n        && qemu_log_in_addr_range(pc_start)) {\n\n        qemu_log_lock();\n\n        qemu_log(\"----------------\\n\");\n\n        qemu_log(\"IN: %s\\n\", lookup_symbol(pc_start));\n\n        log_target_disas(cs, pc_start, dc->pc - pc_start, 0);\n\n        qemu_log(\"\\n\");\n\n        qemu_log_unlock();\n\n    }\n\n#endif\n\n    tb->size = dc->pc - pc_start;\n\n    tb->icount = num_insns;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{->pc, BP_ANY))) {\n\n            gen_exception(dc, dc->pc, EXCP_DEBUG);\n\n            dc->is_jmp = DISAS_JUMP;\n\n            /* The address covered by the breakpoint must be included in\n\n               [tb->pc, tb->pc + tb->size) in order to for it to be\n\n               properly cleared -- thus we increment the PC here so that\n\n               the logic setting tb->size below does the right thing.  */\n\n            dc->pc += 2;\n\n            break;\n\n        }\n\n\n\n        if (num_insns == max_insns && (tb->cflags & CF_LAST_IO)) {\n\n            gen_io_start();\n\n        }\n\n\n\n        dc->insn_pc = dc->pc;\n\n\tdisas_m68k_insn(env, dc);\n\n    } while (!dc->is_jmp && !tcg_op_buf_full() &&\n\n             !cs->singlestep_enabled &&\n\n             !singlestep &&\n\n             (pc_offset) < (TARGET_PAGE_SIZE - 32) &&\n\n             num_insns < max_insns);\n\n\n\n    if (tb->cflags & CF_LAST_IO)\n\n        gen_io_end();\n\n    if (unlikely(cs->singlestep_enabled)) {\n\n        /* Make sure the pc is updated, and raise a debug exception.  */\n\n        if (!dc->is_jmp) {\n\n            update_cc_op(dc);\n\n            tcg_gen_movi_i32(QREG_PC, dc->pc);\n\n        }\n\n        gen_helper_raise_exception(cpu_env, tcg_const_i32(EXCP_DEBUG));\n\n    } else {\n\n        switch(dc->is_jmp) {\n\n        case DISAS_NEXT:\n\n            update_cc_op(dc);\n\n            gen_jmp_tb(dc, 0, dc->pc);\n\n            break;\n\n        default:\n\n        case DISAS_JUMP:\n\n        case DISAS_UPDATE:\n\n            update_cc_op(dc);\n\n            /* indicate that the hash table must be used to find the next TB */\n\n            tcg_gen_exit_tb(0);\n\n            break;\n\n        case DISAS_TB_JUMP:\n\n            /* nothing more to generate */\n\n            break;\n\n        }\n\n    }\n\n    gen_tb_end(tb, num_insns);\n\n\n\n#ifdef DEBUG_DISAS\n\n    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)\n\n        && qemu_log_in_addr_range(pc_start)) {\n\n        qemu_log_lock();\n\n        qemu_log(\"----------------\\n\");\n\n        qemu_log(\"IN: %s\\n\", lookup_symbol(pc_start));\n\n        log_target_disas(cs, pc_start, dc->pc - pc_start, 0);\n\n        qemu_log(\"\\n\");\n\n        qemu_log_unlock();\n\n    }\n\n#endif\n\n    tb->size = dc->pc - pc_start;\n\n    tb->icount = num_insns;\n\n}\n\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 241,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "10",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic inline int64_t sub64(const int64_t a, const int64_t b)\n\n{\n\n\treturn a - b;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic inline int64_t sub64(const int64_t a, const int64_t b)\n\n{\n\n\treturn a - b;\n\n}\n\nassistant\n{ \"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 100,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.75
+      },
+      {
+        "id": "162",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic uint64_t qdev_get_prop_mask64(Property *prop)\n\n{\n\n    assert(prop->info == &qdev_prop_bit);\n\n    return 0x1 << prop->bitnr;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic uint64_t qdev_get_prop_mask64(Property *prop)\n\n{\n\n    assert(prop->info == &qdev_prop_bit);\n\n    return 0x1 << prop->bitnr;\n\n}\n\nassistant\n{ \"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 113,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.75
+      },
+      {
+        "id": "255",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\ngen_intermediate_code_internal(MIPSCPU *cpu, TranslationBlock *tb,\n\n                               bool search_pc)\n\n{\n\n    CPUState *cs = CPU(cpu);\n\n    CPUMIPSState *env = &cpu->env;\n\n    DisasContext ctx;\n\n    target_ulong pc_start;\n\n    uint16_t *gen_opc_end;\n\n    CPUBreakpoint *bp;\n\n    int j, lj = -1;\n\n    int num_insns;\n\n    int max_insns;\n\n    int insn_bytes;\n\n    int is_branch;\n\n\n\n    if (search_pc)\n\n        qemu_log(\"search pc %d\\n\", search_pc);\n\n\n\n    pc_start = tb->pc;\n\n    gen_opc_end = tcg_ctx.gen_opc_buf + OPC_MAX_SIZE;\n\n    ctx.pc = pc_start;\n\n    ctx.saved_pc = -1;\n\n    ctx.singlestep_enabled = cs->singlestep_enabled;\n\n    ctx.insn_flags = env->insn_flags;\n\n    ctx.tb = tb;\n\n    ctx.bstate = BS_NONE;\n\n    /* Restore delay slot state from the tb context.  */\n\n    ctx.hflags = (uint32_t)tb->flags; /* FIXME: maybe use 64 bits here? */\n\n    restore_cpu_state(env, &ctx);\n\n#ifdef CONFIG_USER_ONLY\n\n        ctx.mem_idx = MIPS_HFLAG_UM;\n\n#else\n\n        ctx.mem_idx = ctx.hflags & MIPS_HFLAG_KSU;\n\n#endif\n\n    num_insns = 0;\n\n    max_insns = tb->cflags & CF_COUNT_MASK;\n\n    if (max_insns == 0)\n\n        max_insns = CF_COUNT_MASK;\n\n    LOG_DISAS(\"\\ntb %p idx %d hflags %04x\\n\", tb, ctx.mem_idx, ctx.hflags);\n\n    gen_tb_start();\n\n    while (ctx.bstate == BS_NONE) {\n\n        if (unlikely(!QTAILQ_EMPTY(&env->breakpoints))) {\n\n            QTAILQ_FOREACH(bp, &env->breakpoints, entry) {\n\n                if (bp->pc == ctx.pc) {\n\n                    save_cpu_state(&ctx, 1);\n\n                    ctx.bstate = BS_BRANCH;\n\n                    gen_helper_0e0i(raise_exception, EXCP_DEBUG);\n\n                    /* Include the breakpoint location or the tb won't\n\n                     * be flushed when it must be.  */\n\n                    ctx.pc += 4;\n\n                    goto done_generating;\n\n                }\n\n            }\n\n        }\n\n\n\n        if (search_pc) {\n\n            j = tcg_ctx.gen_opc_ptr - tcg_ctx.gen_opc_buf;\n\n            if (lj < j) {\n\n                lj++;\n\n                while (lj < j)\n\n                    tcg_ctx.gen_opc_instr_start[lj++] = 0;\n\n            }\n\n            tcg_ctx.gen_opc_pc[lj] = ctx.pc;\n\n            gen_opc_hflags[lj] = ctx.hflags & MIPS_HFLAG_BMASK;\n\n            gen_opc_btarget[lj] = ctx.btarget;\n\n            tcg_ctx.gen_opc_instr_start[lj] = 1;\n\n            tcg_ctx.gen_opc_icount[lj] = num_insns;\n\n        }\n\n        if (num_insns + 1 == max_insns && (tb->cflags & CF_LAST_IO))\n\n            gen_io_start();\n\n\n\n        is_branch = 0;\n\n        if (!(ctx.hflags & MIPS_HFLAG_M16)) {\n\n            ctx.opcode = cpu_ldl_code(env, ctx.pc);\n\n            insn_bytes = 4;\n\n            decode_opc(env, &ctx, &is_branch);\n\n        } else if (ctx.insn_flags & ASE_MICROMIPS) {\n\n            ctx.opcode = cpu_lduw_code(env, ctx.pc);\n\n            insn_bytes = decode_micromips_opc(env, &ctx, &is_branch);\n\n        } else if (ctx.insn_flags & ASE_MIPS16) {\n\n            ctx.opcode = cpu_lduw_code(env, ctx.pc);\n\n            insn_bytes = decode_mips16_opc(env, &ctx, &is_branch);\n\n        } else {\n\n            generate_exception(&ctx, EXCP_RI);\n\n            ctx.bstate = BS_STOP;\n\n            break;\n\n        }\n\n        if (!is_branch) {\n\n            handle_delay_slot(&ctx, insn_bytes);\n\n        }\n\n        ctx.pc += insn_bytes;\n\n\n\n        num_insns++;\n\n\n\n        /* Execute a branch and its delay slot as a single instruction.\n\n           This is what GDB expects and is consistent with what the\n\n           hardware does (e.g. if a delay slot instruction faults, the\n\n           reported PC is the PC of the branch).  */\n\n        if (cs->singlestep_enabled && (ctx.hflags & MIPS_HFLAG_BMASK) == 0) {\n\n            break;\n\n        }\n\n\n\n        if ((ctx.pc & (TARGET_PAGE_SIZE - 1)) == 0)\n\n            break;\n\n\n\n        if (tcg_ctx.gen_opc_ptr >= gen_opc_end) {\n\n            break;\n\n        }\n\n\n\n        if (num_insns >= max_insns)\n\n            break;\n\n\n\n        if (singlestep)\n\n            break;\n\n    }\n\n    if (tb->cflags & CF_LAST_IO) {\n\n        gen_io_end();\n\n    }\n\n    if (cs->singlestep_enabled && ctx.bstate != BS_BRANCH) {\n\n        save_cpu_state(&ctx, ctx.bstate == BS_NONE);\n\n        gen_helper_0e0i(raise_exception, EXCP_DEBUG);\n\n    } else {\n\n        switch (ctx.bstate) {\n\n        case BS_STOP:\n\n            gen_goto_tb(&ctx, 0, ctx.pc);\n\n            break;\n\n        case BS_NONE:\n\n            save_cpu_state(&ctx, 0);\n\n            gen_goto_tb(&ctx, 0, ctx.pc);\n\n            break;\n\n        case BS_EXCP:\n\n            tcg_gen_exit_tb(0);\n\n            break;\n\n        case BS_BRANCH:\n\n        default:\n\n            break;\n\n        }\n\n    }\n\ndone_generating:\n\n    gen_tb_end(tb, num_insns);\n\n    *tcg_ctx.gen_opc_ptr = INDEX_op_end;\n\n    if (search_pc) {\n\n        j = tcg_ctx.gen_opc_ptr - tcg_ctx.gen_opc_buf;\n\n        lj++;\n\n        while (lj <= j)\n\n            tcg_ctx.gen_opc_instr_start[lj++] = 0;\n\n    } else {\n\n        tb->size = ctx.pc - pc_start;\n\n        tb->icount = num_insns;\n\n    }\n\n#ifdef DEBUG_DISAS\n\n    LOG_DISAS(\"\\n\");\n\n    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {\n\n        qemu_log(\"IN: %s\\n\", lookup_symbol(pc_start));\n\n        log_target_disas(env, pc_start, ctx.pc - pc_start, 0);\n\n        qemu_log(\"\\n\");\n\n    }\n\n#endif\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\"}",
+        "token_count": 39,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.0
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "257",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void parse_type_bool(Visitor *v, const char *name, bool *obj,\n\n                            Error **errp)\n\n{\n\n    StringInputVisitor *siv = to_siv(v);\n\n\n\n    if (siv->string) {\n\n        if (!strcasecmp(siv->string, \"on\") ||\n\n            !strcasecmp(siv->string, \"yes\") ||\n\n            !strcasecmp(siv->string, \"true\")) {\n\n            *obj = true;\n\n            return;\n\n        }\n\n        if (!strcasecmp(siv->string, \"off\") ||\n\n            !strcasecmp(siv->string, \"no\") ||\n\n            !strcasecmp(siv->string, \"false\")) {\n\n            *obj = false;\n\n            return;\n\n        }\n\n    }\n\n\n\n    error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : \"null\",\n\n               \"boolean\");\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void parse_type_bool(Visitor *v, const char *name, bool *obj,\n\n                            Error **errp)\n\n{\n\n    StringInputVisitor *siv = to_siv(v);\n\n\n\n    if (siv->string) {\n\n        if (!strcasecmp(siv->string, \"on\") ||\n\n            !strcasecmp(siv->string, \"yes\") ||\n\n            !strcasecmp(siv->string, \"true\")) {\n\n            *obj = true;\n\n            return;\n\n        }\n\n        if (!strcasecmp(siv->string, \"off\") ||\n\n            !strcasecmp(siv->string, \"no\") ||\n\n            !strcasecmp(siv->string, \"false\")) {\n\n            *obj = false;\n\n            return;\n\n        }\n\n    }\n\n\n\n    error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : \"null\",\n\n               \"boolean\");\n\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 167,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "345",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvmxnet3_pop_next_tx_descr(VMXNET3State *s,\n\n                          int qidx,\n\n                          struct Vmxnet3_TxDesc *txd,\n\n                          uint32_t *descr_idx)\n\n{\n\n    Vmxnet3Ring *ring = &s->txq_descr[qidx].tx_ring;\n\n    PCIDevice *d = PCI_DEVICE(s);\n\n\n\n    vmxnet3_ring_read_curr_cell(d, ring, txd);\n\n    if (txd->gen == vmxnet3_ring_curr_gen(ring)) {\n\n        /* Only read after generation field verification */\n\n        smp_rmb();\n\n        /* Re-read to be sure we got the latest version */\n\n        vmxnet3_ring_read_curr_cell(d, ring, txd);\n\n        VMXNET3_RING_DUMP(VMW_RIPRN, \"TX\", qidx, ring);\n\n        *descr_idx = vmxnet3_ring_curr_cell_idx(ring);\n\n        vmxnet3_inc_tx_consumption_counter(s, qidx);\n\n        return true;\n\n    }\n\n\n\n    return false;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvmxnet3_pop_next_tx_descr(VMXNET3State *s,\n\n                          int qidx,\n\n                          struct Vmxnet3_TxDesc *txd,\n\n                          uint32_t *descr_idx)\n\n{\n\n    Vmxnet3Ring *ring = &s->txq_descr[qidx].tx_ring;\n\n    PCIDevice *d = PCI_DEVICE(s);\n\n\n\n    vmxnet3_ring_read_curr_cell(d, ring, txd);\n\n    if (txd->gen == vmxnet3_ring_curr_gen(ring)) {\n\n        /* Only read after generation field verification */\n\n        smp_rmb();\n\n        /* Re-read to be sure we got the latest version */\n\n        vmxnet3_ring_read_curr_cell(d, ring, txd);\n\n        VMXNET3_RING_DUMP(VMW_RIPRN, \"TX\", qidx, ring);\n\n        *descr_idx = vmxnet3_ring_curr_cell_idx(ring);\n\n        vmxnet3_inc_tx_consumption_counter(s, qidx);\n\n        return true;\n\n    }\n\n\n\n    return false;\n\n}\n\nassistant\n{has_vulnerability: true, vulnerability_type: \"unknown\", severity: \"unknown\", evidence: [], explanation: \"The function contains a vulnerability-like defect and should be treated as unsafe.\", fix_principle: \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", confidence: 0.9, fix_choice: \"\"}",
+        "token_count": 170,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "443",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic int decode_slice(struct AVCodecContext *avctx, void *arg)\n\n{\n\n    H264Context *h = *(void **)arg;\n\n    int lf_x_start = h->mb_x;\n\n\n\n    h->mb_skip_run = -1;\n\n\n\n    av_assert0(h->block_offset[15] == (4 * ((scan8[15] - scan8[0]) & 7) << h->pixel_shift) + 4 * h->linesize * ((scan8[15] - scan8[0]) >> 3));\n\n\n\n    h->is_complex = FRAME_MBAFF(h) || h->picture_structure != PICT_FRAME ||\n\n                    avctx->codec_id != AV_CODEC_ID_H264 ||\n\n                    (CONFIG_GRAY && (h->flags & CODEC_FLAG_GRAY));\n\n\n\n    if (!(h->avctx->active_thread_type & FF_THREAD_SLICE) && h->picture_structure == PICT_FRAME) {\n\n        const int start_i  = av_clip(h->resync_mb_x + h->resync_mb_y * h->mb_width, 0, h->mb_num - 1);\n\n        if (start_i) {\n\n            int prev_status = h->er.error_status_table[h->er.mb_index2xy[start_i - 1]];\n\n            prev_status &= ~ VP_START;\n\n            if (prev_status != (ER_MV_END | ER_DC_END | ER_AC_END))\n\n                h->er.error_occurred = 1;\n\n        }\n\n    }\n\n\n\n    if (h->pps.cabac) {\n\n        /* realign */\n\n        align_get_bits(&h->gb);\n\n\n\n        /* init cabac */\n\n        ff_init_cabac_decoder(&h->cabac,\n\n                              h->gb.buffer + get_bits_count(&h->gb) / 8,\n\n                              (get_bits_left(&h->gb) + 7) / 8);\n\n\n\n        ff_h264_init_cabac_states(h);\n\n\n\n        for (;;) {\n\n            // START_TIMER\n\n            int ret = ff_h264_decode_mb_cabac(h);\n\n            int eos;\n\n            // STOP_TIMER(\"decode_mb_cabac\")\n\n\n\n            if (ret >= 0)\n\n                ff_h264_hl_decode_mb(h);\n\n\n\n            // FIXME optimal? or let mb_decode decode 16x32 ?\n\n            if (ret >= 0 && FRAME_MBAFF(h)) {\n\n                h->mb_y++;\n\n\n\n                ret = ff_h264_decode_mb_cabac(h);\n\n\n\n                if (ret >= 0)\n\n                    ff_h264_hl_decode_mb(h);\n\n                h->mb_y--;\n\n            }\n\n            eos = get_cabac_terminate(&h->cabac);\n\n\n\n            if ((h->workaround_bugs & FF_BUG_TRUNCATED) &&\n\n                h->cabac.bytestream > h->cabac.bytestream_end + 2) {\n\n                er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x - 1,\n\n                                h->mb_y, ER_MB_END);\n\n                if (h->mb_x >= lf_x_start)\n\n                    loop_filter(h, lf_x_start, h->mb_x + 1);\n\n                return 0;\n\n            }\n\n            if (h->cabac.bytestream > h->cabac.bytestream_end + 2 )\n\n                av_log(h->avctx, AV_LOG_DEBUG, \"bytestream overread %td\\n\", h->cabac.bytestream_end - h->cabac.bytestream);\n\n            if (ret < 0 || h->cabac.bytestream > h->cabac.bytestream_end + 4) {\n\n                av_log(h->avctx, AV_LOG_ERROR,\n\n                       \"error while decoding MB %d %d, bytestream (%td)\\n\",\n\n                       h->mb_x, h->mb_y,\n\n                       h->cabac.bytestream_end - h->cabac.bytestream);\n\n                er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x,\n\n                                h->mb_y, ER_MB_ERROR);\n\n                return -1;\n\n            }\n\n\n\n            if (++h->mb_x >= h->mb_width) {\n\n                loop_filter(h, lf_x_start, h->mb_x);\n\n                h->mb_x = lf_x_start = 0;\n\n                decode_finish_row(h);\n\n                ++h->mb_y;\n\n                if (FIELD_OR_MBAFF_PICTURE(h)) {\n\n                    ++h->mb_y;\n\n                    if (FRAME_MBAFF(h) && h->mb_y < h->mb_height)\n\n                        predict_field_decoding_flag(h);\n\n                }\n\n            }\n\n\n\n            if (eos || h->mb_y >= h->mb_height) {\n\n                tprintf(h->avctx, \"slice end %d %d\\n\",\n\n                        get_bits_count(&h->gb), h->gb.size_in_bits);\n\n                er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x - 1,\n\n                                h->mb_y, ER_MB_END);\n\n                if (h->mb_x > lf_x_start)\n\n                    loop_filter(h, lf_x_start, h->mb_x);\n\n                return 0;\n\n            }\n\n        }\n\n    } else {\n\n        for (;;) {\n\n            int ret = ff_h264_decode_mb_cavlc(h);\n\n\n\n            if (ret >= 0)\n\n                ff_h264_hl_decode_mb(h);\n\n\n\n            // FIXME optimal? or let mb_decode decode 16x32 ?\n\n            if (ret >= 0 && FRAME_MBAFF(h)) {\n\n                h->mb_y++;\n\n                ret = ff_h264_decode_mb_cavlc(h);\n\n\n\n                if (ret >= 0)\n\n                    ff_h264_hl_decode_mb(h);\n\n                h->mb_y--;\n\n            }\n\n\n\n            if (ret < 0) {\n\n                av_log(h->avctx, AV_LOG_ERROR,\n\n                       \"error while decoding MB %d %d\\n\", h->mb_x, h->mb_y);\n\n                er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x,\n\n                                h->mb_y, ER_MB_ERROR);\n\n                return -1;\n\n            }\n\n\n\n            if (++h->mb_x >= h->mb_width) {\n\n                loop_filter(h, lf_x_start, h->mb_x);\n\n                h->mb_x = lf_x_start = 0;\n\n                decode_finish_row(h);\n\n                ++h->mb_y;\n\n                if (FIELD_OR_MBAFF_PICTURE(h)) {\n\n                    ++h->mb_y;\n\n                    if (FRAME_MBAFF(h) && h->mb_y < h->mb_height)\n\n                        predict_field_decoding_flag(h);\n\n                }\n\n                if (h->mb_y >= h->mb_height) {\n\n                    tprintf(h->avctx, \"slice end %d %d\\n\",\n\n                            get_bits_count(&h->gb), h->gb.size_in_bits);\n\n\n\n                    if (   get_bits_left(&h->gb) == 0\n\n                        || get_bits_left(&h->gb) > 0 && !(h->avctx->err_recognition & AV_EF_AGGRESSIVE)) {\n\n                        er_add_slice(h, h->resync_mb_x, h->resync_mb_y,\n\n                                        h->mb_x - 1, h->mb_y,\n\n                                        ER_MB_END);\n\n\n\n                        return 0;\n\n                    } else {\n\n                        er_add_slice(h, h->resync_mb_x, h->resync_mb_y,\n\n                                        h->mb_x, h->mb_y,\n\n                                        ER_MB_END);\n\n\n\n                        return -1;\n\n                    }\n\n                }\n\n            }\n\n\n\n            if (get_bits_left(&h->gb) <= 0 && h->mb_skip_run <= 0) {\n\n                tprintf(h->avctx, \"slice end %d %d\\n\",\n\n                        get_bits_count(&h->gb), h->gb.size_in_bits);\n\n                if (get_bits_left(&h->gb) == 0) {\n\n                    er_add_slice(h, h->resync_mb_x, h->resync_mb_y,\n\n                                    h->mb_x - 1, h->mb_y,\n\n                                    ER_MB_END);\n\n                    if (h->mb_x > lf_x_start)\n\n                        loop_filter(h, lf_x_start, h->mb_x);\n\n\n\n                    return 0;\n\n                } else {\n\n                    er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x,\n\n                                    h->mb_y, ER_MB_ERROR);\n\n\n\n                    return -1;\n\n                }\n\n            }\n\n        }\n\n    }\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "slice end %d %d\\n\",\n\n                            get_bits_count(&h->gb), h->gb.size_in_bits);\n\n                    er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x - 1,\n\n                                h->mb_y, ER_MB_END);\n\n                    if (h->mb_x > lf_x_start)\n\n                        loop_filter(h, lf_x_start, h->mb_x);\n\n                    return 0;\n\n                }\n\n            }\n\n        }\n\n    }\n\n    return 0;\n\n}\n\n{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle",
+        "token_count": 52,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.55,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "8",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void filter_mirror_setup(NetFilterState *nf, Error **errp)\n{\n    MirrorState *s = FILTER_MIRROR(nf);\n    Chardev *chr;\n    chr = qemu_chr_find(s->outdev);\n    if (chr == NULL) {\n        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,\n                  \"Device '%s' not found\", s->outdev);\n    qemu_chr_fe_init(&s->chr_out, chr, errp);",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{) {\n        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,\n                  \"Device '%s' not found\", s->outdev);\n    qemu_chr_fe_init(&s->chr_out, chr, errp);\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 54,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.9
+      },
+      {
+        "id": "15",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid fw_cfg_add_callback(FWCfgState *s, uint16_t key, FWCfgCallback callback,\n\n                         void *callback_opaque, uint8_t *data, size_t len)\n\n{\n\n    int arch = !!(key & FW_CFG_ARCH_LOCAL);\n\n\n\n    assert(key & FW_CFG_WRITE_CHANNEL);\n\n\n\n    key &= FW_CFG_ENTRY_MASK;\n\n\n\n    assert(key < FW_CFG_MAX_ENTRY && len <= 65535);\n\n\n\n    s->entries[arch][key].data = data;\n\n    s->entries[arch][key].len = len;\n\n    s->entries[arch][key].callback_opaque = callback_opaque;\n\n    s->entries[arch][key].callback = callback;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{has_vulnerability: true, vulnerability_type: 'unknown', severity: 'unknown', evidence: [], explanation: 'The function contains a vulnerability-like defect and should be treated as unsafe.', fix_principle: 'Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.', confidence: 0.9, fix_choice: ''}",
+        "token_count": 39,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.9
+      },
+      {
+        "id": "22",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void emulated_push_error(EmulatedState *card, uint64_t code)\n\n{\n\n    EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent));\n\n\n\n    assert(event);\n\n    event->p.error.type = EMUL_ERROR;\n\n    event->p.error.code = code;\n\n    emulated_push_event(card, event);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{State *card, uint64_t code)\n\n{\n\n    EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent));\n\n\n\n    assert(event);\n\n    event->p.error.type = EMUL_ERROR;\n\n    event->p.error.code = code;\n\n    emulated_push_event(card, event);\n\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 62,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.9
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "8",
+      "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void filter_mirror_setup(NetFilterState *nf, Error **errp)\n{\n    MirrorState *s = FILTER_MIRROR(nf);\n    Chardev *chr;\n    chr = qemu_chr_find(s->outdev);\n    if (chr == NULL) {\n        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,\n                  \"Device '%s' not found\", s->outdev);\n    qemu_chr_fe_init(&s->chr_out, chr, errp);",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{) {\n        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,\n                  \"Device '%s' not found\", s->outdev);\n    qemu_chr_fe_init(&s->chr_out, chr, errp);\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "15",
+      "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid fw_cfg_add_callback(FWCfgState *s, uint16_t key, FWCfgCallback callback,\n\n                         void *callback_opaque, uint8_t *data, size_t len)\n\n{\n\n    int arch = !!(key & FW_CFG_ARCH_LOCAL);\n\n\n\n    assert(key & FW_CFG_WRITE_CHANNEL);\n\n\n\n    key &= FW_CFG_ENTRY_MASK;\n\n\n\n    assert(key < FW_CFG_MAX_ENTRY && len <= 65535);\n\n\n\n    s->entries[arch][key].data = data;\n\n    s->entries[arch][key].len = len;\n\n    s->entries[arch][key].callback_opaque = callback_opaque;\n\n    s->entries[arch][key].callback = callback;\n\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{has_vulnerability: true, vulnerability_type: 'unknown', severity: 'unknown', evidence: [], explanation: 'The function contains a vulnerability-like defect and should be treated as unsafe.', fix_principle: 'Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.', confidence: 0.9, fix_choice: ''}"
+    },
+    {
+      "id": "22",
+      "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void emulated_push_error(EmulatedState *card, uint64_t code)\n\n{\n\n    EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent));\n\n\n\n    assert(event);\n\n    event->p.error.type = EMUL_ERROR;\n\n    event->p.error.code = code;\n\n    emulated_push_event(card, event);\n\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{State *card, uint64_t code)\n\n{\n\n    EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent));\n\n\n\n    assert(event);\n\n    event->p.error.type = EMUL_ERROR;\n\n    event->p.error.code = code;\n\n    emulated_push_event(card, event);\n\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "125",
+      "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic int mxf_read_content_storage(MXFContext *mxf, ByteIOContext *pb, int tag)\n\n{\n\n    switch (tag) {\n\n    case 0x1901:\n\n        mxf->packages_count = get_be32(pb);\n\n        if (mxf->packages_count >= UINT_MAX / sizeof(UID))\n\n            return -1;\n\n        mxf->packages_refs = av_malloc(mxf->packages_count * sizeof(UID));\n\n        if (!mxf->packages_refs)\n\n            return -1;\n\n        url_fskip(pb, 4); /* useless size of objects, always 16 according to specs */\n\n        get_buffer(pb, (uint8_t *)mxf->packages_refs, mxf->packages_count * sizeof(UID));\n\n        break;\n\n    }\n\n    return 0;\n\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic int mxf_read_content_storage(MXFContext *mxf, ByteIOContext *pb, int tag)\n\n{\n\n    switch (tag) {\n\n    case 0x1901:\n\n        mxf->packages_count = get_be32(pb);\n\n        if (mxf->packages_count >= UINT_MAX / sizeof(UID))\n\n            return -1;\n\n        mxf->packages_refs = av_malloc(mxf->packages_count * sizeof(UID));\n\n        if (!mxf->packages_refs)\n\n            return -1;\n\n        url_fskip(pb, 4); /* useless size of objects, always 16 according to specs */\n\n        get_buffer(pb, (uint8_t *)mxf->packages_refs, mxf->packages_count * sizeof(UID));\n\n        break;\n\n    }\n\n    return 0;\n\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "143",
+      "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstruct vhost_net *vhost_net_init(VLANClientState *backend, int devfd,\n\n                                 bool force)\n\n{\n\n\n    return NULL;\n\n}",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstruct vhost_net *vhost_net_init(VLANClientState *backend, int devfd,\n\n                                 bool force)\n\n{\n\n\n    return NULL;\n\n}\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

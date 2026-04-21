@@ -1,0 +1,6 @@
+{
+  "dataset_path": "data/processed/secure_code_primevul_short_binary_eval_balanced_400.jsonl",
+  "generations_path": "outputs/baseline_secure_code_primevul_short_binary_qwen15b_eval400_generations.jsonl",
+  "report_json_path": "reports/secure_code_primevul_short_binary_qwen15b_eval400_report.json",
+  "report_csv_path": "reports/secure_code_primevul_short_binary_qwen15b_eval400_rows.csv"
+}

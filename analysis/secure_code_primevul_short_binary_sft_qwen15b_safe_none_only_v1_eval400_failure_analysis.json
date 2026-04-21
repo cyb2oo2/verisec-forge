@@ -1,0 +1,348 @@
+{
+  "failure_buckets": {
+    "label_failure": 112,
+    "high_confidence_error": 61,
+    "correct": 142,
+    "evidence_failure": 85
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 86.94
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "second_pass_model": 187,
+      "structured_json": 213
+    },
+    "parse_trigger_counts": {
+      "low_confidence": 321,
+      "multiple_json_objects": 63,
+      "none": 8,
+      "hard_fail": 8
+    },
+    "avg_parse_confidence": 0.8654
+  },
+  "label_error_breakdown": {
+    "false_negative": 112
+  },
+  "format_error_breakdown": {},
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 148,
+      "accuracy": 0.5946,
+      "high_confidence_error_rate": 0.4054
+    },
+    "0.75-0.89": {
+      "count": 79,
+      "accuracy": 0.8354,
+      "high_confidence_error_rate": 0.0127
+    },
+    "0.5-0.74": {
+      "count": 172,
+      "accuracy": 0.4244,
+      "high_confidence_error_rate": 0.0
+    },
+    "0.0-0.49": {
+      "count": 1,
+      "accuracy": 0.0,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "13202",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 148,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.5
+      },
+      {
+        "id": "13375",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nfile_is_tempfile(i_ctx_t *i_ctx_p, const uchar *fname, int len)\n{\n    ref *SAFETY;\n    ref *tempfiles;\n    ref kname;\n\n    if (dict_find_string(systemdict, \"SAFETY\", &SAFETY) <= 0 ||\n            dict_find_string(SAFETY, \"tempfiles\", &tempfiles) <= 0)\n        return false;\n    if (name_ref(imemory, fname, len, &kname, -1) < 0 ||\n            dict_find(tempfiles, &kname, &SAFETY) <= 0)\n        return false;\n    return true;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nfile_is_tempfile(i_ctx_t *i_ctx_p, const uchar *fname, int len)\n{\n    ref *SAFETY;\n    ref *tempfiles;\n    ref kname;\n\n    if (dict_find_string(systemdict, \"SAFETY\", &SAFETY) <= 0 ||\n            dict_find_string(SAFETY, \"tempfiles\", &tempfiles) <= 0)\n        return false;\n    if (name_ref(imemory, fname, len, &kname, -1) < 0 ||\n            dict_find(tempfiles, &kname, &SAFETY) <= 0)\n        return false;\n    return true;\n}\n\nassistant\n{ \"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe behavior and avoid introducing unsafe behavior.\", \"confidence\": 0.75, \"fix_choice\": \"\" }",
+        "token_count": 146,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.75
+      },
+      {
+        "id": "12284",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int reds_find_client(RedClient *client)\n{\n    RingItem *item;\n\n    RING_FOREACH(item, &reds->clients) {\n        RedClient *list_client;\n\n        list_client = SPICE_CONTAINEROF(item, RedClient, link);\n        if (list_client == client) {\n            return TRUE;\n        }\n    }\n    return FALSE;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int reds_find_client(RedClient *client)\n{\n    RingItem *item;\n\n    RING_FOREACH(item, &reds->clients) {\n        RedClient *list_client;\n\n        list_client = SPICE_CONTAINEROF(item, RedClient, link);\n        if (list_client == client) {\n            return TRUE;\n        }\n    }\n    return FALSE;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 137,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": 0.5
+      }
+    ],
+    "format_failure": [],
+    "label_failure": [
+      {
+        "id": "1093",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 270,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.5
+      },
+      {
+        "id": "1420",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 130,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.5
+      },
+      {
+        "id": "7323",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 144,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": 0.5
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "1185",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int ieee80211_fragment(struct ieee80211_tx_data *tx,\n\t\t\t      struct sk_buff *skb, int hdrlen,\n\t\t\t      int frag_threshold)\n{\n\tstruct ieee80211_local *local = tx->local;\n\tstruct ieee80211_tx_info *info;\n\tstruct sk_buff *tmp;\n\tint per_fragm = frag_threshold - hdrlen - FCS_LEN;\n\tint pos = hdrlen + per_fragm;\n\tint rem = skb->len - hdrlen - per_fragm;\n\n\tif (WARN_ON(rem < 0))\n\t\treturn -EINVAL;\n\n\t/* first fragment was already added to queue by caller */\n\n\twhile (rem) {\n\t\tint fraglen = per_fragm;\n\n\t\tif (fraglen > rem)\n\t\t\tfraglen = rem;\n\t\trem -= fraglen;\n\t\ttmp = dev_alloc_skb(local->tx_headroom +\n\t\t\t\t    frag_threshold +\n\t\t\t\t    tx->sdata->encrypt_headroom +\n\t\t\t\t    IEEE80211_ENCRYPT_TAILROOM);\n\t\tif (!tmp)\n\t\t\treturn -ENOMEM;\n\n\t\t__skb_queue_tail(&tx->skbs, tmp);\n\n\t\tskb_reserve(tmp,\n\t\t\t    local->tx_headroom + tx->sdata->encrypt_headroom);\n\n\t\t/* copy control information */\n\t\tmemcpy(tmp->cb, skb->cb, sizeof(tmp->cb));\n\n\t\tinfo = IEEE80211_SKB_CB(tmp);\n\t\tinfo->flags &= ~(IEEE80211_TX_CTL_CLEAR_PS_FILT |\n\t\t\t\t IEEE80211_TX_CTL_FIRST_FRAGMENT);\n\n\t\tif (rem)\n\t\t\tinfo->flags |= IEEE80211_TX_CTL_MORE_FRAMES;\n\n\t\tskb_copy_queue_mapping(tmp, skb);\n\t\ttmp->priority = skb->priority;\n\t\ttmp->dev = skb->dev;\n\n\t\t/* copy header and data */\n\t\tmemcpy(skb_put(tmp, hdrlen), skb->data, hdrlen);\n\t\tmemcpy(skb_put(tmp, fraglen), skb->data + pos, fraglen);\n\n\t\tpos += fraglen;\n \t}\n \n \t/* adjust first fragment's length */\n\tskb->len = hdrlen + per_fragm;\n \treturn 0;\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "7834",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nGURL SiteInstance::GetSiteForURL(BrowserContext* browser_context,\n                                 const GURL& real_url) {\n  if (real_url.SchemeIs(kGuestScheme))\n    return real_url;\n\n  GURL url = SiteInstanceImpl::GetEffectiveURL(browser_context, real_url);\n  url::Origin origin = url::Origin::Create(url);\n\n  auto* policy = ChildProcessSecurityPolicyImpl::GetInstance();\n  url::Origin isolated_origin;\n  if (policy->GetMatchingIsolatedOrigin(origin, &isolated_origin))\n    return isolated_origin.GetURL();\n\n  if (!origin.host().empty() && origin.scheme() != url::kFileScheme) {\n    std::string domain = net::registry_controlled_domains::GetDomainAndRegistry(\n        origin.host(),\n        net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);\n    std::string site = origin.scheme();\n    site += url::kStandardSchemeSeparator;\n    site += domain.empty() ? origin.host() : domain;\n    return GURL(site);\n  }\n\n   if (!origin.unique()) {\n     DCHECK(!origin.scheme().empty());\n     return GURL(origin.scheme() + \":\");\n   } else if (url.has_scheme()) {\n     DCHECK(!url.scheme().empty());\n     return GURL(url.scheme() + \":\");\n   }\n\n  DCHECK(!url.is_valid()) << url;\n  return GURL();\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "1619",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic void dtls1_clear_queues(SSL *s)\n\t{\n    pitem *item = NULL;\n    hm_fragment *frag = NULL;\n\tDTLS1_RECORD_DATA *rdata;\n\n    while( (item = pqueue_pop(s->d1->unprocessed_rcds.q)) != NULL)\n        {\n\t\trdata = (DTLS1_RECORD_DATA *) item->data;\n\t\tif (rdata->rbuf.buf)\n\t\t\t{\n\t\t\tOPENSSL_free(rdata->rbuf.buf);\n\t\t\t}\n        OPENSSL_free(item->data);\n        pitem_free(item);\n        }\n\n    while( (item = pqueue_pop(s->d1->processed_rcds.q)) != NULL)\n        {\n\t\trdata = (DTLS1_RECORD_DATA *) item->data;\n\t\tif (rdata->rbuf.buf)\n\t\t\t{\n\t\t\tOPENSSL_free(rdata->rbuf.buf);\n\t\t\t}\n        OPENSSL_free(item->data);\n        pitem_free(item);\n        }\n\n    while( (item = pqueue_pop(s->d1->buffered_messages)) != NULL)\n        {\n        frag = (hm_fragment *)item->data;\n        OPENSSL_free(frag->fragment);\n        OPENSSL_free(frag);\n        pitem_free(item);\n        }\n\n    while ( (item = pqueue_pop(s->d1->sent_messages)) != NULL)\n        {\n        frag = (hm_fragment *)item->data;\n        OPENSSL_free(frag->fragment);\n        OPENSSL_free(frag);\n        pitem_free(item);\n        }\n \n \twhile ( (item = pqueue_pop(s->d1->buffered_app_data.q)) != NULL)\n \t\t{\n\t\tfrag = (hm_fragment *)item->data;\n\t\tOPENSSL_free(frag->fragment);\n\t\tOPENSSL_free(frag);\n \t\tpitem_free(item);\n \t\t}\n \t}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": 0.9
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "11655",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid GfxDeviceCMYKColorSpace::getRGB(GfxColor *color, GfxRGB *rgb) {\n  double c, m, y, k, c1, m1, y1, k1, r, g, b, x;\n    \n  c = colToDbl(color->c[0]);\n  m = colToDbl(color->c[1]);\n  y = colToDbl(color->c[2]);\n  k = colToDbl(color->c[3]);\n  c1 = 1 - c;\n  m1 = 1 - m;\n  y1 = 1 - y;\n  k1 = 1 - k;\n  x = c1 * m1 * y1 * k1; // 0 0 0 0\n  r = g = b = x;\n  x = c1 * m1 * y1 * k;  // 0 0 0 1\n  r += 0.1373 * x;\n  g += 0.1216 * x;\n  b += 0.1255 * x;\n  x = c1 * m1 * y  * k1; // 0 0 1 0\n  r += x;\n  g += 0.9490 * x;\n  x = c1 * m1 * y  * k;  // 0 0 1 1\n  r += 0.1098 * x;\n  g += 0.1020 * x;\n  x = c1 * m  * y1 * k1; // 0 1 0 0\n  r += 0.9255 * x;\n  b += 0.5490 * x;\n  x = c1 * m  * y1 * k;  // 0 1 0 1\n  r += 0.1412 * x;\n  x = c1 * m  * y  * k1; // 0 1 1 0\n  r += 0.9294 * x;\n  g += 0.1098 * x;\n  b += 0.1412 * x;\n  x = c1 * m  * y  * k;  // 0 1 1 1\n  r += 0.1333 * x;\n  x = c  * m1 * y1 * k1; // 1 0 0 0\n  g += 0.6784 * x;\n  b += 0.9373 * x;\n  x = c  * m1 * y1 * k;  // 1 0 0 1\n  g += 0.0588 * x;\n  b += 0.1412 * x;\n  x = c  * m1 * y  * k1; // 1 0 1 0\n  g += 0.6510 * x;\n  b += 0.3137 * x;\n  x = c  * m1 * y  * k;  // 1 0 1 1\n  g += 0.0745 * x;\n  x = c  * m  * y1 * k1; // 1 1 0 0\n  r += 0.1804 * x;\n  g += 0.1922 * x;\n  b += 0.5725 * x;\n  x = c  * m  * y1 * k;  // 1 1 0 1\n  b += 0.0078 * x;\n  x = c  * m  * y  * k1; // 1 1 1 0\n  r += 0.2118 * x;\n  g += 0.2119 * x;\n  b += 0.2235 * x;\n  rgb->r = clip01(dblToCol(r));\n  rgb->g = clip01(dblToCol(g));\n  rgb->b = clip01(dblToCol(b));\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.9
+      },
+      {
+        "id": "12571",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_client_semi_seamless_migrate_complete(RedClient *client)\n{\n    RingItem *link;\n\n    pthread_mutex_lock(&client->lock);\n    if (!client->during_target_migrate || client->seamless_migrate) {\n        spice_error(\"unexpected\");\n        pthread_mutex_unlock(&client->lock);\n        return;\n    }\n    client->during_target_migrate = FALSE;\n    RING_FOREACH(link, &client->channels) {\n        RedChannelClient *rcc = SPICE_CONTAINEROF(link, RedChannelClient, client_link);\n\n        if (rcc->latency_monitor.timer) {\n            red_channel_client_start_ping_timer(rcc, PING_TEST_IDLE_NET_TIMEOUT_MS);\n        }\n    }\n    pthread_mutex_unlock(&client->lock);\n    reds_on_client_semi_seamless_migrate_complete(client);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.9
+      },
+      {
+        "id": "12963",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\ngs_getdefaultlibdevice(gs_memory_t *mem)\n{\n    const gx_device *const *list;\n    int count = gs_lib_device_list(&list, NULL);\n    const char *name, *end, *fin;\n    int i;\n\n    /* Search the compiled in device list for a known device name */\n    /* In the case the lib ctx hasn't been initialised */\n    if (mem && mem->gs_lib_ctx && mem->gs_lib_ctx->default_device_list) {\n        name = mem->gs_lib_ctx->default_device_list;\n        fin = name + strlen(name);\n    }\n    else {\n        name = gs_dev_defaults;\n        fin = name + strlen(name);\n    }\n\n    /* iterate through each name in the string */\n    while (name < fin) {\n\n      /* split a name from any whitespace */\n      while ((name < fin) && (*name == ' ' || *name == '\\t'))\n        name++;\n      end = name;\n      while ((end < fin) && (*end != ' ') && (*end != '\\t'))\n        end++;\n\n      /* return any matches */\n      for (i = 0; i < count; i++)\n        if ((end - name) == strlen(list[i]->dname))\n          if (!memcmp(name, list[i]->dname, end - name))\n            return gs_getdevice(i);\n\n      /* otherwise, try the next device name */\n      name = end;\n    }\n\n    /* Fall back to the first device in the list. */\n    return gs_getdevice(0);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }",
+        "token_count": 40,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.75,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": 0.9
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "1093",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "11655",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid GfxDeviceCMYKColorSpace::getRGB(GfxColor *color, GfxRGB *rgb) {\n  double c, m, y, k, c1, m1, y1, k1, r, g, b, x;\n    \n  c = colToDbl(color->c[0]);\n  m = colToDbl(color->c[1]);\n  y = colToDbl(color->c[2]);\n  k = colToDbl(color->c[3]);\n  c1 = 1 - c;\n  m1 = 1 - m;\n  y1 = 1 - y;\n  k1 = 1 - k;\n  x = c1 * m1 * y1 * k1; // 0 0 0 0\n  r = g = b = x;\n  x = c1 * m1 * y1 * k;  // 0 0 0 1\n  r += 0.1373 * x;\n  g += 0.1216 * x;\n  b += 0.1255 * x;\n  x = c1 * m1 * y  * k1; // 0 0 1 0\n  r += x;\n  g += 0.9490 * x;\n  x = c1 * m1 * y  * k;  // 0 0 1 1\n  r += 0.1098 * x;\n  g += 0.1020 * x;\n  x = c1 * m  * y1 * k1; // 0 1 0 0\n  r += 0.9255 * x;\n  b += 0.5490 * x;\n  x = c1 * m  * y1 * k;  // 0 1 0 1\n  r += 0.1412 * x;\n  x = c1 * m  * y  * k1; // 0 1 1 0\n  r += 0.9294 * x;\n  g += 0.1098 * x;\n  b += 0.1412 * x;\n  x = c1 * m  * y  * k;  // 0 1 1 1\n  r += 0.1333 * x;\n  x = c  * m1 * y1 * k1; // 1 0 0 0\n  g += 0.6784 * x;\n  b += 0.9373 * x;\n  x = c  * m1 * y1 * k;  // 1 0 0 1\n  g += 0.0588 * x;\n  b += 0.1412 * x;\n  x = c  * m1 * y  * k1; // 1 0 1 0\n  g += 0.6510 * x;\n  b += 0.3137 * x;\n  x = c  * m1 * y  * k;  // 1 0 1 1\n  g += 0.0745 * x;\n  x = c  * m  * y1 * k1; // 1 1 0 0\n  r += 0.1804 * x;\n  g += 0.1922 * x;\n  b += 0.5725 * x;\n  x = c  * m  * y1 * k;  // 1 1 0 1\n  b += 0.0078 * x;\n  x = c  * m  * y  * k1; // 1 1 1 0\n  r += 0.2118 * x;\n  g += 0.2119 * x;\n  b += 0.2235 * x;\n  rgb->r = clip01(dblToCol(r));\n  rgb->g = clip01(dblToCol(g));\n  rgb->b = clip01(dblToCol(b));\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "unknown",
+      "label_correct": false,
+      "parse_method": "structured_json",
+      "parse_confidence": 0.75,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "1420",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "13202",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": true,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    },
+    {
+      "id": "7323",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"The function contains a vulnerability-like defect and should be treated as unsafe.\", \"fix_principle\": \"Remove the unsafe behavior, validate inputs, and replace fragile logic with safer handling.\", \"confidence\": 0.9, \"fix_choice\": \"\" }"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

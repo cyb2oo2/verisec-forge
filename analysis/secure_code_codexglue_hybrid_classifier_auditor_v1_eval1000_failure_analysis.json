@@ -1,0 +1,213 @@
+{
+  "failure_buckets": {
+    "evidence_failure": 246,
+    "label_failure": 433,
+    "correct": 321
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 21.426
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "hybrid_classifier": 1000
+    },
+    "parse_trigger_counts": {
+      "none": 1000
+    },
+    "avg_parse_confidence": 1.0
+  },
+  "label_error_breakdown": {
+    "false_negative": 254,
+    "false_positive": 179
+  },
+  "format_error_breakdown": {},
+  "confidence_summary": {
+    "missing": {
+      "count": 1000,
+      "accuracy": 0.567,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "71",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...)\n\n{\n\n    va_list va;\n\n    char buf[256];\n\n    char *p;\n\n    target_ulong addr;\n\n    uint64_t i64;\n\n    GDBState *s;\n\n\n\n    s = gdbserver_state;\n\n    if (!s)\n\n        return;\n\n    gdb_current_syscall_cb = cb;\n\n    s->state = RS_SYSCALL;\n\n#ifndef CONFIG_USER_ONLY\n\n    vm_stop(EXCP_DEBUG);\n\n#endif\n\n    s->state = RS_IDLE;\n\n    va_start(va, fmt);\n\n    p = buf;\n\n    *(p++) = 'F';\n\n    while (*fmt) {\n\n        if (*fmt == '%') {\n\n            fmt++;\n\n            switch (*fmt++) {\n\n            case 'x':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx, addr);\n\n                break;\n\n            case 'l':\n\n                if (*(fmt++) != 'x')\n\n                    goto bad_format;\n\n                i64 = va_arg(va, uint64_t);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, \"%\" PRIx64, i64);\n\n                break;\n\n            case 's':\n\n                addr = va_arg(va, target_ulong);\n\n                p += snprintf(p, &buf[sizeof(buf)] - p, TARGET_FMT_lx \"/%x\",\n\n                              addr, va_arg(va, int));\n\n                break;\n\n            default:\n\n            bad_format:\n\n                fprintf(stderr, \"gdbstub: Bad syscall format string '%s'\\n\",\n\n                        fmt - 1);\n\n                break;\n\n            }\n\n        } else {\n\n            *(p++) = *(fmt++);\n\n        }\n\n    }\n\n    *p = 0;\n\n    va_end(va);\n\n    put_packet(s, buf);\n\n#ifdef CONFIG_USER_ONLY\n\n    gdb_handlesig(s->c_cpu, 0);\n\n#else\n\n    cpu_interrupt(s->c_cpu, CPU_INTERRUPT_EXIT);\n\n#endif\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "137",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid ff_put_h264_qpel16_mc31_msa(uint8_t *dst, const uint8_t *src,\n\n                                 ptrdiff_t stride)\n\n{\n\n    avc_luma_hv_qrt_16w_msa(src - 2,\n\n                            src - (stride * 2) +\n\n                            sizeof(uint8_t), stride, dst, stride, 16);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "174",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void smp_parse(const char *optarg)\n\n{\n\n    int smp, sockets = 0, threads = 0, cores = 0;\n\n    char *endptr;\n\n    char option[128];\n\n\n\n    smp = strtoul(optarg, &endptr, 10);\n\n    if (endptr != optarg) {\n\n        if (*endptr == ',') {\n\n            endptr++;\n\n        }\n\n    }\n\n    if (get_param_value(option, 128, \"sockets\", endptr) != 0)\n\n        sockets = strtoull(option, NULL, 10);\n\n    if (get_param_value(option, 128, \"cores\", endptr) != 0)\n\n        cores = strtoull(option, NULL, 10);\n\n    if (get_param_value(option, 128, \"threads\", endptr) != 0)\n\n        threads = strtoull(option, NULL, 10);\n\n    if (get_param_value(option, 128, \"maxcpus\", endptr) != 0)\n\n        max_cpus = strtoull(option, NULL, 10);\n\n\n\n    /* compute missing values, prefer sockets over cores over threads */\n\n    if (smp == 0 || sockets == 0) {\n\n        sockets = sockets > 0 ? sockets : 1;\n\n        cores = cores > 0 ? cores : 1;\n\n        threads = threads > 0 ? threads : 1;\n\n        if (smp == 0) {\n\n            smp = cores * threads * sockets;\n\n        }\n\n    } else {\n\n        if (cores == 0) {\n\n            threads = threads > 0 ? threads : 1;\n\n            cores = smp / (sockets * threads);\n\n        } else {\n\n            threads = smp / (cores * sockets);\n\n        }\n\n    }\n\n    smp_cpus = smp;\n\n    smp_cores = cores > 0 ? cores : 1;\n\n    smp_threads = threads > 0 ? threads : 1;\n\n    if (max_cpus == 0)\n\n        max_cpus = smp_cpus;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "format_failure": [],
+    "label_failure": [
+      {
+        "id": "15",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nvoid fw_cfg_add_callback(FWCfgState *s, uint16_t key, FWCfgCallback callback,\n\n                         void *callback_opaque, uint8_t *data, size_t len)\n\n{\n\n    int arch = !!(key & FW_CFG_ARCH_LOCAL);\n\n\n\n    assert(key & FW_CFG_WRITE_CHANNEL);\n\n\n\n    key &= FW_CFG_ENTRY_MASK;\n\n\n\n    assert(key < FW_CFG_MAX_ENTRY && len <= 65535);\n\n\n\n    s->entries[arch][key].data = data;\n\n    s->entries[arch][key].len = len;\n\n    s->entries[arch][key].callback_opaque = callback_opaque;\n\n    s->entries[arch][key].callback = callback;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "88",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void tricore_cpu_initfn(Object *obj)\n\n{\n\n    CPUState *cs = CPU(obj);\n\n    TriCoreCPU *cpu = TRICORE_CPU(obj);\n\n    CPUTriCoreState *env = &cpu->env;\n\n\n\n    cs->env_ptr = env;\n\n    cpu_exec_init(cs, &error_abort);\n\n\n\n    if (tcg_enabled()) {\n\n        tricore_tcg_init();\n\n    }\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "155",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void ehci_mem_writew(void *ptr, target_phys_addr_t addr, uint32_t val)\n\n{\n\n    fprintf(stderr, \"EHCI doesn't handle 16-bit writes to MMIO\\n\");\n\n    exit(1);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": false, \"vulnerability_type\": \"none\", \"severity\": \"none\", \"evidence\": [], \"explanation\": \"No vulnerability-like defect is labeled for this function.\", \"fix_principle\": \"Preserve safe coding practices and avoid introducing unsafe behavior.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 17,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "none",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "8",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void filter_mirror_setup(NetFilterState *nf, Error **errp)\n{\n    MirrorState *s = FILTER_MIRROR(nf);\n    Chardev *chr;\n    chr = qemu_chr_find(s->outdev);\n    if (chr == NULL) {\n        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,\n                  \"Device '%s' not found\", s->outdev);\n    qemu_chr_fe_init(&s->chr_out, chr, errp);",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"A vulnerability-like defect is detected by the classifier and should be reviewed as unsafe.\", \"fix_principle\": \"Investigate the unsafe behavior and replace it with a safer implementation.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 25,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "10",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic inline int64_t sub64(const int64_t a, const int64_t b)\n\n{\n\n\treturn a - b;\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"A vulnerability-like defect is detected by the classifier and should be reviewed as unsafe.\", \"fix_principle\": \"Investigate the unsafe behavior and replace it with a safer implementation.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 25,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "22",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following c code for defensive security issues and return JSON only.\n\ncode:\nstatic void emulated_push_error(EmulatedState *card, uint64_t code)\n\n{\n\n    EmulEvent *event = (EmulEvent *)g_malloc(sizeof(EmulEvent));\n\n\n\n    assert(event);\n\n    event->p.error.type = EMUL_ERROR;\n\n    event->p.error.code = code;\n\n    emulated_push_event(card, event);\n\n}\n",
+        "language": "c",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"unknown\", \"evidence\": [], \"explanation\": \"A vulnerability-like defect is detected by the classifier and should be reviewed as unsafe.\", \"fix_principle\": \"Investigate the unsafe behavior and replace it with a safer implementation.\", \"confidence\": null, \"fix_choice\": \"\"}",
+        "token_count": 25,
+        "parse_method": "hybrid_classifier",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "unknown",
+        "label_correct": true,
+        "confidence": null
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": []
+  },
+  "low_confidence_examples": [],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

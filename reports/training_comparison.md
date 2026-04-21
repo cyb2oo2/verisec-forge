@@ -98,3 +98,38 @@ To reduce the risk that the small `eval244` slice was flattering or unstable, we
 - The margin is smaller than on `eval244`, which suggests the original balanced eval slice was directionally correct but somewhat easier than a larger held-out sample.
 - The dominant semantic failure for both models on the larger holdout is still `false_negative`, which means the main open problem is missed vulnerabilities rather than uncontrolled over-detection.
 - The best current checkpoint is now the safer-cleanup SFT variant. It improves recall without the collapse we saw in the earlier recall-focused experiment, which suggests the real issue was label canonicalization noise rather than a need for more aggressive confidence shaping.
+
+# CodeXGLUE Coder-1.5B Comparison
+
+To test whether the low-recall behavior was mostly a `PrimeVul` realism/length mismatch, we moved to a shorter function-level binary benchmark:
+
+- Dataset: `CodeXGLUE defect detection`
+- Model: `Qwen/Qwen2.5-Coder-1.5B-Instruct`
+- Eval slice: `secure_code_codexglue_eval_balanced_1000.jsonl`
+
+| Stage | Presence Accuracy | Vulnerable Recall | Safe Specificity | Label Accuracy | Format Pass Rate | Invalid Output Rate | High-Confidence Error Rate | Notes |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Base (`Qwen2.5-Coder-1.5B-Instruct`) | 0.437 | 0.358 | 0.516 | 0.330 | 0.886 | 0.093 | 0.014 | Stronger vulnerable prior, middling calibration and label precision |
+| SFT (`safe->none`, 3k) | 0.477 | 0.078 | 0.876 | 0.477 | 0.939 | 0.061 | 0.248 | Much safer and more structured, but extremely conservative |
+| SFT (`safe->none`, 6k) | 0.473 | 0.072 | 0.874 | 0.473 | 0.937 | 0.061 | 0.227 | More data alone does not fix low recall |
+| SFT (`standard`, 6k) | 0.477 | 0.078 | 0.876 | 0.477 | 0.939 | 0.061 | 0.229 | Nearly identical to `safe->none`; low recall is not just caused by safe canonicalization |
+| SFT (`evidence_only`, 6k) | 0.474 | 0.082 | 0.866 | 0.474 | 0.942 | 0.058 | 0.182 | Better evidence fields and lower parser dependence, but still false-negative dominated |
+| SFT (`recall_focused`, 6k) | 0.472 | 0.076 | 0.868 | 0.472 | 0.935 | 0.064 | 0.185 | Confidence/wording shaping alone does not recover vulnerable recall |
+| SFT (`vulnerable_oversample_clean`, 6k) | 0.482 | 0.138 | 0.826 | 0.482 | 0.940 | 0.059 | 0.405 | Recovers some recall, but mostly by injecting a stronger vulnerable prior and many more confident mistakes |
+| Classifier (`sequence classification` LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a | Discriminative control baseline; much stronger recall than any generative JSON route |
+| Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* | Preserves classifier detection while emitting deterministic structured audit records |
+
+## CodeXGLUE Notes
+
+- Moving to a shorter, community-standard function-level benchmark does help the setup behave more like a normal vulnerability detector, which validates the earlier suspicion that long realistic `PrimeVul` code was part of the mismatch.
+- But the main tradeoff survives the dataset switch: under this generative structured-output setup, the best SFT recipes still drift toward conservative auditors with low `vulnerable_recall`.
+- Scaling the balanced training subset from `3k -> 6k` has almost no effect on recall. That makes it unlikely that the current failure mode is simply "not enough CodeXGLUE data."
+- The strongest negative control here is `standard 6k`: once we remove the `safe->none` cleanup, the model still lands almost exactly on the same operating point. So the low-recall regime is not primarily a side effect of safe-label canonicalization.
+- `evidence_only` cleans up protocol quality and parser dependence, but it does not change the semantic error shape: the model remains overwhelmingly `false_negative`-dominated.
+- `vulnerable_oversample_clean` is the only variant that materially raises recall, but it does so at the cost of a very large jump in `high_confidence_error_rate` (`0.405`). That makes it look more like prior shifting than trustworthy vulnerability discovery.
+- The discriminative LoRA classifier is the strongest control in this branch. On the same `eval1000`, it reaches `presence_accuracy = 0.567` and `vulnerable_recall = 0.492`, far above every generative JSON model.
+- The hybrid detector+auditor system is the first concrete dual-path result in the repo. It preserves the classifier's binary detection strength exactly, while converting outputs into stable structured records with `format_pass_rate = 1.0` and `invalid_output_rate = 0.0`.
+- That hybrid still inherits the classifier's binary tradeoff (`safe_specificity = 0.642`), and many positive detections lack strong evidence spans. So it is better understood as a practical systems pattern than as a new model-level breakthrough.
+- The current working hypothesis is therefore stronger than before: for small-to-mid code models in this repo, the core bottleneck is not just benchmark realism or data size, but the interaction between generative structured SFT and the decision boundary for vulnerable vs. safe code.
+
+*Hybrid `high_confidence_error_rate` is reported as `0.0` because the current stitched records leave confidence unset. That should be read as "not measured" rather than "perfectly calibrated."

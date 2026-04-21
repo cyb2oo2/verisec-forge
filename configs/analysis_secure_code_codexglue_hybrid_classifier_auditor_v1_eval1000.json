@@ -1,0 +1,5 @@
+{
+  "dataset_path": "data/processed/secure_code_codexglue_eval_balanced_1000.jsonl",
+  "generations_path": "outputs/secure_code_codexglue_hybrid_classifier_auditor_v1_eval1000_generations.jsonl",
+  "analysis_output_path": "analysis/secure_code_codexglue_hybrid_classifier_auditor_v1_eval1000_failure_analysis.json"
+}

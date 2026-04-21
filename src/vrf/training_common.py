@@ -38,6 +38,20 @@ def ensure_output_dir(path: str) -> None:
     Path(path).mkdir(parents=True, exist_ok=True)
 
 
+def resolve_local_model_source(model_name: str, local_files_only: bool) -> str:
+    if not local_files_only:
+        return model_name
+    model_path = Path(model_name)
+    if model_path.exists():
+        return model_name
+    try:
+        from huggingface_hub import snapshot_download
+
+        return snapshot_download(model_name, local_files_only=True)
+    except Exception:
+        return model_name
+
+
 def record_training_stage(config_path: str, config: dict[str, Any], metrics: dict[str, Any]) -> None:
     tracker_path = config.get("tracker_path")
     if tracker_path:
@@ -55,7 +69,10 @@ def record_training_stage(config_path: str, config: dict[str, Any], metrics: dic
 
 def cpu_training_overrides(torch_module: Any) -> dict[str, Any]:
     if getattr(torch_module, "cuda", None) and torch_module.cuda.is_available():
-        return {}
+        return {
+            "fp16": True,
+            "bf16": False,
+        }
     return {
         "use_cpu": True,
         "bf16": False,

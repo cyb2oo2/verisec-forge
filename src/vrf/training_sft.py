@@ -2,7 +2,15 @@ from __future__ import annotations
 
 import json
 
-from vrf.training_common import cpu_training_overrides, ensure_output_dir, load_config, load_dataset, optional_import_train_stack, record_training_stage
+from vrf.training_common import (
+    cpu_training_overrides,
+    ensure_output_dir,
+    load_config,
+    load_dataset,
+    optional_import_train_stack,
+    record_training_stage,
+    resolve_local_model_source,
+)
 
 
 def run_sft(config_path: str) -> dict[str, object]:
@@ -18,8 +26,12 @@ def run_sft(config_path: str) -> dict[str, object]:
     pretrained_kwargs: dict[str, object] = {}
     if config.get("local_files_only"):
         pretrained_kwargs["local_files_only"] = True
-    tokenizer = transformers.AutoTokenizer.from_pretrained(config["model_name"], **pretrained_kwargs)
-    model = transformers.AutoModelForCausalLM.from_pretrained(config["model_name"], **pretrained_kwargs)
+    model_source = resolve_local_model_source(config["model_name"], bool(config.get("local_files_only")))
+    model_kwargs: dict[str, object] = {}
+    if torch.cuda.is_available():
+        model_kwargs["torch_dtype"] = torch.float16
+    tokenizer = transformers.AutoTokenizer.from_pretrained(model_source, **pretrained_kwargs)
+    model = transformers.AutoModelForCausalLM.from_pretrained(model_source, **model_kwargs, **pretrained_kwargs)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 

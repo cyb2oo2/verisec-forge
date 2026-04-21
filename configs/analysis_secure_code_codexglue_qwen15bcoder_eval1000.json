@@ -1,0 +1,5 @@
+{
+  "dataset_path": "data/processed/secure_code_codexglue_eval_balanced_1000.jsonl",
+  "generations_path": "outputs/baseline_secure_code_codexglue_qwen15bcoder_eval1000_generations.jsonl",
+  "analysis_output_path": "analysis/secure_code_codexglue_qwen15bcoder_eval1000_failure_analysis.json"
+}

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from vrf.inference import build_backend, run_generation
+from vrf.inference import build_backend, run_generation, run_generation_batch
 from vrf.io_utils import read_json, read_jsonl, write_jsonl
 from vrf.schemas import ExperimentRecord, SecureCodeSample
 from vrf.tracking import log_experiment
@@ -12,7 +12,14 @@ def run_baseline(config_path: str) -> dict[str, Any]:
     config = read_json(config_path)
     samples = [SecureCodeSample.from_dict(row) for row in read_jsonl(config["dataset_path"])]
     backend = build_backend(config["backend"])
-    generations = [run_generation(backend, sample) for sample in samples]
+    batch_size = max(1, int(config.get("batch_size", 1)))
+    generations = []
+    if batch_size == 1:
+        generations = [run_generation(backend, sample) for sample in samples]
+    else:
+        for start_idx in range(0, len(samples), batch_size):
+            batch = samples[start_idx : start_idx + batch_size]
+            generations.extend(run_generation_batch(backend, batch))
     write_jsonl(config["output_path"], [generation.to_dict() for generation in generations])
 
     metrics = {

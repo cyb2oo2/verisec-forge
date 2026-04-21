@@ -1,0 +1,407 @@
+{
+  "failure_buckets": {
+    "format_failure": 91,
+    "label_failure": 177,
+    "high_confidence_error": 27,
+    "correct": 67,
+    "evidence_failure": 38
+  },
+  "avg_length_by_difficulty": {
+    "unknown": 132.75
+  },
+  "parse_summary": {
+    "parse_method_counts": {
+      "none": 91,
+      "structured_json": 128,
+      "second_pass_model": 181
+    },
+    "parse_trigger_counts": {
+      "hard_fail": 172,
+      "none": 25,
+      "multiple_json_objects": 71,
+      "low_confidence": 110,
+      "pair_block_output": 14,
+      "verbose_explanation,multiple_json_objects": 7,
+      "verbose_explanation": 1
+    },
+    "avg_parse_confidence": 0.7224
+  },
+  "label_error_breakdown": {
+    "false_positive": 136,
+    "cwe_mismatch": 38,
+    "false_negative": 3
+  },
+  "format_error_breakdown": {
+    "hard_fail": 91
+  },
+  "confidence_summary": {
+    "0.9-1.0": {
+      "count": 59,
+      "accuracy": 0.5424,
+      "high_confidence_error_rate": 0.4576
+    },
+    "0.0-0.49": {
+      "count": 4,
+      "accuracy": 0.75,
+      "high_confidence_error_rate": 0.0
+    },
+    "missing": {
+      "count": 337,
+      "accuracy": 0.2136,
+      "high_confidence_error_rate": 0.0
+    }
+  },
+  "examples": {
+    "correct": [
+      {
+        "id": "13202",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int labvalidate(i_ctx_t *i_ctx_p, ref *space, float *values, int num_comps)\n{\n    os_ptr op = osp;\n    int i;\n\n    if (num_comps < 3)\n        return_error(gs_error_stackunderflow);\n    op -= 2;\n    for (i=0;i<3;i++) {\n        if (!r_has_type(op, t_integer) && !r_has_type(op, t_real))\n            return_error(gs_error_typecheck);\n        op++;\n    }\n    return 0;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": [\n    { \"type\": \"function_call\", \"call\": \"return_error\" },\n    { \"type\": \"if_statement\", \"condition\": \"num_comps < 3\" },\n    { \"type\": \"for_loop\", \"loop_variable\": \"i\", \"loop_body\": [\n        { \"type\": \"if_statement\", \"condition\": \"!r_has_type(op, t_integer)\" },\n        { \"type\": \"if_statement\", \"condition\": \"!r_has_type(op, t_real)\" }\n    ] }\n], \"explanation\": \"The code contains potential vulnerabilities related to type checking and stack underflow handling.\", \"fix_principle\":",
+        "token_count": 169,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "low",
+        "label_correct": true,
+        "confidence": 1.0
+      },
+      {
+        "id": "7323",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid NavigatorImpl::DiscardPendingEntryIfNeeded(int expected_pending_entry_id) {\n  NavigationEntry* pending_entry = controller_->GetPendingEntry();\n  bool pending_matches_fail_msg =\n      pending_entry &&\n      expected_pending_entry_id == pending_entry->GetUniqueID();\n  if (!pending_matches_fail_msg)\n    return;\n\n  bool should_preserve_entry = controller_->IsUnmodifiedBlankTab() ||\n                               delegate_->ShouldPreserveAbortedURLs();\n   if (pending_entry != controller_->GetVisibleEntry() ||\n       !should_preserve_entry) {\n     controller_->DiscardPendingEntry(true);\n\n    controller_->delegate()->NotifyNavigationStateChanged(INVALIDATE_TYPE_URL);\n  }\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The code does not handle cases where `controller_->GetVisibleEntry()` returns null.\", \"explanation\": \"This could lead to undefined behavior or crashes when trying to access properties of an invalid object.\", \"fix_principle\": \"Ensure that all operations on objects are performed safely and do not rely on the existence of those objects.\", \"confidence\": \"medium\", \"fix_choice\": \"Add checks to ensure `controller_->GetVisibleEntry()` returns a valid NavigationEntry before accessing its properties.\" }",
+        "token_count": 176,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.9,
+        "parse_trigger": "multiple_json_objects",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "12555",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_channel_send(RedChannel *channel)\n{\n    RingItem *link;\n    RingItem *next;\n\n    RING_FOREACH_SAFE(link, next, &channel->clients) {\n        red_channel_client_send(SPICE_CONTAINEROF(link, RedChannelClient, channel_link));\n    }\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_channel_send(RedChannel *channel)\n{\n    RingItem *link;\n    RingItem *next;\n\n    RING_FOREACH_SAFE(link, next, &channel->clients) {\n        red_channel_client_send(SPICE_CONTAINEROF(link, RedChannelClient, channel_link));\n    }\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The code does not handle cases where `channel->clients` might be empty or null.\", \"explanation\": \"This could lead to undefined behavior if an attempt is made to dereference a NULL pointer within the loop.\", \"fix_principle\": \"Ensure proper error handling and validation before dereferencing pointers.\", \"confidence\": 85, \"fix_choice\": \"Add checks to ensure that `channel->clients` is not NULL before attempting to iterate over it.\" }",
+        "token_count": 154,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "low",
+        "label_correct": true,
+        "confidence": 100.0
+      }
+    ],
+    "format_failure": [
+      {
+        "id": "1093",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstruct sk_buff *__skb_recv_datagram(struct sock *sk, unsigned int flags,\n\t\t\t\t    int *peeked, int *off, int *err)\n{\n\tstruct sk_buff *skb;\n\tlong timeo;\n\t/*\n\t * Caller is allowed not to check sk->sk_err before skb_recv_datagram()\n\t */\n\tint error = sock_error(sk);\n\n\tif (error)\n\t\tgoto no_packet;\n\n\ttimeo = sock_rcvtimeo(sk, flags & MSG_DONTWAIT);\n\n\tdo {\n\t\t/* Again only user level code calls this function, so nothing\n\t\t * interrupt level will suddenly eat the receive_queue.\n\t\t *\n\t\t * Look at current nfs client by the way...\n\t\t * However, this function was correct in any case. 8)\n\t\t */\n\t\tunsigned long cpu_flags;\n\t\tstruct sk_buff_head *queue = &sk->sk_receive_queue;\n\n\t\tspin_lock_irqsave(&queue->lock, cpu_flags);\n \t\tskb_queue_walk(queue, skb) {\n \t\t\t*peeked = skb->peeked;\n \t\t\tif (flags & MSG_PEEK) {\n\t\t\t\tif (*off >= skb->len) {\n \t\t\t\t\t*off -= skb->len;\n \t\t\t\t\tcontinue;\n \t\t\t\t}\n\t\t\t\tskb->peeked = 1;\n\t\t\t\tatomic_inc(&skb->users);\n\t\t\t} else\n\t\t\t\t__skb_unlink(skb, queue);\n\n\t\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\t\t\treturn skb;\n\t\t}\n\t\tspin_unlock_irqrestore(&queue->lock, cpu_flags);\n\n\t\t/* User doesn't want to wait */\n\t\terror = -EAGAIN;\n\t\tif (!timeo)\n\t\t\tgoto no_packet;\n\n\t} while (!wait_for_packet(sk, err, &timeo));\n\n\treturn NULL;\n\nno_packet:\n\t*err = error;\n\treturn NULL;\n}\n\nassistant\n{  \n    \"has_vulnerability\": true,\n    \"vulnerability_type\": \"unknown\",\n    \"severity\": \"high\",\n    \"evidence\": [\n        {\n            \"type\": \"race condition\",\n            \"description\": \"The function may race with other network operations that modify the receive queue.\"\n        },\n        {\n            \"type\": \"resource leak\",\n            \"description\": \"There's a potential resource leak if the caller does not properly manage the `skb` reference count.\"\n        }\n    ],\n    \"explanation\": \"The function may race with other network operations that modify the receive queue, leading to undefined behavior. Additionally, there's a potential resource leak if the caller does not properly manage the `skb` reference count.\",\n    \"fix_principle\": \"Implement proper synchronization",
+        "token_count": 319,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "8649",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid smp_proc_master_id(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {\n uint8_t* p = p_data->p_data;\n\n   tBTM_LE_PENC_KEYS le_key;\n \n   SMP_TRACE_DEBUG(\"%s\", __func__);\n   smp_update_key_mask(p_cb, SMP_SEC_KEY_TYPE_ENC, true);\n \n   STREAM_TO_UINT16(le_key.ediv, p);\n  STREAM_TO_ARRAY(le_key.rand, p, BT_OCTET8_LEN);\n\n /* store the encryption keys from peer device */\n  memcpy(le_key.ltk, p_cb->ltk, BT_OCTET16_LEN);\n  le_key.sec_level = p_cb->sec_level;\n  le_key.key_size = p_cb->loc_enc_size;\n\n if ((p_cb->peer_auth_req & SMP_AUTH_BOND) &&\n (p_cb->loc_auth_req & SMP_AUTH_BOND))\n    btm_sec_save_le_key(p_cb->pairing_bda, BTM_LE_KEY_PENC,\n (tBTM_LE_KEY_VALUE*)&le_key, true);\n\n  smp_key_distribution(p_cb, NULL);\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{p_data) {\n uint8_t* p = p_data->p_data;\n\n   tBTM_LE_PENC_KEYS le_key;\n \n   SMP_TRACE_DEBUG(\"%s\", __func__);\n   smp_update_key_mask(p_cb, SMP_SEC_KEY_TYPE_ENC, true);\n \n   STREAM_TO_UINT16(le_key.ediv, p);\n  STREAM_TO_ARRAY(le_key.rand, p, BT_OCTET8_LEN);\n\n /* store the encryption keys from peer device */\n  memcpy(le_key.ltk, p_cb->ltk, BT_OCTET16_LEN);\n  le_key.sec_level = p_cb->sec_level;\n  le_key.key_size = p_cb->loc_enc_size;\n\n if ((p_cb->peer_auth_req & SMP_AUTH_BOND) &&\n (p_cb->loc_auth_req & SMP_AUTH_BOND))\n    btm_sec_save_le_key(p_cb->pairing_bda, BTM_LE_KEY_PENC,\n (tBTM_LE_KEY_VALUE*)&le_key, true);\n\n  smp_key_distribution(p_cb, NULL);\n}\n\nassistant\n{  \n  \"has_vulnerability\": true,\n  \"vulnerability_type\": \"unknown\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    {\n      \"line_number\": 20,\n      \"column_number\": 5,\n      \"message\": \"memcpy() can lead to buffer overflow\"\n    },\n    {\n      \"line_number\": 23,\n      \"column_number\": 7,\n      \"message\": \"btm_sec_save_le_key() can be exploited by malicious peers\"\n    }\n  ],\n  \"explanation\": \"The `memcpy` function is used to copy data from one memory location to another. If the source or destination pointers are not properly validated, it can lead to a buffer overflow. Additionally, the `btm_sec_save_le",
+        "token_count": 124,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "13375",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nfile_is_tempfile(i_ctx_t *i_ctx_p, const uchar *fname, int len)\n{\n    ref *SAFETY;\n    ref *tempfiles;\n    ref kname;\n\n    if (dict_find_string(systemdict, \"SAFETY\", &SAFETY) <= 0 ||\n            dict_find_string(SAFETY, \"tempfiles\", &tempfiles) <= 0)\n        return false;\n    if (name_ref(imemory, fname, len, &kname, -1) < 0 ||\n            dict_find(tempfiles, &kname, &SAFETY) <= 0)\n        return false;\n    return true;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nfile_is_tempfile(i_ctx_t *i_ctx_p, const uchar *fname, int len)\n{\n    ref *SAFETY;\n    ref *tempfiles;\n    ref kname;\n\n    if (dict_find_string(systemdict, \"SAFETY\", &SAFETY) <= 0 ||\n            dict_find_string(SAFETY, \"tempfiles\", &tempfiles) <= 0)\n        return false;\n    if (name_ref(imemory, fname, len, &kname, -1) < 0 ||\n            dict_find(tempfiles, &kname, &SAFETY) <= 0)\n        return false;\n    return true;\n}\n\nassistant\n{  \n  \"has_vulnerability\": true,\n  \"vulnerability_type\": \"unknown\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    {\n      \"type\": \"function_call\",\n      \"call\": \"dict_find_string(systemdict, \\\"SAFETY\\\", &SAFETY)\",\n      \"description\": \"Potential race condition or concurrent access issue\"\n    },\n    {\n      \"type\": \"function_call\",\n      \"call\": \"dict_find_string(SAFETY, \\\"tempfiles\\\", &tempfiles)\",\n      \"description\": \"Potential race condition or concurrent access issue\"\n    },\n    {\n      \"type\": \"function_call\",\n      \"call\": \"name_ref(imemory, fname, len, &kname, -1)\",\n      \"description\": \"",
+        "token_count": 166,
+        "parse_method": "none",
+        "parse_confidence": 0.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": null,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "unknown",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "label_failure": [
+      {
+        "id": "11655",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid GfxDeviceCMYKColorSpace::getRGB(GfxColor *color, GfxRGB *rgb) {\n  double c, m, y, k, c1, m1, y1, k1, r, g, b, x;\n    \n  c = colToDbl(color->c[0]);\n  m = colToDbl(color->c[1]);\n  y = colToDbl(color->c[2]);\n  k = colToDbl(color->c[3]);\n  c1 = 1 - c;\n  m1 = 1 - m;\n  y1 = 1 - y;\n  k1 = 1 - k;\n  x = c1 * m1 * y1 * k1; // 0 0 0 0\n  r = g = b = x;\n  x = c1 * m1 * y1 * k;  // 0 0 0 1\n  r += 0.1373 * x;\n  g += 0.1216 * x;\n  b += 0.1255 * x;\n  x = c1 * m1 * y  * k1; // 0 0 1 0\n  r += x;\n  g += 0.9490 * x;\n  x = c1 * m1 * y  * k;  // 0 0 1 1\n  r += 0.1098 * x;\n  g += 0.1020 * x;\n  x = c1 * m  * y1 * k1; // 0 1 0 0\n  r += 0.9255 * x;\n  b += 0.5490 * x;\n  x = c1 * m  * y1 * k;  // 0 1 0 1\n  r += 0.1412 * x;\n  x = c1 * m  * y  * k1; // 0 1 1 0\n  r += 0.9294 * x;\n  g += 0.1098 * x;\n  b += 0.1412 * x;\n  x = c1 * m  * y  * k;  // 0 1 1 1\n  r += 0.1333 * x;\n  x = c  * m1 * y1 * k1; // 1 0 0 0\n  g += 0.6784 * x;\n  b += 0.9373 * x;\n  x = c  * m1 * y1 * k;  // 1 0 0 1\n  g += 0.0588 * x;\n  b += 0.1412 * x;\n  x = c  * m1 * y  * k1; // 1 0 1 0\n  g += 0.6510 * x;\n  b += 0.3137 * x;\n  x = c  * m1 * y  * k;  // 1 0 1 1\n  g += 0.0745 * x;\n  x = c  * m  * y1 * k1; // 1 1 0 0\n  r += 0.1804 * x;\n  g += 0.1922 * x;\n  b += 0.5725 * x;\n  x = c  * m  * y1 * k;  // 1 1 0 1\n  b += 0.0078 * x;\n  x = c  * m  * y  * k1; // 1 1 1 0\n  r += 0.2118 * x;\n  g += 0.2119 * x;\n  b += 0.2235 * x;\n  rgb->r = clip01(dblToCol(r));\n  rgb->g = clip01(dblToCol(g));\n  rgb->b = clip01(dblToCol(b));\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"unknown\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"The code contains arithmetic operations that involve division by zero.\",\n    \"Division by zero can lead to undefined behavior or crashes.\"\n  ],\n  \"explanation\": \"In the given code, there are several divisions where the denominator (k, k1, etc.) could be zero. This can cause undefined behavior when attempting to perform these calculations.\",\n  \"fix_principle\": \"Avoid division by zero in critical paths of your program.\",\n  \"confidence\": \"medium\",\n  \"fix_choice\": \"Add checks before performing any division operation to ensure the divisor is not zero.\"\n}",
+        "token_count": 87,
+        "parse_method": "structured_json",
+        "parse_confidence": 1.0,
+        "parse_trigger": "none",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "1185",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int ieee80211_fragment(struct ieee80211_tx_data *tx,\n\t\t\t      struct sk_buff *skb, int hdrlen,\n\t\t\t      int frag_threshold)\n{\n\tstruct ieee80211_local *local = tx->local;\n\tstruct ieee80211_tx_info *info;\n\tstruct sk_buff *tmp;\n\tint per_fragm = frag_threshold - hdrlen - FCS_LEN;\n\tint pos = hdrlen + per_fragm;\n\tint rem = skb->len - hdrlen - per_fragm;\n\n\tif (WARN_ON(rem < 0))\n\t\treturn -EINVAL;\n\n\t/* first fragment was already added to queue by caller */\n\n\twhile (rem) {\n\t\tint fraglen = per_fragm;\n\n\t\tif (fraglen > rem)\n\t\t\tfraglen = rem;\n\t\trem -= fraglen;\n\t\ttmp = dev_alloc_skb(local->tx_headroom +\n\t\t\t\t    frag_threshold +\n\t\t\t\t    tx->sdata->encrypt_headroom +\n\t\t\t\t    IEEE80211_ENCRYPT_TAILROOM);\n\t\tif (!tmp)\n\t\t\treturn -ENOMEM;\n\n\t\t__skb_queue_tail(&tx->skbs, tmp);\n\n\t\tskb_reserve(tmp,\n\t\t\t    local->tx_headroom + tx->sdata->encrypt_headroom);\n\n\t\t/* copy control information */\n\t\tmemcpy(tmp->cb, skb->cb, sizeof(tmp->cb));\n\n\t\tinfo = IEEE80211_SKB_CB(tmp);\n\t\tinfo->flags &= ~(IEEE80211_TX_CTL_CLEAR_PS_FILT |\n\t\t\t\t IEEE80211_TX_CTL_FIRST_FRAGMENT);\n\n\t\tif (rem)\n\t\t\tinfo->flags |= IEEE80211_TX_CTL_MORE_FRAMES;\n\n\t\tskb_copy_queue_mapping(tmp, skb);\n\t\ttmp->priority = skb->priority;\n\t\ttmp->dev = skb->dev;\n\n\t\t/* copy header and data */\n\t\tmemcpy(skb_put(tmp, hdrlen), skb->data, hdrlen);\n\t\tmemcpy(skb_put(tmp, fraglen), skb->data + pos, fraglen);\n\n\t\tpos += fraglen;\n \t}\n \n \t/* adjust first fragment's length */\n\tskb->len = hdrlen + per_fragm;\n \treturn 0;\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true,\n    \"vulnerability_type\": \"unknown\",\n    \"severity\": \"high\",\n    \"evidence\": [\n        \"The code does not handle fragmentation correctly.\",\n        \"It assumes that all fragments will be smaller than the threshold value.\"\n    ],\n    \"explanation\": \"This code does not properly manage the fragmentation of packets. It assumes that each fragment will be smaller than the specified threshold (`frag_threshold`). However, this assumption can lead to buffer overflows if any fragment exceeds the allowed size. The code also lacks proper handling of the `IEEE80211_TX_CTL_FIRST_FRAGMENT` flag, which could result in incorrect behavior when dealing with multiple fragments.\",\n    \"fix_principle\": \"Implement proper error checking and validation on the",
+        "token_count": 97,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "cwe-787",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": null
+      },
+      {
+        "id": "12284",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int reds_find_client(RedClient *client)\n{\n    RingItem *item;\n\n    RING_FOREACH(item, &reds->clients) {\n        RedClient *list_client;\n\n        list_client = SPICE_CONTAINEROF(item, RedClient, link);\n        if (list_client == client) {\n            return TRUE;\n        }\n    }\n    return FALSE;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int reds_find_client(RedClient *client)\n{\n    RingItem *item;\n\n    RING_FOREACH(item, &reds->clients) {\n        RedClient *list_client;\n\n        list_client = SPICE_CONTAINEROF(item, RedClient, link);\n        if (list_client == client) {\n            return TRUE;\n        }\n    }\n    return FALSE;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The code does not check if the `client` parameter matches any of the clients in the ring.\", \"explanation\": \"This implementation lacks proper validation to ensure that the provided `client` object exists within the list of registered clients. This can lead to potential memory corruption or other undefined behavior when attempting to access an invalid pointer.\", \"fix_principle\": \"Implement checks to validate the existence of the `client` before proceeding with operations on it.\", \"confidence\": 90, \"fix_choice\": \"Add a check to verify if the `client` is valid before calling `SPICE_CONTAINEROF`. If the `client` is not found, handle",
+        "token_count": 198,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": null
+      }
+    ],
+    "evidence_failure": [
+      {
+        "id": "6023",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool ResourceDispatcherHostImpl::AcceptAuthRequest(\n    ResourceLoader* loader,\n    net::AuthChallengeInfo* auth_info) {\n  if (delegate_ && !delegate_->AcceptAuthRequest(loader->request(), auth_info))\n    return false;\n\n  if (!auth_info->is_proxy) {\n    HttpAuthResourceType resource_type =\n        HttpAuthResourceTypeOf(loader->request());\n    UMA_HISTOGRAM_ENUMERATION(\"Net.HttpAuthResource\",\n                               resource_type,\n                               HTTP_AUTH_RESOURCE_LAST);\n \n    if (resource_type == HTTP_AUTH_RESOURCE_BLOCKED_CROSS)\n      return false;\n   }\n \n   return true;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool ResourceDispatcherHostImpl::AcceptAuthRequest(\n    ResourceLoader* loader,\n    net::AuthChallengeInfo* auth_info) {\n  if (delegate_ && !delegate_->AcceptAuthRequest(loader->request(), auth_info))\n    return false;\n\n  if (!auth_info->is_proxy) {\n    HttpAuthResourceType resource_type =\n        HttpAuthResourceTypeOf(loader->request());\n    UMA_HISTOGRAM_ENUMERATION(\"Net.HttpAuthResource\",\n                               resource_type,\n                               HTTP_AUTH_RESOURCE_LAST);\n \n    if (resource_type == HTTP_AUTH_RESOURCE_BLOCKED_CROSS)\n      return false;\n   }\n \n   return true;\n}\n\nassistant\n{  \n  \"has_vulnerability\": true,\n  \"vulnerability_type\": \"unknown\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"The code does not handle proxy authentication requests explicitly.\",\n    \"No checks or validation of the `auth_info` object's properties.\"\n  ],\n  \"explanation\": \"This method lacks proper handling of proxy authentication challenges. It should validate the `auth_info` object to ensure it contains valid information before proceeding. This could lead to potential security vulnerabilities such as unauthorized access through proxy authentication.\",\n  \"fix_principle\": \"Implement proper validation and error checking on `auth_info` objects.\",\n  \"confidence\": \"medium\",\n  \"fix_choice\": \"Add checks to verify the validity of `auth_info` before processing it.\"",
+        "token_count": 139,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": null
+      },
+      {
+        "id": "636",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nrio_ioctl (struct net_device *dev, struct ifreq *rq, int cmd)\n {\n \tint phy_addr;\n \tstruct netdev_private *np = netdev_priv(dev);\n\tstruct mii_data *miidata = (struct mii_data *) &rq->ifr_ifru;\n\tstruct netdev_desc *desc;\n\tint i;\n \n \tphy_addr = np->phy_addr;\n \tswitch (cmd) {\n\tcase SIOCDEVPRIVATE:\n\t\tbreak;\n\tcase SIOCDEVPRIVATE + 1:\n\t\tmiidata->out_value = mii_read (dev, phy_addr, miidata->reg_num);\n \t\tbreak;\n\tcase SIOCDEVPRIVATE + 2:\n\t\tmii_write (dev, phy_addr, miidata->reg_num, miidata->in_value);\n \t\tbreak;\n\tcase SIOCDEVPRIVATE + 3:\n\t\tbreak;\n\tcase SIOCDEVPRIVATE + 4:\n\t\tbreak;\n\tcase SIOCDEVPRIVATE + 5:\n\t\tnetif_stop_queue (dev);\n \t\tbreak;\n\tcase SIOCDEVPRIVATE + 6:\n\t\tnetif_wake_queue (dev);\n\t\tbreak;\n\tcase SIOCDEVPRIVATE + 7:\n\t\tprintk\n\t\t    (\"tx_full=%x cur_tx=%lx old_tx=%lx cur_rx=%lx old_rx=%lx\\n\",\n\t\t     netif_queue_stopped(dev), np->cur_tx, np->old_tx, np->cur_rx,\n\t\t     np->old_rx);\n\t\tbreak;\n\tcase SIOCDEVPRIVATE + 8:\n\t\tprintk(\"TX ring:\\n\");\n\t\tfor (i = 0; i < TX_RING_SIZE; i++) {\n\t\t\tdesc = &np->tx_ring[i];\n\t\t\tprintk\n\t\t\t    (\"%02x:cur:%08x next:%08x status:%08x frag1:%08x frag0:%08x\",\n\t\t\t     i,\n\t\t\t     (u32) (np->tx_ring_dma + i * sizeof (*desc)),\n\t\t\t     (u32)le64_to_cpu(desc->next_desc),\n\t\t\t     (u32)le64_to_cpu(desc->status),\n\t\t\t     (u32)(le64_to_cpu(desc->fraginfo) >> 32),\n\t\t\t     (u32)le64_to_cpu(desc->fraginfo));\n\t\t\tprintk (\"\\n\");\n\t\t}\n\t\tprintk (\"\\n\");\n\t\tbreak;\n \tdefault:\n \t\treturn -EOPNOTSUPP;\n \t}\n\treturn 0;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": [\n    { \"line_number\": 19, \"column_number\": 1, \"text\": \"phy_addr\" },\n    { \"line_number\": 20, \"column_number\": 1, \"text\": \"np->phy_addr\" }\n  ],\n  \"explanation\": \"The variable `phy_addr` is used without initialization or validation before being accessed in several places within the function. This can lead to undefined behavior.\",\n  \"fix_principle\": \"Initialize variables before using them and validate their values.\",\n  \"confidence\": 90,\n  \"fix_choice\": \"Add initializations and validations for `phy_addr`.\"\n}",
+        "token_count": 70,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.65,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": 90.0
+      },
+      {
+        "id": "1294",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static __u8 *pl_report_fixup(struct hid_device *hdev, __u8 *rdesc,\n \t\tunsigned int *rsize)\n {\n\tif (*rsize >= 60 && rdesc[39] == 0x2a && rdesc[40] == 0xf5 &&\n \t\t\trdesc[41] == 0x00 && rdesc[59] == 0x26 &&\n \t\t\trdesc[60] == 0xf9 && rdesc[61] == 0x00) {\n \t\thid_info(hdev, \"fixing up Petalynx Maxter Remote report descriptor\\n\");\n\t\trdesc[60] = 0xfa;\n\t\trdesc[40] = 0xfa;\n\t}\n\treturn rdesc;\n}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{user\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static __u8 *pl_report_fixup(struct hid_device *hdev, __u8 *rdesc,\n \t\tunsigned int *rsize)\n {\n\tif (*rsize >= 60 && rdesc[39] == 0x2a && rdesc[40] == 0xf5 &&\n \t\t\trdesc[41] == 0x00 && rdesc[59] == 0x26 &&\n \t\t\trdesc[60] == 0xf9 && rdesc[61] == 0x00) {\n \t\thid_info(hdev, \"fixing up Petalynx Maxter Remote report descriptor\\n\");\n\t\trdesc[60] = 0xfa;\n\t\trdesc[40] = 0xfa;\n\t}\n\treturn rdesc;\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": [\n    { \"type\": \"memory_access\", \"address\": \"rdesc[60]\", \"value\": \"0x26\" },\n    { \"type\": \"memory_access\", \"address\": \"rdesc[40]\", \"value\": \"0xf5\" }\n  ],\n  \"explanation\": \"The code modifies memory locations that may contain sensitive information or control flow instructions.\",\n  \"fix_principle\": \"Avoid modifying memory addresses of critical data structures\",\n  \"confidence\": 90,\n  \"fix_choice\": \"Do not modify memory addresses of critical data structures\"\n}",
+        "token_count": 137,
+        "parse_method": "structured_json",
+        "parse_confidence": 0.65,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": true,
+        "confidence": 90.0
+      }
+    ],
+    "explanation_failure": [],
+    "high_confidence_error": [
+      {
+        "id": "1420",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\n static int handle_emulation_failure(struct kvm_vcpu *vcpu)\n {\n \t++vcpu->stat.insn_emulation_fail;\n \ttrace_kvm_emulate_insn_failed(vcpu);\n\tvcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;\n\tvcpu->run->internal.suberror = KVM_INTERNAL_ERROR_EMULATION;\n\tvcpu->run->internal.ndata = 0;\n \tkvm_queue_exception(vcpu, UD_VECTOR);\n\treturn EMULATE_FAIL;\n }\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": [\n    { \"type\": \"function_call\", \"call\": \"trace_kvm_emulate_insn_failed\" },\n    { \"type\": \"assignment\", \"variable\": \"vcpu->run->exit_reason\", \"value\": \"KVM_EXIT_INTERNAL_ERROR\" },\n    { \"type\": \"assignment\", \"variable\": \"vcpu->run->internal.suberror\", \"value\": \"KVM_INTERNAL_ERROR_EMULATION\" },\n    { \"type\": \"assignment\", \"variable\": \"vcpu->run->internal.ndata\", \"value\": \"0\" },\n    { \"type\": \"function_call\", \"call\": \"kvm_queue_exception\"",
+        "token_count": 133,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 1.0,
+        "parse_trigger": "hard_fail",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "low",
+        "label_correct": false,
+        "confidence": 1.0
+      },
+      {
+        "id": "10871",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic char * MS_CALLBACK srp_password_from_info_cb(SSL *s, void *arg)\n\t{\n\treturn BUF_strdup(s->srp_ctx.info) ;\n\t}\n",
+        "language": "unknown",
+        "gold_has_vulnerability": false,
+        "gold_vulnerability_type": "none",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic char * MS_CALLBACK srp_password_from_info_cb(SSL *s, void *arg)\n\t{\n\treturn BUF_strdup(s->srp_ctx.info) ;\n\t}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The provided code does not include any checks or protections against buffer overflows.\", \"explanation\": \"In this code, there is no check to ensure that the length of the input string does not exceed the allocated size in `BUF_strdup`. This can lead to a buffer overflow if the input exceeds the allocated space.\", \"fix_principle\": \"Implement proper bounds checking on all user-provided data before using it.\", \"confidence\": 95, \"fix_choice\": \"Add bounds checking to ensure the length of the input string does not exceed the allocated size.\" }",
+        "token_count": 173,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": true,
+        "predicted_vulnerability_type": "unknown",
+        "predicted_severity": "high",
+        "label_correct": false,
+        "confidence": 80.0
+      },
+      {
+        "id": "6980",
+        "task_type": "weakness_identification",
+        "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CSPSource::schemeMatches(const KURL& url) const\n {\n     if (m_scheme.isEmpty())\n         return m_policy->protocolMatchesSelf(url);\n     return equalIgnoringCase(url.protocol(), m_scheme);\n }\n",
+        "language": "unknown",
+        "gold_has_vulnerability": true,
+        "gold_vulnerability_type": "unknown",
+        "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nbool CSPSource::schemeMatches(const KURL& url) const\n {\n     if (m_scheme.isEmpty())\n         return m_policy->protocolMatchesSelf(url);\n     return equalIgnoringCase(url.protocol(), m_scheme);\n }\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The implementation does not handle empty scheme properly.\", \"explanation\": \"If `m_scheme` is an empty string, it will always match any URL protocol, which can lead to arbitrary protocol injection or other security vulnerabilities.\", \"fix_principle\": \"Ensure that the scheme check handles all possible cases, including when `m_scheme` is an empty string.\", \"confidence\": 95, \"fix_choice\": \"Implement proper validation logic to ensure `m_scheme` is never an empty string before performing the comparison.\" }",
+        "token_count": 159,
+        "parse_method": "second_pass_model",
+        "parse_confidence": 0.95,
+        "parse_trigger": "low_confidence",
+        "predicted_has_vulnerability": false,
+        "predicted_vulnerability_type": "none",
+        "predicted_severity": "low",
+        "label_correct": false,
+        "confidence": 100.0
+      }
+    ]
+  },
+  "low_confidence_examples": [
+    {
+      "id": "1185",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int ieee80211_fragment(struct ieee80211_tx_data *tx,\n\t\t\t      struct sk_buff *skb, int hdrlen,\n\t\t\t      int frag_threshold)\n{\n\tstruct ieee80211_local *local = tx->local;\n\tstruct ieee80211_tx_info *info;\n\tstruct sk_buff *tmp;\n\tint per_fragm = frag_threshold - hdrlen - FCS_LEN;\n\tint pos = hdrlen + per_fragm;\n\tint rem = skb->len - hdrlen - per_fragm;\n\n\tif (WARN_ON(rem < 0))\n\t\treturn -EINVAL;\n\n\t/* first fragment was already added to queue by caller */\n\n\twhile (rem) {\n\t\tint fraglen = per_fragm;\n\n\t\tif (fraglen > rem)\n\t\t\tfraglen = rem;\n\t\trem -= fraglen;\n\t\ttmp = dev_alloc_skb(local->tx_headroom +\n\t\t\t\t    frag_threshold +\n\t\t\t\t    tx->sdata->encrypt_headroom +\n\t\t\t\t    IEEE80211_ENCRYPT_TAILROOM);\n\t\tif (!tmp)\n\t\t\treturn -ENOMEM;\n\n\t\t__skb_queue_tail(&tx->skbs, tmp);\n\n\t\tskb_reserve(tmp,\n\t\t\t    local->tx_headroom + tx->sdata->encrypt_headroom);\n\n\t\t/* copy control information */\n\t\tmemcpy(tmp->cb, skb->cb, sizeof(tmp->cb));\n\n\t\tinfo = IEEE80211_SKB_CB(tmp);\n\t\tinfo->flags &= ~(IEEE80211_TX_CTL_CLEAR_PS_FILT |\n\t\t\t\t IEEE80211_TX_CTL_FIRST_FRAGMENT);\n\n\t\tif (rem)\n\t\t\tinfo->flags |= IEEE80211_TX_CTL_MORE_FRAMES;\n\n\t\tskb_copy_queue_mapping(tmp, skb);\n\t\ttmp->priority = skb->priority;\n\t\ttmp->dev = skb->dev;\n\n\t\t/* copy header and data */\n\t\tmemcpy(skb_put(tmp, hdrlen), skb->data, hdrlen);\n\t\tmemcpy(skb_put(tmp, fraglen), skb->data + pos, fraglen);\n\n\t\tpos += fraglen;\n \t}\n \n \t/* adjust first fragment's length */\n\tskb->len = hdrlen + per_fragm;\n \treturn 0;\n }\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "cwe-787",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": true,\n    \"vulnerability_type\": \"unknown\",\n    \"severity\": \"high\",\n    \"evidence\": [\n        \"The code does not handle fragmentation correctly.\",\n        \"It assumes that all fragments will be smaller than the threshold value.\"\n    ],\n    \"explanation\": \"This code does not properly manage the fragmentation of packets. It assumes that each fragment will be smaller than the specified threshold (`frag_threshold`). However, this assumption can lead to buffer overflows if any fragment exceeds the allowed size. The code also lacks proper handling of the `IEEE80211_TX_CTL_FIRST_FRAGMENT` flag, which could result in incorrect behavior when dealing with multiple fragments.\",\n    \"fix_principle\": \"Implement proper error checking and validation on the"
+    },
+    {
+      "id": "12555",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_channel_send(RedChannel *channel)\n{\n    RingItem *link;\n    RingItem *next;\n\n    RING_FOREACH_SAFE(link, next, &channel->clients) {\n        red_channel_client_send(SPICE_CONTAINEROF(link, RedChannelClient, channel_link));\n    }\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": false,
+      "predicted_vulnerability_type": "none",
+      "label_correct": true,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{system\nYou are a defensive secure-code analysis model for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. When the snippet looks vulnerable but no exact CWE is justified, use vulnerability_type as \"unknown\". When the snippet looks safe, use vulnerability_type as \"none\".\nuser\nAnalyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_channel_send(RedChannel *channel)\n{\n    RingItem *link;\n    RingItem *next;\n\n    RING_FOREACH_SAFE(link, next, &channel->clients) {\n        red_channel_client_send(SPICE_CONTAINEROF(link, RedChannelClient, channel_link));\n    }\n}\n\nassistant\n{ \"has_vulnerability\": true, \"vulnerability_type\": \"unknown\", \"severity\": \"high\", \"evidence\": \"The code does not handle cases where `channel->clients` might be empty or null.\", \"explanation\": \"This could lead to undefined behavior if an attempt is made to dereference a NULL pointer within the loop.\", \"fix_principle\": \"Ensure proper error handling and validation before dereferencing pointers.\", \"confidence\": 85, \"fix_choice\": \"Add checks to ensure that `channel->clients` is not NULL before attempting to iterate over it.\" }"
+    },
+    {
+      "id": "3560",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid AllocateDataSet(cmsIT8* it8)\n{\n    TABLE* t = GetTable(it8);\n\n    if (t -> Data) return;    // Already allocated\n\n     t-> nSamples   = atoi(cmsIT8GetProperty(it8, \"NUMBER_OF_FIELDS\"));\n     t-> nPatches   = atoi(cmsIT8GetProperty(it8, \"NUMBER_OF_SETS\"));\n \n    t-> Data = (char**)AllocChunk (it8, ((cmsUInt32Number) t->nSamples + 1) * ((cmsUInt32Number) t->nPatches + 1) *sizeof (char*));\n    if (t->Data == NULL) {\n \n        SynError(it8, \"AllocateDataSet: Unable to allocate data array\");\n     }\n \n }\n",
+      "gold_has_vulnerability": true,
+      "gold_vulnerability_type": "unknown",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "memory-allocation",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\");\n     }\n \n }\n\nassistant\n{  \n  \"has_vulnerability\": true,\n  \"vulnerability_type\": \"memory_allocation\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"Attempted memory allocation without checking if the chunk was successfully allocated.\",\n    \"Potential buffer overflow risk due to insufficiently sized allocation.\"\n  ],\n  \"explanation\": \"The code attempts to dynamically allocate memory using `AllocChunk` which may not be sufficient in size based on the properties retrieved from the CMS IT8 object. This could lead to a buffer overflow or segmentation fault if the actual number of samples exceeds the allocated space.\",\n  \"fix_principle\": \"Ensure that the memory allocation is checked against the expected size before proceeding.\",\n  \"confidence\": \"medium\",\n  \"fix_choice\": \"Adjust the size calculation"
+    },
+    {
+      "id": "12571",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nvoid red_client_semi_seamless_migrate_complete(RedClient *client)\n{\n    RingItem *link;\n\n    pthread_mutex_lock(&client->lock);\n    if (!client->during_target_migrate || client->seamless_migrate) {\n        spice_error(\"unexpected\");\n        pthread_mutex_unlock(&client->lock);\n        return;\n    }\n    client->during_target_migrate = FALSE;\n    RING_FOREACH(link, &client->channels) {\n        RedChannelClient *rcc = SPICE_CONTAINEROF(link, RedChannelClient, client_link);\n\n        if (rcc->latency_monitor.timer) {\n            red_channel_client_start_ping_timer(rcc, PING_TEST_IDLE_NET_TIMEOUT_MS);\n        }\n    }\n    pthread_mutex_unlock(&client->lock);\n    reds_on_client_semi_seamless_migrate_complete(client);\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "race-condition",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": true, \"vulnerability_type\": \"race_condition\", \"severity\": \"high\", \"evidence\": \"Race condition exists in the logic where multiple threads access shared resources without proper synchronization.\", \"explanation\": \"The code does not ensure that all operations related to channel clients are completed before proceeding to the next step. This can lead to race conditions where one thread might start a ping timer while another thread is still processing or updating the state of the channel client.\", \"fix_principle\": \"Ensure mutual exclusion on critical sections of code using mutexes or other synchronization primitives.\", \"confidence\": 90, \"fix_choice\": \"Implement appropriate locking mechanisms such as mutexes to ensure that only one thread can execute certain parts of the code at a time.\" }"
+    },
+    {
+      "id": "10844",
+      "prompt": "Analyze the following unknown code for defensive security issues and return JSON only.\n\ncode:\nstatic int samldb_add_entry_callback(struct ldb_request *req,\n\t\t\t\t\tstruct ldb_reply *ares)\n{\n\tstruct ldb_context *ldb;\n\tstruct samldb_ctx *ac;\n\tint ret;\n\n\tac = talloc_get_type(req->context, struct samldb_ctx);\n\tldb = ldb_module_get_ctx(ac->module);\n\n\tif (!ares) {\n\t\treturn ldb_module_done(ac->req, NULL, NULL,\n\t\t\t\t\tLDB_ERR_OPERATIONS_ERROR);\n\t}\n\n\tif (ares->type == LDB_REPLY_REFERRAL) {\n\t\treturn ldb_module_send_referral(ac->req, ares->referral);\n\t}\n\n\tif (ares->error != LDB_SUCCESS) {\n\t\treturn ldb_module_done(ac->req, ares->controls,\n\t\t\t\t\tares->response, ares->error);\n\t}\n\tif (ares->type != LDB_REPLY_DONE) {\n\t\tldb_asprintf_errstring(ldb, \"Invalid LDB reply type %d\", ares->type);\n\t\treturn ldb_module_done(ac->req, NULL, NULL,\n\t\t\t\t\tLDB_ERR_OPERATIONS_ERROR);\n\t}\n\n\t/* The caller may wish to get controls back from the add */\n\tac->ares = talloc_steal(ac, ares);\n\n\tret = samldb_next_step(ac);\n\tif (ret != LDB_SUCCESS) {\n\t\treturn ldb_module_done(ac->req, NULL, NULL, ret);\n\t}\n\treturn ret;\n}\n",
+      "gold_has_vulnerability": false,
+      "gold_vulnerability_type": "none",
+      "predicted_has_vulnerability": true,
+      "predicted_vulnerability_type": "unknown",
+      "label_correct": false,
+      "parse_method": "second_pass_model",
+      "parse_confidence": 0.95,
+      "raw_text": "{\"has_vulnerability\": true,\n  \"vulnerability_type\": \"unknown\",\n  \"severity\": \"high\",\n  \"evidence\": [\n    \"The code does not handle invalid LDB reply types.\",\n    \"No proper error handling or validation of response data.\"\n  ],\n  \"explanation\": \"This code lacks proper checks for invalid LDB reply types and does not validate the response data received after an LDAP operation. This can lead to unexpected behavior or potential security vulnerabilities if the responses contain malicious data.\",\n  \"fix_principle\": \"Implement proper error checking and validation on all responses.\",\n  \"confidence\": 90,\n  \"fix_choice\": \"Add checks for valid LDB reply types before processing the response data.\"\n}"
+    }
+  ],
+  "questions_answered": {
+    "label_vs_evidence": "Failures are separated into label_failure, evidence_failure, and explanation_failure buckets.",
+    "high_confidence_errors": "high_confidence_error examples capture confidently wrong model judgments.",
+    "format_noise": "format_failure plus parse_summary indicate where benchmark instability comes from output protocol failure.",
+    "parse_fallback_usage": "Use parse_summary and low_confidence_examples to inspect where second-pass extraction was triggered.",
+    "misclassification_shape": "label_error_breakdown separates false positives, false negatives, and CWE mismatches.",
+    "calibration_shape": "confidence_summary shows whether higher-confidence outputs are actually more reliable."
+  }
+}

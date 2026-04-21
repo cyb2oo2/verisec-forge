@@ -337,6 +337,17 @@ class InferenceBackend(ABC):
     def generate_text(self, prompt: str, system_prompt: str | None = None) -> str:
         raise NotImplementedError
 
+    def generate_text_batch(
+        self,
+        prompts: list[str],
+        system_prompts: list[str | None] | None = None,
+    ) -> list[str]:
+        outputs: list[str] = []
+        for idx, prompt in enumerate(prompts):
+            system_prompt = None if system_prompts is None else system_prompts[idx]
+            outputs.append(self.generate_text(prompt, system_prompt=system_prompt))
+        return outputs
+
     def extract_answer_text(
         self,
         question: str,
@@ -413,6 +424,7 @@ class HuggingFaceInferenceBackend(InferenceBackend):
         super().__init__(config)
         try:
             import torch
+            from huggingface_hub import snapshot_download
             from peft import AutoPeftModelForCausalLM
             from transformers import AutoModelForCausalLM, AutoTokenizer
         except ImportError as exc:
@@ -435,13 +447,20 @@ class HuggingFaceInferenceBackend(InferenceBackend):
         elif torch.cuda.is_available():
             model_kwargs["device_map"] = "auto"
         pretrained_kwargs: dict[str, Any] = {}
+        model_source = config.model_name
         if config.local_files_only:
             pretrained_kwargs["local_files_only"] = True
+            model_path = Path(config.model_name)
+            if not model_path.exists():
+                try:
+                    model_source = snapshot_download(config.model_name, local_files_only=True)
+                except Exception:
+                    model_source = config.model_name
         try:
-            self._tokenizer = AutoTokenizer.from_pretrained(config.model_name, **pretrained_kwargs)
+            self._tokenizer = AutoTokenizer.from_pretrained(model_source, **pretrained_kwargs)
         except ValueError:
             self._tokenizer = AutoTokenizer.from_pretrained(
-                config.model_name,
+                model_source,
                 use_fast=False,
                 **pretrained_kwargs,
             )
@@ -450,9 +469,10 @@ class HuggingFaceInferenceBackend(InferenceBackend):
             self._model = AutoPeftModelForCausalLM.from_pretrained(config.model_name, **model_kwargs, **pretrained_kwargs)
             self._model = self._model.merge_and_unload()
         else:
-            self._model = AutoModelForCausalLM.from_pretrained(config.model_name, **model_kwargs, **pretrained_kwargs)
+            self._model = AutoModelForCausalLM.from_pretrained(model_source, **model_kwargs, **pretrained_kwargs)
         if self._tokenizer.pad_token is None:
             self._tokenizer.pad_token = self._tokenizer.eos_token
+        self._tokenizer.padding_side = "left"
 
     def _truncate_prompt_text(self, prompt: str) -> str:
         return compress_secure_code_prompt(prompt, self.config.max_prompt_chars)
@@ -509,6 +529,49 @@ class HuggingFaceInferenceBackend(InferenceBackend):
             return response_prefix + decoded
         return decoded
 
+    def _generate_batch(
+        self,
+        prompts: list[str],
+        system_prompts: list[str | None],
+        max_new_tokens: int,
+        response_prefixes: list[str | None] | None = None,
+    ) -> list[str]:
+        rendered_prompts: list[str] = []
+        for idx, prompt in enumerate(prompts):
+            rendered = self._render_prompt(prompt, system_prompts[idx])
+            response_prefix = None if response_prefixes is None else response_prefixes[idx]
+            if response_prefix:
+                rendered = rendered.rstrip() + "\n" + response_prefix
+            rendered_prompts.append(rendered)
+
+        tokenizer_kwargs: dict[str, Any] = {"return_tensors": "pt", "padding": True}
+        if self.config.max_input_tokens:
+            tokenizer_kwargs["truncation"] = True
+            tokenizer_kwargs["max_length"] = self.config.max_input_tokens
+        encoded = self._tokenizer(rendered_prompts, **tokenizer_kwargs)
+        model_device = next(self._model.parameters()).device
+        encoded = {key: value.to(model_device) for key, value in encoded.items()}
+
+        generate_kwargs: dict[str, Any] = {
+            "max_new_tokens": max_new_tokens,
+            "do_sample": self.config.temperature > 0,
+            "pad_token_id": self._tokenizer.pad_token_id,
+            "eos_token_id": self._tokenizer.eos_token_id,
+        }
+        if self.config.temperature > 0:
+            generate_kwargs["temperature"] = max(self.config.temperature, 1e-5)
+
+        output_tokens = self._model.generate(**encoded, **generate_kwargs)
+        input_lengths = encoded["attention_mask"].sum(dim=1).tolist()
+
+        outputs: list[str] = []
+        for idx, input_length in enumerate(input_lengths):
+            generated_only = output_tokens[idx][input_length:]
+            decoded = self._tokenizer.decode(generated_only, skip_special_tokens=True).strip()
+            response_prefix = None if response_prefixes is None else response_prefixes[idx]
+            outputs.append((response_prefix + decoded) if response_prefix else decoded)
+        return outputs
+
     def _response_prefix_for_prompt(self, prompt: str, configured_prefix: str | None) -> str | None:
         if not configured_prefix:
             return None
@@ -522,6 +585,28 @@ class HuggingFaceInferenceBackend(InferenceBackend):
             response_prefix = self._response_prefix_for_prompt(prompt, self.config.response_prefix)
         effective_system_prompt = system_prompt or self.config.system_prompt
         return self._generate(prompt, effective_system_prompt, self.config.max_new_tokens, response_prefix=response_prefix)
+
+    def generate_text_batch(
+        self,
+        prompts: list[str],
+        system_prompts: list[str | None] | None = None,
+    ) -> list[str]:
+        effective_system_prompts = [
+            (system_prompts[idx] if system_prompts is not None else None) or self.config.system_prompt
+            for idx in range(len(prompts))
+        ]
+        response_prefixes = [
+            self._response_prefix_for_prompt(prompt, self.config.response_prefix)
+            if self.config.output_format == "structured_json"
+            else None
+            for prompt in prompts
+        ]
+        return self._generate_batch(
+            prompts,
+            effective_system_prompts,
+            self.config.max_new_tokens,
+            response_prefixes=response_prefixes,
+        )
 
     def extract_answer_text(
         self,
@@ -633,6 +718,16 @@ def run_generation(backend: InferenceBackend, sample: SecureCodeSample) -> Secur
     start = time.perf_counter()
     text = backend.generate_text(sample.prompt, system_prompt=task_system_prompt)
     latency_ms = (time.perf_counter() - start) * 1000
+    return build_generation_record_from_text(backend, sample, text, latency_ms=latency_ms)
+
+
+def build_generation_record_from_text(
+    backend: InferenceBackend,
+    sample: SecureCodeSample,
+    text: str,
+    latency_ms: float,
+) -> SecureCodeGenerationRecord:
+    task_system_prompt = backend.config.system_prompt or system_prompt_for_task(sample.task_type)
     parsed_payload, structured_ok, parse_style = parse_security_structured_response(text)
     payload = _build_default_security_payload()
     payload.update(parsed_payload)
@@ -756,6 +851,28 @@ def run_generation(backend: InferenceBackend, sample: SecureCodeSample) -> Secur
         verifier_raw_text=verifier_raw_text,
         raw_text=text,
     )
+
+
+def run_generation_batch(
+    backend: InferenceBackend,
+    samples: list[SecureCodeSample],
+) -> list[SecureCodeGenerationRecord]:
+    if not samples:
+        return []
+    system_prompts = [backend.config.system_prompt or system_prompt_for_task(sample.task_type) for sample in samples]
+    start = time.perf_counter()
+    texts = backend.generate_text_batch([sample.prompt for sample in samples], system_prompts=system_prompts)
+    batch_latency_ms = (time.perf_counter() - start) * 1000
+    per_sample_latency_ms = batch_latency_ms / max(1, len(samples))
+    return [
+        build_generation_record_from_text(
+            backend,
+            sample,
+            text,
+            latency_ms=per_sample_latency_ms,
+        )
+        for sample, text in zip(samples, texts, strict=True)
+    ]
 
 
 def _coerce_verifier_override(payload: dict[str, Any]) -> bool:
