@@ -161,9 +161,12 @@ To test whether the low-recall pattern on `PrimeVul` was mainly caused by long, 
 | SFT 1.5B Coder (`recall_focused`, 6k) | 0.472 | 0.076 | 0.868 | 0.472 | 0.935 | 0.064 | 0.185 |
 | SFT 1.5B Coder (`vulnerable_oversample_clean`, 6k) | 0.482 | 0.138 | 0.826 | 0.482 | 0.940 | 0.059 | 0.405 |
 | Classifier 1.5B Coder (LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a |
+| Classifier 1.5B Coder (LoRA, 12k) | 0.579 | 0.490 | 0.668 | 0.579 | n/a | n/a | n/a |
 | Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* |
 
 The classifier and hybrid rows are the strongest control results in the entire `CodeXGLUE` branch. They show that the current bottleneck is not simply model scale or benchmark fit: under the same data and base model, a discriminative detector can maintain much stronger recall than any of the generative JSON auditors.
+
+More importantly, the detector branch is now showing a real data-scale curve. Moving from `6k -> 12k` balanced classifier supervision raises the default operating point from `0.567 -> 0.579` presence accuracy while also improving safe specificity (`0.642 -> 0.668`) and precision (`0.5788 -> 0.5961`) without giving up vulnerable recall. That is the first strong sign in this repo that the classifier path is still meaningfully undertrained rather than already architecture-limited.
 
 Threshold sweeps on the classifier make this even clearer. The detector has at least three practically useful operating points on the same balanced `eval1000`:
 
@@ -172,6 +175,8 @@ Threshold sweeps on the classifier make this even clearer. The detector has at l
 - `threshold = 0.8`: conservative trustworthy mode (`vulnerable_recall = 0.188`, `safe_specificity = 0.974`)
 
 When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top. At the same time, the new operating-point diagnostics show the next clear limit of the design: classifier-positive cases still have `unsupported_positive_share = 1.0`, which means the hybrid is producing clean structured records without yet adding concrete auditor-backed evidence spans to positive detections.
+
+With the new `12k` detector run, that systems reading becomes even sharper. The practical bottleneck is no longer "can we make a slightly better JSON auditor?" but "how far can we push the detector toward a real benchmark-grade vulnerability filter before we reintroduce the auditor as a narrower evidence confirmer?" That is now the most promising mainline.
 
 ## Failure Analysis
 

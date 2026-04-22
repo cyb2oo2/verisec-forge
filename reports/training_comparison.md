@@ -117,6 +117,7 @@ To test whether the low-recall behavior was mostly a `PrimeVul` realism/length m
 | SFT (`recall_focused`, 6k) | 0.472 | 0.076 | 0.868 | 0.472 | 0.935 | 0.064 | 0.185 | Confidence/wording shaping alone does not recover vulnerable recall |
 | SFT (`vulnerable_oversample_clean`, 6k) | 0.482 | 0.138 | 0.826 | 0.482 | 0.940 | 0.059 | 0.405 | Recovers some recall, but mostly by injecting a stronger vulnerable prior and many more confident mistakes |
 | Classifier (`sequence classification` LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a | Discriminative control baseline; much stronger recall than any generative JSON route |
+| Classifier (`sequence classification` LoRA, 12k) | 0.579 | 0.490 | 0.668 | 0.579 | n/a | n/a | n/a | First clear detector-only data-scale gain; default threshold already improves over 6k |
 | Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* | Preserves classifier detection while emitting deterministic structured audit records |
 
 ## CodeXGLUE Notes
@@ -128,6 +129,8 @@ To test whether the low-recall behavior was mostly a `PrimeVul` realism/length m
 - `evidence_only` cleans up protocol quality and parser dependence, but it does not change the semantic error shape: the model remains overwhelmingly `false_negative`-dominated.
 - `vulnerable_oversample_clean` is the only variant that materially raises recall, but it does so at the cost of a very large jump in `high_confidence_error_rate` (`0.405`). That makes it look more like prior shifting than trustworthy vulnerability discovery.
 - The discriminative LoRA classifier is the strongest control in this branch. On the same `eval1000`, it reaches `presence_accuracy = 0.567` and `vulnerable_recall = 0.492`, far above every generative JSON model.
+- Scaling that same detector from `6k -> 12k` is the first strong sign that this branch is still data-limited rather than saturated. The default operating point improves from `0.567 -> 0.579` presence accuracy, while precision and safe specificity also move up (`0.5788 -> 0.5961`, `0.642 -> 0.668`) without sacrificing vulnerable recall.
+- The `12k` threshold sweep also improves the detector's best operating points. At `threshold = 0.6`, it reaches `presence_accuracy = 0.601` with `safe_specificity = 0.872`; at `threshold = 0.2`, it reaches `f1 = 0.6718`. That does not yet close the gap to strong community baselines, but it confirms the new primary research direction: push the detector first, then revisit the auditor as a narrower evidence-confirmation module.
 - The hybrid detector+auditor system is the first concrete dual-path result in the repo. It preserves the classifier's binary detection strength exactly, while converting outputs into stable structured records with `format_pass_rate = 1.0` and `invalid_output_rate = 0.0`.
 - That hybrid still inherits the classifier's binary tradeoff (`safe_specificity = 0.642`), and many positive detections lack strong evidence spans. So it is better understood as a practical systems pattern than as a new model-level breakthrough.
 - Threshold sweeps strengthen this systems conclusion. The classifier is not really a single point model here; it exposes distinct operating regimes:
