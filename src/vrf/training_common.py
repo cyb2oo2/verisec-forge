@@ -52,6 +52,55 @@ def resolve_local_model_source(model_name: str, local_files_only: bool) -> str:
         return model_name
 
 
+def pretrained_kwargs(local_files_only: bool) -> dict[str, Any]:
+    if local_files_only:
+        return {"local_files_only": True}
+    return {}
+
+
+def load_tokenizer(
+    *,
+    transformers_module: Any,
+    model_name: str,
+    local_files_only: bool = False,
+) -> Any:
+    model_source = resolve_local_model_source(model_name, local_files_only)
+    tokenizer = transformers_module.AutoTokenizer.from_pretrained(
+        model_source,
+        **pretrained_kwargs(local_files_only),
+    )
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    return tokenizer
+
+
+def render_instruction_prompt(
+    *,
+    tokenizer: Any,
+    prompt: str,
+    system_prompt: str = "",
+    add_generation_prompt: bool = True,
+    response_prefix: str | None = None,
+) -> str:
+    messages: list[dict[str, str]] = []
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
+    messages.append({"role": "user", "content": prompt})
+    if getattr(tokenizer, "chat_template", None):
+        rendered = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=add_generation_prompt,
+        )
+    elif system_prompt:
+        rendered = f"{system_prompt}\n\n{prompt}"
+    else:
+        rendered = prompt
+    if response_prefix:
+        rendered += response_prefix
+    return rendered
+
+
 def record_training_stage(config_path: str, config: dict[str, Any], metrics: dict[str, Any]) -> None:
     tracker_path = config.get("tracker_path")
     if tracker_path:

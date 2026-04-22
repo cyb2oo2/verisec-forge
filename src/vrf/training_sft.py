@@ -7,8 +7,11 @@ from vrf.training_common import (
     ensure_output_dir,
     load_config,
     load_dataset,
+    load_tokenizer,
     optional_import_train_stack,
+    pretrained_kwargs,
     record_training_stage,
+    render_instruction_prompt,
     resolve_local_model_source,
 )
 
@@ -23,17 +26,18 @@ def run_sft(config_path: str) -> dict[str, object]:
     trl = stack["trl"]
 
     rows = load_dataset(config["train_dataset_path"])
-    pretrained_kwargs: dict[str, object] = {}
-    if config.get("local_files_only"):
-        pretrained_kwargs["local_files_only"] = True
-    model_source = resolve_local_model_source(config["model_name"], bool(config.get("local_files_only")))
+    local_files_only = bool(config.get("local_files_only"))
+    pretrained_load_kwargs = pretrained_kwargs(local_files_only)
+    model_source = resolve_local_model_source(config["model_name"], local_files_only)
     model_kwargs: dict[str, object] = {}
     if torch.cuda.is_available():
         model_kwargs["torch_dtype"] = torch.float16
-    tokenizer = transformers.AutoTokenizer.from_pretrained(model_source, **pretrained_kwargs)
-    model = transformers.AutoModelForCausalLM.from_pretrained(model_source, **model_kwargs, **pretrained_kwargs)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer = load_tokenizer(
+        transformers_module=transformers,
+        model_name=config["model_name"],
+        local_files_only=local_files_only,
+    )
+    model = transformers.AutoModelForCausalLM.from_pretrained(model_source, **model_kwargs, **pretrained_load_kwargs)
 
     system_prompt = config.get("system_prompt", "")
     response_field = config.get("response_field", "response")
@@ -61,11 +65,12 @@ def run_sft(config_path: str) -> dict[str, object]:
                 "completion": [messages[-1]],
             }
 
-        prompt_parts = []
-        if system_prompt:
-            prompt_parts.append(system_prompt)
-        prompt_parts.append(str(row["prompt"]))
-        prompt_text = "\n\n".join(prompt_parts)
+        prompt_text = render_instruction_prompt(
+            tokenizer=tokenizer,
+            prompt=str(row["prompt"]),
+            system_prompt=system_prompt,
+            add_generation_prompt=False,
+        )
         return {
             "prompt": prompt_text,
             "completion": assistant_content,

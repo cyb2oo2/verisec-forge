@@ -4,7 +4,18 @@ from pathlib import Path
 from typing import Any
 
 from vrf.text_utils import extract_numeric_answer, length_penalty, parse_reasoning_and_answer, parse_structured_response
-from vrf.training_common import cpu_training_overrides, ensure_output_dir, load_config, load_dataset, optional_import_train_stack, record_training_stage
+from vrf.training_common import (
+    cpu_training_overrides,
+    ensure_output_dir,
+    load_config,
+    load_dataset,
+    load_tokenizer,
+    optional_import_train_stack,
+    pretrained_kwargs,
+    record_training_stage,
+    render_instruction_prompt,
+    resolve_local_model_source,
+)
 
 
 def reward_fn(
@@ -40,41 +51,38 @@ def run_grpo(config_path: str) -> dict[str, object]:
     trl = stack["trl"]
 
     tokenizer_source = config.get("tokenizer_name") or config["model_name"]
-    tokenizer = transformers.AutoTokenizer.from_pretrained(tokenizer_source)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    local_files_only = bool(config.get("local_files_only"))
+    tokenizer = load_tokenizer(
+        transformers_module=transformers,
+        model_name=tokenizer_source,
+        local_files_only=local_files_only,
+    )
 
     system_prompt = config.get("system_prompt", "")
 
     def format_prompt(prompt: str) -> str:
-        messages = []
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
-        messages.append({"role": "user", "content": prompt})
-        if getattr(tokenizer, "chat_template", None):
-            rendered = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        elif system_prompt:
-            rendered = f"{system_prompt}\n\n{prompt}"
-        else:
-            rendered = prompt
-        response_prefix = config.get("response_prefix")
-        if response_prefix:
-            rendered += response_prefix
-        return rendered
+        return render_instruction_prompt(
+            tokenizer=tokenizer,
+            prompt=prompt,
+            system_prompt=system_prompt,
+            add_generation_prompt=True,
+            response_prefix=config.get("response_prefix"),
+        )
 
     rows = load_dataset(config["train_dataset_path"])
     dataset = datasets.Dataset.from_list([{"prompt": format_prompt(row["prompt"]), "gold_answer": row["gold_answer"]} for row in rows])
 
     def load_causal_model(model_name: str):
+        model_source = resolve_local_model_source(model_name, local_files_only)
         adapter_config_path = Path(model_name) / "adapter_config.json"
         if adapter_config_path.exists():
             try:
                 from peft import AutoPeftModelForCausalLM
             except ImportError as exc:
                 raise RuntimeError("peft is required to load LoRA checkpoints for GRPO") from exc
-            model = AutoPeftModelForCausalLM.from_pretrained(model_name)
+            model = AutoPeftModelForCausalLM.from_pretrained(model_source, **pretrained_kwargs(local_files_only))
             return model.merge_and_unload()
-        return transformers.AutoModelForCausalLM.from_pretrained(model_name)
+        return transformers.AutoModelForCausalLM.from_pretrained(model_source, **pretrained_kwargs(local_files_only))
 
     model = load_causal_model(config["model_name"])
 

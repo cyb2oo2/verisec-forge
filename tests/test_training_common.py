@@ -5,7 +5,15 @@ from pathlib import Path
 from types import SimpleNamespace
 from uuid import uuid4
 
-from vrf.training_common import cpu_training_overrides, load_config, load_dataset, resolve_local_model_source
+from vrf.training_common import (
+    cpu_training_overrides,
+    load_config,
+    load_dataset,
+    load_tokenizer,
+    pretrained_kwargs,
+    render_instruction_prompt,
+    resolve_local_model_source,
+)
 
 
 def test_load_config_and_dataset_round_trip() -> None:
@@ -48,3 +56,60 @@ def test_cpu_training_overrides_cover_cpu_and_cuda_paths() -> None:
 
     assert cpu_training_overrides(cpu_torch) == {"use_cpu": True, "bf16": False, "fp16": False}
     assert cpu_training_overrides(gpu_torch) == {"fp16": True, "bf16": False}
+
+
+def test_pretrained_kwargs_and_load_tokenizer_normalize_padding() -> None:
+    class StubTokenizer:
+        pad_token = None
+        eos_token = "</s>"
+
+    captured: dict[str, object] = {}
+
+    class StubAutoTokenizer:
+        @staticmethod
+        def from_pretrained(model_name: str, **kwargs: object) -> StubTokenizer:
+            captured["model_name"] = model_name
+            captured["kwargs"] = kwargs
+            return StubTokenizer()
+
+    transformers = SimpleNamespace(AutoTokenizer=StubAutoTokenizer)
+    tokenizer = load_tokenizer(
+        transformers_module=transformers,
+        model_name="demo/model",
+        local_files_only=True,
+    )
+
+    assert pretrained_kwargs(True) == {"local_files_only": True}
+    assert pretrained_kwargs(False) == {}
+    assert captured["model_name"] == "demo/model"
+    assert captured["kwargs"] == {"local_files_only": True}
+    assert tokenizer.pad_token == "</s>"
+
+
+def test_render_instruction_prompt_supports_chat_and_plain_modes() -> None:
+    class ChatTokenizer:
+        chat_template = "stub"
+
+        @staticmethod
+        def apply_chat_template(messages, tokenize: bool, add_generation_prompt: bool) -> str:
+            assert tokenize is False
+            assert add_generation_prompt is True
+            return f"CHAT::{messages[0]['content']}::{messages[1]['content']}"
+
+    class PlainTokenizer:
+        chat_template = None
+
+    assert render_instruction_prompt(
+        tokenizer=ChatTokenizer(),
+        prompt="check code",
+        system_prompt="sys",
+        add_generation_prompt=True,
+        response_prefix="<<json>>",
+    ) == "CHAT::sys::check code<<json>>"
+
+    assert render_instruction_prompt(
+        tokenizer=PlainTokenizer(),
+        prompt="check code",
+        system_prompt="sys",
+        add_generation_prompt=False,
+    ) == "sys\n\ncheck code"

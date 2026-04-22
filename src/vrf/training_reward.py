@@ -1,6 +1,16 @@
 from __future__ import annotations
 
-from vrf.training_common import cpu_training_overrides, ensure_output_dir, load_config, load_dataset, optional_import_train_stack, record_training_stage
+from vrf.training_common import (
+    cpu_training_overrides,
+    ensure_output_dir,
+    load_config,
+    load_dataset,
+    load_tokenizer,
+    optional_import_train_stack,
+    pretrained_kwargs,
+    record_training_stage,
+    resolve_local_model_source,
+)
 
 
 def run_reward_model(config_path: str) -> dict[str, object]:
@@ -16,14 +26,18 @@ def run_reward_model(config_path: str) -> dict[str, object]:
         [{"text": f"{row['prompt']}\n{row['response']}", "label": float(row["score"])} for row in rows]
     )
 
-    tokenizer = transformers.AutoTokenizer.from_pretrained(config["model_name"])
+    local_files_only = bool(config.get("local_files_only"))
+    tokenizer = load_tokenizer(
+        transformers_module=transformers,
+        model_name=config["model_name"],
+        local_files_only=local_files_only,
+    )
     model = transformers.AutoModelForSequenceClassification.from_pretrained(
-        config["model_name"],
+        resolve_local_model_source(config["model_name"], local_files_only),
         num_labels=1,
         ignore_mismatched_sizes=True,
+        **pretrained_kwargs(local_files_only),
     )
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
 
     def preprocess(batch: dict[str, list[object]]) -> dict[str, object]:
         tokenized = tokenizer(batch["text"], truncation=True, max_length=config["training_args"]["max_length"])
