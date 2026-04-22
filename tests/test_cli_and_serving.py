@@ -37,6 +37,25 @@ def test_cli_serve_once_builds_sample_and_serializes(monkeypatch, capsys) -> Non
     assert payload["format_ok"] is True
 
 
+def test_cli_train_commands_dispatch(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(cli, "run_sft", lambda config_path: {"stage": "sft", "config_path": config_path})
+    monkeypatch.setattr(cli, "run_dpo", lambda config_path: {"stage": "dpo", "config_path": config_path})
+    monkeypatch.setattr(cli, "run_reward_model", lambda config_path: {"stage": "reward", "config_path": config_path})
+    monkeypatch.setattr(cli, "run_grpo", lambda config_path: {"stage": "grpo", "config_path": config_path})
+
+    for command, expected_stage in [
+        ("train-sft", "sft"),
+        ("train-dpo", "dpo"),
+        ("train-reward", "reward"),
+        ("train-grpo", "grpo"),
+    ]:
+        monkeypatch.setattr(sys, "argv", ["vrf", command, "--config", "configs/train.json"])
+        cli.main()
+        payload = json.loads(capsys.readouterr().out)
+        assert payload["stage"] == expected_stage
+        assert payload["config_path"] == "configs/train.json"
+
+
 def test_serving_app_health_and_infer(monkeypatch) -> None:
     class StubBackend:
         model_version = "stub-model"
