@@ -1,0 +1,36 @@
+{
+  "sections": [
+    {
+      "title": "Project Entry Points",
+      "description": "Start here for the main narrative and current system-level conclusions.",
+      "entries": [
+        { "label": "README", "path": "README.md", "required": true },
+        { "label": "Technical Report", "path": "reports/TECHNICAL_REPORT.md", "required": true },
+        { "label": "Research Summary", "path": "reports/SECURE_CODE_RESEARCH_SUMMARY.md", "required": true },
+        { "label": "Visual Diagnostics", "path": "reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md", "required": true }
+      ]
+    },
+    {
+      "title": "CodeXGLUE Mainline",
+      "description": "Primary detector-auditor benchmark line and operating-point analysis.",
+      "entries": [
+        { "label": "Classifier Calibration", "path": "reports/CODEXGLUE_CLASSIFIER_CALIBRATION.md", "required": true },
+        { "label": "Hybrid Operating Points", "path": "reports/CODEXGLUE_HYBRID_OPERATING_POINTS.md", "required": true },
+        { "label": "Classifier Threshold Sweep (eval1000)", "path": "reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_eval1000.json", "required": true },
+        { "label": "Classifier Threshold Sweep (holdout2000)", "path": "reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_holdout2000.json", "required": true },
+        { "label": "Hybrid Summary (eval1000)", "path": "reports/codexglue_hybrid_thresholds/secure_code_codexglue_hybrid_threshold_summary.json", "required": true },
+        { "label": "Hybrid Summary (holdout2000)", "path": "reports/codexglue_hybrid_thresholds_holdout2000/secure_code_codexglue_hybrid_threshold_summary.json", "required": true }
+      ]
+    },
+    {
+      "title": "PrimeVul Mainline",
+      "description": "Original secure-code structured-auditor branch and its larger held-out evaluation.",
+      "entries": [
+        { "label": "PrimeVul Comparison", "path": "reports/training_comparison.md", "required": true },
+        { "label": "Best SFT holdout1000 report", "path": "reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout1000_report.json", "required": true },
+        { "label": "Best SFT holdout2000 report", "path": "reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout2000_report.json", "required": true },
+        { "label": "PrimeVul Diagnostics", "path": "reports/SECURE_CODE_DIAGNOSTICS.md", "required": true }
+      ]
+    }
+  ]
+}
