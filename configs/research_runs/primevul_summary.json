@@ -1,0 +1,34 @@
+{
+  "runs": [
+    {
+      "name": "Base 0.5B",
+      "report_path": "reports/secure_code_primevul_qwen05b_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_qwen05b_eval244_failure_analysis.json"
+    },
+    {
+      "name": "SFT 0.5B",
+      "report_path": "reports/secure_code_primevul_sft_qwen05b_balanced_lossfix_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_sft_qwen05b_balanced_lossfix_eval244_failure_analysis.json"
+    },
+    {
+      "name": "Base 1.5B",
+      "report_path": "reports/secure_code_primevul_qwen15b_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_qwen15b_eval244_failure_analysis.json"
+    },
+    {
+      "name": "Hard DPO v2",
+      "report_path": "reports/secure_code_primevul_dpo_qwen05b_hard_v2_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_dpo_qwen05b_hard_v2_eval244_failure_analysis.json"
+    },
+    {
+      "name": "Calibrated LoRA-only DPO v1",
+      "report_path": "reports/secure_code_primevul_dpo_qwen05b_calibrated_lora_v1_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_dpo_qwen05b_calibrated_lora_v1_eval244_failure_analysis.json"
+    },
+    {
+      "name": "Label-focused LoRA-only DPO v1",
+      "report_path": "reports/secure_code_primevul_dpo_qwen05b_label_focused_lora_v1_eval244_report.json",
+      "analysis_path": "analysis/secure_code_primevul_dpo_qwen05b_label_focused_lora_v1_eval244_failure_analysis.json"
+    }
+  ]
+}
