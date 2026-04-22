@@ -53,6 +53,7 @@
 | Failure-driven decision-only verifier (`0.5B + tiny fixed-shape verifier target`) | 0.4262 | 0.5984 | 0.1434 | 20.18 | Narrower than compact and more stable, but still clearly weaker than the main SFT auditor |
 | Failure-driven binary-judge verifier (`0.5B + binary second-pass judge target`) | 0.0943 | 0.7500 | 0.6025 | 21.67 | Extremely recall-heavy as a standalone verifier, but catastrophically over-sensitive and overconfident |
 | Failure-driven label-only verifier (`0.5B + label-only second-pass target`) | 0.1885 | 0.8197 | 0.1230 | 16.29 | Cleaner and shorter than binary-judge, but still too over-sensitive to trust as a standalone verifier |
+| PrimeVul Presence-only Detector (`1.5B Coder seq-cls LoRA, 3k`) | 0.9524 | n/a | n/a | n/a | n/a | Presence-only detector on `PrimeVul holdout2000`; `vulnerable_recall = 0.9709`, `safe_specificity = 0.9339`, exact code overlap with train subset checked as `0` |
 
 ## PrimeVul Notes
 
@@ -98,6 +99,7 @@ To reduce the risk that the small `eval244` slice was flattering or unstable, we
 - The margin is smaller than on `eval244`, which suggests the original balanced eval slice was directionally correct but somewhat easier than a larger held-out sample.
 - The dominant semantic failure for both models on the larger holdout is still `false_negative`, which means the main open problem is missed vulnerabilities rather than uncontrolled over-detection.
 - The best current checkpoint is now the safer-cleanup SFT variant. It improves recall without the collapse we saw in the earlier recall-focused experiment, which suggests the real issue was label canonicalization noise rather than a need for more aggressive confidence shaping.
+- A new `PrimeVul presence-only detector` line changes the interpretation of the whole benchmark branch. With `1.5B Coder + LoRA sequence classification` on a balanced `3000`-example train subset and evaluation on `holdout2000`, the model reaches `presence_accuracy = 0.9524`, `vulnerable_recall = 0.9709`, and `safe_specificity = 0.9339`. Because the train subset was built by excluding holdout ids and exact code overlap checks are `0`, this is strong evidence that the hardest part of the earlier PrimeVul pipeline was not raw vulnerable-vs-safe discrimination, but the structured generative auditing objective layered on top of it.
 
 # CodeXGLUE Coder-1.5B Comparison
 
