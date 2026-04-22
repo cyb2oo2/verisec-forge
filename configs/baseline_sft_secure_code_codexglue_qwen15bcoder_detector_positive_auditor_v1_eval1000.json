@@ -1,0 +1,25 @@
+{
+  "dataset_path": "data/processed/secure_code_codexglue_eval_balanced_1000.jsonl",
+  "output_path": "outputs/baseline_sft_secure_code_codexglue_qwen15bcoder_detector_positive_auditor_v1_eval1000_generations.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "batch_size": 4,
+  "backend": {
+    "type": "huggingface",
+    "model_name": "checkpoints/sft_secure_code_codexglue_qwen15bcoder_detector_positive_auditor_v1",
+    "temperature": 0.0,
+    "max_new_tokens": 160,
+    "max_input_tokens": 1536,
+    "max_prompt_chars": 12000,
+    "device_map": "auto",
+    "torch_dtype": "float16",
+    "local_files_only": true,
+    "output_format": "structured_json",
+    "system_prompt": "You are a second-pass defensive secure-code auditor. The first-pass detector may over-call vulnerabilities. Return valid JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. Only keep has_vulnerability=true when the code snippet itself supports a defensible vulnerability claim with concrete evidence. Otherwise return has_vulnerability=false and vulnerability_type=none.",
+    "response_prefix": "{",
+    "enable_second_pass": true,
+    "second_pass_confidence_threshold": 0.8,
+    "extraction_max_new_tokens": 96,
+    "extraction_system_prompt": "You are a structured security extraction module for function-level binary vulnerability detection. Return JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice.",
+    "extraction_response_prefix": "{"
+  }
+}

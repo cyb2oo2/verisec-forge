@@ -22,7 +22,10 @@ def build_hybrid_rows(
 ) -> list[dict]:
     samples = {row["id"]: SecureCodeSample.from_dict(row) for row in read_jsonl(dataset_path)}
     probabilities = {row["id"]: row for row in read_jsonl(probability_path)}
-    auditor = {row["id"]: SecureCodeGenerationRecord(**row) for row in read_jsonl(auditor_generations_path)}
+    auditor = {
+        row["id"]: SecureCodeGenerationRecord.from_dict(row)
+        for row in read_jsonl(auditor_generations_path)
+    }
 
     rows_out: list[dict] = []
     for sample_id, sample in samples.items():

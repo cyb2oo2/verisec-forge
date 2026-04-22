@@ -92,3 +92,37 @@ auditor is still acting mainly as a structured-output layer, not as a true
 positive-case evidence confirmer. In other words, the next step is not "tune the
 threshold harder", but "teach the auditor how to attach reliable evidence to
 positive detections."
+
+## Detector-Positive Auditor Follow-up
+
+We trained a second-pass `detector_positive_auditor` specifically on
+classifier-positive training examples, with prompts that explicitly told the
+auditor to keep `has_vulnerability=true` only when the snippet itself justified
+that call with concrete evidence.
+
+Single-model evaluation on `eval1000` did not improve the situation:
+
+| Auditor | Presence Accuracy | Vulnerable Recall | Safe Specificity | Evidence Support Rate | Format Pass Rate | Invalid Output Rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `evidence_only` auditor | 0.474 | 0.082 | 0.866 | 0.921 | 0.942 | 0.058 |
+| `detector_positive_auditor` | 0.336 | 0.004 | 0.668 | 0.996 | 0.659 | 0.340 |
+
+When we stitched that new auditor back into the hybrid, the positive-path
+evidence problem barely moved:
+
+| Threshold | Unsupported Positive Share | Avg Evidence Items per Positive |
+| --- | ---: | ---: |
+| 0.2 | 0.999 | 0.002 |
+| 0.5 | 0.998 | 0.005 |
+| 0.8 | 1.000 | 0.000 |
+
+And under `evidence_gated` evaluation, the system again collapsed:
+
+- `threshold = 0.2` or `0.5`: `detector_positive_rate = 0.001`, `vulnerable_recall = 0.0`
+- `threshold = 0.8`: `detector_positive_rate = 0.0`, `vulnerable_recall = 0.0`
+
+This strengthens the earlier diagnosis. The missing ingredient is not merely a
+second-pass prompt that says "be stricter" or a detector-positive training
+subset. The current auditor family still does not add reliable new evidence on
+positive cases; it mostly reshapes the output protocol around detector
+decisions.
