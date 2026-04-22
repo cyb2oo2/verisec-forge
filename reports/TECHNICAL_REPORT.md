@@ -162,17 +162,20 @@ To test whether the low-recall pattern on `PrimeVul` was mainly caused by long, 
 | SFT 1.5B Coder (`vulnerable_oversample_clean`, 6k) | 0.482 | 0.138 | 0.826 | 0.482 | 0.940 | 0.059 | 0.405 |
 | Classifier 1.5B Coder (LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a |
 | Classifier 1.5B Coder (LoRA, 12k) | 0.579 | 0.490 | 0.668 | 0.579 | n/a | n/a | n/a |
+| Classifier 1.5B Coder (LoRA, full-balanced 20k) | 0.609 | 0.534 | 0.684 | 0.609 | n/a | n/a | n/a |
 | Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* |
 
 The classifier and hybrid rows are the strongest control results in the entire `CodeXGLUE` branch. They show that the current bottleneck is not simply model scale or benchmark fit: under the same data and base model, a discriminative detector can maintain much stronger recall than any of the generative JSON auditors.
 
-More importantly, the detector branch is now showing a real data-scale curve. Moving from `6k -> 12k` balanced classifier supervision raises the default operating point from `0.567 -> 0.579` presence accuracy while also improving safe specificity (`0.642 -> 0.668`) and precision (`0.5788 -> 0.5961`) without giving up vulnerable recall. That is the first strong sign in this repo that the classifier path is still meaningfully undertrained rather than already architecture-limited.
+More importantly, the detector branch is now showing a real data-scale curve. Moving from `6k -> 12k` balanced classifier supervision raises the default operating point from `0.567 -> 0.579` presence accuracy while also improving safe specificity (`0.642 -> 0.668`) and precision (`0.5788 -> 0.5961`) without giving up vulnerable recall. Scaling again to the full balanced train pool (`20,036` examples) pushes the same checkpoint family further to `presence_accuracy = 0.609`, `vulnerable_recall = 0.534`, `safe_specificity = 0.684`, and `precision = 0.6282`. That is the strongest sign so far in this repo that the classifier path is still meaningfully undertrained rather than already architecture-limited.
 
 Threshold sweeps on the classifier make this even clearer. The detector has at least three practically useful operating points on the same balanced `eval1000`:
 
 - `threshold = 0.2`: recall-heavy triage (`vulnerable_recall = 0.956`, `safe_specificity = 0.098`)
 - `threshold = 0.5`: balanced review (`vulnerable_recall = 0.488`, `safe_specificity = 0.642`)
 - `threshold = 0.8`: conservative trustworthy mode (`vulnerable_recall = 0.188`, `safe_specificity = 0.974`)
+
+With the full-balanced detector, those operating points get stronger rather than flatter. At `threshold = 0.4`, the detector reaches `presence_accuracy = 0.630`; at `threshold = 0.3`, it reaches `f1 = 0.6869` with `vulnerable_recall = 0.926`. The tradeoff is still real, but now it is a better tradeoff family than before: the detector can supply both a stronger balanced mode and a stronger triage mode from one model.
 
 When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top. At the same time, the new operating-point diagnostics show the next clear limit of the design: classifier-positive cases still have `unsupported_positive_share = 1.0`, which means the hybrid is producing clean structured records without yet adding concrete auditor-backed evidence spans to positive detections.
 
@@ -201,6 +204,7 @@ These results suggest three early conclusions:
 7. The first practical dual-system result is now in place: a classifier can act as a high-recall detector, while a generative auditor can provide stable machine-readable secure-code records. This hybrid preserves classifier-level detection and achieves perfect output formatting, but the new operating-point diagnostics show that it still lacks evidence-grounded positive confirmations: across thresholds, classifier-positive cases currently have `unsupported_positive_share = 1.0`.
 8. A stricter evidence-gated hybrid makes that limitation even clearer. When we require classifier-positive cases to also carry auditor evidence before allowing a vulnerable-path record, both `eval1000` and `holdout2000` collapse to `vulnerable_recall = 0.0`. This is a sharp negative result, but also a useful systems diagnosis: the current auditor is good at structural rendering, not yet at positive-case evidence confirmation.
 9. A targeted `detector_positive_auditor` follow-up confirms that this is not solved by simply training the auditor on classifier-positive traffic. On `CodeXGLUE eval1000`, that model drops to `label_accuracy = 0.336`, `format_pass_rate = 0.659`, and `vulnerable_recall = 0.004`, and when stitched back into the hybrid it only reduces `unsupported_positive_share` from `1.0` to about `0.998-0.999`. Under evidence-gated evaluation it again collapses to effectively zero positive traffic. The open problem therefore remains evidence grounding, not threshold tuning or positive-only prompt exposure.
+10. By contrast, the detector-only branch continues to improve when we scale the balanced training pool. The jump from `6k -> 12k -> full-balanced 20k` is now monotonic on the default operating point (`0.567 -> 0.579 -> 0.609` presence accuracy), which is the strongest evidence yet that the mainline should shift toward "make the detector first-class, then narrow the auditor" rather than continuing to widen generative auditor objectives.
 
 ### Holdout Generalization Readout
 
