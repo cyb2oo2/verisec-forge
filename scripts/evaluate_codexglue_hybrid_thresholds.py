@@ -6,6 +6,7 @@ from pathlib import Path
 
 from vrf.evaluation import evaluate_run
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
+from vrf.run_specs import build_run_artifact_spec
 from vrf.schemas import EvidenceSpan, SecureCodeGenerationRecord, SecureCodeSample
 from vrf.text_utils import security_label_correct
 
@@ -114,8 +115,6 @@ def main() -> None:
     for threshold in thresholds:
         tag = str(threshold).replace(".", "p")
         generations_path = output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_generations.jsonl"
-        report_json_path = output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_report.json"
-        report_csv_path = output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_rows.csv"
 
         rows = build_hybrid_rows(
             dataset_path=args.dataset,
@@ -126,16 +125,15 @@ def main() -> None:
         )
         write_jsonl(generations_path, rows)
 
-        report = evaluate_run(
-            {
-                "dataset_path": args.dataset,
-                "generations_path": str(generations_path),
-                "report_json_path": str(report_json_path),
-                "report_csv_path": str(report_csv_path),
-                "metrics": {},
-            },
-            config_path=f"hybrid_threshold_{tag}",
+        run_spec = build_run_artifact_spec(
+            dataset_path=args.dataset,
+            generations_path=str(generations_path),
+            report_json_path=str(output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_report.json"),
+            report_csv_path=str(output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_rows.csv"),
+            analysis_output_path=str(output_dir / f"secure_code_codexglue_hybrid_threshold_{tag}_analysis.json"),
+            metrics={},
         )
+        report = evaluate_run(run_spec.evaluate_config(), config_path=f"hybrid_threshold_{tag}")
         summary = dict(report["summary"])
         summary["threshold"] = threshold
         summaries.append(summary)
