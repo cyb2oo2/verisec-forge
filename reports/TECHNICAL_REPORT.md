@@ -171,7 +171,7 @@ Threshold sweeps on the classifier make this even clearer. The detector has at l
 - `threshold = 0.5`: balanced review (`vulnerable_recall = 0.488`, `safe_specificity = 0.642`)
 - `threshold = 0.8`: conservative trustworthy mode (`vulnerable_recall = 0.188`, `safe_specificity = 0.974`)
 
-When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top.
+When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top. At the same time, the new operating-point diagnostics show the next clear limit of the design: classifier-positive cases still have `unsupported_positive_share = 1.0`, which means the hybrid is producing clean structured records without yet adding concrete auditor-backed evidence spans to positive detections.
 
 ## Failure Analysis
 
@@ -193,7 +193,8 @@ These results suggest three early conclusions:
 4. The smaller `eval244` slice was directionally correct, but the larger `holdout1000` benchmark is meaningfully harder and therefore a better generalization check.
 5. The remaining `false_negative` problem is partly a supervision hygiene issue. Safe examples that retain concrete CWE labels make the model more conservative; cleaning that signal gives a measurable improvement without the collapse seen in more aggressive recall-focused shaping.
 6. On the shorter `CodeXGLUE` benchmark, the main open problem becomes even clearer: the generative structured-output formulation itself appears to push the model toward a conservative safe-biased operating point. This is supported by the discriminative LoRA classifier, which substantially outperforms all generative SFT variants on vulnerable recall.
-7. The first practical dual-system result is now in place: a classifier can act as a high-recall detector, while a generative auditor can provide stable machine-readable secure-code records. This hybrid preserves classifier-level detection and achieves perfect output formatting, but it still inherits the classifier's precision/specificity tradeoff and often lacks strong evidence spans.
+7. The first practical dual-system result is now in place: a classifier can act as a high-recall detector, while a generative auditor can provide stable machine-readable secure-code records. This hybrid preserves classifier-level detection and achieves perfect output formatting, but the new operating-point diagnostics show that it still lacks evidence-grounded positive confirmations: across thresholds, classifier-positive cases currently have `unsupported_positive_share = 1.0`.
+8. A stricter evidence-gated hybrid makes that limitation even clearer. When we require classifier-positive cases to also carry auditor evidence before allowing a vulnerable-path record, both `eval1000` and `holdout2000` collapse to `vulnerable_recall = 0.0`. This is a sharp negative result, but also a useful systems diagnosis: the current auditor is good at structural rendering, not yet at positive-case evidence confirmation.
 
 ### Holdout Generalization Readout
 

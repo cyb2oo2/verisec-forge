@@ -41,3 +41,10 @@ This summary consolidates the current `PrimeVul eval244` secure-code reasoning r
 - If protocol stability is the priority, `Base 1.5B` is the current strongest option with `format_pass_rate = 0.8484`.
 - If calibration risk is the priority, `Calibrated LoRA-only DPO v1` is the safest current choice in this slice with `high_confidence_error_rate = 0.0082`.
 - The main unresolved semantic problem across this run family is still `false_negative`.
+
+## Dual-System Follow-up
+
+- On the newer `CodeXGLUE` branch, the strongest practical result is now a detector+a auditor split rather than a single generative auditor.
+- The discriminative detector preserves much stronger vulnerable recall than the structured JSON auditor, while the auditor preserves deterministic output formatting.
+- The current limitation of that hybrid is now clearer: classifier-positive cases still do not come with concrete auditor-backed evidence spans, so the hybrid is best understood as a policy-tunable structured review shell rather than a fully evidence-grounded second-stage auditor.
+- A stricter evidence-gated hybrid confirms that diagnosis. Once we require classifier-positive cases to also carry auditor evidence before entering the vulnerable path, the system collapses to `vulnerable_recall = 0.0` and `safe_specificity = 1.0`. That is a strong negative result: the missing piece is not threshold tuning, but evidence-grounded positive auditing.

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from statistics import mean
 
 from vrf.evaluation import evaluate_run
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
@@ -17,6 +18,7 @@ def build_hybrid_rows(
     auditor_generations_path: str,
     threshold: float,
     model_version: str,
+    policy: str = "default",
 ) -> list[dict]:
     samples = {row["id"]: SecureCodeSample.from_dict(row) for row in read_jsonl(dataset_path)}
     probabilities = {row["id"]: row for row in read_jsonl(probability_path)}
@@ -27,6 +29,9 @@ def build_hybrid_rows(
         prob_row = probabilities[sample_id]
         auditor_row = auditor[sample_id]
         pred_has = bool(float(prob_row["vuln_probability"]) >= threshold)
+        auditor_has_evidence = bool(auditor_row.evidence)
+        if policy == "evidence_gated":
+            pred_has = pred_has and auditor_has_evidence
 
         if pred_has:
             predicted_vulnerability_type = "unknown"
@@ -98,6 +103,29 @@ def build_hybrid_rows(
     return rows_out
 
 
+def summarize_hybrid_rows(rows: list[dict]) -> dict[str, float]:
+    num_examples = len(rows)
+    positive_rows = [row for row in rows if bool(row["has_vulnerability"])]
+    safe_rows = [row for row in rows if not bool(row["has_vulnerability"])]
+    unsupported_positive_rows = [row for row in positive_rows if not row.get("evidence_supported", False)]
+
+    def average(values: list[float]) -> float:
+        if not values:
+            return 0.0
+        return float(mean(values))
+
+    return {
+        "detector_positive_rate": len(positive_rows) / num_examples if num_examples else 0.0,
+        "safe_passthrough_rate": len(safe_rows) / num_examples if num_examples else 0.0,
+        "unsupported_positive_rate": len(unsupported_positive_rows) / num_examples if num_examples else 0.0,
+        "unsupported_positive_share": len(unsupported_positive_rows) / len(positive_rows) if positive_rows else 0.0,
+        "avg_evidence_items_overall": average([len(row.get("evidence", [])) for row in rows]),
+        "avg_evidence_items_per_positive": average([len(row.get("evidence", [])) for row in positive_rows]),
+        "avg_latency_ms": average([float(row.get("latency_ms", 0.0)) for row in rows]),
+        "avg_latency_ms_per_positive": average([float(row.get("latency_ms", 0.0)) for row in positive_rows]),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate hybrid classifier+auditor operating points on CodeXGLUE.")
     parser.add_argument("--dataset", required=True)
@@ -105,6 +133,7 @@ def main() -> None:
     parser.add_argument("--auditor-generations", required=True)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--thresholds", default="0.2,0.5,0.8")
+    parser.add_argument("--policy", choices=["default", "evidence_gated"], default="default")
     args = parser.parse_args()
 
     thresholds = [float(item.strip()) for item in args.thresholds.split(",") if item.strip()]
@@ -121,7 +150,8 @@ def main() -> None:
             probability_path=args.probabilities,
             auditor_generations_path=args.auditor_generations,
             threshold=threshold,
-            model_version=f"hybrid_codexglue_detector_auditor_threshold_{tag}",
+            model_version=f"hybrid_codexglue_detector_auditor_{args.policy}_threshold_{tag}",
+            policy=args.policy,
         )
         write_jsonl(generations_path, rows)
 
@@ -136,6 +166,8 @@ def main() -> None:
         report = evaluate_run(run_spec.evaluate_config(), config_path=f"hybrid_threshold_{tag}")
         summary = dict(report["summary"])
         summary["threshold"] = threshold
+        summary.update(summarize_hybrid_rows(rows))
+        summary["policy"] = args.policy
         summaries.append(summary)
 
     payload = {

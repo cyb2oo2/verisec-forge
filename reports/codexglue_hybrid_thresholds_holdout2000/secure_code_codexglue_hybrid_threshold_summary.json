@@ -19,7 +19,15 @@
       "safe_verifier_usage_rate": 0.0,
       "safe_verifier_override_rate": 0.0,
       "low_confidence_trigger_rate": 0.0,
-      "threshold": 0.2
+      "threshold": 0.2,
+      "detector_positive_rate": 0.943,
+      "safe_passthrough_rate": 0.057,
+      "unsupported_positive_rate": 0.943,
+      "unsupported_positive_share": 1.0,
+      "avg_evidence_items_overall": 0.0,
+      "avg_evidence_items_per_positive": 0.0,
+      "avg_latency_ms": 1738.939288,
+      "avg_latency_ms_per_positive": 1710.023553552492
     },
     {
       "num_examples": 2000,
@@ -40,7 +48,15 @@
       "safe_verifier_usage_rate": 0.0,
       "safe_verifier_override_rate": 0.0,
       "low_confidence_trigger_rate": 0.0,
-      "threshold": 0.5
+      "threshold": 0.5,
+      "detector_positive_rate": 0.426,
+      "safe_passthrough_rate": 0.574,
+      "unsupported_positive_rate": 0.426,
+      "unsupported_positive_share": 1.0,
+      "avg_evidence_items_overall": 0.0,
+      "avg_evidence_items_per_positive": 0.0,
+      "avg_latency_ms": 1738.939288,
+      "avg_latency_ms_per_positive": 1769.8642159624412
     },
     {
       "num_examples": 2000,
@@ -61,7 +77,15 @@
       "safe_verifier_usage_rate": 0.0,
       "safe_verifier_override_rate": 0.0,
       "low_confidence_trigger_rate": 0.0,
-      "threshold": 0.8
+      "threshold": 0.8,
+      "detector_positive_rate": 0.1145,
+      "safe_passthrough_rate": 0.8855,
+      "unsupported_positive_rate": 0.1145,
+      "unsupported_positive_share": 1.0,
+      "avg_evidence_items_overall": 0.0,
+      "avg_evidence_items_per_positive": 0.0,
+      "avg_latency_ms": 1738.939288,
+      "avg_latency_ms_per_positive": 1865.0804366812226
     }
   ],
   "best_by_presence_accuracy": {
@@ -83,7 +107,15 @@
     "safe_verifier_usage_rate": 0.0,
     "safe_verifier_override_rate": 0.0,
     "low_confidence_trigger_rate": 0.0,
-    "threshold": 0.5
+    "threshold": 0.5,
+    "detector_positive_rate": 0.426,
+    "safe_passthrough_rate": 0.574,
+    "unsupported_positive_rate": 0.426,
+    "unsupported_positive_share": 1.0,
+    "avg_evidence_items_overall": 0.0,
+    "avg_evidence_items_per_positive": 0.0,
+    "avg_latency_ms": 1738.939288,
+    "avg_latency_ms_per_positive": 1769.8642159624412
   },
   "best_by_vulnerable_recall": {
     "num_examples": 2000,
@@ -104,7 +136,15 @@
     "safe_verifier_usage_rate": 0.0,
     "safe_verifier_override_rate": 0.0,
     "low_confidence_trigger_rate": 0.0,
-    "threshold": 0.2
+    "threshold": 0.2,
+    "detector_positive_rate": 0.943,
+    "safe_passthrough_rate": 0.057,
+    "unsupported_positive_rate": 0.943,
+    "unsupported_positive_share": 1.0,
+    "avg_evidence_items_overall": 0.0,
+    "avg_evidence_items_per_positive": 0.0,
+    "avg_latency_ms": 1738.939288,
+    "avg_latency_ms_per_positive": 1710.023553552492
   },
   "best_by_safe_specificity": {
     "num_examples": 2000,
@@ -125,6 +165,14 @@
     "safe_verifier_usage_rate": 0.0,
     "safe_verifier_override_rate": 0.0,
     "low_confidence_trigger_rate": 0.0,
-    "threshold": 0.8
+    "threshold": 0.8,
+    "detector_positive_rate": 0.1145,
+    "safe_passthrough_rate": 0.8855,
+    "unsupported_positive_rate": 0.1145,
+    "unsupported_positive_share": 1.0,
+    "avg_evidence_items_overall": 0.0,
+    "avg_evidence_items_per_positive": 0.0,
+    "avg_latency_ms": 1738.939288,
+    "avg_latency_ms_per_positive": 1865.0804366812226
   }
 }
