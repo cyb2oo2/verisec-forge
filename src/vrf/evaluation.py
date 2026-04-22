@@ -21,13 +21,7 @@ def _index_samples(dataset_path: str) -> dict[str, SecureCodeSample]:
 
 
 def _load_generations(generations_path: str) -> list[SecureCodeGenerationRecord]:
-    generations: list[SecureCodeGenerationRecord] = []
-    for row in read_jsonl(generations_path):
-        evidence = row.get("evidence", [])
-        row = dict(row)
-        row["evidence"] = evidence
-        generations.append(SecureCodeGenerationRecord(**row))
-    return generations
+    return [SecureCodeGenerationRecord.from_dict(row) for row in read_jsonl(generations_path)]
 
 
 def evaluate_run(config: dict[str, Any], config_path: str) -> dict[str, Any]:

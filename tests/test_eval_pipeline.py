@@ -14,7 +14,7 @@ from vrf.inference import (
     run_generation,
 )
 from vrf.pipelines import run_baseline
-from vrf.schemas import SecureCodeSample
+from vrf.schemas import EvidenceSpan, SecureCodeGenerationRecord, SecureCodeSample
 from vrf.text_utils import (
     family_root_label,
     parse_security_structured_response,
@@ -233,6 +233,37 @@ def test_run_generation_safe_verifier_can_flip_low_confidence_safe_prediction() 
     assert generation.parse_method == "safe_verifier"
     assert generation.has_vulnerability is True
     assert generation.predicted_vulnerability_type == "cwe-78"
+
+
+def test_secure_code_generation_record_from_dict_normalizes_evidence() -> None:
+    record = SecureCodeGenerationRecord.from_dict(
+        {
+            "id": "secure-1",
+            "task_type": "weakness_identification",
+            "prompt": "Audit this code.",
+            "code": "dangerous();",
+            "diff": None,
+            "language": "c",
+            "has_vulnerability": True,
+            "predicted_vulnerability_type": "cwe-120",
+            "predicted_severity": "high",
+            "evidence": [{"file_path": "foo.c", "line_start": 12, "snippet": "dangerous();"}],
+            "explanation": "This call is unsafe.",
+            "fix_principle": "Validate input.",
+            "confidence": 0.9,
+            "label_correct": True,
+            "evidence_supported": True,
+            "explanation_supported": True,
+            "format_ok": True,
+            "token_count": 10,
+            "latency_ms": 1.0,
+            "model_version": "test-model",
+            "backend_type": "mock",
+        }
+    )
+    assert len(record.evidence) == 1
+    assert isinstance(record.evidence[0], EvidenceSpan)
+    assert record.evidence[0].file_path == "foo.c"
 
 
 def test_compress_secure_code_prompt_keeps_focus_and_instruction() -> None:

@@ -38,7 +38,7 @@ def _label_error_subtype(sample: SecureCodeSample, generation: SecureCodeGenerat
 
 def build_failure_analysis(config: dict[str, Any]) -> dict[str, Any]:
     samples = {row["id"]: SecureCodeSample.from_dict(row) for row in read_jsonl(config["dataset_path"])}
-    generations = [SecureCodeGenerationRecord(**row) for row in read_jsonl(config["generations_path"])]
+    generations = [SecureCodeGenerationRecord.from_dict(row) for row in read_jsonl(config["generations_path"])]
 
     buckets: Counter[str] = Counter()
     examples: dict[str, list[dict[str, Any]]] = {

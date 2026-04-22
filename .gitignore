@@ -14,6 +14,7 @@ checkpoints/
 .DS_Store
 .tmp_test_runs/
 pytest-cache-files-*/
+configs/tmp_baseline_*.json
 data/raw/
 data/processed/*.jsonl
 data/processed/*.json

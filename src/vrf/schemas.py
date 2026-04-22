@@ -25,6 +25,27 @@ class EvidenceSpan:
         return asdict(self)
 
 
+def normalize_evidence_list(raw_items: Any) -> list[EvidenceSpan]:
+    if raw_items is None:
+        return []
+    if isinstance(raw_items, str):
+        cleaned = raw_items.strip()
+        return [EvidenceSpan(file_path="snippet", snippet=cleaned)] if cleaned else []
+    if isinstance(raw_items, dict):
+        raw_items = [raw_items]
+    normalized: list[EvidenceSpan] = []
+    for item in raw_items:
+        if isinstance(item, EvidenceSpan):
+            normalized.append(item)
+        elif isinstance(item, dict):
+            normalized.append(EvidenceSpan.from_dict(item))
+        elif isinstance(item, str):
+            cleaned = item.strip()
+            if cleaned:
+                normalized.append(EvidenceSpan(file_path="snippet", snippet=cleaned))
+    return normalized
+
+
 @dataclass(slots=True)
 class SecureCodeSample:
     id: str
@@ -93,6 +114,12 @@ class SecureCodeGenerationRecord:
     timestamp: str = field(default_factory=utc_now_iso)
     raw_text: str = ""
     error: str | None = None
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> "SecureCodeGenerationRecord":
+        payload = dict(raw)
+        payload["evidence"] = normalize_evidence_list(payload.get("evidence", []))
+        return cls(**payload)
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
