@@ -13,14 +13,15 @@ This summary consolidates the current `PrimeVul eval244` secure-code reasoning r
 
 ## Key Findings
 
-- `SFT 0.5B` remains the strongest overall model on the balanced secure-code benchmark.
-- `1.5B base` produces longer, more security-flavored analyses, but is badly over-calibrated and over-detects vulnerabilities.
-- Full-model DPO variants damage the output protocol more than they improve secure-code judgment.
-- LoRA-only DPO is safer than full-model DPO, but still has not surpassed the SFT anchor.
+- `SFT 0.5B` is currently the strongest run by label accuracy (`0.4795`).
+- `Base 1.5B` is currently the most protocol-stable run by format pass rate (`0.8484`).
+- `Calibrated LoRA-only DPO v1` has the lowest high-confidence error rate (`0.0082`) among the summarized runs.
+- DPO has not surpassed the best SFT anchor yet: `SFT 0.5B` (`0.4795`) still outperforms the strongest DPO run `Calibrated LoRA-only DPO v1` (`0.3648`).
+- `Base 1.5B` is the clearest over-detection outlier in this slice: its dominant label error is `false_positive`, and its label accuracy is `0.0697`.
+- The strongest SFT run improves over the strongest base run by `0.0697` label-accuracy points.
 
 ## Research Readout
 
-- Best current model by label accuracy: `SFT 0.5B` at `0.4795`.
 - `Base 0.5B`: accuracy `0.4098`, format `0.5410`, invalid `0.2131`, dominant label error `false_negative`, dominant format error `hard_fail`, best confidence bucket `0.9-1.0`.
 - `SFT 0.5B`: accuracy `0.4795`, format `0.8279`, invalid `0.1598`, dominant label error `false_negative`, dominant format error `hard_fail`, best confidence bucket `0.5-0.74`.
 - `Base 1.5B`: accuracy `0.0697`, format `0.8484`, invalid `0.1311`, dominant label error `false_positive`, dominant format error `hard_fail`, best confidence bucket `missing`.
@@ -30,13 +31,13 @@ This summary consolidates the current `PrimeVul eval244` secure-code reasoning r
 
 ## Failure Taxonomy Readout
 
-- `Base 0.5B` is mainly a false-negative model: it misses vulnerable code and is poorly calibrated when highly confident.
-- `SFT 0.5B` keeps the same dominant semantic error class (`false_negative`) but sharply reduces protocol breakage and high-confidence mistakes.
-- `Base 1.5B` is qualitatively different: its dominant failure is `false_positive`, which matches the observed over-detection bias.
-- The DPO variants split into two failure modes: full-model preference tuning collapses into `hard_fail` format errors, while LoRA-only DPO is structurally safer but still reintroduces more semantic errors than the SFT anchor.
+- The most common dominant semantic error across the summarized runs is `false_negative`.
+- The most common dominant protocol error across the summarized runs is `hard_fail`.
+- `SFT 0.5B` is the clearest example of the repo's current precision-oriented pattern: it stays format-stable (`0.8279`) while remaining dominated by `false_negative`.
 
 ## Practical Conclusion
 
-- The strongest secure-code recipe in this repo is still `balanced PrimeVul + completion-only SFT + tolerant parser`.
-- The most trustworthy current model is not the one that sounds most security-fluent. `Base 1.5B` looks more expert but is much less calibrated than the `0.5B` SFT checkpoint.
-- The next research step should prioritize benchmark expansion, calibration analysis, and failure taxonomy over more aggressive preference tuning by default.
+- The current best benchmark-facing checkpoint in this summary is `SFT 0.5B`, based on `label_accuracy = 0.4795`.
+- If protocol stability is the priority, `Base 1.5B` is the current strongest option with `format_pass_rate = 0.8484`.
+- If calibration risk is the priority, `Calibrated LoRA-only DPO v1` is the safest current choice in this slice with `high_confidence_error_rate = 0.0082`.
+- The main unresolved semantic problem across this run family is still `false_negative`.

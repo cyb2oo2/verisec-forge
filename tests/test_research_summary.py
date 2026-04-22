@@ -82,4 +82,7 @@ def test_research_summary_builds_from_manifest() -> None:
 
     assert "| Run A | 0.4200 | 0.9000 | 0.1000 | 0.0300 | 12.0000 | false_negative | non_json_output |" in summary
     assert "| Run B | 0.5500 | 0.9500 | 0.0500 | 0.0100 | 10.0000 | false_positive | missing_explanation_field |" in summary
-    assert "Best current model by label accuracy: `Run B` at `0.5500`." in summary
+    assert "`Run B` is currently the strongest run by label accuracy (`0.5500`)." in summary
+    assert "`Run B` has the lowest high-confidence error rate (`0.0100`) among the summarized runs." in summary
+    assert "The most common dominant semantic error across the summarized runs is `false_negative`." in summary
+    assert "The current best benchmark-facing checkpoint in this summary is `Run B`, based on `label_accuracy = 0.5500`." in summary
