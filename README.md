@@ -210,10 +210,13 @@ The key result here is not just “which one is best,” but **which designs fai
 If you want the fast overview:
 
 - [reports/SECURE_CODE_RESEARCH_SUMMARY.md](D:/code/start/reports/SECURE_CODE_RESEARCH_SUMMARY.md)
+- [docs/ARCHITECTURE.md](D:/code/start/docs/ARCHITECTURE.md)
+- [reports/RESULTS_INDEX.md](D:/code/start/reports/RESULTS_INDEX.md)
 
 If you want the fuller methods and results:
 
 - [reports/TECHNICAL_REPORT.md](D:/code/start/reports/TECHNICAL_REPORT.md)
+- [docs/EXPERIMENT_WORKFLOWS.md](D:/code/start/docs/EXPERIMENT_WORKFLOWS.md)
 
 If you want experiment-by-experiment comparisons:
 
