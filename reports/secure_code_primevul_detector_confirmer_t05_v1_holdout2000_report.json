@@ -1,0 +1,18 @@
+{
+  "num_examples": 1786,
+  "threshold": 0.5,
+  "detector_positive_rate": 0.5185,
+  "confirmer_positive_rate": 0.2094,
+  "unsupported_positive_share": 0.0027,
+  "avg_evidence_items_per_positive": 1.5294,
+  "presence_accuracy": 0.6892,
+  "vulnerable_recall": 0.3987,
+  "safe_specificity": 0.9798,
+  "precision": 0.9519,
+  "f1": 0.562,
+  "tp": 356,
+  "tn": 875,
+  "fp": 18,
+  "fn": 537,
+  "confirmer_positive_with_evidence": 373
+}

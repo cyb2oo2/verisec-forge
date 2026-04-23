@@ -165,6 +165,36 @@ The threshold sweep is similarly stable. The default `0.5` threshold is already 
 
 This is now one of the clearest results in the repo. On `PrimeVul`, the model can learn a strong vulnerable-vs-safe decision boundary when we give it a narrow discriminative target. The severe recall collapse in the generative `PrimeVul` auditor line therefore looks much more like a task-definition problem than a pure semantic-capacity problem.
 
+### PrimeVul detector + evidence confirmer
+
+To test the next systems hypothesis directly, we trained a narrow `evidence confirmer` rather than another full auditor. The workflow is:
+
+1. run the `PrimeVul presence-only detector` at threshold `0.5`
+2. keep only detector-positive samples
+3. train a second model whose only job is to decide whether the detector alert is concretely supported by code-level evidence
+4. if supported, emit a short structured confirmation with evidence; otherwise emit `has_vulnerability=false` and `evidence=[]`
+
+This confirms a different question than the earlier auditor line. It is not trying to rediscover all vulnerabilities from scratch; it is trying to turn detector-positive traffic into either:
+
+- evidence-confirmed positives
+- explicitly unsupported alerts
+
+On `secure_code_primevul_holdout_eval_balanced_2000.jsonl`, this detector+confirmer system reaches:
+
+| Metric | Value |
+| --- | ---: |
+| detector_positive_rate | 0.5185 |
+| confirmer_positive_rate | 0.2094 |
+| unsupported_positive_share | 0.0027 |
+| avg_evidence_items_per_positive | 1.5294 |
+| presence_accuracy | 0.6892 |
+| vulnerable_recall | 0.3987 |
+| safe_specificity | 0.9798 |
+| precision | 0.9519 |
+| F1 | 0.5620 |
+
+This is the first positive evidence-grounding result in the repo that does not immediately collapse under a stricter gate. It does not outperform the raw detector on recall, and it is not meant to. Its contribution is different: it converts a very broad, very high-recall detector into a much narrower positive path with extremely high precision and almost no unsupported positives. In other words, this is the first result that actually behaves like an `evidence confirmer` rather than a verbose second auditor.
+
 ### CodeXGLUE defect detection (`Qwen2.5-Coder-1.5B-Instruct`)
 
 To test whether the low-recall pattern on `PrimeVul` was mainly caused by long, realistic code and label complexity, we added a shorter function-level benchmark line using `CodeXGLUE defect detection`.
@@ -221,12 +251,13 @@ These results suggest three early conclusions:
 4. The smaller `eval244` slice was directionally correct, but the larger `holdout1000` benchmark is meaningfully harder and therefore a better generalization check.
 5. The remaining `false_negative` problem is partly a supervision hygiene issue. Safe examples that retain concrete CWE labels make the model more conservative; cleaning that signal gives a measurable improvement without the collapse seen in more aggressive recall-focused shaping.
 6. The new `PrimeVul presence-only detector` result sharpens that diagnosis. A narrow discriminative objective on the same dataset family reaches `presence_accuracy = 0.9524`, `vulnerable_recall = 0.9709`, and `safe_specificity = 0.9339` on `holdout2000`, with no exact code overlap between the balanced train subset and the holdout slice. That makes it much harder to argue that the earlier PrimeVul failures were driven mainly by raw vulnerability semantics. The stronger explanation is that "detect + classify + explain + evidence + JSON protocol" is simply too much to ask of the small-to-mid generative auditor line.
-7. On the shorter `CodeXGLUE` benchmark, the main open problem becomes even clearer: the generative structured-output formulation itself appears to push the model toward a conservative safe-biased operating point. This is supported by the discriminative LoRA classifier, which substantially outperforms all generative SFT variants on vulnerable recall.
-8. The first practical dual-system result is now in place: a classifier can act as a high-recall detector, while a generative auditor can provide stable machine-readable secure-code records. This hybrid preserves classifier-level detection and achieves perfect output formatting, but the new operating-point diagnostics show that it still lacks evidence-grounded positive confirmations: across thresholds, classifier-positive cases currently have `unsupported_positive_share = 1.0`.
-9. A stricter evidence-gated hybrid makes that limitation even clearer. When we require classifier-positive cases to also carry auditor evidence before allowing a vulnerable-path record, both `eval1000` and `holdout2000` collapse to `vulnerable_recall = 0.0`. This is a sharp negative result, but also a useful systems diagnosis: the current auditor is good at structural rendering, not yet at positive-case evidence confirmation.
-10. A targeted `detector_positive_auditor` follow-up confirms that this is not solved by simply training the auditor on classifier-positive traffic. On `CodeXGLUE eval1000`, that model drops to `label_accuracy = 0.336`, `format_pass_rate = 0.659`, and `vulnerable_recall = 0.004`, and when stitched back into the hybrid it only reduces `unsupported_positive_share` from `1.0` to about `0.998-0.999`. Under evidence-gated evaluation it again collapses to effectively zero positive traffic. The open problem therefore remains evidence grounding, not threshold tuning or positive-only prompt exposure.
-11. By contrast, the detector-only branch continues to improve when we scale the balanced training pool. The jump from `6k -> 12k -> full-balanced 20k` is now monotonic on the default operating point (`0.567 -> 0.579 -> 0.609` presence accuracy), which is the strongest evidence yet that the mainline should shift toward "make the detector first-class, then narrow the auditor" rather than continuing to widen generative auditor objectives.
-12. The larger `CodeXGLUE holdout2000` check makes that recommendation more defensible. The same full-balanced detector keeps improving out-of-sample (`presence_accuracy = 0.6135`, `safe_specificity = 0.697`, `precision = 0.6363`) while preserving the same threshold tradeoff shape. So the detector branch now has both an internal scaling curve and an external held-out confirmation, which is much stronger evidence than we ever obtained for the generative auditor line.
+7. A narrow `PrimeVul detector + evidence confirmer` pipeline is the first result that partially resolves the earlier positive-evidence problem. Starting from the same high-recall detector, the confirmer reduces positive traffic to a much smaller set with `precision = 0.9519`, `safe_specificity = 0.9798`, and `unsupported_positive_share = 0.0027`, while preserving `vulnerable_recall = 0.3987`. That is not a detector replacement; it is evidence that the right second-stage task is confirmation, not full re-auditing.
+8. On the shorter `CodeXGLUE` benchmark, the main open problem becomes even clearer: the generative structured-output formulation itself appears to push the model toward a conservative safe-biased operating point. This is supported by the discriminative LoRA classifier, which substantially outperforms all generative SFT variants on vulnerable recall.
+9. The first practical dual-system result is now in place: a classifier can act as a high-recall detector, while a generative auditor can provide stable machine-readable secure-code records. This hybrid preserves classifier-level detection and achieves perfect output formatting, but the new operating-point diagnostics show that it still lacks evidence-grounded positive confirmations: across thresholds, classifier-positive cases currently have `unsupported_positive_share = 1.0`.
+10. A stricter evidence-gated hybrid makes that limitation even clearer. When we require classifier-positive cases to also carry auditor evidence before allowing a vulnerable-path record, both `eval1000` and `holdout2000` collapse to `vulnerable_recall = 0.0`. This is a sharp negative result, but also a useful systems diagnosis: the current auditor is good at structural rendering, not yet at positive-case evidence confirmation.
+11. A targeted `detector_positive_auditor` follow-up confirms that this is not solved by simply training the auditor on classifier-positive traffic. On `CodeXGLUE eval1000`, that model drops to `label_accuracy = 0.336`, `format_pass_rate = 0.659`, and `vulnerable_recall = 0.004`, and when stitched back into the hybrid it only reduces `unsupported_positive_share` from `1.0` to about `0.998-0.999`. Under evidence-gated evaluation it again collapses to effectively zero positive traffic. The open problem therefore remains evidence grounding, not threshold tuning or positive-only prompt exposure.
+12. By contrast, the detector-only branch continues to improve when we scale the balanced training pool. The jump from `6k -> 12k -> full-balanced 20k` is now monotonic on the default operating point (`0.567 -> 0.579 -> 0.609` presence accuracy), which is the strongest evidence yet that the mainline should shift toward "make the detector first-class, then narrow the auditor" rather than continuing to widen generative auditor objectives.
+13. The larger `CodeXGLUE holdout2000` check makes that recommendation more defensible. The same full-balanced detector keeps improving out-of-sample (`presence_accuracy = 0.6135`, `safe_specificity = 0.697`, `precision = 0.6363`) while preserving the same threshold tradeoff shape. So the detector branch now has both an internal scaling curve and an external held-out confirmation, which is much stronger evidence than we ever obtained for the generative auditor line.
 
 ### Holdout Generalization Readout
 

@@ -65,6 +65,7 @@ class SecureCodeSample:
     gold_evidence: list[dict[str, Any]] | None = None
     gold_explanation: str | None = None
     gold_fix_principle: str | None = None
+    detector_probability: float | None = None
     response: str | None = None
     chosen: str | None = None
     rejected: str | None = None
