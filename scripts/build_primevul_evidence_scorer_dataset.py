@@ -57,7 +57,7 @@ def build_text(*, code: str, language: str, probability: float) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build detector-positive PrimeVul evidence scorer datasets.")
+    parser = argparse.ArgumentParser(description="Build detector-positive PrimeVul support scorer datasets.")
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--probabilities", required=True)
     parser.add_argument("--output", required=True)

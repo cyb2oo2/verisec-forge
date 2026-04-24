@@ -1,9 +1,9 @@
-# CodeXGLUE Detector + Evidence Scorer Operating Points
+# CodeXGLUE Detector + Support Scorer Operating Points
 
 These operating points summarize the current `CodeXGLUE` two-stage system:
 
 1. a discriminative `presence-only detector` (`Qwen2.5-Coder-1.5B-Instruct`, LoRA sequence classification)
-2. a narrow non-generative `evidence scorer` that decides whether a detector-positive alert is supported
+2. a narrow non-generative `support scorer` that decides whether a detector-positive alert is supported
 
 The numbers below are measured on [secure_code_codexglue_holdout_eval_balanced_2000.jsonl](D:/code/start/data/processed/secure_code_codexglue_holdout_eval_balanced_2000.jsonl).
 
@@ -62,7 +62,7 @@ This makes the next training target clearer:
 
 ## Practical Interpretation
 
-- On `CodeXGLUE`, the non-generative scorer is useful as a policy layer, but it is not yet a detector improvement.
+- On `CodeXGLUE`, the non-generative support scorer is useful as a policy layer, but it is not yet a detector improvement.
 - The scorer can sharpen precision and specificity when we want conservative confirmation.
 - The contrast with `PrimeVul` is now clearer:
   - on `PrimeVul`, the scorer turns a good detector into a much stronger two-stage system

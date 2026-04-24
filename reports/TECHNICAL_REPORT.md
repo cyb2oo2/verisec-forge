@@ -213,9 +213,9 @@ We then tried several follow-up generative confirmer variants:
 
 All three underperformed the original confirmer anchor. The strongest of those follow-ups still lagged noticeably behind the first `t=0.5` confirmer, while the most aggressive hard-negative version collapsed into an almost-always-rejecting reviewer. That negative result is useful: the remaining bottleneck is not easily fixed by more generative target shaping alone.
 
-### PrimeVul detector + evidence scorer
+### PrimeVul detector + support scorer
 
-The next step was to narrow the second stage even further and remove free-form generation from the confirmation decision. Instead of asking a second model to emit a structured audit record, we trained a non-generative `evidence scorer` on detector-positive traffic only. Its job is simply to decide whether a detector alert is supported.
+The next step was to narrow the second stage even further and remove free-form generation from the confirmation decision. Instead of asking a second model to emit a structured audit record, we trained a non-generative `support scorer` on detector-positive traffic only. Its job is simply to decide whether a detector alert is supported.
 
 On the same `secure_code_primevul_holdout_eval_balanced_2000.jsonl`, the resulting two-stage system is much stronger:
 
@@ -258,7 +258,7 @@ To test whether the low-recall pattern on `PrimeVul` was mainly caused by long, 
 | Classifier 1.5B Coder (LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a |
 | Classifier 1.5B Coder (LoRA, 12k) | 0.579 | 0.490 | 0.668 | 0.579 | n/a | n/a | n/a |
 | Classifier 1.5B Coder (LoRA, full-balanced 20k) | 0.609 | 0.534 | 0.684 | 0.609 | n/a | n/a | n/a |
-| Detector + Evidence Scorer (holdout2000 best accuracy grid point) | 0.6055 | 0.4800 | 0.7310 | 0.6055 | n/a | n/a | n/a |
+| Detector + Support Scorer (holdout2000 best accuracy grid point) | 0.6055 | 0.4800 | 0.7310 | 0.6055 | n/a | n/a | n/a |
 | Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* |
 
 The classifier and hybrid rows are the strongest control results in the entire `CodeXGLUE` branch. They show that the current bottleneck is not simply model scale or benchmark fit: under the same data and base model, a discriminative detector can maintain much stronger recall than any of the generative JSON auditors.
@@ -277,7 +277,7 @@ That detector-only conclusion also survives a larger held-out check. On `secure_
 
 When we stitch those thresholded detector outputs back into hybrid records, the same detection tradeoff is preserved while `format_pass_rate` remains `1.0`. This means the repo now supports a real systems interpretation: the detector can be tuned for the deployment goal, and the auditor can remain a stable structured-output layer on top. At the same time, the new operating-point diagnostics show the next clear limit of the design: classifier-positive cases still have `unsupported_positive_share = 1.0`, which means the hybrid is producing clean structured records without yet adding concrete auditor-backed evidence spans to positive detections.
 
-We also ported the non-generative evidence scorer idea from `PrimeVul` to `CodeXGLUE`. The result is useful, but it is not a second benchmark win. On `holdout2000`, the default `detector=0.5, scorer=0.5` point reaches `presence_accuracy = 0.5690`, `vulnerable_recall = 0.3030`, `safe_specificity = 0.8350`, and `precision = 0.6474`. A two-dimensional threshold grid finds the best balanced point at `detector=0.5, scorer=0.2`, with `presence_accuracy = 0.6055`, `vulnerable_recall = 0.4800`, `safe_specificity = 0.7310`, `precision = 0.6409`, and `f1 = 0.5489`.
+We also ported the non-generative support scorer idea from `PrimeVul` to `CodeXGLUE`. The result is useful, but it is not a second benchmark win. On `holdout2000`, the default `detector=0.5, scorer=0.5` point reaches `presence_accuracy = 0.5690`, `vulnerable_recall = 0.3030`, `safe_specificity = 0.8350`, and `precision = 0.6474`. A two-dimensional threshold grid finds the best balanced point at `detector=0.5, scorer=0.2`, with `presence_accuracy = 0.6055`, `vulnerable_recall = 0.4800`, `safe_specificity = 0.7310`, `precision = 0.6409`, and `f1 = 0.5489`.
 
 That is close to the detector-only default result, but it does not beat it. The CodeXGLUE scorer is therefore best interpreted as a policy or confirmation layer rather than as a detector upgrade. This cross-benchmark contrast is important: on `PrimeVul`, supported-vs-unsupported positive traffic is a meaningful second-stage task; on `CodeXGLUE`, the scorer mostly trades recall for specificity.
 
@@ -307,7 +307,7 @@ These results suggest three early conclusions:
 6. The new `PrimeVul presence-only detector` result sharpens that diagnosis. A narrow discriminative objective on the same dataset family reaches `presence_accuracy = 0.9524`, `vulnerable_recall = 0.9709`, and `safe_specificity = 0.9339` on `holdout2000`, with no exact code overlap between the balanced train subset and the holdout slice. That makes it much harder to argue that the earlier PrimeVul failures were driven mainly by raw vulnerability semantics. The stronger explanation is that "detect + classify + explain + evidence + JSON protocol" is simply too much to ask of the small-to-mid generative auditor line.
 7. A narrow `PrimeVul detector + evidence confirmer` pipeline is the first result that partially resolves the earlier positive-evidence problem. Starting from the same high-recall detector, the confirmer reduces positive traffic to a much smaller set with `precision = 0.9519`, `safe_specificity = 0.9798`, and `unsupported_positive_share = 0.0027`, while preserving `vulnerable_recall = 0.3987`. That is not a detector replacement; it is evidence that the right second-stage task is confirmation, not full re-auditing.
 8. Sweeping the detector threshold on that same pipeline does not radically change the outcome. Across `0.2 / 0.5 / 0.8`, the system stays near `f1 ≈ 0.562` while `unsupported_positive_share` remains near zero. This suggests that the dominant bottleneck in the new PrimeVul two-stage line is no longer detector calibration alone; it is the confirmer's evidence boundary.
-9. The next experiment breaks that boundary in an important way: once the second stage is reframed as a non-generative `evidence scorer`, the same `PrimeVul` detector line jumps to `presence_accuracy = 0.9272`, `vulnerable_recall = 0.9171`, `safe_specificity = 0.9373`, and `precision = 0.9360`. This is the clearest evidence so far that the main second-stage problem was task definition rather than the absence of a second model.
+9. The next experiment breaks that boundary in an important way: once the second stage is reframed as a non-generative `support scorer`, the same `PrimeVul` detector line jumps to `presence_accuracy = 0.9272`, `vulnerable_recall = 0.9171`, `safe_specificity = 0.9373`, and `precision = 0.9360`. This is the clearest evidence so far that the main second-stage problem was task definition rather than the absence of a second model.
 10. The scorer operating-point family also looks healthier than the confirmer family. The best system now appears at the natural default `threshold = 0.5`, not at an extreme setting, and the tradeoff curve becomes interpretable in the usual way again: lower thresholds buy recall-oriented triage, higher thresholds buy specificity, and the middle point is genuinely strongest overall.
 11. A `CodeXGLUE` follow-up sharpens that conclusion rather than weakening it. The same non-generative scorer idea does transfer, but mostly as a conservative confirmation layer: it raises specificity and precision, yet still underperforms the detector-only branch on balanced end-to-end detection.
 12. On the shorter `CodeXGLUE` benchmark, the main open problem becomes even clearer: the generative structured-output formulation itself appears to push the model toward a conservative safe-biased operating point. This is supported by the discriminative LoRA classifier, which substantially outperforms all generative SFT variants on vulnerable recall.
@@ -359,6 +359,6 @@ At the current stage, the most defensible claim is not that secure-code DPO is s
 - a failure-driven verifier route that demonstrates how main-model misses can be turned into targeted second-pass supervision, even though the current gains remain modest under strict acceptance
 - a second benchmark line (`CodeXGLUE`) showing that better data-model fit helps, but does not by itself remove the recall/calibration tradeoff in generative structured auditing
 - a classifier-vs-auditor comparison that demonstrates the main current systems lesson: the repo's strongest practical path is no longer a single model, but a detector-plus-auditor split
-- a stronger PrimeVul systems result showing that the best second-stage component is not a generative confirmer, but a narrow non-generative evidence scorer
+- a stronger PrimeVul systems result showing that the best second-stage component is not a generative confirmer, but a narrow non-generative support scorer
 
 *For the current hybrid row, `high_confidence_error_rate = 0.000` should be read as "not yet calibrated" rather than "perfect confidence behavior", because the stitched hybrid records currently leave confidence unset.

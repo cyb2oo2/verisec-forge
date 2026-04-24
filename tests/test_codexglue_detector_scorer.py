@@ -1,22 +1,9 @@
 from __future__ import annotations
 
-import importlib.util
-import sys
-from pathlib import Path
-
-
-def _load_module():
-    script_path = Path("scripts") / "evaluate_codexglue_detector_scorer.py"
-    spec = importlib.util.spec_from_file_location("evaluate_codexglue_detector_scorer", script_path)
-    assert spec and spec.loader
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+from vrf.support_scoring import analyze_detector_scorer_failures, evaluate_detector_scorer
 
 
 def test_evaluate_detector_scorer_applies_second_stage_gate() -> None:
-    module = _load_module()
-
     dataset_rows = {
         "vuln-supported": {"id": "vuln-supported", "has_vulnerability": True},
         "vuln-missed": {"id": "vuln-missed", "has_vulnerability": True},
@@ -34,7 +21,7 @@ def test_evaluate_detector_scorer_applies_second_stage_gate() -> None:
         "safe-rejected": {"id": "safe-rejected", "supported_probability": 0.4},
     }
 
-    report = module.evaluate_detector_scorer(
+    report = evaluate_detector_scorer(
         dataset_rows=dataset_rows,
         probability_rows=probability_rows,
         scorer_rows=scorer_rows,
@@ -56,8 +43,6 @@ def test_evaluate_detector_scorer_applies_second_stage_gate() -> None:
 
 
 def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
-    module = _load_module()
-
     dataset_rows = {
         "vuln-supported": {"id": "vuln-supported", "has_vulnerability": True},
         "safe-supported": {"id": "safe-supported", "has_vulnerability": False},
@@ -71,7 +56,7 @@ def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
         "safe-supported": {"id": "safe-supported", "vuln_probability": 0.8},
     }
 
-    report = module.evaluate_detector_scorer(
+    report = evaluate_detector_scorer(
         dataset_rows=dataset_rows,
         probability_rows=probability_rows,
         scorer_rows=scorer_rows,
@@ -86,13 +71,6 @@ def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
 
 
 def test_detector_scorer_failure_buckets_separate_detector_and_scorer_misses() -> None:
-    script_path = Path("scripts") / "analyze_codexglue_detector_scorer_failures.py"
-    spec = importlib.util.spec_from_file_location("analyze_codexglue_detector_scorer_failures", script_path)
-    assert spec and spec.loader
-    module = importlib.util.module_from_spec(spec)
-    sys.path.insert(0, str(Path("scripts").resolve()))
-    spec.loader.exec_module(module)
-
     dataset_rows = {
         "tp": {"id": "tp", "has_vulnerability": True},
         "fn-detector": {"id": "fn-detector", "has_vulnerability": True},
@@ -116,7 +94,7 @@ def test_detector_scorer_failure_buckets_separate_detector_and_scorer_misses() -
         "tn-scorer": {"id": "tn-scorer", "supported_probability": 0.1},
     }
 
-    report = module.analyze_detector_scorer_failures(
+    report = analyze_detector_scorer_failures(
         dataset_rows=dataset_rows,
         probability_rows=probability_rows,
         scorer_rows=scorer_rows,

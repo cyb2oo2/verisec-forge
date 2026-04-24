@@ -1,9 +1,9 @@
-# PrimeVul Detector + Evidence Scorer Operating Points
+# PrimeVul Detector + Support Scorer Operating Points
 
 These operating points summarize the current `PrimeVul` two-stage system:
 
 1. a high-recall `presence-only detector` (`Qwen2.5-Coder-1.5B-Instruct`, LoRA sequence classification)
-2. a narrow non-generative `evidence scorer` that only decides whether a detector-positive alert is supported
+2. a narrow non-generative `support scorer` that only decides whether a detector-positive alert is supported
 
 All results below are measured on [secure_code_primevul_holdout_eval_balanced_2000.jsonl](D:/code/start/data/processed/secure_code_primevul_holdout_eval_balanced_2000.jsonl).
 
@@ -27,4 +27,4 @@ All results below are measured on [secure_code_primevul_holdout_eval_balanced_20
 - `0.5` is the current default balanced deployment mode.
 - `0.8` is not attractive in practice; the gain in specificity does not justify the collapse in recall.
 
-The strongest conclusion here is architectural rather than incremental: on `PrimeVul`, the right second-stage abstraction is not a mini generative auditor, but a narrow evidence scorer / reranker.
+The strongest conclusion here is architectural rather than incremental: on `PrimeVul`, the right second-stage abstraction is not a mini generative auditor, but a narrow support scorer / reranker.

@@ -1,12 +1,12 @@
 # VeriSec Forge
 
-**Verifiable post-training and auto-benchmarking for structured secure-code reasoning.**
+**Verifiable benchmarking and post-training for trustworthy secure-code reasoning.**
 
-VeriSec Forge is a research-first codebase for studying whether open-weight LLMs can make **trustworthy, structured security judgments about code**. The project focuses on **defensive analysis**, not exploit generation: given a code snippet, the model must decide whether a vulnerability is present, assign a structured weakness label, justify the decision, and stay inside a machine-checkable output contract.
+VeriSec Forge is a research-first codebase for studying whether open-weight models can make **trustworthy security judgments about code**. The project focuses on **defensive analysis**, not exploit generation: given a code snippet, the system must decide whether a vulnerability is present, optionally assign a weakness label, expose support for the decision, and stay inside a machine-checkable evaluation contract.
 
 This repository is built to answer a practical research question:
 
-> Can we improve secure-code reasoning with structured post-training while separating true semantic failure from parser noise, explanation drift, and calibration mistakes?
+> Can we build a secure-code reasoning system where detection, support checking, structured reporting, and failure analysis are evaluated separately instead of blurred into one generative score?
 
 ## Why This Repo Exists
 
@@ -24,32 +24,33 @@ VeriSec Forge is designed to **untangle those cases**. It combines:
 - JSON-first prompting and parser-aware recovery
 - automated evaluation
 - failure taxonomy
-- SFT / DPO / verifier experiments
+- detector-first, scorer, SFT, DPO, and verifier experiments
 - reproducible reports and diagnostics
 
 ## Current Headline Results
 
-Primary benchmark:
+The current main conclusion is architectural:
 
-- `PrimeVul eval244`
-- balanced split: `122 vulnerable + 122 safe`
+- a discriminative detector should be the first-class vulnerability decision model
+- a narrow second-stage support scorer is a better confirmation layer than a miniature generative auditor
+- the structured auditor remains useful for machine-readable reports, but it is not the strongest detector
 
-Harder generalization check:
+Best current system result:
 
-- `PrimeVul holdout1000`
-- balanced split: `500 vulnerable + 500 safe`
-- excludes the current SFT training ids
+- `PrimeVul detector + support scorer`
+- `Qwen2.5-Coder-1.5B-Instruct`, LoRA sequence classification
+- balanced `PrimeVul holdout2000`
+- `presence_accuracy = 0.9272`
+- `vulnerable_recall = 0.9171`
+- `safe_specificity = 0.9373`
+- `precision = 0.9360`
+- `f1 = 0.9265`
 
-Current best family:
+Important boundary result:
 
-- `Qwen2.5-0.5B-Instruct`
-- balanced `PrimeVul`
-- completion-only SFT
-- tolerant parser
-
-Best current checkpoint:
-
-- [checkpoints/sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1](D:/code/start/checkpoints/sft_secure_code_primevul_qwen05b_balanced_safe_none_only_v1)
+- on `CodeXGLUE`, the same second-stage scorer behaves mainly as a conservative policy layer
+- best scorer grid point: `presence_accuracy = 0.6055`, `f1 = 0.5489`
+- detector-only remains stronger on that benchmark: `presence_accuracy = 0.6135`, best held-out `f1 = 0.6741`
 
 ### Snapshot on `eval244`
 
@@ -70,15 +71,20 @@ Best current checkpoint:
 
 ## Main Research Takeaways So Far
 
-- **Completion-only SFT is the strongest reliable method** in this repository so far.
-- **A larger zero-shot base model is not automatically more trustworthy.**
-  The `1.5B` zero-shot model sounds more security-fluent, but badly over-detects vulnerabilities.
-- **DPO has not beaten the SFT anchor yet.**
+- **Detector-first modeling is the strongest current path.**
+  PrimeVul shows that a narrow presence detector can learn the vulnerable-vs-safe boundary much better than a monolithic generative auditor.
+- **Second-stage scoring should be non-generative unless evidence spans are truly supervised.**
+  The current scorer is a support scorer: it decides whether a detector-positive alert should remain on the positive path.
+- **The PrimeVul support-scorer result is strong, so it now needs protection.**
+  The next priority is ablation and leakage analysis, not another shiny model variant.
+- **CodeXGLUE remains detector-limited.**
+  At the best scorer point, most false negatives are detector misses, not scorer rejections.
+- **Completion-only SFT remains a useful structured-auditor baseline.**
+  It improved JSON stability and calibration, but it is no longer the main route to best detection.
+- **DPO has not beaten the SFT anchor.**
   Several secure-code DPO variants degraded either output structure or semantic reliability.
 - **Verifier-style second review is interesting, but not solved.**
   We found real recall signal, especially in failure-driven verifier training, but no verifier variant has yet produced a trustworthy net gain over the main auditor.
-- **The dominant remaining problem is false negatives.**
-  The strongest models are still too conservative on vulnerable code.
 
 ## What the Model Must Output
 
@@ -114,13 +120,12 @@ The stack also supports tolerant parsing and second-pass recovery for JSON-like 
 
 ```mermaid
 flowchart LR
-  A["Secure-code sample<br/>code / label / context"] --> B["Prompt builder<br/>JSON-first task profile"]
-  B --> C["LLM auditor<br/>base or post-trained checkpoint"]
-  C --> D["Parser layer<br/>schema-first + tolerant parsing + fallback"]
-  D --> E["Structured prediction<br/>label / CWE / evidence / confidence"]
-  E --> F["Evaluator<br/>accuracy / format / calibration / support"]
-  F --> G["Failure taxonomy<br/>false_negative / false_positive / hard_fail / high_confidence_error"]
-  G --> H["Training loop<br/>SFT / DPO / verifier experiments"]
+  A["Secure-code sample<br/>code / label / context"] --> B["Detector<br/>presence probability"]
+  B --> C["Second-stage support scorer<br/>supported vs unsupported alert"]
+  C --> D["Structured auditor/report layer<br/>JSON contract when needed"]
+  D --> E["Evaluator<br/>accuracy / recall / specificity / support"]
+  E --> F["Failure taxonomy<br/>detector miss / scorer reject / false positive"]
+  F --> G["Training loop<br/>detector / scorer / auditor experiments"]
 ```
 
 ## Repository Contents
@@ -179,7 +184,15 @@ vrf analyze --config configs\analysis_sft_secure_code_primevul_qwen05b_balanced_
 
 ## Core Experiment Tracks
 
-### Main auditor
+### Detector and scorer mainline
+
+- PrimeVul presence-only detector
+- PrimeVul detector + support scorer
+- CodeXGLUE full-balanced detector
+- CodeXGLUE detector + support scorer
+- threshold grids and scorer failure breakdowns
+
+### Structured auditor baselines
 
 - Base 0.5B
 - Base 1.5B
@@ -257,6 +270,7 @@ This repository is already useful as:
 
 - a secure-code reasoning benchmark harness
 - a structured post-training testbed
+- a detector + second-stage scorer research prototype
 - a failure-taxonomy and calibration study
 - a negative-result record for verifier and DPO variants that did **not** beat the SFT anchor
 

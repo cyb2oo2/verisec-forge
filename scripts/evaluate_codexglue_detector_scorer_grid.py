@@ -4,12 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
-from evaluate_codexglue_detector_scorer import evaluate_detector_scorer
 from vrf.io_utils import read_jsonl, write_json
-
-
-def parse_thresholds(value: str) -> list[float]:
-    return [float(item.strip()) for item in value.split(",") if item.strip()]
+from vrf.support_scoring import evaluate_detector_scorer_grid, parse_thresholds
 
 
 def main() -> None:
@@ -26,26 +22,13 @@ def main() -> None:
     probability_rows = {row["id"]: row for row in read_jsonl(args.probabilities)}
     scorer_rows = {row["id"]: row for row in read_jsonl(args.scorer_predictions)}
 
-    results: list[dict] = []
-    for detector_threshold in parse_thresholds(args.detector_thresholds):
-        for scorer_threshold in parse_thresholds(args.scorer_thresholds):
-            results.append(
-                evaluate_detector_scorer(
-                    dataset_rows=dataset_rows,
-                    probability_rows=probability_rows,
-                    scorer_rows=scorer_rows,
-                    detector_threshold=detector_threshold,
-                    scorer_threshold=scorer_threshold,
-                )
-            )
-
-    payload = {
-        "results": results,
-        "best_by_presence_accuracy": max(results, key=lambda row: (row["presence_accuracy"], row["f1"])),
-        "best_by_f1": max(results, key=lambda row: (row["f1"], row["presence_accuracy"])),
-        "best_by_precision": max(results, key=lambda row: (row["precision"], row["f1"])),
-        "best_by_recall": max(results, key=lambda row: (row["vulnerable_recall"], row["f1"])),
-    }
+    payload = evaluate_detector_scorer_grid(
+        dataset_rows=dataset_rows,
+        probability_rows=probability_rows,
+        scorer_rows=scorer_rows,
+        detector_thresholds=parse_thresholds(args.detector_thresholds),
+        scorer_thresholds=parse_thresholds(args.scorer_thresholds),
+    )
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     write_json(output_path, payload)
