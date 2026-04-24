@@ -129,6 +129,7 @@ To test whether the low-recall behavior was mostly a `PrimeVul` realism/length m
 | Classifier (`sequence classification` LoRA, 6k) | 0.567 | 0.492 | 0.642 | 0.567 | n/a | n/a | n/a | Discriminative control baseline; much stronger recall than any generative JSON route |
 | Classifier (`sequence classification` LoRA, 12k) | 0.579 | 0.490 | 0.668 | 0.579 | n/a | n/a | n/a | First clear detector-only data-scale gain; default threshold already improves over 6k |
 | Classifier (`sequence classification` LoRA, full-balanced 20k) | 0.609 | 0.534 | 0.684 | 0.609 | n/a | n/a | n/a | Strongest detector-only run so far; continues the data-scale trend and finally clears `0.60` balanced accuracy |
+| Detector + Evidence Scorer (`full-balanced detector`, best accuracy grid point) | 0.606 | 0.480 | 0.731 | 0.606 | n/a | n/a | n/a | Non-generative confirmation layer on `holdout2000`; `detector=0.5`, `scorer=0.2`, close to but below detector-only |
 | Hybrid (`classifier detect` + `evidence_only audit`) | 0.567 | 0.492 | 0.642 | 0.567 | 1.000 | 0.000 | 0.000* | Preserves classifier detection while emitting deterministic structured audit records |
 
 ## CodeXGLUE Notes
@@ -146,6 +147,7 @@ To test whether the low-recall behavior was mostly a `PrimeVul` realism/length m
 - The full-balanced detector strengthens that conclusion further. On `eval1000`, its threshold sweep reaches `presence_accuracy = 0.630` at `threshold = 0.4`, and its best `f1 = 0.6869` appears at `threshold = 0.3` with `vulnerable_recall = 0.926`.
 - That same full-balanced checkpoint also generalizes cleanly to the larger `holdout2000` slice. At the default `0.5` threshold, it reaches `presence_accuracy = 0.6135`, `vulnerable_recall = 0.530`, `safe_specificity = 0.697`, and `precision = 0.6363`, while its best held-out `f1 = 0.6741` appears at `threshold = 0.3`.
 - The hybrid detector+auditor system is the first concrete dual-path result in the repo. It preserves the classifier's binary detection strength exactly, while converting outputs into stable structured records with `format_pass_rate = 1.0` and `invalid_output_rate = 0.0`.
+- A new `CodeXGLUE detector + evidence scorer` line clarifies the boundary of the second-stage redesign. Unlike the `PrimeVul` scorer, this scorer does not beat the detector-only branch end-to-end. Its best balanced grid point reaches `presence_accuracy = 0.6055`, `vulnerable_recall = 0.4800`, `safe_specificity = 0.7310`, `precision = 0.6409`, and `f1 = 0.5489`, while the detector-only holdout still reaches `presence_accuracy = 0.6135` and best held-out `f1 = 0.6741`.
 - That hybrid still inherits the classifier's binary tradeoff (`safe_specificity = 0.642`), and many positive detections lack strong evidence spans. So it is better understood as a practical systems pattern than as a new model-level breakthrough.
 - Threshold sweeps strengthen this systems conclusion. The classifier is not really a single point model here; it exposes distinct operating regimes:
   - `0.2`: recall-heavy detector (`vulnerable_recall = 0.956`, `safe_specificity = 0.098`)

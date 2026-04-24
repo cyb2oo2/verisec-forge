@@ -1,0 +1,17 @@
+{
+  "num_examples": 2000,
+  "detector_threshold": 0.2,
+  "scorer_threshold": 0.5,
+  "detector_positive_rate": 0.937,
+  "scorer_positive_rate": 0.4185,
+  "unsupported_positive_share": 0.4456,
+  "presence_accuracy": 0.5455,
+  "vulnerable_recall": 0.464,
+  "safe_specificity": 0.627,
+  "precision": 0.5544,
+  "f1": 0.5052,
+  "tp": 464,
+  "tn": 627,
+  "fp": 373,
+  "fn": 536
+}

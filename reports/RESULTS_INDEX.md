@@ -17,6 +17,7 @@ Primary detector-auditor benchmark line and operating-point analysis.
 
 - `Classifier Calibration`: `reports/CODEXGLUE_CLASSIFIER_CALIBRATION.md`
 - `Hybrid Operating Points`: `reports/CODEXGLUE_HYBRID_OPERATING_POINTS.md`
+- `Detector + Scorer Operating Points`: `reports/CODEXGLUE_DETECTOR_SCORER_OPERATING_POINTS.md`
 - `Classifier Threshold Sweep (eval1000)`: `reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_eval1000.json`
 - `Classifier Threshold Sweep (holdout2000)`: `reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_holdout2000.json`
 - `Hybrid Summary (eval1000)`: `reports/codexglue_hybrid_thresholds/secure_code_codexglue_hybrid_threshold_summary.json`
