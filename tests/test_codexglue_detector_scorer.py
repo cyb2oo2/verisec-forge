@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 
@@ -82,3 +83,52 @@ def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
     assert report["fp"] == 1
     assert report["unsupported_positive_share"] == 0.5
     assert report["precision"] == 0.5
+
+
+def test_detector_scorer_failure_buckets_separate_detector_and_scorer_misses() -> None:
+    script_path = Path("scripts") / "analyze_codexglue_detector_scorer_failures.py"
+    spec = importlib.util.spec_from_file_location("analyze_codexglue_detector_scorer_failures", script_path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    sys.path.insert(0, str(Path("scripts").resolve()))
+    spec.loader.exec_module(module)
+
+    dataset_rows = {
+        "tp": {"id": "tp", "has_vulnerability": True},
+        "fn-detector": {"id": "fn-detector", "has_vulnerability": True},
+        "fn-scorer": {"id": "fn-scorer", "has_vulnerability": True},
+        "fp": {"id": "fp", "has_vulnerability": False},
+        "tn-detector": {"id": "tn-detector", "has_vulnerability": False},
+        "tn-scorer": {"id": "tn-scorer", "has_vulnerability": False},
+    }
+    probability_rows = {
+        "tp": {"id": "tp", "vuln_probability": 0.9},
+        "fn-detector": {"id": "fn-detector", "vuln_probability": 0.1},
+        "fn-scorer": {"id": "fn-scorer", "vuln_probability": 0.9},
+        "fp": {"id": "fp", "vuln_probability": 0.9},
+        "tn-detector": {"id": "tn-detector", "vuln_probability": 0.1},
+        "tn-scorer": {"id": "tn-scorer", "vuln_probability": 0.9},
+    }
+    scorer_rows = {
+        "tp": {"id": "tp", "supported_probability": 0.9},
+        "fn-scorer": {"id": "fn-scorer", "supported_probability": 0.1},
+        "fp": {"id": "fp", "supported_probability": 0.9},
+        "tn-scorer": {"id": "tn-scorer", "supported_probability": 0.1},
+    }
+
+    report = module.analyze_detector_scorer_failures(
+        dataset_rows=dataset_rows,
+        probability_rows=probability_rows,
+        scorer_rows=scorer_rows,
+        detector_threshold=0.5,
+        scorer_threshold=0.5,
+    )
+
+    assert report["counts"]["true_positive_supported"] == 1
+    assert report["counts"]["false_negative_detector_miss"] == 1
+    assert report["counts"]["false_negative_scorer_reject"] == 1
+    assert report["counts"]["false_positive_supported_safe"] == 1
+    assert report["counts"]["true_negative_detector_reject"] == 1
+    assert report["counts"]["true_negative_scorer_reject"] == 1
+    assert report["rates"]["false_negative_detector_miss_share"] == 0.5
+    assert report["rates"]["true_negative_scorer_reject_share"] == 0.5

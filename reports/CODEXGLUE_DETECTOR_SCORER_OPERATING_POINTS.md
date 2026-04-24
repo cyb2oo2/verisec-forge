@@ -40,6 +40,26 @@ This table sweeps both the detector threshold and the scorer threshold.
 - The most conservative point is `detector=0.8, scorer=0.8`, with `safe_specificity = 0.9790` and `precision = 0.8385`, but recall collapses to `0.1090`.
 - Compared with the full-balanced detector-only holdout result (`presence_accuracy = 0.6135`, `f1 = 0.6741` at its best F1 threshold), the scorer does not yet improve balanced end-to-end detection.
 
+## Failure Breakdown At Best Accuracy Point
+
+For the best balanced point (`detector=0.5`, `scorer=0.2`), the failure split is:
+
+| Bucket | Count |
+| --- | ---: |
+| true_positive_supported | 480 |
+| true_negative_detector_reject | 697 |
+| true_negative_scorer_reject | 34 |
+| false_positive_supported_safe | 269 |
+| false_negative_detector_miss | 470 |
+| false_negative_scorer_reject | 50 |
+
+This makes the next training target clearer:
+
+- `90.38%` of false negatives are detector misses, not scorer rejections.
+- `9.62%` of false negatives are introduced by the scorer gate.
+- `95.35%` of true negatives are already rejected by the detector before the scorer is involved.
+- The main remaining `CodeXGLUE` bottleneck is therefore detector discrimination, while the scorer mainly controls how conservative the positive path should be.
+
 ## Practical Interpretation
 
 - On `CodeXGLUE`, the non-generative scorer is useful as a policy layer, but it is not yet a detector improvement.

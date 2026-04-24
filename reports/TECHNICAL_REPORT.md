@@ -281,6 +281,8 @@ We also ported the non-generative evidence scorer idea from `PrimeVul` to `CodeX
 
 That is close to the detector-only default result, but it does not beat it. The CodeXGLUE scorer is therefore best interpreted as a policy or confirmation layer rather than as a detector upgrade. This cross-benchmark contrast is important: on `PrimeVul`, supported-vs-unsupported positive traffic is a meaningful second-stage task; on `CodeXGLUE`, the scorer mostly trades recall for specificity.
 
+The best scorer point also tells us where the remaining errors come from. At `detector=0.5, scorer=0.2`, `470` vulnerable examples are missed by the detector before the scorer can act, while only `50` vulnerable examples are detector-positive but rejected by the scorer. In other words, `90.38%` of false negatives are detector misses. That makes the next `CodeXGLUE` training target fairly unambiguous: improve detector discrimination first, then use the scorer as a policy layer.
+
 With the new `12k` detector run, that systems reading becomes even sharper. The practical bottleneck is no longer "can we make a slightly better JSON auditor?" but "how far can we push the detector toward a real benchmark-grade vulnerability filter before we reintroduce the auditor as a narrower evidence confirmer?" That is now the most promising mainline.
 
 ## Failure Analysis

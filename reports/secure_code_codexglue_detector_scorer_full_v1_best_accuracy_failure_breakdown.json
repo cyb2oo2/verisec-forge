@@ -1,0 +1,57 @@
+{
+  "num_examples": 2000,
+  "detector_threshold": 0.5,
+  "scorer_threshold": 0.2,
+  "missing_scorer_predictions": 0,
+  "counts": {
+    "false_negative_detector_miss": 470,
+    "false_negative_scorer_reject": 50,
+    "false_positive_supported_safe": 269,
+    "true_negative_detector_reject": 697,
+    "true_negative_scorer_reject": 34,
+    "true_positive_supported": 480
+  },
+  "rates": {
+    "presence_accuracy": 0.6055,
+    "vulnerable_recall": 0.48,
+    "safe_specificity": 0.731,
+    "precision": 0.6409,
+    "unsupported_positive_share": 0.3591,
+    "false_negative_detector_miss_share": 0.9038,
+    "false_negative_scorer_reject_share": 0.0962,
+    "true_negative_detector_reject_share": 0.9535,
+    "true_negative_scorer_reject_share": 0.0465
+  },
+  "bucket_probability_summary": {
+    "false_negative_detector_miss": {
+      "count": 470,
+      "avg_detector_probability": 0.3722,
+      "avg_scorer_probability": null
+    },
+    "false_negative_scorer_reject": {
+      "count": 50,
+      "avg_detector_probability": 0.6577,
+      "avg_scorer_probability": 0.1206
+    },
+    "false_positive_supported_safe": {
+      "count": 269,
+      "avg_detector_probability": 0.6355,
+      "avg_scorer_probability": 0.5663
+    },
+    "true_negative_detector_reject": {
+      "count": 697,
+      "avg_detector_probability": 0.345,
+      "avg_scorer_probability": null
+    },
+    "true_negative_scorer_reject": {
+      "count": 34,
+      "avg_detector_probability": 0.6457,
+      "avg_scorer_probability": 0.1278
+    },
+    "true_positive_supported": {
+      "count": 480,
+      "avg_detector_probability": 0.7343,
+      "avg_scorer_probability": 0.6078
+    }
+  }
+}
