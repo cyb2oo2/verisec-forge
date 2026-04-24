@@ -1,0 +1,28 @@
+{
+  "stage": "sft",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/train_secure_code_primevul_evidence_confirmer_hardneg_v1.jsonl",
+  "eval_dataset_path": "data/processed/secure_code_primevul_holdout2000_detector_positive_for_auditor_t05.jsonl",
+  "output_dir": "checkpoints/sft_secure_code_primevul_qwen15bcoder_evidence_confirmer_hardneg_v1",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "system_prompt": "You are a detector-positive evidence confirmer for defensive secure-code review. Return valid JSON only with fields has_vulnerability, vulnerability_type, severity, evidence, explanation, fix_principle, confidence, and fix_choice. Confirm has_vulnerability=true only when the snippet contains concrete code-level evidence. Otherwise return has_vulnerability=false, vulnerability_type=none, and evidence=[]. Keep explanations brief and evidence-focused.",
+  "response_field": "response",
+  "response_format": "structured_json",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logging_steps": 20,
+    "save_steps": 50,
+    "max_seq_length": 1024
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  }
+}

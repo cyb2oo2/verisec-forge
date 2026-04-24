@@ -29,4 +29,6 @@ Original secure-code structured-auditor branch and its larger held-out evaluatio
 - `PrimeVul Comparison`: `reports/training_comparison.md`
 - `Best SFT holdout1000 report`: `reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout1000_report.json`
 - `Best SFT holdout2000 report`: `reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout2000_report.json`
+- `Detector + Confirmer Operating Points`: `reports/PRIMEVUL_DETECTOR_CONFIRMER_OPERATING_POINTS.md`
+- `Detector + Scorer Operating Points`: `reports/PRIMEVUL_DETECTOR_SCORER_OPERATING_POINTS.md`
 - `PrimeVul Diagnostics`: `reports/SECURE_CODE_DIAGNOSTICS.md`

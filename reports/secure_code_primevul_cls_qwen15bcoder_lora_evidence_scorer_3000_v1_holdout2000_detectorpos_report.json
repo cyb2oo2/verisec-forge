@@ -1,0 +1,12 @@
+{
+  "num_examples": 926,
+  "presence_accuracy": 0.7613,
+  "label_accuracy": 0.7613,
+  "vulnerable_recall": 0.9419,
+  "safe_specificity": 0.043,
+  "precision": 0.7966,
+  "tp": 697,
+  "tn": 8,
+  "fp": 178,
+  "fn": 43
+}
