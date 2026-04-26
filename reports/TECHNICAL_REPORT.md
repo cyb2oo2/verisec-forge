@@ -53,6 +53,13 @@ The current experimental results in this report are concentrated on Task A.
 - Composition: `500 vulnerable` + `500 safe`
 - Construction: sampled from the normalized `train` split after excluding all ids used in the current `3000`-example SFT training set
 
+### Paired Patch/Diff Benchmark
+
+- Dataset: `PrimeVul`
+- Evaluation split: paired balanced `eval1800`
+- Composition: vulnerable/fixed counterparts represented as candidate snippets, paired context, or unified diffs
+- Purpose: remove the strongest same-source shortcuts and test whether the model can compare a vulnerable revision against its paired repair signal
+
 ### Training Data
 
 - SFT training set: balanced secure-code subset derived from `PrimeVul`
@@ -147,7 +154,7 @@ The current benchmark reports:
 | SFT 0.5B | 0.4200 | 0.7820 | 0.2010 | 0.0220 | 35.3530 |
 | SFT 0.5B (`safe->none`) | 0.4540 | 0.8150 | 0.1620 | 0.0290 | 37.0380 |
 
-### PrimeVul presence-only detector (`Qwen2.5-Coder-1.5B-Instruct`)
+### PrimeVul same-source presence detector (`Qwen2.5-Coder-1.5B-Instruct`)
 
 To separate "can the model detect vulnerable code?" from "can the model emit a full structured audit record?", we added a pure discriminative `presence-only` detector on `PrimeVul`.
 
@@ -157,13 +164,32 @@ To separate "can the model detect vulnerable code?" from "can the model emit a f
 
 This detector is trained on a balanced `3000`-example subset built from the normalized `PrimeVul` train split after excluding every id used in `secure_code_primevul_holdout_eval_balanced_2000.jsonl`. A direct exact-code-overlap check between the train subset and the held-out eval slice returns `0`, so this result should not be explained away as a trivial duplicate leak.
 
-The threshold sweep is similarly stable. The default `0.5` threshold is already one of the best balanced operating points, and the full sweep stays tightly clustered near `0.95` balanced accuracy:
+However, this result is no longer treated as the headline claim. Follow-up shortcut diagnostics show that the same-source holdout is artifact-sensitive: vulnerable and safe examples differ strongly in length, project/source distribution, and other dataset construction artifacts. The threshold sweep is stable on that same distribution, but stability on an artifact-sensitive split is not enough evidence for semantic vulnerability reasoning:
 
 - `threshold = 0.1`: `f1 = 0.9537`, `vulnerable_recall = 0.9810`, `safe_specificity = 0.9239`
 - `threshold = 0.5`: `presence_accuracy = 0.9524`, `vulnerable_recall = 0.9709`, `safe_specificity = 0.9339`
 - `threshold = 0.9`: `presence_accuracy = 0.9423`, `vulnerable_recall = 0.9429`, `safe_specificity = 0.9418`
 
-This is now one of the clearest results in the repo. On `PrimeVul`, the model can learn a strong vulnerable-vs-safe decision boundary when we give it a narrow discriminative target. The severe recall collapse in the generative `PrimeVul` auditor line therefore looks much more like a task-definition problem than a pure semantic-capacity problem.
+The stronger interpretation is diagnostic: narrow discriminative training can exploit the same-source PrimeVul distribution much better than a generative auditor, but the resulting score must be protected by harder paired controls before it can be claimed as secure-code reasoning.
+
+### PrimeVul paired diff reasoning (`Qwen2.5-Coder-1.5B-Instruct`)
+
+The current robust mainline reframes PrimeVul as a paired comparison task. Instead of asking whether an isolated snippet is vulnerable, the model sees candidate-vs-counterpart information and must infer which side carries the vulnerable pattern. This directly tests whether the model uses the repair signal rather than single-snippet artifacts.
+
+| System | Best Balanced Accuracy | Recall | Specificity | F1 | Interpretation |
+| --- | ---: | ---: | ---: | ---: | --- |
+| same-source detector on paired eval | 0.4961 | 0.1922 | 0.8000 | 0.2761 | same-source shortcut fails under paired evaluation |
+| paired-trained snippet detector | 0.5072 | 0.3989 | 0.6156 | 0.4474 | paired labels alone are not enough |
+| metadata-only control | 0.5022 | 0.6644 | 0.3400 | 0.5717 | metadata is near chance |
+| candidate-only control | 0.5078 | 0.8989 | 0.1167 | 0.6462 | one-sided code remains near chance |
+| counterpart-only control | 0.5156 | 0.2011 | 0.8300 | 0.2934 | one-sided repair context remains near chance |
+| pair-context detector | 0.6061 | 0.6589 | 0.5533 | 0.6259 | explicit comparison helps |
+| candidate+diff detector | 0.6728 | 0.7178 | 0.6278 | 0.6869 | extra context helps but dilutes patch signal |
+| diff-only detector, dedup eval | 0.8158 | 0.8022 | 0.8294 | 0.8131 | strongest controlled formulation |
+
+After removing `8` exact/near-duplicate eval rows flagged by train/eval overlap diagnostics, the diff-only result remains stable. Three diff-only seeds on the deduplicated eval set produce a balanced-accuracy mean of `0.8287` and a range of `0.8158-0.8382`. This makes paired diff reasoning the current best-supported PrimeVul result in the repository.
+
+The important shift is conceptual. The project should no longer present the `0.9524` same-source detector score as the main achievement. The stronger claim is that shortcut diagnostics forced a task redesign, and that the redesigned paired diff formulation produces a substantially more credible security-reasoning signal than isolated same-source detection.
 
 ### PrimeVul detector + evidence confirmer
 
@@ -301,6 +327,14 @@ With the new `12k` detector run, that systems reading becomes even sharper. The 
 
 These results suggest three early conclusions:
 
+### Current PrimeVul Readout
+
+The PrimeVul interpretation has changed after the paired-split diagnostics. The same-source detector score (`presence_accuracy = 0.9524`, `f1 = 0.9533`) should be treated as an artifact-sensitive diagnostic result, not as the headline secure-code reasoning claim.
+
+The current headline is paired diff reasoning: the diff-only detector reaches `0.8158` best balanced accuracy on the deduplicated paired eval set, and three deduplicated diff-only seeds remain stable in the `0.8158-0.8382` range with mean `0.8287`. Metadata-only, candidate-only, and counterpart-only controls stay near chance, so the paired diff gain is not explained by simple metadata leakage or one-sided snippet artifacts.
+
+The practical conclusion is therefore narrower and stronger: same-source detection is useful for diagnosing dataset shortcuts, while paired diff evaluation is the current robust PrimeVul mainline.
+
 1. Completion-only SFT is a strong and reliable baseline for structured secure-code reasoning.
 2. Larger zero-shot models can look more security-fluent while being less trustworthy, especially through over-detection and poor calibration.
 3. Preference optimization in this setting is fragile: unless the output protocol is explicitly protected, DPO can damage both structure and judgment.
@@ -361,6 +395,6 @@ At the current stage, the most defensible claim is not that secure-code DPO is s
 - a failure-driven verifier route that demonstrates how main-model misses can be turned into targeted second-pass supervision, even though the current gains remain modest under strict acceptance
 - a second benchmark line (`CodeXGLUE`) showing that better data-model fit helps, but does not by itself remove the recall/calibration tradeoff in generative structured auditing
 - a classifier-vs-auditor comparison that demonstrates the main current systems lesson: the repo's strongest practical path is no longer a single model, but a detector-plus-auditor split
-- a stronger PrimeVul detector result showing that the best current secure-code path is detector-first, with support scoring treated as a diagnostic second-stage interface
+- a shortcut-aware PrimeVul result showing that the best current secure-code path is paired diff reasoning, with same-source detector scores treated as artifact-sensitive diagnostics rather than headline claims
 
 *For the current hybrid row, `high_confidence_error_rate = 0.000` should be read as "not yet calibrated" rather than "perfect confidence behavior", because the stitched hybrid records currently leave confidence unset.

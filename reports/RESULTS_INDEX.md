@@ -26,7 +26,7 @@ Primary detector-auditor benchmark line and operating-point analysis.
 
 ## PrimeVul Mainline
 
-Original secure-code structured-auditor branch and its larger held-out evaluation.
+PrimeVul secure-code experiments, including the artifact-sensitive same-source detector, paired split diagnostics, and the current paired diff reasoning mainline.
 
 - `PrimeVul Comparison`: `reports/training_comparison.md`
 - `Best SFT holdout1000 report`: `reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout1000_report.json`
