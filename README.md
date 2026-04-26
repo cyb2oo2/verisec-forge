@@ -60,6 +60,7 @@ Important caveat:
 - after removing 8 exact/near-duplicate eval rows flagged by train/eval overlap diagnostics, diff-only remains stable at best balanced accuracy `0.8158`
 - multi-seed diff-only training on the deduplicated eval set is stable in the `0.82-0.84` balanced-accuracy range, with three-seed mean `0.8287`
 - group-level paired evaluation now reports `877` unique pair groups, `0.6978` group all-correct rate, and `0.8424` probability-orientation accuracy
+- removing `Project`, `CVE`, and `CWE` prompt metadata does not break the result: `diff_no_metadata` reaches best balanced accuracy `0.8244`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -70,7 +71,7 @@ For the generated main-results table, see [PrimeVul Main Results](reports/PRIMEV
 
 For the current paired diff error breakdown, see [PrimeVul Paired Diff Failure Analysis](reports/PRIMEVUL_PAIR_DIFF_FAILURE_ANALYSIS.md). The main remaining errors are balanced between false positives and false negatives (`153` FP / `177` FN at threshold `0.6`), with the highest error rates on very small and very large diffs.
 
-The next reviewer-facing control is already configured: `diff_no_metadata` removes `Project`, `CVE`, and `CWE` from the prompt and leaves only the task instruction plus unified diff. See [PrimeVul Diff Edge-Focus Plan](reports/PRIMEVUL_DIFF_EDGE_FOCUS_PLAN.md) for the no-metadata and edge-focus experiment configs.
+The first reviewer-facing metadata control is now complete: `diff_no_metadata` removes `Project`, `CVE`, and `CWE` from the prompt and leaves only the task instruction plus unified diff. It reaches best balanced accuracy `0.8244`, so the paired diff result is not explained by prompt metadata alone. See [PrimeVul Diff Edge-Focus Plan](reports/PRIMEVUL_DIFF_EDGE_FOCUS_PLAN.md) for the no-metadata and edge-focus experiment configs.
 
 Support-scorer ablation result:
 

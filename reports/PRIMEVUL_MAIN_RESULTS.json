@@ -129,6 +129,18 @@
       "note": "removes 8 exact/near-duplicate eval rows"
     },
     {
+      "system": "diff-only detector, no metadata",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.8,
+      "accuracy": 0.8244,
+      "recall": 0.7533,
+      "specificity": 0.8956,
+      "precision": 0.8782,
+      "f1": 0.811,
+      "balanced_accuracy": 0.8244,
+      "note": "removes Project/CVE/CWE prompt metadata"
+    },
+    {
       "system": "diff-only detector, seed7 dedup",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json",
       "threshold": 0.5,

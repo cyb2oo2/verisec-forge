@@ -55,13 +55,16 @@ Treat the experiment as a win only if it improves the target buckets without bre
 
 Run the edge-focus training config, then evaluate the full deduplicated eval plus the two edge buckets. If this helps, the follow-up is a smaller sweep over `edge_share` values such as `0.4`, `0.6`, and `0.8`.
 
-## Separate Metadata Ablation
+## Completed Metadata Ablation
 
-A second reviewer-facing control is now prepared: `diff_no_metadata`. This removes `Project`, `CVE`, and `CWE` lines from the prompt and leaves only the task instruction plus unified diff.
+The first reviewer-facing control is complete: `diff_no_metadata`. This removes `Project`, `CVE`, and `CWE` lines from the prompt and leaves only the task instruction plus unified diff.
 
 - train: `configs/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1.json`
 - eval: `configs/cls_eval_secure_code_primevul_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800.json`
 - train summary: `reports/secure_code_primevul_pair_diff_no_metadata_train_balanced_3000_summary.json`
 - eval summary: `reports/secure_code_primevul_pair_diff_no_metadata_eval_balanced_1800_summary.json`
+- result: best balanced accuracy `0.8244` at threshold `0.8`
+- threshold sweep: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json`
+- failure analysis: `reports/PRIMEVUL_PAIR_DIFF_NO_METADATA_FAILURE_ANALYSIS.md`
 
-This is the most important next control. If `diff_no_metadata` remains near the `0.80+` range, the paired diff result is much harder to dismiss as metadata leakage.
+This is the most important metadata-leakage control so far. Since `diff_no_metadata` remains in the `0.80+` range, the paired diff result is much harder to dismiss as prompt metadata leakage.

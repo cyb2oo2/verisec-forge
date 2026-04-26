@@ -44,6 +44,9 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Bucket Slice Summary`: `reports/secure_code_primevul_pair_diff_bucket_slices_summary.json`
 - `Paired Diff No-Metadata Train Summary`: `reports/secure_code_primevul_pair_diff_no_metadata_train_balanced_3000_summary.json`
 - `Paired Diff No-Metadata Eval Summary`: `reports/secure_code_primevul_pair_diff_no_metadata_eval_balanced_1800_summary.json`
+- `Paired Diff No-Metadata Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_report.json`
+- `Paired Diff No-Metadata Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json`
+- `Paired Diff No-Metadata Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_NO_METADATA_FAILURE_ANALYSIS.md`
 - `Paired Eval Shortcut Report`: `reports/secure_code_primevul_paired_eval_balanced_1800_shortcut_diagnostics.json`
 - `Paired Eval Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_report.json`
 - `Paired Eval Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json`

@@ -59,6 +59,33 @@ def test_render_markdown_includes_core_columns() -> None:
 
     assert "| System | Threshold | Accuracy | Recall | Specificity | Precision | F1 | Balanced Accuracy | Note |" in markdown
     assert "diff-only detector" in markdown
+    assert "| System | Threshold | Accuracy | Recall | Specificity | Precision | F1 | Balanced Accuracy | Note |" in markdown
+
+
+def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
+    module = _load_module()
+    calls: list[tuple[str, str]] = []
+
+    def fake_from_report(label: str, path: str, **kwargs):
+        calls.append((label, path))
+        return {
+            "system": label,
+            "threshold": kwargs.get("threshold"),
+            "accuracy": 0.5,
+            "recall": 0.5,
+            "specificity": 0.5,
+            "precision": 0.5,
+            "f1": 0.5,
+            "balanced_accuracy": 0.5,
+            "note": kwargs.get("note", ""),
+        }
+
+    monkeypatch.setattr(module, "_from_report", fake_from_report)
+    monkeypatch.setattr(module, "_from_sweep", fake_from_report)
+
+    rows = module.build_rows()
+
+    assert any(row["system"] == "diff-only detector, no metadata" for row in rows)
 
 
 def test_from_report_computes_missing_f1() -> None:

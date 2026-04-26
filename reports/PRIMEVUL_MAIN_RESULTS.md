@@ -25,5 +25,6 @@ This table is generated from run artifacts by `scripts/build_primevul_main_resul
 | candidate+diff detector | 0.5000 | 0.6728 | 0.7178 | 0.6278 | 0.6585 | 0.6869 | 0.6728 | extra context dilutes patch signal |
 | diff-only detector | 0.6000 | 0.8156 | 0.8022 | 0.8289 | 0.8242 | 0.8131 | 0.8156 | best original paired formulation |
 | diff-only detector, dedup eval | 0.6000 | 0.8158 | 0.8022 | 0.8294 | 0.8243 | 0.8131 | 0.8158 | removes 8 exact/near-duplicate eval rows |
+| diff-only detector, no metadata | 0.8000 | 0.8244 | 0.7533 | 0.8956 | 0.8782 | 0.8110 | 0.8244 | removes Project/CVE/CWE prompt metadata |
 | diff-only detector, seed7 dedup | 0.5000 | 0.8382 | 0.8291 | 0.8473 | 0.8441 | 0.8365 | 0.8382 | multi-seed stability |
 | diff-only detector, seed99 dedup | 0.5000 | 0.8320 | 0.8503 | 0.8138 | 0.8200 | 0.8349 | 0.8321 | multi-seed stability |

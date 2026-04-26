@@ -116,6 +116,11 @@ def build_rows() -> list[dict[str, Any]]:
             note="removes 8 exact/near-duplicate eval rows",
         ),
         _from_sweep(
+            "diff-only detector, no metadata",
+            "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json",
+            note="removes Project/CVE/CWE prompt metadata",
+        ),
+        _from_sweep(
             "diff-only detector, seed7 dedup",
             "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json",
             note="multi-seed stability",

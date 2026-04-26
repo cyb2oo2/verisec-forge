@@ -186,8 +186,11 @@ The current robust mainline reframes PrimeVul as a paired comparison task. Inste
 | pair-context detector | 0.6061 | 0.6589 | 0.5533 | 0.6259 | explicit comparison helps |
 | candidate+diff detector | 0.6728 | 0.7178 | 0.6278 | 0.6869 | extra context helps but dilutes patch signal |
 | diff-only detector, dedup eval | 0.8158 | 0.8022 | 0.8294 | 0.8131 | strongest controlled formulation |
+| diff-only detector, no metadata | 0.8244 | 0.7533 | 0.8956 | 0.8110 | removes Project/CVE/CWE prompt metadata |
 
 After removing `8` exact/near-duplicate eval rows flagged by train/eval overlap diagnostics, the diff-only result remains stable. Three diff-only seeds on the deduplicated eval set produce a balanced-accuracy mean of `0.8287` and a range of `0.8158-0.8382`. This makes paired diff reasoning the current best-supported PrimeVul result in the repository.
+
+The no-metadata control strengthens that claim. Removing `Project`, `CVE`, and `CWE` from the prompt does not break the paired diff result; the model still reaches `0.8244` best balanced accuracy using only the task instruction and unified diff. This makes the result harder to dismiss as metadata leakage.
 
 The important shift is conceptual. The project should no longer present the `0.9524` same-source detector score as the main achievement. The stronger claim is that shortcut diagnostics forced a task redesign, and that the redesigned paired diff formulation produces a substantially more credible security-reasoning signal than isolated same-source detection.
 
@@ -331,7 +334,7 @@ These results suggest three early conclusions:
 
 The PrimeVul interpretation has changed after the paired-split diagnostics. The same-source detector score (`presence_accuracy = 0.9524`, `f1 = 0.9533`) should be treated as an artifact-sensitive diagnostic result, not as the headline secure-code reasoning claim.
 
-The current headline is paired diff reasoning: the diff-only detector reaches `0.8158` best balanced accuracy on the deduplicated paired eval set, and three deduplicated diff-only seeds remain stable in the `0.8158-0.8382` range with mean `0.8287`. Metadata-only, candidate-only, and counterpart-only controls stay near chance, so the paired diff gain is not explained by simple metadata leakage or one-sided snippet artifacts.
+The current headline is paired diff reasoning: the diff-only detector reaches `0.8158` best balanced accuracy on the deduplicated paired eval set, and three deduplicated diff-only seeds remain stable in the `0.8158-0.8382` range with mean `0.8287`. Metadata-only, candidate-only, and counterpart-only controls stay near chance, and the new `diff_no_metadata` control reaches `0.8244`, so the paired diff gain is not explained by simple metadata leakage or one-sided snippet artifacts.
 
 The practical conclusion is therefore narrower and stronger: same-source detection is useful for diagnosing dataset shortcuts, while paired diff evaluation is the current robust PrimeVul mainline.
 
