@@ -18,6 +18,7 @@ configs/tmp_baseline_*.json
 data/raw/
 data/processed/*.jsonl
 data/processed/*.json
+data/processed/primevul_diff_bucket_slices/
 !data/processed/eval_secure_code_sample.jsonl
 !data/processed/secure_code_primevul_eval_balanced_244.jsonl
 !data/processed/secure_code_primevul_holdout_eval_balanced_1000.jsonl

@@ -1,0 +1,169 @@
+{
+  "train_input": "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+  "eval_input": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+  "focused_train_output": "data/processed/secure_code_primevul_pair_diff_edge_focus_train_balanced_3000_metadata.jsonl",
+  "train_summary": {
+    "00-02": {
+      "total": 750,
+      "vulnerable": 368,
+      "safe": 382
+    },
+    "03-05": {
+      "total": 771,
+      "vulnerable": 380,
+      "safe": 391
+    },
+    "06-10": {
+      "total": 657,
+      "vulnerable": 340,
+      "safe": 317
+    },
+    "11-25": {
+      "total": 533,
+      "vulnerable": 269,
+      "safe": 264
+    },
+    "26+": {
+      "total": 289,
+      "vulnerable": 143,
+      "safe": 146
+    }
+  },
+  "eval_summary": {
+    "00-02": {
+      "total": 489,
+      "vulnerable": 246,
+      "safe": 243
+    },
+    "03-05": {
+      "total": 483,
+      "vulnerable": 242,
+      "safe": 241
+    },
+    "06-10": {
+      "total": 386,
+      "vulnerable": 190,
+      "safe": 196
+    },
+    "11-25": {
+      "total": 275,
+      "vulnerable": 139,
+      "safe": 136
+    },
+    "26+": {
+      "total": 159,
+      "vulnerable": 78,
+      "safe": 81
+    }
+  },
+  "eval_slice_outputs": {
+    "00-02": {
+      "path": "data\\processed\\primevul_diff_bucket_slices\\eval_00_02.jsonl",
+      "total": 489,
+      "vulnerable": 246,
+      "safe": 243
+    },
+    "03-05": {
+      "path": "data\\processed\\primevul_diff_bucket_slices\\eval_03_05.jsonl",
+      "total": 483,
+      "vulnerable": 242,
+      "safe": 241
+    },
+    "06-10": {
+      "path": "data\\processed\\primevul_diff_bucket_slices\\eval_06_10.jsonl",
+      "total": 386,
+      "vulnerable": 190,
+      "safe": 196
+    },
+    "11-25": {
+      "path": "data\\processed\\primevul_diff_bucket_slices\\eval_11_25.jsonl",
+      "total": 275,
+      "vulnerable": 139,
+      "safe": 136
+    },
+    "26+": {
+      "path": "data\\processed\\primevul_diff_bucket_slices\\eval_26plus.jsonl",
+      "total": 159,
+      "vulnerable": 78,
+      "safe": 81
+    }
+  },
+  "focused_train_summary": {
+    "requested_total_count": 3000,
+    "actual_total_count": 3000,
+    "edge_share_requested": 0.6,
+    "seed": 23,
+    "edge_buckets": [
+      "00-02",
+      "26+"
+    ],
+    "edge_sampling": {
+      "per_label_requested": 900,
+      "available_vulnerable": 511,
+      "available_safe": 528,
+      "replacement_used": true
+    },
+    "background_sampling": {
+      "per_label_requested": 600,
+      "available_vulnerable": 989,
+      "available_safe": 972,
+      "replacement_used": false
+    },
+    "edge_selected": {
+      "00-02": {
+        "total": 1286,
+        "vulnerable": 637,
+        "safe": 649
+      },
+      "26+": {
+        "total": 514,
+        "vulnerable": 263,
+        "safe": 251
+      }
+    },
+    "background_selected": {
+      "03-05": {
+        "total": 478,
+        "vulnerable": 229,
+        "safe": 249
+      },
+      "06-10": {
+        "total": 391,
+        "vulnerable": 199,
+        "safe": 192
+      },
+      "11-25": {
+        "total": 331,
+        "vulnerable": 172,
+        "safe": 159
+      }
+    },
+    "selected": {
+      "00-02": {
+        "total": 1286,
+        "vulnerable": 637,
+        "safe": 649
+      },
+      "03-05": {
+        "total": 478,
+        "vulnerable": 229,
+        "safe": 249
+      },
+      "06-10": {
+        "total": 391,
+        "vulnerable": 199,
+        "safe": 192
+      },
+      "11-25": {
+        "total": 331,
+        "vulnerable": 172,
+        "safe": 159
+      },
+      "26+": {
+        "total": 514,
+        "vulnerable": 263,
+        "safe": 251
+      }
+    }
+  }
+}
