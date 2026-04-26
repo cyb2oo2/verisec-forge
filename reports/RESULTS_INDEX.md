@@ -38,6 +38,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Generated Main Results`: `reports/PRIMEVUL_MAIN_RESULTS.md`
 - `Generated Main Results JSON`: `reports/PRIMEVUL_MAIN_RESULTS.json`
 - `Generated Main Results Chart`: `reports/assets/primevul_main_results.svg`
+- `Paired Diff Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_FAILURE_ANALYSIS.md`
+- `Paired Diff Failure Analysis JSON`: `reports/secure_code_primevul_pair_diff_only_failure_analysis.json`
 - `Paired Eval Shortcut Report`: `reports/secure_code_primevul_paired_eval_balanced_1800_shortcut_diagnostics.json`
 - `Paired Eval Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_report.json`
 - `Paired Eval Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json`
