@@ -10,6 +10,9 @@ This report is generated from the diff-only paired eval predictions by `scripts/
 - Specificity: `0.8294`
 - Precision: `0.8243`
 - Errors: `153` false positives and `177` false negatives out of `1792` examples
+- Pair groups: `877` unique groups
+- Group all-correct rate: `0.6978`
+- Orientation accuracy: `0.8424`
 
 ## By CWE
 

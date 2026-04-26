@@ -43,6 +43,17 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def unique_summary(rows: list[dict[str, Any]]) -> dict[str, int]:
+    ids = [str(row.get("id") or "") for row in rows]
+    pair_keys = [str(row.get("pair_key") or row.get("id") or "") for row in rows]
+    return {
+        "rows": len(rows),
+        "unique_ids": len(set(ids)),
+        "duplicate_rows_from_resampling": len(rows) - len(set(ids)),
+        "unique_pair_keys": len(set(pair_keys)),
+    }
+
+
 def build_bucket_eval_slices(
     rows: list[dict[str, Any]],
     *,
@@ -133,6 +144,9 @@ def build_edge_focused_train(
         "edge_buckets": sorted(EDGE_BUCKETS),
         "edge_sampling": edge_sampling,
         "background_sampling": background_sampling,
+        "edge_unique_summary": unique_summary(edge_selected),
+        "background_unique_summary": unique_summary(background_selected),
+        "selected_unique_summary": unique_summary(selected),
         "edge_selected": summarize(edge_selected),
         "background_selected": summarize(background_selected),
         "selected": summarize(selected),

@@ -21,6 +21,7 @@ def test_build_failure_analysis_uses_requested_threshold() -> None:
             "has_vulnerability": False,
             "project": "proj-a",
             "vulnerability_type": "cwe-79",
+            "pair_key": "pair-1",
             "pair_text": "Unified diff:\n--- a\n+++ b\n@@ -1 +1 @@\n-old\n+new",
         },
         {
@@ -28,6 +29,7 @@ def test_build_failure_analysis_uses_requested_threshold() -> None:
             "has_vulnerability": True,
             "project": "proj-b",
             "vulnerability_type": "cwe-787",
+            "pair_key": "pair-1",
             "pair_text": "Unified diff:\n--- a\n+++ b\n@@ -1 +1,2 @@\n-old\n+new\n+extra",
         },
     ]
@@ -41,6 +43,9 @@ def test_build_failure_analysis_uses_requested_threshold() -> None:
     assert payload["summary"]["tn"] == 1
     assert payload["summary"]["fn"] == 1
     assert payload["summary"]["accuracy"] == 0.5
+    assert payload["group_metrics"]["unique_pair_count"] == 1
+    assert payload["group_metrics"]["group_all_correct_rate"] == 0.0
+    assert payload["group_metrics"]["orientation_accuracy"] == 1.0
     assert payload["top_false_negatives"][0]["id"] == "vuln"
 
 
@@ -69,6 +74,11 @@ def test_render_markdown_includes_failure_sections() -> None:
             "num_examples": 10,
         },
         "by_cwe": [],
+        "group_metrics": {
+            "unique_pair_count": 1,
+            "group_all_correct_rate": 0.5,
+            "orientation_accuracy": 1.0,
+        },
         "by_project": [],
         "by_changed_line_bucket": [],
         "by_confidence_bucket": [],
@@ -79,5 +89,6 @@ def test_render_markdown_includes_failure_sections() -> None:
     markdown = module.render_markdown(payload)
 
     assert "PrimeVul Paired Diff Failure Analysis" in markdown
+    assert "Group all-correct rate" in markdown
     assert "Highest-Confidence False Positives" in markdown
     assert "Lowest-Probability False Negatives" in markdown

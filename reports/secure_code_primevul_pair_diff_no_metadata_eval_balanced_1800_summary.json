@@ -1,0 +1,16 @@
+{
+  "output": "data\\processed\\secure_code_primevul_pair_diff_no_metadata_eval_balanced_1800_metadata.jsonl",
+  "split": "eval",
+  "input_rows": 1830,
+  "group_count": 882,
+  "usable_pair_group_count": 878,
+  "candidate_pair_context_rows": 1826,
+  "selected": {
+    "vulnerable": 900,
+    "safe": 900,
+    "total": 1800
+  },
+  "per_label_count_requested": 900,
+  "seed": 17,
+  "text_mode": "diff_no_metadata"
+}

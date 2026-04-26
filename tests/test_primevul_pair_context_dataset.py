@@ -66,6 +66,7 @@ def test_pair_context_text_modes_isolate_inputs() -> None:
     counterpart_only = module.build_pair_text(candidate, counterpart, text_mode="counterpart_only")
     metadata_only = module.build_pair_text(candidate, counterpart, text_mode="metadata_only")
     diff_only = module.build_pair_text(candidate, counterpart, text_mode="diff_only")
+    diff_no_metadata = module.build_pair_text(candidate, counterpart, text_mode="diff_no_metadata")
     candidate_plus_diff = module.build_pair_text(candidate, counterpart, text_mode="candidate_plus_diff")
 
     assert "TLS1_get_version" in candidate_only
@@ -78,5 +79,10 @@ def test_pair_context_text_modes_isolate_inputs() -> None:
     assert "--- paired_counterpart" in diff_only
     assert "+++ candidate" in diff_only
     assert "Candidate function:" not in diff_only
+    assert "--- paired_counterpart" in diff_no_metadata
+    assert "+++ candidate" in diff_no_metadata
+    assert "Project:" not in diff_no_metadata
+    assert "CVE-1" not in diff_no_metadata
+    assert "cwe-310" not in diff_no_metadata
     assert "Candidate function:" in candidate_plus_diff
     assert "Unified diff" in candidate_plus_diff

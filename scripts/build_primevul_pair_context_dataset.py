@@ -69,6 +69,13 @@ def build_pair_text(candidate: dict[str, Any], counterpart: dict[str, Any], *, t
             "Unified diff:\n"
             f"{pair_diff}\n"
         )
+    if text_mode == "diff_no_metadata":
+        return (
+            "Task: decide whether the candidate side of this diff is the vulnerable version.\n"
+            "The diff is from paired_counterpart to candidate.\n\n"
+            "Unified diff:\n"
+            f"{pair_diff}\n"
+        )
     if text_mode == "candidate_plus_diff":
         return (
             "Task: decide whether the candidate function is the vulnerable version in this paired example.\n\n"
@@ -171,6 +178,7 @@ def main() -> None:
             "counterpart_only",
             "metadata_only",
             "diff_only",
+            "diff_no_metadata",
             "candidate_plus_diff",
         ],
         default="pair_context",

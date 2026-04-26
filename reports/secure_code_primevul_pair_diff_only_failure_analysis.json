@@ -14,6 +14,15 @@
     "fp": 153,
     "fn": 177
   },
+  "group_metrics": {
+    "unique_pair_count": 877,
+    "mixed_label_pair_count": 850,
+    "group_all_correct": 612,
+    "group_all_correct_rate": 0.6978,
+    "orientation_eligible_pair_count": 850,
+    "orientation_correct": 716,
+    "orientation_accuracy": 0.8424
+  },
   "by_cwe": [
     {
       "vulnerability_type": "cwe-787",

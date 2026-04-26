@@ -49,6 +49,7 @@ def test_build_edge_focused_train_balances_labels() -> None:
     assert summary["edge_selected"]["00-02"]["vulnerable"] == 6
     assert summary["edge_selected"]["26+"]["safe"] == 6
     assert summary["edge_sampling"]["replacement_used"] is False
+    assert summary["selected_unique_summary"]["duplicate_rows_from_resampling"] == 0
 
 
 def test_build_edge_focused_train_oversamples_when_edge_is_sparse() -> None:
@@ -67,6 +68,7 @@ def test_build_edge_focused_train_oversamples_when_edge_is_sparse() -> None:
     assert sum(1 for row in selected if row["has_vulnerability"]) == 10
     assert sum(1 for row in selected if not row["has_vulnerability"]) == 10
     assert summary["edge_sampling"]["replacement_used"] is True
+    assert summary["selected_unique_summary"]["duplicate_rows_from_resampling"] > 0
 
 
 def test_summarize_counts_bucket_labels() -> None:

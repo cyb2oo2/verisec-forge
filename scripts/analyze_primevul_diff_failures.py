@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -84,6 +83,40 @@ def _rate(numerator: int, denominator: int) -> float:
     if denominator == 0:
         return 0.0
     return round(numerator / denominator, 4)
+
+
+def _group_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[_safe_text(row.get("pair_key")) or row["id"]].append(row)
+
+    all_correct = 0
+    orientation_correct = 0
+    orientation_eligible = 0
+    mixed_label_groups = 0
+    for group_rows in grouped.values():
+        if all(row["gold"] == row["pred"] for row in group_rows):
+            all_correct += 1
+        positives = [row for row in group_rows if row["gold"] == 1]
+        negatives = [row for row in group_rows if row["gold"] == 0]
+        if positives and negatives:
+            mixed_label_groups += 1
+            pos_prob = sum(float(row["vuln_probability"]) for row in positives) / len(positives)
+            neg_prob = sum(float(row["vuln_probability"]) for row in negatives) / len(negatives)
+            orientation_eligible += 1
+            if pos_prob > neg_prob:
+                orientation_correct += 1
+
+    group_count = len(grouped)
+    return {
+        "unique_pair_count": group_count,
+        "mixed_label_pair_count": mixed_label_groups,
+        "group_all_correct": all_correct,
+        "group_all_correct_rate": _rate(all_correct, group_count),
+        "orientation_eligible_pair_count": orientation_eligible,
+        "orientation_correct": orientation_correct,
+        "orientation_accuracy": _rate(orientation_correct, orientation_eligible),
+    }
 
 
 def _summarize_group(rows: list[dict[str, Any]], key: str, *, limit: int = 12) -> list[dict[str, Any]]:
@@ -187,8 +220,11 @@ def build_failure_analysis(
         "fn": int(counts["fn"]),
     }
 
+    group_metrics = _group_metrics(joined)
+
     return {
         "summary": metrics,
+        "group_metrics": group_metrics,
         "by_cwe": _summarize_group(joined, "vulnerability_type"),
         "by_project": _summarize_group(joined, "project"),
         "by_changed_line_bucket": _summarize_group(joined, "changed_line_bucket"),
@@ -240,6 +276,9 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Specificity: `{summary['specificity']:.4f}`",
         f"- Precision: `{summary['precision']:.4f}`",
         f"- Errors: `{summary['fp']}` false positives and `{summary['fn']}` false negatives out of `{summary['num_examples']}` examples",
+        f"- Pair groups: `{payload['group_metrics']['unique_pair_count']}` unique groups",
+        f"- Group all-correct rate: `{payload['group_metrics']['group_all_correct_rate']:.4f}`",
+        f"- Orientation accuracy: `{payload['group_metrics']['orientation_accuracy']:.4f}`",
         "",
         "## By CWE",
         "",

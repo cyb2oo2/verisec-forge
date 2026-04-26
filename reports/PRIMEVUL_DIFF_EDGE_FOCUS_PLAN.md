@@ -32,6 +32,8 @@ The focused train set has `3000` examples. It keeps label balance and targets `6
 - edge buckets: `00-02`, `26+`
 - background buckets: `03-05`, `06-10`, `11-25`
 - edge oversampling uses replacement because the original train set has only `511` vulnerable and `528` safe edge examples.
+- the resulting focused set has `3000` rows, `2239` unique ids, and `761` duplicate rows introduced by replacement oversampling.
+- it covers `1809` unique pair keys.
 
 ## Run Configs
 
@@ -52,3 +54,14 @@ Treat the experiment as a win only if it improves the target buckets without bre
 ## Next Step
 
 Run the edge-focus training config, then evaluate the full deduplicated eval plus the two edge buckets. If this helps, the follow-up is a smaller sweep over `edge_share` values such as `0.4`, `0.6`, and `0.8`.
+
+## Separate Metadata Ablation
+
+A second reviewer-facing control is now prepared: `diff_no_metadata`. This removes `Project`, `CVE`, and `CWE` lines from the prompt and leaves only the task instruction plus unified diff.
+
+- train: `configs/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1.json`
+- eval: `configs/cls_eval_secure_code_primevul_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800.json`
+- train summary: `reports/secure_code_primevul_pair_diff_no_metadata_train_balanced_3000_summary.json`
+- eval summary: `reports/secure_code_primevul_pair_diff_no_metadata_eval_balanced_1800_summary.json`
+
+This is the most important next control. If `diff_no_metadata` remains near the `0.80+` range, the paired diff result is much harder to dismiss as metadata leakage.

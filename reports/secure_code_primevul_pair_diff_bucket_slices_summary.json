@@ -109,6 +109,24 @@
       "available_safe": 972,
       "replacement_used": false
     },
+    "edge_unique_summary": {
+      "rows": 1800,
+      "unique_ids": 1039,
+      "duplicate_rows_from_resampling": 761,
+      "unique_pair_keys": 803
+    },
+    "background_unique_summary": {
+      "rows": 1200,
+      "unique_ids": 1200,
+      "duplicate_rows_from_resampling": 0,
+      "unique_pair_keys": 1026
+    },
+    "selected_unique_summary": {
+      "rows": 3000,
+      "unique_ids": 2239,
+      "duplicate_rows_from_resampling": 761,
+      "unique_pair_keys": 1809
+    },
     "edge_selected": {
       "00-02": {
         "total": 1286,
