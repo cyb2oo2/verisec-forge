@@ -1,0 +1,109 @@
+{
+  "train_path": "data\\processed\\secure_code_primevul_paired_metadata.jsonl",
+  "eval_path": "data\\processed\\secure_code_primevul_paired_eval_balanced_1800_metadata.jsonl",
+  "train_distribution": {
+    "vulnerable": {
+      "count": 4704,
+      "median_code_chars": 2088.5,
+      "p90_code_chars": 11372
+    },
+    "safe": {
+      "count": 4704,
+      "median_code_chars": 2252.0,
+      "p90_code_chars": 11586
+    }
+  },
+  "eval_distribution": {
+    "vulnerable": {
+      "count": 900,
+      "median_code_chars": 2209.0,
+      "p90_code_chars": 10242
+    },
+    "safe": {
+      "count": 900,
+      "median_code_chars": 2309.0,
+      "p90_code_chars": 10462
+    }
+  },
+  "length_threshold_baseline": {
+    "fit_on_train": {
+      "threshold": 1184,
+      "direction": "lt",
+      "accuracy": 0.5139,
+      "recall": 0.3238,
+      "specificity": 0.7041,
+      "precision": 0.5225,
+      "f1": 0.3998,
+      "tp": 1523,
+      "tn": 3312,
+      "fp": 1392,
+      "fn": 3181
+    },
+    "eval": {
+      "accuracy": 0.52,
+      "recall": 0.3211,
+      "specificity": 0.7189,
+      "precision": 0.5332,
+      "f1": 0.4008,
+      "tp": 289,
+      "tn": 647,
+      "fp": 253,
+      "fn": 611
+    }
+  },
+  "field_majority_baselines": [
+    {
+      "field": "project",
+      "known_value_coverage": 1.0,
+      "accuracy": 0.5,
+      "recall": 0.8589,
+      "specificity": 0.1411,
+      "precision": 0.5,
+      "f1": 0.6321,
+      "tp": 773,
+      "tn": 127,
+      "fp": 773,
+      "fn": 127
+    },
+    {
+      "field": "vulnerability_type",
+      "known_value_coverage": 1.0,
+      "accuracy": 0.4989,
+      "recall": 0.7244,
+      "specificity": 0.2733,
+      "precision": 0.4992,
+      "f1": 0.5911,
+      "tp": 652,
+      "tn": 246,
+      "fp": 654,
+      "fn": 248
+    },
+    {
+      "field": "cve",
+      "known_value_coverage": 1.0,
+      "accuracy": 0.5011,
+      "recall": 1.0,
+      "specificity": 0.0022,
+      "precision": 0.5006,
+      "f1": 0.6672,
+      "tp": 900,
+      "tn": 2,
+      "fp": 898,
+      "fn": 0
+    },
+    {
+      "field": "file_name",
+      "known_value_coverage": 1.0,
+      "accuracy": 0.5122,
+      "recall": 0.8022,
+      "specificity": 0.2222,
+      "precision": 0.5077,
+      "f1": 0.6219,
+      "tp": 722,
+      "tn": 200,
+      "fp": 700,
+      "fn": 178
+    }
+  ],
+  "detector": null
+}

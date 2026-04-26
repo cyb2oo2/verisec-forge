@@ -1,0 +1,14 @@
+{
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "local_files_only": true,
+  "checkpoint_dir": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_presence_3000_v1",
+  "output_dir": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_presence_3000_v1",
+  "eval_dataset_path": "data/processed/secure_code_primevul_paired_eval_balanced_1800_metadata.jsonl",
+  "report_path": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_report.json",
+  "predictions_path": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_predictions.jsonl",
+  "text_field": "code",
+  "training_args": {
+    "max_seq_length": 1024,
+    "per_device_eval_batch_size": 1
+  }
+}

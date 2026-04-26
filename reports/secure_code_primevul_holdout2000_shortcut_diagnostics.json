@@ -1,0 +1,119 @@
+{
+  "train_path": "data\\processed\\secure_code_primevul_train_balanced_presence_3000_metadata.jsonl",
+  "eval_path": "data\\processed\\secure_code_primevul_holdout_eval_balanced_2000_metadata.jsonl",
+  "train_distribution": {
+    "vulnerable": {
+      "count": 1500,
+      "median_code_chars": 1844.0,
+      "p90_code_chars": 11179
+    },
+    "safe": {
+      "count": 1500,
+      "median_code_chars": 325.0,
+      "p90_code_chars": 1722
+    }
+  },
+  "eval_distribution": {
+    "vulnerable": {
+      "count": 893,
+      "median_code_chars": 1677,
+      "p90_code_chars": 9346
+    },
+    "safe": {
+      "count": 893,
+      "median_code_chars": 504,
+      "p90_code_chars": 2449
+    }
+  },
+  "length_threshold_baseline": {
+    "fit_on_train": {
+      "threshold": 586,
+      "direction": "ge",
+      "accuracy": 0.771,
+      "recall": 0.852,
+      "specificity": 0.69,
+      "precision": 0.7332,
+      "f1": 0.7882,
+      "tp": 1278,
+      "tn": 1035,
+      "fp": 465,
+      "fn": 222
+    },
+    "eval": {
+      "accuracy": 0.6859,
+      "recall": 0.832,
+      "specificity": 0.5398,
+      "precision": 0.6438,
+      "f1": 0.7259,
+      "tp": 743,
+      "tn": 482,
+      "fp": 411,
+      "fn": 150
+    }
+  },
+  "field_majority_baselines": [
+    {
+      "field": "project",
+      "known_value_coverage": 0.9625,
+      "accuracy": 0.8096,
+      "recall": 0.9765,
+      "specificity": 0.6428,
+      "precision": 0.7322,
+      "f1": 0.8369,
+      "tp": 872,
+      "tn": 574,
+      "fp": 319,
+      "fn": 21
+    },
+    {
+      "field": "vulnerability_type",
+      "known_value_coverage": 0.9922,
+      "accuracy": 0.5274,
+      "recall": 0.7906,
+      "specificity": 0.2643,
+      "precision": 0.518,
+      "f1": 0.6259,
+      "tp": 706,
+      "tn": 236,
+      "fp": 657,
+      "fn": 187
+    },
+    {
+      "field": "cve",
+      "known_value_coverage": 0.3628,
+      "accuracy": 0.5728,
+      "recall": 0.9888,
+      "specificity": 0.1568,
+      "precision": 0.5397,
+      "f1": 0.6983,
+      "tp": 883,
+      "tn": 140,
+      "fp": 753,
+      "fn": 10
+    },
+    {
+      "field": "file_name",
+      "known_value_coverage": 0.6607,
+      "accuracy": 0.5918,
+      "recall": 0.9899,
+      "specificity": 0.1937,
+      "precision": 0.5511,
+      "f1": 0.708,
+      "tp": 884,
+      "tn": 173,
+      "fp": 720,
+      "fn": 9
+    }
+  ],
+  "detector": {
+    "accuracy": 0.9524,
+    "recall": 0.9709,
+    "specificity": 0.9339,
+    "precision": 0.9363,
+    "f1": 0.9533,
+    "tp": 867,
+    "tn": 834,
+    "fp": 59,
+    "fn": 26
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "summary": {
+    "headline": "PrimeVul paired diff reasoning is the strongest current formulation.",
+    "diff_seed_balanced_accuracy_mean": 0.8287,
+    "diff_seed_balanced_accuracy_min": 0.8158,
+    "diff_seed_balanced_accuracy_max": 0.8382,
+    "diff_seed_balanced_accuracy_range": 0.0224,
+    "negative_control_best_balanced_accuracy_max": 0.5156
+  },
+  "rows": [
+    {
+      "system": "same-source detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_holdout2000_report.json",
+      "threshold": 0.5,
+      "accuracy": 0.9524,
+      "recall": 0.9709,
+      "specificity": 0.9339,
+      "precision": 0.9363,
+      "f1": 0.9533,
+      "balanced_accuracy": 0.9524,
+      "note": "artifact-sensitive same-source holdout"
+    },
+    {
+      "system": "same-source detector on paired eval",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json",
+      "threshold": 0.9999,
+      "accuracy": 0.4961,
+      "recall": 0.1922,
+      "specificity": 0.8,
+      "precision": 0.4901,
+      "f1": 0.2761,
+      "balanced_accuracy": 0.4961,
+      "note": "fails paired specificity"
+    },
+    {
+      "system": "paired-trained snippet detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_paired_presence_3000_v1_paired1800_threshold_sweep.json",
+      "threshold": 0.6,
+      "accuracy": 0.5072,
+      "recall": 0.3989,
+      "specificity": 0.6156,
+      "precision": 0.5092,
+      "f1": 0.4474,
+      "balanced_accuracy": 0.5072,
+      "note": "near chance on paired snippets"
+    },
+    {
+      "system": "metadata-only control",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_metadata_only_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.5022,
+      "recall": 0.6644,
+      "specificity": 0.34,
+      "precision": 0.5017,
+      "f1": 0.5717,
+      "balanced_accuracy": 0.5022,
+      "note": "negative control"
+    },
+    {
+      "system": "candidate-only control",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_only_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.2,
+      "accuracy": 0.5078,
+      "recall": 0.8989,
+      "specificity": 0.1167,
+      "precision": 0.5044,
+      "f1": 0.6462,
+      "balanced_accuracy": 0.5078,
+      "note": "negative control"
+    },
+    {
+      "system": "counterpart-only control",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_counterpart_only_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.7,
+      "accuracy": 0.5156,
+      "recall": 0.2011,
+      "specificity": 0.83,
+      "precision": 0.5419,
+      "f1": 0.2934,
+      "balanced_accuracy": 0.5156,
+      "note": "negative control"
+    },
+    {
+      "system": "pair-context detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_context_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.4,
+      "accuracy": 0.6061,
+      "recall": 0.6589,
+      "specificity": 0.5533,
+      "precision": 0.596,
+      "f1": 0.6259,
+      "balanced_accuracy": 0.6061,
+      "note": "explicit comparison helps"
+    },
+    {
+      "system": "candidate+diff detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_plus_diff_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.6728,
+      "recall": 0.7178,
+      "specificity": 0.6278,
+      "precision": 0.6585,
+      "f1": 0.6869,
+      "balanced_accuracy": 0.6728,
+      "note": "extra context dilutes patch signal"
+    },
+    {
+      "system": "diff-only detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_threshold_sweep.json",
+      "threshold": 0.6,
+      "accuracy": 0.8156,
+      "recall": 0.8022,
+      "specificity": 0.8289,
+      "precision": 0.8242,
+      "f1": 0.8131,
+      "balanced_accuracy": 0.8156,
+      "note": "best original paired formulation"
+    },
+    {
+      "system": "diff-only detector, dedup eval",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_dedup_threshold_sweep.json",
+      "threshold": 0.6,
+      "accuracy": 0.8158,
+      "recall": 0.8022,
+      "specificity": 0.8294,
+      "precision": 0.8243,
+      "f1": 0.8131,
+      "balanced_accuracy": 0.8158,
+      "note": "removes 8 exact/near-duplicate eval rows"
+    },
+    {
+      "system": "diff-only detector, seed7 dedup",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.8382,
+      "recall": 0.8291,
+      "specificity": 0.8473,
+      "precision": 0.8441,
+      "f1": 0.8365,
+      "balanced_accuracy": 0.8382,
+      "note": "multi-seed stability"
+    },
+    {
+      "system": "diff-only detector, seed99 dedup",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed99_v1_eval1792_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.832,
+      "recall": 0.8503,
+      "specificity": 0.8138,
+      "precision": 0.82,
+      "f1": 0.8349,
+      "balanced_accuracy": 0.8321,
+      "note": "multi-seed stability"
+    }
+  ]
+}

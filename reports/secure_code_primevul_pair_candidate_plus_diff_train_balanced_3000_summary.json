@@ -1,0 +1,16 @@
+{
+  "output": "data\\processed\\secure_code_primevul_pair_candidate_plus_diff_train_balanced_3000_metadata.jsonl",
+  "split": "train",
+  "input_rows": 7578,
+  "group_count": 3557,
+  "usable_pair_group_count": 3539,
+  "candidate_pair_context_rows": 7560,
+  "selected": {
+    "vulnerable": 1500,
+    "safe": 1500,
+    "total": 3000
+  },
+  "per_label_count_requested": 1500,
+  "seed": 13,
+  "text_mode": "candidate_plus_diff"
+}

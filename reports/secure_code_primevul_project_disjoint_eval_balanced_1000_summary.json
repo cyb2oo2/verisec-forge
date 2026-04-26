@@ -1,0 +1,36 @@
+{
+  "output": "data\\processed\\secure_code_primevul_project_disjoint_eval_balanced_1000_metadata.jsonl",
+  "mode": "project_disjoint",
+  "candidate_split": "eval",
+  "seed": 13,
+  "per_label_count_requested": 500,
+  "train_reference": {
+    "vulnerable": 1500,
+    "safe": 1500,
+    "total": 3000
+  },
+  "input_candidates": {
+    "vulnerable": 122,
+    "safe": 878,
+    "total": 1000
+  },
+  "project_known_candidates": {
+    "vulnerable": 122,
+    "safe": 878,
+    "total": 1000
+  },
+  "project_disjoint_candidates": {
+    "vulnerable": 97,
+    "safe": 0,
+    "total": 97
+  },
+  "selected": {
+    "vulnerable": 0,
+    "safe": 0,
+    "total": 0
+  },
+  "train_project_count": 191,
+  "selected_project_count": 0,
+  "project_overlap_with_train": 0,
+  "top_selected_projects": {}
+}

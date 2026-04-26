@@ -1,0 +1,251 @@
+{
+  "train_rows": 3000,
+  "eval_rows": 1800,
+  "train_pair_key_summary": {
+    "unique_pair_keys": 2269,
+    "duplicate_pair_key_count": 649,
+    "duplicate_pair_key_examples": {
+      "linux|05692d7005a364add85c6e25a6c4447ce08f913a|CVE-2016-9083": 2,
+      "tcpdump|db24063b01cba8e9d4d88b7d8ac70c9000c104e4|CVE-2017-12989": 2,
+      "jasper|aa0b0f79ade5eef8b0e7a214c03f5af54b36ba7d|CVE-2016-9583": 2,
+      "abrt|50ee8130fb4cd4ef1af7682a2c85dd99cb99424e|CVE-2015-5273": 2,
+      "wangle|5b3bceca875e4ea4ed9d14c20b20ce46c92c13c6|CVE-2019-3563": 2,
+      "Android|b499389da21d89d32deff500376c5ee4f8f0b04c|CVE-2016-2429": 2,
+      "php-src|8d6e9588671136837533fe3785657c31c5b52767|CVE-2018-5711": 2,
+      "mongo-c-driver|0d9a4d98bfdf4acd2c0138d4aaeb4e2e0934bd84|CVE-2018-16790": 2,
+      "linux|096fe9eaea40a17e125569f9e657e34cdb6d73bd|CVE-2015-8539": 2,
+      "linux-2.6|9ef1d4c7c7aca1cd436612b6ca785b726ffb8ed8|CVE-2005-4881": 11
+    }
+  },
+  "eval_pair_key_summary": {
+    "unique_pair_keys": 878,
+    "duplicate_pair_key_count": 857,
+    "duplicate_pair_key_examples": {
+      "tensorflow|c2b31ff2d3151acb230edc3f5b1832d2c713a9e0|CVE-2022-23565": 2,
+      "linux|a58d9166a756a0f4a6618e4f593232593d6df134|CVE-2021-29657": 2,
+      "xbmc|80c8138c09598e88b4ddb6dbb279fa193bbb3237|CVE-2021-42917": 2,
+      "httpd|7e09dd714fc62c08c5b0319ed7b9702594faf49b|CVE-2021-26691": 2,
+      "tensorflow|537bc7c723439b9194a358f64d871dd326c18887|CVE-2021-37682": 2,
+      "gpac|da69ad1f970a7e17c865eaec9af98cc84df10d5b|CVE-2021-29279": 2,
+      "rsyslog|0381a0de64a5a048c3d48b79055bd9848d0c7fc2|CVE-2018-16881": 2,
+      "libvncserver|7b1ef0ffc4815cab9a96c7278394152bdc89dc4d|CVE-2018-20020": 2,
+      "gnulib|2d1bd71ec70a31b01d01b734faa66bb1ed28961f|CVE-2017-15670": 2,
+      "linux|47abea041f897d64dbd5777f0cf7745148f85d75|CVE-2022-3103": 2
+    }
+  },
+  "field_overlaps": [
+    {
+      "field": "id",
+      "train_unique": 2999,
+      "eval_unique": 1795,
+      "overlap_count": 0,
+      "overlap_examples": []
+    },
+    {
+      "field": "pair_key",
+      "train_unique": 2269,
+      "eval_unique": 878,
+      "overlap_count": 1,
+      "overlap_examples": [
+        "php-src|28f80baf3c53e267c9ce46a2a0fadbb981585132|CVE-2016-7412"
+      ]
+    },
+    {
+      "field": "pair_counterpart_id",
+      "train_unique": 2998,
+      "eval_unique": 1795,
+      "overlap_count": 0,
+      "overlap_examples": []
+    },
+    {
+      "field": "func_hash",
+      "train_unique": 2999,
+      "eval_unique": 1795,
+      "overlap_count": 0,
+      "overlap_examples": []
+    },
+    {
+      "field": "file_hash",
+      "train_unique": 1899,
+      "eval_unique": 1415,
+      "overlap_count": 21,
+      "overlap_examples": [
+        "103790733078302023163492154550355279185",
+        "103948528607694430587327221155945049934",
+        "122106294667611737847145152360032423441",
+        "122426479794157688895885193734571798156",
+        "151388572550638562891846673305217274829",
+        "157727558891612041764030573186624095506",
+        "16246307575535149063752681880088000458",
+        "163207847579691217468685617129732292067",
+        "163762640026672977997843160219561641403",
+        "168517587328341017594269375399465893964"
+      ]
+    },
+    {
+      "field": "commit_id",
+      "train_unique": 2262,
+      "eval_unique": 878,
+      "overlap_count": 5,
+      "overlap_examples": [
+        "28f80baf3c53e267c9ce46a2a0fadbb981585132",
+        "83a95bd8c8561875b948cadd417c653dbe7ef2e2",
+        "8fcf61523644df42e1905c81bed26838e0b04f91",
+        "a72cd07f2983dc43a6bb35209dc4687852e53c09",
+        "cb07844454d8cc9fb21f53ace75975f91185a120"
+      ]
+    },
+    {
+      "field": "cve",
+      "train_unique": 2141,
+      "eval_unique": 855,
+      "overlap_count": 41,
+      "overlap_examples": [
+        "CVE-2008-1948",
+        "CVE-2012-1573",
+        "CVE-2012-5667",
+        "CVE-2013-0157",
+        "CVE-2013-1643",
+        "CVE-2013-2020",
+        "CVE-2014-4502",
+        "CVE-2014-6272",
+        "CVE-2014-9426",
+        "CVE-2015-1345"
+      ]
+    },
+    {
+      "field": "project",
+      "train_unique": 436,
+      "eval_unique": 265,
+      "overlap_count": 136,
+      "overlap_examples": [
+        "FFmpeg",
+        "FreeRDP",
+        "ImageMagick",
+        "ImageMagick6",
+        "LibRaw",
+        "OpenSC",
+        "Pillow",
+        "asylo",
+        "bdwgc",
+        "bfgminer"
+      ]
+    }
+  ],
+  "exact_pair_text_overlap": {
+    "overlap_count": 2,
+    "overlap_examples": [
+      {
+        "eval_id": "203893::pairctx",
+        "train_ids": [
+          "208054::pairctx"
+        ],
+        "hash": "f760aeabab1f7c1d4c6e96fbc0aafc9a29755adda2794413c4be01a359fbb3d4"
+      },
+      {
+        "eval_id": "273279::pairctx",
+        "train_ids": [
+          "326994::pairctx"
+        ],
+        "hash": "5d8a97fd3c66ff01857bc9563c45767f09bcd5ce0ce016b120f054ec93fdfb77"
+      }
+    ],
+    "risky_eval_ids": [
+      "203893::pairctx",
+      "273279::pairctx"
+    ]
+  },
+  "exact_normalized_diff_overlap": {
+    "overlap_count": 7,
+    "overlap_examples": [
+      {
+        "eval_id": "215921::pairctx",
+        "train_ids": [
+          "9122::pairctx"
+        ],
+        "hash": "232190599aa2e7a6d40e89e395c5e07bc51d1120a948a74a3b5a1254acd7ff75"
+      },
+      {
+        "eval_id": "447231::pairctx",
+        "train_ids": [
+          "194641::pairctx"
+        ],
+        "hash": "47968cc5912d7fe27839b22b29ce5840372cbf2886b154cad102722d07422ae0"
+      },
+      {
+        "eval_id": "203893::pairctx",
+        "train_ids": [
+          "208054::pairctx"
+        ],
+        "hash": "2ff7dd374fdc1e5d18a43fe5726cc27169555aa6f35b7f0864177041b33594b3"
+      },
+      {
+        "eval_id": "458698::pairctx",
+        "train_ids": [
+          "158256::pairctx"
+        ],
+        "hash": "84295264fcc5f89b6b70957ce7611c1e4e39d77e93f27d998b2e057aa99b314c"
+      },
+      {
+        "eval_id": "273279::pairctx",
+        "train_ids": [
+          "326994::pairctx"
+        ],
+        "hash": "c7ee27cda93f7a18ad3d33743a0206461ea4e0c7ca122586f8d8e6f292e313b3"
+      },
+      {
+        "eval_id": "216027::pairctx",
+        "train_ids": [
+          "132::pairctx"
+        ],
+        "hash": "a89d057af2a54b45a60b4e1a7b12fa9a7adefd22289ddf5b4e99009de3187eb7"
+      },
+      {
+        "eval_id": "211181::pairctx",
+        "train_ids": [
+          "10308::pairctx"
+        ],
+        "hash": "7e3c62f7c3d41c3b782aad668721deb8755ebfb644c714f98fb3686678ee22c6"
+      }
+    ],
+    "risky_eval_ids": [
+      "215921::pairctx",
+      "447231::pairctx",
+      "203893::pairctx",
+      "458698::pairctx",
+      "273279::pairctx",
+      "216027::pairctx",
+      "211181::pairctx"
+    ]
+  },
+  "near_duplicate_diff_scan": {
+    "threshold": 0.95,
+    "match_count_at_or_above_threshold_limited": 1,
+    "max_similarity_seen_within_shared_pair_keys": 0.9953,
+    "examples": [
+      {
+        "eval_id": "208933::pairctx",
+        "train_id": "1739::pairctx",
+        "pair_key": "php-src|28f80baf3c53e267c9ce46a2a0fadbb981585132|CVE-2016-7412",
+        "similarity": 0.9953
+      }
+    ],
+    "risky_eval_ids": [
+      "208933::pairctx"
+    ],
+    "note": "Near-duplicate scan is restricted to shared pair_key candidates for speed and interpretability."
+  },
+  "risky_eval_ids": [
+    "203893::pairctx",
+    "208933::pairctx",
+    "211181::pairctx",
+    "215921::pairctx",
+    "216027::pairctx",
+    "273279::pairctx",
+    "447231::pairctx",
+    "458698::pairctx"
+  ],
+  "risky_eval_count": 8,
+  "filtered_eval_rows": 1792,
+  "filtered_eval_output": "data\\processed\\secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl"
+}

@@ -35,11 +35,17 @@ def test_evaluate_detector_scorer_applies_second_stage_gate() -> None:
     assert report["fn"] == 1
     assert report["detector_positive_rate"] == 0.5
     assert report["scorer_positive_rate"] == 0.25
+    assert report["scorer_acceptance_rate_on_detector_positive"] == 0.5
+    assert report["scorer_rejection_rate_on_detector_positive"] == 0.5
+    assert report["is_pass_through"] is False
+    assert report["scorer_behavior"] == "filtering"
     assert report["presence_accuracy"] == 0.75
     assert report["vulnerable_recall"] == 0.5
     assert report["safe_specificity"] == 1.0
     assert report["precision"] == 1.0
     assert report["f1"] == 0.6667
+    assert report["detector_only"]["f1"] == 0.5
+    assert report["delta_vs_detector_only"]["f1"] == 0.1667
 
 
 def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
@@ -68,6 +74,37 @@ def test_evaluate_detector_scorer_reports_unsupported_positive_share() -> None:
     assert report["fp"] == 1
     assert report["unsupported_positive_share"] == 0.5
     assert report["precision"] == 0.5
+    assert report["is_pass_through"] is True
+    assert report["scorer_behavior"] == "pass_through"
+    assert report["delta_vs_detector_only"]["f1"] == 0.0
+
+
+def test_evaluate_detector_scorer_flags_weak_filter_behavior() -> None:
+    dataset_rows = {
+        str(index): {"id": str(index), "has_vulnerability": index < 10}
+        for index in range(20)
+    }
+    probability_rows = {
+        str(index): {"id": str(index), "vuln_probability": 0.9}
+        for index in range(20)
+    }
+    scorer_rows = {
+        str(index): {"id": str(index), "supported_probability": 0.9}
+        for index in range(20)
+    }
+    scorer_rows["19"] = {"id": "19", "supported_probability": 0.1}
+
+    report = evaluate_detector_scorer(
+        dataset_rows=dataset_rows,
+        probability_rows=probability_rows,
+        scorer_rows=scorer_rows,
+        detector_threshold=0.5,
+        scorer_threshold=0.5,
+    )
+
+    assert report["scorer_acceptance_rate_on_detector_positive"] == 0.95
+    assert report["is_pass_through"] is False
+    assert report["scorer_behavior"] == "weak_filter"
 
 
 def test_detector_scorer_failure_buckets_separate_detector_and_scorer_misses() -> None:

@@ -20,6 +20,39 @@ def safe_divide(numerator: float, denominator: float) -> float:
     return round(numerator / denominator, 4) if denominator else 0.0
 
 
+def binary_metrics(*, tp: int, tn: int, fp: int, fn: int) -> dict:
+    total = tp + tn + fp + fn
+    vulnerable_total = tp + fn
+    safe_total = tn + fp
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    vulnerable_recall = tp / vulnerable_total if vulnerable_total else 0.0
+    safe_specificity = tn / safe_total if safe_total else 0.0
+    presence_accuracy = (tp + tn) / total if total else 0.0
+    f1 = (2 * precision * vulnerable_recall / (precision + vulnerable_recall)) if (precision + vulnerable_recall) else 0.0
+    return {
+        "presence_accuracy": round(presence_accuracy, 4),
+        "vulnerable_recall": round(vulnerable_recall, 4),
+        "safe_specificity": round(safe_specificity, 4),
+        "precision": round(precision, 4),
+        "f1": round(f1, 4),
+        "tp": tp,
+        "tn": tn,
+        "fp": fp,
+        "fn": fn,
+    }
+
+
+def scorer_behavior(*, detector_positive: int, scorer_positive: int) -> str:
+    if detector_positive == 0:
+        return "no_detector_positives"
+    acceptance_rate = scorer_positive / detector_positive
+    if scorer_positive == detector_positive:
+        return "pass_through"
+    if acceptance_rate >= 0.95:
+        return "weak_filter"
+    return "filtering"
+
+
 def evaluate_detector_scorer(
     *,
     dataset_rows: dict[str, dict],
@@ -29,11 +62,9 @@ def evaluate_detector_scorer(
     scorer_threshold: float = 0.5,
 ) -> dict:
     tp = tn = fp = fn = 0
+    detector_tp = detector_tn = detector_fp = detector_fn = 0
     detector_positive = 0
     scorer_positive = 0
-
-    vulnerable_total = sum(bool(row.get("has_vulnerability")) for row in dataset_rows.values())
-    safe_total = len(dataset_rows) - vulnerable_total
 
     for sample_id, sample in dataset_rows.items():
         detector_prob = float(probability_rows[sample_id]["vuln_probability"])
@@ -47,6 +78,15 @@ def evaluate_detector_scorer(
                 scorer_positive += 1
 
         gold_has = bool(sample.get("has_vulnerability"))
+        if detector_has and gold_has:
+            detector_tp += 1
+        elif detector_has and not gold_has:
+            detector_fp += 1
+        elif (not detector_has) and gold_has:
+            detector_fn += 1
+        else:
+            detector_tn += 1
+
         if pred_has and gold_has:
             tp += 1
         elif pred_has and not gold_has:
@@ -56,28 +96,34 @@ def evaluate_detector_scorer(
         else:
             tn += 1
 
-    precision = tp / (tp + fp) if (tp + fp) else 0.0
-    vulnerable_recall = tp / vulnerable_total if vulnerable_total else 0.0
-    safe_specificity = tn / safe_total if safe_total else 0.0
-    presence_accuracy = (tp + tn) / len(dataset_rows) if dataset_rows else 0.0
-    f1 = (2 * precision * vulnerable_recall / (precision + vulnerable_recall)) if (precision + vulnerable_recall) else 0.0
+    pipeline_metrics = binary_metrics(tp=tp, tn=tn, fp=fp, fn=fn)
+    detector_metrics = binary_metrics(tp=detector_tp, tn=detector_tn, fp=detector_fp, fn=detector_fn)
+    scorer_rejected = detector_positive - scorer_positive
+    pass_through = detector_positive > 0 and scorer_rejected == 0
 
     return {
         "num_examples": len(dataset_rows),
         "detector_threshold": detector_threshold,
         "scorer_threshold": scorer_threshold,
+        "detector_positive_count": detector_positive,
+        "scorer_positive_count": scorer_positive,
+        "scorer_rejected_count": scorer_rejected,
         "detector_positive_rate": safe_divide(detector_positive, len(dataset_rows)),
         "scorer_positive_rate": safe_divide(scorer_positive, len(dataset_rows)),
+        "scorer_acceptance_rate_on_detector_positive": safe_divide(scorer_positive, detector_positive),
+        "scorer_rejection_rate_on_detector_positive": safe_divide(scorer_rejected, detector_positive),
+        "is_pass_through": pass_through,
+        "scorer_behavior": scorer_behavior(detector_positive=detector_positive, scorer_positive=scorer_positive),
         "unsupported_positive_share": safe_divide(fp, scorer_positive),
-        "presence_accuracy": round(presence_accuracy, 4),
-        "vulnerable_recall": round(vulnerable_recall, 4),
-        "safe_specificity": round(safe_specificity, 4),
-        "precision": round(precision, 4),
-        "f1": round(f1, 4),
-        "tp": tp,
-        "tn": tn,
-        "fp": fp,
-        "fn": fn,
+        **pipeline_metrics,
+        "detector_only": detector_metrics,
+        "delta_vs_detector_only": {
+            "presence_accuracy": round(pipeline_metrics["presence_accuracy"] - detector_metrics["presence_accuracy"], 4),
+            "vulnerable_recall": round(pipeline_metrics["vulnerable_recall"] - detector_metrics["vulnerable_recall"], 4),
+            "safe_specificity": round(pipeline_metrics["safe_specificity"] - detector_metrics["safe_specificity"], 4),
+            "precision": round(pipeline_metrics["precision"] - detector_metrics["precision"], 4),
+            "f1": round(pipeline_metrics["f1"] - detector_metrics["f1"], 4),
+        },
     }
 
 

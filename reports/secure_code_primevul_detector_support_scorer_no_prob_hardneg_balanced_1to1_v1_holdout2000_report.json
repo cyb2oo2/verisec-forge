@@ -1,0 +1,42 @@
+{
+  "num_examples": 1786,
+  "detector_threshold": 0.5,
+  "scorer_threshold": 0.5,
+  "detector_positive_count": 926,
+  "scorer_positive_count": 241,
+  "scorer_rejected_count": 685,
+  "detector_positive_rate": 0.5185,
+  "scorer_positive_rate": 0.1349,
+  "scorer_acceptance_rate_on_detector_positive": 0.2603,
+  "scorer_rejection_rate_on_detector_positive": 0.7397,
+  "is_pass_through": false,
+  "scorer_behavior": "filtering",
+  "unsupported_positive_share": 0.1369,
+  "presence_accuracy": 0.598,
+  "vulnerable_recall": 0.2329,
+  "safe_specificity": 0.963,
+  "precision": 0.8631,
+  "f1": 0.3668,
+  "tp": 208,
+  "tn": 860,
+  "fp": 33,
+  "fn": 685,
+  "detector_only": {
+    "presence_accuracy": 0.9524,
+    "vulnerable_recall": 0.9709,
+    "safe_specificity": 0.9339,
+    "precision": 0.9363,
+    "f1": 0.9533,
+    "tp": 867,
+    "tn": 834,
+    "fp": 59,
+    "fn": 26
+  },
+  "delta_vs_detector_only": {
+    "presence_accuracy": -0.3544,
+    "vulnerable_recall": -0.738,
+    "safe_specificity": 0.0291,
+    "precision": -0.0732,
+    "f1": -0.5865
+  }
+}

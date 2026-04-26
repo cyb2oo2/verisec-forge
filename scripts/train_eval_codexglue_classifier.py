@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 from vrf.io_utils import write_json
 from vrf.schemas import ExperimentRecord
 from vrf.tracking import log_experiment
@@ -28,6 +30,7 @@ def compute_binary_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     vulnerable_recall = tp / (tp + fn) if (tp + fn) else 0.0
     safe_specificity = tn / (tn + fp) if (tn + fp) else 0.0
     precision = tp / (tp + fp) if (tp + fp) else 0.0
+    f1 = (2 * precision * vulnerable_recall / (precision + vulnerable_recall)) if (precision + vulnerable_recall) else 0.0
     return {
         "num_examples": total,
         "presence_accuracy": round(accuracy, 4),
@@ -35,6 +38,7 @@ def compute_binary_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "vulnerable_recall": round(vulnerable_recall, 4),
         "safe_specificity": round(safe_specificity, 4),
         "precision": round(precision, 4),
+        "f1": round(f1, 4),
         "tp": tp,
         "tn": tn,
         "fp": fp,
@@ -54,6 +58,8 @@ def main() -> None:
     datasets = stack["datasets"]
     torch = stack["torch"]
     transformers = stack["transformers"]
+    seed = int(config["training_args"].get("seed", config.get("seed", 42)))
+    transformers.set_seed(seed)
 
     try:
         from peft import LoraConfig, TaskType, get_peft_model
@@ -136,6 +142,8 @@ def main() -> None:
         gradient_accumulation_steps=config["training_args"]["gradient_accumulation_steps"],
         logging_steps=config["training_args"]["logging_steps"],
         save_steps=config["training_args"]["save_steps"],
+        seed=seed,
+        data_seed=seed,
         report_to=[],
         remove_unused_columns=False,
         **precision_overrides,
@@ -156,6 +164,8 @@ def main() -> None:
     logits = raw_pred.predictions
     labels = raw_pred.label_ids
     preds = logits.argmax(axis=-1)
+    shifted_logits = logits - logits.max(axis=-1, keepdims=True)
+    probabilities = np.exp(shifted_logits) / np.exp(shifted_logits).sum(axis=-1, keepdims=True)
 
     prediction_rows: list[dict[str, Any]] = []
     for idx, pred in enumerate(preds.tolist()):
@@ -165,6 +175,7 @@ def main() -> None:
                 "id": convert_rows(eval_rows)[idx]["id"],
                 "gold": gold,
                 "pred": int(pred),
+                "vuln_probability": float(probabilities[idx][1]),
             }
         )
 

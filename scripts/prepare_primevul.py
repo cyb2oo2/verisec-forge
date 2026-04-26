@@ -126,6 +126,20 @@ def normalize_primevul_record(raw: dict[str, Any], split: str, index: int) -> di
                 }
             )
 
+    metadata_fields = {
+        "project": _first_present(raw, ["project", "repo", "repository"]),
+        "commit_id": _first_present(raw, ["commit_id", "commit", "commit_hash"]),
+        "project_url": _first_present(raw, ["project_url", "repo_url", "repository_url"]),
+        "commit_url": _first_present(raw, ["commit_url"]),
+        "commit_message": _first_present(raw, ["commit_message", "message"]),
+        "func_hash": _first_present(raw, ["func_hash", "function_hash"]),
+        "file_name": _first_present(raw, ["file_name", "file", "path", "file_path"]),
+        "file_hash": _first_present(raw, ["file_hash"]),
+        "cve": _first_present(raw, ["cve", "cve_id"]),
+        "cve_desc": _first_present(raw, ["cve_desc", "cve_description"]),
+        "nvd_url": _first_present(raw, ["nvd_url"]),
+    }
+
     return {
         "id": _normalize_id(raw, split, index),
         "task_type": "weakness_identification",
@@ -148,6 +162,7 @@ def normalize_primevul_record(raw: dict[str, Any], split: str, index: int) -> di
             if has_vulnerability
             else "Preserve safe coding practices and input validation."
         ),
+        **metadata_fields,
     }
 
 
