@@ -121,6 +121,11 @@ def build_rows() -> list[dict[str, Any]]:
             note="removes Project/CVE/CWE prompt metadata",
         ),
         _from_sweep(
+            "diff-only detector, edge-focus",
+            "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
+            note="targets 00-02 and 26+ changed-line buckets",
+        ),
+        _from_sweep(
             "diff-only detector, seed7 dedup",
             "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json",
             note="multi-seed stability",

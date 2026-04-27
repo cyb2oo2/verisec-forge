@@ -1,0 +1,560 @@
+{
+  "summary": {
+    "threshold": 0.5,
+    "num_examples": 1792,
+    "accuracy": 0.8348,
+    "recall": 0.7966,
+    "specificity": 0.8729,
+    "precision": 0.8622,
+    "false_positive_rate": 0.1271,
+    "false_negative_rate": 0.2034,
+    "error_rate": 0.1652,
+    "tp": 713,
+    "tn": 783,
+    "fp": 114,
+    "fn": 182
+  },
+  "group_metrics": {
+    "unique_pair_count": 877,
+    "mixed_label_pair_count": 850,
+    "group_all_correct": 646,
+    "group_all_correct_rate": 0.7366,
+    "orientation_eligible_pair_count": 850,
+    "orientation_correct": 718,
+    "orientation_accuracy": 0.8447
+  },
+  "by_cwe": [
+    {
+      "vulnerability_type": "cwe-787",
+      "total": 296,
+      "errors": 43,
+      "error_rate": 0.1453,
+      "fp": 14,
+      "fn": 29,
+      "tp": 120,
+      "tn": 133
+    },
+    {
+      "vulnerability_type": "cwe-125",
+      "total": 214,
+      "errors": 33,
+      "error_rate": 0.1542,
+      "fp": 11,
+      "fn": 22,
+      "tp": 84,
+      "tn": 97
+    },
+    {
+      "vulnerability_type": "cwe-703",
+      "total": 158,
+      "errors": 23,
+      "error_rate": 0.1456,
+      "fp": 12,
+      "fn": 11,
+      "tp": 68,
+      "tn": 67
+    },
+    {
+      "vulnerability_type": "cwe-416",
+      "total": 105,
+      "errors": 23,
+      "error_rate": 0.219,
+      "fp": 8,
+      "fn": 15,
+      "tp": 39,
+      "tn": 43
+    },
+    {
+      "vulnerability_type": "cwe-476",
+      "total": 164,
+      "errors": 18,
+      "error_rate": 0.1098,
+      "fp": 6,
+      "fn": 12,
+      "tp": 70,
+      "tn": 76
+    },
+    {
+      "vulnerability_type": "cwe-190",
+      "total": 61,
+      "errors": 12,
+      "error_rate": 0.1967,
+      "fp": 3,
+      "fn": 9,
+      "tp": 22,
+      "tn": 27
+    },
+    {
+      "vulnerability_type": "cwe-415",
+      "total": 32,
+      "errors": 11,
+      "error_rate": 0.3438,
+      "fp": 5,
+      "fn": 6,
+      "tp": 10,
+      "tn": 11
+    },
+    {
+      "vulnerability_type": "cwe-119",
+      "total": 52,
+      "errors": 9,
+      "error_rate": 0.1731,
+      "fp": 5,
+      "fn": 4,
+      "tp": 20,
+      "tn": 23
+    },
+    {
+      "vulnerability_type": "cwe-835",
+      "total": 24,
+      "errors": 8,
+      "error_rate": 0.3333,
+      "fp": 2,
+      "fn": 6,
+      "tp": 6,
+      "tn": 10
+    },
+    {
+      "vulnerability_type": "cwe-200",
+      "total": 59,
+      "errors": 7,
+      "error_rate": 0.1186,
+      "fp": 2,
+      "fn": 5,
+      "tp": 24,
+      "tn": 28
+    },
+    {
+      "vulnerability_type": "cwe-120",
+      "total": 38,
+      "errors": 7,
+      "error_rate": 0.1842,
+      "fp": 4,
+      "fn": 3,
+      "tp": 16,
+      "tn": 15
+    },
+    {
+      "vulnerability_type": "cwe-20",
+      "total": 48,
+      "errors": 6,
+      "error_rate": 0.125,
+      "fp": 3,
+      "fn": 3,
+      "tp": 21,
+      "tn": 21
+    }
+  ],
+  "by_project": [
+    {
+      "project": "linux",
+      "total": 256,
+      "errors": 45,
+      "error_rate": 0.1758,
+      "fp": 20,
+      "fn": 25,
+      "tp": 103,
+      "tn": 108
+    },
+    {
+      "project": "tensorflow",
+      "total": 260,
+      "errors": 20,
+      "error_rate": 0.0769,
+      "fp": 7,
+      "fn": 13,
+      "tp": 117,
+      "tn": 123
+    },
+    {
+      "project": "php-src",
+      "total": 48,
+      "errors": 13,
+      "error_rate": 0.2708,
+      "fp": 3,
+      "fn": 10,
+      "tp": 13,
+      "tn": 22
+    },
+    {
+      "project": "gpac",
+      "total": 66,
+      "errors": 10,
+      "error_rate": 0.1515,
+      "fp": 4,
+      "fn": 6,
+      "tp": 28,
+      "tn": 28
+    },
+    {
+      "project": "vim",
+      "total": 82,
+      "errors": 9,
+      "error_rate": 0.1098,
+      "fp": 3,
+      "fn": 6,
+      "tp": 35,
+      "tn": 38
+    },
+    {
+      "project": "mruby",
+      "total": 22,
+      "errors": 9,
+      "error_rate": 0.4091,
+      "fp": 4,
+      "fn": 5,
+      "tp": 6,
+      "tn": 7
+    },
+    {
+      "project": "qemu",
+      "total": 22,
+      "errors": 7,
+      "error_rate": 0.3182,
+      "fp": 2,
+      "fn": 5,
+      "tp": 6,
+      "tn": 9
+    },
+    {
+      "project": "ghostpdl",
+      "total": 18,
+      "errors": 6,
+      "error_rate": 0.3333,
+      "fp": 4,
+      "fn": 2,
+      "tp": 7,
+      "tn": 5
+    },
+    {
+      "project": "FreeRDP",
+      "total": 32,
+      "errors": 5,
+      "error_rate": 0.1562,
+      "fp": 0,
+      "fn": 5,
+      "tp": 11,
+      "tn": 16
+    },
+    {
+      "project": "linux-2.6",
+      "total": 26,
+      "errors": 5,
+      "error_rate": 0.1923,
+      "fp": 4,
+      "fn": 1,
+      "tp": 12,
+      "tn": 9
+    },
+    {
+      "project": "openssl",
+      "total": 18,
+      "errors": 5,
+      "error_rate": 0.2778,
+      "fp": 2,
+      "fn": 3,
+      "tp": 6,
+      "tn": 7
+    },
+    {
+      "project": "ImageMagick6",
+      "total": 32,
+      "errors": 4,
+      "error_rate": 0.125,
+      "fp": 2,
+      "fn": 2,
+      "tp": 14,
+      "tn": 14
+    }
+  ],
+  "by_changed_line_bucket": [
+    {
+      "changed_line_bucket": "00-02",
+      "total": 490,
+      "errors": 90,
+      "error_rate": 0.1837,
+      "fp": 24,
+      "fn": 66,
+      "tp": 180,
+      "tn": 220
+    },
+    {
+      "changed_line_bucket": "03-05",
+      "total": 482,
+      "errors": 63,
+      "error_rate": 0.1307,
+      "fp": 25,
+      "fn": 38,
+      "tp": 204,
+      "tn": 215
+    },
+    {
+      "changed_line_bucket": "06-10",
+      "total": 386,
+      "errors": 55,
+      "error_rate": 0.1425,
+      "fp": 21,
+      "fn": 34,
+      "tp": 156,
+      "tn": 175
+    },
+    {
+      "changed_line_bucket": "11-25",
+      "total": 275,
+      "errors": 44,
+      "error_rate": 0.16,
+      "fp": 25,
+      "fn": 19,
+      "tp": 120,
+      "tn": 111
+    },
+    {
+      "changed_line_bucket": "26+",
+      "total": 159,
+      "errors": 44,
+      "error_rate": 0.2767,
+      "fp": 19,
+      "fn": 25,
+      "tp": 53,
+      "tn": 62
+    }
+  ],
+  "by_confidence_bucket": [
+    {
+      "confidence_bucket": "0.80-0.95",
+      "total": 445,
+      "errors": 85,
+      "error_rate": 0.191,
+      "fp": 30,
+      "fn": 55,
+      "tp": 163,
+      "tn": 197
+    },
+    {
+      "confidence_bucket": "0.50-0.65",
+      "total": 216,
+      "errors": 85,
+      "error_rate": 0.3935,
+      "fp": 36,
+      "fn": 49,
+      "tp": 70,
+      "tn": 61
+    },
+    {
+      "confidence_bucket": "0.65-0.80",
+      "total": 248,
+      "errors": 67,
+      "error_rate": 0.2702,
+      "fp": 20,
+      "fn": 47,
+      "tp": 80,
+      "tn": 101
+    },
+    {
+      "confidence_bucket": "0.95-1.00",
+      "total": 883,
+      "errors": 59,
+      "error_rate": 0.0668,
+      "fp": 28,
+      "fn": 31,
+      "tp": 400,
+      "tn": 424
+    }
+  ],
+  "top_false_positives": [
+    {
+      "id": "441966::pairctx",
+      "project": "linux",
+      "cve": "CVE-2020-10942",
+      "cwe": "cwe-787",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9976,
+      "changed_lines": 10,
+      "commit_url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=42d84c8490f9f0931786f1623191fcab397c3d64",
+      "commit_message": "vhost: Check docket sk_family instead of call getname"
+    },
+    {
+      "id": "241321::pairctx",
+      "project": "nDPI",
+      "cve": "CVE-2020-15473",
+      "cwe": "cwe-125",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9967,
+      "changed_lines": 49,
+      "commit_url": "https://github.com/ntop/nDPI/commit/8e7b1ea7a136cc4e4aa9880072ec2d69900a825e",
+      "commit_message": "Fix for potential heap-buffer-overflow in ndpi_search_openvpn"
+    },
+    {
+      "id": "404192::pairctx",
+      "project": "pcre2",
+      "cve": "CVE-2022-1587",
+      "cwe": "cwe-703",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9965,
+      "changed_lines": 97,
+      "commit_url": "https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0",
+      "commit_message": "Fixed an issue affecting recursions in JIT"
+    },
+    {
+      "id": "219947::pairctx",
+      "project": "glewlwyd",
+      "cve": "CVE-2021-45379",
+      "cwe": "cwe-287",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9947,
+      "changed_lines": 4,
+      "commit_url": "https://github.com/babelouest/glewlwyd/commit/125281f1c0d4b6a8b49f7e55a757205a2ef01fbe",
+      "commit_message": "Fix update session when auth fail"
+    },
+    {
+      "id": "269738::pairctx",
+      "project": "electron",
+      "cve": "CVE-2020-15174",
+      "cwe": "cwe-284",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9945,
+      "changed_lines": 6,
+      "commit_url": "https://github.com/electron/electron/commit/18613925610ba319da7f497b6deed85ad712c59b",
+      "commit_message": "refactor: wire will-navigate up to a navigation throttle instead of OpenURL (#25108)"
+    },
+    {
+      "id": "379446::pairctx",
+      "project": "bash",
+      "cve": "CVE-2012-6711",
+      "cwe": "cwe-119",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9939,
+      "changed_lines": 5,
+      "commit_url": "http://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=863d31ae775d56b785dc5b0105b6d251515d81d5",
+      "commit_message": "commit bash-20120224 snapshot"
+    },
+    {
+      "id": "242619::pairctx",
+      "project": "tensorflow",
+      "cve": "CVE-2022-29195",
+      "cwe": "cwe-703",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9928,
+      "changed_lines": 4,
+      "commit_url": "https://github.com/tensorflow/tensorflow/commit/cebe3c45d76357d201c65bdbbf0dbe6e8a63bbdb",
+      "commit_message": "Fix tf.raw_ops.StagePeek vulnerability with invalid `index`."
+    },
+    {
+      "id": "464942::pairctx",
+      "project": "php-src",
+      "cve": "CVE-2020-7060",
+      "cwe": "cwe-125",
+      "gold": 0,
+      "pred": 1,
+      "vuln_probability": 0.9903,
+      "changed_lines": 6,
+      "commit_url": "http://git.php.net/?p=php-src.git;a=commit;h=2bcbc95f033c31b00595ed39f79c3a99b4ed0501",
+      "commit_message": "Fix bug #79037 (global buffer-overflow in `mbfl_filt_conv_big5_wchar`)"
+    }
+  ],
+  "top_false_negatives": [
+    {
+      "id": "207755::pairctx",
+      "project": "php-src",
+      "cve": "CVE-2012-6113",
+      "cwe": "cwe-200",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.0017,
+      "changed_lines": 53,
+      "commit_url": "http://git.php.net/?p=php-src.git;a=commitdiff;h=095cbc48a8f0090f3b0abc6155f2b61943c9eafb",
+      "commit_message": "Fix segfault in older versions of OpenSSL (before 0.9.8i)"
+    },
+    {
+      "id": "198095::pairctx",
+      "project": "radare2",
+      "cve": "CVE-2020-15121",
+      "cwe": "cwe-78",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.002,
+      "changed_lines": 137,
+      "commit_url": "https://github.com/radareorg/radare2/commit/04edfa82c1f3fa2bc3621ccdad2f93bdbf00e4f9",
+      "commit_message": "Fix command injection on PDB download (#16966)"
+    },
+    {
+      "id": "202069::pairctx",
+      "project": "linux",
+      "cve": "CVE-2021-46283",
+      "cwe": "cwe-665",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.0039,
+      "changed_lines": 85,
+      "commit_url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ad9f151e560b016b6ad3280b48e42fa11e1a5440",
+      "commit_message": "netfilter: nf_tables: initialize set before expression setup"
+    },
+    {
+      "id": "197848::pairctx",
+      "project": "Pillow",
+      "cve": "CVE-2020-10378",
+      "cwe": "cwe-125",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.0057,
+      "changed_lines": 5,
+      "commit_url": "https://github.com/python-pillow/Pillow/commit/6a83e4324738bb0452fbe8074a995b1c73f08de7#diff-9478f2787e3ae9668a15123b165c23ac",
+      "commit_message": "Fix OOB Access on PcxDecode.c"
+    },
+    {
+      "id": "195691::pairctx",
+      "project": "mruby",
+      "cve": "CVE-2022-1427",
+      "cwe": "cwe-703",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.007,
+      "changed_lines": 5,
+      "commit_url": "https://github.com/mruby/mruby/commit/a4d97934d51cb88954cc49161dc1d151f64afb6b",
+      "commit_message": "vm.c: check if target_class is NULL (when prepended)."
+    },
+    {
+      "id": "198143::pairctx",
+      "project": "electron",
+      "cve": "CVE-2020-15174",
+      "cwe": "cwe-284",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.0089,
+      "changed_lines": 6,
+      "commit_url": "https://github.com/electron/electron/commit/18613925610ba319da7f497b6deed85ad712c59b",
+      "commit_message": "refactor: wire will-navigate up to a navigation throttle instead of OpenURL (#25108)"
+    },
+    {
+      "id": "210527::pairctx",
+      "project": "linux",
+      "cve": "CVE-2022-28389",
+      "cwe": "cwe-415",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.009,
+      "changed_lines": 1,
+      "commit_url": "https://github.com/torvalds/linux/commit/04c9b00ba83594a29813d6b1fb8fdc93a3915174",
+      "commit_message": "can: mcba_usb: mcba_usb_start_xmit(): fix double dev_kfree_skb in error path"
+    },
+    {
+      "id": "206271::pairctx",
+      "project": "bash",
+      "cve": "CVE-2012-6711",
+      "cwe": "cwe-119",
+      "gold": 1,
+      "pred": 0,
+      "vuln_probability": 0.0093,
+      "changed_lines": 5,
+      "commit_url": "http://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=863d31ae775d56b785dc5b0105b6d251515d81d5",
+      "commit_message": "commit bash-20120224 snapshot"
+    }
+  ]
+}

@@ -51,9 +51,20 @@ Treat the experiment as a win only if it improves the target buckets without bre
 - Full deduplicated eval balanced accuracy should stay close to the current `0.8158` baseline, ideally within `-0.02` or better.
 - False positives and false negatives should remain balanced; a one-sided recall/specificity collapse is not a real improvement.
 
+## Result
+
+The edge-focus run is complete.
+
+- full deduplicated eval best balanced accuracy: `0.8348`
+- full deduplicated eval default threshold: `0.5`
+- `00-02` bucket best balanced accuracy: `0.8165`
+- `26+` bucket best balanced accuracy: `0.7438`
+
+This is a useful but uneven win. It improves the global paired diff score and clearly improves the very-small-diff bucket. The large-diff bucket improves only modestly, so the next targeted experiment should not just add more `26+` examples; it should probably shorten or structure large diffs so the model can focus on the actual repair-relevant hunk.
+
 ## Next Step
 
-Run the edge-focus training config, then evaluate the full deduplicated eval plus the two edge buckets. If this helps, the follow-up is a smaller sweep over `edge_share` values such as `0.4`, `0.6`, and `0.8`.
+Use this edge-focus checkpoint as the new paired-diff training candidate, but keep the original diff-only multi-seed result as the more conservative stability claim until edge-focus has at least two more seeds. If we continue this line, the follow-up is a smaller sweep over `edge_share` values such as `0.4`, `0.6`, and `0.8`.
 
 ## Completed Metadata Ablation
 

@@ -141,6 +141,18 @@
       "note": "removes Project/CVE/CWE prompt metadata"
     },
     {
+      "system": "diff-only detector, edge-focus",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.8348,
+      "recall": 0.7966,
+      "specificity": 0.8729,
+      "precision": 0.8622,
+      "f1": 0.8281,
+      "balanced_accuracy": 0.8348,
+      "note": "targets 00-02 and 26+ changed-line buckets"
+    },
+    {
       "system": "diff-only detector, seed7 dedup",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json",
       "threshold": 0.5,

@@ -86,6 +86,7 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
     rows = module.build_rows()
 
     assert any(row["system"] == "diff-only detector, no metadata" for row in rows)
+    assert any(row["system"] == "diff-only detector, edge-focus" for row in rows)
 
 
 def test_from_report_computes_missing_f1() -> None:
