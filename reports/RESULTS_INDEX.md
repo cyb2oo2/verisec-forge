@@ -59,10 +59,14 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Localization Plan`: `reports/PRIMEVUL_DIFF_LOCALIZATION_PLAN.md`
 - `Paired Diff Localized Train Summary`: `reports/secure_code_primevul_pair_diff_localized_train_balanced_3000_summary.json`
 - `Paired Diff Localized Eval Summary`: `reports/secure_code_primevul_pair_diff_localized_eval_balanced_1792_dedup_summary.json`
+- `Paired Diff 26+ Localized Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_localized_h3_c1800_summary.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`
 - `Localized Diff Detector Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_threshold_sweep.json`
+- `Diff-Only Detector 26+ Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval_bucket_26plus_threshold_sweep.json`
+- `Diff-Only Detector 26+ Localized Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval_bucket_26plus_localized_h3_c1800_threshold_sweep.json`
+- `Localized Diff Detector 26+ Localized Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval_bucket_26plus_localized_h3_c1800_threshold_sweep.json`
 - `Paired Eval Shortcut Report`: `reports/secure_code_primevul_paired_eval_balanced_1800_shortcut_diagnostics.json`
 - `Paired Eval Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_report.json`
 - `Paired Eval Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json`

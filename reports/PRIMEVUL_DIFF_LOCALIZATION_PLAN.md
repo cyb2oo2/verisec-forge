@@ -60,6 +60,30 @@ Two checks are now complete.
 
 This is a useful but modest result. Localization does not beat the strongest original diff-only seed, but it recovers from the transfer drop and lands inside the original multi-seed band. That means structural compression is viable, but the current hunk selector is still too simple to be the main improvement.
 
+## Large-Diff Bucket Check
+
+A more aggressive `26+`-only localization check is also complete. This uses the existing `26+` bucket slice and rewrites only that eval set with a tighter budget:
+
+- input bucket: `data/processed/primevul_diff_bucket_slices/eval_26plus.jsonl`
+- localized bucket: `data/processed/primevul_diff_bucket_slices/eval_26plus_localized_h3_c1800.jsonl`
+- max hunks: `3`
+- max chars: `1800`
+- rows: `159`
+- localized rows: `113`
+- original p90 chars: `5404`
+- localized p90 chars: `2069`
+- original max chars: `10859`
+- localized max chars: `2077`
+
+| System | Best Balanced Accuracy | Recall | Specificity | F1 | Interpretation |
+| --- | ---: | ---: | ---: | ---: | --- |
+| original diff-only detector on raw `26+` | 0.7168 | 0.7051 | 0.7284 | 0.7097 | baseline bucket behavior |
+| original diff-only detector on localized `26+` | 0.6873 | 0.7821 | 0.5926 | 0.7093 | localization transfer over-predicts vulnerable |
+| localized-diff detector on localized `26+` | 0.7334 | 0.6026 | 0.8642 | 0.6912 | improves specificity but loses recall |
+| edge-focus detector on raw `26+` | 0.7438 | 0.8333 | 0.6543 | 0.7602 | current best `26+` bucket result |
+
+This narrows the diagnosis. Aggressive hunk localization helps the localized model recover specificity on large diffs, but it loses too much vulnerable recall and still does not beat the edge-focus bucket result. The bottleneck is no longer just "diff too long"; it is choosing evidence windows that preserve vulnerability-introducing changes rather than only safe-looking repair code.
+
 ## Next Step
 
-The next version should be large-diff specific instead of applied globally. A better follow-up is to train/evaluate a `26+`-targeted localizer that uses changed-line windows, function-boundary hints, and CVE/CWE-free keyword scoring, then report bucket-level gains rather than only full-set balanced accuracy.
+The next version should move from keyword-ranked hunk selection to pair-aware window selection. A better follow-up is to compare vulnerable-side and fixed-side changed windows directly, then preserve both the suspicious line and the repair line in the same compact example. In other words, the next localizer should be contrastive, not just shorter.
