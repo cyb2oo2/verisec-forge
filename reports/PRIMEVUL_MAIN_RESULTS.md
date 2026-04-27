@@ -28,6 +28,8 @@ This table is generated from run artifacts by `scripts/build_primevul_main_resul
 | diff-only detector | 0.6000 | 0.8156 | 0.8022 | 0.8289 | 0.8242 | 0.8131 | 0.8156 | best original paired formulation |
 | diff-only detector, dedup eval | 0.6000 | 0.8158 | 0.8022 | 0.8294 | 0.8243 | 0.8131 | 0.8158 | removes 8 exact/near-duplicate eval rows |
 | diff-only detector, no metadata | 0.8000 | 0.8244 | 0.7533 | 0.8956 | 0.8782 | 0.8110 | 0.8244 | removes Project/CVE/CWE prompt metadata |
+| diff-only checkpoint on localized eval | 0.9000 | 0.7980 | 0.8693 | 0.7269 | 0.7605 | 0.8113 | 0.7981 | input-compression transfer check |
+| localized-diff detector | 0.6000 | 0.8298 | 0.8056 | 0.8540 | 0.8462 | 0.8254 | 0.8298 | hunk-localized diff training |
 | diff-only detector, edge-focus | 0.5000 | 0.8348 | 0.7966 | 0.8729 | 0.8622 | 0.8281 | 0.8348 | targets 00-02 and 26+ changed-line buckets; single seed |
 | diff-only detector, edge-focus seed7 | 0.5000 | 0.8164 | 0.8179 | 0.8149 | 0.8151 | 0.8165 | 0.8164 | edge-focus multi-seed check |
 | diff-only detector, edge-focus seed99 | 0.4000 | 0.8225 | 0.8492 | 0.7960 | 0.8059 | 0.8270 | 0.8226 | edge-focus multi-seed check |

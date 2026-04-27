@@ -4,10 +4,30 @@ import argparse
 import difflib
 import json
 import random
+import re
 from collections import defaultdict
 from typing import Any
 
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
+
+SECURITY_KEYWORDS = {
+    "alloc",
+    "bound",
+    "check",
+    "copy",
+    "free",
+    "len",
+    "length",
+    "mem",
+    "overflow",
+    "sanitize",
+    "size",
+    "strcat",
+    "strcpy",
+    "strlen",
+    "sprintf",
+    "valid",
+}
 
 
 def pair_key(row: dict[str, Any]) -> tuple[str, str, str]:
@@ -30,6 +50,76 @@ def build_pair_diff(candidate: dict[str, Any], counterpart: dict[str, Any]) -> s
             lineterm="",
         )
     )
+
+
+def _split_diff_hunks(pair_diff: str) -> tuple[list[str], list[list[str]]]:
+    pair_diff = re.sub(r"(--- paired_counterpart)(\+\+\+ candidate)", r"\1\n\2\n", pair_diff)
+    pair_diff = re.sub(r"(\+\+\+ candidate)(@@ )", r"\1\n\2", pair_diff)
+    pair_diff = re.sub(r"(?<!\n)(@@ -)", r"\n\1", pair_diff)
+    headers: list[str] = []
+    hunks: list[list[str]] = []
+    current: list[str] = []
+    for line in pair_diff.splitlines():
+        if line.startswith("@@"):
+            if current:
+                hunks.append(current)
+            current = [line]
+        elif current:
+            current.append(line)
+        else:
+            headers.append(line)
+    if current:
+        hunks.append(current)
+    return headers, hunks
+
+
+def _hunk_score(hunk: list[str]) -> tuple[int, int, int]:
+    changed = [line for line in hunk if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))]
+    text = "\n".join(changed).lower()
+    keyword_hits = sum(1 for keyword in SECURITY_KEYWORDS if keyword in text)
+    return (keyword_hits, len(changed), len("\n".join(hunk)))
+
+
+def localize_pair_diff(pair_diff: str, *, max_chars: int = 3600, max_hunks: int = 6) -> str:
+    headers, hunks = _split_diff_hunks(pair_diff)
+    if not hunks or len(pair_diff) <= max_chars:
+        return pair_diff
+
+    ranked = sorted(enumerate(hunks), key=lambda item: _hunk_score(item[1]), reverse=True)
+    selected_indexes = [index for index, _hunk in ranked[:max_hunks]]
+    selected_hunks: list[list[str]] = []
+    current_chars = len("\n".join(headers))
+    for index in selected_indexes:
+        hunk = hunks[index]
+        hunk_text = "\n".join(hunk)
+        if selected_hunks and current_chars + len(hunk_text) > max_chars:
+            continue
+        selected_hunks.append(hunk)
+        current_chars += len(hunk_text)
+
+    omitted = len(hunks) - len(selected_hunks)
+    localized = headers + [f"[localized diff: kept {len(selected_hunks)} of {len(hunks)} hunks; omitted {omitted}]"]
+    for hunk in selected_hunks:
+        localized.extend(hunk)
+    localized_text = "\n".join(localized) + "\n"
+    if len(localized_text) <= max_chars:
+        return localized_text
+
+    clipped_lines: list[str] = []
+    used_chars = 0
+    marker = "[localized diff truncated to fit character budget]"
+    budget = max(0, max_chars - len(marker) - 2)
+    for line in localized_text.splitlines():
+        line_chars = len(line) + 1
+        if used_chars + line_chars > budget:
+            remaining = budget - used_chars
+            if remaining > 12:
+                clipped_lines.append(line[:remaining])
+            break
+        clipped_lines.append(line)
+        used_chars += line_chars
+    clipped_lines.append(marker)
+    return "\n".join(clipped_lines) + "\n"
 
 
 def build_pair_text(candidate: dict[str, Any], counterpart: dict[str, Any], *, text_mode: str = "pair_context") -> str:
@@ -75,6 +165,14 @@ def build_pair_text(candidate: dict[str, Any], counterpart: dict[str, Any], *, t
             "The diff is from paired_counterpart to candidate.\n\n"
             "Unified diff:\n"
             f"{pair_diff}\n"
+        )
+    if text_mode == "diff_localized":
+        return (
+            "Task: decide whether the candidate side of this localized diff is the vulnerable version.\n"
+            "The diff is from paired_counterpart to candidate. Long diffs are reduced to repair-relevant hunks.\n\n"
+            f"{metadata}\n"
+            "Localized unified diff:\n"
+            f"{localize_pair_diff(pair_diff)}\n"
         )
     if text_mode == "candidate_plus_diff":
         return (
@@ -179,6 +277,7 @@ def main() -> None:
             "metadata_only",
             "diff_only",
             "diff_no_metadata",
+            "diff_localized",
             "candidate_plus_diff",
         ],
         default="pair_context",

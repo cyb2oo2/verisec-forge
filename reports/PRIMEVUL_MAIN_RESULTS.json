@@ -145,6 +145,30 @@
       "note": "removes Project/CVE/CWE prompt metadata"
     },
     {
+      "system": "diff-only checkpoint on localized eval",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json",
+      "threshold": 0.9,
+      "accuracy": 0.798,
+      "recall": 0.8693,
+      "specificity": 0.7269,
+      "precision": 0.7605,
+      "f1": 0.8113,
+      "balanced_accuracy": 0.7981,
+      "note": "input-compression transfer check"
+    },
+    {
+      "system": "localized-diff detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_threshold_sweep.json",
+      "threshold": 0.6,
+      "accuracy": 0.8298,
+      "recall": 0.8056,
+      "specificity": 0.854,
+      "precision": 0.8462,
+      "f1": 0.8254,
+      "balanced_accuracy": 0.8298,
+      "note": "hunk-localized diff training"
+    },
+    {
       "system": "diff-only detector, edge-focus",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
       "threshold": 0.5,

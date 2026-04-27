@@ -23,6 +23,8 @@ DISPLAY_ROWS = [
     "pair-context detector",
     "candidate+diff detector",
     "diff-only detector, dedup eval",
+    "diff-only checkpoint on localized eval",
+    "localized-diff detector",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
     "diff-only detector, edge-focus",

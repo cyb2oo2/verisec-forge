@@ -95,6 +95,8 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
     rows = module.build_rows()
 
     assert any(row["system"] == "diff-only detector, no metadata" for row in rows)
+    assert any(row["system"] == "diff-only checkpoint on localized eval" for row in rows)
+    assert any(row["system"] == "localized-diff detector" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed7" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed99" for row in rows)

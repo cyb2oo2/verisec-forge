@@ -187,6 +187,8 @@ The current robust mainline reframes PrimeVul as a paired comparison task. Inste
 | candidate+diff detector | 0.6728 | 0.7178 | 0.6278 | 0.6869 | extra context helps but dilutes patch signal |
 | diff-only detector, dedup eval | 0.8158 | 0.8022 | 0.8294 | 0.8131 | strongest controlled formulation |
 | diff-only detector, no metadata | 0.8244 | 0.7533 | 0.8956 | 0.8110 | removes Project/CVE/CWE prompt metadata |
+| original diff-only checkpoint on localized eval | 0.7981 | 0.8693 | 0.7269 | 0.8113 | input-compression transfer check |
+| localized-diff detector | 0.8298 | 0.8056 | 0.8540 | 0.8254 | hunk-localized diff training |
 | diff-only detector, edge-focus seed42 | 0.8348 | 0.7966 | 0.8729 | 0.8281 | targets very small and very large diffs |
 | diff-only detector, edge-focus seed7 | 0.8164 | 0.8179 | 0.8149 | 0.8165 | multi-seed check |
 | diff-only detector, edge-focus seed99 | 0.8226 | 0.8492 | 0.7960 | 0.8270 | multi-seed check |
@@ -194,6 +196,8 @@ The current robust mainline reframes PrimeVul as a paired comparison task. Inste
 After removing `8` exact/near-duplicate eval rows flagged by train/eval overlap diagnostics, the diff-only result remains stable. Three diff-only seeds on the deduplicated eval set produce a balanced-accuracy mean of `0.8287` and a range of `0.8158-0.8382`. This makes paired diff reasoning the current best-supported PrimeVul result in the repository.
 
 The no-metadata control strengthens that claim. Removing `Project`, `CVE`, and `CWE` from the prompt does not break the paired diff result; the model still reaches `0.8244` best balanced accuracy using only the task instruction and unified diff. This makes the result harder to dismiss as metadata leakage.
+
+The localization follow-up tests a different failure-analysis response: instead of oversampling high-error buckets, it structurally compresses long diffs by keeping high-signal hunks. Direct transfer from the original diff-only checkpoint to localized inputs reaches only `0.7981` best balanced accuracy, mostly because specificity drops. After retraining on localized inputs, the model recovers to `0.8298`. This does not beat the strongest diff-only seed, but it shows that localization is a viable representation if trained end-to-end.
 
 The edge-focus follow-up gives a targeted signal, but not a confirmed stable improvement. Oversampling the high-error `00-02` and `26+` changed-line buckets raises seed42 full deduplicated balanced accuracy to `0.8348`, but seed7 and seed99 land at `0.8164` and `0.8226`. The `00-02` bucket improves more clearly (`0.8160` accuracy), while the `26+` bucket only improves modestly (`0.7438` best balanced accuracy). This is still useful because it shows the failure analysis can suggest actionable training changes, but the conservative claim should remain the original diff-only multi-seed band until a more structural large-diff treatment is tested.
 
@@ -339,7 +343,7 @@ These results suggest three early conclusions:
 
 The PrimeVul interpretation has changed after the paired-split diagnostics. The same-source detector score (`presence_accuracy = 0.9524`, `f1 = 0.9533`) should be treated as an artifact-sensitive diagnostic result, not as the headline secure-code reasoning claim.
 
-The current headline is paired diff reasoning: the diff-only detector reaches `0.8158` best balanced accuracy on the deduplicated paired eval set, and three deduplicated diff-only seeds remain stable in the `0.8158-0.8382` range with mean `0.8287`. Metadata-only, candidate-only, and counterpart-only controls stay near chance, and the new `diff_no_metadata` control reaches `0.8244`. Edge-focus training reaches `0.8348` on seed42 but falls to `0.8164` and `0.8226` on two follow-up seeds, so it should be treated as exploratory. The paired diff gain is therefore not explained by simple metadata leakage or one-sided snippet artifacts, while the next improvement likely needs better diff localization rather than oversampling alone.
+The current headline is paired diff reasoning: the diff-only detector reaches `0.8158` best balanced accuracy on the deduplicated paired eval set, and three deduplicated diff-only seeds remain stable in the `0.8158-0.8382` range with mean `0.8287`. Metadata-only, candidate-only, and counterpart-only controls stay near chance, and the new `diff_no_metadata` control reaches `0.8244`. Edge-focus training reaches `0.8348` on seed42 but falls to `0.8164` and `0.8226` on two follow-up seeds, so it should be treated as exploratory. Localized-diff training reaches `0.8298`, showing that structural compression is viable but not yet a decisive gain. The paired diff result is therefore not explained by simple metadata leakage or one-sided snippet artifacts, while the next improvement likely needs better large-diff localization rather than oversampling alone.
 
 The practical conclusion is therefore narrower and stronger: same-source detection is useful for diagnosing dataset shortcuts, while paired diff evaluation is the current robust PrimeVul mainline.
 

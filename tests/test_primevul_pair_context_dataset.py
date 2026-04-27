@@ -67,6 +67,7 @@ def test_pair_context_text_modes_isolate_inputs() -> None:
     metadata_only = module.build_pair_text(candidate, counterpart, text_mode="metadata_only")
     diff_only = module.build_pair_text(candidate, counterpart, text_mode="diff_only")
     diff_no_metadata = module.build_pair_text(candidate, counterpart, text_mode="diff_no_metadata")
+    diff_localized = module.build_pair_text(candidate, counterpart, text_mode="diff_localized")
     candidate_plus_diff = module.build_pair_text(candidate, counterpart, text_mode="candidate_plus_diff")
 
     assert "TLS1_get_version" in candidate_only
@@ -84,5 +85,56 @@ def test_pair_context_text_modes_isolate_inputs() -> None:
     assert "Project:" not in diff_no_metadata
     assert "CVE-1" not in diff_no_metadata
     assert "cwe-310" not in diff_no_metadata
+    assert "Localized unified diff" in diff_localized
+    assert "CVE-1" in diff_localized
+    assert "--- paired_counterpart" in diff_localized
     assert "Candidate function:" in candidate_plus_diff
     assert "Unified diff" in candidate_plus_diff
+
+
+def test_localize_pair_diff_keeps_security_relevant_hunks() -> None:
+    module = _load_module()
+    hunks = ["--- paired_counterpart", "+++ candidate"]
+    for index in range(8):
+        if index == 5:
+            hunks.extend(
+                [
+                    f"@@ -{index},2 +{index},2 @@",
+                    "-    strcpy(dst, src);",
+                    "+    bounded_copy(dst, src, len);",
+                ]
+            )
+        else:
+            hunks.extend(
+                [
+                    f"@@ -{index},2 +{index},2 @@",
+                    f"-    value_{index} = old_value;",
+                    f"+    value_{index} = new_value;",
+                ]
+            )
+    pair_diff = "\n".join(hunks) + "\n"
+
+    localized = module.localize_pair_diff(pair_diff, max_chars=180, max_hunks=2)
+
+    assert "[localized diff:" in localized
+    assert "strcpy" in localized
+    assert sum(1 for line in localized.splitlines() if line.startswith("@@")) <= 2
+
+
+def test_localize_pair_diff_enforces_character_budget() -> None:
+    module = _load_module()
+    pair_diff = (
+        "--- paired_counterpart\n"
+        "+++ candidate\n"
+        "@@ -1,2 +1,2 @@\n"
+        "-    strcpy(dst, "
+        + "A" * 500
+        + ");\n+    bounded_copy(dst, "
+        + "B" * 500
+        + ", len);\n"
+    )
+
+    localized = module.localize_pair_diff(pair_diff, max_chars=220, max_hunks=1)
+
+    assert len(localized) <= 230
+    assert "truncated" in localized
