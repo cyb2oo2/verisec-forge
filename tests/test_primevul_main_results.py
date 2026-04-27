@@ -22,6 +22,9 @@ def test_main_results_summary_uses_diff_seed_rows() -> None:
         {"system": "diff-only detector, dedup eval", "balanced_accuracy": 0.81},
         {"system": "diff-only detector, seed7 dedup", "balanced_accuracy": 0.84},
         {"system": "diff-only detector, seed99 dedup", "balanced_accuracy": 0.83},
+        {"system": "diff-only detector, edge-focus", "balanced_accuracy": 0.83},
+        {"system": "diff-only detector, edge-focus seed7", "balanced_accuracy": 0.81},
+        {"system": "diff-only detector, edge-focus seed99", "balanced_accuracy": 0.82},
     ]
 
     summary = module.build_summary(rows)
@@ -29,6 +32,9 @@ def test_main_results_summary_uses_diff_seed_rows() -> None:
     assert summary["diff_seed_balanced_accuracy_mean"] == 0.8267
     assert summary["diff_seed_balanced_accuracy_min"] == 0.81
     assert summary["diff_seed_balanced_accuracy_max"] == 0.84
+    assert summary["edge_focus_seed_balanced_accuracy_mean"] == 0.82
+    assert summary["edge_focus_seed_balanced_accuracy_min"] == 0.81
+    assert summary["edge_focus_seed_balanced_accuracy_max"] == 0.83
     assert summary["negative_control_best_balanced_accuracy_max"] == 0.52
 
 
@@ -52,6 +58,9 @@ def test_render_markdown_includes_core_columns() -> None:
         "diff_seed_balanced_accuracy_mean": 0.81,
         "diff_seed_balanced_accuracy_min": 0.81,
         "diff_seed_balanced_accuracy_max": 0.81,
+        "edge_focus_seed_balanced_accuracy_mean": 0.82,
+        "edge_focus_seed_balanced_accuracy_min": 0.81,
+        "edge_focus_seed_balanced_accuracy_max": 0.83,
         "negative_control_best_balanced_accuracy_max": 0.52,
     }
 
@@ -87,6 +96,8 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
 
     assert any(row["system"] == "diff-only detector, no metadata" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus" for row in rows)
+    assert any(row["system"] == "diff-only detector, edge-focus seed7" for row in rows)
+    assert any(row["system"] == "diff-only detector, edge-focus seed99" for row in rows)
 
 
 def test_from_report_computes_missing_f1() -> None:

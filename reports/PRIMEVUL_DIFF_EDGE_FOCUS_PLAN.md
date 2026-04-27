@@ -55,16 +55,20 @@ Treat the experiment as a win only if it improves the target buckets without bre
 
 The edge-focus run is complete.
 
-- full deduplicated eval best balanced accuracy: `0.8348`
+- seed42 full deduplicated eval best balanced accuracy: `0.8348`
+- seed7 full deduplicated eval best balanced accuracy: `0.8164`
+- seed99 full deduplicated eval best balanced accuracy: `0.8226`
+- three-seed edge-focus mean balanced accuracy: `0.8246`
+- three-seed edge-focus range: `0.8164-0.8348`
 - full deduplicated eval default threshold: `0.5`
 - `00-02` bucket best balanced accuracy: `0.8165`
 - `26+` bucket best balanced accuracy: `0.7438`
 
-This is a useful but uneven win. It improves the global paired diff score and clearly improves the very-small-diff bucket. The large-diff bucket improves only modestly, so the next targeted experiment should not just add more `26+` examples; it should probably shorten or structure large diffs so the model can focus on the actual repair-relevant hunk.
+This is a useful but uneven signal, not a confirmed stable improvement. Seed42 improves the global paired diff score and clearly improves the very-small-diff bucket, but seed7 and seed99 fall back near the original diff-only operating band. The large-diff bucket improves only modestly, so the next targeted experiment should not just add more `26+` examples; it should probably shorten or structure large diffs so the model can focus on the actual repair-relevant hunk.
 
 ## Next Step
 
-Use this edge-focus checkpoint as the new paired-diff training candidate, but keep the original diff-only multi-seed result as the more conservative stability claim until edge-focus has at least two more seeds. If we continue this line, the follow-up is a smaller sweep over `edge_share` values such as `0.4`, `0.6`, and `0.8`.
+Keep the original diff-only multi-seed result as the conservative stability claim. If we continue this line, the follow-up should prioritize structural localization for large diffs over a simple `edge_share` sweep, because the multi-seed check suggests replacement oversampling alone is not the reliable source of improvement.
 
 ## Completed Metadata Ablation
 

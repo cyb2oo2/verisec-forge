@@ -123,7 +123,17 @@ def build_rows() -> list[dict[str, Any]]:
         _from_sweep(
             "diff-only detector, edge-focus",
             "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
-            note="targets 00-02 and 26+ changed-line buckets",
+            note="targets 00-02 and 26+ changed-line buckets; single seed",
+        ),
+        _from_sweep(
+            "diff-only detector, edge-focus seed7",
+            "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_threshold_sweep.json",
+            note="edge-focus multi-seed check",
+        ),
+        _from_sweep(
+            "diff-only detector, edge-focus seed99",
+            "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_threshold_sweep.json",
+            note="edge-focus multi-seed check",
         ),
         _from_sweep(
             "diff-only detector, seed7 dedup",
@@ -150,12 +160,27 @@ def build_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         }
     ]
     balanced_values = [row["balanced_accuracy"] for row in diff_seed_rows]
+    edge_seed_rows = [
+        row
+        for row in rows
+        if row["system"]
+        in {
+            "diff-only detector, edge-focus",
+            "diff-only detector, edge-focus seed7",
+            "diff-only detector, edge-focus seed99",
+        }
+    ]
+    edge_balanced_values = [row["balanced_accuracy"] for row in edge_seed_rows]
     return {
         "headline": "PrimeVul paired diff reasoning is the strongest current formulation.",
         "diff_seed_balanced_accuracy_mean": round(statistics.mean(balanced_values), 4),
         "diff_seed_balanced_accuracy_min": round(min(balanced_values), 4),
         "diff_seed_balanced_accuracy_max": round(max(balanced_values), 4),
         "diff_seed_balanced_accuracy_range": round(max(balanced_values) - min(balanced_values), 4),
+        "edge_focus_seed_balanced_accuracy_mean": round(statistics.mean(edge_balanced_values), 4),
+        "edge_focus_seed_balanced_accuracy_min": round(min(edge_balanced_values), 4),
+        "edge_focus_seed_balanced_accuracy_max": round(max(edge_balanced_values), 4),
+        "edge_focus_seed_balanced_accuracy_range": round(max(edge_balanced_values) - min(edge_balanced_values), 4),
         "negative_control_best_balanced_accuracy_max": round(
             max(
                 row["balanced_accuracy"]
@@ -186,6 +211,8 @@ def render_markdown(rows: list[dict[str, Any]], summary: dict[str, Any]) -> str:
         f"- Headline: {summary['headline']}",
         f"- Diff-only dedup multi-seed balanced accuracy mean: `{summary['diff_seed_balanced_accuracy_mean']:.4f}`",
         f"- Diff-only dedup multi-seed range: `{summary['diff_seed_balanced_accuracy_min']:.4f}-{summary['diff_seed_balanced_accuracy_max']:.4f}`",
+        f"- Edge-focus multi-seed balanced accuracy mean: `{summary['edge_focus_seed_balanced_accuracy_mean']:.4f}`",
+        f"- Edge-focus multi-seed range: `{summary['edge_focus_seed_balanced_accuracy_min']:.4f}-{summary['edge_focus_seed_balanced_accuracy_max']:.4f}`",
         f"- Strongest negative-control balanced accuracy: `{summary['negative_control_best_balanced_accuracy_max']:.4f}`",
         "",
         "## Main Table",

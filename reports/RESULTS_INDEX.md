@@ -44,6 +44,10 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Bucket Slice Summary`: `reports/secure_code_primevul_pair_diff_bucket_slices_summary.json`
 - `Paired Diff Edge-Focus Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_report.json`
 - `Paired Diff Edge-Focus Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json`
+- `Paired Diff Edge-Focus Seed7 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_report.json`
+- `Paired Diff Edge-Focus Seed7 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_threshold_sweep.json`
+- `Paired Diff Edge-Focus Seed99 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_report.json`
+- `Paired Diff Edge-Focus Seed99 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_threshold_sweep.json`
 - `Paired Diff Edge-Focus Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_EDGE_FOCUS_FAILURE_ANALYSIS.md`
 - `Paired Diff Edge-Focus Small-Diff Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_00_02_threshold_sweep.json`
 - `Paired Diff Edge-Focus Large-Diff Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_26plus_threshold_sweep.json`

@@ -25,6 +25,9 @@ DISPLAY_ROWS = [
     "diff-only detector, dedup eval",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
+    "diff-only detector, edge-focus",
+    "diff-only detector, edge-focus seed7",
+    "diff-only detector, edge-focus seed99",
 ]
 
 

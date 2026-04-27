@@ -5,6 +5,10 @@
     "diff_seed_balanced_accuracy_min": 0.8158,
     "diff_seed_balanced_accuracy_max": 0.8382,
     "diff_seed_balanced_accuracy_range": 0.0224,
+    "edge_focus_seed_balanced_accuracy_mean": 0.8246,
+    "edge_focus_seed_balanced_accuracy_min": 0.8164,
+    "edge_focus_seed_balanced_accuracy_max": 0.8348,
+    "edge_focus_seed_balanced_accuracy_range": 0.0184,
     "negative_control_best_balanced_accuracy_max": 0.5156
   },
   "rows": [
@@ -150,7 +154,31 @@
       "precision": 0.8622,
       "f1": 0.8281,
       "balanced_accuracy": 0.8348,
-      "note": "targets 00-02 and 26+ changed-line buckets"
+      "note": "targets 00-02 and 26+ changed-line buckets; single seed"
+    },
+    {
+      "system": "diff-only detector, edge-focus seed7",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.8164,
+      "recall": 0.8179,
+      "specificity": 0.8149,
+      "precision": 0.8151,
+      "f1": 0.8165,
+      "balanced_accuracy": 0.8164,
+      "note": "edge-focus multi-seed check"
+    },
+    {
+      "system": "diff-only detector, edge-focus seed99",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_threshold_sweep.json",
+      "threshold": 0.4,
+      "accuracy": 0.8225,
+      "recall": 0.8492,
+      "specificity": 0.796,
+      "precision": 0.8059,
+      "f1": 0.827,
+      "balanced_accuracy": 0.8226,
+      "note": "edge-focus multi-seed check"
     },
     {
       "system": "diff-only detector, seed7 dedup",

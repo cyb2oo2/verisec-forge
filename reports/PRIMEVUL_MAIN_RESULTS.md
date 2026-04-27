@@ -9,6 +9,8 @@ This table is generated from run artifacts by `scripts/build_primevul_main_resul
 - Headline: PrimeVul paired diff reasoning is the strongest current formulation.
 - Diff-only dedup multi-seed balanced accuracy mean: `0.8287`
 - Diff-only dedup multi-seed range: `0.8158-0.8382`
+- Edge-focus multi-seed balanced accuracy mean: `0.8246`
+- Edge-focus multi-seed range: `0.8164-0.8348`
 - Strongest negative-control balanced accuracy: `0.5156`
 
 ## Main Table
@@ -26,6 +28,8 @@ This table is generated from run artifacts by `scripts/build_primevul_main_resul
 | diff-only detector | 0.6000 | 0.8156 | 0.8022 | 0.8289 | 0.8242 | 0.8131 | 0.8156 | best original paired formulation |
 | diff-only detector, dedup eval | 0.6000 | 0.8158 | 0.8022 | 0.8294 | 0.8243 | 0.8131 | 0.8158 | removes 8 exact/near-duplicate eval rows |
 | diff-only detector, no metadata | 0.8000 | 0.8244 | 0.7533 | 0.8956 | 0.8782 | 0.8110 | 0.8244 | removes Project/CVE/CWE prompt metadata |
-| diff-only detector, edge-focus | 0.5000 | 0.8348 | 0.7966 | 0.8729 | 0.8622 | 0.8281 | 0.8348 | targets 00-02 and 26+ changed-line buckets |
+| diff-only detector, edge-focus | 0.5000 | 0.8348 | 0.7966 | 0.8729 | 0.8622 | 0.8281 | 0.8348 | targets 00-02 and 26+ changed-line buckets; single seed |
+| diff-only detector, edge-focus seed7 | 0.5000 | 0.8164 | 0.8179 | 0.8149 | 0.8151 | 0.8165 | 0.8164 | edge-focus multi-seed check |
+| diff-only detector, edge-focus seed99 | 0.4000 | 0.8225 | 0.8492 | 0.7960 | 0.8059 | 0.8270 | 0.8226 | edge-focus multi-seed check |
 | diff-only detector, seed7 dedup | 0.5000 | 0.8382 | 0.8291 | 0.8473 | 0.8441 | 0.8365 | 0.8382 | multi-seed stability |
 | diff-only detector, seed99 dedup | 0.5000 | 0.8320 | 0.8503 | 0.8138 | 0.8200 | 0.8349 | 0.8321 | multi-seed stability |

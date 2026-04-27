@@ -61,7 +61,7 @@ Important caveat:
 - multi-seed diff-only training on the deduplicated eval set is stable in the `0.82-0.84` balanced-accuracy range, with three-seed mean `0.8287`
 - group-level paired evaluation now reports `877` unique pair groups, `0.6978` group all-correct rate, and `0.8424` probability-orientation accuracy
 - removing `Project`, `CVE`, and `CWE` prompt metadata does not break the result: `diff_no_metadata` reaches best balanced accuracy `0.8244`
-- targeted edge-focus training improves the full deduplicated paired score to best balanced accuracy `0.8348`, with `00-02` changed-line bucket accuracy `0.8160` and `26+` bucket best balanced accuracy `0.7438`
+- targeted edge-focus training shows a useful but not-yet-stable signal: seed42 reaches best balanced accuracy `0.8348`, but seed7 and seed99 reach `0.8164` and `0.8226`, so this should be treated as exploratory rather than a confirmed improvement over the original diff-only multi-seed band
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -121,6 +121,8 @@ Important boundary result:
   Exact and near-duplicate diff overlap exists but is tiny; removing the flagged eval rows leaves the diff-only score essentially unchanged.
 - **The diff-only result is not a one-seed fluke.**
   Three deduplicated-eval runs land at balanced accuracy `0.8158`, `0.8382`, and `0.8321`, so the current result is better described as a stable operating band than a lucky single checkpoint.
+- **Edge-focused oversampling is promising but unstable.**
+  The edge-focus run improved seed42, but two extra seeds fell back near the original diff-only band. The next improvement should target structural diff compression/localization, not just more replacement oversampling.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**
