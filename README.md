@@ -64,6 +64,7 @@ Important caveat:
 - targeted edge-focus training shows a useful but not-yet-stable signal: seed42 reaches best balanced accuracy `0.8348`, but seed7 and seed99 reach `0.8164` and `0.8226`, so this should be treated as exploratory rather than a confirmed improvement over the original diff-only multi-seed band
 - hunk-localized diff training reaches best balanced accuracy `0.8298`; direct transfer from the original diff-only checkpoint to localized inputs drops to `0.7981`, so compression needs its own training rather than being a free inference-time trick
 - aggressive `26+` large-diff localization reaches best bucket balanced accuracy `0.7334`, below the edge-focus bucket result `0.7438`; shortening alone is not enough without contrastive evidence-window selection
+- contrastive-window training reaches full deduplicated best balanced accuracy `0.8270`, but only `0.7075` on the `26+` bucket, so explicit counterpart-vs-candidate windows expose the recall/specificity tradeoff without solving it
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -129,6 +130,8 @@ Important boundary result:
   A localized-diff detector recovers to `0.8298` best balanced accuracy after retraining, while direct transfer from the original diff-only checkpoint reaches only `0.7981`. This points toward better large-diff localization as the next research lever.
 - **Large-diff localization needs contrast, not just compression.**
   The aggressive `26+` localization check improves specificity but loses recall, so the next localizer should preserve vulnerable/fixed changed windows together rather than simply selecting shorter keyword-heavy hunks.
+- **Contrastive windows are informative but still not enough.**
+  The contrastive detector lands inside the main paired-diff band on full eval, but `26+` specificity remains weak at high recall. The next step should be error-driven window mining, not another generic formatting variant.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

@@ -25,6 +25,7 @@ DISPLAY_ROWS = [
     "diff-only detector, dedup eval",
     "diff-only checkpoint on localized eval",
     "localized-diff detector",
+    "contrastive-window detector",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
     "diff-only detector, edge-focus",

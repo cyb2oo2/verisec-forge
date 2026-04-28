@@ -1,0 +1,21 @@
+{
+  "input": "data\\processed\\secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+  "output": "data\\processed\\secure_code_primevul_pair_diff_contrastive_train_balanced_3000_metadata.jsonl",
+  "max_chars": 3600,
+  "max_hunks": 6,
+  "mode": "contrastive",
+  "rows": 3000,
+  "localized_rows": 3000,
+  "original_chars": {
+    "mean": 1051.8,
+    "p50": 701.0,
+    "p90": 1804.0,
+    "max": 22285
+  },
+  "localized_chars": {
+    "mean": 1340.47,
+    "p50": 1090.0,
+    "p90": 2145.0,
+    "max": 3914
+  }
+}

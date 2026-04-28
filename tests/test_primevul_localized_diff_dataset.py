@@ -40,3 +40,35 @@ def test_localize_rows_preserves_ids_and_labels() -> None:
     assert localized[0]["pair_text_mode"] == "diff_localized"
     assert "Localized unified diff:" in localized[0]["pair_text"]
     assert "strcpy" in localized[0]["pair_text"]
+
+
+def test_contrastive_rows_preserve_candidate_and_counterpart_windows() -> None:
+    module = _load_module()
+    rows = [
+        {
+            "id": "row-1",
+            "has_vulnerability": False,
+            "project": "p",
+            "cve": "CVE-1",
+            "vulnerability_type": "cwe-120",
+            "pair_text": (
+                "Task\nUnified diff:\n"
+                "--- paired_counterpart\n"
+                "+++ candidate\n"
+                "@@ -1,3 +1,3 @@\n"
+                " static void f() {\n"
+                "-  strcpy(dst, src);\n"
+                "+  bounded_copy(dst, src, len);\n"
+                " }\n"
+            ),
+        }
+    ]
+
+    localized = module.localize_rows(rows, max_chars=700, max_hunks=1, mode="contrastive")
+
+    text = localized[0]["pair_text"]
+    assert localized[0]["pair_text_mode"] == "diff_contrastive_localized"
+    assert "Counterpart side removed/old lines:" in text
+    assert "Candidate side added/new lines:" in text
+    assert "strcpy" in text
+    assert "bounded_copy" in text

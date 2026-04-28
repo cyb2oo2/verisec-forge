@@ -169,6 +169,18 @@
       "note": "hunk-localized diff training"
     },
     {
+      "system": "contrastive-window detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_contrastive_3000_v1_eval1792_dedup_threshold_sweep.json",
+      "threshold": 0.4,
+      "accuracy": 0.827,
+      "recall": 0.8525,
+      "specificity": 0.8016,
+      "precision": 0.8108,
+      "f1": 0.8312,
+      "balanced_accuracy": 0.827,
+      "note": "counterpart-vs-candidate changed windows"
+    },
+    {
       "system": "diff-only detector, edge-focus",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
       "threshold": 0.5,

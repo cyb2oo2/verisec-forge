@@ -1,0 +1,21 @@
+{
+  "input": "data\\processed\\secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+  "output": "data\\processed\\secure_code_primevul_pair_diff_contrastive_eval_balanced_1792_dedup_metadata.jsonl",
+  "max_chars": 3600,
+  "max_hunks": 6,
+  "mode": "contrastive",
+  "rows": 1792,
+  "localized_rows": 1792,
+  "original_chars": {
+    "mean": 965.83,
+    "p50": 680.0,
+    "p90": 1725.0,
+    "max": 10859
+  },
+  "localized_chars": {
+    "mean": 1281.08,
+    "p50": 1071.0,
+    "p90": 2085.0,
+    "max": 3919
+  }
+}

@@ -84,6 +84,37 @@ A more aggressive `26+`-only localization check is also complete. This uses the 
 
 This narrows the diagnosis. Aggressive hunk localization helps the localized model recover specificity on large diffs, but it loses too much vulnerable recall and still does not beat the edge-focus bucket result. The bottleneck is no longer just "diff too long"; it is choosing evidence windows that preserve vulnerability-introducing changes rather than only safe-looking repair code.
 
+## Contrastive Window Check
+
+The next representation explicitly separates counterpart-side and candidate-side changed lines inside each selected hunk. This tests whether the model benefits from a clearer "old/fixed side vs candidate side" comparison instead of reading raw `+`/`-` diff syntax.
+
+Artifacts:
+
+- train: `data/processed/secure_code_primevul_pair_diff_contrastive_train_balanced_3000_metadata.jsonl`
+- eval: `data/processed/secure_code_primevul_pair_diff_contrastive_eval_balanced_1792_dedup_metadata.jsonl`
+- `26+` eval: `data/processed/primevul_diff_bucket_slices/eval_26plus_contrastive_h3_c2200.jsonl`
+- train summary: `reports/secure_code_primevul_pair_diff_contrastive_train_balanced_3000_summary.json`
+- eval summary: `reports/secure_code_primevul_pair_diff_contrastive_eval_balanced_1792_dedup_summary.json`
+- `26+` summary: `reports/secure_code_primevul_pair_diff_bucket_26plus_contrastive_h3_c2200_summary.json`
+
+Full deduplicated eval:
+
+- best balanced accuracy: `0.8270`
+- recall: `0.8525`
+- specificity: `0.8016`
+- F1: `0.8312`
+- threshold: `0.4`
+
+`26+` bucket:
+
+- best balanced accuracy: `0.7075`
+- recall: `0.8718`
+- specificity: `0.5432`
+- F1: `0.7432`
+- threshold: `0.1`
+
+This is another useful boundary result. Contrastive windows recover strong vulnerable recall on `26+`, but specificity falls too far. The full-set score remains inside the paired-diff operating band, yet the large-diff bucket does not beat edge-focus (`0.7438`) or localized-diff (`0.7334`). The representation helps expose the recall/specificity tradeoff; it does not solve window selection.
+
 ## Next Step
 
-The next version should move from keyword-ranked hunk selection to pair-aware window selection. A better follow-up is to compare vulnerable-side and fixed-side changed windows directly, then preserve both the suspicious line and the repair line in the same compact example. In other words, the next localizer should be contrastive, not just shorter.
+The next version should move from keyword-ranked hunk selection to outcome-aware window selection. A better follow-up is to mine hard `26+` false positives and false negatives, then learn or score which changed windows caused the detector decision. In other words, the next localizer should be error-driven, not just contrastive.
