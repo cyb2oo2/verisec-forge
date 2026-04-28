@@ -63,6 +63,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Contrastive Train Summary`: `reports/secure_code_primevul_pair_diff_contrastive_train_balanced_3000_summary.json`
 - `Paired Diff Contrastive Eval Summary`: `reports/secure_code_primevul_pair_diff_contrastive_eval_balanced_1792_dedup_summary.json`
 - `Paired Diff 26+ Contrastive Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_contrastive_h3_c2200_summary.json`
+- `Paired Diff 26+ Error Window Analysis`: `reports/PRIMEVUL_26PLUS_ERROR_WINDOWS.md`
+- `Paired Diff 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_edge_focus_26plus_error_windows.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`

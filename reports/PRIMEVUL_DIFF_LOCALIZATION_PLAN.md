@@ -117,4 +117,36 @@ This is another useful boundary result. Contrastive windows recover strong vulne
 
 ## Next Step
 
-The next version should move from keyword-ranked hunk selection to outcome-aware window selection. A better follow-up is to mine hard `26+` false positives and false negatives, then learn or score which changed windows caused the detector decision. In other words, the next localizer should be error-driven, not just contrastive.
+## Error-Driven Window Mining
+
+The first error-window mining report is complete for the current best `26+` bucket checkpoint, `edge-focus` at threshold `0.3`.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_26PLUS_ERROR_WINDOWS.md`
+- JSON: `reports/secure_code_primevul_pair_diff_edge_focus_26plus_error_windows.json`
+
+The `26+` error set has:
+
+- rows: `159`
+- false positives: `28`
+- false negatives: `13`
+
+The important finding is that false positives and false negatives share almost the same top lexical cues:
+
+- FP top keywords: `len`, `size`, `valid`, `mem`, `check`, `length`, `alloc`
+- FN top keywords: `len`, `size`, `mem`, `free`, `length`, `valid`, `alloc`
+
+This explains why keyword-ranked hunk selection is weak. The same security-looking words appear in both vulnerable-introducing changes and safe hardening changes. In many high-confidence false positives, the candidate side adds checks, bounds, or refactors to safer APIs, but the model treats the presence of security vocabulary as vulnerability evidence.
+
+## Next Step
+
+The next localizer should score directionality, not just salience. Specifically, it should distinguish:
+
+- candidate adds validation or bounds checks
+- candidate removes validation or bounds checks
+- candidate replaces unsafe API with safer API
+- candidate introduces unsafe API or raw memory operation
+- candidate only refactors formatting/control flow around security-looking code
+
+A good next experiment is a direction-aware window dataset with explicit features for added-vs-removed security operations, then a small ablation against the current keyword-ranked contrastive windows.
