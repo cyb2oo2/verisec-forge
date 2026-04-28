@@ -139,6 +139,14 @@ The important finding is that false positives and false negatives share almost t
 
 This explains why keyword-ranked hunk selection is weak. The same security-looking words appear in both vulnerable-introducing changes and safe hardening changes. In many high-confidence false positives, the candidate side adds checks, bounds, or refactors to safer APIs, but the model treats the presence of security vocabulary as vulnerability evidence.
 
+The updated direction-aware mining pass makes that diagnosis more concrete:
+
+- FP top direction labels: `candidate_adds_protection` appears `24` times across top hunks
+- FN top direction labels: `candidate_removes_protection` appears `12` times across top hunks
+- Both error classes still contain mixed labels, so this should be treated as a heuristic analysis scaffold rather than a validated causal explanation
+
+This is a better next-step signal than raw keyword counts. It suggests the `26+` bucket is not mainly failing because the selected hunks lack security vocabulary; it is failing because the representation does not make candidate-side operation direction explicit enough.
+
 ## Next Step
 
 The next localizer should score directionality, not just salience. Specifically, it should distinguish:

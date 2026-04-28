@@ -65,7 +65,7 @@ Important caveat:
 - hunk-localized diff training reaches best balanced accuracy `0.8298`; direct transfer from the original diff-only checkpoint to localized inputs drops to `0.7981`, so compression needs its own training rather than being a free inference-time trick
 - aggressive `26+` large-diff localization reaches best bucket balanced accuracy `0.7334`, below the edge-focus bucket result `0.7438`; shortening alone is not enough without contrastive evidence-window selection
 - contrastive-window training reaches full deduplicated best balanced accuracy `0.8270`, but only `0.7075` on the `26+` bucket, so explicit counterpart-vs-candidate windows expose the recall/specificity tradeoff without solving it
-- `26+` error-window mining shows FP and FN windows share the same surface security keywords (`len`, `size`, `mem`, `valid`), so the next localizer must model directionality rather than keyword salience
+- `26+` direction-aware error-window mining shows FP and FN windows share the same surface security keywords (`len`, `size`, `mem`, `valid`), while FP windows often add protection and FN windows often remove protection; the next localizer should score candidate-side directionality rather than keyword salience alone
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -133,8 +133,8 @@ Important boundary result:
   The aggressive `26+` localization check improves specificity but loses recall, so the next localizer should preserve vulnerable/fixed changed windows together rather than simply selecting shorter keyword-heavy hunks.
 - **Contrastive windows are informative but still not enough.**
   The contrastive detector lands inside the main paired-diff band on full eval, but `26+` specificity remains weak at high recall. The next step should be error-driven window mining, not another generic formatting variant.
-- **Error windows show why keyword mining fails.**
-  In `26+` errors, false positives and false negatives both contain security-looking tokens such as `len`, `size`, and `mem`. The next localizer needs direction-aware features: whether candidate code adds checks, removes checks, introduces unsafe calls, or replaces unsafe calls.
+- **Direction-aware error windows show why keyword mining fails.**
+  In `26+` errors, false positives and false negatives both contain security-looking tokens such as `len`, `size`, and `mem`. The new direction-aware mining pass adds candidate-side signals such as added checks, removed checks, introduced risky calls, and removed risky calls. FP windows are dominated by `candidate_adds_protection`, while FN windows show more `candidate_removes_protection`, so the next localizer should learn operation direction rather than salience alone.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

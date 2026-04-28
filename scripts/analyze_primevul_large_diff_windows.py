@@ -15,6 +15,51 @@ from scripts.build_primevul_pair_context_dataset import SECURITY_KEYWORDS, _hunk
 from scripts.build_primevul_localized_diff_dataset import extract_diff
 from vrf.io_utils import read_jsonl, write_json
 
+PROTECTION_TERMS = {
+    "assert",
+    "bound",
+    "bounds",
+    "check",
+    "checked",
+    "error",
+    "err",
+    "goto",
+    "if",
+    "invalid",
+    "len",
+    "length",
+    "limit",
+    "null",
+    "range",
+    "return",
+    "size",
+    "valid",
+    "validate",
+}
+RISK_TERMS = {
+    "alloc",
+    "free",
+    "malloc",
+    "memcpy",
+    "memmove",
+    "memset",
+    "realloc",
+    "sprintf",
+    "strcat",
+    "strcpy",
+}
+SAFER_TERMS = {
+    "bounded",
+    "checked",
+    "memcpy_s",
+    "safe",
+    "snprintf",
+    "strlcat",
+    "strlcpy",
+    "strncpy",
+    "validate",
+}
+
 
 def confusion(gold: int, pred: int) -> str:
     if gold == 1 and pred == 1:
@@ -39,6 +84,48 @@ def keyword_hits(text: str) -> list[str]:
     return sorted(keyword for keyword in SECURITY_KEYWORDS if keyword in lower)
 
 
+def count_terms(lines: list[str], terms: set[str]) -> int:
+    text = "\n".join(lines).lower()
+    return sum(text.count(term) for term in terms)
+
+
+def direction_features(added: list[str], removed: list[str]) -> dict[str, Any]:
+    added_protection = count_terms(added, PROTECTION_TERMS)
+    removed_protection = count_terms(removed, PROTECTION_TERMS)
+    added_risk = count_terms(added, RISK_TERMS)
+    removed_risk = count_terms(removed, RISK_TERMS)
+    added_safer = count_terms(added, SAFER_TERMS)
+    removed_safer = count_terms(removed, SAFER_TERMS)
+    protection_delta = added_protection - removed_protection
+    risk_delta = added_risk - removed_risk
+    safer_delta = added_safer - removed_safer
+
+    labels: list[str] = []
+    if protection_delta > 0 or safer_delta > 0:
+        labels.append("candidate_adds_protection")
+    if protection_delta < 0 or safer_delta < 0:
+        labels.append("candidate_removes_protection")
+    if risk_delta > 0:
+        labels.append("candidate_introduces_risk")
+    if risk_delta < 0:
+        labels.append("candidate_removes_risk")
+    if not labels:
+        labels.append("direction_unclear")
+
+    return {
+        "added_protection_terms": added_protection,
+        "removed_protection_terms": removed_protection,
+        "added_risk_terms": added_risk,
+        "removed_risk_terms": removed_risk,
+        "added_safer_terms": added_safer,
+        "removed_safer_terms": removed_safer,
+        "protection_delta": protection_delta,
+        "risk_delta": risk_delta,
+        "safer_delta": safer_delta,
+        "direction_labels": labels,
+    }
+
+
 def summarize_hunk(hunk: list[str]) -> dict[str, Any]:
     changed = changed_lines(hunk)
     added = [line[1:] for line in changed if line.startswith("+")]
@@ -53,6 +140,7 @@ def summarize_hunk(hunk: list[str]) -> dict[str, Any]:
         "keywords": keyword_hits(text),
         "removed_preview": removed[:6],
         "added_preview": added[:6],
+        **direction_features(added, removed),
     }
 
 
@@ -65,6 +153,7 @@ def top_hunks(pair_text: str, *, limit: int) -> list[dict[str, Any]]:
 
 def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
     keyword_counts: Counter[str] = Counter()
+    direction_counts: Counter[str] = Counter()
     project_counts: Counter[str] = Counter()
     cwe_counts: Counter[str] = Counter()
     for row in rows:
@@ -72,11 +161,13 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         cwe_counts[str(row.get("vulnerability_type") or "unknown")] += 1
         for hunk in row["top_hunks"]:
             keyword_counts.update(hunk["keywords"])
+            direction_counts.update(hunk["direction_labels"])
     return {
         "count": len(rows),
         "top_projects": project_counts.most_common(8),
         "top_cwes": cwe_counts.most_common(8),
         "top_keywords": keyword_counts.most_common(12),
+        "top_direction_labels": direction_counts.most_common(8),
     }
 
 
@@ -135,7 +226,12 @@ def build_analysis(
 
 def render_hunk(hunk: dict[str, Any]) -> list[str]:
     lines = [
-        f"- Hunk `{hunk['header']}` score `{hunk['score']}` changed `{hunk['changed_lines']}` keywords `{', '.join(hunk['keywords']) or 'none'}`",
+        (
+            f"- Hunk `{hunk['header']}` score `{hunk['score']}` changed `{hunk['changed_lines']}` "
+            f"keywords `{', '.join(hunk['keywords']) or 'none'}` "
+            f"directions `{', '.join(hunk['direction_labels'])}` "
+            f"deltas `protection={hunk['protection_delta']}, risk={hunk['risk_delta']}, safer={hunk['safer_delta']}`"
+        ),
     ]
     if hunk["removed_preview"]:
         lines.append(f"- Removed: `{' | '.join(hunk['removed_preview'])[:180]}`")
@@ -179,6 +275,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "",
         f"- FP top keywords: `{payload['false_positive_aggregate']['top_keywords']}`",
         f"- FN top keywords: `{payload['false_negative_aggregate']['top_keywords']}`",
+        f"- FP top directions: `{payload['false_positive_aggregate']['top_direction_labels']}`",
+        f"- FN top directions: `{payload['false_negative_aggregate']['top_direction_labels']}`",
         f"- FP top projects: `{payload['false_positive_aggregate']['top_projects']}`",
         f"- FN top projects: `{payload['false_negative_aggregate']['top_projects']}`",
         "",

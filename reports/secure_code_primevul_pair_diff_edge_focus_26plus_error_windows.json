@@ -123,6 +123,28 @@
         "strlen",
         1
       ]
+    ],
+    "top_direction_labels": [
+      [
+        "candidate_adds_protection",
+        24
+      ],
+      [
+        "candidate_removes_protection",
+        12
+      ],
+      [
+        "direction_unclear",
+        9
+      ],
+      [
+        "candidate_removes_risk",
+        5
+      ],
+      [
+        "candidate_introduces_risk",
+        5
+      ]
     ]
   },
   "false_negative_aggregate": {
@@ -232,6 +254,28 @@
         "strlen",
         1
       ]
+    ],
+    "top_direction_labels": [
+      [
+        "candidate_removes_protection",
+        12
+      ],
+      [
+        "candidate_adds_protection",
+        5
+      ],
+      [
+        "direction_unclear",
+        4
+      ],
+      [
+        "candidate_introduces_risk",
+        3
+      ],
+      [
+        "candidate_removes_risk",
+        2
+      ]
     ]
   },
   "top_false_positives": [
@@ -275,6 +319,18 @@
             "\t",
             "\t  offset += 1 + alen * 4;",
             "\t  if((offset+8) <= ovpn_payload_len) {"
+          ],
+          "added_protection_terms": 8,
+          "removed_protection_terms": 8,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         },
         {
@@ -300,6 +356,18 @@
             "  ",
             "  if(ovpn_payload_len >= 40) {",
             "      ovpn_payload += 2, ovpn_payload_len -= 2;;"
+          ],
+          "added_protection_terms": 5,
+          "removed_protection_terms": 2,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 3,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         }
       ]
@@ -345,6 +413,18 @@
             "    if (recurse_check_bit(common, OVECTOR(offset << 1)))",
             "      {",
             "      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));"
+          ],
+          "added_protection_terms": 40,
+          "removed_protection_terms": 12,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 28,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         },
         {
@@ -377,6 +457,18 @@
             "    if (offset != 0 && recurse_check_bit(common, offset))",
             "      {",
             "      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));"
+          ],
+          "added_protection_terms": 16,
+          "removed_protection_terms": 7,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 9,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         }
       ]
@@ -416,6 +508,18 @@
             "\t\ticWBC[Sony_SRF_wb_list[nWB]][i] = sget4(srf_buf + tag_dataoffset);",
             "\t\tCHECKBUFFER_SGET4(tag_dataoffset);",
             "\t\tcam_mul[i] = sget4(srf_buf + tag_dataoffset);"
+          ],
+          "added_protection_terms": 5,
+          "removed_protection_terms": 3,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         },
         {
@@ -439,6 +543,18 @@
           "added_preview": [
             "  ushort entries;",
             "  srf_buf = (uchar *)malloc(len+64);"
+          ],
+          "added_protection_terms": 1,
+          "removed_protection_terms": 1,
+          "added_risk_terms": 2,
+          "removed_risk_terms": 2,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         }
       ]
@@ -474,6 +590,18 @@
             "                    && OP(startbranch) == BRANCH",
             "                    && mutate_ok",
             "                ) {"
+          ],
+          "added_protection_terms": 1,
+          "removed_protection_terms": 1,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         },
         {
@@ -495,6 +623,18 @@
             "                            && ! HAS_NONLATIN1_SIMPLE_FOLD_CLOSURE(* STRING(next))))",
             "                    &&   mutate_ok",
             "                ) {"
+          ],
+          "added_protection_terms": 0,
+          "removed_protection_terms": 0,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         }
       ]
@@ -532,6 +672,18 @@
           "added_preview": [
             "    if (outbuf.length() > 0) {",
             "        entry->append(outbuf.rawContent(), outbuf.length());"
+          ],
+          "added_protection_terms": 5,
+          "removed_protection_terms": 3,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         },
         {
@@ -563,6 +715,19 @@
             "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\",",
             "                                           icon_url, rfc1738_escape_part(host), *port ? \":\" : \"\",",
             "                                           port, html_quote(name));"
+          ],
+          "added_protection_terms": 1,
+          "removed_protection_terms": 6,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 5,
+          "protection_delta": -5,
+          "risk_delta": -1,
+          "safer_delta": -5,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
           ]
         }
       ]
@@ -606,6 +771,19 @@
             "\t\t\t\tgoto out;",
             "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
             "\t\t\t\tgoto out;"
+          ],
+          "added_protection_terms": 21,
+          "removed_protection_terms": 43,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 3,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -22,
+          "risk_delta": -3,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
           ]
         },
         {
@@ -633,6 +811,18 @@
             "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
             "\t\t\t\tgoto out;",
             "\t\t\t\tgoto out;"
+          ],
+          "added_protection_terms": 6,
+          "removed_protection_terms": 8,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -680,6 +870,20 @@
             "        if (url->auth_header && len >= url->auth_header_len && strncasecmp(ptr, url->auth_header, url->auth_header_len) == 0)",
             "",
             "        if (url->timelimit_header && len > url->timelimit_header_len && strncasecmp(ptr, url->timelimit_header, url->timelimit_header_len) == 0) {"
+          ],
+          "added_protection_terms": 71,
+          "removed_protection_terms": 28,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 1,
+          "protection_delta": 43,
+          "risk_delta": 1,
+          "safer_delta": -1,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_removes_protection",
+            "candidate_introduces_risk"
           ]
         }
       ]
@@ -715,6 +919,18 @@
             "///   expression should not make any allocations and the IP should be set",
             "///   immediately following this macro.",
             "#define DONT_CAPTURE_IP(expr)      \\"
+          ],
+          "added_protection_terms": 0,
+          "removed_protection_terms": 0,
+          "added_risk_terms": 3,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 3,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_introduces_risk"
           ]
         },
         {
@@ -743,6 +959,18 @@
             "        DISPATCH;",
             "        DONT_CAPTURE_IP(saveGenerator(",
             "            runtime, frameRegs, IPADD(ip->iSaveGeneratorLong.op1)));"
+          ],
+          "added_protection_terms": 0,
+          "removed_protection_terms": 2,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -790,6 +1018,19 @@
             "\t}",
             "\tfree_iv = php_openssl_validate_iv(&iv, &iv_len, max_iv_len TSRMLS_CC);",
             "\tEVP_EncryptInit(&cipher_ctx, cipher_type, NULL, NULL);"
+          ],
+          "added_protection_terms": 26,
+          "removed_protection_terms": 13,
+          "added_risk_terms": 2,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 1,
+          "removed_safer_terms": 1,
+          "protection_delta": 13,
+          "risk_delta": 1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
           ]
         },
         {
@@ -818,6 +1059,18 @@
             "\tzend_bool raw_output = 0;",
             "\tint data_len, method_len, password_len, iv_len = 0, max_iv_len;",
             "\tif (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, \"sss|bs\", &data, &data_len, &method, &method_len, &password, &password_len, &raw_output, &iv, &iv_len) == FAILURE) {"
+          ],
+          "added_protection_terms": 10,
+          "removed_protection_terms": 22,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -12,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -866,6 +1119,19 @@
             "\tchar *abspath_to_file = NULL;",
             "\tchar *archive_name = NULL;",
             "\tsize_t archive_name_len = 0;"
+          ],
+          "added_protection_terms": 33,
+          "removed_protection_terms": 3,
+          "added_risk_terms": 25,
+          "removed_risk_terms": 8,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 30,
+          "risk_delta": 17,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
           ]
         }
       ]
@@ -911,6 +1177,19 @@
             "\t\t\t\tgoto err_set_init;",
             "\tudata = NULL;",
             "\tif (udlen) {"
+          ],
+          "added_protection_terms": 33,
+          "removed_protection_terms": 12,
+          "added_risk_terms": 3,
+          "removed_risk_terms": 6,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 21,
+          "risk_delta": -3,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_removes_risk"
           ]
         },
         {
@@ -940,6 +1219,18 @@
           "added_preview": [
             "\t\tgoto err_set_alloc_name;",
             "\t\t\tgoto err_set_alloc_name;"
+          ],
+          "added_protection_terms": 4,
+          "removed_protection_terms": 24,
+          "added_risk_terms": 2,
+          "removed_risk_terms": 2,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -20,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -980,6 +1271,18 @@
             "  int leftLimit, rightLimit;",
             "  int i;",
             "  leftLimit = (-1);"
+          ],
+          "added_protection_terms": 25,
+          "removed_protection_terms": 26,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -1,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -1024,6 +1327,18 @@
             "\t    NDPI_LOG_INFO(ndpi_struct,\"found openvpn\\n\");",
             "\t    ndpi_set_detected_protocol(ndpi_struct, flow, NDPI_PROTOCOL_OPENVPN, NDPI_PROTOCOL_UNKNOWN);",
             "\t    return;"
+          ],
+          "added_protection_terms": 8,
+          "removed_protection_terms": 8,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         },
         {
@@ -1049,6 +1364,18 @@
             "",
             "  if(packet->payload_packet_len >= 40) {",
             "      ovpn_payload += 2;"
+          ],
+          "added_protection_terms": 2,
+          "removed_protection_terms": 5,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -3,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         }
       ]
@@ -1092,6 +1419,18 @@
             "\trc = snprintf(&ja3_str[ja3_str_len], sizeof(ja3_str)-ja3_str_len, \"%s%u\", (i > 0) ? \"-\" : \"\", ja3.server.cipher[i]);",
             "      rc = snprintf(&ja3_str[ja3_str_len], sizeof(ja3_str)-ja3_str_len, \",\");",
             "      if(rc > 0 && ja3_str_len + rc < JA3_STR_LEN) ja3_str_len += rc;"
+          ],
+          "added_protection_terms": 22,
+          "removed_protection_terms": 33,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 6,
+          "removed_safer_terms": 6,
+          "protection_delta": -11,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         },
         {
@@ -1123,6 +1462,18 @@
             "\t\trc = snprintf(&ja3_str[ja3_str_len], sizeof(ja3_str)-ja3_str_len, \"%s%u\",",
             "\t      rc = snprintf(&ja3_str[ja3_str_len], sizeof(ja3_str)-ja3_str_len, \",\");",
             "\t\trc = snprintf(&ja3_str[ja3_str_len], sizeof(ja3_str)-ja3_str_len, \"%s%u\","
+          ],
+          "added_protection_terms": 26,
+          "removed_protection_terms": 26,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 9,
+          "removed_safer_terms": 9,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
           ]
         }
       ]
@@ -1167,6 +1518,18 @@
             "      if (scanner_context.status_flags & SCANNER_CONTEXT_THROW_ERR_ASYNC_FUNCTION)",
             "        JERRY_ASSERT (scanner_context.async_source_p != NULL);",
             ""
+          ],
+          "added_protection_terms": 19,
+          "removed_protection_terms": 43,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -24,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
           ]
         },
         {
@@ -1193,6 +1556,19 @@
             "#if ENABLED (JERRY_ES2015)",
             "    context_p->status_flags &= (uint32_t) ~PARSER_IS_GENERATOR_FUNCTION;",
             "#endif /* ENABLED (JERRY_ES2015) */"
+          ],
+          "added_protection_terms": 4,
+          "removed_protection_terms": 1,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 3,
+          "risk_delta": -1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_removes_risk"
           ]
         }
       ]
@@ -1237,6 +1613,18 @@
             "      heif_image_handle_release(image_handle);",
             "      heif_context_free(heif_context);",
             "      file_data=RelinquishMagickMemory(file_data);"
+          ],
+          "added_protection_terms": 26,
+          "removed_protection_terms": 25,
+          "added_risk_terms": 3,
+          "removed_risk_terms": 3,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 1,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
           ]
         }
       ]

@@ -56,3 +56,29 @@ def test_large_diff_window_analysis_extracts_fp_and_fn_hunks() -> None:
     assert payload["summary"]["fn"] == 1
     assert payload["top_false_positives"][0]["top_hunks"][0]["keywords"]
     assert payload["top_false_negatives"][0]["top_hunks"][0]["keywords"]
+    assert "top_direction_labels" in payload["false_positive_aggregate"]
+
+
+def test_large_diff_window_analysis_tracks_candidate_direction() -> None:
+    module = _load_module()
+
+    safer_hunk = [
+        "@@ -1,1 +1,1 @@",
+        "-strcpy(dst, src);",
+        "+bounded_copy(dst, src, len);",
+    ]
+    risky_hunk = [
+        "@@ -2,1 +2,1 @@",
+        "-check_len(len);",
+        "+memcpy(dst, src, len);",
+    ]
+
+    safer_summary = module.summarize_hunk(safer_hunk)
+    risky_summary = module.summarize_hunk(risky_hunk)
+
+    assert "candidate_adds_protection" in safer_summary["direction_labels"]
+    assert "candidate_removes_risk" in safer_summary["direction_labels"]
+    assert safer_summary["safer_delta"] > 0
+
+    assert "candidate_introduces_risk" in risky_summary["direction_labels"]
+    assert risky_summary["protection_delta"] <= 0
