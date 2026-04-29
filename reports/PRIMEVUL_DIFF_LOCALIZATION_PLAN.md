@@ -185,3 +185,23 @@ The matched same-template training result is now complete:
 - best `26+` operating point: recall `0.6923`, specificity `0.8519`, precision `0.8182`, F1 `0.7500`
 
 This beats the previous best `26+` bucket result (`0.7438` from edge-focus) while preserving the full-eval paired-diff operating band. The next valid step is not another generic localizer, but a failure analysis of the remaining direction-aware `26+` misses.
+
+## Direction-Aware Recall-Recovery v1
+
+The first recall-recovery variant is complete. It builds a `3249`-row training set by oversampling vulnerable `26+` direction-aware train rows and adding a small number of safe `26+` anchors.
+
+Artifacts:
+
+- train summary: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3249_summary.json`
+- full eval sweep: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_threshold_sweep.json`
+- `26+` bucket sweep: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
+- `26+` error windows: `reports/PRIMEVUL_DIRECTION_AWARE_RECALL_RECOVERY_26PLUS_ERROR_WINDOWS.md`
+
+Results:
+
+- full deduplicated eval best balanced accuracy: `0.8180`
+- `26+` bucket best balanced accuracy: `0.7904`
+- `26+` default threshold: recall `0.8462`, specificity `0.6543`
+- `26+` best balanced threshold: recall `0.6795`, specificity `0.9012`
+
+This is the strongest `26+` bucket result so far, but it also shows that recall recovery must be calibrated. The default point recovers vulnerable examples at the cost of many false positives; the best balanced point improves the bucket score through threshold tuning.

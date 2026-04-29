@@ -102,6 +102,37 @@ So the new representation changes the failure mode. It sharply reduces false pos
 
 The next training target is therefore not "add direction labels" in general. It is recall recovery for vulnerable rows where the top windows mix hardening-looking edits with risk-introducing edits.
 
+## Recall-Recovery v1
+
+The first recall-recovery dataset is built without using eval false negatives directly. It oversamples same-template train rows that match the hard training pattern:
+
+- base train rows: `3000`
+- output train rows: `3249`
+- added rows: `249`
+- all vulnerable `26+` rows repeated once: `143`
+- mixed vulnerable `26+` rows repeated twice: `33` source rows
+- safe `26+` anchors added: `40`
+- label mix: `1709` vulnerable / `1540` safe
+- summary: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3249_summary.json`
+
+Full deduplicated eval:
+
+| Threshold | Balanced Accuracy | Recall | Specificity | Precision | F1 |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| `0.5` | `0.8180` | `0.7732` | `0.8629` | `0.8491` | `0.8094` |
+
+`26+` large-diff bucket:
+
+| Selector | Threshold | Balanced Accuracy | Recall | Specificity | Precision | F1 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| best balanced | `0.8` | `0.7904` | `0.6795` | `0.9012` | `0.8689` | `0.7626` |
+| best F1 | `0.7` | `0.7792` | `0.7436` | `0.8148` | `0.7945` | `0.7682` |
+| default | `0.5` | `0.7502` | `0.8462` | `0.6543` | `0.7021` | `0.7674` |
+
+This is a useful but nuanced result. The default threshold behaves like a recall-recovery mode and cuts `26+` false negatives from `24` to `12`, but false positives rise from `12` to `28`. After threshold calibration, the best balanced point reaches `0.7904`, the strongest `26+` result so far, with the same `8` false positives as the previous high-specificity point and `25` false negatives.
+
+The lesson is that targeted oversampling changed the probability distribution more than it simply raised recall. Its value appears only when paired with threshold calibration.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -110,4 +141,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-Run a targeted recall-recovery experiment for direction-aware windows. The most direct option is a small edge-focus variant that oversamples direction-aware `26+` false negatives while preserving the specificity gain from the current model.
+Run a second recall-recovery ablation with less vulnerable duplication or more safe anchors. The goal is to keep the `0.7904` bucket gain while improving full-eval balanced accuracy back toward the `0.8225` direction-aware baseline.

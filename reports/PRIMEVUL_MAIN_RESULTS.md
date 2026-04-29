@@ -32,6 +32,7 @@ This table is generated from run artifacts by `scripts/build_primevul_main_resul
 | localized-diff detector | 0.6000 | 0.8298 | 0.8056 | 0.8540 | 0.8462 | 0.8254 | 0.8298 | hunk-localized diff training |
 | contrastive-window detector | 0.4000 | 0.8270 | 0.8525 | 0.8016 | 0.8108 | 0.8312 | 0.8270 | counterpart-vs-candidate changed windows |
 | direction-aware window detector | 0.5000 | 0.8225 | 0.8268 | 0.8183 | 0.8195 | 0.8231 | 0.8225 | same-template operation-direction windows |
+| direction-aware recall-recovery detector | 0.5000 | 0.8181 | 0.7732 | 0.8629 | 0.8491 | 0.8094 | 0.8180 | 26+ vulnerable oversampling with safe anchors |
 | diff-only detector, edge-focus | 0.5000 | 0.8348 | 0.7966 | 0.8729 | 0.8622 | 0.8281 | 0.8348 | targets 00-02 and 26+ changed-line buckets; single seed |
 | diff-only detector, edge-focus seed7 | 0.5000 | 0.8164 | 0.8179 | 0.8149 | 0.8151 | 0.8165 | 0.8164 | edge-focus multi-seed check |
 | diff-only detector, edge-focus seed99 | 0.4000 | 0.8225 | 0.8492 | 0.7960 | 0.8059 | 0.8270 | 0.8226 | edge-focus multi-seed check |
