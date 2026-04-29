@@ -26,6 +26,7 @@ DISPLAY_ROWS = [
     "diff-only checkpoint on localized eval",
     "localized-diff detector",
     "contrastive-window detector",
+    "direction-aware window detector",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
     "diff-only detector, edge-focus",
@@ -43,6 +44,8 @@ def load_display_rows(results_path: str) -> list[dict[str, Any]]:
 def color_for(system: str) -> str:
     if "diff-only" in system:
         return "#0f766e"
+    if "direction-aware" in system:
+        return "#7c3aed"
     if "control" in system:
         return "#94a3b8"
     if "candidate+diff" in system or "pair-context" in system:

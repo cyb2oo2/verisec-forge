@@ -176,4 +176,12 @@ Direct transfer from the existing edge-focus checkpoint is negative:
 - default threshold: accuracy `0.5094`, recall `0.0000`, specificity `1.0000`
 - best balanced threshold: balanced accuracy `0.5377` at threshold `0.07`
 
-This should not be interpreted as evidence that direction features are useless. It is mainly a representation-shift result: a raw-diff checkpoint was not trained on the direction-aware template. The next valid test is same-template training on a direction-aware train set, then bucket evaluation against the current `26+` edge-focus result.
+This should not be interpreted as evidence that direction features are useless. It is mainly a representation-shift result: a raw-diff checkpoint was not trained on the direction-aware template.
+
+The matched same-template training result is now complete:
+
+- full deduplicated eval best balanced accuracy: `0.8225`
+- `26+` bucket best balanced accuracy: `0.7721`
+- best `26+` operating point: recall `0.6923`, specificity `0.8519`, precision `0.8182`, F1 `0.7500`
+
+This beats the previous best `26+` bucket result (`0.7438` from edge-focus) while preserving the full-eval paired-diff operating band. The next valid step is not another generic localizer, but a failure analysis of the remaining direction-aware `26+` misses.

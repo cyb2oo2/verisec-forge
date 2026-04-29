@@ -136,6 +136,11 @@ def build_rows() -> list[dict[str, Any]]:
             note="counterpart-vs-candidate changed windows",
         ),
         _from_sweep(
+            "direction-aware window detector",
+            "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_threshold_sweep.json",
+            note="same-template operation-direction windows",
+        ),
+        _from_sweep(
             "diff-only detector, edge-focus",
             "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
             note="targets 00-02 and 26+ changed-line buckets; single seed",

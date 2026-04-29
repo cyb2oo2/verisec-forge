@@ -181,6 +181,18 @@
       "note": "counterpart-vs-candidate changed windows"
     },
     {
+      "system": "direction-aware window detector",
+      "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_threshold_sweep.json",
+      "threshold": 0.5,
+      "accuracy": 0.8225,
+      "recall": 0.8268,
+      "specificity": 0.8183,
+      "precision": 0.8195,
+      "f1": 0.8231,
+      "balanced_accuracy": 0.8225,
+      "note": "same-template operation-direction windows"
+    },
+    {
       "system": "diff-only detector, edge-focus",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
       "threshold": 0.5,
