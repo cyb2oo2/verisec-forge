@@ -158,3 +158,22 @@ The next localizer should score directionality, not just salience. Specifically,
 - candidate only refactors formatting/control flow around security-looking code
 
 A good next experiment is a direction-aware window dataset with explicit features for added-vs-removed security operations, then a small ablation against the current keyword-ranked contrastive windows.
+
+## Direction-Aware Window Transfer Check
+
+The first direction-aware representation is now implemented.
+
+Artifacts:
+
+- eval slice: `data/processed/primevul_diff_bucket_slices/eval_26plus_directional_h3_c2400.jsonl`
+- summary: `reports/secure_code_primevul_pair_diff_bucket_26plus_directional_h3_c2400_summary.json`
+- report: `reports/PRIMEVUL_DIRECTION_AWARE_WINDOWS.md`
+
+The representation keeps up to `3` hunks and adds heuristic labels such as `candidate_adds_protection`, `candidate_removes_protection`, `candidate_introduces_risk`, and `candidate_removes_risk`.
+
+Direct transfer from the existing edge-focus checkpoint is negative:
+
+- default threshold: accuracy `0.5094`, recall `0.0000`, specificity `1.0000`
+- best balanced threshold: balanced accuracy `0.5377` at threshold `0.07`
+
+This should not be interpreted as evidence that direction features are useless. It is mainly a representation-shift result: a raw-diff checkpoint was not trained on the direction-aware template. The next valid test is same-template training on a direction-aware train set, then bucket evaluation against the current `26+` edge-focus result.

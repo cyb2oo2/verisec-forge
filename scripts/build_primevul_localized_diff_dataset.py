@@ -14,6 +14,51 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.build_primevul_pair_context_dataset import _hunk_score, _split_diff_hunks, localize_pair_diff
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
 
+PROTECTION_TERMS = {
+    "assert",
+    "bound",
+    "bounds",
+    "check",
+    "checked",
+    "error",
+    "err",
+    "goto",
+    "if",
+    "invalid",
+    "len",
+    "length",
+    "limit",
+    "null",
+    "range",
+    "return",
+    "size",
+    "valid",
+    "validate",
+}
+RISK_TERMS = {
+    "alloc",
+    "free",
+    "malloc",
+    "memcpy",
+    "memmove",
+    "memset",
+    "realloc",
+    "sprintf",
+    "strcat",
+    "strcpy",
+}
+SAFER_TERMS = {
+    "bounded",
+    "checked",
+    "memcpy_s",
+    "safe",
+    "snprintf",
+    "strlcat",
+    "strlcpy",
+    "strncpy",
+    "validate",
+}
+
 
 def extract_diff(text: str) -> str:
     marker = "Unified diff:"
@@ -58,6 +103,42 @@ def _format_block(lines: list[str]) -> str:
     return "\n".join(f"  {line}" for line in lines[:12])
 
 
+def _count_terms(lines: list[str], terms: set[str]) -> int:
+    text = "\n".join(lines).lower()
+    return sum(text.count(term) for term in terms)
+
+
+def _direction_labels(candidate_lines: list[str], counterpart_lines: list[str]) -> tuple[list[str], dict[str, int]]:
+    added_protection = _count_terms(candidate_lines, PROTECTION_TERMS)
+    removed_protection = _count_terms(counterpart_lines, PROTECTION_TERMS)
+    added_risk = _count_terms(candidate_lines, RISK_TERMS)
+    removed_risk = _count_terms(counterpart_lines, RISK_TERMS)
+    added_safer = _count_terms(candidate_lines, SAFER_TERMS)
+    removed_safer = _count_terms(counterpart_lines, SAFER_TERMS)
+    protection_delta = added_protection - removed_protection
+    risk_delta = added_risk - removed_risk
+    safer_delta = added_safer - removed_safer
+
+    labels: list[str] = []
+    if protection_delta > 0 or safer_delta > 0:
+        labels.append("candidate_adds_protection")
+    if protection_delta < 0 or safer_delta < 0:
+        labels.append("candidate_removes_protection")
+    if risk_delta > 0:
+        labels.append("candidate_introduces_risk")
+    if risk_delta < 0:
+        labels.append("candidate_removes_risk")
+    if not labels:
+        labels.append("direction_unclear")
+
+    counts = {
+        "protection_delta": protection_delta,
+        "risk_delta": risk_delta,
+        "safer_delta": safer_delta,
+    }
+    return labels, counts
+
+
 def contrastive_pair_diff(pair_diff: str, *, max_chars: int, max_hunks: int) -> str:
     headers, hunks = _split_diff_hunks(pair_diff)
     if not hunks:
@@ -80,6 +161,58 @@ def contrastive_pair_diff(pair_diff: str, *, max_chars: int, max_hunks: int) -> 
     )
 
 
+def _hunk_to_directional_window(hunk: list[str]) -> str:
+    counterpart_lines: list[str] = []
+    candidate_lines: list[str] = []
+    context_lines: list[str] = []
+    header = hunk[0] if hunk else "@@"
+    for line in hunk[1:]:
+        if line.startswith("-") and not line.startswith("---"):
+            counterpart_lines.append(line[1:])
+        elif line.startswith("+") and not line.startswith("+++"):
+            candidate_lines.append(line[1:])
+        elif line.startswith(" "):
+            context_lines.append(line[1:])
+    labels, counts = _direction_labels(candidate_lines, counterpart_lines)
+    return (
+        f"Hunk: {header}\n"
+        f"Candidate operation labels: {', '.join(labels)}\n"
+        "Candidate operation deltas: "
+        f"protection={counts['protection_delta']}, "
+        f"risk={counts['risk_delta']}, "
+        f"safer={counts['safer_delta']}\n"
+        "Shared context:\n"
+        f"{_format_block(context_lines)}\n"
+        "Counterpart side removed/old lines:\n"
+        f"{_format_block(counterpart_lines)}\n"
+        "Candidate side added/new lines:\n"
+        f"{_format_block(candidate_lines)}\n"
+    )
+
+
+def directional_pair_diff(pair_diff: str, *, max_chars: int, max_hunks: int) -> str:
+    headers, hunks = _split_diff_hunks(pair_diff)
+    if not hunks:
+        return _clip_text(pair_diff, max_chars=max_chars, marker="[directional diff truncated]")
+    ranked = sorted(enumerate(hunks), key=lambda item: _hunk_score(item[1]), reverse=True)
+    selected = [hunk for _index, hunk in ranked[:max_hunks]]
+    rendered = [
+        "[direction-aware diff windows: judge whether the candidate side is vulnerable]",
+        "[operation labels are heuristic hints, not gold labels]",
+        *headers[:2],
+    ]
+    for index, hunk in enumerate(selected, start=1):
+        rendered.append(f"\nWindow {index}:")
+        rendered.append(_hunk_to_directional_window(hunk))
+    omitted = max(0, len(hunks) - len(selected))
+    rendered.append(f"[directional windows kept {len(selected)} of {len(hunks)} hunks; omitted {omitted}]")
+    return _clip_text(
+        "\n".join(rendered) + "\n",
+        max_chars=max_chars,
+        marker="[direction-aware diff truncated to fit character budget]",
+    )
+
+
 def build_localized_text(
     row: dict[str, Any],
     *,
@@ -89,7 +222,13 @@ def build_localized_text(
 ) -> tuple[str, bool, int, int, str]:
     original_text = str(row.get("pair_text") or row.get("prompt") or "")
     pair_diff = extract_diff(original_text)
-    if mode == "contrastive":
+    if mode == "directional":
+        localized_diff = directional_pair_diff(pair_diff, max_chars=max_chars, max_hunks=max_hunks)
+        title = "direction-aware localized diff"
+        body = "Long diffs are reduced to candidate-vs-counterpart windows with heuristic operation-direction labels."
+        heading = "Direction-aware changed windows:"
+        text_mode = "diff_directional_localized"
+    elif mode == "contrastive":
         localized_diff = contrastive_pair_diff(pair_diff, max_chars=max_chars, max_hunks=max_hunks)
         title = "contrastive localized diff"
         body = "Long diffs are reduced to paired counterpart-vs-candidate changed windows."
@@ -171,7 +310,7 @@ def main() -> None:
     parser.add_argument("--summary-output", required=True)
     parser.add_argument("--max-chars", type=int, default=3600)
     parser.add_argument("--max-hunks", type=int, default=6)
-    parser.add_argument("--mode", choices=["localized", "contrastive"], default="localized")
+    parser.add_argument("--mode", choices=["localized", "contrastive", "directional"], default="localized")
     args = parser.parse_args()
 
     rows = read_jsonl(args.input)

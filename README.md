@@ -66,6 +66,7 @@ Important caveat:
 - aggressive `26+` large-diff localization reaches best bucket balanced accuracy `0.7334`, below the edge-focus bucket result `0.7438`; shortening alone is not enough without contrastive evidence-window selection
 - contrastive-window training reaches full deduplicated best balanced accuracy `0.8270`, but only `0.7075` on the `26+` bucket, so explicit counterpart-vs-candidate windows expose the recall/specificity tradeoff without solving it
 - `26+` direction-aware error-window mining shows FP and FN windows share the same surface security keywords (`len`, `size`, `mem`, `valid`), while FP windows often add protection and FN windows often remove protection; the next localizer should score candidate-side directionality rather than keyword salience alone
+- a first direction-aware transfer check is negative: the existing edge-focus checkpoint collapses on the new template, with best `26+` balanced accuracy only `0.5377`, so the valid next test is same-template direction-aware training rather than inference-time prompt rewriting
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -135,6 +136,8 @@ Important boundary result:
   The contrastive detector lands inside the main paired-diff band on full eval, but `26+` specificity remains weak at high recall. The next step should be error-driven window mining, not another generic formatting variant.
 - **Direction-aware error windows show why keyword mining fails.**
   In `26+` errors, false positives and false negatives both contain security-looking tokens such as `len`, `size`, and `mem`. The new direction-aware mining pass adds candidate-side signals such as added checks, removed checks, introduced risky calls, and removed risky calls. FP windows are dominated by `candidate_adds_protection`, while FN windows show more `candidate_removes_protection`, so the next localizer should learn operation direction rather than salience alone.
+- **Direction-aware templates need matched training.**
+  Directly evaluating the edge-focus raw-diff checkpoint on a direction-aware `26+` template collapses toward safe predictions. This is a useful negative transfer result, not a final judgment on the feature idea: the next fair experiment is to train and evaluate on the same direction-aware representation.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

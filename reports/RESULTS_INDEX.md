@@ -65,6 +65,11 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff 26+ Contrastive Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_contrastive_h3_c2200_summary.json`
 - `Paired Diff 26+ Error Window Analysis`: `reports/PRIMEVUL_26PLUS_ERROR_WINDOWS.md`
 - `Paired Diff 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_edge_focus_26plus_error_windows.json`
+- `Paired Diff Direction-Aware Window Experiment`: `reports/PRIMEVUL_DIRECTION_AWARE_WINDOWS.md`
+- `Paired Diff Direction-Aware Train Summary`: `reports/secure_code_primevul_pair_diff_directional_train_balanced_3000_summary.json`
+- `Paired Diff Direction-Aware Eval Summary`: `reports/secure_code_primevul_pair_diff_directional_eval_balanced_1792_dedup_summary.json`
+- `Paired Diff 26+ Direction-Aware Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_directional_h3_c2400_summary.json`
+- `Paired Diff Edge-Focus 26+ Direction-Aware Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`
