@@ -18,6 +18,13 @@ def _metric(row: dict[str, Any], key: str) -> float:
     return float(row.get(key, 0.0))
 
 
+def _nested(payload: dict[str, Any], path: str) -> Any:
+    value: Any = payload
+    for part in path.split("."):
+        value = value[part]
+    return value
+
+
 def _from_report(label: str, path: str, *, threshold: float | None = None, note: str = "") -> dict[str, Any]:
     payload = read_json(path)
     precision = _metric(payload, "precision")
@@ -71,11 +78,15 @@ def _from_nested_report(
     note: str = "",
 ) -> dict[str, Any]:
     payload = read_json(path)
-    row = payload[metrics_key]
+    row = _nested(payload, metrics_key)
+    if "." in threshold_key:
+        threshold = float(_nested(payload, threshold_key))
+    else:
+        threshold = _metric(payload.get("thresholds", {}), threshold_key)
     return {
         "system": label,
         "source": path,
-        "threshold": _metric(payload.get("thresholds", {}), threshold_key),
+        "threshold": threshold,
         "accuracy": _metric(row, "presence_accuracy"),
         "recall": _metric(row, "vulnerable_recall"),
         "specificity": _metric(row, "safe_specificity"),
@@ -173,6 +184,13 @@ def build_rows() -> list[dict[str, Any]]:
             "direction-aware bucket router",
             "reports/secure_code_primevul_directional_bucket_router_v1_report.json",
             note="routes 26+ rows to recall-recovery v1",
+        ),
+        _from_nested_report(
+            "pair-coupled bucket router",
+            "reports/secure_code_primevul_pair_coupled_router_v1_report.json",
+            metrics_key="eval.overall",
+            threshold_key="eval.thresholds.bucket",
+            note="pair-level decoding on held-out pair groups",
         ),
         _from_sweep(
             "diff-only detector, edge-focus",

@@ -235,6 +235,40 @@ Router minus baseline:
 
 This sharpens the claim again. The group all-correct gain is not statistically convincing. The orientation gain has a positive bootstrap interval, but the exact sign test is underpowered because almost all pair groups are ties. The safe conclusion is: bucket routing shows a small, directionally positive consistency signal, but it needs larger or external splits before being treated as a decisive improvement.
 
+## Pair-Coupled Router
+
+The next system layer uses the paired benchmark structure directly. It does not use gold labels. For pair groups with at least two rows, it assigns the highest-probability side as vulnerable and the remaining side as safe when the calibrated probability gap is large enough.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
+- JSON: `reports/secure_code_primevul_pair_coupled_router_v1_report.json`
+- statistics: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER_STATISTICS.md`
+- statistics JSON: `reports/secure_code_primevul_pair_coupled_router_statistics_v1.json`
+
+Protocol:
+
+- selector: `orientation_accuracy`
+- selected margin: `0.02`
+- held-out eval pair groups: `614`
+
+Held-out comparison:
+
+| System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline direction-aware | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
+| bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| pair-coupled router | `0.8493` | `0.8492` | `0.8494` | `0.8492` | `0.8208` | `0.8581` |
+
+Pair-coupled minus bucket router:
+
+| Metric | Delta | Bootstrap 95% CI | Sign Test |
+| --- | ---: | --- | --- |
+| group all-correct | `+0.1075` | `0.0814-0.1336` | wins `72`, losses `6`, p<`0.000001` |
+| orientation | `0.0000` | `0.0000-0.0000` | unchanged |
+
+This is a stronger system result than row-level bucket routing. It improves discrete pair consistency because it changes labels, not probability ordering. Therefore orientation remains unchanged by design, while group all-correct and row-level balanced accuracy improve substantially.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -243,4 +277,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-The next promising ablation is pair-level decision coupling. The router still makes independent row decisions; the stronger version should use both sides of a pair at inference time and enforce a coherent orientation decision when one side is vulnerable and the other is fixed/safe. That should create more non-tie pair-level changes, making future significance tests more informative.
+The next promising ablation is evidence localization inside the pair-coupled system. The decision layer now uses pair structure well; the next missing piece is explaining which changed hunk caused the vulnerable side to outrank the fixed/safe side.

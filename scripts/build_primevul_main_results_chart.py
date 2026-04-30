@@ -29,6 +29,7 @@ DISPLAY_ROWS = [
     "direction-aware window detector",
     "direction-aware recall-recovery detector",
     "direction-aware bucket router",
+    "pair-coupled bucket router",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
     "diff-only detector, edge-focus",
@@ -48,6 +49,8 @@ def color_for(system: str) -> str:
         return "#0f766e"
     if "direction-aware" in system:
         return "#7c3aed"
+    if "pair-coupled" in system:
+        return "#db2777"
     if "control" in system:
         return "#94a3b8"
     if "candidate+diff" in system or "pair-context" in system:

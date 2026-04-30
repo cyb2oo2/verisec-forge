@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="1002" viewBox="0 0 980 1002" role="img" aria-label="PrimeVul paired benchmark results">
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="1046" viewBox="0 0 980 1046" role="img" aria-label="PrimeVul paired benchmark results">
 <rect width="100%" height="100%" fill="#f8fafc"/>
 <text x="32" y="38" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">PrimeVul Paired Benchmark: Patch/Diff Reasoning Wins</text>
 <text x="32" y="66" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14">Balanced accuracy, generated from reports/PRIMEVUL_MAIN_RESULTS.json</text>
-<line x1="570.0" y1="74" x2="570.0" y2="944" stroke="#e2e8f0" stroke-width="1"/>
-<text x="570.0" y="966" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.5</text>
-<line x1="626.0" y1="74" x2="626.0" y2="944" stroke="#e2e8f0" stroke-width="1"/>
-<text x="626.0" y="966" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.6</text>
-<line x1="682.0" y1="74" x2="682.0" y2="944" stroke="#e2e8f0" stroke-width="1"/>
-<text x="682.0" y="966" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.7</text>
-<line x1="738.0" y1="74" x2="738.0" y2="944" stroke="#e2e8f0" stroke-width="1"/>
-<text x="738.0" y="966" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.8</text>
-<line x1="290" y1="944" x2="850" y2="944" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="570.0" y1="74" x2="570.0" y2="988" stroke="#e2e8f0" stroke-width="1"/>
+<text x="570.0" y="1010" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.5</text>
+<line x1="626.0" y1="74" x2="626.0" y2="988" stroke="#e2e8f0" stroke-width="1"/>
+<text x="626.0" y="1010" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.6</text>
+<line x1="682.0" y1="74" x2="682.0" y2="988" stroke="#e2e8f0" stroke-width="1"/>
+<text x="682.0" y="1010" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.7</text>
+<line x1="738.0" y1="74" x2="738.0" y2="988" stroke="#e2e8f0" stroke-width="1"/>
+<text x="738.0" y="1010" text-anchor="middle" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">0.8</text>
+<line x1="290" y1="988" x2="850" y2="988" stroke="#cbd5e1" stroke-width="1"/>
 <text x="32" y="115" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">same-source detector on paired eval</text>
 <rect x="290" y="100" width="277.8" height="22" rx="6" fill="#f97316"/>
 <text x="575.8" y="116" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.4961</text>
@@ -67,30 +67,34 @@
 <rect x="290" y="672" width="460.9" height="22" rx="6" fill="#7c3aed"/>
 <text x="758.9" y="688" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8231</text>
 <text x="886" y="688" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">routes 26+ rows to recall-recovery v1</text>
-<text x="32" y="731" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, seed7 dedup</text>
-<rect x="290" y="716" width="469.4" height="22" rx="6" fill="#0f766e"/>
-<text x="767.4" y="732" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8382</text>
-<text x="886" y="732" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">multi-seed stability</text>
-<text x="32" y="775" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, seed99 dedup</text>
-<rect x="290" y="760" width="466.0" height="22" rx="6" fill="#0f766e"/>
-<text x="764.0" y="776" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8321</text>
+<text x="32" y="731" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">pair-coupled bucket router</text>
+<rect x="290" y="716" width="475.6" height="22" rx="6" fill="#db2777"/>
+<text x="773.6" y="732" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8493</text>
+<text x="886" y="732" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">pair-level decoding on held-out pair groups</text>
+<text x="32" y="775" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, seed7 dedup</text>
+<rect x="290" y="760" width="469.4" height="22" rx="6" fill="#0f766e"/>
+<text x="767.4" y="776" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8382</text>
 <text x="886" y="776" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">multi-seed stability</text>
-<text x="32" y="819" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus</text>
-<rect x="290" y="804" width="467.5" height="22" rx="6" fill="#0f766e"/>
-<text x="765.5" y="820" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8348</text>
-<text x="886" y="820" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">targets 00-02 and 26+ changed-line buckets; single seed</text>
-<text x="32" y="863" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus seed7</text>
-<rect x="290" y="848" width="457.2" height="22" rx="6" fill="#0f766e"/>
-<text x="755.2" y="864" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8164</text>
-<text x="886" y="864" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">edge-focus multi-seed check</text>
-<text x="32" y="907" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus seed99</text>
-<rect x="290" y="892" width="460.7" height="22" rx="6" fill="#0f766e"/>
-<text x="758.7" y="908" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8226</text>
+<text x="32" y="819" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, seed99 dedup</text>
+<rect x="290" y="804" width="466.0" height="22" rx="6" fill="#0f766e"/>
+<text x="764.0" y="820" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8321</text>
+<text x="886" y="820" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">multi-seed stability</text>
+<text x="32" y="863" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus</text>
+<rect x="290" y="848" width="467.5" height="22" rx="6" fill="#0f766e"/>
+<text x="765.5" y="864" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8348</text>
+<text x="886" y="864" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">targets 00-02 and 26+ changed-line buckets; single seed</text>
+<text x="32" y="907" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus seed7</text>
+<rect x="290" y="892" width="457.2" height="22" rx="6" fill="#0f766e"/>
+<text x="755.2" y="908" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8164</text>
 <text x="886" y="908" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">edge-focus multi-seed check</text>
-<rect x="32" y="964" width="14" height="14" rx="3" fill="#94a3b8"/>
-<text x="52" y="975" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">negative controls</text>
-<rect x="190" y="964" width="14" height="14" rx="3" fill="#2563eb"/>
-<text x="210" y="975" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">comparison variants</text>
-<rect x="360" y="964" width="14" height="14" rx="3" fill="#0f766e"/>
-<text x="380" y="975" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">diff-only runs</text>
+<text x="32" y="951" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13">diff-only detector, edge-focus seed99</text>
+<rect x="290" y="936" width="460.7" height="22" rx="6" fill="#0f766e"/>
+<text x="758.7" y="952" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600">0.8226</text>
+<text x="886" y="952" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">edge-focus multi-seed check</text>
+<rect x="32" y="1008" width="14" height="14" rx="3" fill="#94a3b8"/>
+<text x="52" y="1019" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">negative controls</text>
+<rect x="190" y="1008" width="14" height="14" rx="3" fill="#2563eb"/>
+<text x="210" y="1019" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">comparison variants</text>
+<rect x="360" y="1008" width="14" height="14" rx="3" fill="#0f766e"/>
+<text x="380" y="1019" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">diff-only runs</text>
 </svg>

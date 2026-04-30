@@ -91,6 +91,7 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
 
     monkeypatch.setattr(module, "_from_report", fake_from_report)
     monkeypatch.setattr(module, "_from_sweep", fake_from_report)
+    monkeypatch.setattr(module, "_from_nested_report", fake_from_report)
 
     rows = module.build_rows()
 
@@ -99,6 +100,7 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
     assert any(row["system"] == "localized-diff detector" for row in rows)
     assert any(row["system"] == "contrastive-window detector" for row in rows)
     assert any(row["system"] == "direction-aware bucket router" for row in rows)
+    assert any(row["system"] == "pair-coupled bucket router" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed7" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed99" for row in rows)

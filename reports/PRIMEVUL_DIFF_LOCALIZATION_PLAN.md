@@ -293,6 +293,26 @@ Key deltas on held-out pair groups:
 
 This means the group all-correct result is not statistically convincing. Orientation has a small positive bootstrap interval, but the sign test remains underpowered. The right conclusion is conservative: the router improves the direction signal slightly, but it is not yet a decisive system win.
 
+## Pair-Coupled Decoding
+
+The next step moves beyond row-independent routing. Pair-coupled decoding uses the paired benchmark structure directly: for eligible pair groups, it assigns the highest-probability side as vulnerable and the lower-probability side as safe when the probability gap exceeds a calibrated margin.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
+- JSON: `reports/secure_code_primevul_pair_coupled_router_v1_report.json`
+- statistics: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER_STATISTICS.md`
+- statistics JSON: `reports/secure_code_primevul_pair_coupled_router_statistics_v1.json`
+
+Held-out results:
+
+| System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| pair-coupled router | `0.8493` | `0.8492` | `0.8494` | `0.8492` | `0.8208` | `0.8581` |
+
+Pair-coupled decoding is a clear systems improvement because it targets the correct unit of the task. It does not change orientation, since orientation is defined by probability ordering, but it substantially improves the discrete pair-level decision.
+
 ## Next Step
 
-Move from row-independent routing to pair-coupled decoding. The next reviewer-facing version should answer whether using both counterpart rows at inference time can improve orientation accuracy and group all-correct rate without damaging row-level recall/specificity, and whether that improvement survives pair-level significance tests.
+Move from pair-coupled decision consistency to pair-grounded evidence localization. The next reviewer-facing version should explain which diff hunk made the selected side more vulnerable.

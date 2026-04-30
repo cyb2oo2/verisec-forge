@@ -166,11 +166,14 @@ def exact_sign_test(
     else:
         smaller = min(wins, losses)
         p_value = min(1.0, 2 * sum(math.comb(n, k) for k in range(smaller + 1)) / (2**n))
+    rounded_p_value = round(p_value, 6)
+    if p_value > 0 and rounded_p_value == 0:
+        rounded_p_value = 0.000001
     return {
         "wins": wins,
         "losses": losses,
         "ties": ties,
-        "two_sided_p_value": round(p_value, 6),
+        "two_sided_p_value": rounded_p_value,
         "test": "exact_sign_test",
     }
 
