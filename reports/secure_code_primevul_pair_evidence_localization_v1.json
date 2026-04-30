@@ -1,0 +1,1918 @@
+{
+  "summary": {
+    "rows": 1261,
+    "unique_pair_count": 614,
+    "correct": 1071,
+    "errors": 190,
+    "supported": 804,
+    "unsupported": 457,
+    "accuracy": 0.8493,
+    "support_rate": 0.6376,
+    "supported_correct": 729,
+    "supported_errors": 75,
+    "unsupported_correct": 342,
+    "unsupported_errors": 115,
+    "supported_error_rate": 0.0933,
+    "unsupported_error_rate": 0.2516,
+    "top_direction_labels": [
+      [
+        "candidate_adds_protection",
+        517
+      ],
+      [
+        "direction_unclear",
+        500
+      ],
+      [
+        "candidate_removes_protection",
+        500
+      ],
+      [
+        "candidate_removes_risk",
+        100
+      ],
+      [
+        "candidate_introduces_risk",
+        98
+      ]
+    ],
+    "top_cwes": [
+      [
+        "cwe-787",
+        220
+      ],
+      [
+        "cwe-125",
+        143
+      ],
+      [
+        "cwe-703",
+        117
+      ],
+      [
+        "cwe-476",
+        109
+      ],
+      [
+        "cwe-416",
+        78
+      ],
+      [
+        "cwe-369",
+        46
+      ],
+      [
+        "cwe-190",
+        45
+      ],
+      [
+        "cwe-119",
+        40
+      ],
+      [
+        "cwe-200",
+        34
+      ],
+      [
+        "cwe-20",
+        34
+      ]
+    ]
+  },
+  "coupled_summary": {
+    "rows": 1156,
+    "unique_pair_count": 565,
+    "correct": 991,
+    "errors": 165,
+    "supported": 762,
+    "unsupported": 394,
+    "accuracy": 0.8573,
+    "support_rate": 0.6592,
+    "supported_correct": 690,
+    "supported_errors": 72,
+    "unsupported_correct": 301,
+    "unsupported_errors": 93,
+    "supported_error_rate": 0.0945,
+    "unsupported_error_rate": 0.236,
+    "top_direction_labels": [
+      [
+        "candidate_adds_protection",
+        488
+      ],
+      [
+        "candidate_removes_protection",
+        480
+      ],
+      [
+        "direction_unclear",
+        432
+      ],
+      [
+        "candidate_removes_risk",
+        89
+      ],
+      [
+        "candidate_introduces_risk",
+        88
+      ]
+    ],
+    "top_cwes": [
+      [
+        "cwe-787",
+        206
+      ],
+      [
+        "cwe-125",
+        130
+      ],
+      [
+        "cwe-476",
+        104
+      ],
+      [
+        "cwe-703",
+        100
+      ],
+      [
+        "cwe-416",
+        64
+      ],
+      [
+        "cwe-190",
+        44
+      ],
+      [
+        "cwe-369",
+        44
+      ],
+      [
+        "cwe-119",
+        34
+      ],
+      [
+        "cwe-20",
+        34
+      ],
+      [
+        "cwe-200",
+        33
+      ]
+    ]
+  },
+  "examples": {
+    "unsupported_predictions": [
+      {
+        "id": "206917::pairctx",
+        "pair_key": "httpd|7e09dd714fc62c08c5b0319ed7b9702594faf49b|CVE-2021-26691",
+        "project": "httpd",
+        "cve": "CVE-2021-26691",
+        "vulnerability_type": "cwe-787",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.6825737357139587,
+        "pair_coupled": false,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -1,6 +1,6 @@ static int identity_count(void *v, const char *key, const char *val)",
+            "score": [
+              2,
+              2,
+              234
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "len",
+              "strlen"
+            ],
+            "removed_preview": [
+              "    *count += strlen(key) * 3 + strlen(val) * 3 + 2;"
+            ],
+            "added_preview": [
+              "    *count += strlen(key) * 3 + strlen(val) * 3 + 1;"
+            ],
+            "added_protection_terms": 2,
+            "removed_protection_terms": 2,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "214003::pairctx",
+        "pair_key": "libvncserver|7b1ef0ffc4815cab9a96c7278394152bdc89dc4d|CVE-2018-20020",
+        "project": "libvncserver",
+        "cve": "CVE-2018-20020",
+        "vulnerability_type": "cwe-787",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.41679662466049194,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -16,7 +16,7 @@ ",
+            "score": [
+              1,
+              2,
+              409
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "size"
+            ],
+            "removed_preview": [
+              "    if (hdr.nSubrects > RFB_BUFFER_SIZE / (4 + (BPP / 8)) || !ReadFromRFBServer(client, client->buffer, hdr.nSubrects * (4 + (BPP / 8))))"
+            ],
+            "added_preview": [
+              "    if (hdr.nSubrects * (4 + (BPP / 8)) > RFB_BUFFER_SIZE || !ReadFromRFBServer(client, client->buffer, hdr.nSubrects * (4 + (BPP / 8))))"
+            ],
+            "added_protection_terms": 2,
+            "removed_protection_terms": 2,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "450812::pairctx",
+        "pair_key": "gnulib|2d1bd71ec70a31b01d01b734faa66bb1ed28961f|CVE-2017-15670",
+        "project": "gnulib",
+        "cve": "CVE-2017-15670",
+        "vulnerability_type": "cwe-119",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.6206215620040894,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -504,7 +504,7 @@                   *p = '\\0';",
+            "score": [
+              1,
+              2,
+              320
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "mem"
+            ],
+            "removed_preview": [
+              "                *((char *) mempcpy (newp, dirname + 1, end_name - dirname))"
+            ],
+            "added_preview": [
+              "                *((char *) mempcpy (newp, dirname + 1, end_name - dirname - 1))"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "204495::pairctx",
+        "pair_key": "linux|47abea041f897d64dbd5777f0cf7745148f85d75|CVE-2022-3103",
+        "project": "linux",
+        "cve": "CVE-2022-3103",
+        "vulnerability_type": "cwe-193",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.596433162689209,
+        "pair_coupled": false,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -8,7 +8,7 @@ \t    (cd->flags & IORING_ASYNC_CANCEL_FD_FIXED)) {",
+            "score": [
+              0,
+              2,
+              317
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [],
+            "removed_preview": [
+              "\t\tif (unlikely(fd >= ctx->nr_user_files))"
+            ],
+            "added_preview": [
+              "\t\tif (unlikely(fd > ctx->nr_user_files))"
+            ],
+            "added_protection_terms": 1,
+            "removed_protection_terms": 1,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "198239::pairctx",
+        "pair_key": "barebox|a3337563c705bc8e0cf32f910b3e9e3c43d962ff|CVE-2021-37848",
+        "project": "barebox",
+        "cve": "CVE-2021-37848",
+        "vulnerability_type": "cwe-200",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.43014732003211975,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -45,7 +45,7 @@ \t\tif (ret)",
+            "score": [
+              2,
+              2,
+              220
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "len",
+              "mem"
+            ],
+            "removed_preview": [
+              "\t\tif (!crypto_memneq(passwd1_sum, key, keylen))"
+            ],
+            "added_preview": [
+              "\t\tif (strncmp(passwd1_sum, key, keylen) == 0)"
+            ],
+            "added_protection_terms": 2,
+            "removed_protection_terms": 2,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          },
+          {
+            "header": "@@ -53,7 +53,7 @@ \t\tif (ret)",
+            "score": [
+              2,
+              2,
+              177
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "len",
+              "mem"
+            ],
+            "removed_preview": [
+              "\t\tif (!crypto_memneq(passwd1_sum, passwd2_sum, hash_len))"
+            ],
+            "added_preview": [
+              "\t\tif (strncmp(passwd1_sum, passwd2_sum, hash_len) == 0)"
+            ],
+            "added_protection_terms": 2,
+            "removed_protection_terms": 2,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "411896::pairctx",
+        "pair_key": "tor|57e35ad3d91724882c345ac709666a551a977f0f|CVE-2012-3517",
+        "project": "tor",
+        "cve": "CVE-2012-3517",
+        "vulnerability_type": "cwe-399",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.7879312038421631,
+        "pair_coupled": false,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -43,7 +43,7 @@     int flavor = networkstatus_parse_flavor_name(tok->args[1]);",
+            "score": [
+              0,
+              2,
+              312
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [],
+            "removed_preview": [
+              "               escaped(tok->args[2]));"
+            ],
+            "added_preview": [
+              "               escaped(tok->args[1]));"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "id": "411896::pairctx",
+        "pair_key": "tor|57e35ad3d91724882c345ac709666a551a977f0f|CVE-2012-3517",
+        "project": "tor",
+        "cve": "CVE-2012-3517",
+        "vulnerability_type": "cwe-399",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.7879312038421631,
+        "pair_coupled": false,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -43,7 +43,7 @@     int flavor = networkstatus_parse_flavor_name(tok->args[1]);",
+            "score": [
+              0,
+              2,
+              312
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [],
+            "removed_preview": [
+              "               escaped(tok->args[2]));"
+            ],
+            "added_preview": [
+              "               escaped(tok->args[1]));"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      },
+      {
+        "id": "220100::pairctx",
+        "pair_key": "linux|ab0fc21bc7105b54bafd85bd8b82742f9e68898a|CVE-2022-24448",
+        "project": "linux",
+        "cve": "CVE-2022-24448",
+        "vulnerability_type": "cwe-909",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.5698526501655579,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 1,
+        "safety_support": 0,
+        "net_risk_support": 1,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -24,7 +24,7 @@ \t\treturn err;",
+            "score": [
+              0,
+              2,
+              193
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [],
+            "removed_preview": [
+              "\t\treturn nfs_open(inode, filp);"
+            ],
+            "added_preview": [
+              "\t\topenflags--;"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 1,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -1,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 1,
+            "safety_support": 0,
+            "net_risk_support": 1
+          }
+        ]
+      },
+      {
+        "id": "195073::pairctx",
+        "pair_key": "tensorflow|e746adbfcfee15e9cfdb391ff746c765b99bdf9b|CVE-2022-23584",
+        "project": "tensorflow",
+        "cve": "CVE-2022-23584",
+        "vulnerability_type": "cwe-416",
+        "gold": 1,
+        "pred": 0,
+        "correct": false,
+        "vuln_probability": 0.00807762611657381,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 1,
+        "safety_support": 0,
+        "net_risk_support": 1,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -18,6 +18,7 @@     if (width != static_cast<int64_t>(decode.width) || width <= 0 ||",
+            "score": [
+              1,
+              1,
+              477
+            ],
+            "changed_lines": 1,
+            "added_lines": 1,
+            "removed_lines": 0,
+            "keywords": [
+              "free"
+            ],
+            "removed_preview": [],
+            "added_preview": [
+              "      png::CommonFreeDecode(&decode);"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 1,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 1,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_introduces_risk"
+            ],
+            "risk_support": 1,
+            "safety_support": 0,
+            "net_risk_support": 1
+          }
+        ]
+      },
+      {
+        "id": "318099::pairctx",
+        "pair_key": "wireless-drivers|8b51dc7291473093c821195c4b6af85fadedbc2f|CVE-2019-15504",
+        "project": "wireless-drivers",
+        "cve": "CVE-2019-15504",
+        "vulnerability_type": "cwe-415",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.9752018451690674,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 1,
+        "net_risk_support": -1,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -53,7 +53,6 @@ \tkfree(rsi_dev->tx_buffer);",
+            "score": [
+              1,
+              1,
+              98
+            ],
+            "changed_lines": 1,
+            "added_lines": 0,
+            "removed_lines": 1,
+            "keywords": [
+              "free"
+            ],
+            "removed_preview": [
+              "\tkfree(rsi_dev);"
+            ],
+            "added_preview": [],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 1,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": -1,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_risk"
+            ],
+            "risk_support": 0,
+            "safety_support": 1,
+            "net_risk_support": -1
+          }
+        ]
+      },
+      {
+        "id": "224281::pairctx",
+        "pair_key": "squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784",
+        "project": "squid",
+        "cve": "CVE-2021-46784",
+        "vulnerability_type": "cwe-400",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.5544704794883728,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 13,
+        "safety_support": 3,
+        "net_risk_support": 10,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -335,12 +328,11 @@ ",
+            "score": [
+              3,
+              5,
+              366
+            ],
+            "changed_lines": 5,
+            "added_lines": 2,
+            "removed_lines": 3,
+            "keywords": [
+              "len",
+              "length",
+              "size"
+            ],
+            "removed_preview": [
+              "    if (outbuf.size() > 0) {",
+              "        entry->append(outbuf.rawBuf(), outbuf.size());",
+              "    outbuf.clean();"
+            ],
+            "added_preview": [
+              "    if (outbuf.length() > 0) {",
+              "        entry->append(outbuf.rawContent(), outbuf.length());"
+            ],
+            "added_protection_terms": 5,
+            "removed_protection_terms": 3,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 2,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 2,
+            "net_risk_support": -2
+          },
+          {
+            "header": "@@ -221,37 +219,34 @@                         break;",
+            "score": [
+              2,
+              15,
+              2924
+            ],
+            "changed_lines": 15,
+            "added_lines": 6,
+            "removed_lines": 9,
+            "keywords": [
+              "mem",
+              "size"
+            ],
+            "removed_preview": [
+              "                    memset(tmpbuf, '\\0', TEMP_BUF_SIZE);",
+              "",
+              "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+              "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\",",
+              "                        snprintf(tmpbuf, TEMP_BUF_SIZE, \"\\t%s\\n\", html_quote(name));",
+              "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"http://%s/%s\\\">%s</A>\\n\","
+            ],
+            "added_preview": [
+              "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+              "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\",",
+              "                        outbuf.appendf(\"\\t%s\\n\", html_quote(name));",
+              "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"http://%s/%s\\\">%s</A>\\n\",",
+              "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"gopher://%s/%c%s\\\">%s</A>\\n\",",
+              "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"gopher://%s/%c%s\\\">%s</A>\\n\","
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 7,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 1,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 6,
+            "protection_delta": -7,
+            "risk_delta": -1,
+            "safer_delta": -6,
+            "direction_labels": [
+              "candidate_removes_protection",
+              "candidate_removes_risk"
+            ],
+            "risk_support": 13,
+            "safety_support": 1,
+            "net_risk_support": 12
+          }
+        ]
+      },
+      {
+        "id": "475970::pairctx",
+        "pair_key": "ImageMagick|75f6f5032690077cae3eaeda3c0165cc765eaeb5|CVE-2021-20310",
+        "project": "ImageMagick",
+        "cve": "CVE-2021-20310",
+        "vulnerability_type": "cwe-369",
+        "gold": 0,
+        "pred": 1,
+        "correct": false,
+        "vuln_probability": 0.7981867790222168,
+        "pair_coupled": false,
+        "pre_coupled_pred": 1,
+        "risk_support": 0,
+        "safety_support": 0,
+        "net_risk_support": 0,
+        "support_label": "unsupported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,11 +30,11 @@   L=0.41478972*Xp+0.579999*Yp+0.0146480*Zp;",
+            "score": [
+              0,
+              6,
+              759
+            ],
+            "changed_lines": 6,
+            "added_lines": 3,
+            "removed_lines": 3,
+            "keywords": [],
+            "removed_preview": [
+              "  gamma=pow(L/white_luminance,Jzazbz_n);",
+              "  gamma=pow(M/white_luminance,Jzazbz_n);",
+              "  gamma=pow(S/white_luminance,Jzazbz_n);"
+            ],
+            "added_preview": [
+              "  gamma=pow(L*PerceptibleReciprocal(white_luminance),Jzazbz_n);",
+              "  gamma=pow(M*PerceptibleReciprocal(white_luminance),Jzazbz_n);",
+              "  gamma=pow(S*PerceptibleReciprocal(white_luminance),Jzazbz_n);"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 0,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "direction_unclear"
+            ],
+            "risk_support": 0,
+            "safety_support": 0,
+            "net_risk_support": 0
+          }
+        ]
+      }
+    ],
+    "highest_risk_support": [
+      {
+        "id": "197142::pairctx",
+        "pair_key": "tensorflow|6da6620efad397c85493b8f8667b821403516708|CVE-2021-37663",
+        "project": "tensorflow",
+        "cve": "CVE-2021-37663",
+        "vulnerability_type": "cwe-476",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.9951702952384949,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 74,
+        "safety_support": 0,
+        "net_risk_support": 74,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -5,50 +5,7 @@ ",
+            "score": [
+              2,
+              43,
+              2848
+            ],
+            "changed_lines": 43,
+            "added_lines": 0,
+            "removed_lines": 43,
+            "keywords": [
+              "size",
+              "valid"
+            ],
+            "removed_preview": [
+              "      OP_REQUIRES(",
+              "          ctx, input.dims() > axis_,",
+              "          errors::InvalidArgument(",
+              "              \"Axis is on a zero-based index, so its value must always be less \"",
+              "              \"than number of input's dims, but given axis value was \",",
+              "              axis_, \" and input's dims was \", input.dims()));"
+            ],
+            "added_preview": [],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 74,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -74,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 74,
+            "safety_support": 0,
+            "net_risk_support": 74
+          }
+        ]
+      },
+      {
+        "id": "197761::pairctx",
+        "pair_key": "tensorflow|d6ed5bcfe1dcab9e85a4d39931bd18d99018e75b|CVE-2021-29547",
+        "project": "tensorflow",
+        "cve": "CVE-2021-29547",
+        "vulnerability_type": "cwe-369",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.9839785695075989,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 72,
+        "safety_support": 0,
+        "net_risk_support": 72,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -60,33 +30,6 @@     OP_REQUIRES(context, gamma.dims() == 1,",
+            "score": [
+              2,
+              27,
+              1873
+            ],
+            "changed_lines": 27,
+            "added_lines": 0,
+            "removed_lines": 27,
+            "keywords": [
+              "size",
+              "valid"
+            ],
+            "removed_preview": [
+              "    OP_REQUIRES(context, mean.NumElements() > 1,",
+              "                errors::InvalidArgument(\"Must have at least a mean value\",",
+              "                                        gamma.shape().DebugString()));",
+              "    OP_REQUIRES(context, mean.NumElements() > 1,",
+              "                errors::InvalidArgument(\"Must have at least a mean value\"));",
+              "    const auto last_dim = input.shape().dims() - 1;"
+            ],
+            "added_preview": [],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 32,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -32,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 32,
+            "safety_support": 0,
+            "net_risk_support": 32
+          },
+          {
+            "header": "@@ -1,49 +1,19 @@   void Compute(OpKernelContext* context) override {",
+            "score": [
+              1,
+              50,
+              3605
+            ],
+            "changed_lines": 50,
+            "added_lines": 10,
+            "removed_lines": 40,
+            "keywords": [
+              "valid"
+            ],
+            "removed_preview": [
+              "    const auto& input_min_tensor = context->input(1);",
+              "    OP_REQUIRES(context, input_min_tensor.NumElements() == 1,",
+              "                errors::InvalidArgument(\"input_min must have 1 element\"));",
+              "    const float input_min = input_min_tensor.flat<float>()(0);",
+              "    const auto& input_max_tensor = context->input(2);",
+              "    OP_REQUIRES(context, input_max_tensor.NumElements() == 1,"
+            ],
+            "added_preview": [
+              "    const float input_min = context->input(1).flat<float>()(0);",
+              "    const float input_max = context->input(2).flat<float>()(0);",
+              "    const float mean_min = context->input(4).flat<float>()(0);",
+              "    const float mean_max = context->input(5).flat<float>()(0);",
+              "    const float var_min = context->input(7).flat<float>()(0);",
+              "    const float var_max = context->input(8).flat<float>()(0);"
+            ],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 40,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -40,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 40,
+            "safety_support": 0,
+            "net_risk_support": 40
+          }
+        ]
+      },
+      {
+        "id": "212339::pairctx",
+        "pair_key": "icecast-server|03ea74c04a5966114c2fe66e4e6892d11a68181e|CVE-2018-18820",
+        "project": "icecast-server",
+        "cve": "CVE-2018-18820",
+        "vulnerability_type": "cwe-119",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.40922078490257263,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 43,
+        "safety_support": 2,
+        "net_risk_support": 41,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -1,50 +1,32 @@ static size_t handle_returned_header (void *ptr, size_t size, size_t nmemb, void *stream)",
+            "score": [
+              6,
+              54,
+              2741
+            ],
+            "changed_lines": 54,
+            "added_lines": 18,
+            "removed_lines": 36,
+            "keywords": [
+              "copy",
+              "len",
+              "length",
+              "mem",
+              "size",
+              "valid"
+            ],
+            "removed_preview": [
+              "    size_t len = size * nmemb;",
+              "    if (client) {",
+              "",
+              "        if (url->auth_header && len >= url->auth_header_len && strncasecmp(ptr, url->auth_header, url->auth_header_len) == 0)",
+              "",
+              "        if (url->timelimit_header && len > url->timelimit_header_len && strncasecmp(ptr, url->timelimit_header, url->timelimit_header_len) == 0) {"
+            ],
+            "added_preview": [
+              "    size_t bytes = size * nmemb;",
+              "    if (client)",
+              "    {",
+              "        if (strncasecmp (ptr, url->auth_header, url->auth_header_len) == 0)",
+              "        if (strncasecmp (ptr, url->timelimit_header, url->timelimit_header_len) == 0)",
+              "        {"
+            ],
+            "added_protection_terms": 28,
+            "removed_protection_terms": 71,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 1,
+            "added_safer_terms": 1,
+            "removed_safer_terms": 0,
+            "protection_delta": -43,
+            "risk_delta": -1,
+            "safer_delta": 1,
+            "direction_labels": [
+              "candidate_adds_protection",
+              "candidate_removes_protection",
+              "candidate_removes_risk"
+            ],
+            "risk_support": 43,
+            "safety_support": 2,
+            "net_risk_support": 41
+          }
+        ]
+      },
+      {
+        "id": "196893::pairctx",
+        "pair_key": "envoy|e9f936d85dc1edc34fabd0a1725ec180f2316353|CVE-2022-21654",
+        "project": "envoy",
+        "cve": "CVE-2022-21654",
+        "vulnerability_type": "cwe-362",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.9948603510856628,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 39,
+        "safety_support": 0,
+        "net_risk_support": 39,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,33 +30,4 @@                               sizeof(std::remove_reference<decltype(hash)>::type::value_type));",
+            "score": [
+              4,
+              29,
+              1579
+            ],
+            "changed_lines": 29,
+            "added_lines": 0,
+            "removed_lines": 29,
+            "keywords": [
+              "len",
+              "length",
+              "mem",
+              "size"
+            ],
+            "removed_preview": [
+              "",
+              "  rc = EVP_DigestUpdate(md.get(), &verify_trusted_ca_, sizeof(verify_trusted_ca_));",
+              "  RELEASE_ASSERT(rc == 1, Utility::getLastCryptoError().value_or(\"\"));",
+              "",
+              "  if (config_ != nullptr) {",
+              "    for (const auto& matcher : config_->subjectAltNameMatchers()) {"
+            ],
+            "added_preview": [],
+            "added_protection_terms": 0,
+            "removed_protection_terms": 39,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -39,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 39,
+            "safety_support": 0,
+            "net_risk_support": 39
+          }
+        ]
+      },
+      {
+        "id": "207990::pairctx",
+        "pair_key": "pcre2|03654e751e7f0700693526b67dfcadda6b42c9d0|CVE-2022-1587",
+        "project": "pcre2",
+        "cve": "CVE-2022-1587",
+        "vulnerability_type": "cwe-703",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.9719393253326416,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 37,
+        "safety_support": 0,
+        "net_risk_support": 37,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -63,55 +60,39 @@     case OP_SBRA:",
+            "score": [
+              4,
+              36,
+              2143
+            ],
+            "changed_lines": 36,
+            "added_lines": 10,
+            "removed_lines": 26,
+            "keywords": [
+              "check",
+              "len",
+              "length",
+              "size"
+            ],
+            "removed_preview": [
+              "    if (recurse_check_bit(common, PRIVATE_DATA(cc)))",
+              "      length++;",
+              "    offset = GET2(cc, 1 + LINK_SIZE);",
+              "    if (recurse_check_bit(common, OVECTOR(offset << 1)))",
+              "      {",
+              "      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));"
+            ],
+            "added_preview": [
+              "    length++;",
+              "    length += 2;",
+              "    if (common->capture_last_ptr != 0)",
+              "      capture_last_found = TRUE;",
+              "    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)",
+              "    length += 2 + 2;"
+            ],
+            "added_protection_terms": 12,
+            "removed_protection_terms": 40,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -28,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 28,
+            "safety_support": 0,
+            "net_risk_support": 28
+          },
+          {
+            "header": "@@ -146,29 +119,20 @@     break;",
+            "score": [
+              4,
+              19,
+              901
+            ],
+            "changed_lines": 19,
+            "added_lines": 5,
+            "removed_lines": 14,
+            "keywords": [
+              "check",
+              "len",
+              "length",
+              "size"
+            ],
+            "removed_preview": [
+              "    offset = PRIVATE_DATA(cc);",
+              "    if (offset != 0 && recurse_check_bit(common, offset))",
+              "    offset = PRIVATE_DATA(cc);",
+              "    if (offset != 0 && recurse_check_bit(common, offset))",
+              "      {",
+              "      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));"
+            ],
+            "added_preview": [
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "      length += 2;",
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "      length += 2;"
+            ],
+            "added_protection_terms": 7,
+            "removed_protection_terms": 16,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -9,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 9,
+            "safety_support": 0,
+            "net_risk_support": 9
+          }
+        ]
+      },
+      {
+        "id": "202689::pairctx",
+        "pair_key": "ruby|1c2ef610358af33f9ded3086aa2d70aac03dcac5|CVE-2009-4124",
+        "project": "ruby",
+        "cve": "CVE-2009-4124",
+        "vulnerability_type": "cwe-119",
+        "gold": 1,
+        "pred": 1,
+        "correct": true,
+        "vuln_probability": 0.837619960308075,
+        "pair_coupled": true,
+        "pre_coupled_pred": 1,
+        "risk_support": 34,
+        "safety_support": 2,
+        "net_risk_support": 32,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,49 +30,44 @@     llen = (jflag == 'l') ? 0 : ((jflag == 'r') ? n : n/2);",
+            "score": [
+              3,
+              59,
+              1886
+            ],
+            "changed_lines": 59,
+            "added_lines": 27,
+            "removed_lines": 32,
+            "keywords": [
+              "len",
+              "mem",
+              "size"
+            ],
+            "removed_preview": [
+              "    if (flen > 1) {",
+              "       llen2 = str_offset(f, f + flen, llen % fclen, enc, singlebyte);",
+              "       rlen2 = str_offset(f, f + flen, rlen % fclen, enc, singlebyte);",
+              "    }",
+              "    size = RSTRING_LEN(str);",
+              "    if ((len = llen / fclen + rlen / fclen) >= LONG_MAX / flen ||"
+            ],
+            "added_preview": [
+              "    res = rb_str_new5(str, 0, RSTRING_LEN(str)+n*flen/fclen+2);",
+              "    while (llen) {",
+              "\tif (flen <= 1) {",
+              "\t    *p++ = *f;",
+              "\t    llen--;",
+              "\t}"
+            ],
+            "added_protection_terms": 23,
+            "removed_protection_terms": 54,
+            "added_risk_terms": 3,
+            "removed_risk_terms": 5,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -31,
+            "risk_delta": -2,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection",
+              "candidate_removes_risk"
+            ],
+            "risk_support": 31,
+            "safety_support": 2,
+            "net_risk_support": 29
+          },
+          {
+            "header": "@@ -6,7 +6,7 @@     VALUE res;",
+            "score": [
+              2,
+              2,
+              204
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "len",
+              "size"
+            ],
+            "removed_preview": [
+              "    long n, size, llen, rlen, llen2 = 0, rlen2 = 0;"
+            ],
+            "added_preview": [
+              "    long n, llen, rlen;"
+            ],
+            "added_protection_terms": 2,
+            "removed_protection_terms": 5,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": -3,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 3,
+            "safety_support": 0,
+            "net_risk_support": 3
+          }
+        ]
+      }
+    ],
+    "highest_safety_support": [
+      {
+        "id": "253970::pairctx",
+        "pair_key": "tensorflow|6da6620efad397c85493b8f8667b821403516708|CVE-2021-37663",
+        "project": "tensorflow",
+        "cve": "CVE-2021-37663",
+        "vulnerability_type": "cwe-476",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.02898062765598297,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 74,
+        "net_risk_support": -74,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -5,7 +5,50 @@ ",
+            "score": [
+              2,
+              43,
+              2848
+            ],
+            "changed_lines": 43,
+            "added_lines": 43,
+            "removed_lines": 0,
+            "keywords": [
+              "size",
+              "valid"
+            ],
+            "removed_preview": [],
+            "added_preview": [
+              "      OP_REQUIRES(",
+              "          ctx, input.dims() > axis_,",
+              "          errors::InvalidArgument(",
+              "              \"Axis is on a zero-based index, so its value must always be less \"",
+              "              \"than number of input's dims, but given axis value was \",",
+              "              axis_, \" and input's dims was \", input.dims()));"
+            ],
+            "added_protection_terms": 74,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 74,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 74,
+            "net_risk_support": -74
+          }
+        ]
+      },
+      {
+        "id": "263524::pairctx",
+        "pair_key": "tensorflow|d6ed5bcfe1dcab9e85a4d39931bd18d99018e75b|CVE-2021-29547",
+        "project": "tensorflow",
+        "cve": "CVE-2021-29547",
+        "vulnerability_type": "cwe-369",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.31573596596717834,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 72,
+        "net_risk_support": -72,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,6 +60,33 @@     OP_REQUIRES(context, gamma.dims() == 1,",
+            "score": [
+              2,
+              27,
+              1873
+            ],
+            "changed_lines": 27,
+            "added_lines": 27,
+            "removed_lines": 0,
+            "keywords": [
+              "size",
+              "valid"
+            ],
+            "removed_preview": [],
+            "added_preview": [
+              "    OP_REQUIRES(context, mean.NumElements() > 1,",
+              "                errors::InvalidArgument(\"Must have at least a mean value\",",
+              "                                        gamma.shape().DebugString()));",
+              "    OP_REQUIRES(context, mean.NumElements() > 1,",
+              "                errors::InvalidArgument(\"Must have at least a mean value\"));",
+              "    const auto last_dim = input.shape().dims() - 1;"
+            ],
+            "added_protection_terms": 32,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 32,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 32,
+            "net_risk_support": -32
+          },
+          {
+            "header": "@@ -1,19 +1,49 @@   void Compute(OpKernelContext* context) override {",
+            "score": [
+              1,
+              50,
+              3605
+            ],
+            "changed_lines": 50,
+            "added_lines": 40,
+            "removed_lines": 10,
+            "keywords": [
+              "valid"
+            ],
+            "removed_preview": [
+              "    const float input_min = context->input(1).flat<float>()(0);",
+              "    const float input_max = context->input(2).flat<float>()(0);",
+              "    const float mean_min = context->input(4).flat<float>()(0);",
+              "    const float mean_max = context->input(5).flat<float>()(0);",
+              "    const float var_min = context->input(7).flat<float>()(0);",
+              "    const float var_max = context->input(8).flat<float>()(0);"
+            ],
+            "added_preview": [
+              "    const auto& input_min_tensor = context->input(1);",
+              "    OP_REQUIRES(context, input_min_tensor.NumElements() == 1,",
+              "                errors::InvalidArgument(\"input_min must have 1 element\"));",
+              "    const float input_min = input_min_tensor.flat<float>()(0);",
+              "    const auto& input_max_tensor = context->input(2);",
+              "    OP_REQUIRES(context, input_max_tensor.NumElements() == 1,"
+            ],
+            "added_protection_terms": 40,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 40,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 40,
+            "net_risk_support": -40
+          }
+        ]
+      },
+      {
+        "id": "457772::pairctx",
+        "pair_key": "icecast-server|03ea74c04a5966114c2fe66e4e6892d11a68181e|CVE-2018-18820",
+        "project": "icecast-server",
+        "cve": "CVE-2018-18820",
+        "vulnerability_type": "cwe-119",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.1919327974319458,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 2,
+        "safety_support": 43,
+        "net_risk_support": -41,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -1,32 +1,50 @@ static size_t handle_returned_header (void *ptr, size_t size, size_t nmemb, void *stream)",
+            "score": [
+              6,
+              54,
+              2741
+            ],
+            "changed_lines": 54,
+            "added_lines": 36,
+            "removed_lines": 18,
+            "keywords": [
+              "copy",
+              "len",
+              "length",
+              "mem",
+              "size",
+              "valid"
+            ],
+            "removed_preview": [
+              "    size_t bytes = size * nmemb;",
+              "    if (client)",
+              "    {",
+              "        if (strncasecmp (ptr, url->auth_header, url->auth_header_len) == 0)",
+              "        if (strncasecmp (ptr, url->timelimit_header, url->timelimit_header_len) == 0)",
+              "        {"
+            ],
+            "added_preview": [
+              "    size_t len = size * nmemb;",
+              "    if (client) {",
+              "",
+              "        if (url->auth_header && len >= url->auth_header_len && strncasecmp(ptr, url->auth_header, url->auth_header_len) == 0)",
+              "",
+              "        if (url->timelimit_header && len > url->timelimit_header_len && strncasecmp(ptr, url->timelimit_header, url->timelimit_header_len) == 0) {"
+            ],
+            "added_protection_terms": 71,
+            "removed_protection_terms": 28,
+            "added_risk_terms": 1,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 1,
+            "protection_delta": 43,
+            "risk_delta": 1,
+            "safer_delta": -1,
+            "direction_labels": [
+              "candidate_adds_protection",
+              "candidate_removes_protection",
+              "candidate_introduces_risk"
+            ],
+            "risk_support": 2,
+            "safety_support": 43,
+            "net_risk_support": -41
+          }
+        ]
+      },
+      {
+        "id": "247550::pairctx",
+        "pair_key": "envoy|e9f936d85dc1edc34fabd0a1725ec180f2316353|CVE-2022-21654",
+        "project": "envoy",
+        "cve": "CVE-2022-21654",
+        "vulnerability_type": "cwe-362",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.0384661927819252,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 39,
+        "net_risk_support": -39,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,4 +30,33 @@                               sizeof(std::remove_reference<decltype(hash)>::type::value_type));",
+            "score": [
+              4,
+              29,
+              1579
+            ],
+            "changed_lines": 29,
+            "added_lines": 29,
+            "removed_lines": 0,
+            "keywords": [
+              "len",
+              "length",
+              "mem",
+              "size"
+            ],
+            "removed_preview": [],
+            "added_preview": [
+              "",
+              "  rc = EVP_DigestUpdate(md.get(), &verify_trusted_ca_, sizeof(verify_trusted_ca_));",
+              "  RELEASE_ASSERT(rc == 1, Utility::getLastCryptoError().value_or(\"\"));",
+              "",
+              "  if (config_ != nullptr) {",
+              "    for (const auto& matcher : config_->subjectAltNameMatchers()) {"
+            ],
+            "added_protection_terms": 39,
+            "removed_protection_terms": 0,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 39,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 39,
+            "net_risk_support": -39
+          }
+        ]
+      },
+      {
+        "id": "404192::pairctx",
+        "pair_key": "pcre2|03654e751e7f0700693526b67dfcadda6b42c9d0|CVE-2022-1587",
+        "project": "pcre2",
+        "cve": "CVE-2022-1587",
+        "vulnerability_type": "cwe-703",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.3775406777858734,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 0,
+        "safety_support": 37,
+        "net_risk_support": -37,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -60,39 +63,55 @@     case OP_SBRA:",
+            "score": [
+              4,
+              36,
+              2143
+            ],
+            "changed_lines": 36,
+            "added_lines": 26,
+            "removed_lines": 10,
+            "keywords": [
+              "check",
+              "len",
+              "length",
+              "size"
+            ],
+            "removed_preview": [
+              "    length++;",
+              "    length += 2;",
+              "    if (common->capture_last_ptr != 0)",
+              "      capture_last_found = TRUE;",
+              "    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)",
+              "    length += 2 + 2;"
+            ],
+            "added_preview": [
+              "    if (recurse_check_bit(common, PRIVATE_DATA(cc)))",
+              "      length++;",
+              "    offset = GET2(cc, 1 + LINK_SIZE);",
+              "    if (recurse_check_bit(common, OVECTOR(offset << 1)))",
+              "      {",
+              "      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));"
+            ],
+            "added_protection_terms": 40,
+            "removed_protection_terms": 12,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 28,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 28,
+            "net_risk_support": -28
+          },
+          {
+            "header": "@@ -119,20 +146,29 @@     break;",
+            "score": [
+              4,
+              19,
+              901
+            ],
+            "changed_lines": 19,
+            "added_lines": 14,
+            "removed_lines": 5,
+            "keywords": [
+              "check",
+              "len",
+              "length",
+              "size"
+            ],
+            "removed_preview": [
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "      length += 2;",
+              "    if (PRIVATE_DATA(cc) != 0)",
+              "      length += 2;"
+            ],
+            "added_preview": [
+              "    offset = PRIVATE_DATA(cc);",
+              "    if (offset != 0 && recurse_check_bit(common, offset))",
+              "    offset = PRIVATE_DATA(cc);",
+              "    if (offset != 0 && recurse_check_bit(common, offset))",
+              "      {",
+              "      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));"
+            ],
+            "added_protection_terms": 16,
+            "removed_protection_terms": 7,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 9,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 9,
+            "net_risk_support": -9
+          }
+        ]
+      },
+      {
+        "id": "337027::pairctx",
+        "pair_key": "ruby|1c2ef610358af33f9ded3086aa2d70aac03dcac5|CVE-2009-4124",
+        "project": "ruby",
+        "cve": "CVE-2009-4124",
+        "vulnerability_type": "cwe-119",
+        "gold": 0,
+        "pred": 0,
+        "correct": true,
+        "vuln_probability": 0.19930797815322876,
+        "pair_coupled": true,
+        "pre_coupled_pred": 0,
+        "risk_support": 2,
+        "safety_support": 34,
+        "net_risk_support": -32,
+        "support_label": "supported",
+        "top_hunks": [
+          {
+            "header": "@@ -30,44 +30,49 @@     llen = (jflag == 'l') ? 0 : ((jflag == 'r') ? n : n/2);",
+            "score": [
+              3,
+              59,
+              1886
+            ],
+            "changed_lines": 59,
+            "added_lines": 32,
+            "removed_lines": 27,
+            "keywords": [
+              "len",
+              "mem",
+              "size"
+            ],
+            "removed_preview": [
+              "    res = rb_str_new5(str, 0, RSTRING_LEN(str)+n*flen/fclen+2);",
+              "    while (llen) {",
+              "\tif (flen <= 1) {",
+              "\t    *p++ = *f;",
+              "\t    llen--;",
+              "\t}"
+            ],
+            "added_preview": [
+              "    if (flen > 1) {",
+              "       llen2 = str_offset(f, f + flen, llen % fclen, enc, singlebyte);",
+              "       rlen2 = str_offset(f, f + flen, rlen % fclen, enc, singlebyte);",
+              "    }",
+              "    size = RSTRING_LEN(str);",
+              "    if ((len = llen / fclen + rlen / fclen) >= LONG_MAX / flen ||"
+            ],
+            "added_protection_terms": 54,
+            "removed_protection_terms": 23,
+            "added_risk_terms": 5,
+            "removed_risk_terms": 3,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 31,
+            "risk_delta": 2,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection",
+              "candidate_introduces_risk"
+            ],
+            "risk_support": 2,
+            "safety_support": 31,
+            "net_risk_support": -29
+          },
+          {
+            "header": "@@ -6,7 +6,7 @@     VALUE res;",
+            "score": [
+              2,
+              2,
+              204
+            ],
+            "changed_lines": 2,
+            "added_lines": 1,
+            "removed_lines": 1,
+            "keywords": [
+              "len",
+              "size"
+            ],
+            "removed_preview": [
+              "    long n, llen, rlen;"
+            ],
+            "added_preview": [
+              "    long n, size, llen, rlen, llen2 = 0, rlen2 = 0;"
+            ],
+            "added_protection_terms": 5,
+            "removed_protection_terms": 2,
+            "added_risk_terms": 0,
+            "removed_risk_terms": 0,
+            "added_safer_terms": 0,
+            "removed_safer_terms": 0,
+            "protection_delta": 3,
+            "risk_delta": 0,
+            "safer_delta": 0,
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 3,
+            "net_risk_support": -3
+          }
+        ]
+      }
+    ]
+  }
+}

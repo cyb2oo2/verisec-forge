@@ -43,7 +43,7 @@ The calibrated router uses:
 
 Selected threshold:
 
-- `26+` bucket threshold: `0.8`
+- `26+` bucket threshold: `0.7`
 
 Held-out result:
 
@@ -60,3 +60,16 @@ Same-split baseline control:
 ## Interpretation Boundary
 
 The router result should be interpreted as a calibration and pair-consistency improvement, not as a new raw detection breakthrough. It slightly improves pair/group metrics while keeping row-level balanced accuracy flat on the held-out split.
+
+## Pair Evidence Localization
+
+The first evidence-localization layer uses the pair-coupled held-out predictions and extracts heuristic hunk-level support scores. It is not gold evidence-span supervision.
+
+- Report: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
+- JSON summary: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
+- JSON summary SHA256: `755b7ee126bcfb745526ee56804f20480c9d010da0c2fad009752fc0ffbcd27b`
+- Row-level output: `outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl`
+- Row-level output rows: `1261`
+- support rate: `0.6376`
+- supported prediction error rate: `0.0933`
+- unsupported prediction error rate: `0.2516`
