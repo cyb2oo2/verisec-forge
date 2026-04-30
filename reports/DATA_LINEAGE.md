@@ -48,7 +48,7 @@ Selected threshold:
 Held-out result:
 
 - balanced accuracy: `0.8136`
-- group all-correct rate: `0.7134`
+- group all-correct rate: `0.7117`
 - orientation accuracy: `0.8581`
 
 Same-split baseline control:

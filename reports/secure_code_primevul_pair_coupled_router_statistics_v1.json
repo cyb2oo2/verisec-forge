@@ -6,9 +6,9 @@
   "bootstrap": {
     "bucket_router": {
       "group_all_correct": {
-        "observed": 0.7134,
-        "ci95_low": 0.6792,
-        "ci95_high": 0.7476,
+        "observed": 0.7117,
+        "ci95_low": 0.6759,
+        "ci95_high": 0.746,
         "iterations": 2000,
         "seed": 42,
         "units": 614
@@ -43,9 +43,9 @@
   },
   "delta": {
     "group_all_correct": {
-      "observed_delta": 0.1075,
-      "ci95_low": 0.0814,
-      "ci95_high": 0.1336,
+      "observed_delta": 0.1091,
+      "ci95_low": 0.0831,
+      "ci95_high": 0.1352,
       "iterations": 2000,
       "seed": 42,
       "units": 614
@@ -61,9 +61,9 @@
   },
   "sign_tests": {
     "group_all_correct": {
-      "wins": 72,
+      "wins": 73,
       "losses": 6,
-      "ties": 536,
+      "ties": 535,
       "two_sided_p_value": 1e-06,
       "test": "exact_sign_test"
     },

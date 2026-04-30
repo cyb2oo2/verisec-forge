@@ -219,7 +219,7 @@
     {
       "system": "pair-coupled bucket router",
       "source": "reports/secure_code_primevul_pair_coupled_router_v1_report.json",
-      "threshold": 0.8,
+      "threshold": 0.7,
       "accuracy": 0.8493,
       "recall": 0.8492,
       "specificity": 0.8494,

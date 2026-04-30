@@ -45,3 +45,4 @@ def test_select_threshold_uses_requested_selector() -> None:
 
     assert select_threshold(rows, selector="balanced_accuracy")["bucket_threshold"] == 0.7
     assert select_threshold(rows, selector="f1")["bucket_threshold"] == 0.8
+    assert select_threshold(rows, selector="f1")["selection_scores"]["tie_break"] == "highest_bucket_threshold"

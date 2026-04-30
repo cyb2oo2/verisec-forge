@@ -1,7 +1,7 @@
 {
-  "dataset": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
-  "default_predictions": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
-  "bucket_predictions": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl",
+  "dataset": "data\\processed\\secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+  "default_predictions": "outputs\\secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
+  "bucket_predictions": "outputs\\secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl",
   "bucket": "26+",
   "split": {
     "seed": 42,
@@ -13,24 +13,32 @@
   },
   "selection": {
     "selector": "balanced_accuracy",
-    "bucket_threshold": 0.8,
+    "bucket_threshold": 0.7,
+    "selection_scores": {
+      "primary_metric": "balanced_accuracy",
+      "primary_score": 0.8456093062845793,
+      "secondary_metric": "balanced_accuracy",
+      "secondary_score": 0.8456093062845793,
+      "tie_break": "highest_bucket_threshold",
+      "tie_break_value": 0.7
+    },
     "thresholds": {
       "default": 0.5,
-      "bucket": 0.8
+      "bucket": 0.7
     },
     "calibration_overall": {
       "num_examples": 531,
       "presence_accuracy": 0.8456,
       "label_accuracy": 0.8456,
-      "vulnerable_recall": 0.8604,
-      "safe_specificity": 0.8308,
-      "precision": 0.8352,
-      "f1": 0.8476,
+      "vulnerable_recall": 0.8642,
+      "safe_specificity": 0.8271,
+      "precision": 0.8327,
+      "f1": 0.8481,
       "balanced_accuracy": 0.8456,
-      "tp": 228,
-      "tn": 221,
-      "fp": 45,
-      "fn": 37
+      "tp": 229,
+      "tn": 220,
+      "fp": 46,
+      "fn": 36
     },
     "calibration_group_metrics": {
       "unique_pair_count": 263,
@@ -362,6 +370,14 @@
           "fp": 3,
           "fn": 5
         }
+      },
+      "selection_scores": {
+        "primary_metric": "balanced_accuracy",
+        "primary_score": 0.8456093062845793,
+        "secondary_metric": "balanced_accuracy",
+        "secondary_score": 0.8456093062845793,
+        "tie_break": "highest_bucket_threshold",
+        "tie_break_value": 0.7
       }
     },
     {
@@ -689,7 +705,7 @@
   "eval": {
     "thresholds": {
       "default": 0.5,
-      "bucket": 0.8
+      "bucket": 0.7
     },
     "route_counts": {
       "default": 1147,
@@ -699,21 +715,21 @@
       "num_examples": 1261,
       "presence_accuracy": 0.8136,
       "label_accuracy": 0.8136,
-      "vulnerable_recall": 0.8159,
-      "safe_specificity": 0.8114,
-      "precision": 0.812,
-      "f1": 0.8139,
+      "vulnerable_recall": 0.8222,
+      "safe_specificity": 0.8051,
+      "precision": 0.8081,
+      "f1": 0.8151,
       "balanced_accuracy": 0.8136,
-      "tp": 514,
-      "tn": 512,
-      "fp": 119,
-      "fn": 116
+      "tp": 518,
+      "tn": 508,
+      "fp": 123,
+      "fn": 112
     },
     "group_metrics": {
       "unique_pair_count": 614,
       "mixed_label_pair_count": 592,
-      "group_all_correct": 438,
-      "group_all_correct_rate": 0.7134,
+      "group_all_correct": 437,
+      "group_all_correct_rate": 0.7117,
       "orientation_eligible_pair_count": 592,
       "orientation_correct": 508,
       "orientation_accuracy": 0.8581
@@ -779,15 +795,15 @@
         "num_examples": 114,
         "presence_accuracy": 0.7719,
         "label_accuracy": 0.7719,
-        "vulnerable_recall": 0.6607,
-        "safe_specificity": 0.8793,
-        "precision": 0.8409,
-        "f1": 0.74,
-        "balanced_accuracy": 0.77,
-        "tp": 37,
-        "tn": 51,
-        "fp": 7,
-        "fn": 19
+        "vulnerable_recall": 0.7321,
+        "safe_specificity": 0.8103,
+        "precision": 0.7885,
+        "f1": 0.7593,
+        "balanced_accuracy": 0.7712,
+        "tp": 41,
+        "tn": 47,
+        "fp": 11,
+        "fn": 15
       }
     }
   }

@@ -197,14 +197,14 @@ Protocol:
 - calibration pair groups: `263`
 - held-out eval pair groups: `614`
 - selector: `balanced_accuracy`
-- selected bucket threshold: `0.8`
+- selected bucket threshold: `0.7`
 
 Held-out eval comparison:
 
 | System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | baseline direction-aware | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
-| calibrated bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| calibrated bucket router | `0.8136` | `0.8222` | `0.8051` | `0.8151` | `0.7117` | `0.8581` |
 
 This makes the router claim more conservative. The row-level score is essentially flat on the held-out split, but pair/group metrics improve slightly. The best interpretation is that bucket routing improves comparative consistency on paired samples, not that it creates a new raw-accuracy breakthrough.
 
@@ -222,7 +222,7 @@ Bootstrap 95% confidence intervals:
 | System | Metric | Observed | 95% CI |
 | --- | --- | ---: | --- |
 | baseline | group all-correct | `0.7101` | `0.6743-0.7443` |
-| router | group all-correct | `0.7134` | `0.6792-0.7476` |
+| router | group all-correct | `0.7117` | `0.6759-0.7460` |
 | baseline | orientation | `0.8514` | `0.8217-0.8790` |
 | router | orientation | `0.8581` | `0.8289-0.8844` |
 
@@ -230,7 +230,7 @@ Router minus baseline:
 
 | Metric | Delta | Bootstrap 95% CI | Sign Test |
 | --- | ---: | --- | --- |
-| group all-correct | `+0.0033` | `-0.0065-0.0147` | wins `6`, losses `4`, p=`0.753906` |
+| group all-correct | `+0.0016` | `-0.0098-0.0130` | wins `5`, losses `4`, p=`1.0` |
 | orientation | `+0.0068` | `0.0017-0.0151` | wins `4`, losses `0`, p=`0.125` |
 
 This sharpens the claim again. The group all-correct gain is not statistically convincing. The orientation gain has a positive bootstrap interval, but the exact sign test is underpowered because almost all pair groups are ties. The safe conclusion is: bucket routing shows a small, directionally positive consistency signal, but it needs larger or external splits before being treated as a decisive improvement.
@@ -248,7 +248,7 @@ Artifacts:
 
 Protocol:
 
-- selector: `orientation_accuracy`
+- selector: `balanced_accuracy`
 - selected margin: `0.02`
 - held-out eval pair groups: `614`
 
@@ -257,14 +257,14 @@ Held-out comparison:
 | System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | baseline direction-aware | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
-| bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| bucket router | `0.8136` | `0.8222` | `0.8051` | `0.8151` | `0.7117` | `0.8581` |
 | pair-coupled router | `0.8493` | `0.8492` | `0.8494` | `0.8492` | `0.8208` | `0.8581` |
 
 Pair-coupled minus bucket router:
 
 | Metric | Delta | Bootstrap 95% CI | Sign Test |
 | --- | ---: | --- | --- |
-| group all-correct | `+0.1075` | `0.0814-0.1336` | wins `72`, losses `6`, p<`0.000001` |
+| group all-correct | `+0.1091` | `0.0831-0.1352` | wins `73`, losses `6`, p<`0.000001` |
 | orientation | `0.0000` | `0.0000-0.0000` | unchanged |
 
 This is a stronger system result than row-level bucket routing. It improves discrete pair consistency because it changes labels, not probability ordering. Therefore orientation remains unchanged by design, while group all-correct and row-level balanced accuracy improve substantially.
@@ -287,10 +287,10 @@ Balanced-selector summary across seeds `7,13,42,99,123`:
 | baseline balanced accuracy | `0.8220` | `0.0082` | `0.8136` | `0.8311` |
 | bucket-router balanced accuracy | `0.8224` | `0.0072` | `0.8136` | `0.8312` |
 | pair-coupled balanced accuracy | `0.8572` | `0.0061` | `0.8493` | `0.8644` |
-| bucket-router group all-correct | `0.7228` | `0.0101` | `0.7134` | `0.7394` |
+| bucket-router group all-correct | `0.7225` | `0.0105` | `0.7117` | `0.7394` |
 | pair-coupled group all-correct | `0.8339` | `0.0124` | `0.8208` | `0.8502` |
 | pair minus bucket balanced accuracy | `+0.0348` | `0.0025` | `+0.0317` | `+0.0384` |
-| pair minus bucket group all-correct | `+0.1111` | `0.0101` | `+0.1010` | `+0.1271` |
+| pair minus bucket group all-correct | `+0.1114` | `0.0100` | `+0.1010` | `+0.1271` |
 
 Every split seed shows a positive pair-coupled delta. Row-level McNemar p-values are favorable on all five splits, and group all-correct sign tests report wins over losses on all five splits. This addresses the main statistical hygiene concern for the pair-coupled layer much more directly than the earlier single-split report.
 

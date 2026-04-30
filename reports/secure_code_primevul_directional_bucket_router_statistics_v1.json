@@ -23,9 +23,9 @@
     },
     "router": {
       "group_all_correct": {
-        "observed": 0.7134,
-        "ci95_low": 0.6792,
-        "ci95_high": 0.7476,
+        "observed": 0.7117,
+        "ci95_low": 0.6759,
+        "ci95_high": 0.746,
         "iterations": 2000,
         "seed": 42,
         "units": 614
@@ -42,9 +42,9 @@
   },
   "delta": {
     "group_all_correct": {
-      "observed_delta": 0.0033,
-      "ci95_low": -0.0065,
-      "ci95_high": 0.0147,
+      "observed_delta": 0.0016,
+      "ci95_low": -0.0098,
+      "ci95_high": 0.013,
       "iterations": 2000,
       "seed": 42,
       "units": 614
@@ -60,10 +60,10 @@
   },
   "sign_tests": {
     "group_all_correct": {
-      "wins": 6,
-      "losses": 4,
-      "ties": 604,
-      "two_sided_p_value": 0.753906,
+      "wins": 7,
+      "losses": 6,
+      "ties": 601,
+      "two_sided_p_value": 1.0,
       "test": "exact_sign_test"
     },
     "orientation": {

@@ -9,7 +9,9 @@ This report selects the large-diff bucket threshold on a pair-key calibration sp
 - Calibration pair groups: `263`
 - Held-out eval pair groups: `614`
 - Selector: `balanced_accuracy`
-- Selected bucket threshold: `0.8`
+- Selected bucket threshold: `0.7`
+- Tie-break policy: `highest_bucket_threshold`
+- Selection score (unrounded): `balanced_accuracy=0.8456093062845793`
 
 ## Calibration Sweep
 
@@ -29,7 +31,7 @@ This report routes large diff samples through the recall-recovery detector while
 
 - Default threshold: `0.5`
 - Bucket route: `26+`
-- Bucket threshold: `0.8`
+- Bucket threshold: `0.7`
 - Default routed rows: `1147`
 - Bucket routed rows: `114`
 
@@ -40,14 +42,14 @@ This report routes large diff samples through the recall-recovery detector while
 | num_examples | 1261 |
 | presence_accuracy | 0.8136 |
 | balanced_accuracy | 0.8136 |
-| vulnerable_recall | 0.8159 |
-| safe_specificity | 0.8114 |
-| precision | 0.812 |
-| f1 | 0.8139 |
-| tp | 514 |
-| tn | 512 |
-| fp | 119 |
-| fn | 116 |
+| vulnerable_recall | 0.8222 |
+| safe_specificity | 0.8051 |
+| precision | 0.8081 |
+| f1 | 0.8151 |
+| tp | 518 |
+| tn | 508 |
+| fp | 123 |
+| fn | 112 |
 
 ## Pair/Group Metrics
 
@@ -55,8 +57,8 @@ This report routes large diff samples through the recall-recovery detector while
 | --- | ---: |
 | unique_pair_count | 614 |
 | mixed_label_pair_count | 592 |
-| group_all_correct | 438 |
-| group_all_correct_rate | 0.7134 |
+| group_all_correct | 437 |
+| group_all_correct_rate | 0.7117 |
 | orientation_eligible_pair_count | 592 |
 | orientation_correct | 508 |
 | orientation_accuracy | 0.8581 |
@@ -69,7 +71,7 @@ This report routes large diff samples through the recall-recovery detector while
 | 03-05 | 344 | 0.8606 | 0.8382 | 0.883 | 0.8788 | 0.858 | 145 | 151 | 20 | 28 |
 | 06-10 | 285 | 0.8878 | 0.8921 | 0.8836 | 0.8794 | 0.8857 | 124 | 129 | 17 | 15 |
 | 11-25 | 185 | 0.7789 | 0.7579 | 0.8 | 0.8 | 0.7784 | 72 | 72 | 18 | 23 |
-| 26+ | 114 | 0.77 | 0.6607 | 0.8793 | 0.8409 | 0.74 | 37 | 51 | 7 | 19 |
+| 26+ | 114 | 0.7712 | 0.7321 | 0.8103 | 0.7885 | 0.7593 | 41 | 47 | 11 | 15 |
 
 ## Same-Split Control
 

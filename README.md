@@ -2,11 +2,11 @@
 
 **Verifiable benchmarking and post-training for trustworthy secure-code reasoning.**
 
-VeriSec Forge is a research-first codebase for studying whether open-weight models can make **trustworthy security judgments about code**. The project focuses on **defensive analysis**, not exploit generation: given a code snippet, the system must decide whether a vulnerability is present, optionally assign a weakness label, expose support for the decision, and stay inside a machine-checkable evaluation contract.
+VeriSec Forge is a research-first codebase for studying whether open-weight models can make **trustworthy security judgments about security patches and code diffs**. The project focuses on **defensive analysis**, not exploit generation: given a vulnerable/fixed pair or patch-like diff, the system must decide which side is riskier, expose support for the decision, and stay inside a machine-checkable evaluation contract.
 
 This repository is built to answer a practical research question:
 
-> Can we build a secure-code reasoning system where detection, support checking, structured reporting, and failure analysis are evaluated separately instead of blurred into one generative score?
+> Can we build a shortcut-aware secure patch/diff reasoning benchmark and detector stack where paired decisions, support checking, structured reporting, and failure analysis are evaluated separately instead of blurred into one generative score?
 
 ![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
 
@@ -36,6 +36,7 @@ The current main conclusion is architectural:
 - a discriminative detector should be the first-class vulnerability decision model
 - a narrow second-stage support scorer is a better confirmation layer than a miniature generative auditor
 - the structured auditor remains useful for machine-readable reports, but it is not the strongest detector
+- the strongest current system result is not standalone vulnerability detection; it is pair-coupled decoding for paired vulnerable/fixed patch examples
 
 The important result is not the same-source score by itself. The same-source detector reaches high accuracy, but paired evaluation shows that this was artifact-sensitive. The robust direction is paired patch/diff reasoning:
 
@@ -72,10 +73,10 @@ Important caveat:
 - recall-recovery v1 oversamples same-template training rows for vulnerable `26+` and mixed-risk windows; it reaches the strongest `26+` bucket result so far, best balanced accuracy `0.7904`, but full-eval balanced accuracy falls slightly to `0.8180`
 - recall-recovery v2 is a negative ablation: reducing vulnerable duplication and adding more safe anchors drops full-eval balanced accuracy to `0.8074` and `26+` best balanced accuracy to `0.7077`
 - bucket-specific routing is the next positive systems result: keeping the baseline direction-aware detector for non-`26+` rows and routing `26+` rows to recall-recovery v1 reaches full-eval balanced accuracy `0.8231`; at the `0.8` bucket threshold it also reaches group all-correct rate `0.7241` and pair orientation accuracy `0.8624`
-- validation-selected routing now confirms the same threshold choice on a pair-key calibration split: calibration selects bucket threshold `0.8`; on held-out pair groups, row-level balanced accuracy stays at `0.8136`, while group all-correct improves from `0.7101` to `0.7134` and orientation accuracy improves from `0.8514` to `0.8581`
-- router statistics keep this claim honest: group all-correct delta is `+0.0033` with bootstrap 95% CI `-0.0065-0.0147`, while orientation delta is `+0.0068` with bootstrap 95% CI `0.0017-0.0151` but exact sign-test p=`0.125`
-- pair-coupled decoding is the next strong systems result: without using gold labels, it enforces one vulnerable and one safe decision within paired groups when the probability gap clears a calibrated margin; on held-out pair groups it reaches balanced accuracy `0.8493`, group all-correct `0.8208`, and bootstrap group all-correct delta `+0.1075` over the bucket router
-- multi-split stability now protects the pair-coupled claim: over split seeds `7,13,42,99,123`, pair-coupled decoding has mean balanced accuracy `0.8572`, mean group all-correct `0.8339`, mean pair-minus-bucket balanced accuracy `+0.0348`, and mean pair-minus-bucket group all-correct `+0.1111`
+- validation-selected routing now uses raw-count selection scores rather than rounded table metrics: calibration selects bucket threshold `0.7`; on held-out pair groups, row-level balanced accuracy stays at `0.8136`, while group all-correct moves from `0.7101` to `0.7117` and orientation accuracy improves from `0.8514` to `0.8581`
+- router statistics keep this claim honest: group all-correct delta is only `+0.0016` with bootstrap 95% CI `-0.0098-0.0130`, while orientation delta is `+0.0068` with bootstrap 95% CI `0.0017-0.0151` but exact sign-test p=`0.125`
+- pair-coupled decoding is the next strong systems result: without using gold labels, it enforces one vulnerable and one safe decision within paired groups when the probability gap clears a calibrated margin; on held-out pair groups it reaches balanced accuracy `0.8493`, group all-correct `0.8208`, and bootstrap group all-correct delta `+0.1091` over the bucket router
+- multi-split stability now protects the pair-coupled claim: over split seeds `7,13,42,99,123`, pair-coupled decoding has mean balanced accuracy `0.8572`, mean group all-correct `0.8339`, mean pair-minus-bucket balanced accuracy `+0.0348`, and mean pair-minus-bucket group all-correct `+0.1114`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -158,7 +159,7 @@ Important boundary result:
 - **Bucket routing is useful, but not magic.**
   Routing only `26+` large diffs to the recall-recovery checkpoint gives a small full-eval improvement and exposes two valid operating points: a specificity-preserving threshold and a recall-friendlier threshold. Pair/group metrics now confirm that the default route also improves the comparative signal, with `0.8624` probability-orientation accuracy.
 - **Validation-selected routing makes the claim more conservative.**
-  A pair-key calibration split selects the same `0.8` bucket threshold, but the held-out gain is mainly in group/pair metrics rather than row-level balanced accuracy. This is the right interpretation: bucket routing is a calibration and comparative-consistency tool, not a new detector breakthrough.
+  A pair-key calibration split now selects bucket threshold `0.7` using raw-count selection scores before table rounding. The held-out gain is mainly in group/pair metrics rather than row-level balanced accuracy. This is the right interpretation: bucket routing is calibration hygiene and comparative-consistency tooling, not a new detector breakthrough.
 - **Statistical checks prevent overclaiming.**
   Bootstrap intervals and sign tests show that group all-correct is not a convincing improvement, while orientation has a small positive signal but not enough non-tie pairs for a strong significance claim.
 - **Pair-coupled decoding is the first clearly stronger system layer.**

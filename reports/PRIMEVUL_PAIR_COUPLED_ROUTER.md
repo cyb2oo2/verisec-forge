@@ -6,8 +6,10 @@ This report applies pair-level decoding on top of the validation-selected bucket
 
 - Calibration pair groups: `263`
 - Held-out eval pair groups: `614`
-- Selector: `orientation_accuracy`
+- Selector: `balanced_accuracy`
 - Selected margin: `0.02`
+- Tie-break policy: `lowest_margin`
+- Selection score (unrounded): `balanced_accuracy=0.879493545183714`
 
 ## Calibration Sweep
 
@@ -16,8 +18,8 @@ This report applies pair-level decoding on top of the validation-selected bucket
 | 0.0 | 0.8663 | 0.8566 | 0.8759 | 0.8648 | 0.8593 | 0.8721 | 258 |
 | 0.02 | 0.8795 | 0.8906 | 0.8684 | 0.8806 | 0.8555 | 0.8721 | 239 |
 | 0.05 | 0.8757 | 0.8906 | 0.8609 | 0.8773 | 0.8327 | 0.8721 | 229 |
-| 0.1 | 0.8626 | 0.8906 | 0.8346 | 0.8661 | 0.7985 | 0.8721 | 216 |
-| 0.2 | 0.8531 | 0.8717 | 0.8346 | 0.8556 | 0.7681 | 0.8721 | 201 |
+| 0.1 | 0.8607 | 0.8906 | 0.8308 | 0.8645 | 0.7947 | 0.8721 | 216 |
+| 0.2 | 0.8513 | 0.8717 | 0.8308 | 0.854 | 0.7643 | 0.8721 | 201 |
 
 ## Held-Out Eval
 
@@ -27,7 +29,7 @@ This report routes large diff samples through the recall-recovery detector while
 
 - Default threshold: `0.5`
 - Bucket route: `26+`
-- Bucket threshold: `0.8`
+- Bucket threshold: `0.7`
 - Default routed rows: `1147`
 - Bucket routed rows: `114`
 
@@ -74,4 +76,4 @@ This report routes large diff samples through the recall-recovery detector while
 | system | bal_acc | recall | specificity | f1 | group_all_correct | orientation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | baseline_direction_aware | 0.8136 | 0.8143 | 0.813 | 0.8136 | 0.7101 | 0.8514 |
-| bucket_router | 0.8136 | 0.8159 | 0.8114 | 0.8139 | 0.7134 | 0.8581 |
+| bucket_router | 0.8136 | 0.8222 | 0.8051 | 0.8151 | 0.7117 | 0.8581 |

@@ -73,10 +73,54 @@ def build_report_for_threshold(
     }
 
 
+def exact_binary_metric(metrics: dict[str, Any], selector: str) -> float:
+    if not {"num_examples", "tp", "tn", "fp", "fn"}.issubset(metrics):
+        return float(metrics[selector])
+    total = int(metrics["num_examples"])
+    tp = int(metrics["tp"])
+    tn = int(metrics["tn"])
+    fp = int(metrics["fp"])
+    fn = int(metrics["fn"])
+    accuracy = (tp + tn) / total if total else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    specificity = tn / (tn + fp) if (tn + fp) else 0.0
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+    balanced_accuracy = (recall + specificity) / 2 if total else 0.0
+    values = {
+        "presence_accuracy": accuracy,
+        "label_accuracy": accuracy,
+        "vulnerable_recall": recall,
+        "safe_specificity": specificity,
+        "precision": precision,
+        "f1": f1,
+        "balanced_accuracy": balanced_accuracy,
+    }
+    if selector not in values:
+        raise ValueError(f"Unsupported binary metric selector: {selector}")
+    return values[selector]
+
+
 def select_threshold(rows: list[dict[str, Any]], *, selector: str) -> dict[str, Any]:
     if selector not in {"balanced_accuracy", "f1"}:
         raise ValueError(f"Unsupported selector: {selector}")
-    return max(rows, key=lambda row: (row["overall"][selector], row["overall"]["balanced_accuracy"], row["bucket_threshold"]))
+    selected = max(
+        rows,
+        key=lambda row: (
+            exact_binary_metric(row["overall"], selector),
+            exact_binary_metric(row["overall"], "balanced_accuracy"),
+            row["bucket_threshold"],
+        ),
+    )
+    selected["selection_scores"] = {
+        "primary_metric": selector,
+        "primary_score": exact_binary_metric(selected["overall"], selector),
+        "secondary_metric": "balanced_accuracy",
+        "secondary_score": exact_binary_metric(selected["overall"], "balanced_accuracy"),
+        "tie_break": "highest_bucket_threshold",
+        "tie_break_value": float(selected["bucket_threshold"]),
+    }
+    return selected
 
 
 def render_calibrated_markdown(report: dict[str, Any]) -> str:
@@ -93,6 +137,8 @@ def render_calibrated_markdown(report: dict[str, Any]) -> str:
         f"- Held-out eval pair groups: `{report['split']['eval_pair_count']}`",
         f"- Selector: `{report['selection']['selector']}`",
         f"- Selected bucket threshold: `{report['selection']['bucket_threshold']}`",
+        f"- Tie-break policy: `{report['selection']['selection_scores']['tie_break']}`",
+        f"- Selection score (unrounded): `{report['selection']['selection_scores']['primary_metric']}={report['selection']['selection_scores']['primary_score']}`",
         "",
         "## Calibration Sweep",
         "",
@@ -231,6 +277,7 @@ def main() -> None:
         "selection": {
             "selector": args.selector,
             "bucket_threshold": selected["bucket_threshold"],
+            "selection_scores": selected["selection_scores"],
             "thresholds": {
                 "default": args.default_threshold,
                 "bucket": selected["bucket_threshold"],

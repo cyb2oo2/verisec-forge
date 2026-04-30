@@ -57,3 +57,4 @@ def test_select_margin_can_use_orientation_metric() -> None:
 
     assert select_margin(rows, selector="orientation_accuracy")["margin"] == 0.0
     assert select_margin(rows, selector="group_all_correct_rate")["margin"] == 0.1
+    assert select_margin(rows, selector="balanced_accuracy")["selection_scores"]["tie_break"] == "lowest_margin"

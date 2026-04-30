@@ -271,9 +271,9 @@ Results:
 
 | System | Split | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| selected router | calibration | `0.8456` | `0.8604` | `0.8308` | `0.8476` | `0.7490` | `0.8721` |
+| selected router | calibration | `0.8456` | `0.8642` | `0.8271` | `0.8481` | `0.7490` | `0.8721` |
 | baseline direction-aware | held-out eval | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
-| selected router | held-out eval | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| selected router | held-out eval | `0.8136` | `0.8222` | `0.8051` | `0.8151` | `0.7117` | `0.8581` |
 
 This is a mild positive systems result, not a score breakthrough. It protects the threshold-selection story and suggests that the router mainly improves pair-level consistency.
 
@@ -288,7 +288,7 @@ Key deltas on held-out pair groups:
 
 | Metric | Delta | Bootstrap 95% CI | Sign Test |
 | --- | ---: | --- | --- |
-| group all-correct | `+0.0033` | `-0.0065-0.0147` | wins `6`, losses `4`, p=`0.753906` |
+| group all-correct | `+0.0016` | `-0.0098-0.0130` | wins `5`, losses `4`, p=`1.0` |
 | orientation | `+0.0068` | `0.0017-0.0151` | wins `4`, losses `0`, p=`0.125` |
 
 This means the group all-correct result is not statistically convincing. Orientation has a small positive bootstrap interval, but the sign test remains underpowered. The right conclusion is conservative: the router improves the direction signal slightly, but it is not yet a decisive system win.
@@ -308,7 +308,7 @@ Held-out results:
 
 | System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+| bucket router | `0.8136` | `0.8222` | `0.8051` | `0.8151` | `0.7117` | `0.8581` |
 | pair-coupled router | `0.8493` | `0.8492` | `0.8494` | `0.8492` | `0.8208` | `0.8581` |
 
 Pair-coupled decoding is a clear systems improvement because it targets the correct unit of the task. It does not change orientation, since orientation is defined by probability ordering, but it substantially improves the discrete pair-level decision.
@@ -331,7 +331,7 @@ Balanced-selector summary:
 | pair-coupled balanced accuracy | `0.8572` | `0.0061` | `0.8493` | `0.8644` |
 | pair-coupled group all-correct | `0.8339` | `0.0124` | `0.8208` | `0.8502` |
 | pair minus bucket balanced accuracy | `+0.0348` | `0.0025` | `+0.0317` | `+0.0384` |
-| pair minus bucket group all-correct | `+0.1111` | `0.0101` | `+0.1010` | `+0.1271` |
+| pair minus bucket group all-correct | `+0.1114` | `0.0100` | `+0.1010` | `+0.1271` |
 
 This is the current strongest statistical result in the project. It directly addresses the single-split concern: the gain survives multiple pair-key calibration/eval splits and paired tests.
 

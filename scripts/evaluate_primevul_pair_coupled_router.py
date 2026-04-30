@@ -14,6 +14,7 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.evaluate_primevul_bucket_router import compute_binary_metrics, compute_group_metrics, render_markdown, summarize_by_bucket
 from scripts.evaluate_primevul_bucket_router_calibrated import (
     build_report_for_threshold,
+    exact_binary_metric,
     filter_by_pair_keys,
     split_pair_keys,
 )
@@ -79,12 +80,58 @@ def report_for_rows(rows: list[dict[str, Any]], *, thresholds: dict[str, float],
     }
 
 
+def exact_group_metric(metrics: dict[str, Any], selector: str) -> float:
+    if selector == "group_all_correct_rate":
+        if not {"unique_pair_count", "group_all_correct"}.issubset(metrics):
+            return float(metrics[selector])
+        denominator = int(metrics["unique_pair_count"])
+        return int(metrics["group_all_correct"]) / denominator if denominator else 0.0
+    if selector == "orientation_accuracy":
+        if not {"orientation_eligible_pair_count", "orientation_correct"}.issubset(metrics):
+            return float(metrics[selector])
+        denominator = int(metrics["orientation_eligible_pair_count"])
+        return int(metrics["orientation_correct"]) / denominator if denominator else 0.0
+    raise ValueError(f"Unsupported group metric selector: {selector}")
+
+
 def select_margin(rows: list[dict[str, Any]], *, selector: str) -> dict[str, Any]:
     if selector not in {"balanced_accuracy", "f1", "orientation_accuracy", "group_all_correct_rate"}:
         raise ValueError(f"Unsupported selector: {selector}")
     if selector in {"orientation_accuracy", "group_all_correct_rate"}:
-        return max(rows, key=lambda row: (row["group_metrics"][selector], row["overall"]["balanced_accuracy"], -row["margin"]))
-    return max(rows, key=lambda row: (row["overall"][selector], row["group_metrics"]["orientation_accuracy"], -row["margin"]))
+        selected = max(
+            rows,
+            key=lambda row: (
+                exact_group_metric(row["group_metrics"], selector),
+                exact_binary_metric(row["overall"], "balanced_accuracy"),
+                -row["margin"],
+            ),
+        )
+        selected["selection_scores"] = {
+            "primary_metric": selector,
+            "primary_score": exact_group_metric(selected["group_metrics"], selector),
+            "secondary_metric": "balanced_accuracy",
+            "secondary_score": exact_binary_metric(selected["overall"], "balanced_accuracy"),
+            "tie_break": "lowest_margin",
+            "tie_break_value": float(selected["margin"]),
+        }
+        return selected
+    selected = max(
+        rows,
+        key=lambda row: (
+            exact_binary_metric(row["overall"], selector),
+            exact_group_metric(row["group_metrics"], "orientation_accuracy"),
+            -row["margin"],
+        ),
+    )
+    selected["selection_scores"] = {
+        "primary_metric": selector,
+        "primary_score": exact_binary_metric(selected["overall"], selector),
+        "secondary_metric": "orientation_accuracy",
+        "secondary_score": exact_group_metric(selected["group_metrics"], "orientation_accuracy"),
+        "tie_break": "lowest_margin",
+        "tie_break_value": float(selected["margin"]),
+    }
+    return selected
 
 
 def render_pair_coupled_markdown(report: dict[str, Any]) -> str:
@@ -99,6 +146,8 @@ def render_pair_coupled_markdown(report: dict[str, Any]) -> str:
         f"- Held-out eval pair groups: `{report['split']['eval_pair_count']}`",
         f"- Selector: `{report['selection']['selector']}`",
         f"- Selected margin: `{report['selection']['margin']}`",
+        f"- Tie-break policy: `{report['selection']['selection_scores']['tie_break']}`",
+        f"- Selection score (unrounded): `{report['selection']['selection_scores']['primary_metric']}={report['selection']['selection_scores']['primary_score']}`",
         "",
         "## Calibration Sweep",
         "",
@@ -230,6 +279,7 @@ def main() -> None:
         "selection": {
             "selector": args.selector,
             "margin": selected["margin"],
+            "selection_scores": selected["selection_scores"],
             "calibration_overall": selected["overall"],
             "calibration_group_metrics": selected["group_metrics"],
             "calibration_coupling_counts": selected["coupling_counts"],

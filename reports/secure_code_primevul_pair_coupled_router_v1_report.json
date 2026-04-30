@@ -10,8 +10,16 @@
     "eval_rows": 1261
   },
   "selection": {
-    "selector": "orientation_accuracy",
+    "selector": "balanced_accuracy",
     "margin": 0.02,
+    "selection_scores": {
+      "primary_metric": "balanced_accuracy",
+      "primary_score": 0.879493545183714,
+      "secondary_metric": "orientation_accuracy",
+      "secondary_score": 0.872093023255814,
+      "tie_break": "lowest_margin",
+      "tie_break_value": 0.02
+    },
     "calibration_overall": {
       "num_examples": 531,
       "presence_accuracy": 0.8795,
@@ -47,7 +55,7 @@
       "margin": 0.0,
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 486,
@@ -159,7 +167,7 @@
       "margin": 0.02,
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 486,
@@ -265,13 +273,21 @@
           "fp": 4,
           "fn": 4
         }
+      },
+      "selection_scores": {
+        "primary_metric": "balanced_accuracy",
+        "primary_score": 0.879493545183714,
+        "secondary_metric": "orientation_accuracy",
+        "secondary_score": 0.872093023255814,
+        "tie_break": "lowest_margin",
+        "tie_break_value": 0.02
       }
     },
     {
       "margin": 0.05,
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 486,
@@ -383,7 +399,7 @@
       "margin": 0.1,
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 486,
@@ -397,23 +413,23 @@
       },
       "overall": {
         "num_examples": 531,
-        "presence_accuracy": 0.8625,
-        "label_accuracy": 0.8625,
+        "presence_accuracy": 0.8606,
+        "label_accuracy": 0.8606,
         "vulnerable_recall": 0.8906,
-        "safe_specificity": 0.8346,
-        "precision": 0.8429,
-        "f1": 0.8661,
-        "balanced_accuracy": 0.8626,
+        "safe_specificity": 0.8308,
+        "precision": 0.8399,
+        "f1": 0.8645,
+        "balanced_accuracy": 0.8607,
         "tp": 236,
-        "tn": 222,
-        "fp": 44,
+        "tn": 221,
+        "fp": 45,
         "fn": 29
       },
       "group_metrics": {
         "unique_pair_count": 263,
         "mixed_label_pair_count": 258,
-        "group_all_correct": 210,
-        "group_all_correct_rate": 0.7985,
+        "group_all_correct": 209,
+        "group_all_correct_rate": 0.7947,
         "orientation_eligible_pair_count": 258,
         "orientation_correct": 225,
         "orientation_accuracy": 0.8721
@@ -477,16 +493,16 @@
         },
         "26+": {
           "num_examples": 45,
-          "presence_accuracy": 0.8222,
-          "label_accuracy": 0.8222,
+          "presence_accuracy": 0.8,
+          "label_accuracy": 0.8,
           "vulnerable_recall": 0.8182,
-          "safe_specificity": 0.8261,
-          "precision": 0.8182,
-          "f1": 0.8182,
-          "balanced_accuracy": 0.8221,
+          "safe_specificity": 0.7826,
+          "precision": 0.7826,
+          "f1": 0.8,
+          "balanced_accuracy": 0.8004,
           "tp": 18,
-          "tn": 19,
-          "fp": 4,
+          "tn": 18,
+          "fp": 5,
           "fn": 4
         }
       }
@@ -495,7 +511,7 @@
       "margin": 0.2,
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 486,
@@ -509,23 +525,23 @@
       },
       "overall": {
         "num_examples": 531,
-        "presence_accuracy": 0.8531,
-        "label_accuracy": 0.8531,
+        "presence_accuracy": 0.8512,
+        "label_accuracy": 0.8512,
         "vulnerable_recall": 0.8717,
-        "safe_specificity": 0.8346,
-        "precision": 0.84,
-        "f1": 0.8556,
-        "balanced_accuracy": 0.8531,
+        "safe_specificity": 0.8308,
+        "precision": 0.837,
+        "f1": 0.854,
+        "balanced_accuracy": 0.8513,
         "tp": 231,
-        "tn": 222,
-        "fp": 44,
+        "tn": 221,
+        "fp": 45,
         "fn": 34
       },
       "group_metrics": {
         "unique_pair_count": 263,
         "mixed_label_pair_count": 258,
-        "group_all_correct": 202,
-        "group_all_correct_rate": 0.7681,
+        "group_all_correct": 201,
+        "group_all_correct_rate": 0.7643,
         "orientation_eligible_pair_count": 258,
         "orientation_correct": 225,
         "orientation_accuracy": 0.8721
@@ -589,16 +605,16 @@
         },
         "26+": {
           "num_examples": 45,
-          "presence_accuracy": 0.8444,
-          "label_accuracy": 0.8444,
+          "presence_accuracy": 0.8222,
+          "label_accuracy": 0.8222,
           "vulnerable_recall": 0.8182,
-          "safe_specificity": 0.8696,
-          "precision": 0.8571,
-          "f1": 0.8372,
-          "balanced_accuracy": 0.8439,
+          "safe_specificity": 0.8261,
+          "precision": 0.8182,
+          "f1": 0.8182,
+          "balanced_accuracy": 0.8221,
           "tp": 18,
-          "tn": 20,
-          "fp": 3,
+          "tn": 19,
+          "fp": 4,
           "fn": 4
         }
       }
@@ -713,7 +729,7 @@
     "bucket_router": {
       "thresholds": {
         "default": 0.5,
-        "bucket": 0.8
+        "bucket": 0.7
       },
       "route_counts": {
         "default": 1147,
@@ -723,21 +739,21 @@
         "num_examples": 1261,
         "presence_accuracy": 0.8136,
         "label_accuracy": 0.8136,
-        "vulnerable_recall": 0.8159,
-        "safe_specificity": 0.8114,
-        "precision": 0.812,
-        "f1": 0.8139,
+        "vulnerable_recall": 0.8222,
+        "safe_specificity": 0.8051,
+        "precision": 0.8081,
+        "f1": 0.8151,
         "balanced_accuracy": 0.8136,
-        "tp": 514,
-        "tn": 512,
-        "fp": 119,
-        "fn": 116
+        "tp": 518,
+        "tn": 508,
+        "fp": 123,
+        "fn": 112
       },
       "group_metrics": {
         "unique_pair_count": 614,
         "mixed_label_pair_count": 592,
-        "group_all_correct": 438,
-        "group_all_correct_rate": 0.7134,
+        "group_all_correct": 437,
+        "group_all_correct_rate": 0.7117,
         "orientation_eligible_pair_count": 592,
         "orientation_correct": 508,
         "orientation_accuracy": 0.8581
@@ -803,15 +819,15 @@
           "num_examples": 114,
           "presence_accuracy": 0.7719,
           "label_accuracy": 0.7719,
-          "vulnerable_recall": 0.6607,
-          "safe_specificity": 0.8793,
-          "precision": 0.8409,
-          "f1": 0.74,
-          "balanced_accuracy": 0.77,
-          "tp": 37,
-          "tn": 51,
-          "fp": 7,
-          "fn": 19
+          "vulnerable_recall": 0.7321,
+          "safe_specificity": 0.8103,
+          "precision": 0.7885,
+          "f1": 0.7593,
+          "balanced_accuracy": 0.7712,
+          "tp": 41,
+          "tn": 47,
+          "fp": 11,
+          "fn": 15
         }
       }
     }
@@ -819,7 +835,7 @@
   "eval": {
     "thresholds": {
       "default": 0.5,
-      "bucket": 0.8
+      "bucket": 0.7
     },
     "route_counts": {
       "default": 1147,
