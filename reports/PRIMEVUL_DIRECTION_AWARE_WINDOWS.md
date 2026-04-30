@@ -155,6 +155,26 @@ Results:
 
 This is a negative ablation. Adding more safe anchors while reducing vulnerable duplication makes the model too conservative and damages both the full eval score and the hard `26+` bucket. The v1 recipe remains the better recall-recovery branch.
 
+## Bucket Router v1
+
+The calibration follow-up keeps the baseline direction-aware detector for all non-`26+` rows and routes only `26+` large-diff rows through the recall-recovery v1 checkpoint.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_v1_report.json`
+- recall-friendly report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_RECALL.md`
+- recall-friendly JSON: `reports/secure_code_primevul_directional_bucket_router_v1_recall_report.json`
+
+Results on the full deduplicated eval set:
+
+| Bucket Threshold | Balanced Accuracy | Recall | Specificity | Precision | F1 | Interpretation |
+| ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `0.8` | `0.8231` | `0.8291` | `0.8172` | `0.8190` | `0.8240` | specificity-preserving route |
+| `0.7` | `0.8231` | `0.8346` | `0.8116` | `0.8155` | `0.8250` | recall-friendlier route |
+
+This is a small but useful systems result. The router does not create a dramatic new headline score, but it preserves the full paired-diff operating band while making the large-diff recall/specificity tradeoff explicit and configurable. That is cleaner than forcing one global checkpoint and one global threshold across very different changed-line buckets.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -163,4 +183,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-The next promising ablation is not more safe anchors. A better next step is score-level calibration or two-threshold routing: keep the v1 model for `26+` large diffs, use the original direction-aware model elsewhere, and select thresholds by bucket rather than forcing one global operating point.
+The next promising ablation is pair-level calibration. The router currently works at the row level; the stronger version should calibrate paired counterparts together, choose thresholds using validation rather than eval sweeps, and report both row-level and pair/group-level metrics.

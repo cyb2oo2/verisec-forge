@@ -223,3 +223,34 @@ Results:
 - `26+` bucket best balanced accuracy: `0.7077`
 
 This is a negative ablation. More safe anchors over-correct the model toward safe predictions and damages the hard bucket. The next step should be calibration/routing, not more generic safe-anchor resampling.
+
+## Direction-Aware Bucket Router
+
+The first calibration/routing experiment is complete.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_v1_report.json`
+- recall-friendly report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_RECALL.md`
+- recall-friendly JSON: `reports/secure_code_primevul_directional_bucket_router_v1_recall_report.json`
+
+The router uses:
+
+- baseline direction-aware detector for non-`26+` rows at threshold `0.5`
+- recall-recovery v1 detector for `26+` rows
+- bucket threshold `0.8` for the specificity-preserving point
+- bucket threshold `0.7` for the recall-friendlier point
+
+Full deduplicated eval results:
+
+| Bucket Threshold | Balanced Accuracy | Recall | Specificity | Precision | F1 |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| `0.8` | `0.8231` | `0.8291` | `0.8172` | `0.8190` | `0.8240` |
+| `0.7` | `0.8231` | `0.8346` | `0.8116` | `0.8155` | `0.8250` |
+
+This supports calibrated detector composition as the next system direction. The result is intentionally modest: it does not beat the best paired-diff seed, but it recovers the full operating band while exposing a controllable large-diff operating point.
+
+## Next Step
+
+Move the router from eval-selected thresholds to a validation-selected protocol, then add pair/group-level metrics. The next reviewer-facing version should answer whether bucket routing improves pair orientation and all-correct group rate, not just row-level balanced accuracy.

@@ -1,0 +1,100 @@
+{
+  "dataset": "data\\processed\\secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+  "default_predictions": "outputs\\secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
+  "bucket_predictions": "outputs\\secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl",
+  "bucket": "26+",
+  "thresholds": {
+    "default": 0.5,
+    "bucket": 0.8
+  },
+  "route_counts": {
+    "default": 1633,
+    "bucket": 159
+  },
+  "overall": {
+    "num_examples": 1792,
+    "presence_accuracy": 0.8231,
+    "label_accuracy": 0.8231,
+    "vulnerable_recall": 0.8291,
+    "safe_specificity": 0.8172,
+    "precision": 0.819,
+    "f1": 0.824,
+    "balanced_accuracy": 0.8231,
+    "tp": 742,
+    "tn": 733,
+    "fp": 164,
+    "fn": 153
+  },
+  "by_bucket": {
+    "00-02": {
+      "num_examples": 489,
+      "presence_accuracy": 0.7505,
+      "label_accuracy": 0.7505,
+      "vulnerable_recall": 0.8333,
+      "safe_specificity": 0.6667,
+      "precision": 0.7168,
+      "f1": 0.7707,
+      "balanced_accuracy": 0.75,
+      "tp": 205,
+      "tn": 162,
+      "fp": 81,
+      "fn": 41
+    },
+    "03-05": {
+      "num_examples": 483,
+      "presence_accuracy": 0.8613,
+      "label_accuracy": 0.8613,
+      "vulnerable_recall": 0.8471,
+      "safe_specificity": 0.8755,
+      "precision": 0.8723,
+      "f1": 0.8595,
+      "balanced_accuracy": 0.8613,
+      "tp": 205,
+      "tn": 211,
+      "fp": 30,
+      "fn": 37
+    },
+    "06-10": {
+      "num_examples": 386,
+      "presence_accuracy": 0.8886,
+      "label_accuracy": 0.8886,
+      "vulnerable_recall": 0.9,
+      "safe_specificity": 0.8776,
+      "precision": 0.8769,
+      "f1": 0.8883,
+      "balanced_accuracy": 0.8888,
+      "tp": 171,
+      "tn": 172,
+      "fp": 24,
+      "fn": 19
+    },
+    "11-25": {
+      "num_examples": 275,
+      "presence_accuracy": 0.8145,
+      "label_accuracy": 0.8145,
+      "vulnerable_recall": 0.777,
+      "safe_specificity": 0.8529,
+      "precision": 0.8438,
+      "f1": 0.809,
+      "balanced_accuracy": 0.815,
+      "tp": 108,
+      "tn": 116,
+      "fp": 20,
+      "fn": 31
+    },
+    "26+": {
+      "num_examples": 159,
+      "presence_accuracy": 0.7862,
+      "label_accuracy": 0.7862,
+      "vulnerable_recall": 0.6795,
+      "safe_specificity": 0.8889,
+      "precision": 0.8548,
+      "f1": 0.7571,
+      "balanced_accuracy": 0.7842,
+      "tp": 53,
+      "tn": 72,
+      "fp": 9,
+      "fn": 25
+    }
+  }
+}
