@@ -25,6 +25,15 @@
     "fp": 169,
     "fn": 148
   },
+  "group_metrics": {
+    "unique_pair_count": 877,
+    "mixed_label_pair_count": 850,
+    "group_all_correct": 634,
+    "group_all_correct_rate": 0.7229,
+    "orientation_eligible_pair_count": 850,
+    "orientation_correct": 733,
+    "orientation_accuracy": 0.8624
+  },
   "by_bucket": {
     "00-02": {
       "num_examples": 489,

@@ -26,6 +26,18 @@ This report routes large diff samples through the recall-recovery detector while
 | fp | 164 |
 | fn | 153 |
 
+## Pair/Group Metrics
+
+| metric | value |
+| --- | ---: |
+| unique_pair_count | 877 |
+| mixed_label_pair_count | 850 |
+| group_all_correct | 635 |
+| group_all_correct_rate | 0.7241 |
+| orientation_eligible_pair_count | 850 |
+| orientation_correct | 733 |
+| orientation_accuracy | 0.8624 |
+
 ## Bucket Metrics
 
 | bucket | n | bal_acc | recall | specificity | precision | f1 | tp | tn | fp | fn |

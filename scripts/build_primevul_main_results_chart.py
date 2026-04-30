@@ -28,6 +28,7 @@ DISPLAY_ROWS = [
     "contrastive-window detector",
     "direction-aware window detector",
     "direction-aware recall-recovery detector",
+    "direction-aware bucket router",
     "diff-only detector, seed7 dedup",
     "diff-only detector, seed99 dedup",
     "diff-only detector, edge-focus",

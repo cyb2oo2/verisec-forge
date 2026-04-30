@@ -62,6 +62,30 @@ def _from_sweep(
     }
 
 
+def _from_nested_report(
+    label: str,
+    path: str,
+    *,
+    metrics_key: str = "overall",
+    threshold_key: str = "bucket",
+    note: str = "",
+) -> dict[str, Any]:
+    payload = read_json(path)
+    row = payload[metrics_key]
+    return {
+        "system": label,
+        "source": path,
+        "threshold": _metric(payload.get("thresholds", {}), threshold_key),
+        "accuracy": _metric(row, "presence_accuracy"),
+        "recall": _metric(row, "vulnerable_recall"),
+        "specificity": _metric(row, "safe_specificity"),
+        "precision": _metric(row, "precision"),
+        "f1": _metric(row, "f1"),
+        "balanced_accuracy": _metric(row, "balanced_accuracy"),
+        "note": note,
+    }
+
+
 def build_rows() -> list[dict[str, Any]]:
     return [
         _from_report(
@@ -144,6 +168,11 @@ def build_rows() -> list[dict[str, Any]]:
             "direction-aware recall-recovery detector",
             "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_threshold_sweep.json",
             note="26+ vulnerable oversampling with safe anchors",
+        ),
+        _from_nested_report(
+            "direction-aware bucket router",
+            "reports/secure_code_primevul_directional_bucket_router_v1_report.json",
+            note="routes 26+ rows to recall-recovery v1",
         ),
         _from_sweep(
             "diff-only detector, edge-focus",

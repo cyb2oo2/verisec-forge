@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from scripts.evaluate_primevul_bucket_router import (
     compute_binary_metrics,
+    compute_group_metrics,
     route_predictions,
     summarize_by_bucket,
 )
@@ -12,11 +13,13 @@ def test_bucket_router_uses_specialist_only_for_target_bucket() -> None:
     rows = [
         {
             "id": "large",
+            "pair_key": "pair-a",
             "has_vulnerability": True,
             "pair_text": f"Unified diff:\n{long_diff}",
         },
         {
             "id": "small",
+            "pair_key": "pair-a",
             "has_vulnerability": False,
             "pair_text": "Unified diff:\n-old\n+new\n",
         },
@@ -47,4 +50,6 @@ def test_bucket_router_uses_specialist_only_for_target_bucket() -> None:
     assert routed[1]["pred"] == 0
     assert routed[1]["changed_line_bucket"] == "00-02"
     assert compute_binary_metrics(routed)["balanced_accuracy"] == 1.0
+    assert compute_group_metrics(routed)["group_all_correct_rate"] == 1.0
+    assert compute_group_metrics(routed)["orientation_accuracy"] == 1.0
     assert summarize_by_bucket(routed)["26+"]["tp"] == 1

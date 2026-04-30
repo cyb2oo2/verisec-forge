@@ -205,6 +205,18 @@
       "note": "26+ vulnerable oversampling with safe anchors"
     },
     {
+      "system": "direction-aware bucket router",
+      "source": "reports/secure_code_primevul_directional_bucket_router_v1_report.json",
+      "threshold": 0.8,
+      "accuracy": 0.8231,
+      "recall": 0.8291,
+      "specificity": 0.8172,
+      "precision": 0.819,
+      "f1": 0.824,
+      "balanced_accuracy": 0.8231,
+      "note": "routes 26+ rows to recall-recovery v1"
+    },
+    {
       "system": "diff-only detector, edge-focus",
       "source": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json",
       "threshold": 0.5,

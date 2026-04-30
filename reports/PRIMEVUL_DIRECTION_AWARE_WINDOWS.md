@@ -173,6 +173,13 @@ Results on the full deduplicated eval set:
 | `0.8` | `0.8231` | `0.8291` | `0.8172` | `0.8190` | `0.8240` | specificity-preserving route |
 | `0.7` | `0.8231` | `0.8346` | `0.8116` | `0.8155` | `0.8250` | recall-friendlier route |
 
+Pair/group metrics:
+
+| Bucket Threshold | Group All-Correct Rate | Orientation Accuracy | Unique Pair Groups | Eligible Mixed-Label Pairs |
+| ---: | ---: | ---: | ---: | ---: |
+| `0.8` | `0.7241` | `0.8624` | `877` | `850` |
+| `0.7` | `0.7229` | `0.8624` | `877` | `850` |
+
 This is a small but useful systems result. The router does not create a dramatic new headline score, but it preserves the full paired-diff operating band while making the large-diff recall/specificity tradeoff explicit and configurable. That is cleaner than forcing one global checkpoint and one global threshold across very different changed-line buckets.
 
 ## Interpretation

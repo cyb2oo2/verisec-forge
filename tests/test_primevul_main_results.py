@@ -98,6 +98,7 @@ def test_build_rows_includes_no_metadata_control(monkeypatch) -> None:
     assert any(row["system"] == "diff-only checkpoint on localized eval" for row in rows)
     assert any(row["system"] == "localized-diff detector" for row in rows)
     assert any(row["system"] == "contrastive-window detector" for row in rows)
+    assert any(row["system"] == "direction-aware bucket router" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed7" for row in rows)
     assert any(row["system"] == "diff-only detector, edge-focus seed99" for row in rows)
@@ -115,3 +116,19 @@ def test_from_report_computes_missing_f1() -> None:
     row = module._from_report("model", str(report_path))
 
     assert row["f1"] == 0.6857
+
+
+def test_from_nested_report_reads_router_overall_metrics() -> None:
+    module = _load_module()
+    report_path = Path("artifacts") / "test_primevul_router_report.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(
+        '{"thresholds": {"bucket": 0.8}, "overall": {"presence_accuracy": 0.82, "vulnerable_recall": 0.83, "safe_specificity": 0.81, "precision": 0.8, "f1": 0.815, "balanced_accuracy": 0.82}}',
+        encoding="utf-8",
+    )
+
+    row = module._from_nested_report("router", str(report_path))
+
+    assert row["threshold"] == 0.8
+    assert row["balanced_accuracy"] == 0.82
+    assert row["recall"] == 0.83

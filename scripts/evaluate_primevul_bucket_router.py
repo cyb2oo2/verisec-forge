@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections import deque
+from collections import defaultdict, deque
 from pathlib import Path
 from typing import Any, Deque
 
@@ -13,6 +13,12 @@ if str(REPO_ROOT) not in sys.path:
 
 from scripts.build_primevul_directional_recall_recovery_dataset import changed_line_bucket
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
+
+
+def rate(numerator: int, denominator: int) -> float:
+    if denominator == 0:
+        return 0.0
+    return round(numerator / denominator, 4)
 
 
 def compute_binary_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -40,6 +46,40 @@ def compute_binary_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "tn": tn,
         "fp": fp,
         "fn": fn,
+    }
+
+
+def compute_group_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[str(row.get("pair_key") or row["id"])].append(row)
+
+    all_correct = 0
+    orientation_correct = 0
+    orientation_eligible = 0
+    mixed_label_groups = 0
+    for group_rows in grouped.values():
+        if all(row["gold"] == row["pred"] for row in group_rows):
+            all_correct += 1
+        positives = [row for row in group_rows if row["gold"] == 1]
+        negatives = [row for row in group_rows if row["gold"] == 0]
+        if positives and negatives:
+            mixed_label_groups += 1
+            pos_prob = sum(float(row["vuln_probability"]) for row in positives) / len(positives)
+            neg_prob = sum(float(row["vuln_probability"]) for row in negatives) / len(negatives)
+            orientation_eligible += 1
+            if pos_prob > neg_prob:
+                orientation_correct += 1
+
+    group_count = len(grouped)
+    return {
+        "unique_pair_count": group_count,
+        "mixed_label_pair_count": mixed_label_groups,
+        "group_all_correct": all_correct,
+        "group_all_correct_rate": rate(all_correct, group_count),
+        "orientation_eligible_pair_count": orientation_eligible,
+        "orientation_correct": orientation_correct,
+        "orientation_accuracy": rate(orientation_correct, orientation_eligible),
     }
 
 
@@ -106,6 +146,7 @@ def route_predictions(
                 "vuln_probability": probability,
                 "threshold": threshold,
                 "route": route,
+                "pair_key": dataset_row.get("pair_key") or row_id,
                 "changed_lines": changed_lines,
                 "changed_line_bucket": changed_bucket,
             }
@@ -154,6 +195,26 @@ def render_markdown(report: dict[str, Any]) -> str:
         "fn",
     ]:
         lines.append(f"| {key} | {report['overall'][key]} |")
+
+    lines.extend(
+        [
+            "",
+            "## Pair/Group Metrics",
+            "",
+            "| metric | value |",
+            "| --- | ---: |",
+        ]
+    )
+    for key in [
+        "unique_pair_count",
+        "mixed_label_pair_count",
+        "group_all_correct",
+        "group_all_correct_rate",
+        "orientation_eligible_pair_count",
+        "orientation_correct",
+        "orientation_accuracy",
+    ]:
+        lines.append(f"| {key} | {report['group_metrics'][key]} |")
 
     lines.extend(
         [
@@ -220,6 +281,7 @@ def main() -> None:
         },
         "route_counts": route_counts,
         "overall": compute_binary_metrics(routed_rows),
+        "group_metrics": compute_group_metrics(routed_rows),
         "by_bucket": summarize_by_bucket(routed_rows),
     }
     write_json(args.json_output, report)

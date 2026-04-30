@@ -249,6 +249,13 @@ Full deduplicated eval results:
 | `0.8` | `0.8231` | `0.8291` | `0.8172` | `0.8190` | `0.8240` |
 | `0.7` | `0.8231` | `0.8346` | `0.8116` | `0.8155` | `0.8250` |
 
+Pair/group metrics:
+
+| Bucket Threshold | Group All-Correct Rate | Orientation Accuracy | Unique Pair Groups | Eligible Mixed-Label Pairs |
+| ---: | ---: | ---: | ---: | ---: |
+| `0.8` | `0.7241` | `0.8624` | `877` | `850` |
+| `0.7` | `0.7229` | `0.8624` | `877` | `850` |
+
 This supports calibrated detector composition as the next system direction. The result is intentionally modest: it does not beat the best paired-diff seed, but it recovers the full operating band while exposing a controllable large-diff operating point.
 
 ## Next Step
