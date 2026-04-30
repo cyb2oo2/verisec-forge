@@ -258,6 +258,25 @@ Pair/group metrics:
 
 This supports calibrated detector composition as the next system direction. The result is intentionally modest: it does not beat the best paired-diff seed, but it recovers the full operating band while exposing a controllable large-diff operating point.
 
+## Validation-Selected Router Check
+
+The validation-selected router check now splits by `pair_key` before choosing the `26+` bucket threshold.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_CALIBRATED.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json`
+
+Results:
+
+| System | Split | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| selected router | calibration | `0.8456` | `0.8604` | `0.8308` | `0.8476` | `0.7490` | `0.8721` |
+| baseline direction-aware | held-out eval | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
+| selected router | held-out eval | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+
+This is a mild positive systems result, not a score breakthrough. It protects the threshold-selection story and suggests that the router mainly improves pair-level consistency.
+
 ## Next Step
 
-Move the router from eval-selected thresholds to a validation-selected protocol, then add pair/group-level metrics. The next reviewer-facing version should answer whether bucket routing improves pair orientation and all-correct group rate, not just row-level balanced accuracy.
+Move from row-independent routing to pair-coupled decoding. The next reviewer-facing version should answer whether using both counterpart rows at inference time can improve orientation accuracy and group all-correct rate without damaging row-level recall/specificity.

@@ -182,6 +182,32 @@ Pair/group metrics:
 
 This is a small but useful systems result. The router does not create a dramatic new headline score, but it preserves the full paired-diff operating band while making the large-diff recall/specificity tradeoff explicit and configurable. That is cleaner than forcing one global checkpoint and one global threshold across very different changed-line buckets.
 
+## Validation-Selected Bucket Router
+
+The next check avoids selecting the bucket threshold directly on the full eval set. It splits the paired eval rows by `pair_key`, uses `30%` of pair groups for calibration, and reports the selected router on the remaining held-out pair groups.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_CALIBRATED.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json`
+
+Protocol:
+
+- split seed: `42`
+- calibration pair groups: `263`
+- held-out eval pair groups: `614`
+- selector: `balanced_accuracy`
+- selected bucket threshold: `0.8`
+
+Held-out eval comparison:
+
+| System | Balanced Accuracy | Recall | Specificity | F1 | Group All-Correct | Orientation |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline direction-aware | `0.8136` | `0.8143` | `0.8130` | `0.8136` | `0.7101` | `0.8514` |
+| calibrated bucket router | `0.8136` | `0.8159` | `0.8114` | `0.8139` | `0.7134` | `0.8581` |
+
+This makes the router claim more conservative. The row-level score is essentially flat on the held-out split, but pair/group metrics improve slightly. The best interpretation is that bucket routing improves comparative consistency on paired samples, not that it creates a new raw-accuracy breakthrough.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -190,4 +216,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-The next promising ablation is pair-level calibration. The router currently works at the row level; the stronger version should calibrate paired counterparts together, choose thresholds using validation rather than eval sweeps, and report both row-level and pair/group-level metrics.
+The next promising ablation is pair-level decision coupling. The router still makes independent row decisions; the stronger version should use both sides of a pair at inference time and enforce a coherent orientation decision when one side is vulnerable and the other is fixed/safe.
