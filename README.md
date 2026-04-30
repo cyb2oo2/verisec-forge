@@ -81,6 +81,8 @@ Important caveat:
 
 For the generated main-results table, see [PrimeVul Main Results](reports/PRIMEVUL_MAIN_RESULTS.md). It is rebuilt from run artifacts by `scripts/build_primevul_main_results.py`.
 
+For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
+
 For the current paired diff error breakdown, see [PrimeVul Paired Diff Failure Analysis](reports/PRIMEVUL_PAIR_DIFF_FAILURE_ANALYSIS.md). The main remaining errors are balanced between false positives and false negatives (`153` FP / `177` FN at threshold `0.6`), with the highest error rates on very small and very large diffs.
 
 The first reviewer-facing metadata control is now complete: `diff_no_metadata` removes `Project`, `CVE`, and `CWE` from the prompt and leaves only the task instruction plus unified diff. It reaches best balanced accuracy `0.8244`, so the paired diff result is not explained by prompt metadata alone. See [PrimeVul Diff Edge-Focus Plan](reports/PRIMEVUL_DIFF_EDGE_FOCUS_PLAN.md) for the no-metadata and edge-focus experiment configs.

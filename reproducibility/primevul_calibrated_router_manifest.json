@@ -1,0 +1,67 @@
+{
+  "name": "primevul_directional_bucket_router_calibrated_v1",
+  "description": "Required local artifacts for reproducing the validation-selected PrimeVul direction-aware bucket router report.",
+  "created_utc": "2026-05-01",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/evaluate_primevul_bucket_router_calibrated.py",
+    "--dataset",
+    "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+    "--default-predictions",
+    "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
+    "--bucket-predictions",
+    "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl",
+    "--bucket",
+    "26+",
+    "--default-threshold",
+    "0.5",
+    "--bucket-thresholds",
+    "0.5,0.6,0.7,0.8,0.9",
+    "--selector",
+    "balanced_accuracy",
+    "--calibration-fraction",
+    "0.3",
+    "--seed",
+    "42"
+  ],
+  "artifacts": [
+    {
+      "role": "dataset",
+      "path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+      "bytes": 23668739,
+      "rows": 1792,
+      "note": "PrimeVul paired diff-only deduplicated eval rows with pair metadata."
+    },
+    {
+      "role": "default_predictions",
+      "path": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
+      "sha256": "11137e2ef52c0951a98d86ac38f246f64d22366b0df04ae34f896c5157d4b4e3",
+      "bytes": 160405,
+      "rows": 1792,
+      "note": "Baseline direction-aware detector predictions."
+    },
+    {
+      "role": "bucket_predictions",
+      "path": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl",
+      "sha256": "841215cee202ed45226a868041b4a17a0be90f076b310b7f30faf883c81d4b54",
+      "bytes": 160372,
+      "rows": 1792,
+      "note": "Direction-aware recall-recovery v1 detector predictions."
+    }
+  ],
+  "expected": {
+    "selected_bucket_threshold": 0.8,
+    "eval_balanced_accuracy": 0.8136,
+    "eval_group_all_correct_rate": 0.7134,
+    "eval_orientation_accuracy": 0.8581,
+    "baseline_eval_balanced_accuracy": 0.8136,
+    "baseline_group_all_correct_rate": 0.7101,
+    "baseline_orientation_accuracy": 0.8514
+  },
+  "limitations": [
+    "The raw PrimeVul-derived jsonl and prediction jsonl files are intentionally not committed because data/processed and outputs are gitignored.",
+    "This manifest makes the required local artifacts auditable by path, byte size, row count, and SHA256.",
+    "A fresh clone can run the script and receive a precise missing-artifact report; full reproduction requires materializing these files first."
+  ]
+}

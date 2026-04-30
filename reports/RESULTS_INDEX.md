@@ -10,6 +10,8 @@ Start here for the main narrative and current system-level conclusions.
 - `Technical Report`: `reports/TECHNICAL_REPORT.md`
 - `Research Summary`: `reports/SECURE_CODE_RESEARCH_SUMMARY.md`
 - `Visual Diagnostics`: `reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md`
+- `Reproducibility Guide`: `REPRODUCIBILITY.md`
+- `Data Lineage`: `reports/DATA_LINEAGE.md`
 
 ## CodeXGLUE Mainline
 
