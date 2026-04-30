@@ -75,6 +75,7 @@ Important caveat:
 - validation-selected routing now confirms the same threshold choice on a pair-key calibration split: calibration selects bucket threshold `0.8`; on held-out pair groups, row-level balanced accuracy stays at `0.8136`, while group all-correct improves from `0.7101` to `0.7134` and orientation accuracy improves from `0.8514` to `0.8581`
 - router statistics keep this claim honest: group all-correct delta is `+0.0033` with bootstrap 95% CI `-0.0065-0.0147`, while orientation delta is `+0.0068` with bootstrap 95% CI `0.0017-0.0151` but exact sign-test p=`0.125`
 - pair-coupled decoding is the next strong systems result: without using gold labels, it enforces one vulnerable and one safe decision within paired groups when the probability gap clears a calibrated margin; on held-out pair groups it reaches balanced accuracy `0.8493`, group all-correct `0.8208`, and bootstrap group all-correct delta `+0.1075` over the bucket router
+- multi-split stability now protects the pair-coupled claim: over split seeds `7,13,42,99,123`, pair-coupled decoding has mean balanced accuracy `0.8572`, mean group all-correct `0.8339`, mean pair-minus-bucket balanced accuracy `+0.0348`, and mean pair-minus-bucket group all-correct `+0.1111`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -162,6 +163,8 @@ Important boundary result:
   Bootstrap intervals and sign tests show that group all-correct is not a convincing improvement, while orientation has a small positive signal but not enough non-tie pairs for a strong significance claim.
 - **Pair-coupled decoding is the first clearly stronger system layer.**
   Because the benchmark is paired by construction, the system can decode pair groups coherently rather than treating each row independently. This improves row-level balance and group all-correct while leaving orientation unchanged, which is exactly what a discrete pair-coupling layer should do.
+- **Multi-split checks make the pair-coupled result much harder to dismiss.**
+  The improvement is not a seed-42 artifact: five independent pair-key calibration/eval splits all show positive row-level and group-level deltas, with paired tests consistently favorable.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

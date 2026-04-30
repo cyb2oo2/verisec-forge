@@ -269,6 +269,31 @@ Pair-coupled minus bucket router:
 
 This is a stronger system result than row-level bucket routing. It improves discrete pair consistency because it changes labels, not probability ordering. Therefore orientation remains unchanged by design, while group all-correct and row-level balanced accuracy improve substantially.
 
+## Pair-Coupled Multi-Split Stability
+
+The pair-coupled result is now checked across five independent pair-key calibration/eval split seeds.
+
+Artifacts:
+
+- balanced-selector report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
+- balanced-selector JSON: `reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json`
+- group-selector report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT.md`
+- group-selector JSON: `reports/secure_code_primevul_pair_coupled_multisplit_v1.json`
+
+Balanced-selector summary across seeds `7,13,42,99,123`:
+
+| Metric | Mean | Stdev | Min | Max |
+| --- | ---: | ---: | ---: | ---: |
+| baseline balanced accuracy | `0.8220` | `0.0082` | `0.8136` | `0.8311` |
+| bucket-router balanced accuracy | `0.8224` | `0.0072` | `0.8136` | `0.8312` |
+| pair-coupled balanced accuracy | `0.8572` | `0.0061` | `0.8493` | `0.8644` |
+| bucket-router group all-correct | `0.7228` | `0.0101` | `0.7134` | `0.7394` |
+| pair-coupled group all-correct | `0.8339` | `0.0124` | `0.8208` | `0.8502` |
+| pair minus bucket balanced accuracy | `+0.0348` | `0.0025` | `+0.0317` | `+0.0384` |
+| pair minus bucket group all-correct | `+0.1111` | `0.0101` | `+0.1010` | `+0.1271` |
+
+Every split seed shows a positive pair-coupled delta. Row-level McNemar p-values are favorable on all five splits, and group all-correct sign tests report wins over losses on all five splits. This addresses the main statistical hygiene concern for the pair-coupled layer much more directly than the earlier single-split report.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.

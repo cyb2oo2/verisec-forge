@@ -313,6 +313,28 @@ Held-out results:
 
 Pair-coupled decoding is a clear systems improvement because it targets the correct unit of the task. It does not change orientation, since orientation is defined by probability ordering, but it substantially improves the discrete pair-level decision.
 
+## Multi-Split Pair-Coupled Stability
+
+The pair-coupled result is now repeated over split seeds `7,13,42,99,123`, with bucket threshold and coupling margin selected independently on each calibration split.
+
+Artifacts:
+
+- balanced-selector report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
+- balanced-selector JSON: `reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json`
+- group-selector report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT.md`
+- group-selector JSON: `reports/secure_code_primevul_pair_coupled_multisplit_v1.json`
+
+Balanced-selector summary:
+
+| Metric | Mean | Stdev | Min | Max |
+| --- | ---: | ---: | ---: | ---: |
+| pair-coupled balanced accuracy | `0.8572` | `0.0061` | `0.8493` | `0.8644` |
+| pair-coupled group all-correct | `0.8339` | `0.0124` | `0.8208` | `0.8502` |
+| pair minus bucket balanced accuracy | `+0.0348` | `0.0025` | `+0.0317` | `+0.0384` |
+| pair minus bucket group all-correct | `+0.1111` | `0.0101` | `+0.1010` | `+0.1271` |
+
+This is the current strongest statistical result in the project. It directly addresses the single-split concern: the gain survives multiple pair-key calibration/eval splits and paired tests.
+
 ## Next Step
 
-Move from pair-coupled decision consistency to pair-grounded evidence localization. The next reviewer-facing version should explain which diff hunk made the selected side more vulnerable.
+Move from pair-coupled decision consistency to pair-grounded evidence localization. The next reviewer-facing version should explain which diff hunk made the selected side more vulnerable, while preserving the multi-split evaluation protocol.

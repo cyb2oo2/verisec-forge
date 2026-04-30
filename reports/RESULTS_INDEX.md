@@ -104,6 +104,10 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Pair-Coupled Router JSON`: `reports/secure_code_primevul_pair_coupled_router_v1_report.json`
 - `Paired Diff Pair-Coupled Router Statistics`: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER_STATISTICS.md`
 - `Paired Diff Pair-Coupled Router Statistics JSON`: `reports/secure_code_primevul_pair_coupled_router_statistics_v1.json`
+- `Paired Diff Pair-Coupled Multi-Split Balanced Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
+- `Paired Diff Pair-Coupled Multi-Split Balanced JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json`
+- `Paired Diff Pair-Coupled Multi-Split Group Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT.md`
+- `Paired Diff Pair-Coupled Multi-Split Group JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_v1.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`
