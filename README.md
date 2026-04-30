@@ -70,6 +70,7 @@ Important caveat:
 - matched direction-aware training recovers the full paired-diff band with best full-eval balanced accuracy `0.8225` and improves the hard `26+` bucket to best balanced accuracy `0.7721`, above the previous edge-focus bucket result `0.7438`
 - the direction-aware `26+` gain comes from a different error profile: false positives fall from `28` to `12`, while false negatives rise from `13` to `24`, so the next step is recall recovery without losing the new specificity gain
 - recall-recovery v1 oversamples same-template training rows for vulnerable `26+` and mixed-risk windows; it reaches the strongest `26+` bucket result so far, best balanced accuracy `0.7904`, but full-eval balanced accuracy falls slightly to `0.8180`
+- recall-recovery v2 is a negative ablation: reducing vulnerable duplication and adding more safe anchors drops full-eval balanced accuracy to `0.8074` and `26+` best balanced accuracy to `0.7077`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -145,6 +146,8 @@ Important boundary result:
   Direction-aware windows reduce `26+` false positives from `28` to `12`, but false negatives rise from `13` to `24`. The next experiment should preserve this specificity gain while oversampling or reweighting direction-aware false negatives.
 - **Recall recovery needs calibration.**
   The first recall-recovery dataset improves the hard `26+` bucket only after threshold tuning: best balanced accuracy reaches `0.7904` at threshold `0.8`, while the default threshold is recall-heavy and noisy. This points toward calibrated operating points rather than a single fixed threshold.
+- **More safe anchors are not the fix.**
+  The v2 ablation adds more safe anchors and reduces vulnerable duplication, but it over-corrects toward conservatism. The better next step is bucket-specific calibration or routing, not more generic resampling.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

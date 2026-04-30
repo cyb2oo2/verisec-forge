@@ -1,0 +1,18 @@
+{
+  "base_rows": 3000,
+  "output_rows": 3113,
+  "added_rows": 113,
+  "seed": 42,
+  "selection": {
+    "vulnerable_26plus": 143,
+    "mixed_vulnerable_26plus": 33,
+    "safe_26plus_anchor_candidates": 116,
+    "safe_26plus_anchors_added": 80,
+    "mixed_repeats": 1,
+    "all_vulnerable_26plus_repeats": 0
+  },
+  "labels": {
+    "vulnerable": 1533,
+    "safe": 1580
+  }
+}

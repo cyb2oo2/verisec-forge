@@ -1,0 +1,1461 @@
+{
+  "summary": {
+    "threshold": 0.4,
+    "rows": 159,
+    "tp": 43,
+    "tn": 70,
+    "fp": 11,
+    "fn": 35,
+    "error_count": 46
+  },
+  "false_positive_aggregate": {
+    "count": 11,
+    "top_projects": [
+      [
+        "gpac",
+        2
+      ],
+      [
+        "tensorflow",
+        1
+      ],
+      [
+        "openssh-portable",
+        1
+      ],
+      [
+        "ImageMagick6",
+        1
+      ],
+      [
+        "php-src",
+        1
+      ],
+      [
+        "radare2",
+        1
+      ],
+      [
+        "ImageMagick",
+        1
+      ],
+      [
+        "FreeRDP",
+        1
+      ]
+    ],
+    "top_cwes": [
+      [
+        "cwe-125",
+        4
+      ],
+      [
+        "cwe-787",
+        2
+      ],
+      [
+        "cwe-476",
+        1
+      ],
+      [
+        "cwe-399",
+        1
+      ],
+      [
+        "cwe-200",
+        1
+      ],
+      [
+        "cwe-78",
+        1
+      ],
+      [
+        "cwe-401",
+        1
+      ]
+    ],
+    "top_keywords": [
+      [
+        "size",
+        10
+      ],
+      [
+        "len",
+        10
+      ],
+      [
+        "valid",
+        8
+      ],
+      [
+        "free",
+        7
+      ],
+      [
+        "length",
+        4
+      ],
+      [
+        "mem",
+        2
+      ],
+      [
+        "alloc",
+        2
+      ],
+      [
+        "check",
+        2
+      ],
+      [
+        "strlen",
+        1
+      ]
+    ],
+    "top_direction_labels": [
+      [
+        "candidate_adds_protection",
+        9
+      ],
+      [
+        "candidate_removes_protection",
+        7
+      ],
+      [
+        "candidate_removes_risk",
+        5
+      ],
+      [
+        "direction_unclear",
+        3
+      ],
+      [
+        "candidate_introduces_risk",
+        1
+      ]
+    ]
+  },
+  "false_negative_aggregate": {
+    "count": 35,
+    "top_projects": [
+      [
+        "tensorflow",
+        5
+      ],
+      [
+        "linux",
+        3
+      ],
+      [
+        "squid",
+        2
+      ],
+      [
+        "libjpeg",
+        1
+      ],
+      [
+        "libssh-mirror",
+        1
+      ],
+      [
+        "openssh-portable",
+        1
+      ],
+      [
+        "icecast-server",
+        1
+      ],
+      [
+        "libssh2",
+        1
+      ]
+    ],
+    "top_cwes": [
+      [
+        "cwe-787",
+        7
+      ],
+      [
+        "cwe-125",
+        6
+      ],
+      [
+        "cwe-476",
+        4
+      ],
+      [
+        "cwe-703",
+        2
+      ],
+      [
+        "cwe-400",
+        2
+      ],
+      [
+        "cwe-200",
+        2
+      ],
+      [
+        "cwe-416",
+        2
+      ],
+      [
+        "cwe-20",
+        2
+      ]
+    ],
+    "top_keywords": [
+      [
+        "size",
+        31
+      ],
+      [
+        "len",
+        24
+      ],
+      [
+        "mem",
+        21
+      ],
+      [
+        "alloc",
+        11
+      ],
+      [
+        "valid",
+        11
+      ],
+      [
+        "length",
+        10
+      ],
+      [
+        "free",
+        7
+      ],
+      [
+        "copy",
+        5
+      ],
+      [
+        "check",
+        5
+      ],
+      [
+        "strlen",
+        2
+      ],
+      [
+        "bound",
+        1
+      ]
+    ],
+    "top_direction_labels": [
+      [
+        "candidate_removes_protection",
+        25
+      ],
+      [
+        "candidate_adds_protection",
+        19
+      ],
+      [
+        "direction_unclear",
+        11
+      ],
+      [
+        "candidate_introduces_risk",
+        9
+      ],
+      [
+        "candidate_removes_risk",
+        5
+      ]
+    ]
+  },
+  "top_false_positives": [
+    {
+      "id": "220804::pairctx",
+      "project": "tensorflow",
+      "cve": "CVE-2022-21740",
+      "vulnerability_type": "cwe-787",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.7759,
+      "top_hunks": [
+        {
+          "header": "@@ -19,64 +14,40 @@               \"; values shape: \", values.shape().DebugString()));",
+          "score": [
+            2,
+            64,
+            3924
+          ],
+          "changed_lines": 64,
+          "added_lines": 20,
+          "removed_lines": 44,
+          "keywords": [
+            "size",
+            "valid"
+          ],
+          "removed_preview": [
+            "    OP_REQUIRES(context, shape.NumElements() != 0,",
+            "                errors::InvalidArgument(",
+            "                    \"The shape argument requires at least one element.\"));",
+            "",
+            "    bool is_1d = shape.NumElements() == 1;",
+            "    auto shape_vector = shape.flat<int64_t>();"
+          ],
+          "added_preview": [
+            "    const auto splits_values = splits.flat<int64_t>();",
+            "    const auto values_values = values.flat<T>();",
+            "    const auto weight_values = weights.flat<W>();",
+            "    int num_batches = splits.NumElements() - 1;",
+            "    OP_REQUIRES(",
+            "        context, num_batches > 0,"
+          ],
+          "added_protection_terms": 8,
+          "removed_protection_terms": 27,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -19,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
+          ]
+        },
+        {
+          "header": "@@ -1,14 +1,9 @@   void Compute(OpKernelContext* context) override {",
+          "score": [
+            1,
+            11,
+            719
+          ],
+          "changed_lines": 11,
+          "added_lines": 3,
+          "removed_lines": 8,
+          "keywords": [
+            "valid"
+          ],
+          "removed_preview": [
+            "    const Tensor& indices = context->input(0);",
+            "    const Tensor& shape = context->input(2);",
+            "    const Tensor& weights = context->input(3);",
+            "",
+            "    OP_REQUIRES(context, TensorShapeUtils::IsMatrix(indices.shape()),",
+            "                errors::InvalidArgument("
+          ],
+          "added_preview": [
+            "    const Tensor& splits = context->input(0);",
+            "    const Tensor& weights = context->input(2);",
+            "    bool is_1d = false;"
+          ],
+          "added_protection_terms": 0,
+          "removed_protection_terms": 4,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -4,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "230580::pairctx",
+      "project": "gpac",
+      "cve": "CVE-2021-32132",
+      "vulnerability_type": "cwe-476",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.6114,
+      "top_hunks": [
+        {
+          "header": "@@ -119,39 +136,48 @@ \t\t}",
+          "score": [
+            3,
+            29,
+            1415
+          ],
+          "changed_lines": 29,
+          "added_lines": 19,
+          "removed_lines": 10,
+          "keywords": [
+            "free",
+            "size",
+            "valid"
+          ],
+          "removed_preview": [
+            "\tif (!zfound)",
+            "\t\treturn GF_ISOM_INVALID_FILE;",
+            "\tISOM_DECREASE_SIZE(ptr, 1)",
+            "\t\t\tgf_free(tmp_str);",
+            "\t\t\treturn e;",
+            "\tISOM_DECREASE_SIZE(ptr, 1)"
+          ],
+          "added_preview": [
+            "\tif (!zfound) {",
+            "\t\te = GF_ISOM_INVALID_FILE;",
+            "\t\tgoto exit;",
+            "\t}",
+            "",
+            "\tISOM_DECREASE_SIZE_GOTO_EXIT(ptr, 1)"
+          ],
+          "added_protection_terms": 19,
+          "removed_protection_terms": 9,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 2,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 10,
+          "risk_delta": -2,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_removes_risk"
+          ]
+        },
+        {
+          "header": "@@ -56,21 +58,27 @@ \t\t\t}",
+          "score": [
+            2,
+            14,
+            771
+          ],
+          "changed_lines": 14,
+          "added_lines": 10,
+          "removed_lines": 4,
+          "keywords": [
+            "size",
+            "valid"
+          ],
+          "removed_preview": [
+            "\t\tif (!zfound)",
+            "\t\t\treturn GF_ISOM_INVALID_FILE;",
+            "\tISOM_DECREASE_SIZE(ptr, 1)",
+            "\t\t\tISOM_DECREASE_SIZE(ptr, 1)"
+          ],
+          "added_preview": [
+            "\t\tif (!zfound) {",
+            "\t\t\te = GF_ISOM_INVALID_FILE;",
+            "\t\t\tgoto exit;",
+            "\t\t}",
+            "\tif (ptr->server_entry_count != gf_list_count(ptr->server_entry_table)) {",
+            "\t\te = GF_ISOM_INVALID_FILE;"
+          ],
+          "added_protection_terms": 12,
+          "removed_protection_terms": 6,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 6,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "400219::pairctx",
+      "project": "openssh-portable",
+      "cve": "CVE-2021-28041",
+      "vulnerability_type": "cwe-399",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.5889,
+      "top_hunks": [
+        {
+          "header": "@@ -28,63 +27,44 @@ \t\tcase SSH_AGENT_CONSTRAIN_CONFIRM:",
+          "score": [
+            2,
+            51,
+            1885
+          ],
+          "changed_lines": 51,
+          "added_lines": 16,
+          "removed_lines": 35,
+          "keywords": [
+            "free",
+            "valid"
+          ],
+          "removed_preview": [
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\tif ((r = sshbuf_get_cstring(m, &ext_name, NULL)) != 0) {"
+          ],
+          "added_preview": [
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;"
+          ],
+          "added_protection_terms": 21,
+          "removed_protection_terms": 43,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 3,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -22,
+          "risk_delta": -3,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ]
+        },
+        {
+          "header": "@@ -4,23 +4,22 @@ \tu_char ctype;",
+          "score": [
+            1,
+            9,
+            655
+          ],
+          "changed_lines": 9,
+          "added_lines": 4,
+          "removed_lines": 5,
+          "keywords": [
+            "valid"
+          ],
+          "removed_preview": [
+            "\tchar *ext_name = NULL;",
+            "\tstruct sshbuf *b = NULL;",
+            "\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;"
+          ],
+          "added_preview": [
+            "\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tgoto out;"
+          ],
+          "added_protection_terms": 6,
+          "removed_protection_terms": 8,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "381036::pairctx",
+      "project": "ImageMagick6",
+      "cve": "CVE-2020-10251",
+      "vulnerability_type": "cwe-125",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.5039,
+      "top_hunks": [
+        {
+          "header": "@@ -225,23 +227,19 @@       file_data=RelinquishMagickMemory(file_data);",
+          "score": [
+            3,
+            30,
+            1516
+          ],
+          "changed_lines": 30,
+          "added_lines": 13,
+          "removed_lines": 17,
+          "keywords": [
+            "free",
+            "mem",
+            "size"
+          ],
+          "removed_preview": [
+            "  if (decode_options != (struct heif_decoding_options *) NULL)",
+            "    {",
+            "      /*",
+            "        Correct the width and height of the image.",
+            "      */",
+            "      image->columns=(size_t) heif_image_get_width(heif_image,heif_channel_Y);"
+          ],
+          "added_preview": [
+            "  /*",
+            "    Correct the width and height of the image.",
+            "  */",
+            "  image->columns=(size_t) heif_image_get_width(heif_image,heif_channel_Y);",
+            "  image->rows=(size_t) heif_image_get_height(heif_image,heif_channel_Y);",
+            "  status=SetImageExtent(image,image->columns,image->rows);"
+          ],
+          "added_protection_terms": 15,
+          "removed_protection_terms": 19,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 2,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -4,
+          "risk_delta": -1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ]
+        },
+        {
+          "header": "@@ -217,7 +217,9 @@   else",
+          "score": [
+            1,
+            4,
+            446
+          ],
+          "changed_lines": 4,
+          "added_lines": 3,
+          "removed_lines": 1,
+          "keywords": [
+            "free"
+          ],
+          "removed_preview": [
+            "    heif_chroma_420,NULL);"
+          ],
+          "added_preview": [
+            "    heif_chroma_420,decode_options);",
+            "  if (decode_options != (struct heif_decoding_options *) NULL)",
+            "    heif_decoding_options_free(decode_options);"
+          ],
+          "added_protection_terms": 5,
+          "removed_protection_terms": 2,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 3,
+          "risk_delta": 1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "400779::pairctx",
+      "project": "php-src",
+      "cve": "CVE-2012-6113",
+      "vulnerability_type": "cwe-200",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.5,
+      "top_hunks": [
+        {
+          "header": "@@ -27,35 +41,22 @@ \t\tkey = (unsigned char*)password;",
+          "score": [
+            4,
+            27,
+            1664
+          ],
+          "changed_lines": 27,
+          "added_lines": 7,
+          "removed_lines": 20,
+          "keywords": [
+            "free",
+            "len",
+            "length",
+            "valid"
+          ],
+          "removed_preview": [
+            "\tmax_iv_len = EVP_CIPHER_iv_length(cipher_type);",
+            "\tif (iv_len <= 0 && max_iv_len > 0) {",
+            "\t\tphp_error_docref(NULL TSRMLS_CC, E_WARNING, \"Using an empty Initialization Vector (iv) is potentially insecure and not recommended\");",
+            "\t}",
+            "\tfree_iv = php_openssl_validate_iv(&iv, &iv_len, max_iv_len TSRMLS_CC);",
+            "\tEVP_EncryptInit(&cipher_ctx, cipher_type, NULL, NULL);"
+          ],
+          "added_preview": [
+            "\tfree_iv = php_openssl_validate_iv(&iv, &iv_len, EVP_CIPHER_iv_length(cipher_type) TSRMLS_CC);",
+            "\tEVP_DecryptInit(&cipher_ctx, cipher_type, NULL, NULL);",
+            "\tEVP_DecryptInit_ex(&cipher_ctx, NULL, NULL, key, (unsigned char *)iv);",
+            "\tEVP_DecryptUpdate(&cipher_ctx, outbuf, &i, (unsigned char *)data, data_len);",
+            "\tif (EVP_DecryptFinal(&cipher_ctx, (unsigned char *)outbuf + i, &i)) {",
+            "\t\toutbuf[outlen] = '\\0';"
+          ],
+          "added_protection_terms": 13,
+          "removed_protection_terms": 26,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 2,
+          "added_safer_terms": 1,
+          "removed_safer_terms": 1,
+          "protection_delta": -13,
+          "risk_delta": -1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ]
+        },
+        {
+          "header": "@@ -1,21 +1,35 @@-PHP_FUNCTION(openssl_encrypt)",
+          "score": [
+            1,
+            21,
+            1353
+          ],
+          "changed_lines": 21,
+          "added_lines": 18,
+          "removed_lines": 3,
+          "keywords": [
+            "len"
+          ],
+          "removed_preview": [
+            "\tzend_bool raw_output = 0;",
+            "\tint data_len, method_len, password_len, iv_len = 0, max_iv_len;",
+            "\tif (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, \"sss|bs\", &data, &data_len, &method, &method_len, &password, &password_len, &raw_output, &iv, &iv_len) == FAILURE) {"
+          ],
+          "added_preview": [
+            "PHP_FUNCTION(openssl_decrypt)",
+            "\tzend_bool raw_input = 0;",
+            "\tint data_len, method_len, password_len, iv_len = 0;",
+            "\tint base64_str_len;",
+            "\tchar *base64_str = NULL;",
+            "\tif (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, \"sss|bs\", &data, &data_len, &method, &method_len, &password, &password_len, &raw_input, &iv, &iv_len) == FAILURE) {"
+          ],
+          "added_protection_terms": 22,
+          "removed_protection_terms": 10,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 12,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "268829::pairctx",
+      "project": "radare2",
+      "cve": "CVE-2020-15121",
+      "vulnerability_type": "cwe-78",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.4922,
+      "top_hunks": [
+        {
+          "header": "@@ -1,138 +1,73 @@ static int download(struct SPDBDownloader *pd) {",
+          "score": [
+            7,
+            137,
+            5815
+          ],
+          "changed_lines": 137,
+          "added_lines": 36,
+          "removed_lines": 101,
+          "keywords": [
+            "alloc",
+            "check",
+            "free",
+            "len",
+            "mem",
+            "size",
+            "strlen"
+          ],
+          "removed_preview": [
+            "\tchar *curl_cmd = NULL;",
+            "\tchar *extractor_cmd = NULL;",
+            "\tchar *abspath_to_archive = NULL;",
+            "\tchar *abspath_to_file = NULL;",
+            "\tchar *archive_name = NULL;",
+            "\tsize_t archive_name_len = 0;"
+          ],
+          "added_preview": [
+            "",
+            "\tchar *abspath_to_file = r_str_newf (\"%s%s%s%s%s%s%s\",",
+            "\t\topt->symbol_store_path, R_SYS_DIR,",
+            "\t\topt->dbg_file, R_SYS_DIR,",
+            "\t\topt->guid, R_SYS_DIR,",
+            "\t\topt->dbg_file);"
+          ],
+          "added_protection_terms": 3,
+          "removed_protection_terms": 33,
+          "added_risk_terms": 8,
+          "removed_risk_terms": 25,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -30,
+          "risk_delta": -17,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "459319::pairctx",
+      "project": "ImageMagick",
+      "cve": "CVE-2020-10251",
+      "vulnerability_type": "cwe-125",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.4688,
+      "top_hunks": [
+        {
+          "header": "@@ -84,26 +84,24 @@     (void) SetImageProperty(image,\"exif:Orientation\",\"1\",exception);",
+          "score": [
+            2,
+            26,
+            1659
+          ],
+          "changed_lines": 26,
+          "added_lines": 12,
+          "removed_lines": 14,
+          "keywords": [
+            "free",
+            "size"
+          ],
+          "removed_preview": [
+            "  if (decode_options != (struct heif_decoding_options *) NULL)",
+            "      /*",
+            "        Correct the width and height of the image.",
+            "      */",
+            "      image->columns=(size_t) heif_image_get_width(heif_image,heif_channel_Y);",
+            "      image->rows=(size_t) heif_image_get_height(heif_image,heif_channel_Y);"
+          ],
+          "added_preview": [
+            "  if (decode_options != (struct heif_decoding_options *) NULL)",
+            "    heif_decoding_options_free(decode_options);",
+            "  /*",
+            "    Correct the width and height of the image.",
+            "  */",
+            "  image->columns=(size_t) heif_image_get_width(heif_image,heif_channel_Y);"
+          ],
+          "added_protection_terms": 17,
+          "removed_protection_terms": 17,
+          "added_risk_terms": 1,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "243213::pairctx",
+      "project": "gpac",
+      "cve": "CVE-2021-32138",
+      "vulnerability_type": "cwe-401",
+      "gold": 0,
+      "pred": 1,
+      "outcome": "fp",
+      "vuln_probability": 0.434,
+      "top_hunks": [
+        {
+          "header": "@@ -522,23 +522,27 @@ \t\tfprintf(stderr, \"\\tAOM AV1 stream - Resolution %d x %d\\n\", w, h);",
+          "score": [
+            2,
+            38,
+            2541
+          ],
+          "changed_lines": 38,
+          "added_lines": 21,
+          "removed_lines": 17,
+          "keywords": [
+            "len",
+            "length"
+          ],
+          "removed_preview": [
+            "\t\tfprintf(stderr, \"\\tversion=%u, profile=%u, level_idx0=%u, tier=%u\\n\", (u32)av1c->version, (u32)av1c->seq_profile, (u32)av1c->seq_level_idx_0, (u32)av1c->seq_tier_0);",
+            "\t\tfprintf(stderr, \"\\thigh_bitdepth=%u, twelve_bit=%u, monochrome=%u\\n\", (u32)av1c->high_bitdepth, (u32)av1c->twelve_bit, (u32)av1c->monochrome);",
+            "\t\tfprintf(stderr, \"\\tchroma: subsampling_x=%u, subsampling_y=%u, sample_position=%u\\n\", (u32)av1c->chroma_subsampling_x, (u32)av1c->chroma_subsampling_y, (u32)av1c->chroma_sample_position);",
+            "",
+            "\t\tif (av1c->initial_presentation_delay_present)",
+            "\t\t\tfprintf(stderr, \"\\tInitial presentation delay %u\\n\", (u32) av1c->initial_presentation_delay_minus_one+1);"
+          ],
+          "added_preview": [
+            "\t\tif (!av1c) {",
+            "\t\t\tfprintf(stderr, \"\\tCorrupted av1 config\\n\");",
+            "\t\t} else {",
+            "\t\t\tfprintf(stderr, \"\\tversion=%u, profile=%u, level_idx0=%u, tier=%u\\n\", (u32)av1c->version, (u32)av1c->seq_profile, (u32)av1c->seq_level_idx_0, (u32)av1c->seq_tier_0);",
+            "\t\t\tfprintf(stderr, \"\\thigh_bitdepth=%u, twelve_bit=%u, monochrome=%u\\n\", (u32)av1c->high_bitdepth, (u32)av1c->twelve_bit, (u32)av1c->monochrome);",
+            "\t\t\tfprintf(stderr, \"\\tchroma: subsampling_x=%u, subsampling_y=%u, sample_position=%u\\n\", (u32)av1c->chroma_subsampling_x, (u32)av1c->chroma_subsampling_y, (u32)av1c->chroma_sample_position);"
+          ],
+          "added_protection_terms": 12,
+          "removed_protection_terms": 10,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    }
+  ],
+  "top_false_negatives": [
+    {
+      "id": "197511::pairctx",
+      "project": "libjpeg",
+      "cve": "CVE-2022-31796",
+      "vulnerability_type": "cwe-787",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.0405,
+      "top_hunks": [
+        {
+          "header": "@@ -1,34 +1,35 @@-void HierarchicalBitmapRequester::PrepareForEncoding(void)",
+          "score": [
+            3,
+            34,
+            2144
+          ],
+          "changed_lines": 34,
+          "added_lines": 18,
+          "removed_lines": 16,
+          "keywords": [
+            "alloc",
+            "mem",
+            "size"
+          ],
+          "removed_preview": [
+            "  ",
+            "  if (m_ppEncodingMCU == NULL) {",
+            "    m_ppEncodingMCU = (struct Line **)m_pEnviron->AllocMem(sizeof(struct Line *) * m_ucCount *8);",
+            "    memset(m_ppEncodingMCU,0,sizeof(struct Line *) * m_ucCount * 8);",
+            "  ",
+            "  if (m_ppDownsampler == NULL) {"
+          ],
+          "added_preview": [
+            "void HierarchicalBitmapRequester::PrepareForDecoding(void)",
+            "",
+            "  UBYTE i;",
+            "",
+            "  if (m_ppDecodingMCU == NULL) {",
+            "    m_ppDecodingMCU = (struct Line **)m_pEnviron->AllocMem(sizeof(struct Line *) * m_ucCount*8);"
+          ],
+          "added_protection_terms": 8,
+          "removed_protection_terms": 8,
+          "added_risk_terms": 4,
+          "removed_risk_terms": 4,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 0,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "direction_unclear"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "203616::pairctx",
+      "project": "libssh-mirror",
+      "cve": "CVE-2020-16135",
+      "vulnerability_type": "cwe-476",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.0619,
+      "top_hunks": [
+        {
+          "header": "@@ -1,25 +1,25 @@-void *ssh_buffer_allocate(struct ssh_buffer_struct *buffer, uint32_t len)",
+          "score": [
+            3,
+            39,
+            1084
+          ],
+          "changed_lines": 39,
+          "added_lines": 20,
+          "removed_lines": 19,
+          "keywords": [
+            "alloc",
+            "len",
+            "mem"
+          ],
+          "removed_preview": [
+            "    void *ptr;",
+            "    buffer_verify(buffer);",
+            "    if (buffer->used + len < len) {",
+            "        return NULL;",
+            "    if (buffer->allocated < (buffer->used + len)) {",
+            "        if (buffer->pos > 0) {"
+          ],
+          "added_preview": [
+            "int ssh_buffer_add_data(struct ssh_buffer_struct *buffer, const void *data, uint32_t len)",
+            "  buffer_verify(buffer);",
+            "  if (data == NULL) {",
+            "      return -1;",
+            "  }",
+            ""
+          ],
+          "added_protection_terms": 20,
+          "removed_protection_terms": 17,
+          "added_risk_terms": 4,
+          "removed_risk_terms": 3,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 3,
+          "risk_delta": 1,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "196800::pairctx",
+      "project": "tensorflow",
+      "cve": "CVE-2020-15265",
+      "vulnerability_type": "cwe-787",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.0685,
+      "top_hunks": [
+        {
+          "header": "@@ -1,18 +1,52 @@   void Compute(OpKernelContext* ctx) override {",
+          "score": [
+            3,
+            58,
+            3335
+          ],
+          "changed_lines": 58,
+          "added_lines": 46,
+          "removed_lines": 12,
+          "keywords": [
+            "alloc",
+            "size",
+            "valid"
+          ],
+          "removed_preview": [
+            "",
+            "    // One global scale.",
+            "    Tensor input_min_tensor(DataTypeToEnum<T>::value, TensorShape());",
+            "    Tensor input_max_tensor(DataTypeToEnum<T>::value, TensorShape());",
+            "    // Initialize the tensors with the values in the Attrs.",
+            "    input_min_tensor.template scalar<T>()() = static_cast<T>(input_min_);"
+          ],
+          "added_preview": [
+            "    const int depth = (axis_ == -1) ? 1 : input.dim_size(axis_);",
+            "    Tensor input_min_tensor;",
+            "    Tensor input_max_tensor;",
+            "    if (range_given_) {",
+            "      input_min_tensor = ctx->input(1);",
+            "      input_max_tensor = ctx->input(2);"
+          ],
+          "added_protection_terms": 33,
+          "removed_protection_terms": 2,
+          "added_risk_terms": 2,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 31,
+          "risk_delta": 2,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "207709::pairctx",
+      "project": "openssh-portable",
+      "cve": "CVE-2021-28041",
+      "vulnerability_type": "cwe-399",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.0764,
+      "top_hunks": [
+        {
+          "header": "@@ -27,44 +28,63 @@ \t\tcase SSH_AGENT_CONSTRAIN_CONFIRM:",
+          "score": [
+            2,
+            51,
+            1885
+          ],
+          "changed_lines": 51,
+          "added_lines": 35,
+          "removed_lines": 16,
+          "keywords": [
+            "free",
+            "valid"
+          ],
+          "removed_preview": [
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;"
+          ],
+          "added_preview": [
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\tif ((r = sshbuf_get_cstring(m, &ext_name, NULL)) != 0) {"
+          ],
+          "added_protection_terms": 43,
+          "removed_protection_terms": 21,
+          "added_risk_terms": 3,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 22,
+          "risk_delta": 3,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_introduces_risk"
+          ]
+        },
+        {
+          "header": "@@ -4,22 +4,23 @@ \tu_char ctype;",
+          "score": [
+            1,
+            9,
+            655
+          ],
+          "changed_lines": 9,
+          "added_lines": 5,
+          "removed_lines": 4,
+          "keywords": [
+            "valid"
+          ],
+          "removed_preview": [
+            "\t\t\tgoto out;",
+            "\t\t\t\tr = SSH_ERR_INVALID_FORMAT;",
+            "\t\t\t\tgoto out;",
+            "\t\t\t\tgoto out;"
+          ],
+          "added_preview": [
+            "\tchar *ext_name = NULL;",
+            "\tstruct sshbuf *b = NULL;",
+            "\t\t\tgoto err;",
+            "\t\t\t\tgoto err;",
+            "\t\t\t\tgoto err;"
+          ],
+          "added_protection_terms": 8,
+          "removed_protection_terms": 6,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "212339::pairctx",
+      "project": "icecast-server",
+      "cve": "CVE-2018-18820",
+      "vulnerability_type": "cwe-119",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.0901,
+      "top_hunks": [
+        {
+          "header": "@@ -1,50 +1,32 @@ static size_t handle_returned_header (void *ptr, size_t size, size_t nmemb, void *stream)",
+          "score": [
+            6,
+            54,
+            2741
+          ],
+          "changed_lines": 54,
+          "added_lines": 18,
+          "removed_lines": 36,
+          "keywords": [
+            "copy",
+            "len",
+            "length",
+            "mem",
+            "size",
+            "valid"
+          ],
+          "removed_preview": [
+            "    size_t len = size * nmemb;",
+            "    if (client) {",
+            "",
+            "        if (url->auth_header && len >= url->auth_header_len && strncasecmp(ptr, url->auth_header, url->auth_header_len) == 0)",
+            "",
+            "        if (url->timelimit_header && len > url->timelimit_header_len && strncasecmp(ptr, url->timelimit_header, url->timelimit_header_len) == 0) {"
+          ],
+          "added_preview": [
+            "    size_t bytes = size * nmemb;",
+            "    if (client)",
+            "    {",
+            "        if (strncasecmp (ptr, url->auth_header, url->auth_header_len) == 0)",
+            "        if (strncasecmp (ptr, url->timelimit_header, url->timelimit_header_len) == 0)",
+            "        {"
+          ],
+          "added_protection_terms": 28,
+          "removed_protection_terms": 71,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 1,
+          "added_safer_terms": 1,
+          "removed_safer_terms": 0,
+          "protection_delta": -43,
+          "risk_delta": -1,
+          "safer_delta": 1,
+          "direction_labels": [
+            "candidate_adds_protection",
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "195648::pairctx",
+      "project": "libssh2",
+      "cve": "CVE-2019-17498",
+      "vulnerability_type": "cwe-703",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.1067,
+      "top_hunks": [
+        {
+          "header": "@@ -55,23 +55,33 @@ ",
+          "score": [
+            2,
+            42,
+            2136
+          ],
+          "changed_lines": 42,
+          "added_lines": 26,
+          "removed_lines": 16,
+          "keywords": [
+            "len",
+            "size"
+          ],
+          "removed_preview": [
+            "                uint32_t reason = 0;",
+            "                struct string_buf buf;",
+            "                buf.data = (unsigned char *)data;",
+            "                buf.dataptr = buf.data;",
+            "                buf.len = datalen;",
+            "                buf.dataptr++; /* advance past type */"
+          ],
+          "added_preview": [
+            "                size_t reason = _libssh2_ntohu32(data + 1);",
+            "",
+            "                if(datalen >= 9) {",
+            "                    message_len = _libssh2_ntohu32(data + 5);",
+            "",
+            "                    if(message_len < datalen-13) {"
+          ],
+          "added_protection_terms": 22,
+          "removed_protection_terms": 6,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 16,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        },
+        {
+          "header": "@@ -112,24 +122,24 @@                 int always_display = data[1];",
+          "score": [
+            1,
+            30,
+            1747
+          ],
+          "changed_lines": 30,
+          "added_lines": 15,
+          "removed_lines": 15,
+          "keywords": [
+            "len"
+          ],
+          "removed_preview": [
+            "                    struct string_buf buf;",
+            "                    buf.data = (unsigned char *)data;",
+            "                    buf.dataptr = buf.data;",
+            "                    buf.len = datalen;",
+            "                    buf.dataptr += 2; /* advance past type & always display */",
+            ""
+          ],
+          "added_preview": [
+            "                    message_len = _libssh2_ntohu32(data + 2);",
+            "",
+            "                    if(message_len <= (datalen - 10)) {",
+            "                        /* 6 = packet_type(1) + display(1) + message_len(4) */",
+            "                        message = (char *) data + 6;",
+            "                        language_len = _libssh2_ntohu32(data + 6 +"
+          ],
+          "added_protection_terms": 14,
+          "removed_protection_terms": 6,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 8,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "209102::pairctx",
+      "project": "vim",
+      "cve": "CVE-2022-2980",
+      "vulnerability_type": "cwe-703",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.1082,
+      "top_hunks": [
+        {
+          "header": "@@ -253,77 +253,74 @@ ",
+          "score": [
+            1,
+            131,
+            3198
+          ],
+          "changed_lines": 131,
+          "added_lines": 64,
+          "removed_lines": 67,
+          "keywords": [
+            "check"
+          ],
+          "removed_preview": [
+            "    if (TabPageIdxs != NULL)  // only when initialized",
+            "    {",
+            "\t// Check for clicking in the tab page line.",
+            "\tif (mouse_row == 0 && firstwin->w_winrow > 0)",
+            "\t{",
+            "\t    if (is_drag)"
+          ],
+          "added_preview": [
+            "    // Check for clicking in the tab page line.",
+            "    if (mouse_row == 0 && firstwin->w_winrow > 0)",
+            "    {",
+            "\tif (is_drag)",
+            "\t{",
+            "\t    if (in_tab_line)"
+          ],
+          "added_protection_terms": 22,
+          "removed_protection_terms": 24,
+          "added_risk_terms": 0,
+          "removed_risk_terms": 0,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": -2,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_removes_protection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "206422::pairctx",
+      "project": "ImageMagick6",
+      "cve": "CVE-2020-10251",
+      "vulnerability_type": "cwe-125",
+      "gold": 1,
+      "pred": 0,
+      "outcome": "fn",
+      "vuln_probability": 0.1112,
+      "top_hunks": [
+        {
+          "header": "@@ -217,29 +217,31 @@   else",
+          "score": [
+            3,
+            46,
+            2165
+          ],
+          "changed_lines": 46,
+          "added_lines": 24,
+          "removed_lines": 22,
+          "keywords": [
+            "free",
+            "mem",
+            "size"
+          ],
+          "removed_preview": [
+            "    heif_chroma_420,decode_options);",
+            "    heif_decoding_options_free(decode_options);",
+            "  if (IsHeifSuccess(&error,image) == MagickFalse)",
+            "    {",
+            "      heif_image_handle_release(image_handle);",
+            "      heif_context_free(heif_context);"
+          ],
+          "added_preview": [
+            "    heif_chroma_420,NULL);",
+            "  if (IsHeifSuccess(&error,image) == MagickFalse)",
+            "    {",
+            "      heif_image_handle_release(image_handle);",
+            "      heif_context_free(heif_context);",
+            "      file_data=RelinquishMagickMemory(file_data);"
+          ],
+          "added_protection_terms": 26,
+          "removed_protection_terms": 25,
+          "added_risk_terms": 3,
+          "removed_risk_terms": 3,
+          "added_safer_terms": 0,
+          "removed_safer_terms": 0,
+          "protection_delta": 1,
+          "risk_delta": 0,
+          "safer_delta": 0,
+          "direction_labels": [
+            "candidate_adds_protection"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -133,6 +133,28 @@ This is a useful but nuanced result. The default threshold behaves like a recall
 
 The lesson is that targeted oversampling changed the probability distribution more than it simply raised recall. Its value appears only when paired with threshold calibration.
 
+## Recall-Recovery v2
+
+The second ablation tested a more conservative recipe:
+
+- base train rows: `3000`
+- output train rows: `3113`
+- added rows: `113`
+- all vulnerable `26+` repeats: `0`
+- mixed vulnerable `26+` rows repeated once: `33` source rows
+- safe `26+` anchors added: `80`
+- label mix: `1533` vulnerable / `1580` safe
+- summary: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3113_summary.json`
+
+Results:
+
+| Split | Threshold | Balanced Accuracy | Recall | Specificity | Precision | F1 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| full dedup eval | `0.5` | `0.8074` | `0.7553` | `0.8595` | `0.8429` | `0.7967` |
+| `26+` bucket | `0.4` | `0.7077` | `0.5513` | `0.8642` | `0.7963` | `0.6515` |
+
+This is a negative ablation. Adding more safe anchors while reducing vulnerable duplication makes the model too conservative and damages both the full eval score and the hard `26+` bucket. The v1 recipe remains the better recall-recovery branch.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -141,4 +163,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-Run a second recall-recovery ablation with less vulnerable duplication or more safe anchors. The goal is to keep the `0.7904` bucket gain while improving full-eval balanced accuracy back toward the `0.8225` direction-aware baseline.
+The next promising ablation is not more safe anchors. A better next step is score-level calibration or two-threshold routing: keep the v1 model for `26+` large diffs, use the original direction-aware model elsewhere, and select thresholds by bucket rather than forcing one global operating point.

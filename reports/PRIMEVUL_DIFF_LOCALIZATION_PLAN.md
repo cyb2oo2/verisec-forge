@@ -205,3 +205,21 @@ Results:
 - `26+` best balanced threshold: recall `0.6795`, specificity `0.9012`
 
 This is the strongest `26+` bucket result so far, but it also shows that recall recovery must be calibrated. The default point recovers vulnerable examples at the cost of many false positives; the best balanced point improves the bucket score through threshold tuning.
+
+## Direction-Aware Recall-Recovery v2
+
+The second recall-recovery ablation tested the opposite pressure: fewer vulnerable repeats and more safe anchors.
+
+Artifacts:
+
+- train summary: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3113_summary.json`
+- full eval sweep: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval1792_dedup_threshold_sweep.json`
+- `26+` bucket sweep: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
+- `26+` error windows: `reports/PRIMEVUL_DIRECTION_AWARE_RECALL_RECOVERY_V2_26PLUS_ERROR_WINDOWS.md`
+
+Results:
+
+- full deduplicated eval best balanced accuracy: `0.8074`
+- `26+` bucket best balanced accuracy: `0.7077`
+
+This is a negative ablation. More safe anchors over-correct the model toward safe predictions and damages the hard bucket. The next step should be calibration/routing, not more generic safe-anchor resampling.
