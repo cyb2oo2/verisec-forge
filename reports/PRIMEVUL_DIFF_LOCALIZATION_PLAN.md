@@ -277,6 +277,22 @@ Results:
 
 This is a mild positive systems result, not a score breakthrough. It protects the threshold-selection story and suggests that the router mainly improves pair-level consistency.
 
+## Statistical Check
+
+The router statistical report adds bootstrap confidence intervals and exact sign tests:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_STATISTICS.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_statistics_v1.json`
+
+Key deltas on held-out pair groups:
+
+| Metric | Delta | Bootstrap 95% CI | Sign Test |
+| --- | ---: | --- | --- |
+| group all-correct | `+0.0033` | `-0.0065-0.0147` | wins `6`, losses `4`, p=`0.753906` |
+| orientation | `+0.0068` | `0.0017-0.0151` | wins `4`, losses `0`, p=`0.125` |
+
+This means the group all-correct result is not statistically convincing. Orientation has a small positive bootstrap interval, but the sign test remains underpowered. The right conclusion is conservative: the router improves the direction signal slightly, but it is not yet a decisive system win.
+
 ## Next Step
 
-Move from row-independent routing to pair-coupled decoding. The next reviewer-facing version should answer whether using both counterpart rows at inference time can improve orientation accuracy and group all-correct rate without damaging row-level recall/specificity.
+Move from row-independent routing to pair-coupled decoding. The next reviewer-facing version should answer whether using both counterpart rows at inference time can improve orientation accuracy and group all-correct rate without damaging row-level recall/specificity, and whether that improvement survives pair-level significance tests.

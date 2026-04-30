@@ -73,6 +73,7 @@ Important caveat:
 - recall-recovery v2 is a negative ablation: reducing vulnerable duplication and adding more safe anchors drops full-eval balanced accuracy to `0.8074` and `26+` best balanced accuracy to `0.7077`
 - bucket-specific routing is the next positive systems result: keeping the baseline direction-aware detector for non-`26+` rows and routing `26+` rows to recall-recovery v1 reaches full-eval balanced accuracy `0.8231`; at the `0.8` bucket threshold it also reaches group all-correct rate `0.7241` and pair orientation accuracy `0.8624`
 - validation-selected routing now confirms the same threshold choice on a pair-key calibration split: calibration selects bucket threshold `0.8`; on held-out pair groups, row-level balanced accuracy stays at `0.8136`, while group all-correct improves from `0.7101` to `0.7134` and orientation accuracy improves from `0.8514` to `0.8581`
+- router statistics keep this claim honest: group all-correct delta is `+0.0033` with bootstrap 95% CI `-0.0065-0.0147`, while orientation delta is `+0.0068` with bootstrap 95% CI `0.0017-0.0151` but exact sign-test p=`0.125`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -156,6 +157,8 @@ Important boundary result:
   Routing only `26+` large diffs to the recall-recovery checkpoint gives a small full-eval improvement and exposes two valid operating points: a specificity-preserving threshold and a recall-friendlier threshold. Pair/group metrics now confirm that the default route also improves the comparative signal, with `0.8624` probability-orientation accuracy.
 - **Validation-selected routing makes the claim more conservative.**
   A pair-key calibration split selects the same `0.8` bucket threshold, but the held-out gain is mainly in group/pair metrics rather than row-level balanced accuracy. This is the right interpretation: bucket routing is a calibration and comparative-consistency tool, not a new detector breakthrough.
+- **Statistical checks prevent overclaiming.**
+  Bootstrap intervals and sign tests show that group all-correct is not a convincing improvement, while orientation has a small positive signal but not enough non-tie pairs for a strong significance claim.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

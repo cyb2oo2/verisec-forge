@@ -1,0 +1,77 @@
+{
+  "source_report": "reports\\secure_code_primevul_directional_bucket_router_calibrated_v1_report.json",
+  "iterations": 2000,
+  "seed": 42,
+  "bootstrap": {
+    "baseline": {
+      "group_all_correct": {
+        "observed": 0.7101,
+        "ci95_low": 0.6743,
+        "ci95_high": 0.7443,
+        "iterations": 2000,
+        "seed": 42,
+        "units": 614
+      },
+      "orientation": {
+        "observed": 0.8514,
+        "ci95_low": 0.8217,
+        "ci95_high": 0.879,
+        "iterations": 2000,
+        "seed": 42,
+        "units": 592
+      }
+    },
+    "router": {
+      "group_all_correct": {
+        "observed": 0.7134,
+        "ci95_low": 0.6792,
+        "ci95_high": 0.7476,
+        "iterations": 2000,
+        "seed": 42,
+        "units": 614
+      },
+      "orientation": {
+        "observed": 0.8581,
+        "ci95_low": 0.8289,
+        "ci95_high": 0.8844,
+        "iterations": 2000,
+        "seed": 42,
+        "units": 592
+      }
+    }
+  },
+  "delta": {
+    "group_all_correct": {
+      "observed_delta": 0.0033,
+      "ci95_low": -0.0065,
+      "ci95_high": 0.0147,
+      "iterations": 2000,
+      "seed": 42,
+      "units": 614
+    },
+    "orientation": {
+      "observed_delta": 0.0068,
+      "ci95_low": 0.0017,
+      "ci95_high": 0.0151,
+      "iterations": 2000,
+      "seed": 42,
+      "units": 592
+    }
+  },
+  "sign_tests": {
+    "group_all_correct": {
+      "wins": 6,
+      "losses": 4,
+      "ties": 604,
+      "two_sided_p_value": 0.753906,
+      "test": "exact_sign_test"
+    },
+    "orientation": {
+      "wins": 4,
+      "losses": 0,
+      "ties": 588,
+      "two_sided_p_value": 0.125,
+      "test": "exact_sign_test"
+    }
+  }
+}

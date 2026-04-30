@@ -208,6 +208,33 @@ Held-out eval comparison:
 
 This makes the router claim more conservative. The row-level score is essentially flat on the held-out split, but pair/group metrics improve slightly. The best interpretation is that bucket routing improves comparative consistency on paired samples, not that it creates a new raw-accuracy breakthrough.
 
+## Router Statistical Check
+
+The held-out router result now has a bootstrap uncertainty check and paired sign tests at the pair-group level.
+
+Artifacts:
+
+- report: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_STATISTICS.md`
+- JSON: `reports/secure_code_primevul_directional_bucket_router_statistics_v1.json`
+
+Bootstrap 95% confidence intervals:
+
+| System | Metric | Observed | 95% CI |
+| --- | --- | ---: | --- |
+| baseline | group all-correct | `0.7101` | `0.6743-0.7443` |
+| router | group all-correct | `0.7134` | `0.6792-0.7476` |
+| baseline | orientation | `0.8514` | `0.8217-0.8790` |
+| router | orientation | `0.8581` | `0.8289-0.8844` |
+
+Router minus baseline:
+
+| Metric | Delta | Bootstrap 95% CI | Sign Test |
+| --- | ---: | --- | --- |
+| group all-correct | `+0.0033` | `-0.0065-0.0147` | wins `6`, losses `4`, p=`0.753906` |
+| orientation | `+0.0068` | `0.0017-0.0151` | wins `4`, losses `0`, p=`0.125` |
+
+This sharpens the claim again. The group all-correct gain is not statistically convincing. The orientation gain has a positive bootstrap interval, but the exact sign test is underpowered because almost all pair groups are ties. The safe conclusion is: bucket routing shows a small, directionally positive consistency signal, but it needs larger or external splits before being treated as a decisive improvement.
+
 ## Interpretation
 
 This is a negative transfer result. The direction-aware prompt is not a free inference-time improvement for a checkpoint trained on raw diff-only inputs. The model treats the new template as a distribution shift and collapses toward safe predictions at the default threshold.
@@ -216,4 +243,4 @@ The transfer result did not disprove the direction-aware hypothesis. It narrowed
 
 ## Next Step
 
-The next promising ablation is pair-level decision coupling. The router still makes independent row decisions; the stronger version should use both sides of a pair at inference time and enforce a coherent orientation decision when one side is vulnerable and the other is fixed/safe.
+The next promising ablation is pair-level decision coupling. The router still makes independent row decisions; the stronger version should use both sides of a pair at inference time and enforce a coherent orientation decision when one side is vulnerable and the other is fixed/safe. That should create more non-tie pair-level changes, making future significance tests more informative.
