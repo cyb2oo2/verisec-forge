@@ -101,3 +101,15 @@ Eval:
 - Source rows: `1787`
 - Positive hunk rate: `0.5335`
 - top-1 / top-8 coverage: `0.5792` / `0.6150`
+
+## Hunk Linear Scorer
+
+The first learned hunk scorer is a dependency-free linear model trained on pseudo labels. It is a cheap reranking sanity check, not a human-validated evidence localizer.
+
+- Report: `reports/PRIMEVUL_HUNK_LINEAR_SCORER.md`
+- JSON: `reports/secure_code_primevul_hunk_linear_scorer_v1.json`
+- Scored eval rows: `outputs/secure_code_primevul_hunk_linear_scorer_eval_v1.jsonl`
+- Eval label accuracy: `0.8793`
+- Eval top-1 coverage: keyword `0.5792`, linear scorer `0.5954`
+- Eval top-2 coverage: keyword `0.6066`, linear scorer `0.6133`
+- Eval top-3/top-8 coverage ceiling: `0.6150`
