@@ -1,0 +1,368 @@
+{
+  "config": {
+    "strategies": [
+      "hunk",
+      "line_window",
+      "hunk_plus_window"
+    ],
+    "max_candidates": 8,
+    "window_size": 2,
+    "coverage_k": [
+      1,
+      2,
+      3,
+      5,
+      8
+    ]
+  },
+  "strategies": {
+    "hunk": {
+      "hunk_rows": 4697,
+      "source_rows": 2999,
+      "pair_groups": 2269,
+      "positive_hunks": 2249,
+      "negative_hunks": 2448,
+      "positive_rate": 0.4788,
+      "vulnerable_hunks": 2339,
+      "safe_hunks": 2358,
+      "coverage_at_k": [
+        {
+          "k": 1,
+          "coverage": 0.5575,
+          "covered_rows": 1672,
+          "rows": 2999,
+          "vulnerable_coverage": 0.5627,
+          "safe_coverage": 0.5524
+        },
+        {
+          "k": 2,
+          "coverage": 0.5799,
+          "covered_rows": 1739,
+          "rows": 2999,
+          "vulnerable_coverage": 0.5813,
+          "safe_coverage": 0.5784
+        },
+        {
+          "k": 3,
+          "coverage": 0.5802,
+          "covered_rows": 1740,
+          "rows": 2999,
+          "vulnerable_coverage": 0.5813,
+          "safe_coverage": 0.5791
+        },
+        {
+          "k": 5,
+          "coverage": 0.5815,
+          "covered_rows": 1744,
+          "rows": 2999,
+          "vulnerable_coverage": 0.5833,
+          "safe_coverage": 0.5797
+        },
+        {
+          "k": 8,
+          "coverage": 0.5822,
+          "covered_rows": 1746,
+          "rows": 2999,
+          "vulnerable_coverage": 0.584,
+          "safe_coverage": 0.5804
+        }
+      ],
+      "top_direction_labels": [
+        [
+          "direction_unclear",
+          1814
+        ],
+        [
+          "candidate_adds_protection",
+          1424
+        ],
+        [
+          "candidate_removes_protection",
+          1373
+        ],
+        [
+          "candidate_introduces_risk",
+          217
+        ],
+        [
+          "candidate_removes_risk",
+          207
+        ]
+      ],
+      "top_cwes": [
+        [
+          "cwe-119",
+          698
+        ],
+        [
+          "cwe-125",
+          607
+        ],
+        [
+          "cwe-20",
+          435
+        ],
+        [
+          "cwe-787",
+          314
+        ],
+        [
+          "cwe-476",
+          248
+        ],
+        [
+          "cwe-200",
+          243
+        ],
+        [
+          "cwe-416",
+          233
+        ],
+        [
+          "cwe-190",
+          170
+        ],
+        [
+          "cwe-399",
+          163
+        ],
+        [
+          "cwe-189",
+          152
+        ]
+      ]
+    },
+    "line_window": {
+      "hunk_rows": 13538,
+      "source_rows": 2999,
+      "pair_groups": 2269,
+      "positive_hunks": 6497,
+      "negative_hunks": 7041,
+      "positive_rate": 0.4799,
+      "vulnerable_hunks": 6840,
+      "safe_hunks": 6698,
+      "coverage_at_k": [
+        {
+          "k": 1,
+          "coverage": 0.4978,
+          "covered_rows": 1493,
+          "rows": 2999,
+          "vulnerable_coverage": 0.498,
+          "safe_coverage": 0.4977
+        },
+        {
+          "k": 2,
+          "coverage": 0.6052,
+          "covered_rows": 1815,
+          "rows": 2999,
+          "vulnerable_coverage": 0.6067,
+          "safe_coverage": 0.6037
+        },
+        {
+          "k": 3,
+          "coverage": 0.6559,
+          "covered_rows": 1967,
+          "rows": 2999,
+          "vulnerable_coverage": 0.6567,
+          "safe_coverage": 0.6551
+        },
+        {
+          "k": 5,
+          "coverage": 0.6922,
+          "covered_rows": 2076,
+          "rows": 2999,
+          "vulnerable_coverage": 0.6913,
+          "safe_coverage": 0.6931
+        },
+        {
+          "k": 8,
+          "coverage": 0.7046,
+          "covered_rows": 2113,
+          "rows": 2999,
+          "vulnerable_coverage": 0.7087,
+          "safe_coverage": 0.7005
+        }
+      ],
+      "top_direction_labels": [
+        [
+          "candidate_adds_protection",
+          4553
+        ],
+        [
+          "candidate_removes_protection",
+          4471
+        ],
+        [
+          "direction_unclear",
+          4128
+        ],
+        [
+          "candidate_introduces_risk",
+          767
+        ],
+        [
+          "candidate_removes_risk",
+          748
+        ]
+      ],
+      "top_cwes": [
+        [
+          "cwe-119",
+          1946
+        ],
+        [
+          "cwe-125",
+          1507
+        ],
+        [
+          "cwe-20",
+          1213
+        ],
+        [
+          "cwe-787",
+          983
+        ],
+        [
+          "cwe-476",
+          806
+        ],
+        [
+          "cwe-200",
+          723
+        ],
+        [
+          "cwe-416",
+          620
+        ],
+        [
+          "cwe-264",
+          532
+        ],
+        [
+          "cwe-190",
+          517
+        ],
+        [
+          "cwe-703",
+          443
+        ]
+      ]
+    },
+    "hunk_plus_window": {
+      "hunk_rows": 15914,
+      "source_rows": 2999,
+      "pair_groups": 2269,
+      "positive_hunks": 7926,
+      "negative_hunks": 7988,
+      "positive_rate": 0.4981,
+      "vulnerable_hunks": 8021,
+      "safe_hunks": 7893,
+      "coverage_at_k": [
+        {
+          "k": 1,
+          "coverage": 0.5575,
+          "covered_rows": 1672,
+          "rows": 2999,
+          "vulnerable_coverage": 0.5627,
+          "safe_coverage": 0.5524
+        },
+        {
+          "k": 2,
+          "coverage": 0.6155,
+          "covered_rows": 1846,
+          "rows": 2999,
+          "vulnerable_coverage": 0.614,
+          "safe_coverage": 0.6171
+        },
+        {
+          "k": 3,
+          "coverage": 0.6589,
+          "covered_rows": 1976,
+          "rows": 2999,
+          "vulnerable_coverage": 0.6573,
+          "safe_coverage": 0.6604
+        },
+        {
+          "k": 5,
+          "coverage": 0.6956,
+          "covered_rows": 2086,
+          "rows": 2999,
+          "vulnerable_coverage": 0.6947,
+          "safe_coverage": 0.6965
+        },
+        {
+          "k": 8,
+          "coverage": 0.7082,
+          "covered_rows": 2124,
+          "rows": 2999,
+          "vulnerable_coverage": 0.7093,
+          "safe_coverage": 0.7071
+        }
+      ],
+      "top_direction_labels": [
+        [
+          "candidate_adds_protection",
+          5337
+        ],
+        [
+          "candidate_removes_protection",
+          5218
+        ],
+        [
+          "direction_unclear",
+          4930
+        ],
+        [
+          "candidate_introduces_risk",
+          906
+        ],
+        [
+          "candidate_removes_risk",
+          868
+        ]
+      ],
+      "top_cwes": [
+        [
+          "cwe-119",
+          2268
+        ],
+        [
+          "cwe-125",
+          1727
+        ],
+        [
+          "cwe-20",
+          1423
+        ],
+        [
+          "cwe-787",
+          1132
+        ],
+        [
+          "cwe-476",
+          969
+        ],
+        [
+          "cwe-200",
+          845
+        ],
+        [
+          "cwe-416",
+          767
+        ],
+        [
+          "cwe-264",
+          626
+        ],
+        [
+          "cwe-190",
+          609
+        ],
+        [
+          "cwe-399",
+          511
+        ]
+      ]
+    }
+  }
+}

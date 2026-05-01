@@ -113,3 +113,17 @@ The first learned hunk scorer is a dependency-free linear model trained on pseud
 - Eval top-1 coverage: keyword `0.5792`, linear scorer `0.5954`
 - Eval top-2 coverage: keyword `0.6066`, linear scorer `0.6133`
 - Eval top-3/top-8 coverage ceiling: `0.6150`
+
+## Candidate Recall Analysis
+
+This analysis compares whole-hunk candidates with changed-line window candidates using the same hunk pseudo-label protocol.
+
+- Eval report: `reports/PRIMEVUL_CANDIDATE_RECALL.md`
+- Eval JSON: `reports/secure_code_primevul_candidate_recall_eval_v1.json`
+- Train report: `reports/PRIMEVUL_CANDIDATE_RECALL_TRAIN.md`
+- Train JSON: `reports/secure_code_primevul_candidate_recall_train_v1.json`
+- Eval hunk-only top-8 coverage: `0.6150`
+- Eval line-window top-8 coverage: `0.7070`
+- Eval hunk+window top-8 coverage: `0.7073`
+- Train hunk-only top-8 coverage: `0.5822`
+- Train hunk+window top-8 coverage: `0.7082`
