@@ -144,3 +144,18 @@ This scorer trains the same dependency-free linear model on hunk+window pseudo-l
 - Side-aware diagnostic top-1 coverage: `0.7073`
 - Side-aware diagnostic top-1 vulnerable/safe coverage: `0.7039` / `0.7108`
 - Side-aware caveat: this uses target-side alignment from the pseudo-label protocol and should be treated as an oracle-style upper bound until rerun with pair-coupled predicted sides.
+
+## Predicted-Side Hunk Scorer
+
+This report reuses the side-aware hunk+window scorer but replaces gold-side alignment with the pair-coupled predicted side.
+
+- Report: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`
+- JSON: `reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json`
+- Candidates: `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
+- Predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Matched source rows: `1257`
+- Pair-coupled side accuracy: `0.8488`
+- Matched oracle top-1 coverage: `0.7184`
+- Pair-coupled predicted-side top-1 coverage: `0.6555`
+- Correct-side top-1 coverage: `0.7610`
+- Wrong-side top-1 coverage: `0.0632`

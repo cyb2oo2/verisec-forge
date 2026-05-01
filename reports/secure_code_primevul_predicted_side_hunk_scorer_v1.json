@@ -1,0 +1,322 @@
+{
+  "config": {
+    "k_values": [
+      1,
+      2,
+      3,
+      5,
+      8
+    ],
+    "candidate_rows": 9160,
+    "prediction_rows": 1261
+  },
+  "side_source": {
+    "oracle": {
+      "description": "uses gold side from pseudo-label rows; diagnostic upper bound",
+      "matched_source_count": 1787,
+      "matched_candidate_rows": 9160
+    },
+    "pair_coupled_pred": {
+      "prediction_key": "pred",
+      "matched_source_count": 1257,
+      "matched_candidate_rows": 6498,
+      "missing_source_count": 530,
+      "decision_side_accuracy": 0.8488,
+      "correct_source_count": 1067,
+      "wrong_source_count": 190
+    },
+    "pre_coupled_pred": {
+      "prediction_key": "pre_coupled_pred",
+      "matched_source_count": 1257,
+      "matched_candidate_rows": 6498,
+      "missing_source_count": 530,
+      "decision_side_accuracy": 0.813,
+      "correct_source_count": 1022,
+      "wrong_source_count": 235
+    }
+  },
+  "coverage": {
+    "oracle_side_aware_all": [
+      {
+        "k": 1,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "oracle_side_aware_score"
+      }
+    ],
+    "oracle_side_aware_matched": [
+      {
+        "k": 1,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "oracle_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "oracle_side_aware_score"
+      }
+    ],
+    "pair_coupled_predicted_side": [
+      {
+        "k": 1,
+        "coverage": 0.6555,
+        "covered_rows": 824,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6444,
+        "safe_coverage": 0.6667,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6611,
+        "covered_rows": 831,
+        "rows": 1257,
+        "vulnerable_coverage": 0.654,
+        "safe_coverage": 0.6683,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6706,
+        "covered_rows": 843,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6635,
+        "safe_coverage": 0.6778,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.6858,
+        "covered_rows": 862,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6762,
+        "safe_coverage": 0.6954,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "predicted_side_aware_score"
+      }
+    ],
+    "pre_coupled_predicted_side": [
+      {
+        "k": 1,
+        "coverage": 0.65,
+        "covered_rows": 817,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6365,
+        "safe_coverage": 0.6635,
+        "score_key": "pre_coupled_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6531,
+        "covered_rows": 821,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6397,
+        "safe_coverage": 0.6667,
+        "score_key": "pre_coupled_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6643,
+        "covered_rows": 835,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6524,
+        "safe_coverage": 0.6762,
+        "score_key": "pre_coupled_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.6818,
+        "covered_rows": 857,
+        "rows": 1257,
+        "vulnerable_coverage": 0.6667,
+        "safe_coverage": 0.697,
+        "score_key": "pre_coupled_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7184,
+        "covered_rows": 903,
+        "rows": 1257,
+        "vulnerable_coverage": 0.7127,
+        "safe_coverage": 0.7241,
+        "score_key": "pre_coupled_side_aware_score"
+      }
+    ],
+    "pair_coupled_predicted_side_correct_only": [
+      {
+        "k": 1,
+        "coverage": 0.761,
+        "covered_rows": 812,
+        "rows": 1067,
+        "vulnerable_coverage": 0.7458,
+        "safe_coverage": 0.7763,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.761,
+        "covered_rows": 812,
+        "rows": 1067,
+        "vulnerable_coverage": 0.7458,
+        "safe_coverage": 0.7763,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.761,
+        "covered_rows": 812,
+        "rows": 1067,
+        "vulnerable_coverage": 0.7458,
+        "safe_coverage": 0.7763,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.761,
+        "covered_rows": 812,
+        "rows": 1067,
+        "vulnerable_coverage": 0.7458,
+        "safe_coverage": 0.7763,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.761,
+        "covered_rows": 812,
+        "rows": 1067,
+        "vulnerable_coverage": 0.7458,
+        "safe_coverage": 0.7763,
+        "score_key": "predicted_side_aware_score"
+      }
+    ],
+    "pair_coupled_predicted_side_wrong_only": [
+      {
+        "k": 1,
+        "coverage": 0.0632,
+        "covered_rows": 12,
+        "rows": 190,
+        "vulnerable_coverage": 0.0737,
+        "safe_coverage": 0.0526,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.1,
+        "covered_rows": 19,
+        "rows": 190,
+        "vulnerable_coverage": 0.1368,
+        "safe_coverage": 0.0632,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.1632,
+        "covered_rows": 31,
+        "rows": 190,
+        "vulnerable_coverage": 0.2,
+        "safe_coverage": 0.1263,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.2632,
+        "covered_rows": 50,
+        "rows": 190,
+        "vulnerable_coverage": 0.2842,
+        "safe_coverage": 0.2421,
+        "score_key": "predicted_side_aware_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.4789,
+        "covered_rows": 91,
+        "rows": 190,
+        "vulnerable_coverage": 0.5263,
+        "safe_coverage": 0.4316,
+        "score_key": "predicted_side_aware_score"
+      }
+    ]
+  }
+}
