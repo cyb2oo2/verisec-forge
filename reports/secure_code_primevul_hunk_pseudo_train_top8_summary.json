@@ -1,0 +1,116 @@
+{
+  "hunk_rows": 4697,
+  "source_rows": 2999,
+  "pair_groups": 2269,
+  "positive_hunks": 2249,
+  "negative_hunks": 2448,
+  "positive_rate": 0.4788,
+  "vulnerable_hunks": 2339,
+  "safe_hunks": 2358,
+  "coverage_at_k": [
+    {
+      "k": 1,
+      "coverage": 0.5575,
+      "covered_rows": 1672,
+      "rows": 2999,
+      "vulnerable_coverage": 0.5627,
+      "safe_coverage": 0.5524
+    },
+    {
+      "k": 2,
+      "coverage": 0.5799,
+      "covered_rows": 1739,
+      "rows": 2999,
+      "vulnerable_coverage": 0.5813,
+      "safe_coverage": 0.5784
+    },
+    {
+      "k": 3,
+      "coverage": 0.5802,
+      "covered_rows": 1740,
+      "rows": 2999,
+      "vulnerable_coverage": 0.5813,
+      "safe_coverage": 0.5791
+    },
+    {
+      "k": 5,
+      "coverage": 0.5815,
+      "covered_rows": 1744,
+      "rows": 2999,
+      "vulnerable_coverage": 0.5833,
+      "safe_coverage": 0.5797
+    },
+    {
+      "k": 8,
+      "coverage": 0.5822,
+      "covered_rows": 1746,
+      "rows": 2999,
+      "vulnerable_coverage": 0.584,
+      "safe_coverage": 0.5804
+    }
+  ],
+  "top_direction_labels": [
+    [
+      "direction_unclear",
+      1814
+    ],
+    [
+      "candidate_adds_protection",
+      1424
+    ],
+    [
+      "candidate_removes_protection",
+      1373
+    ],
+    [
+      "candidate_introduces_risk",
+      217
+    ],
+    [
+      "candidate_removes_risk",
+      207
+    ]
+  ],
+  "top_cwes": [
+    [
+      "cwe-119",
+      698
+    ],
+    [
+      "cwe-125",
+      607
+    ],
+    [
+      "cwe-20",
+      435
+    ],
+    [
+      "cwe-787",
+      314
+    ],
+    [
+      "cwe-476",
+      248
+    ],
+    [
+      "cwe-200",
+      243
+    ],
+    [
+      "cwe-416",
+      233
+    ],
+    [
+      "cwe-190",
+      170
+    ],
+    [
+      "cwe-399",
+      163
+    ],
+    [
+      "cwe-189",
+      152
+    ]
+  ]
+}

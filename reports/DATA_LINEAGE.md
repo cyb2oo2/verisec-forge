@@ -77,3 +77,27 @@ The first evidence-localization layer uses the pair-coupled held-out predictions
 - best hunk-limit sweep pseudo-localization accuracy: `0.6051` at top-3 hunks
 - supported prediction error rate: `0.0933`
 - unsupported prediction error rate: `0.2516`
+
+## Hunk Pseudo-Label Datasets
+
+These artifacts convert paired diffs into hunk-level pseudo labels for cheap localizer experiments. They are not human evidence annotations.
+
+Train:
+
+- Source: `data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl`
+- Output: `data/processed/secure_code_primevul_hunk_pseudo_train_top8.jsonl`
+- Summary: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_TRAIN.md`
+- Hunk rows: `4697`
+- Source rows: `2999`
+- Positive hunk rate: `0.4788`
+- top-1 / top-8 coverage: `0.5575` / `0.5822`
+
+Eval:
+
+- Source: `data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl`
+- Output: `data/processed/secure_code_primevul_hunk_pseudo_eval_top8.jsonl`
+- Summary: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_EVAL.md`
+- Hunk rows: `2536`
+- Source rows: `1787`
+- Positive hunk rate: `0.5335`
+- top-1 / top-8 coverage: `0.5792` / `0.6150`
