@@ -77,7 +77,7 @@ Important caveat:
 - router statistics keep this claim honest: group all-correct delta is only `+0.0016` with bootstrap 95% CI `-0.0098-0.0130`, while orientation delta is `+0.0068` with bootstrap 95% CI `0.0017-0.0151` but exact sign-test p=`0.125`
 - pair-coupled decoding is the next strong systems result: without using gold labels, it enforces one vulnerable and one safe decision within paired groups when the probability gap clears a calibrated margin; on held-out pair groups it reaches balanced accuracy `0.8493`, group all-correct `0.8208`, and bootstrap group all-correct delta `+0.1091` over the bucket router
 - multi-split stability now protects the pair-coupled claim: over split seeds `7,13,42,99,123`, pair-coupled decoding has mean balanced accuracy `0.8572`, mean group all-correct `0.8339`, mean pair-minus-bucket balanced accuracy `+0.0348`, and mean pair-minus-bucket group all-correct `+0.1114`
-- heuristic pair evidence localization is now the first explanation layer: on the pair-coupled held-out rows, support rate is `0.6376`; supported predictions have error rate `0.0933`, while unsupported predictions have error rate `0.2516`, so evidence support is useful for failure triage even without gold evidence spans
+- heuristic pair evidence localization is now the first explanation layer: on the pair-coupled held-out rows, support rate is `0.6376` and pseudo-localization accuracy is `0.6003`; supported predictions have error rate `0.0933`, while unsupported predictions have error rate `0.2516`, so evidence support is useful for failure triage even without gold evidence spans
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -168,7 +168,7 @@ Important boundary result:
 - **Multi-split checks make the pair-coupled result much harder to dismiss.**
   The improvement is not a seed-42 artifact: five independent pair-key calibration/eval splits all show positive row-level and group-level deltas, with paired tests consistently favorable.
 - **Evidence localization is now a failure-triage layer, not yet a gold-span claim.**
-  The first heuristic support report scores whether top diff hunks directionally support a vulnerable or safe candidate decision. Unsupported predictions are much more error-prone, so this gives the next research loop a concrete target: replace heuristic support with learned or human-validated evidence spans.
+  The first heuristic support report scores whether top diff hunks directionally support a vulnerable or safe candidate decision. Unsupported predictions are much more error-prone, and a hunk-limit sweep shows pseudo-localization peaks around top-3 hunks (`0.6051`), so the next research loop has a concrete target: replace heuristic support with learned or human-validated evidence spans.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

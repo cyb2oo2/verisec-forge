@@ -67,9 +67,13 @@ The first evidence-localization layer uses the pair-coupled held-out predictions
 
 - Report: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - JSON summary: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
-- JSON summary SHA256: `755b7ee126bcfb745526ee56804f20480c9d010da0c2fad009752fc0ffbcd27b`
+- JSON summary SHA256: `8150eb893decefa60354c7c2de47450a0d93b28a94ff148a5fff02a0ff2b4dc3`
 - Row-level output: `outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl`
 - Row-level output rows: `1261`
 - support rate: `0.6376`
+- pseudo-localization accuracy: `0.6003`
+- vulnerable pseudo-localization accuracy: `0.5952`
+- safe pseudo-localization accuracy: `0.6054`
+- best hunk-limit sweep pseudo-localization accuracy: `0.6051` at top-3 hunks
 - supported prediction error rate: `0.0933`
 - unsupported prediction error rate: `0.2516`

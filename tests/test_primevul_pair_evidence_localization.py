@@ -78,8 +78,49 @@ def test_pair_evidence_report_marks_supported_predictions() -> None:
         {"id": "safe", "gold": 0, "pred": 0, "pair_key": "pair-1", "vuln_probability": 0.1, "pair_coupled": True},
     ]
 
-    payload = module.build_report(dataset_rows, prediction_rows, hunk_limit=1, example_limit=2)
+    payload = module.build_report(dataset_rows, prediction_rows, hunk_limit=1, example_limit=2, sweep_hunk_limits=[1])
 
     assert payload["summary"]["accuracy"] == 1.0
     assert payload["summary"]["support_rate"] == 1.0
+    assert payload["summary"]["pseudo_localization_accuracy"] == 1.0
+    assert payload["summary"]["vulnerable_pseudo_localization_accuracy"] == 1.0
+    assert payload["summary"]["safe_pseudo_localization_accuracy"] == 1.0
+    assert payload["summary"]["support_confusion"] == {"pred_supported__gold_supported": 2}
     assert payload["coupled_summary"]["unique_pair_count"] == 1
+    assert payload["hunk_limit_sweep"][0]["hunk_limit"] == 1
+    assert payload["hunk_limit_sweep"][0]["pseudo_localization_accuracy"] == 1.0
+
+
+def test_gold_support_can_flag_wrong_evidence_direction() -> None:
+    module = _load_module()
+    dataset_rows = [
+        {
+            "id": "vuln",
+            "has_vulnerability": True,
+            "project": "p",
+            "cve": "CVE-1",
+            "vulnerability_type": "cwe-120",
+            "pair_key": "pair-1",
+            "pair_text": (
+                "Task\nUnified diff:\n"
+                "--- paired_counterpart\n"
+                "+++ candidate\n"
+                "@@ -1,3 +1,3 @@\n"
+                " static void f() {\n"
+                "-  memcpy(dst, src, len);\n"
+                "+  checked_copy(dst, src, len);\n"
+                " }\n"
+            ),
+        },
+    ]
+    prediction_rows = [
+        {"id": "vuln", "gold": 1, "pred": 1, "pair_key": "pair-1", "vuln_probability": 0.9, "pair_coupled": True},
+    ]
+
+    payload = module.build_report(dataset_rows, prediction_rows, hunk_limit=1, example_limit=1)
+    row = payload["rows"][0]
+
+    assert row["support_label"] == "unsupported"
+    assert row["gold_support_label"] == "unsupported"
+    assert row["pseudo_localization_correct"] is False
+    assert payload["summary"]["pseudo_localization_accuracy"] == 0.0

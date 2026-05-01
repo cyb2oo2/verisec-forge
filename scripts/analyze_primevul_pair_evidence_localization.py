@@ -28,6 +28,12 @@ def support_scores(hunk: dict[str, Any]) -> dict[str, int]:
     }
 
 
+def support_label_for_decision(*, decision: int, risk_support: int, safety_support: int) -> str:
+    if decision == 1:
+        return "supported" if risk_support > safety_support else "unsupported"
+    return "supported" if safety_support > risk_support else "unsupported"
+
+
 def localize_row(data: dict[str, Any], prediction: dict[str, Any], *, hunk_limit: int) -> dict[str, Any]:
     hunks = []
     for hunk in top_hunks(str(data.get("pair_text") or data.get("prompt") or ""), limit=hunk_limit):
@@ -37,10 +43,16 @@ def localize_row(data: dict[str, Any], prediction: dict[str, Any], *, hunk_limit
     total_safety = sum(int(hunk["safety_support"]) for hunk in hunks)
     pred = int(prediction["pred"])
     gold = int(prediction.get("gold", int(bool(data.get("has_vulnerability")))))
-    if pred == 1:
-        support_label = "supported" if total_risk > total_safety else "unsupported"
-    else:
-        support_label = "supported" if total_safety > total_risk else "unsupported"
+    support_label = support_label_for_decision(
+        decision=pred,
+        risk_support=total_risk,
+        safety_support=total_safety,
+    )
+    gold_support_label = support_label_for_decision(
+        decision=gold,
+        risk_support=total_risk,
+        safety_support=total_safety,
+    )
     return {
         "id": prediction["id"],
         "pair_key": prediction.get("pair_key") or data.get("pair_key") or prediction["id"],
@@ -57,6 +69,8 @@ def localize_row(data: dict[str, Any], prediction: dict[str, Any], *, hunk_limit
         "safety_support": total_safety,
         "net_risk_support": total_risk - total_safety,
         "support_label": support_label,
+        "gold_support_label": gold_support_label,
+        "pseudo_localization_correct": gold_support_label == "supported",
         "top_hunks": hunks,
     }
 
@@ -73,10 +87,17 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     supported_errors = sum(1 for row in rows if not row["correct"] and row["support_label"] == "supported")
     unsupported_correct = sum(1 for row in rows if row["correct"] and row["support_label"] != "supported")
     unsupported_errors = sum(1 for row in rows if not row["correct"] and row["support_label"] != "supported")
+    gold_supported = sum(1 for row in rows if row["gold_support_label"] == "supported")
+    vulnerable_rows = [row for row in rows if int(row["gold"]) == 1]
+    safe_rows = [row for row in rows if int(row["gold"]) == 0]
+    vulnerable_gold_supported = sum(1 for row in vulnerable_rows if row["gold_support_label"] == "supported")
+    safe_gold_supported = sum(1 for row in safe_rows if row["gold_support_label"] == "supported")
     direction_counts: Counter[str] = Counter()
     cwe_counts: Counter[str] = Counter()
+    support_confusion: Counter[str] = Counter()
     for row in rows:
         cwe_counts[str(row["vulnerability_type"])] += 1
+        support_confusion[f"pred_{row['support_label']}__gold_{row['gold_support_label']}"] += 1
         for hunk in row["top_hunks"]:
             direction_counts.update(hunk["direction_labels"])
     return {
@@ -94,6 +115,10 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "unsupported_errors": unsupported_errors,
         "supported_error_rate": rate(supported_errors, supported),
         "unsupported_error_rate": rate(unsupported_errors, total - supported),
+        "pseudo_localization_accuracy": rate(gold_supported, total),
+        "vulnerable_pseudo_localization_accuracy": rate(vulnerable_gold_supported, len(vulnerable_rows)),
+        "safe_pseudo_localization_accuracy": rate(safe_gold_supported, len(safe_rows)),
+        "support_confusion": dict(sorted(support_confusion.items())),
         "top_direction_labels": direction_counts.most_common(10),
         "top_cwes": cwe_counts.most_common(10),
     }
@@ -105,6 +130,7 @@ def build_report(
     *,
     hunk_limit: int,
     example_limit: int,
+    sweep_hunk_limits: list[int] | None = None,
 ) -> dict[str, Any]:
     data_by_id = {row["id"]: row for row in dataset_rows}
     localized = [
@@ -116,7 +142,7 @@ def build_report(
     unsupported = [row for row in localized if row["support_label"] != "supported"]
     high_risk_support = sorted(localized, key=lambda row: row["net_risk_support"], reverse=True)
     high_safety_support = sorted(localized, key=lambda row: row["net_risk_support"])
-    return {
+    report = {
         "summary": summarize(localized),
         "coupled_summary": summarize([row for row in localized if row["pair_coupled"]]),
         "examples": {
@@ -127,6 +153,42 @@ def build_report(
         },
         "rows": localized,
     }
+    if sweep_hunk_limits:
+        report["hunk_limit_sweep"] = hunk_limit_sweep(
+            dataset_rows,
+            prediction_rows,
+            hunk_limits=sweep_hunk_limits,
+        )
+    return report
+
+
+def hunk_limit_sweep(
+    dataset_rows: list[dict[str, Any]],
+    prediction_rows: list[dict[str, Any]],
+    *,
+    hunk_limits: list[int],
+) -> list[dict[str, Any]]:
+    data_by_id = {row["id"]: row for row in dataset_rows}
+    rows: list[dict[str, Any]] = []
+    for limit in hunk_limits:
+        localized = [
+            localize_row(data_by_id[prediction["id"]], prediction, hunk_limit=limit)
+            for prediction in prediction_rows
+            if prediction["id"] in data_by_id
+        ]
+        summary = summarize(localized)
+        rows.append(
+            {
+                "hunk_limit": limit,
+                "support_rate": summary["support_rate"],
+                "pseudo_localization_accuracy": summary["pseudo_localization_accuracy"],
+                "vulnerable_pseudo_localization_accuracy": summary["vulnerable_pseudo_localization_accuracy"],
+                "safe_pseudo_localization_accuracy": summary["safe_pseudo_localization_accuracy"],
+                "supported_error_rate": summary["supported_error_rate"],
+                "unsupported_error_rate": summary["unsupported_error_rate"],
+            }
+        )
+    return rows
 
 
 def render_hunk(hunk: dict[str, Any]) -> list[str]:
@@ -154,6 +216,7 @@ def render_examples(title: str, rows: list[dict[str, Any]]) -> list[str]:
                 f"- Gold/Pred/Correct: `{row['gold']}` / `{row['pred']}` / `{row['correct']}`",
                 f"- Probability: `{row['vuln_probability']}`",
                 f"- Support: `{row['support_label']}` risk `{row['risk_support']}` safety `{row['safety_support']}` net `{row['net_risk_support']}`",
+                f"- Gold support: `{row['gold_support_label']}` pseudo-localization-correct `{row['pseudo_localization_correct']}`",
             ]
         )
         for hunk in row["top_hunks"]:
@@ -172,27 +235,54 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "",
         "## Summary",
         "",
-        "| scope | rows | pairs | accuracy | support_rate | supported_error_rate | unsupported_error_rate |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| scope | rows | pairs | accuracy | support_rate | pseudo_loc_acc | vuln_pseudo_loc | safe_pseudo_loc | supported_error_rate | unsupported_error_rate |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
         (
             f"| all rows | {summary['rows']} | {summary['unique_pair_count']} | {summary['accuracy']} | "
-            f"{summary['support_rate']} | {summary['supported_error_rate']} | {summary['unsupported_error_rate']} |"
+            f"{summary['support_rate']} | {summary['pseudo_localization_accuracy']} | "
+            f"{summary['vulnerable_pseudo_localization_accuracy']} | {summary['safe_pseudo_localization_accuracy']} | "
+            f"{summary['supported_error_rate']} | {summary['unsupported_error_rate']} |"
         ),
         (
             f"| pair-coupled rows | {coupled['rows']} | {coupled['unique_pair_count']} | {coupled['accuracy']} | "
-            f"{coupled['support_rate']} | {coupled['supported_error_rate']} | {coupled['unsupported_error_rate']} |"
+            f"{coupled['support_rate']} | {coupled['pseudo_localization_accuracy']} | "
+            f"{coupled['vulnerable_pseudo_localization_accuracy']} | {coupled['safe_pseudo_localization_accuracy']} | "
+            f"{coupled['supported_error_rate']} | {coupled['unsupported_error_rate']} |"
         ),
         "",
         "## Aggregate Signals",
         "",
         f"- Top direction labels: `{summary['top_direction_labels']}`",
         f"- Top CWEs: `{summary['top_cwes']}`",
+        f"- Support confusion: `{summary['support_confusion']}`",
         "",
-        *render_examples("Unsupported Predictions", payload["examples"]["unsupported_predictions"]),
-        *render_examples("Errors", payload["examples"]["errors"]),
-        *render_examples("Highest Risk-Support Hunks", payload["examples"]["highest_risk_support"]),
-        *render_examples("Highest Safety-Support Hunks", payload["examples"]["highest_safety_support"]),
     ]
+    if payload.get("hunk_limit_sweep"):
+        lines.extend(
+            [
+                "## Hunk-Limit Sweep",
+                "",
+                "| hunk_limit | support_rate | pseudo_loc_acc | vuln_pseudo_loc | safe_pseudo_loc | supported_error_rate | unsupported_error_rate |",
+                "| ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for row in payload["hunk_limit_sweep"]:
+            lines.append(
+                (
+                    f"| {row['hunk_limit']} | {row['support_rate']} | {row['pseudo_localization_accuracy']} | "
+                    f"{row['vulnerable_pseudo_localization_accuracy']} | {row['safe_pseudo_localization_accuracy']} | "
+                    f"{row['supported_error_rate']} | {row['unsupported_error_rate']} |"
+                )
+            )
+        lines.append("")
+    lines.extend(
+        [
+            *render_examples("Unsupported Predictions", payload["examples"]["unsupported_predictions"]),
+            *render_examples("Errors", payload["examples"]["errors"]),
+            *render_examples("Highest Risk-Support Hunks", payload["examples"]["highest_risk_support"]),
+            *render_examples("Highest Safety-Support Hunks", payload["examples"]["highest_safety_support"]),
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -202,6 +292,7 @@ def main() -> None:
     parser.add_argument("--predictions", required=True)
     parser.add_argument("--hunk-limit", type=int, default=2)
     parser.add_argument("--example-limit", type=int, default=6)
+    parser.add_argument("--sweep-hunk-limits", default="1,2,3,5")
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output", required=True)
     parser.add_argument("--rows-output")
@@ -212,6 +303,7 @@ def main() -> None:
         read_jsonl(args.predictions),
         hunk_limit=args.hunk_limit,
         example_limit=args.example_limit,
+        sweep_hunk_limits=[int(part.strip()) for part in args.sweep_hunk_limits.split(",") if part.strip()],
     )
     rows = payload.pop("rows")
     write_json(args.json_output, payload)
