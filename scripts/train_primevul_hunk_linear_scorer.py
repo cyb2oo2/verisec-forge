@@ -37,11 +37,26 @@ FEATURE_NAMES = [
     "keyword_count",
 ]
 
+SIDE_AWARE_FEATURE_NAMES = [
+    *FEATURE_NAMES,
+    "side_is_vulnerable",
+    "aligned_support",
+    "opposing_support",
+    "alignment_margin",
+    "aligned_protection_delta",
+    "aligned_risk_delta",
+    "aligned_safer_delta",
+]
 
-def features(row: dict[str, Any]) -> dict[str, float]:
+
+def feature_names(*, side_aware: bool) -> list[str]:
+    return SIDE_AWARE_FEATURE_NAMES if side_aware else FEATURE_NAMES
+
+
+def features(row: dict[str, Any], *, side_aware: bool = False) -> dict[str, float]:
     labels = set(row.get("direction_labels") or [])
     hunk_rank = max(1, int(row.get("hunk_rank") or 1))
-    return {
+    values = {
         "bias": 1.0,
         "hunk_rank_inverse": 1.0 / hunk_rank,
         "changed_lines": math.log1p(float(row.get("changed_lines") or 0)),
@@ -60,10 +75,31 @@ def features(row: dict[str, Any]) -> dict[str, float]:
         "candidate_removes_risk": float("candidate_removes_risk" in labels),
         "keyword_count": float(len(row.get("keywords") or [])),
     }
+    if side_aware:
+        side_is_vulnerable = int(row.get("decision_side", row.get("gold", 1))) == 1
+        risk_support = values["risk_support"]
+        safety_support = values["safety_support"]
+        protection_delta = values["protection_delta"]
+        risk_delta = values["risk_delta"]
+        safer_delta = values["safer_delta"]
+        aligned_support = risk_support if side_is_vulnerable else safety_support
+        opposing_support = safety_support if side_is_vulnerable else risk_support
+        values.update(
+            {
+                "side_is_vulnerable": float(side_is_vulnerable),
+                "aligned_support": aligned_support,
+                "opposing_support": opposing_support,
+                "alignment_margin": aligned_support - opposing_support,
+                "aligned_protection_delta": -protection_delta if side_is_vulnerable else protection_delta,
+                "aligned_risk_delta": risk_delta if side_is_vulnerable else -risk_delta,
+                "aligned_safer_delta": -safer_delta if side_is_vulnerable else safer_delta,
+            }
+        )
+    return values
 
 
-def dot(weights: dict[str, float], row_features: dict[str, float]) -> float:
-    return sum(weights.get(name, 0.0) * row_features.get(name, 0.0) for name in FEATURE_NAMES)
+def dot(weights: dict[str, float], row_features: dict[str, float], *, side_aware: bool = False) -> float:
+    return sum(weights.get(name, 0.0) * row_features.get(name, 0.0) for name in feature_names(side_aware=side_aware))
 
 
 def sigmoid(value: float) -> float:
@@ -81,31 +117,33 @@ def train_linear_scorer(
     learning_rate: float,
     l2: float,
     seed: int,
+    side_aware: bool = False,
 ) -> dict[str, float]:
     rng = random.Random(seed)
-    weights = {name: 0.0 for name in FEATURE_NAMES}
+    names = feature_names(side_aware=side_aware)
+    weights = {name: 0.0 for name in names}
     training_rows = list(rows)
     for _epoch in range(epochs):
         rng.shuffle(training_rows)
         for row in training_rows:
             label = float(int(row["pseudo_label"]))
-            row_features = features(row)
-            prediction = sigmoid(dot(weights, row_features))
+            row_features = features(row, side_aware=side_aware)
+            prediction = sigmoid(dot(weights, row_features, side_aware=side_aware))
             error = prediction - label
-            for name in FEATURE_NAMES:
+            for name in names:
                 weights[name] -= learning_rate * (error * row_features.get(name, 0.0) + l2 * weights[name])
     return weights
 
 
-def score_rows(rows: list[dict[str, Any]], weights: dict[str, float]) -> list[dict[str, Any]]:
+def score_rows(rows: list[dict[str, Any]], weights: dict[str, float], *, side_aware: bool = False, score_prefix: str = "linear") -> list[dict[str, Any]]:
     scored = []
     for row in rows:
-        raw_score = dot(weights, features(row))
+        raw_score = dot(weights, features(row, side_aware=side_aware), side_aware=side_aware)
         scored.append(
             {
                 **row,
-                "linear_score": raw_score,
-                "linear_probability": sigmoid(raw_score),
+                f"{score_prefix}_score": raw_score,
+                f"{score_prefix}_probability": sigmoid(raw_score),
             }
         )
     return scored
@@ -135,12 +173,12 @@ def evaluate(rows: list[dict[str, Any]], *, k_values: list[int], score_key: str)
     return [coverage_at_k_by_score(rows, k=k, score_key=score_key) for k in k_values]
 
 
-def label_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+def label_metrics(rows: list[dict[str, Any]], *, probability_key: str = "linear_probability") -> dict[str, Any]:
     total = len(rows)
     positives = sum(1 for row in rows if int(row["pseudo_label"]) == 1)
-    predicted = sum(1 for row in rows if float(row["linear_probability"]) >= 0.5)
-    tp = sum(1 for row in rows if int(row["pseudo_label"]) == 1 and float(row["linear_probability"]) >= 0.5)
-    fp = sum(1 for row in rows if int(row["pseudo_label"]) == 0 and float(row["linear_probability"]) >= 0.5)
+    predicted = sum(1 for row in rows if float(row[probability_key]) >= 0.5)
+    tp = sum(1 for row in rows if int(row["pseudo_label"]) == 1 and float(row[probability_key]) >= 0.5)
+    fp = sum(1 for row in rows if int(row["pseudo_label"]) == 0 and float(row[probability_key]) >= 0.5)
     fn = positives - tp
     tn = total - positives - fp
     precision = tp / predicted if predicted else 0.0
@@ -171,6 +209,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Train accuracy: `{payload['train_label_metrics']['accuracy']}`",
         f"- Eval accuracy: `{payload['eval_label_metrics']['accuracy']}`",
         f"- Eval precision/recall/specificity: `{payload['eval_label_metrics']['precision']}` / `{payload['eval_label_metrics']['recall']}` / `{payload['eval_label_metrics']['specificity']}`",
+        f"- Side-aware eval accuracy: `{payload['side_aware_eval_label_metrics']['accuracy']}`",
+        f"- Side-aware eval precision/recall/specificity: `{payload['side_aware_eval_label_metrics']['precision']}` / `{payload['side_aware_eval_label_metrics']['recall']}` / `{payload['side_aware_eval_label_metrics']['specificity']}`",
         "",
         "## Top-K Coverage",
         "",
@@ -192,6 +232,10 @@ def render_markdown(payload: dict[str, Any]) -> str:
     )
     for name, value in payload["weights_ranked"]:
         lines.append(f"- `{name}`: `{value}`")
+    if payload.get("side_aware_weights_ranked"):
+        lines.extend(["", "## Side-Aware Learned Weights", ""])
+        for name, value in payload["side_aware_weights_ranked"]:
+            lines.append(f"- `{name}`: `{value}`")
     lines.append("")
     return "\n".join(lines)
 
@@ -211,8 +255,26 @@ def build_report(
     seed: int,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     weights = train_linear_scorer(train_rows, epochs=epochs, learning_rate=learning_rate, l2=l2, seed=seed)
+    side_aware_weights = train_linear_scorer(
+        train_rows,
+        epochs=epochs,
+        learning_rate=learning_rate,
+        l2=l2,
+        seed=seed,
+        side_aware=True,
+    )
     scored_train = score_rows(train_rows, weights)
     scored_eval = score_rows(eval_rows, weights)
+    side_aware_scored_train = score_rows(train_rows, side_aware_weights, side_aware=True, score_prefix="side_aware_linear")
+    side_aware_scored_eval = score_rows(eval_rows, side_aware_weights, side_aware=True, score_prefix="side_aware_linear")
+    combined_scored_eval = [
+        {
+            **linear_row,
+            "side_aware_linear_score": side_row["side_aware_linear_score"],
+            "side_aware_linear_probability": side_row["side_aware_linear_probability"],
+        }
+        for linear_row, side_row in zip(scored_eval, side_aware_scored_eval, strict=True)
+    ]
     payload = {
         "config": {
             "epochs": epochs,
@@ -223,21 +285,30 @@ def build_report(
         },
         "train_label_metrics": label_metrics(scored_train),
         "eval_label_metrics": label_metrics(scored_eval),
+        "side_aware_train_label_metrics": label_metrics(side_aware_scored_train, probability_key="side_aware_linear_probability"),
+        "side_aware_eval_label_metrics": label_metrics(side_aware_scored_eval, probability_key="side_aware_linear_probability"),
         "train_coverage": {
             "keyword_rank": evaluate(train_rows, k_values=k_values, score_key="hunk_rank_inverse"),
             "linear_scorer": evaluate(scored_train, k_values=k_values, score_key="linear_score"),
+            "side_aware_linear_scorer": evaluate(side_aware_scored_train, k_values=k_values, score_key="side_aware_linear_score"),
         },
         "eval_coverage": {
             "keyword_rank": evaluate(eval_rows, k_values=k_values, score_key="hunk_rank_inverse"),
             "linear_scorer": evaluate(scored_eval, k_values=k_values, score_key="linear_score"),
+            "side_aware_linear_scorer": evaluate(side_aware_scored_eval, k_values=k_values, score_key="side_aware_linear_score"),
         },
         "weights": {name: round(value, 6) for name, value in weights.items()},
+        "side_aware_weights": {name: round(value, 6) for name, value in side_aware_weights.items()},
         "weights_ranked": [
             [name, round(value, 6)]
             for name, value in sorted(weights.items(), key=lambda item: abs(item[1]), reverse=True)
         ],
+        "side_aware_weights_ranked": [
+            [name, round(value, 6)]
+            for name, value in sorted(side_aware_weights.items(), key=lambda item: abs(item[1]), reverse=True)
+        ],
     }
-    return payload, scored_eval
+    return payload, combined_scored_eval
 
 
 def main() -> None:

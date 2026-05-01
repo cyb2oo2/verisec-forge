@@ -62,6 +62,9 @@ def test_linear_scorer_can_rerank_positive_hunk() -> None:
     linear_top1 = payload["eval_coverage"]["linear_scorer"][0]["coverage"]
     assert keyword_top1 == 0.0
     assert linear_top1 == 1.0
+    assert payload["eval_coverage"]["side_aware_linear_scorer"][0]["coverage"] == 1.0
+    assert "side_aware_eval_label_metrics" in payload
     assert max(row["linear_score"] for row in scored_eval if row["pseudo_label"] == 1) > max(
         row["linear_score"] for row in scored_eval if row["pseudo_label"] == 0
     )
+    assert all("side_aware_linear_score" in row for row in scored_eval)

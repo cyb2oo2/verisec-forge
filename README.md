@@ -82,6 +82,7 @@ Important caveat:
 - a dependency-free linear hunk scorer gives a small reranking gain: eval top-1 coverage rises from `0.5792` to `0.5954`, and top-2 from `0.6066` to `0.6133`; top-3 and above stay capped at `0.6150`, showing the next bottleneck is candidate hunk recall, not just scoring
 - candidate generation is now the stronger evidence-localization lever: line-window candidates lift eval top-8 coverage to `0.7070`, and hunk+window reaches `0.7073`, versus `0.6150` for hunk-only candidates
 - a hunk+window linear scorer closes much of that gap at early ranks: eval top-1 coverage rises from `0.5792` to `0.6178`, top-3 from `0.6676` to `0.6877`, and top-5 reaches `0.7029` against the `0.7073` top-8 ceiling
+- a side-aware hunk+window scorer reaches the current pseudo-label ceiling at top-1 (`0.7073`, vulnerable `0.7039`, safe `0.7108`), but this is a diagnostic upper bound because it uses the target decision side for feature alignment; the deployment-facing next step is to feed it the pair-coupled predicted side and measure error propagation
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -181,6 +182,8 @@ Important boundary result:
   Splitting changed hunks into line windows lifts eval top-8 pseudo-label coverage from `0.6150` to about `0.707`, with balanced vulnerable/safe coverage. This means the next learned scorer should rank over hunk+window candidates rather than over original hunks only.
 - **The hunk+window scorer is the current localizer baseline.**
   A dependency-free linear scorer over hunk+window candidates reaches eval top-1 `0.6178`, top-3 `0.6877`, and top-5 `0.7029`. It is close to the top-8 candidate ceiling, but its top-1 gain favors vulnerable rows more than safe rows, so the next refinement should calibrate ranking by label side or pair context.
+- **Side-aware scoring shows the localizer has an alignment ceiling.**
+  When the scorer is allowed to align hunk evidence to the target decision side, hunk+window top-1 coverage reaches `0.7073`, matching the top-8 candidate ceiling with balanced vulnerable/safe coverage. This should be read as an oracle-style diagnostic, not an end-to-end claim, because the current pseudo-label run uses the known side to define aligned evidence. The next real test is to replace that side with the pair-coupled predicted side.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

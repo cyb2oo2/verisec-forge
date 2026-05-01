@@ -141,3 +141,6 @@ This scorer trains the same dependency-free linear model on hunk+window pseudo-l
 - Eval top-5 coverage: keyword `0.6961`, linear scorer `0.7029`
 - Eval top-8 ceiling: `0.7073`
 - Caveat: top-1 vulnerable coverage `0.6782`, safe coverage `0.5572`
+- Side-aware diagnostic top-1 coverage: `0.7073`
+- Side-aware diagnostic top-1 vulnerable/safe coverage: `0.7039` / `0.7108`
+- Side-aware caveat: this uses target-side alignment from the pseudo-label protocol and should be treated as an oracle-style upper bound until rerun with pair-coupled predicted sides.
