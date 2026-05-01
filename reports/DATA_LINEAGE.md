@@ -127,3 +127,17 @@ This analysis compares whole-hunk candidates with changed-line window candidates
 - Eval hunk+window top-8 coverage: `0.7073`
 - Train hunk-only top-8 coverage: `0.5822`
 - Train hunk+window top-8 coverage: `0.7082`
+
+## Hunk+Window Linear Scorer
+
+This scorer trains the same dependency-free linear model on hunk+window pseudo-label candidates.
+
+- Report: `reports/PRIMEVUL_HUNK_PLUS_WINDOW_LINEAR_SCORER.md`
+- JSON: `reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json`
+- Train rows: `data/processed/primevul_candidate_recall_train_v1/hunk_plus_window_candidates.jsonl`
+- Eval rows: `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
+- Eval top-1 coverage: keyword `0.5792`, linear scorer `0.6178`
+- Eval top-3 coverage: keyword `0.6676`, linear scorer `0.6877`
+- Eval top-5 coverage: keyword `0.6961`, linear scorer `0.7029`
+- Eval top-8 ceiling: `0.7073`
+- Caveat: top-1 vulnerable coverage `0.6782`, safe coverage `0.5572`

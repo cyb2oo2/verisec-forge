@@ -75,3 +75,36 @@ def test_hunk_plus_window_reports_expected_strategy_metadata() -> None:
     assert candidate_rows
     assert all(row["candidate_strategy"] == "hunk_plus_window" for row in candidate_rows)
     assert all(row["source_id"] == "vuln" for row in candidate_rows)
+
+
+def test_build_rows_by_strategy_returns_requested_candidate_sets() -> None:
+    module = _load_module()
+    rows = [
+        {
+            "id": "vuln",
+            "has_vulnerability": True,
+            "pair_key": "pair-1",
+            "project": "p",
+            "cve": "CVE-1",
+            "vulnerability_type": "cwe-120",
+            "pair_text": (
+                "Task\nUnified diff:\n"
+                "--- paired_counterpart\n"
+                "+++ candidate\n"
+                "@@ -1,3 +1,3 @@\n"
+                "-  check_len(len);\n"
+                "+  memcpy(dst, src, len);\n"
+            ),
+        }
+    ]
+
+    rows_by_strategy = module.build_rows_by_strategy(
+        rows,
+        strategies=["hunk", "hunk_plus_window"],
+        max_candidates=2,
+        window_size=1,
+    )
+
+    assert set(rows_by_strategy) == {"hunk", "hunk_plus_window"}
+    assert rows_by_strategy["hunk"]
+    assert rows_by_strategy["hunk_plus_window"]

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -14,7 +15,7 @@ from scripts.analyze_primevul_large_diff_windows import changed_lines, summarize
 from scripts.build_primevul_hunk_pseudo_label_dataset import hunk_to_row, summarize
 from scripts.build_primevul_localized_diff_dataset import extract_diff
 from scripts.build_primevul_pair_context_dataset import _hunk_score, _split_diff_hunks
-from vrf.io_utils import read_jsonl, write_json
+from vrf.io_utils import read_jsonl, write_json, write_jsonl
 
 
 def hunk_candidates(pair_text: str, *, max_candidates: int) -> list[dict[str, Any]]:
@@ -130,6 +131,24 @@ def compare_strategies(
     }
 
 
+def build_rows_by_strategy(
+    rows: list[dict[str, Any]],
+    *,
+    strategies: list[str],
+    max_candidates: int,
+    window_size: int,
+) -> dict[str, list[dict[str, Any]]]:
+    return {
+        strategy: build_candidate_rows(
+            rows,
+            strategy=strategy,
+            max_candidates=max_candidates,
+            window_size=window_size,
+        )
+        for strategy in strategies
+    }
+
+
 def render_markdown(payload: dict[str, Any]) -> str:
     lines = [
         "# PrimeVul Candidate Recall Analysis",
@@ -181,11 +200,14 @@ def main() -> None:
     parser.add_argument("--coverage-k", default="1,2,3,5,8")
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output", required=True)
+    parser.add_argument("--rows-output-dir")
     args = parser.parse_args()
+    input_rows = read_jsonl(args.input)
+    strategies = parse_csv(args.strategies)
 
     payload = compare_strategies(
-        read_jsonl(args.input),
-        strategies=parse_csv(args.strategies),
+        input_rows,
+        strategies=strategies,
         max_candidates=args.max_candidates,
         window_size=args.window_size,
         coverage_k=parse_ints(args.coverage_k),
@@ -194,6 +216,16 @@ def main() -> None:
     md_path = Path(args.md_output)
     md_path.parent.mkdir(parents=True, exist_ok=True)
     md_path.write_text(render_markdown(payload), encoding="utf-8")
+    if args.rows_output_dir:
+        output_dir = Path(args.rows_output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for strategy, rows in build_rows_by_strategy(
+            input_rows,
+            strategies=strategies,
+            max_candidates=args.max_candidates,
+            window_size=args.window_size,
+        ).items():
+            write_jsonl(output_dir / f"{strategy}_candidates.jsonl", rows)
     print(json.dumps(payload["strategies"], indent=2))
 
 

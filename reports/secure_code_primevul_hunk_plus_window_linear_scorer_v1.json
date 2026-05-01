@@ -1,0 +1,320 @@
+{
+  "config": {
+    "epochs": 60,
+    "learning_rate": 0.02,
+    "l2": 0.0001,
+    "seed": 42,
+    "k_values": [
+      1,
+      2,
+      3,
+      5,
+      8
+    ]
+  },
+  "train_label_metrics": {
+    "rows": 15914,
+    "positive_rate": 0.4981,
+    "accuracy": 0.8288,
+    "precision": 0.7728,
+    "recall": 0.9295,
+    "specificity": 0.7288,
+    "tp": 7367,
+    "tn": 5822,
+    "fp": 2166,
+    "fn": 559
+  },
+  "eval_label_metrics": {
+    "rows": 9160,
+    "positive_rate": 0.5222,
+    "accuracy": 0.844,
+    "precision": 0.7989,
+    "recall": 0.9371,
+    "specificity": 0.7423,
+    "tp": 4482,
+    "tn": 3249,
+    "fp": 1128,
+    "fn": 301
+  },
+  "train_coverage": {
+    "keyword_rank": [
+      {
+        "k": 1,
+        "coverage": 0.5575,
+        "covered_rows": 1672,
+        "rows": 2999,
+        "vulnerable_coverage": 0.5627,
+        "safe_coverage": 0.5524,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6155,
+        "covered_rows": 1846,
+        "rows": 2999,
+        "vulnerable_coverage": 0.614,
+        "safe_coverage": 0.6171,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6589,
+        "covered_rows": 1976,
+        "rows": 2999,
+        "vulnerable_coverage": 0.6573,
+        "safe_coverage": 0.6604,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 5,
+        "coverage": 0.6956,
+        "covered_rows": 2086,
+        "rows": 2999,
+        "vulnerable_coverage": 0.6947,
+        "safe_coverage": 0.6965,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7082,
+        "covered_rows": 2124,
+        "rows": 2999,
+        "vulnerable_coverage": 0.7093,
+        "safe_coverage": 0.7071,
+        "score_key": "hunk_rank_inverse"
+      }
+    ],
+    "linear_scorer": [
+      {
+        "k": 1,
+        "coverage": 0.5889,
+        "covered_rows": 1766,
+        "rows": 2999,
+        "vulnerable_coverage": 0.6653,
+        "safe_coverage": 0.5123,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6469,
+        "covered_rows": 1940,
+        "rows": 2999,
+        "vulnerable_coverage": 0.6887,
+        "safe_coverage": 0.6051,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6752,
+        "covered_rows": 2025,
+        "rows": 2999,
+        "vulnerable_coverage": 0.6987,
+        "safe_coverage": 0.6518,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.7009,
+        "covered_rows": 2102,
+        "rows": 2999,
+        "vulnerable_coverage": 0.7067,
+        "safe_coverage": 0.6951,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7082,
+        "covered_rows": 2124,
+        "rows": 2999,
+        "vulnerable_coverage": 0.7093,
+        "safe_coverage": 0.7071,
+        "score_key": "linear_score"
+      }
+    ]
+  },
+  "eval_coverage": {
+    "keyword_rank": [
+      {
+        "k": 1,
+        "coverage": 0.5792,
+        "covered_rows": 1035,
+        "rows": 1787,
+        "vulnerable_coverage": 0.5743,
+        "safe_coverage": 0.5841,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6279,
+        "covered_rows": 1122,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6257,
+        "safe_coverage": 0.63,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6676,
+        "covered_rows": 1193,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6626,
+        "safe_coverage": 0.6726,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 5,
+        "coverage": 0.6961,
+        "covered_rows": 1244,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6939,
+        "safe_coverage": 0.6984,
+        "score_key": "hunk_rank_inverse"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "hunk_rank_inverse"
+      }
+    ],
+    "linear_scorer": [
+      {
+        "k": 1,
+        "coverage": 0.6178,
+        "covered_rows": 1104,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6782,
+        "safe_coverage": 0.5572,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 2,
+        "coverage": 0.6609,
+        "covered_rows": 1181,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6905,
+        "safe_coverage": 0.6312,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 3,
+        "coverage": 0.6877,
+        "covered_rows": 1229,
+        "rows": 1787,
+        "vulnerable_coverage": 0.6983,
+        "safe_coverage": 0.6771,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 5,
+        "coverage": 0.7029,
+        "covered_rows": 1256,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7028,
+        "safe_coverage": 0.7029,
+        "score_key": "linear_score"
+      },
+      {
+        "k": 8,
+        "coverage": 0.7073,
+        "covered_rows": 1264,
+        "rows": 1787,
+        "vulnerable_coverage": 0.7039,
+        "safe_coverage": 0.7108,
+        "score_key": "linear_score"
+      }
+    ]
+  },
+  "weights": {
+    "bias": 0.193265,
+    "hunk_rank_inverse": 1.345537,
+    "changed_lines": 2.378924,
+    "added_lines": -1.608388,
+    "removed_lines": -1.933213,
+    "risk_support": 0.160877,
+    "safety_support": 0.129299,
+    "net_risk_support": 0.031578,
+    "protection_delta": -0.139204,
+    "risk_delta": -0.022234,
+    "safer_delta": 0.085392,
+    "direction_unclear": -7.709541,
+    "candidate_adds_protection": -0.472206,
+    "candidate_removes_protection": -0.407757,
+    "candidate_introduces_risk": -2.485329,
+    "candidate_removes_risk": -1.712148,
+    "keyword_count": 0.157975
+  },
+  "weights_ranked": [
+    [
+      "direction_unclear",
+      -7.709541
+    ],
+    [
+      "candidate_introduces_risk",
+      -2.485329
+    ],
+    [
+      "changed_lines",
+      2.378924
+    ],
+    [
+      "removed_lines",
+      -1.933213
+    ],
+    [
+      "candidate_removes_risk",
+      -1.712148
+    ],
+    [
+      "added_lines",
+      -1.608388
+    ],
+    [
+      "hunk_rank_inverse",
+      1.345537
+    ],
+    [
+      "candidate_adds_protection",
+      -0.472206
+    ],
+    [
+      "candidate_removes_protection",
+      -0.407757
+    ],
+    [
+      "bias",
+      0.193265
+    ],
+    [
+      "risk_support",
+      0.160877
+    ],
+    [
+      "keyword_count",
+      0.157975
+    ],
+    [
+      "protection_delta",
+      -0.139204
+    ],
+    [
+      "safety_support",
+      0.129299
+    ],
+    [
+      "safer_delta",
+      0.085392
+    ],
+    [
+      "net_risk_support",
+      0.031578
+    ],
+    [
+      "risk_delta",
+      -0.022234
+    ]
+  ]
+}
