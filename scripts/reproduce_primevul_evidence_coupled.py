@@ -273,6 +273,34 @@ def commands() -> list[list[str]]:
             "--md-output",
             "reports/PRIMEVUL_PAIRED_WINDOW_SIDE_MODEL.md",
         ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_review_queue.py",
+            "--input",
+            "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.01",
+            "--l2",
+            "0.0001",
+            "--positive-weight",
+            "8.0",
+            "--feature-mode",
+            "numeric_text",
+            "--top-k",
+            "5",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE.md",
+        ],
     ]
 
 
@@ -290,6 +318,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     contrastive = read_json(REPO_ROOT / "reports/secure_code_primevul_contrastive_side_correction_v1.json")
     paired_window = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json")
     side_model = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_side_model_v1.json")
+    review_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -333,6 +362,9 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "paired_window_side_model_top10_precision_mean": side_model["summary"]["eval_topk_precision"]["10"][
             "precision_mean"
         ],
+        "side_inversion_review_queue_rows": review_queue["summary"]["rows"],
+        "side_inversion_review_queue_unique_pairs": review_queue["summary"]["unique_pair_count"],
+        "side_inversion_review_queue_precision": review_queue["summary"]["precision"],
     }
     checks = {
         key: {

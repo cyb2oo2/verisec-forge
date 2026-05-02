@@ -125,6 +125,19 @@
       "path": "reports/secure_code_primevul_paired_window_side_model_v1.json",
       "sha256": "a4bfdc5149206507d5952d11f3e735c2eb25cad22a259c67562c9fd8f6f7fa6a",
       "bytes": 10348
+    },
+    {
+      "role": "side_inversion_review_queue_json",
+      "path": "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json",
+      "sha256": "69f96a2bd683682c80388d75d1680d9358db50cf2ebf9147735455adf8cbf4f7",
+      "bytes": 1422
+    },
+    {
+      "role": "side_inversion_review_queue_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl",
+      "sha256": "821ddad44a2da7847edd414cf675eff38a40ca70462587ed11461a1a166bc2e2",
+      "bytes": 140313,
+      "rows": 25
     }
   ],
   "expected": {
@@ -159,7 +172,10 @@
     "paired_window_side_model_balanced_delta_mean": 0.1065,
     "paired_window_side_model_label_b_recall_mean": 0.4367,
     "paired_window_side_model_top5_precision_mean": 0.72,
-    "paired_window_side_model_top10_precision_mean": 0.52
+    "paired_window_side_model_top10_precision_mean": 0.52,
+    "side_inversion_review_queue_rows": 25,
+    "side_inversion_review_queue_unique_pairs": 16,
+    "side_inversion_review_queue_precision": 0.72
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

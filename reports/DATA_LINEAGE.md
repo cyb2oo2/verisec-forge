@@ -248,3 +248,18 @@ This is the first dependency-free model trained on the paired-window contrastive
 - Label-B inversion recall mean: `0.4367`
 - Top-3 / top-5 flip precision mean: `0.7334` / `0.7200`
 - Interpretation: side inversion signal exists, but the lightweight model over-flips correct high-probability sides under threshold decoding. Its near-term use is a high-priority review queue for a few top-scored candidate inversions, not automatic replacement of pair-coupled decoding.
+
+## Side-Inversion Review Queue
+
+This generated local artifact materializes the top-scored paired-window side-inversion candidates. It is the bridge from diagnostic side-model scores to a future verifier or human review loop.
+
+- Report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE.md`
+- JSON: `reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json`
+- Local JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl`
+- Input: `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
+- Top-k per seed: `5`
+- Rows: `25`
+- Unique pair keys: `16`
+- True inversions: `18`
+- Diagnostic precision: `0.7200`
+- Interpretation: review/verifier input with gold labels retained for analysis; not an automatic correction result.

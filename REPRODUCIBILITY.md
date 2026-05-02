@@ -59,6 +59,7 @@ Expected key outputs:
 - paired-window side-model balanced accuracy mean: `0.6065`
 - paired-window side-model label-B recall mean: `0.4367`
 - paired-window side-model top-5 flip precision mean: `0.7200`
+- side-inversion review queue rows / precision: `25` / `0.7200`
 
 The exact local inputs and expected generated artifacts are listed in:
 
@@ -88,6 +89,7 @@ These files are intentionally not committed because `data/processed` and `output
 - `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
 - `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
 - `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
+- `data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl`
 
 If a fresh clone is missing these files, the reproduction script fails with a structured missing-artifact report instead of silently producing partial results.
 
