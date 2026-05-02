@@ -12,6 +12,7 @@
     "learning_rate": 0.01,
     "l2": 0.0001,
     "positive_weight": 8.0,
+    "feature_mode": "numeric_text",
     "thresholds": [
       0.1,
       0.2,
@@ -23,7 +24,17 @@
       0.8,
       0.9
     ],
-    "selector": "balanced_accuracy"
+    "selector": "balanced_accuracy",
+    "min_precision": 0.5,
+    "min_flipped_pairs": 1,
+    "topk_values": [
+      1,
+      3,
+      5,
+      10,
+      20,
+      50
+    ]
   },
   "summary": {
     "seeds": 5,
@@ -69,12 +80,60 @@
       "mean": 103.8,
       "min": 79,
       "max": 134
+    },
+    "label_b_precision": {
+      "mean": 0.2279,
+      "min": 0.1842,
+      "max": 0.2771
+    },
+    "accuracy_delta_vs_always_a": {
+      "mean": -0.127,
+      "min": -0.1859,
+      "max": -0.0748
+    },
+    "eval_topk_precision": {
+      "1": {
+        "precision_mean": 0.6,
+        "precision_min": 0.0,
+        "precision_max": 1.0
+      },
+      "3": {
+        "precision_mean": 0.7334,
+        "precision_min": 0.6667,
+        "precision_max": 1.0
+      },
+      "5": {
+        "precision_mean": 0.72,
+        "precision_min": 0.6,
+        "precision_max": 0.8
+      },
+      "10": {
+        "precision_mean": 0.52,
+        "precision_min": 0.4,
+        "precision_max": 0.7
+      },
+      "20": {
+        "precision_mean": 0.35,
+        "precision_min": 0.25,
+        "precision_max": 0.5
+      },
+      "50": {
+        "precision_mean": 0.26,
+        "precision_min": 0.2,
+        "precision_max": 0.32
+      }
     }
   },
   "seed_reports": [
     {
       "seed": 7,
       "selected_threshold": 0.1,
+      "calibration_accuracy": 1.0,
+      "calibration_balanced_accuracy": 1.0,
+      "calibration_label_b_precision": 1.0,
+      "calibration_label_b_recall": 1.0,
+      "calibration_flipped_pairs": 27,
+      "eligible_thresholds": 9,
       "eval_accuracy": 0.6908,
       "eval_balanced_accuracy": 0.5576,
       "eval_label_b_recall": 0.375,
@@ -84,11 +143,61 @@
       "tp": 21,
       "tn": 265,
       "fp": 93,
-      "fn": 35
+      "fn": 35,
+      "eval_topk": [
+        {
+          "k": 1,
+          "selected": 1,
+          "tp": 1,
+          "precision": 1.0,
+          "label_b_recall": 0.0179
+        },
+        {
+          "k": 3,
+          "selected": 3,
+          "tp": 2,
+          "precision": 0.6667,
+          "label_b_recall": 0.0357
+        },
+        {
+          "k": 5,
+          "selected": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "label_b_recall": 0.0714
+        },
+        {
+          "k": 10,
+          "selected": 10,
+          "tp": 5,
+          "precision": 0.5,
+          "label_b_recall": 0.0893
+        },
+        {
+          "k": 20,
+          "selected": 20,
+          "tp": 6,
+          "precision": 0.3,
+          "label_b_recall": 0.1071
+        },
+        {
+          "k": 50,
+          "selected": 50,
+          "tp": 12,
+          "precision": 0.24,
+          "label_b_recall": 0.2143
+        }
+      ]
     },
     {
       "seed": 13,
       "selected_threshold": 0.4,
+      "calibration_accuracy": 1.0,
+      "calibration_balanced_accuracy": 1.0,
+      "calibration_label_b_precision": 1.0,
+      "calibration_label_b_recall": 1.0,
+      "calibration_flipped_pairs": 33,
+      "eligible_thresholds": 9,
       "eval_accuracy": 0.785,
       "eval_balanced_accuracy": 0.619,
       "eval_label_b_recall": 0.4,
@@ -98,11 +207,61 @@
       "tp": 20,
       "tn": 305,
       "fp": 59,
-      "fn": 30
+      "fn": 30,
+      "eval_topk": [
+        {
+          "k": 1,
+          "selected": 1,
+          "tp": 0,
+          "precision": 0.0,
+          "label_b_recall": 0.0
+        },
+        {
+          "k": 3,
+          "selected": 3,
+          "tp": 2,
+          "precision": 0.6667,
+          "label_b_recall": 0.04
+        },
+        {
+          "k": 5,
+          "selected": 5,
+          "tp": 3,
+          "precision": 0.6,
+          "label_b_recall": 0.06
+        },
+        {
+          "k": 10,
+          "selected": 10,
+          "tp": 4,
+          "precision": 0.4,
+          "label_b_recall": 0.08
+        },
+        {
+          "k": 20,
+          "selected": 20,
+          "tp": 7,
+          "precision": 0.35,
+          "label_b_recall": 0.14
+        },
+        {
+          "k": 50,
+          "selected": 50,
+          "tp": 13,
+          "precision": 0.26,
+          "label_b_recall": 0.26
+        }
+      ]
     },
     {
       "seed": 42,
       "selected_threshold": 0.1,
+      "calibration_accuracy": 1.0,
+      "calibration_balanced_accuracy": 1.0,
+      "calibration_label_b_precision": 1.0,
+      "calibration_label_b_recall": 1.0,
+      "calibration_flipped_pairs": 32,
+      "eligible_thresholds": 9,
       "eval_accuracy": 0.6739,
       "eval_balanced_accuracy": 0.595,
       "eval_label_b_recall": 0.4902,
@@ -112,11 +271,61 @@
       "tp": 25,
       "tn": 254,
       "fp": 109,
-      "fn": 26
+      "fn": 26,
+      "eval_topk": [
+        {
+          "k": 1,
+          "selected": 1,
+          "tp": 0,
+          "precision": 0.0,
+          "label_b_recall": 0.0
+        },
+        {
+          "k": 3,
+          "selected": 3,
+          "tp": 2,
+          "precision": 0.6667,
+          "label_b_recall": 0.0392
+        },
+        {
+          "k": 5,
+          "selected": 5,
+          "tp": 3,
+          "precision": 0.6,
+          "label_b_recall": 0.0588
+        },
+        {
+          "k": 10,
+          "selected": 10,
+          "tp": 4,
+          "precision": 0.4,
+          "label_b_recall": 0.0784
+        },
+        {
+          "k": 20,
+          "selected": 20,
+          "tp": 5,
+          "precision": 0.25,
+          "label_b_recall": 0.098
+        },
+        {
+          "k": 50,
+          "selected": 50,
+          "tp": 10,
+          "precision": 0.2,
+          "label_b_recall": 0.1961
+        }
+      ]
     },
     {
       "seed": 99,
       "selected_threshold": 0.2,
+      "calibration_accuracy": 1.0,
+      "calibration_balanced_accuracy": 1.0,
+      "calibration_label_b_precision": 1.0,
+      "calibration_label_b_recall": 1.0,
+      "calibration_flipped_pairs": 31,
+      "eligible_thresholds": 9,
       "eval_accuracy": 0.7367,
       "eval_balanced_accuracy": 0.6354,
       "eval_label_b_recall": 0.5,
@@ -126,11 +335,61 @@
       "tp": 26,
       "tn": 279,
       "fp": 83,
-      "fn": 26
+      "fn": 26,
+      "eval_topk": [
+        {
+          "k": 1,
+          "selected": 1,
+          "tp": 1,
+          "precision": 1.0,
+          "label_b_recall": 0.0192
+        },
+        {
+          "k": 3,
+          "selected": 3,
+          "tp": 3,
+          "precision": 1.0,
+          "label_b_recall": 0.0577
+        },
+        {
+          "k": 5,
+          "selected": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "label_b_recall": 0.0769
+        },
+        {
+          "k": 10,
+          "selected": 10,
+          "tp": 7,
+          "precision": 0.7,
+          "label_b_recall": 0.1346
+        },
+        {
+          "k": 20,
+          "selected": 20,
+          "tp": 10,
+          "precision": 0.5,
+          "label_b_recall": 0.1923
+        },
+        {
+          "k": 50,
+          "selected": 50,
+          "tp": 16,
+          "precision": 0.32,
+          "label_b_recall": 0.3077
+        }
+      ]
     },
     {
       "seed": 123,
       "selected_threshold": 0.1,
+      "calibration_accuracy": 1.0,
+      "calibration_balanced_accuracy": 1.0,
+      "calibration_label_b_precision": 1.0,
+      "calibration_label_b_recall": 1.0,
+      "calibration_flipped_pairs": 28,
+      "eligible_thresholds": 9,
       "eval_accuracy": 0.7778,
       "eval_balanced_accuracy": 0.6255,
       "eval_label_b_recall": 0.4182,
@@ -140,7 +399,51 @@
       "tp": 23,
       "tn": 299,
       "fp": 60,
-      "fn": 32
+      "fn": 32,
+      "eval_topk": [
+        {
+          "k": 1,
+          "selected": 1,
+          "tp": 1,
+          "precision": 1.0,
+          "label_b_recall": 0.0182
+        },
+        {
+          "k": 3,
+          "selected": 3,
+          "tp": 2,
+          "precision": 0.6667,
+          "label_b_recall": 0.0364
+        },
+        {
+          "k": 5,
+          "selected": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "label_b_recall": 0.0727
+        },
+        {
+          "k": 10,
+          "selected": 10,
+          "tp": 6,
+          "precision": 0.6,
+          "label_b_recall": 0.1091
+        },
+        {
+          "k": 20,
+          "selected": 20,
+          "tp": 7,
+          "precision": 0.35,
+          "label_b_recall": 0.1273
+        },
+        {
+          "k": 50,
+          "selected": 50,
+          "tp": 14,
+          "precision": 0.28,
+          "label_b_recall": 0.2545
+        }
+      ]
     }
   ]
 }

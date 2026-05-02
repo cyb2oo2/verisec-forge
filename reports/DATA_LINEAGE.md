@@ -246,4 +246,5 @@ This is the first dependency-free model trained on the paired-window contrastive
 - Model eval balanced accuracy mean: `0.6065`
 - Balanced-accuracy delta vs always-A mean: `+0.1065`
 - Label-B inversion recall mean: `0.4367`
-- Interpretation: side inversion signal exists, but the lightweight model over-flips correct high-probability sides and should not replace pair-coupled decoding yet.
+- Top-3 / top-5 flip precision mean: `0.7334` / `0.7200`
+- Interpretation: side inversion signal exists, but the lightweight model over-flips correct high-probability sides under threshold decoding. Its near-term use is a high-priority review queue for a few top-scored candidate inversions, not automatic replacement of pair-coupled decoding.

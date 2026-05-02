@@ -58,6 +58,7 @@ Expected key outputs:
 - paired-window high-gap orientation inversion pairs: `44`
 - paired-window side-model balanced accuracy mean: `0.6065`
 - paired-window side-model label-B recall mean: `0.4367`
+- paired-window side-model top-5 flip precision mean: `0.7200`
 
 The exact local inputs and expected generated artifacts are listed in:
 

@@ -123,8 +123,8 @@
     {
       "role": "paired_window_side_model_json",
       "path": "reports/secure_code_primevul_paired_window_side_model_v1.json",
-      "sha256": "9904af4d3339363bd85f717992a2a68dc16e6389de1bd1bc5c05e4e60fd639c5",
-      "bytes": 3206
+      "sha256": "a4bfdc5149206507d5952d11f3e735c2eb25cad22a259c67562c9fd8f6f7fa6a",
+      "bytes": 10348
     }
   ],
   "expected": {
@@ -157,7 +157,9 @@
     "paired_window_contrastive_avg_prompt_chars": 2102.1402,
     "paired_window_side_model_balanced_accuracy_mean": 0.6065,
     "paired_window_side_model_balanced_delta_mean": 0.1065,
-    "paired_window_side_model_label_b_recall_mean": 0.4367
+    "paired_window_side_model_label_b_recall_mean": 0.4367,
+    "paired_window_side_model_top5_precision_mean": 0.72,
+    "paired_window_side_model_top10_precision_mean": 0.52
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

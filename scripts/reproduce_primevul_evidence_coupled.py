@@ -327,6 +327,12 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
             "mean"
         ],
         "paired_window_side_model_label_b_recall_mean": side_model["summary"]["label_b_recall"]["mean"],
+        "paired_window_side_model_top5_precision_mean": side_model["summary"]["eval_topk_precision"]["5"][
+            "precision_mean"
+        ],
+        "paired_window_side_model_top10_precision_mean": side_model["summary"]["eval_topk_precision"]["10"][
+            "precision_mean"
+        ],
     }
     checks = {
         key: {
