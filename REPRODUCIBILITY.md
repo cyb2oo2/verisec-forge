@@ -26,12 +26,34 @@ Reproduce the calibrated router report:
 
 Expected key outputs:
 
-- selected bucket threshold: `0.8`
+- selected bucket threshold: `0.7`
 - held-out eval balanced accuracy: `0.8136`
-- held-out eval group all-correct rate: `0.7134`
+- held-out eval group all-correct rate: `0.7117`
 - held-out eval orientation accuracy: `0.8581`
 - same-split baseline group all-correct rate: `0.7101`
 - same-split baseline orientation accuracy: `0.8514`
+
+## Evidence-Coupled Reproduction
+
+The current evidence-coupled chain can also be reproduced without GPU training once its local candidate and prediction artifacts exist:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py --check-only
+.\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py
+```
+
+Expected key outputs:
+
+- hunk+window linear top-1 coverage: `0.6178`
+- oracle side-aware matched top-1 coverage: `0.7184`
+- pair-coupled predicted-side top-1 coverage: `0.6555`
+- pair-coupled side accuracy: `0.8488`
+- side-wrong rows: `190`
+- confident inversion rows at `gap >= 0.50`: `86`
+
+The exact local inputs and expected generated artifacts are listed in:
+
+- `reproducibility/primevul_evidence_coupled_manifest.json`
 
 ## Required Artifacts
 
@@ -53,6 +75,9 @@ These files are intentionally not committed because `data/processed` and `output
 - `data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl`
 - `outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl`
 - `outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_predictions.jsonl`
+- `data/processed/primevul_candidate_recall_train_v1/hunk_plus_window_candidates.jsonl`
+- `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
+- `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
 
 If a fresh clone is missing these files, the reproduction script fails with a structured missing-artifact report instead of silently producing partial results.
 

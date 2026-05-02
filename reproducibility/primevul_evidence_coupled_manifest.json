@@ -1,0 +1,101 @@
+{
+  "name": "primevul_evidence_coupled_v1",
+  "description": "Required local artifacts and expected metrics for reproducing the evidence-coupled PrimeVul hunk localization and confident side-inversion reports.",
+  "created_utc": "2026-05-02",
+  "artifacts": [
+    {
+      "role": "hunk_window_train_candidates",
+      "path": "data/processed/primevul_candidate_recall_train_v1/hunk_plus_window_candidates.jsonl",
+      "sha256": "e93cc0af341538bc6ee5e468e089e267916963f4eadf25cf88bd428e8d461dc1",
+      "bytes": 13170466,
+      "rows": 15914,
+      "note": "Train hunk+window pseudo-label candidates."
+    },
+    {
+      "role": "hunk_window_eval_candidates",
+      "path": "data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl",
+      "sha256": "93e958cff9207b1bdf293e2856717369b521478ab57ad7b81fd5771e0f87400e",
+      "bytes": 7632622,
+      "rows": 9160,
+      "note": "Eval hunk+window pseudo-label candidates."
+    },
+    {
+      "role": "pair_coupled_predictions",
+      "path": "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+      "sha256": "66d59638d6034e42db9f6373a61b2978e5b26fa8311f5b6f832d07458c3813f9",
+      "bytes": 436617,
+      "rows": 1261,
+      "note": "Pair-coupled held-out predictions used as predicted-side input."
+    },
+    {
+      "role": "paired_eval_dataset",
+      "path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+      "bytes": 23668739,
+      "rows": 1792,
+      "note": "Deduplicated paired diff eval rows with metadata for confident inversion extraction."
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "hunk_window_scorer_json",
+      "path": "reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json",
+      "sha256": "c4da2bd5bf38e6828cd74feffe88adb7d88a131f78dd96338a2653d875bf2b88",
+      "bytes": 12470
+    },
+    {
+      "role": "predicted_side_json",
+      "path": "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json",
+      "sha256": "46b1c748db3138d61199fa6f7a5b02d8bfd4da8d9ee4a997808c11be8f9a7b15",
+      "bytes": 8521
+    },
+    {
+      "role": "predicted_side_scored_hunks",
+      "path": "outputs/secure_code_primevul_predicted_side_hunk_scorer_eval_v1.jsonl",
+      "sha256": "3fc82bea63722d1b3dd06bd333b3e1725615c57bfda2d5ffa70f1c4183fd2405",
+      "bytes": 7156868,
+      "rows": 6498
+    },
+    {
+      "role": "failure_taxonomy_json",
+      "path": "reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json",
+      "sha256": "ace89a17372b8637501535e7d44c7926ebf96ef7fec4b161054d0125e0c44fb8",
+      "bytes": 23111
+    },
+    {
+      "role": "confident_inversion_summary_json",
+      "path": "reports/secure_code_primevul_confident_side_inversions_gap50_v1.json",
+      "sha256": "49cb0e8b761515aef345f2bf94b80decbb0ef1c003d1b0677bc54e89983da929",
+      "bytes": 12543
+    },
+    {
+      "role": "confident_inversion_jsonl",
+      "path": "data/processed/secure_code_primevul_confident_side_inversions_gap50_v1.jsonl",
+      "sha256": "66486dad95639979d41a0a5d79e95873bccf0f2034bc6c1f0c8514f4777bb68c",
+      "bytes": 455752,
+      "rows": 86
+    }
+  ],
+  "expected": {
+    "hunk_linear_top1": 0.6178,
+    "hunk_side_aware_top1": 0.7073,
+    "predicted_side_accuracy": 0.8488,
+    "oracle_matched_top1": 0.7184,
+    "predicted_side_top1": 0.6555,
+    "side_correct_top1": 0.761,
+    "side_wrong_top1": 0.0632,
+    "side_wrong_rows": 190,
+    "side_wrong_false_positives": 95,
+    "side_wrong_false_negatives": 95,
+    "confident_inversion_rows": 86,
+    "confident_inversion_pair_groups": 43,
+    "confident_inversion_false_positives": 43,
+    "confident_inversion_false_negatives": 43,
+    "confident_inversion_avg_gap": 0.8225
+  },
+  "limitations": [
+    "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",
+    "Pseudo-label localization is a diagnostic layer, not human evidence-span supervision.",
+    "The confident inversion set is selected from current model failures and should be used for calibration or hard-negative mining, not as an independent benchmark split."
+  ]
+}

@@ -51,9 +51,9 @@
     }
   ],
   "expected": {
-    "selected_bucket_threshold": 0.8,
+    "selected_bucket_threshold": 0.7,
     "eval_balanced_accuracy": 0.8136,
-    "eval_group_all_correct_rate": 0.7134,
+    "eval_group_all_correct_rate": 0.7117,
     "eval_orientation_accuracy": 0.8581,
     "baseline_eval_balanced_accuracy": 0.8136,
     "baseline_group_all_correct_rate": 0.7101,
