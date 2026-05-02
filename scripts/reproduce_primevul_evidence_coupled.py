@@ -229,6 +229,24 @@ def commands() -> list[list[str]]:
             "--predictions-output",
             "outputs/secure_code_primevul_contrastive_side_correction_seed42_v1_predictions.jsonl",
         ],
+        [
+            py,
+            "scripts/build_primevul_paired_window_contrastive_dataset.py",
+            "--predictions",
+            "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+            "--hunk-candidates",
+            "data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl",
+            "--top-windows",
+            "3",
+            "--confident-gap",
+            "0.5",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_PAIRED_WINDOW_CONTRASTIVE_DATASET.md",
+        ],
     ]
 
 
@@ -244,6 +262,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     correction = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_gate_v1.json")
     correction_multisplit = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json")
     contrastive = read_json(REPO_ROOT / "reports/secure_code_primevul_contrastive_side_correction_v1.json")
+    paired_window = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -270,6 +289,12 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         ][0]["corrected_balanced_accuracy"],
         "contrastive_side_correction_multisplit_balanced_delta_mean": contrastive["summary"]["balanced_accuracy_delta"]["mean"],
         "contrastive_side_correction_multisplit_group_delta_mean": contrastive["summary"]["group_all_correct_delta"]["mean"],
+        "paired_window_contrastive_rows": paired_window["summary"]["rows"],
+        "paired_window_contrastive_label_b_rows": paired_window["summary"]["label_b_rows"],
+        "paired_window_contrastive_high_gap_orientation_inversion_pairs": paired_window["summary"][
+            "high_gap_orientation_inversion_pairs"
+        ],
+        "paired_window_contrastive_avg_prompt_chars": paired_window["summary"]["avg_prompt_chars"],
     }
     checks = {
         key: {

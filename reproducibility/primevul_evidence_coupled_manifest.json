@@ -106,6 +106,19 @@
       "sha256": "377c7c7fb866cdfaee489f95c446cfff7eaa7694a3b991c07245b1ddc1818dac",
       "bytes": 409347,
       "rows": 889
+    },
+    {
+      "role": "paired_window_contrastive_json",
+      "path": "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json",
+      "sha256": "c384eb75c89d84ef2cf117a2a52c9037cf0cb285267d93d50ddf82165668aff7",
+      "bytes": 1390
+    },
+    {
+      "role": "paired_window_contrastive_jsonl",
+      "path": "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+      "sha256": "1526ec4d1a4fee5f514d32af2e9419ccb045c8828bc6bc7ea5a0847011ab1e45",
+      "bytes": 3633828,
+      "rows": 592
     }
   ],
   "expected": {
@@ -131,7 +144,11 @@
     "pair_side_correction_multisplit_group_delta_mean": -0.0019,
     "contrastive_side_correction_seed42_corrected_balanced_accuracy": 0.8504,
     "contrastive_side_correction_multisplit_balanced_delta_mean": -0.0002,
-    "contrastive_side_correction_multisplit_group_delta_mean": -0.0047
+    "contrastive_side_correction_multisplit_group_delta_mean": -0.0047,
+    "paired_window_contrastive_rows": 592,
+    "paired_window_contrastive_label_b_rows": 83,
+    "paired_window_contrastive_high_gap_orientation_inversion_pairs": 44,
+    "paired_window_contrastive_avg_prompt_chars": 2102.1402
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

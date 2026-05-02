@@ -217,3 +217,18 @@ This diagnostic adds hunk/window pseudo-evidence aggregates to the side-correcti
 - Multi-split balanced-accuracy delta mean: `-0.0002`
 - Multi-split group all-correct delta mean: `-0.0047`
 - Interpretation: negative/flat; pseudo-evidence aggregates are insufficient for robust side correction.
+
+## Paired-Window Contrastive Dataset
+
+This generated local artifact is the next model-ready side-correction input. It renders each mixed pair group as an `A/B` comparison where `Side A` is the current high-probability side and `Side B` is the low-probability side. Label `B` therefore means the current high-probability orientation should be inverted.
+
+- Report: `reports/PRIMEVUL_PAIRED_WINDOW_CONTRASTIVE_DATASET.md`
+- JSON: `reports/secure_code_primevul_paired_window_contrastive_eval_v1.json`
+- Local JSONL: `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
+- Input predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Input hunk candidates: `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
+- Rows: `592`
+- Label A / B rows: `509` / `83`
+- High-gap orientation inversion pairs at `gap >= 0.50`: `44`
+- Average prompt length: `2102.1402` characters
+- Interpretation: training/calibration input for an explicit paired-window side model; not an independent performance result or human evidence-span annotation.

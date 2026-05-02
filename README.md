@@ -88,6 +88,7 @@ Important caveat:
 - a confident side-inversion hard-negative set is now defined: `gap >= 0.50` yields `86` rows across `43` pair groups, exactly balanced at `43` FP / `43` FN, with average probability gap `0.8225`
 - a first lightweight pair-side correction gate is a negative/flat ablation: seed42 moves balanced accuracy from `0.8470` to `0.8481`, but five pair-key splits have mean balanced-accuracy delta about `0.0000` and mean group all-correct delta `-0.0019`
 - contrastive pseudo-evidence aggregation is also not enough: adding hunk/window risk-safety features gives five-split balanced-accuracy delta mean `-0.0002` and group all-correct delta mean `-0.0047`, despite a seed42 bump to `0.8504`
+- the next side-correction input is now materialized as a paired-window contrastive dataset: `592` mixed pair groups are rendered as high-probability-side vs low-probability-side examples, with `83` label-`B` orientation inversions and `44` high-gap inversions at `gap >= 0.50`; this is a model-ready hard-negative/calibration artifact, not a new performance result
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -201,6 +202,8 @@ Important boundary result:
   A logistic gate over probability and bucket features can slightly reduce one false positive on seed42, but multi-split analysis is flat: mean balanced-accuracy delta is about `0.0000`, and group all-correct trends slightly negative. This is useful because it rules out a shallow metadata/probability fix and points toward contrastive pair features or model-level hard-negative training.
 - **Hand-built contrastive evidence features are still too weak.**
   Adding hunk/window risk, safety, protection, and direction-count features makes the gate more aggressive but not more reliable. Five-split balanced-accuracy delta is `-0.0002`, and group all-correct delta is `-0.0047`. The implication is clean: the next correction attempt should be an explicit paired-window contrastive model, not another manual feature gate.
+- **The paired-window contrastive target is now concrete.**
+  The new dataset builder converts pair-coupled predictions and top hunk/window candidates into `A/B` side-comparison examples. `Side A` is the current high-probability side, so label `B` directly marks an orientation inversion. This gives the next model a clean target: learn when the current pair-coupled side should be trusted or flipped.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

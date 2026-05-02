@@ -53,6 +53,9 @@ Expected key outputs:
 - pair-side correction seed42 balanced accuracy: `0.8470 -> 0.8481`
 - pair-side correction multi-split balanced-accuracy delta mean: `0.0000`
 - contrastive side-correction multi-split balanced-accuracy delta mean: `-0.0002`
+- paired-window contrastive rows: `592`
+- paired-window label-B orientation inversions: `83`
+- paired-window high-gap orientation inversion pairs: `44`
 
 The exact local inputs and expected generated artifacts are listed in:
 
@@ -81,6 +84,7 @@ These files are intentionally not committed because `data/processed` and `output
 - `data/processed/primevul_candidate_recall_train_v1/hunk_plus_window_candidates.jsonl`
 - `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
 - `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
 
 If a fresh clone is missing these files, the reproduction script fails with a structured missing-artifact report instead of silently producing partial results.
 

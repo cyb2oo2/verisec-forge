@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "rows": 592,
+    "pair_groups_seen": 614,
+    "skipped_small_groups": 22,
+    "skipped_non_mixed_groups": 0,
+    "label_a_rows": 509,
+    "label_b_rows": 83,
+    "pair_coupled_orientation_accuracy": 0.8598,
+    "high_gap_orientation_inversion_pairs": 44,
+    "high_gap_orientation_inversion_rate": 0.0743,
+    "avg_probability_gap": 0.6884,
+    "avg_prompt_chars": 2102.1402,
+    "missing_window_sides": 0,
+    "top_changed_line_buckets": [
+      [
+        "03-05",
+        157
+      ],
+      [
+        "00-02",
+        156
+      ],
+      [
+        "06-10",
+        133
+      ],
+      [
+        "11-25",
+        92
+      ],
+      [
+        "26+",
+        54
+      ]
+    ],
+    "top_projects": [
+      [
+        "tensorflow",
+        87
+      ],
+      [
+        "linux",
+        78
+      ],
+      [
+        "vim",
+        28
+      ],
+      [
+        "gpac",
+        24
+      ],
+      [
+        "php-src",
+        18
+      ],
+      [
+        "ImageMagick",
+        13
+      ],
+      [
+        "FreeRDP",
+        12
+      ],
+      [
+        "ImageMagick6",
+        7
+      ],
+      [
+        "pjproject",
+        7
+      ],
+      [
+        "Pillow",
+        6
+      ]
+    ],
+    "top_vulnerability_types": [],
+    "config": {
+      "top_windows": 3,
+      "confident_gap": 0.5
+    }
+  }
+}
