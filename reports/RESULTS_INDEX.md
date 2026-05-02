@@ -122,6 +122,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Hunk+Window Linear Scorer JSON`: `reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json`
 - `Paired Diff Predicted-Side Hunk Scorer`: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`
 - `Paired Diff Predicted-Side Hunk Scorer JSON`: `reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json`
+- `Paired Diff Predicted-Side Failure Taxonomy`: `reports/PRIMEVUL_PREDICTED_SIDE_FAILURE_TAXONOMY.md`
+- `Paired Diff Predicted-Side Failure Taxonomy JSON`: `reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`

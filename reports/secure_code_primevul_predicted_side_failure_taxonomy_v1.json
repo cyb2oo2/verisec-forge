@@ -1,0 +1,804 @@
+{
+  "summary": {
+    "matched_sources": 1257,
+    "correct_sources": 1067,
+    "wrong_sources": 190,
+    "side_accuracy": 0.8488,
+    "false_positives": 95,
+    "false_negatives": 95,
+    "top_hunk_positive_rate_wrong": 0.0632,
+    "top_hunk_positive_rate_correct": 0.761
+  },
+  "wrong_breakdowns": {
+    "by_mistake_type": [
+      {
+        "value": "false_positive",
+        "count": 95
+      },
+      {
+        "value": "false_negative",
+        "count": 95
+      }
+    ],
+    "by_changed_line_bucket": [
+      {
+        "value": "00-02",
+        "count": 59
+      },
+      {
+        "value": "03-05",
+        "count": 45
+      },
+      {
+        "value": "11-25",
+        "count": 38
+      },
+      {
+        "value": "06-10",
+        "count": 27
+      },
+      {
+        "value": "26+",
+        "count": 21
+      }
+    ],
+    "by_gap_bucket": [
+      {
+        "value": "50+",
+        "count": 86
+      },
+      {
+        "value": "20-50",
+        "count": 36
+      },
+      {
+        "value": "00-02",
+        "count": 25
+      },
+      {
+        "value": "05-10",
+        "count": 21
+      },
+      {
+        "value": "10-20",
+        "count": 14
+      },
+      {
+        "value": "02-05",
+        "count": 8
+      }
+    ],
+    "by_project": [
+      {
+        "value": "linux",
+        "count": 35
+      },
+      {
+        "value": "tensorflow",
+        "count": 17
+      },
+      {
+        "value": "php-src",
+        "count": 8
+      },
+      {
+        "value": "vim",
+        "count": 6
+      },
+      {
+        "value": "gpac",
+        "count": 6
+      },
+      {
+        "value": "gst-plugins-good",
+        "count": 4
+      },
+      {
+        "value": "ImageMagick6",
+        "count": 4
+      },
+      {
+        "value": "rizin",
+        "count": 4
+      },
+      {
+        "value": "mruby",
+        "count": 3
+      },
+      {
+        "value": "qpdf",
+        "count": 3
+      },
+      {
+        "value": "FreeRDP",
+        "count": 3
+      },
+      {
+        "value": "libjpeg",
+        "count": 3
+      },
+      {
+        "value": "qemu",
+        "count": 3
+      },
+      {
+        "value": "server",
+        "count": 3
+      },
+      {
+        "value": "libyang",
+        "count": 3
+      },
+      {
+        "value": "wireless-drivers",
+        "count": 2
+      },
+      {
+        "value": "squid",
+        "count": 2
+      },
+      {
+        "value": "ImageMagick",
+        "count": 2
+      },
+      {
+        "value": "gnutls",
+        "count": 2
+      },
+      {
+        "value": "FFmpeg",
+        "count": 2
+      }
+    ],
+    "by_vulnerability_type": [
+      {
+        "value": "cwe-787",
+        "count": 29
+      },
+      {
+        "value": "cwe-416",
+        "count": 20
+      },
+      {
+        "value": "cwe-125",
+        "count": 16
+      },
+      {
+        "value": "cwe-703",
+        "count": 12
+      },
+      {
+        "value": "cwe-415",
+        "count": 10
+      },
+      {
+        "value": "cwe-190",
+        "count": 9
+      },
+      {
+        "value": "cwe-362",
+        "count": 7
+      },
+      {
+        "value": "cwe-189",
+        "count": 6
+      },
+      {
+        "value": "cwe-665",
+        "count": 6
+      },
+      {
+        "value": "cwe-476",
+        "count": 6
+      },
+      {
+        "value": "cwe-401",
+        "count": 6
+      },
+      {
+        "value": "cwe-119",
+        "count": 5
+      },
+      {
+        "value": "cwe-835",
+        "count": 5
+      },
+      {
+        "value": "cwe-400",
+        "count": 4
+      },
+      {
+        "value": "cwe-78",
+        "count": 4
+      },
+      {
+        "value": "cwe-399",
+        "count": 3
+      },
+      {
+        "value": "cwe-200",
+        "count": 3
+      },
+      {
+        "value": "cwe-284",
+        "count": 3
+      },
+      {
+        "value": "cwe-909",
+        "count": 2
+      },
+      {
+        "value": "cwe-20",
+        "count": 2
+      }
+    ],
+    "by_top_direction_label": [
+      {
+        "value": "direction_unclear",
+        "count": 65
+      },
+      {
+        "value": "candidate_adds_protection",
+        "count": 58
+      },
+      {
+        "value": "candidate_removes_protection",
+        "count": 54
+      },
+      {
+        "value": "candidate_removes_risk",
+        "count": 21
+      },
+      {
+        "value": "candidate_introduces_risk",
+        "count": 16
+      }
+    ],
+    "by_route": [
+      {
+        "value": "default",
+        "count": 169
+      },
+      {
+        "value": "bucket",
+        "count": 21
+      }
+    ]
+  },
+  "wrong_examples": [
+    {
+      "source_id": "245427::pairctx",
+      "pair_key": "tensorflow|eccb7ec454e6617738554a255d77f08e60ee0808|CVE-2020-15265",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "tensorflow",
+      "cve": "CVE-2020-15265",
+      "vulnerability_type": "cwe-787",
+      "changed_line_bucket": "26+",
+      "changed_lines": 58,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.6510242074728012,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.8670357465744019,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,52 +1,18 @@   void Compute(OpKernelContext* ctx) override {",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 31,
+      "top_safety_support": 2,
+      "top_score": 273.5867419042874
+    },
+    {
+      "source_id": "196800::pairctx",
+      "pair_key": "tensorflow|eccb7ec454e6617738554a255d77f08e60ee0808|CVE-2020-15265",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "tensorflow",
+      "cve": "CVE-2020-15265",
+      "vulnerability_type": "cwe-787",
+      "changed_line_bucket": "26+",
+      "changed_lines": 58,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.6510242074728012,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.21601153910160065,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,18 +1,52 @@   void Compute(OpKernelContext* ctx) override {",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 2,
+      "top_safety_support": 31,
+      "top_score": 264.9115615085603
+    },
+    {
+      "source_id": "328360::pairctx",
+      "pair_key": "linux|ad9f151e560b016b6ad3280b48e42fa11e1a5440|CVE-2021-46283",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "linux",
+      "cve": "CVE-2021-46283",
+      "vulnerability_type": "cwe-665",
+      "changed_line_bucket": "26+",
+      "changed_lines": 85,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.13690084218978882,
+      "gap_bucket": "10-20",
+      "vuln_probability": 0.8539127111434937,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -193,75 +225,44 @@ ",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 24,
+      "top_safety_support": 0,
+      "top_score": 225.41542146909504
+    },
+    {
+      "source_id": "202069::pairctx",
+      "pair_key": "linux|ad9f151e560b016b6ad3280b48e42fa11e1a5440|CVE-2021-46283",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "linux",
+      "cve": "CVE-2021-46283",
+      "vulnerability_type": "cwe-665",
+      "changed_line_bucket": "26+",
+      "changed_lines": 85,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.13690084218978882,
+      "gap_bucket": "10-20",
+      "vuln_probability": 0.7170118689537048,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -225,44 +193,75 @@ ",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 0,
+      "top_safety_support": 24,
+      "top_score": 218.27816802029724
+    },
+    {
+      "source_id": "220804::pairctx",
+      "pair_key": "tensorflow|2b7100d6cdff36aa21010a82269bc05a6d1cc74a|CVE-2022-21740",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "tensorflow",
+      "cve": "CVE-2022-21740",
+      "vulnerability_type": "cwe-787",
+      "changed_line_bucket": "26+",
+      "changed_lines": 75,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.29219627380371094,
+      "gap_bucket": "20-50",
+      "vuln_probability": 0.9730748534202576,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -19,64 +14,40 @@               \"; values shape: \", values.shape().DebugString()));",
+      "top_direction_labels": [
+        "candidate_removes_protection"
+      ],
+      "top_risk_support": 19,
+      "top_safety_support": 0,
+      "top_score": 178.10004521155693
+    },
+    {
+      "source_id": "400219::pairctx",
+      "pair_key": "openssh-portable|e04fd6dde16de1cdc5a4d9946397ff60d96568db|CVE-2021-28041",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "openssh-portable",
+      "cve": "CVE-2021-28041",
+      "vulnerability_type": "cwe-399",
+      "changed_line_bucket": "26+",
+      "changed_lines": 60,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7687139213085175,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.9053223133087158,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -28,63 +27,44 @@ \t\tcase SSH_AGENT_CONSTRAIN_CONFIRM:",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 22,
+      "top_safety_support": 3,
+      "top_score": 176.8865887326047
+    },
+    {
+      "source_id": "195055::pairctx",
+      "pair_key": "tensorflow|2b7100d6cdff36aa21010a82269bc05a6d1cc74a|CVE-2022-21740",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "tensorflow",
+      "cve": "CVE-2022-21740",
+      "vulnerability_type": "cwe-787",
+      "changed_line_bucket": "26+",
+      "changed_lines": 77,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.29219627380371094,
+      "gap_bucket": "20-50",
+      "vuln_probability": 0.6808785796165466,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -14,40 +19,64 @@               \"; values shape: \", values.shape().DebugString()));",
+      "top_direction_labels": [
+        "candidate_adds_protection"
+      ],
+      "top_risk_support": 0,
+      "top_safety_support": 19,
+      "top_score": 172.52473421694384
+    },
+    {
+      "source_id": "207709::pairctx",
+      "pair_key": "openssh-portable|e04fd6dde16de1cdc5a4d9946397ff60d96568db|CVE-2021-28041",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "openssh-portable",
+      "cve": "CVE-2021-28041",
+      "vulnerability_type": "cwe-399",
+      "changed_line_bucket": "26+",
+      "changed_lines": 60,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7687139213085175,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.13660839200019836,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -27,44 +28,63 @@ \t\tcase SSH_AGENT_CONSTRAIN_CONFIRM:",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 3,
+      "top_safety_support": 22,
+      "top_score": 171.3360754284883
+    },
+    {
+      "source_id": "499640::pairctx",
+      "pair_key": "cpio|dd96882877721703e19272fe25034560b794061b|CVE-2021-38185",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "cpio",
+      "cve": "CVE-2021-38185",
+      "vulnerability_type": "cwe-190",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 22,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.8649315163493156,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.9407896995544434,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,28 +1,20 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 15,
+      "top_safety_support": 1,
+      "top_score": 128.94997678445978
+    },
+    {
+      "source_id": "216101::pairctx",
+      "pair_key": "cpio|dd96882877721703e19272fe25034560b794061b|CVE-2021-38185",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "cpio",
+      "cve": "CVE-2021-38185",
+      "vulnerability_type": "cwe-190",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 22,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.8649315163493156,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.07585818320512772,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,20 +1,28 @@ ds_fgetstr (FILE *f, dynamic_string *s, char eos)",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 1,
+      "top_safety_support": 15,
+      "top_score": 124.89504536460467
+    },
+    {
+      "source_id": "268829::pairctx",
+      "pair_key": "radare2|04edfa82c1f3fa2bc3621ccdad2f93bdbf00e4f9|CVE-2020-15121",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "radare2",
+      "cve": "CVE-2020-15121",
+      "vulnerability_type": "cwe-78",
+      "changed_line_bucket": "26+",
+      "changed_lines": 137,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.24292969703674316,
+      "gap_bucket": "20-50",
+      "vuln_probability": 0.9118099808692932,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,138 +1,73 @@ static int download(struct SPDBDownloader *pd) {",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 30,
+      "top_safety_support": 17,
+      "top_score": 114.1145027513995
+    },
+    {
+      "source_id": "198095::pairctx",
+      "pair_key": "radare2|04edfa82c1f3fa2bc3621ccdad2f93bdbf00e4f9|CVE-2020-15121",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "radare2",
+      "cve": "CVE-2020-15121",
+      "vulnerability_type": "cwe-78",
+      "changed_line_bucket": "26+",
+      "changed_lines": 137,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.24292969703674316,
+      "gap_bucket": "20-50",
+      "vuln_probability": 0.66888028383255,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,73 +1,138 @@ static int download(struct SPDBDownloader *pd) {",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 17,
+      "top_safety_support": 30,
+      "top_score": 110.6898444142897
+    },
+    {
+      "source_id": "417234::pairctx",
+      "pair_key": "gnutls|d223040e498bd50a4b9e0aa493e78587ae1ed653|CVE-2008-1948",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "gnutls",
+      "cve": "CVE-2008-1948",
+      "vulnerability_type": "cwe-189",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 12,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7986482530832291,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.9437636137008667,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -34,15 +34,6 @@     {",
+      "top_direction_labels": [
+        "candidate_removes_protection"
+      ],
+      "top_risk_support": 11,
+      "top_safety_support": 0,
+      "top_score": 101.64802301737627
+    },
+    {
+      "source_id": "224281::pairctx",
+      "pair_key": "squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "squid",
+      "cve": "CVE-2021-46784",
+      "vulnerability_type": "cwe-400",
+      "changed_line_bucket": "26+",
+      "changed_lines": 36,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.19150125980377197,
+      "gap_bucket": "10-20",
+      "vuln_probability": 0.5544704794883728,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -221,37 +219,34 @@                         break;",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 13,
+      "top_safety_support": 1,
+      "top_score": 101.58011919847249
+    },
+    {
+      "source_id": "195309::pairctx",
+      "pair_key": "squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "squid",
+      "cve": "CVE-2021-46784",
+      "vulnerability_type": "cwe-400",
+      "changed_line_bucket": "26+",
+      "changed_lines": 36,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.19150125980377197,
+      "gap_bucket": "10-20",
+      "vuln_probability": 0.36296921968460083,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -219,34 +221,37 @@                         break;",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 1,
+      "top_safety_support": 13,
+      "top_score": 98.61712315904296
+    },
+    {
+      "source_id": "209003::pairctx",
+      "pair_key": "gnutls|d223040e498bd50a4b9e0aa493e78587ae1ed653|CVE-2008-1948",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "gnutls",
+      "cve": "CVE-2008-1948",
+      "vulnerability_type": "cwe-189",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 12,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7986482530832291,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.14511536061763763,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -34,6 +34,15 @@     {",
+      "top_direction_labels": [
+        "candidate_adds_protection"
+      ],
+      "top_risk_support": 0,
+      "top_safety_support": 11,
+      "top_score": 98.451303534243
+    },
+    {
+      "source_id": "381036::pairctx",
+      "pair_key": "ImageMagick6|3456724dff047db5adb32f8cf70c903c1b7d16d4|CVE-2020-10251",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "ImageMagick6",
+      "cve": "CVE-2020-10251",
+      "vulnerability_type": "cwe-125",
+      "changed_line_bucket": "26+",
+      "changed_lines": 34,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7379980534315109,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.915808916091919,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -225,23 +227,19 @@       file_data=RelinquishMagickMemory(file_data); [changed-window 6]",
+      "top_direction_labels": [
+        "candidate_removes_protection"
+      ],
+      "top_risk_support": 8,
+      "top_safety_support": 0,
+      "top_score": 74.07944594367451
+    },
+    {
+      "source_id": "206422::pairctx",
+      "pair_key": "ImageMagick6|3456724dff047db5adb32f8cf70c903c1b7d16d4|CVE-2020-10251",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "ImageMagick6",
+      "cve": "CVE-2020-10251",
+      "vulnerability_type": "cwe-125",
+      "changed_line_bucket": "26+",
+      "changed_lines": 46,
+      "route": "bucket",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7379980534315109,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.17781086266040802,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -217,29 +217,31 @@   else [changed-window 35]",
+      "top_direction_labels": [
+        "candidate_adds_protection"
+      ],
+      "top_risk_support": 0,
+      "top_safety_support": 8,
+      "top_score": 71.88636243553044
+    },
+    {
+      "source_id": "432423::pairctx",
+      "pair_key": "linux|d80b64ff297e40c2b6f7d7abc1b3eba70d22a068|CVE-2020-12768",
+      "gold": 0,
+      "pred": 1,
+      "mistake_type": "false_positive",
+      "project": "linux",
+      "cve": "CVE-2020-12768",
+      "vulnerability_type": "cwe-401",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 13,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7286156713962555,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.8652240633964539,
+      "pre_coupled_pred": 1,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,32 +1,31 @@ static int svm_cpu_init(int cpu)",
+      "top_direction_labels": [
+        "candidate_removes_protection",
+        "candidate_introduces_risk"
+      ],
+      "top_risk_support": 8,
+      "top_safety_support": 0,
+      "top_score": 71.82572161689666
+    },
+    {
+      "source_id": "210296::pairctx",
+      "pair_key": "linux|d80b64ff297e40c2b6f7d7abc1b3eba70d22a068|CVE-2020-12768",
+      "gold": 1,
+      "pred": 0,
+      "mistake_type": "false_negative",
+      "project": "linux",
+      "cve": "CVE-2020-12768",
+      "vulnerability_type": "cwe-401",
+      "changed_line_bucket": "11-25",
+      "changed_lines": 13,
+      "route": "default",
+      "pair_coupled": true,
+      "pair_probability_gap": 0.7286156713962555,
+      "gap_bucket": "50+",
+      "vuln_probability": 0.13660839200019836,
+      "pre_coupled_pred": 0,
+      "top_pseudo_label": 0,
+      "top_header": "@@ -1,31 +1,32 @@ static int svm_cpu_init(int cpu)",
+      "top_direction_labels": [
+        "candidate_adds_protection",
+        "candidate_removes_risk"
+      ],
+      "top_risk_support": 0,
+      "top_safety_support": 8,
+      "top_score": 69.63698280103513
+    }
+  ]
+}

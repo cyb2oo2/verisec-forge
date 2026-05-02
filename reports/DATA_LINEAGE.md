@@ -159,3 +159,18 @@ This report reuses the side-aware hunk+window scorer but replaces gold-side alig
 - Pair-coupled predicted-side top-1 coverage: `0.6555`
 - Correct-side top-1 coverage: `0.7610`
 - Wrong-side top-1 coverage: `0.0632`
+
+## Predicted-Side Failure Taxonomy
+
+This report analyzes the source rows where pair-coupled predicted side disagrees with gold side, then inspects the top hunk selected by the predicted-side localizer.
+
+- Report: `reports/PRIMEVUL_PREDICTED_SIDE_FAILURE_TAXONOMY.md`
+- JSON: `reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json`
+- Scored hunks: `outputs/secure_code_primevul_predicted_side_hunk_scorer_eval_v1.jsonl`
+- Predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Wrong sources: `190`
+- False positives / false negatives: `95` / `95`
+- Largest wrong changed-line bucket: `00-02` with `59`
+- Largest wrong probability-gap bucket: `50+` with `86`
+- Wrong top-hunk positive rate: `0.0632`
+- Correct top-hunk positive rate: `0.7610`
