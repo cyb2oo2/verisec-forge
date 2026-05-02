@@ -247,6 +247,32 @@ def commands() -> list[list[str]]:
             "--summary-md",
             "reports/PRIMEVUL_PAIRED_WINDOW_CONTRASTIVE_DATASET.md",
         ],
+        [
+            py,
+            "scripts/evaluate_primevul_paired_window_side_model.py",
+            "--input",
+            "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.01",
+            "--l2",
+            "0.0001",
+            "--positive-weight",
+            "8.0",
+            "--thresholds",
+            "0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9",
+            "--selector",
+            "balanced_accuracy",
+            "--json-output",
+            "reports/secure_code_primevul_paired_window_side_model_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_PAIRED_WINDOW_SIDE_MODEL.md",
+        ],
     ]
 
 
@@ -263,6 +289,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     correction_multisplit = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json")
     contrastive = read_json(REPO_ROOT / "reports/secure_code_primevul_contrastive_side_correction_v1.json")
     paired_window = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json")
+    side_model = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_side_model_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -295,6 +322,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
             "high_gap_orientation_inversion_pairs"
         ],
         "paired_window_contrastive_avg_prompt_chars": paired_window["summary"]["avg_prompt_chars"],
+        "paired_window_side_model_balanced_accuracy_mean": side_model["summary"]["eval_balanced_accuracy"]["mean"],
+        "paired_window_side_model_balanced_delta_mean": side_model["summary"]["balanced_accuracy_delta_vs_always_a"][
+            "mean"
+        ],
+        "paired_window_side_model_label_b_recall_mean": side_model["summary"]["label_b_recall"]["mean"],
     }
     checks = {
         key: {

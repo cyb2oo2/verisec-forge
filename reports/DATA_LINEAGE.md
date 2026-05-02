@@ -232,3 +232,18 @@ This generated local artifact is the next model-ready side-correction input. It 
 - High-gap orientation inversion pairs at `gap >= 0.50`: `44`
 - Average prompt length: `2102.1402` characters
 - Interpretation: training/calibration input for an explicit paired-window side model; not an independent performance result or human evidence-span annotation.
+
+## Paired-Window Side Model
+
+This is the first dependency-free model trained on the paired-window contrastive artifact. It is a signal check before GPU-backed side-model training.
+
+- Report: `reports/PRIMEVUL_PAIRED_WINDOW_SIDE_MODEL.md`
+- JSON: `reports/secure_code_primevul_paired_window_side_model_v1.json`
+- Input: `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
+- Protocol: five pair-key calibration/eval splits with seeds `7,13,42,99,123`
+- Always-A baseline accuracy / balanced accuracy: `0.8598` / `0.5000`
+- Model eval accuracy mean: `0.7328`
+- Model eval balanced accuracy mean: `0.6065`
+- Balanced-accuracy delta vs always-A mean: `+0.1065`
+- Label-B inversion recall mean: `0.4367`
+- Interpretation: side inversion signal exists, but the lightweight model over-flips correct high-probability sides and should not replace pair-coupled decoding yet.

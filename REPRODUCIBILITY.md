@@ -56,6 +56,8 @@ Expected key outputs:
 - paired-window contrastive rows: `592`
 - paired-window label-B orientation inversions: `83`
 - paired-window high-gap orientation inversion pairs: `44`
+- paired-window side-model balanced accuracy mean: `0.6065`
+- paired-window side-model label-B recall mean: `0.4367`
 
 The exact local inputs and expected generated artifacts are listed in:
 
