@@ -1,0 +1,485 @@
+{
+  "config": {
+    "min_gap": 0.5,
+    "top_n": 20
+  },
+  "summary": {
+    "rows": 86,
+    "pair_groups": 43,
+    "false_positives": 43,
+    "false_negatives": 43,
+    "avg_gap": 0.8225,
+    "min_gap_observed": 0.5423,
+    "max_gap_observed": 0.9836
+  },
+  "breakdowns": {
+    "by_mistake_type": [
+      {
+        "value": "false_negative",
+        "count": 43
+      },
+      {
+        "value": "false_positive",
+        "count": 43
+      }
+    ],
+    "by_changed_line_bucket": [
+      {
+        "value": "03-05",
+        "count": 24
+      },
+      {
+        "value": "11-25",
+        "count": 22
+      },
+      {
+        "value": "06-10",
+        "count": 18
+      },
+      {
+        "value": "00-02",
+        "count": 16
+      },
+      {
+        "value": "26+",
+        "count": 6
+      }
+    ],
+    "by_project": [
+      {
+        "value": "linux",
+        "count": 16
+      },
+      {
+        "value": "tensorflow",
+        "count": 10
+      },
+      {
+        "value": "php-src",
+        "count": 6
+      },
+      {
+        "value": "vim",
+        "count": 4
+      },
+      {
+        "value": "gpac",
+        "count": 4
+      },
+      {
+        "value": "ImageMagick6",
+        "count": 4
+      },
+      {
+        "value": "electron",
+        "count": 2
+      },
+      {
+        "value": "src",
+        "count": 2
+      },
+      {
+        "value": "mruby",
+        "count": 2
+      },
+      {
+        "value": "wireless-drivers",
+        "count": 2
+      },
+      {
+        "value": "shapelib",
+        "count": 2
+      },
+      {
+        "value": "gst-plugins-good",
+        "count": 2
+      },
+      {
+        "value": "bash",
+        "count": 2
+      },
+      {
+        "value": "ceph",
+        "count": 2
+      },
+      {
+        "value": "njs",
+        "count": 2
+      },
+      {
+        "value": "neomutt",
+        "count": 2
+      },
+      {
+        "value": "cpio",
+        "count": 2
+      },
+      {
+        "value": "util-linux",
+        "count": 2
+      },
+      {
+        "value": "rizin",
+        "count": 2
+      },
+      {
+        "value": "gnutls",
+        "count": 2
+      }
+    ],
+    "by_vulnerability_type": [
+      {
+        "value": "cwe-787",
+        "count": 12
+      },
+      {
+        "value": "cwe-703",
+        "count": 10
+      },
+      {
+        "value": "cwe-415",
+        "count": 8
+      },
+      {
+        "value": "cwe-416",
+        "count": 8
+      },
+      {
+        "value": "cwe-125",
+        "count": 8
+      },
+      {
+        "value": "cwe-476",
+        "count": 4
+      },
+      {
+        "value": "cwe-119",
+        "count": 4
+      },
+      {
+        "value": "cwe-401",
+        "count": 4
+      },
+      {
+        "value": "cwe-190",
+        "count": 4
+      },
+      {
+        "value": "cwe-189",
+        "count": 4
+      },
+      {
+        "value": "cwe-284",
+        "count": 2
+      },
+      {
+        "value": "cwe-122",
+        "count": 2
+      },
+      {
+        "value": "cwe-835",
+        "count": 2
+      },
+      {
+        "value": "cwe-400",
+        "count": 2
+      },
+      {
+        "value": "cwe-399",
+        "count": 2
+      },
+      {
+        "value": "cwe-824",
+        "count": 2
+      },
+      {
+        "value": "cwe-362",
+        "count": 2
+      },
+      {
+        "value": "cwe-252",
+        "count": 2
+      },
+      {
+        "value": "cwe-78",
+        "count": 2
+      },
+      {
+        "value": "cwe-200",
+        "count": 2
+      }
+    ],
+    "by_route": [
+      {
+        "value": "default",
+        "count": 80
+      },
+      {
+        "value": "bucket",
+        "count": 6
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "198143::pairctx",
+      "pair_key": "electron|18613925610ba319da7f497b6deed85ad712c59b|CVE-2020-15174",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9835758851841092,
+      "changed_line_bucket": "06-10",
+      "project": "electron",
+      "vulnerability_type": "cwe-284",
+      "cve": "CVE-2020-15174",
+      "file_name": "None"
+    },
+    {
+      "id": "269738::pairctx",
+      "pair_key": "electron|18613925610ba319da7f497b6deed85ad712c59b|CVE-2020-15174",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9835758851841092,
+      "changed_line_bucket": "06-10",
+      "project": "electron",
+      "vulnerability_type": "cwe-284",
+      "cve": "CVE-2020-15174",
+      "file_name": "None"
+    },
+    {
+      "id": "206676::pairctx",
+      "pair_key": "vim|777e7c21b7627be80961848ac560cb0a9978ff43|CVE-2021-3903",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9815975530073047,
+      "changed_line_bucket": "00-02",
+      "project": "vim",
+      "vulnerability_type": "cwe-122",
+      "cve": "CVE-2021-3903",
+      "file_name": "move.c"
+    },
+    {
+      "id": "384767::pairctx",
+      "pair_key": "vim|777e7c21b7627be80961848ac560cb0a9978ff43|CVE-2021-3903",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9815975530073047,
+      "changed_line_bucket": "00-02",
+      "project": "vim",
+      "vulnerability_type": "cwe-122",
+      "cve": "CVE-2021-3903",
+      "file_name": "move.c"
+    },
+    {
+      "id": "421514::pairctx",
+      "pair_key": "src|6c3220444ed06b5796dedfd53a0f4becd903c0d1|CVE-2020-35680",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9750915602780879,
+      "changed_line_bucket": "03-05",
+      "project": "src",
+      "vulnerability_type": "cwe-476",
+      "cve": "CVE-2020-35680",
+      "file_name": "lka_filter.c"
+    },
+    {
+      "id": "209807::pairctx",
+      "pair_key": "src|6c3220444ed06b5796dedfd53a0f4becd903c0d1|CVE-2020-35680",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9750915602780879,
+      "changed_line_bucket": "03-05",
+      "project": "src",
+      "vulnerability_type": "cwe-476",
+      "cve": "CVE-2020-35680",
+      "file_name": "lka_filter.c"
+    },
+    {
+      "id": "274032::pairctx",
+      "pair_key": "mruby|97319697c8f9f6ff27b32589947e1918e3015503|CVE-2020-36401",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9651670968160033,
+      "changed_line_bucket": "00-02",
+      "project": "mruby",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2020-36401",
+      "file_name": "gc.c"
+    },
+    {
+      "id": "198402::pairctx",
+      "pair_key": "mruby|97319697c8f9f6ff27b32589947e1918e3015503|CVE-2020-36401",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9651670968160033,
+      "changed_line_bucket": "00-02",
+      "project": "mruby",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2020-36401",
+      "file_name": "gc.c"
+    },
+    {
+      "id": "195073::pairctx",
+      "pair_key": "tensorflow|e746adbfcfee15e9cfdb391ff746c765b99bdf9b|CVE-2022-23584",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9642320824787021,
+      "changed_line_bucket": "00-02",
+      "project": "tensorflow",
+      "vulnerability_type": "cwe-416",
+      "cve": "CVE-2022-23584",
+      "file_name": "decode_image_op.cc"
+    },
+    {
+      "id": "221123::pairctx",
+      "pair_key": "tensorflow|e746adbfcfee15e9cfdb391ff746c765b99bdf9b|CVE-2022-23584",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9642320824787021,
+      "changed_line_bucket": "00-02",
+      "project": "tensorflow",
+      "vulnerability_type": "cwe-416",
+      "cve": "CVE-2022-23584",
+      "file_name": "decode_image_op.cc"
+    },
+    {
+      "id": "242619::pairctx",
+      "pair_key": "tensorflow|cebe3c45d76357d201c65bdbbf0dbe6e8a63bbdb|CVE-2022-29195",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9621476288884878,
+      "changed_line_bucket": "03-05",
+      "project": "tensorflow",
+      "vulnerability_type": "cwe-703",
+      "cve": "CVE-2022-29195",
+      "file_name": "stage_op.cc"
+    },
+    {
+      "id": "196689::pairctx",
+      "pair_key": "tensorflow|cebe3c45d76357d201c65bdbbf0dbe6e8a63bbdb|CVE-2022-29195",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9621476288884878,
+      "changed_line_bucket": "03-05",
+      "project": "tensorflow",
+      "vulnerability_type": "cwe-703",
+      "cve": "CVE-2022-29195",
+      "file_name": "stage_op.cc"
+    },
+    {
+      "id": "318099::pairctx",
+      "pair_key": "wireless-drivers|8b51dc7291473093c821195c4b6af85fadedbc2f|CVE-2019-15504",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9589868132025003,
+      "changed_line_bucket": "00-02",
+      "project": "wireless-drivers",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2019-15504",
+      "file_name": "rsi_91x_usb.c"
+    },
+    {
+      "id": "201353::pairctx",
+      "pair_key": "wireless-drivers|8b51dc7291473093c821195c4b6af85fadedbc2f|CVE-2019-15504",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9589868132025003,
+      "changed_line_bucket": "00-02",
+      "project": "wireless-drivers",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2019-15504",
+      "file_name": "rsi_91x_usb.c"
+    },
+    {
+      "id": "437003::pairctx",
+      "pair_key": "linux|04c9b00ba83594a29813d6b1fb8fdc93a3915174|CVE-2022-28389",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.954052871093154,
+      "changed_line_bucket": "00-02",
+      "project": "linux",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2022-28389",
+      "file_name": "mcba_usb.c"
+    },
+    {
+      "id": "210527::pairctx",
+      "pair_key": "linux|04c9b00ba83594a29813d6b1fb8fdc93a3915174|CVE-2022-28389",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.954052871093154,
+      "changed_line_bucket": "00-02",
+      "project": "linux",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2022-28389",
+      "file_name": "mcba_usb.c"
+    },
+    {
+      "id": "204073::pairctx",
+      "pair_key": "shapelib|c75b9281a5b9452d92e1682bdfe6019a13ed819f|CVE-2022-0699",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9509282493963838,
+      "changed_line_bucket": "00-02",
+      "project": "shapelib",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2022-0699",
+      "file_name": "shpsort.c"
+    },
+    {
+      "id": "351182::pairctx",
+      "pair_key": "shapelib|c75b9281a5b9452d92e1682bdfe6019a13ed819f|CVE-2022-0699",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9509282493963838,
+      "changed_line_bucket": "00-02",
+      "project": "shapelib",
+      "vulnerability_type": "cwe-415",
+      "cve": "CVE-2022-0699",
+      "file_name": "shpsort.c"
+    },
+    {
+      "id": "215038::pairctx",
+      "pair_key": "gst-plugins-good|b31c504645a814c59d91d49e4fe218acaf93f4ca|CVE-2016-9810",
+      "mistake_type": "false_negative",
+      "gold": 1,
+      "pred": 0,
+      "pair_probability_gap": 0.9438795056194067,
+      "changed_line_bucket": "00-02",
+      "project": "gst-plugins-good",
+      "vulnerability_type": "cwe-125",
+      "cve": "CVE-2016-9810",
+      "file_name": "gstflxdec.c"
+    },
+    {
+      "id": "482692::pairctx",
+      "pair_key": "gst-plugins-good|b31c504645a814c59d91d49e4fe218acaf93f4ca|CVE-2016-9810",
+      "mistake_type": "false_positive",
+      "gold": 0,
+      "pred": 1,
+      "pair_probability_gap": 0.9438795056194067,
+      "changed_line_bucket": "00-02",
+      "project": "gst-plugins-good",
+      "vulnerability_type": "cwe-125",
+      "cve": "CVE-2016-9810",
+      "file_name": "gstflxdec.c"
+    }
+  ]
+}

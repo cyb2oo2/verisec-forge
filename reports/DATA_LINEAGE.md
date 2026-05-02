@@ -174,3 +174,18 @@ This report analyzes the source rows where pair-coupled predicted side disagrees
 - Largest wrong probability-gap bucket: `50+` with `86`
 - Wrong top-hunk positive rate: `0.0632`
 - Correct top-hunk positive rate: `0.7610`
+
+## Confident Side-Inversion Set
+
+This local artifact extracts high-confidence pair-side mistakes for calibration and hard-negative mining. The JSONL is a generated data artifact under `data/processed` and is intentionally not part of the tracked source tree by default.
+
+- Report: `reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md`
+- JSON summary: `reports/secure_code_primevul_confident_side_inversions_gap50_v1.json`
+- Local JSONL: `data/processed/secure_code_primevul_confident_side_inversions_gap50_v1.jsonl`
+- Source eval rows: `data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl`
+- Predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Selection rule: `pred != gold` and `pair_probability_gap >= 0.50`
+- Rows: `86`
+- Pair groups: `43`
+- False positives / false negatives: `43` / `43`
+- Average probability gap: `0.8225`
