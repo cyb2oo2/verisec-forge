@@ -86,6 +86,7 @@ Important caveat:
 - the first predicted-side propagation check is healthy but revealing: on pair-coupled matched rows, oracle side-aware top-1 coverage is `0.7184`, pair-coupled predicted-side top-1 coverage is `0.6555`, and side-correct rows reach `0.7610` while side-wrong rows fall to `0.0632`
 - predicted-side failure taxonomy shows the remaining side errors are balanced (`95` FP / `95` FN), concentrated in small diffs (`00-02`: `59`) and high-gap confident mistakes (`50+`: `86`), with top-hunk positive rate only `0.0632` on wrong-side rows
 - a confident side-inversion hard-negative set is now defined: `gap >= 0.50` yields `86` rows across `43` pair groups, exactly balanced at `43` FP / `43` FN, with average probability gap `0.8225`
+- a first lightweight pair-side correction gate is a negative/flat ablation: seed42 moves balanced accuracy from `0.8470` to `0.8481`, but five pair-key splits have mean balanced-accuracy delta about `0.0000` and mean group all-correct delta `-0.0019`
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -195,6 +196,8 @@ Important boundary result:
   The `190` side-wrong rows split evenly into `95` false positives and `95` false negatives. Many are confident pair decisions rather than margin-only mistakes: `86` have probability gap `>=0.50`. Because wrong-side top hunks almost never match the gold pseudo-label (`0.0632`), the next improvement should target side-decision calibration and hard paired negatives before another localizer reranker.
 - **Confident inversions are now a concrete training target.**
   The `gap >= 0.50` subset has `86` rows from `43` paired groups, balanced at `43` false positives and `43` false negatives. This is not a new benchmark split because it is selected from current failures; it is a hard-negative calibration set for the next pair-side decision experiment.
+- **Cheap pair-side correction is not enough.**
+  A logistic gate over probability and bucket features can slightly reduce one false positive on seed42, but multi-split analysis is flat: mean balanced-accuracy delta is about `0.0000`, and group all-correct trends slightly negative. This is useful because it rules out a shallow metadata/probability fix and points toward contrastive pair features or model-level hard-negative training.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

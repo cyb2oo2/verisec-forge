@@ -189,3 +189,18 @@ This local artifact extracts high-confidence pair-side mistakes for calibration 
 - Pair groups: `43`
 - False positives / false negatives: `43` / `43`
 - Average probability gap: `0.8225`
+
+## Pair-Side Correction Gate
+
+This diagnostic trains a lightweight correction gate on pair-key calibration groups. If a held-out group is predicted as inversion-prone, it falls back from pair-coupled labels to pre-coupled predictions.
+
+- Single-split report: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_GATE.md`
+- Single-split JSON: `reports/secure_code_primevul_pair_side_correction_gate_v1.json`
+- Multi-split report: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md`
+- Multi-split JSON: `reports/secure_code_primevul_pair_side_correction_multisplit_v1.json`
+- Input predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Seed42 balanced accuracy: baseline `0.8470`, correction `0.8481`
+- Seed42 gated groups: `6`
+- Multi-split balanced-accuracy delta mean: `0.0000`
+- Multi-split group all-correct delta mean: `-0.0019`
+- Interpretation: flat/negative diagnostic; richer contrastive features are needed.

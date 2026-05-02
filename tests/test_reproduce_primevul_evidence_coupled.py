@@ -31,6 +31,11 @@ def test_metric_check_reads_expected_report_values() -> None:
         "confident_inversion_false_positives": 43,
         "confident_inversion_false_negatives": 43,
         "confident_inversion_avg_gap": 0.8225,
+        "pair_side_correction_seed42_baseline_balanced_accuracy": 0.847,
+        "pair_side_correction_seed42_corrected_balanced_accuracy": 0.8481,
+        "pair_side_correction_seed42_gated_groups": 6,
+        "pair_side_correction_multisplit_balanced_delta_mean": -0.0,
+        "pair_side_correction_multisplit_group_delta_mean": -0.0019,
     }
 
     checks = module.metric_check(expected)

@@ -126,6 +126,10 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Predicted-Side Failure Taxonomy JSON`: `reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json`
 - `Paired Diff Confident Side-Inversion Set`: `reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md`
 - `Paired Diff Confident Side-Inversion Set JSON`: `reports/secure_code_primevul_confident_side_inversions_gap50_v1.json`
+- `Paired Diff Pair-Side Correction Gate`: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_GATE.md`
+- `Paired Diff Pair-Side Correction Gate JSON`: `reports/secure_code_primevul_pair_side_correction_gate_v1.json`
+- `Paired Diff Pair-Side Correction Multi-Split`: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md`
+- `Paired Diff Pair-Side Correction Multi-Split JSON`: `reports/secure_code_primevul_pair_side_correction_multisplit_v1.json`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`

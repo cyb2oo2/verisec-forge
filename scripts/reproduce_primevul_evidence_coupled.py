@@ -151,6 +151,56 @@ def commands() -> list[list[str]]:
             "--summary-md",
             "reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md",
         ],
+        [
+            py,
+            "scripts/evaluate_primevul_pair_side_correction.py",
+            "--predictions",
+            "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+            "--calibration-fraction",
+            "0.3",
+            "--seed",
+            "42",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.05",
+            "--l2",
+            "0.0001",
+            "--thresholds",
+            "0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9",
+            "--selector",
+            "balanced_accuracy",
+            "--json-output",
+            "reports/secure_code_primevul_pair_side_correction_gate_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_PAIR_SIDE_CORRECTION_GATE.md",
+            "--predictions-output",
+            "outputs/secure_code_primevul_pair_side_correction_gate_v1_predictions.jsonl",
+        ],
+        [
+            py,
+            "scripts/analyze_primevul_pair_side_correction_multisplit.py",
+            "--predictions",
+            "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.05",
+            "--l2",
+            "0.0001",
+            "--thresholds",
+            "0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9",
+            "--selector",
+            "balanced_accuracy",
+            "--json-output",
+            "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md",
+        ],
     ]
 
 
@@ -163,6 +213,8 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     predicted = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json")
     taxonomy = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json")
     inversions = read_json(REPO_ROOT / "reports/secure_code_primevul_confident_side_inversions_gap50_v1.json")
+    correction = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_gate_v1.json")
+    correction_multisplit = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -179,6 +231,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "confident_inversion_false_positives": inversions["summary"]["false_positives"],
         "confident_inversion_false_negatives": inversions["summary"]["false_negatives"],
         "confident_inversion_avg_gap": inversions["summary"]["avg_gap"],
+        "pair_side_correction_seed42_baseline_balanced_accuracy": correction["eval"]["baseline_pair_coupled"]["overall"]["balanced_accuracy"],
+        "pair_side_correction_seed42_corrected_balanced_accuracy": correction["eval"]["corrected"]["overall"]["balanced_accuracy"],
+        "pair_side_correction_seed42_gated_groups": correction["eval"]["corrected"]["gate_counts"]["gated_groups"],
+        "pair_side_correction_multisplit_balanced_delta_mean": correction_multisplit["summary"]["balanced_accuracy_delta"]["mean"],
+        "pair_side_correction_multisplit_group_delta_mean": correction_multisplit["summary"]["group_all_correct_delta"]["mean"],
     }
     checks = {
         key: {
