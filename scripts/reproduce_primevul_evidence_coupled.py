@@ -201,6 +201,34 @@ def commands() -> list[list[str]]:
             "--md-output",
             "reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md",
         ],
+        [
+            py,
+            "scripts/evaluate_primevul_contrastive_side_correction.py",
+            "--predictions",
+            "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+            "--hunk-candidates",
+            "data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.01",
+            "--l2",
+            "0.0001",
+            "--thresholds",
+            "0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9",
+            "--selector",
+            "balanced_accuracy",
+            "--json-output",
+            "reports/secure_code_primevul_contrastive_side_correction_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_CONTRASTIVE_SIDE_CORRECTION.md",
+            "--predictions-output",
+            "outputs/secure_code_primevul_contrastive_side_correction_seed42_v1_predictions.jsonl",
+        ],
     ]
 
 
@@ -215,6 +243,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     inversions = read_json(REPO_ROOT / "reports/secure_code_primevul_confident_side_inversions_gap50_v1.json")
     correction = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_gate_v1.json")
     correction_multisplit = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json")
+    contrastive = read_json(REPO_ROOT / "reports/secure_code_primevul_contrastive_side_correction_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -236,6 +265,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "pair_side_correction_seed42_gated_groups": correction["eval"]["corrected"]["gate_counts"]["gated_groups"],
         "pair_side_correction_multisplit_balanced_delta_mean": correction_multisplit["summary"]["balanced_accuracy_delta"]["mean"],
         "pair_side_correction_multisplit_group_delta_mean": correction_multisplit["summary"]["group_all_correct_delta"]["mean"],
+        "contrastive_side_correction_seed42_corrected_balanced_accuracy": [
+            row for row in contrastive["seed_reports"] if row["seed"] == 42
+        ][0]["corrected_balanced_accuracy"],
+        "contrastive_side_correction_multisplit_balanced_delta_mean": contrastive["summary"]["balanced_accuracy_delta"]["mean"],
+        "contrastive_side_correction_multisplit_group_delta_mean": contrastive["summary"]["group_all_correct_delta"]["mean"],
     }
     checks = {
         key: {

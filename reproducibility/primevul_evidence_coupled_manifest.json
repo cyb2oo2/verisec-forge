@@ -93,6 +93,19 @@
       "path": "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json",
       "sha256": "5b2714048d49fe14e71b9995cbd63efc420ea3689d2a8663bc01ec4b4f474be8",
       "bytes": 3678
+    },
+    {
+      "role": "contrastive_side_correction_json",
+      "path": "reports/secure_code_primevul_contrastive_side_correction_v1.json",
+      "sha256": "9a50e09834fbe7c05387e0e9ec25495bc6a2baf0eddf31c03aa5c897a6e3cefa",
+      "bytes": 3044
+    },
+    {
+      "role": "contrastive_side_correction_predictions",
+      "path": "outputs/secure_code_primevul_contrastive_side_correction_seed42_v1_predictions.jsonl",
+      "sha256": "377c7c7fb866cdfaee489f95c446cfff7eaa7694a3b991c07245b1ddc1818dac",
+      "bytes": 409347,
+      "rows": 889
     }
   ],
   "expected": {
@@ -115,7 +128,10 @@
     "pair_side_correction_seed42_corrected_balanced_accuracy": 0.8481,
     "pair_side_correction_seed42_gated_groups": 6,
     "pair_side_correction_multisplit_balanced_delta_mean": -0.0,
-    "pair_side_correction_multisplit_group_delta_mean": -0.0019
+    "pair_side_correction_multisplit_group_delta_mean": -0.0019,
+    "contrastive_side_correction_seed42_corrected_balanced_accuracy": 0.8504,
+    "contrastive_side_correction_multisplit_balanced_delta_mean": -0.0002,
+    "contrastive_side_correction_multisplit_group_delta_mean": -0.0047
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

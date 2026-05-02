@@ -204,3 +204,16 @@ This diagnostic trains a lightweight correction gate on pair-key calibration gro
 - Multi-split balanced-accuracy delta mean: `0.0000`
 - Multi-split group all-correct delta mean: `-0.0019`
 - Interpretation: flat/negative diagnostic; richer contrastive features are needed.
+
+## Contrastive Side-Correction
+
+This diagnostic adds hunk/window pseudo-evidence aggregates to the side-correction gate, comparing the high-probability and low-probability sides inside each pair group.
+
+- Report: `reports/PRIMEVUL_CONTRASTIVE_SIDE_CORRECTION.md`
+- JSON: `reports/secure_code_primevul_contrastive_side_correction_v1.json`
+- Input predictions: `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
+- Input hunk candidates: `data/processed/primevul_candidate_recall_eval_v1/hunk_plus_window_candidates.jsonl`
+- Seed42 balanced accuracy: baseline `0.8470`, correction `0.8504`
+- Multi-split balanced-accuracy delta mean: `-0.0002`
+- Multi-split group all-correct delta mean: `-0.0047`
+- Interpretation: negative/flat; pseudo-evidence aggregates are insufficient for robust side correction.

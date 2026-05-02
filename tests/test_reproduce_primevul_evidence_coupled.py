@@ -36,6 +36,9 @@ def test_metric_check_reads_expected_report_values() -> None:
         "pair_side_correction_seed42_gated_groups": 6,
         "pair_side_correction_multisplit_balanced_delta_mean": -0.0,
         "pair_side_correction_multisplit_group_delta_mean": -0.0019,
+        "contrastive_side_correction_seed42_corrected_balanced_accuracy": 0.8504,
+        "contrastive_side_correction_multisplit_balanced_delta_mean": -0.0002,
+        "contrastive_side_correction_multisplit_group_delta_mean": -0.0047,
     }
 
     checks = module.metric_check(expected)

@@ -52,6 +52,7 @@ Expected key outputs:
 - confident inversion rows at `gap >= 0.50`: `86`
 - pair-side correction seed42 balanced accuracy: `0.8470 -> 0.8481`
 - pair-side correction multi-split balanced-accuracy delta mean: `0.0000`
+- contrastive side-correction multi-split balanced-accuracy delta mean: `-0.0002`
 
 The exact local inputs and expected generated artifacts are listed in:
 
