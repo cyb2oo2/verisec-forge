@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-from scripts.evaluate_primevul_side_inversion_verifier_baselines import build_report, evidence_score, metric
+from scripts.evaluate_primevul_side_inversion_verifier_baselines import build_report, evidence_score, metric, repeat_count_metrics
 
 
-def row(*, accept: bool, prompt: str = "", score: float = 0.8) -> dict:
+def row(*, accept: bool, prompt: str = "", score: float = 0.8, pair_key: str = "p") -> dict:
     return {
         "accept_flip": accept,
         "side_model_score": score,
         "prompt": prompt,
+        "pair_key": pair_key,
     }
 
 
@@ -37,11 +38,24 @@ def test_metric_counts_accept_flip_class() -> None:
 
 def test_build_report_includes_best_summaries() -> None:
     rows = [
-        row(accept=True, score=0.95, prompt="Side A windows:\nSignals: risk=0 safety=3\nSide B windows:\nSignals: risk=4 safety=0"),
-        row(accept=False, score=0.7, prompt="Side A windows:\nSignals: risk=4 safety=0\nSide B windows:\nSignals: risk=0 safety=3"),
+        row(accept=True, score=0.95, pair_key="a", prompt="Side A windows:\nSignals: risk=0 safety=3\nSide B windows:\nSignals: risk=4 safety=0"),
+        row(accept=False, score=0.7, pair_key="b", prompt="Side A windows:\nSignals: risk=4 safety=0\nSide B windows:\nSignals: risk=0 safety=3"),
     ]
 
-    report = build_report(rows, score_thresholds=[0.9], evidence_thresholds=[0.0])
+    report = build_report(rows, score_thresholds=[0.9], evidence_thresholds=[0.0], repeat_thresholds=[2])
 
     assert report["summary"]["rows"] == 2
     assert report["summary"]["best_balanced_accuracy"]["balanced_accuracy"] == 1.0
+
+
+def test_repeat_count_metrics_use_pair_key_consensus() -> None:
+    rows = [
+        row(accept=True, pair_key="stable"),
+        row(accept=True, pair_key="stable"),
+        row(accept=False, pair_key="single"),
+    ]
+
+    result = repeat_count_metrics(rows, [2])[0]
+
+    assert result["tp"] == 2
+    assert result["tn"] == 1

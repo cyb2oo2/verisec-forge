@@ -288,7 +288,7 @@ This report evaluates cheap baselines before training a heavier verifier.
 - Input: `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
 - `accept_all` accuracy / balanced accuracy: `0.7200` / `0.5000`
 - `side_model_score >= 0.9` accuracy / balanced accuracy: `0.7200` / `0.5000`
-- Best evidence-margin balanced accuracy: `0.6944`
-- Best evidence-margin accept precision: `1.0000`
-- Accepted flips at the precision-first point: `7`
-- Interpretation: raw side-model confidence does not reject bad flips, but evidence-margin scoring can act as a high-precision verifier gate with limited recall.
+- Best consensus-plus-evidence balanced accuracy: `0.7778`
+- Best consensus-plus-evidence accept precision: `1.0000`
+- Accepted flips at the precision-first point: `10`
+- Interpretation: raw side-model confidence does not reject bad flips, but combining multi-split queue consensus with evidence-margin scoring can act as a higher-coverage precision-first verifier gate.

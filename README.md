@@ -92,7 +92,7 @@ Important caveat:
 - a first dependency-free paired-window side model confirms the new target has signal: across five pair-key splits, balanced accuracy rises from the always-trust-high-probability baseline `0.5000` to mean `0.6065`, with label-`B` inversion recall `0.4367`; overall accuracy drops from `0.8598` to `0.7328`, while top-5 flip precision reaches mean `0.72`, so the current model is better framed as a high-priority review queue than a deployable default flipper
 - that review-queue artifact is now materialized: taking the top-5 side-inversion candidates from each of five pair-key splits yields `25` rows, `16` unique pair keys, and `0.72` diagnostic precision; the queue includes compact side-A/side-B evidence windows and prompts for the next verifier stage
 - a strict side-inversion verifier target is now defined from that queue: `25` rows become `18` accept-flip and `7` reject-flip examples under a fixed JSON contract, with average prompt length `2873.2` characters; this is the next supervised verifier/review target, not an automatic correction result
-- lightweight verifier baselines set the next bar: `side_model_score` thresholds still accept all reject cases, while an evidence-margin rule reaches `1.0` accept precision on `7` accepted flips but only `0.3889` accept recall; a trained verifier must improve recall without losing this precision-first behavior
+- lightweight verifier baselines set the next bar: `side_model_score` thresholds still accept all reject cases, while combining multi-split queue consensus with evidence margin reaches `1.0` accept precision on `10` accepted flips and `0.5556` accept recall; a trained verifier must improve recall without losing this precision-first behavior
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -215,7 +215,7 @@ Important boundary result:
 - **The side-inversion verifier target is now explicit.**
   The review queue has been converted into a strict `accept_flip` / `reject_flip` dataset with `18` accept and `7` reject targets. This keeps the next verifier narrow: decide whether evidence supports a proposed orientation flip, instead of writing another broad vulnerability audit.
 - **The verifier baseline is precision-first but recall-limited.**
-  The raw side-model score cannot reject bad flips, but a simple evidence-margin rule reaches `1.0` accept precision while accepting only `7` of `18` true flips. The next useful verifier should keep that zero-false-positive profile and recover more true flips.
+  The raw side-model score cannot reject bad flips, but a consensus-plus-evidence rule reaches `1.0` accept precision while accepting `10` of `18` true flips. The next useful verifier should keep that zero-false-positive profile and recover more true flips.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

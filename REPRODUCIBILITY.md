@@ -62,8 +62,8 @@ Expected key outputs:
 - side-inversion review queue rows / precision: `25` / `0.7200`
 - side-inversion verifier rows / accept / reject: `25` / `18` / `7`
 - side-inversion verifier average prompt chars: `2873.2`
-- side-inversion verifier baseline best balanced accuracy / accept precision: `0.6944` / `1.0000`
-- side-inversion verifier baseline accepted flips: `7`
+- side-inversion verifier baseline best balanced accuracy / accept precision: `0.7778` / `1.0000`
+- side-inversion verifier baseline accepted flips: `10`
 
 The exact local inputs and expected generated artifacts are listed in:
 

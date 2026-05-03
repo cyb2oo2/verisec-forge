@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import re
 import sys
@@ -109,24 +110,61 @@ def evidence_threshold_metrics(rows: list[dict[str, Any]], thresholds: list[floa
     return metrics
 
 
+def repeat_count_metrics(rows: list[dict[str, Any]], thresholds: list[int]) -> list[dict[str, Any]]:
+    counts = collections.Counter(str(row.get("pair_key", row.get("id", ""))) for row in rows)
+    metrics = []
+    for threshold in thresholds:
+        predictions = [int(counts[str(row.get("pair_key", row.get("id", "")))] >= threshold) for row in rows]
+        metrics.append(metric(rows, predictions, name=f"pair_repeat_count>={threshold}"))
+    return metrics
+
+
+def consensus_margin_metrics(rows: list[dict[str, Any]], *, repeat_thresholds: list[int], evidence_thresholds: list[float]) -> list[dict[str, Any]]:
+    counts = collections.Counter(str(row.get("pair_key", row.get("id", ""))) for row in rows)
+    scores = [evidence_score(row) for row in rows]
+    metrics = []
+    for repeat_threshold in repeat_thresholds:
+        for evidence_threshold in evidence_thresholds:
+            predictions = [
+                int(
+                    counts[str(row.get("pair_key", row.get("id", "")))] >= repeat_threshold
+                    or score >= evidence_threshold
+                )
+                for row, score in zip(rows, scores, strict=True)
+            ]
+            metrics.append(metric(rows, predictions, name=f"repeat>={repeat_threshold}_or_evidence>={evidence_threshold:g}"))
+    return metrics
+
+
 def best_by(metrics: list[dict[str, Any]], key: str) -> dict[str, Any]:
     return max(metrics, key=lambda row: (float(row[key]), float(row["accept_precision"]), float(row["accuracy"])))
 
 
-def build_report(rows: list[dict[str, Any]], *, score_thresholds: list[float], evidence_thresholds: list[float]) -> dict[str, Any]:
+def build_report(
+    rows: list[dict[str, Any]],
+    *,
+    score_thresholds: list[float],
+    evidence_thresholds: list[float],
+    repeat_thresholds: list[int],
+) -> dict[str, Any]:
     metrics = [
         metric(rows, [1 for _ in rows], name="accept_all"),
         metric(rows, [0 for _ in rows], name="reject_all"),
     ]
     metrics.extend(score_threshold_metrics(rows, score_thresholds))
     metrics.extend(evidence_threshold_metrics(rows, evidence_thresholds))
+    metrics.extend(repeat_count_metrics(rows, repeat_thresholds))
+    metrics.extend(consensus_margin_metrics(rows, repeat_thresholds=repeat_thresholds, evidence_thresholds=evidence_thresholds))
     scores = [evidence_score(row) for row in rows]
     positives = [score for score, row in zip(scores, rows, strict=True) if gold(row) == 1]
     negatives = [score for score, row in zip(scores, rows, strict=True) if gold(row) == 0]
+    perfect_precision = [row for row in metrics if row["accept_precision"] == 1.0 and row["accepted"] > 0]
+    best_perfect_precision = max(perfect_precision, key=lambda row: (row["accepted"], row["balanced_accuracy"])) if perfect_precision else {}
     return {
         "config": {
             "score_thresholds": score_thresholds,
             "evidence_thresholds": evidence_thresholds,
+            "repeat_thresholds": repeat_thresholds,
         },
         "summary": {
             "rows": len(rows),
@@ -134,6 +172,7 @@ def build_report(rows: list[dict[str, Any]], *, score_thresholds: list[float], e
             "reject_flip_rows": sum(1 for row in rows if gold(row) == 0),
             "best_balanced_accuracy": best_by(metrics, "balanced_accuracy"),
             "best_accept_precision": best_by(metrics, "accept_precision"),
+            "best_perfect_precision_by_accepted": best_perfect_precision,
             "evidence_score_mean_accept": round(sum(positives) / len(positives), 4) if positives else 0.0,
             "evidence_score_mean_reject": round(sum(negatives) / len(negatives), 4) if negatives else 0.0,
         },
@@ -154,6 +193,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Accept / reject rows: `{summary['accept_flip_rows']}` / `{summary['reject_flip_rows']}`",
         f"- Best balanced-accuracy baseline: `{summary['best_balanced_accuracy']['name']}` at `{summary['best_balanced_accuracy']['balanced_accuracy']}`",
         f"- Best accept-precision baseline: `{summary['best_accept_precision']['name']}` at `{summary['best_accept_precision']['accept_precision']}`",
+        f"- Best zero-false-accept baseline by coverage: `{summary['best_perfect_precision_by_accepted'].get('name')}` accepts `{summary['best_perfect_precision_by_accepted'].get('accepted')}` flips",
         f"- Evidence score mean accept / reject: `{summary['evidence_score_mean_accept']}` / `{summary['evidence_score_mean_reject']}`",
         "",
         "## Metrics",
@@ -172,7 +212,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "## Interpretation",
             "",
-            "A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. If a simple evidence-margin rule already dominates, the next step should improve evidence extraction rather than train a broader language-model verifier.",
+            "A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. The multi-split consensus rule is especially important: if repeated top-k selection already gives zero-false-accept coverage, a trained verifier should be judged by whether it recovers additional true flips without accepting reject cases.",
             "",
         ]
     )
@@ -186,11 +226,19 @@ def parse_floats(value: str) -> list[float]:
     return parsed
 
 
+def parse_ints(value: str) -> list[int]:
+    parsed = [int(part.strip()) for part in value.split(",") if part.strip()]
+    if not parsed:
+        raise ValueError("At least one threshold is required")
+    return parsed
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate lightweight baselines for side-inversion verifier targets.")
     parser.add_argument("--input", required=True)
     parser.add_argument("--score-thresholds", default="0.5,0.9,0.99,0.999")
     parser.add_argument("--evidence-thresholds", default="-5,0,5,10")
+    parser.add_argument("--repeat-thresholds", default="2,3,4")
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output")
     args = parser.parse_args()
@@ -199,6 +247,7 @@ def main() -> None:
         read_jsonl(args.input),
         score_thresholds=parse_floats(args.score_thresholds),
         evidence_thresholds=parse_floats(args.evidence_thresholds),
+        repeat_thresholds=parse_ints(args.repeat_thresholds),
     )
     write_json(args.json_output, payload)
     if args.md_output:
