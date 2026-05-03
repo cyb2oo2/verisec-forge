@@ -73,6 +73,7 @@ Expected key outputs:
 - side-inversion fresh-seed strict gate accept precision / introduced rows: `1.0000` / `0`
 - side-inversion project-heldout queue precision: `0.4800`
 - side-inversion project-heldout strict gate accept precision / introduced rows: `0.7500` / `3`
+- side-inversion project-heldout evidence-conditioned gate accept precision / introduced rows: `1.0000` / `0`
 - side-inversion project-heldout conservative gate accept precision / introduced rows: `1.0000` / `0`
 
 The exact local inputs and expected generated artifacts are listed in:

@@ -359,19 +359,24 @@ This stress check rebuilds the top-5 review queue with project-disjoint calibrat
 - Queue report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_PROJECT_HOLDOUT_TOP5.md`
 - Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_PROJECT_HOLDOUT_TOP5.md`
 - Strict gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_STRICT.md`
+- Evidence-conditioned gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_EVIDENCE_CONDITIONED.md`
 - Conservative gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_CONSERVATIVE.md`
+- Evidence-conditioned gate failure analysis: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_EVIDENCE_CONDITIONED_GATE_FAILURE_ANALYSIS.md`
 - Strict gate failure analysis: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_STRICT_GATE_FAILURE_ANALYSIS.md`
 - Conservative gate failure analysis: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_CONSERVATIVE_GATE_FAILURE_ANALYSIS.md`
 - Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl`
 - Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl`
 - Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1_accepted.jsonl`
+- Evidence-conditioned accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1_accepted.jsonl`
 - Conservative accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1_accepted.jsonl`
 - Split field: `project`
 - Candidate rows / unique pairs: `25` / `16`
 - Candidate true inversions: `12`
 - Candidate precision: `0.4800`
 - Strict gate accepted / introduced rows: `12` / `3`
+- Evidence-conditioned gate accepted / introduced rows: `9` / `0`
 - Conservative gate accepted / introduced rows: `3` / `0`
 - Strict gate false accepts: `3` rows from `1` unique pair (`hexchat|CVE-2016-2087`)
+- Evidence-conditioned gate false accepts / missed true flips: `0` / `3`
 - Conservative gate false accepts / missed true flips: `0` / `9`
-- Interpretation: the in-pool strict gate is not cross-project safe; the conservative cross-project gate restores zero false accepts by sacrificing recall. The false accepts are repeat-consensus artifacts, not positive-evidence accepts.
+- Interpretation: the in-pool strict gate is not cross-project safe; conditioning repeat consensus on evidence restores zero false accepts with substantially better recall than the conservative repeat threshold. The false accepts are repeat-consensus artifacts, not positive-evidence accepts.

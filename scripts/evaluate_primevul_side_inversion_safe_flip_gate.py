@@ -22,18 +22,42 @@ def gold_accept(row: dict[str, Any]) -> bool:
     return bool(row.get("accept_flip"))
 
 
-def should_accept(row: dict[str, Any], pair_counts: collections.Counter[str], *, repeat_threshold: int, evidence_threshold: float) -> bool:
+def should_accept(
+    row: dict[str, Any],
+    pair_counts: collections.Counter[str],
+    *,
+    repeat_threshold: int,
+    evidence_threshold: float,
+    repeat_evidence_threshold: float | None = None,
+) -> bool:
     pair_key = str(row.get("pair_key", row.get("id", "")))
-    return pair_counts[pair_key] >= repeat_threshold or evidence_score(row) >= evidence_threshold
+    score = evidence_score(row)
+    repeated = pair_counts[pair_key] >= repeat_threshold
+    evidence_accept = score >= evidence_threshold
+    if repeat_evidence_threshold is None:
+        return repeated or evidence_accept
+    return evidence_accept or (repeated and score >= repeat_evidence_threshold)
 
 
-def annotate_rows(rows: list[dict[str, Any]], *, repeat_threshold: int, evidence_threshold: float) -> list[dict[str, Any]]:
+def annotate_rows(
+    rows: list[dict[str, Any]],
+    *,
+    repeat_threshold: int,
+    evidence_threshold: float,
+    repeat_evidence_threshold: float | None = None,
+) -> list[dict[str, Any]]:
     pair_counts: collections.Counter[str] = collections.Counter(str(row.get("pair_key", row.get("id", ""))) for row in rows)
     annotated = []
     for row in rows:
         pair_key = str(row.get("pair_key", row.get("id", "")))
         score = evidence_score(row)
-        accept = should_accept(row, pair_counts, repeat_threshold=repeat_threshold, evidence_threshold=evidence_threshold)
+        accept = should_accept(
+            row,
+            pair_counts,
+            repeat_threshold=repeat_threshold,
+            evidence_threshold=evidence_threshold,
+            repeat_evidence_threshold=repeat_evidence_threshold,
+        )
         annotated.append(
             {
                 "id": row.get("id"),
@@ -84,14 +108,31 @@ def summarize_rows(rows: list[dict[str, Any]], annotated: list[dict[str, Any]]) 
     }
 
 
-def build_report(rows: list[dict[str, Any]], *, repeat_threshold: int, evidence_threshold: float) -> dict[str, Any]:
-    annotated = annotate_rows(rows, repeat_threshold=repeat_threshold, evidence_threshold=evidence_threshold)
+def build_report(
+    rows: list[dict[str, Any]],
+    *,
+    repeat_threshold: int,
+    evidence_threshold: float,
+    repeat_evidence_threshold: float | None = None,
+) -> dict[str, Any]:
+    annotated = annotate_rows(
+        rows,
+        repeat_threshold=repeat_threshold,
+        evidence_threshold=evidence_threshold,
+        repeat_evidence_threshold=repeat_evidence_threshold,
+    )
     accepted_rows = [row for row in annotated if row["accepted_by_gate"]]
+    repeat_gate = (
+        f"pair_repeat_count>={repeat_threshold}"
+        if repeat_evidence_threshold is None
+        else f"(pair_repeat_count>={repeat_threshold} AND evidence_score>={repeat_evidence_threshold:g})"
+    )
     return {
         "config": {
             "repeat_threshold": repeat_threshold,
             "evidence_threshold": evidence_threshold,
-            "gate": f"pair_repeat_count>={repeat_threshold} OR evidence_score>={evidence_threshold:g}",
+            "repeat_evidence_threshold": repeat_evidence_threshold,
+            "gate": f"{repeat_gate} OR evidence_score>={evidence_threshold:g}",
         },
         "summary": summarize_rows(rows, annotated),
         "accepted_rows": accepted_rows,
@@ -147,12 +188,22 @@ def main() -> None:
     parser.add_argument("--input", required=True)
     parser.add_argument("--repeat-threshold", type=int, default=4)
     parser.add_argument("--evidence-threshold", type=float, default=13.0)
+    parser.add_argument(
+        "--repeat-evidence-threshold",
+        type=float,
+        help="When set, repeat consensus only accepts rows whose evidence score also reaches this threshold.",
+    )
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output")
     parser.add_argument("--accepted-jsonl-output")
     args = parser.parse_args()
 
-    payload = build_report(read_jsonl(args.input), repeat_threshold=args.repeat_threshold, evidence_threshold=args.evidence_threshold)
+    payload = build_report(
+        read_jsonl(args.input),
+        repeat_threshold=args.repeat_threshold,
+        evidence_threshold=args.evidence_threshold,
+        repeat_evidence_threshold=args.repeat_evidence_threshold,
+    )
     write_json(args.json_output, payload)
     if args.accepted_jsonl_output:
         write_jsonl(args.accepted_jsonl_output, payload["accepted_rows"])

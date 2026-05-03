@@ -31,6 +31,32 @@ def test_should_accept_uses_repeat_or_evidence() -> None:
     assert should_accept(row(pair_key="single", accept_flip=True, prompt=high_evidence_prompt()), {"single": 1}, repeat_threshold=2, evidence_threshold=10.0) is True
 
 
+def test_should_accept_can_condition_repeat_on_evidence() -> None:
+    rows = [row(pair_key="stable", accept_flip=True), row(pair_key="stable", accept_flip=True)]
+    counts = {"stable": 2}
+
+    assert (
+        should_accept(
+            rows[0],
+            counts,
+            repeat_threshold=2,
+            evidence_threshold=10.0,
+            repeat_evidence_threshold=1.0,
+        )
+        is False
+    )
+    assert (
+        should_accept(
+            row(pair_key="stable", accept_flip=True, prompt=high_evidence_prompt()),
+            counts,
+            repeat_threshold=2,
+            evidence_threshold=20.0,
+            repeat_evidence_threshold=1.0,
+        )
+        is True
+    )
+
+
 def test_annotate_rows_marks_repair_and_harm() -> None:
     rows = [
         row(pair_key="a", accept_flip=True, prompt=high_evidence_prompt(), row_id="good"),

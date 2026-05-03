@@ -161,8 +161,8 @@
     {
       "role": "side_inversion_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json",
-      "sha256": "8847987dcad94415433410d7e9fa121392a207eb61faaec55e60d41cd7cb110f",
-      "bytes": 6328
+      "sha256": "a4cf21dfad1542f7df9909c331e891d88377d801363aee6515ce00b9e0954776",
+      "bytes": 6368
     },
     {
       "role": "side_inversion_safe_flip_gate_accepted_jsonl",
@@ -174,8 +174,8 @@
     {
       "role": "side_inversion_strict_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
-      "sha256": "a59b5407b77ec1034acd0c85d609e014b83c18c54b6f160ec07d6e80507e6f2d",
-      "bytes": 6328
+      "sha256": "d20238f9c2543c19aa58672a3a7646099497b3ceb136e663d74dc59cd3fc9dc0",
+      "bytes": 6368
     },
     {
       "role": "side_inversion_strict_safe_flip_gate_accepted_jsonl",
@@ -213,8 +213,8 @@
     {
       "role": "side_inversion_rank_holdout_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json",
-      "sha256": "f6264493b55e2597d7fd83b67d4d5ca61c6955569274181b9b57877e0238c1a0",
-      "bytes": 1850
+      "sha256": "9202ae699b4a1d44e29fefd5372de100f1d92e888f42c17a5cfb1e9e6d27151b",
+      "bytes": 1890
     },
     {
       "role": "side_inversion_rank_holdout_safe_flip_gate_accepted_jsonl",
@@ -226,8 +226,8 @@
     {
       "role": "side_inversion_rank_holdout_strict_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
-      "sha256": "a31f20410e80f1e0c387da9c17a4dad117acbead672b5c520a673dcf01c13456",
-      "bytes": 1850
+      "sha256": "9c16ba702ac17b1edc6d969ea2cfdd5e7adbd2a171928bb9a58076929cb38008",
+      "bytes": 1890
     },
     {
       "role": "side_inversion_rank_holdout_strict_safe_flip_gate_accepted_jsonl",
@@ -265,8 +265,8 @@
     {
       "role": "side_inversion_fresh_seed_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1.json",
-      "sha256": "0c1b1c61215856c3c13c18886748298abac9e3de19670c3553923b367b4837d9",
-      "bytes": 6390
+      "sha256": "173c5edd646416f9957c391da084a87313e773f4089b67af1a838624cf13ec63",
+      "bytes": 6430
     },
     {
       "role": "side_inversion_fresh_seed_safe_flip_gate_accepted_jsonl",
@@ -278,8 +278,8 @@
     {
       "role": "side_inversion_fresh_seed_strict_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
-      "sha256": "fdc19252be207691340e07be14e3b6fa5f6e524b1993b7142551454588c2696e",
-      "bytes": 5830
+      "sha256": "4300a1718a7d4dc6a60080e8a1d258c80639fb126ab20fb36361be147b9f79a3",
+      "bytes": 5870
     },
     {
       "role": "side_inversion_fresh_seed_strict_safe_flip_gate_accepted_jsonl",
@@ -317,8 +317,8 @@
     {
       "role": "side_inversion_project_holdout_strict_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
-      "sha256": "00d1ab6603c99c5e2f5d422b39e0ec76eba90020e6c754b74833c9bd11a5bfc5",
-      "bytes": 7474
+      "sha256": "736c31afd955c51bd31432a02177926b7540b4e855b60e6160689013683e1b20",
+      "bytes": 7514
     },
     {
       "role": "side_inversion_project_holdout_strict_safe_flip_gate_accepted_jsonl",
@@ -328,10 +328,23 @@
       "rows": 12
     },
     {
+      "role": "side_inversion_project_holdout_evidence_conditioned_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
+      "sha256": "6e445433a561b1d7b074d93435fc5a3999ed8c21177c716d9d83d9f75bba273d",
+      "bytes": 5855
+    },
+    {
+      "role": "side_inversion_project_holdout_evidence_conditioned_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1_accepted.jsonl",
+      "sha256": "37926f8cf157417adaa8b4c0e03ffab8fb9a0fb7af2eefc01d83a9da3747e72c",
+      "bytes": 4086,
+      "rows": 9
+    },
+    {
       "role": "side_inversion_project_holdout_conservative_safe_flip_gate_json",
       "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
-      "sha256": "dd333af2d1b4035c8d6e06586faffe46b6a0709a55663689577e1768b97ebd36",
-      "bytes": 2413
+      "sha256": "89d84a7c622ecafface575634f14a6e40f2349951ac93d0d4d7512d9e9ed2755",
+      "bytes": 2453
     },
     {
       "role": "side_inversion_project_holdout_conservative_safe_flip_gate_accepted_jsonl",
@@ -345,6 +358,12 @@
       "path": "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json",
       "sha256": "c6e54c90440509a2d3c9638c438a5457e662fb70803d2a6080e4f2afb7d8f5f2",
       "bytes": 17019
+    },
+    {
+      "role": "side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_json",
+      "path": "reports/secure_code_primevul_side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_v1.json",
+      "sha256": "4f0806e25b27879e9ee4c76f8f5cfdd4ed84a4436d4186afe7dbd214e2448972",
+      "bytes": 15122
     },
     {
       "role": "side_inversion_project_holdout_conservative_gate_failure_analysis_json",
@@ -423,11 +442,16 @@
     "side_inversion_project_holdout_verifier_accept_rows": 12,
     "side_inversion_project_holdout_strict_gate_accept_precision": 0.75,
     "side_inversion_project_holdout_strict_gate_introduced_rows": 3,
+    "side_inversion_project_holdout_evidence_conditioned_gate_accept_precision": 1.0,
+    "side_inversion_project_holdout_evidence_conditioned_gate_accepted_rows": 9,
+    "side_inversion_project_holdout_evidence_conditioned_gate_introduced_rows": 0,
     "side_inversion_project_holdout_conservative_gate_accept_precision": 1.0,
     "side_inversion_project_holdout_conservative_gate_accepted_rows": 3,
     "side_inversion_project_holdout_conservative_gate_introduced_rows": 0,
     "side_inversion_project_holdout_strict_analysis_false_accepts": 3,
     "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": 1,
+    "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": 0,
+    "side_inversion_project_holdout_evidence_conditioned_analysis_missed_true_flips": 3,
     "side_inversion_project_holdout_conservative_analysis_false_accepts": 0,
     "side_inversion_project_holdout_conservative_analysis_missed_true_flips": 9
   },

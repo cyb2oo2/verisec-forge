@@ -2,6 +2,7 @@
   "config": {
     "repeat_threshold": 3,
     "evidence_threshold": 13.0,
+    "repeat_evidence_threshold": null,
     "gate": "pair_repeat_count>=3 OR evidence_score>=13"
   },
   "summary": {

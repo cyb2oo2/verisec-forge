@@ -569,6 +569,24 @@ def commands() -> list[list[str]]:
             "--input",
             "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
             "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "13",
+            "--repeat-evidence-threshold",
+            "0",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_EVIDENCE_CONDITIONED.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1_accepted.jsonl",
+        ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--repeat-threshold",
             "4",
             "--evidence-threshold",
             "13",
@@ -590,6 +608,18 @@ def commands() -> list[list[str]]:
             "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json",
             "--md-output",
             "reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_STRICT_GATE_FAILURE_ANALYSIS.md",
+        ],
+        [
+            py,
+            "scripts/analyze_primevul_safe_flip_gate_failures.py",
+            "--verifier",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--gate-report",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_EVIDENCE_CONDITIONED_GATE_FAILURE_ANALYSIS.md",
         ],
         [
             py,
@@ -654,12 +684,20 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     project_holdout_strict_gate = read_json(
         REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
     )
+    project_holdout_evidence_conditioned_gate = read_json(
+        REPO_ROOT
+        / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json"
+    )
     project_holdout_conservative_gate = read_json(
         REPO_ROOT
         / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
     )
     project_holdout_strict_analysis = read_json(
         REPO_ROOT / "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json"
+    )
+    project_holdout_evidence_conditioned_analysis = read_json(
+        REPO_ROOT
+        / "reports/secure_code_primevul_side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_v1.json"
     )
     project_holdout_conservative_analysis = read_json(
         REPO_ROOT
@@ -761,6 +799,15 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_project_holdout_strict_gate_introduced_rows": project_holdout_strict_gate["summary"][
             "introduced_side_error_rows"
         ],
+        "side_inversion_project_holdout_evidence_conditioned_gate_accept_precision": project_holdout_evidence_conditioned_gate[
+            "summary"
+        ]["accept_precision"],
+        "side_inversion_project_holdout_evidence_conditioned_gate_accepted_rows": project_holdout_evidence_conditioned_gate[
+            "summary"
+        ]["accepted_rows"],
+        "side_inversion_project_holdout_evidence_conditioned_gate_introduced_rows": project_holdout_evidence_conditioned_gate[
+            "summary"
+        ]["introduced_side_error_rows"],
         "side_inversion_project_holdout_conservative_gate_accept_precision": project_holdout_conservative_gate[
             "summary"
         ]["accept_precision"],
@@ -776,6 +823,12 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": project_holdout_strict_analysis[
             "summary"
         ]["false_accept_unique_pairs"],
+        "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": project_holdout_evidence_conditioned_analysis[
+            "summary"
+        ]["false_accepts"],
+        "side_inversion_project_holdout_evidence_conditioned_analysis_missed_true_flips": project_holdout_evidence_conditioned_analysis[
+            "summary"
+        ]["missed_true_flips"],
         "side_inversion_project_holdout_conservative_analysis_false_accepts": project_holdout_conservative_analysis[
             "summary"
         ]["false_accepts"],
