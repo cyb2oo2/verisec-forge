@@ -64,10 +64,10 @@ Expected key outputs:
 - side-inversion verifier average prompt chars: `2873.2`
 - side-inversion verifier baseline best balanced accuracy / accept precision: `0.7778` / `1.0000`
 - side-inversion verifier baseline accepted flips: `10`
-- side-inversion safe flip gate accepted rows / unique pairs: `10` / `4`
-- side-inversion safe flip gate repaired / introduced rows: `10` / `0`
+- side-inversion strict safe flip gate accepted rows / unique pairs: `10` / `4`
+- side-inversion strict safe flip gate repaired / introduced rows: `10` / `0`
 - side-inversion rank-holdout queue precision: `0.3200`
-- side-inversion rank-holdout safe flip gate accepted / introduced rows: `2` / `0`
+- side-inversion rank-holdout strict safe flip gate accepted / introduced rows: `2` / `0`
 - side-inversion fresh-seed queue precision: `0.5200`
 - side-inversion fresh-seed default gate accept precision / introduced rows: `0.9000` / `1`
 - side-inversion fresh-seed strict gate accept precision / introduced rows: `1.0000` / `0`

@@ -295,13 +295,16 @@ This report evaluates cheap baselines before training a heavier verifier.
 
 ## Side-Inversion Safe Flip Gate
 
-This report materializes the best precision-first verifier baseline as a concrete offline gate.
+This report materializes the precision-first verifier baseline as a concrete offline gate. The strict operating point raises the evidence threshold from `10` to `13` after fresh-seed validation exposed one false accept at the looser threshold.
 
 - Report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md`
 - JSON: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json`
+- Strict report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_TOP5_STRICT.md`
+- Strict JSON: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json`
 - Accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl`
+- Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1_accepted.jsonl`
 - Input: `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
-- Gate: `pair_repeat_count >= 3 OR evidence_score >= 10`
+- Strict gate: `pair_repeat_count >= 3 OR evidence_score >= 13`
 - Candidate rows / unique pairs: `25` / `16`
 - Accepted rows / unique pairs: `10` / `4`
 - Repaired side-error rows / pairs: `10` / `4`
@@ -316,9 +319,11 @@ This stress check applies the same safe flip gate to lower-ranked candidates fro
 - Queue report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md`
 - Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md`
 - Gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md`
+- Strict gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10_STRICT.md`
 - Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl`
 - Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl`
 - Accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl`
+- Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1_accepted.jsonl`
 - Rank window per seed: `6-10`
 - Candidate rows / unique pairs: `25` / `23`
 - Candidate true inversions: `8`

@@ -341,6 +341,22 @@ def commands() -> list[list[str]]:
         ],
         [
             py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl",
+            "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "13",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_TOP5_STRICT.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1_accepted.jsonl",
+        ],
+        [
+            py,
             "scripts/build_primevul_side_inversion_review_queue.py",
             "--input",
             "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
@@ -396,6 +412,22 @@ def commands() -> list[list[str]]:
             "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md",
             "--accepted-jsonl-output",
             "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl",
+        ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl",
+            "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "13",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10_STRICT.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1_accepted.jsonl",
         ],
         [
             py,
@@ -492,9 +524,15 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
     verifier_baselines = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
     safe_flip_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json")
+    strict_safe_flip_gate = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json"
+    )
     rank_holdout_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json")
     rank_holdout_verifier = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json")
     rank_holdout_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json")
+    rank_holdout_strict_gate = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
+    )
     fresh_seed_queue = read_json(
         REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json"
     )
@@ -569,11 +607,23 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_safe_flip_gate_repaired_rows": safe_flip_gate["summary"]["repaired_side_error_rows"],
         "side_inversion_safe_flip_gate_introduced_rows": safe_flip_gate["summary"]["introduced_side_error_rows"],
         "side_inversion_safe_flip_gate_net_pair_gain": safe_flip_gate["summary"]["net_pair_gain_if_applied"],
+        "side_inversion_strict_safe_flip_gate_accepted_rows": strict_safe_flip_gate["summary"]["accepted_rows"],
+        "side_inversion_strict_safe_flip_gate_introduced_rows": strict_safe_flip_gate["summary"][
+            "introduced_side_error_rows"
+        ],
+        "side_inversion_strict_safe_flip_gate_accept_precision": strict_safe_flip_gate["summary"]["accept_precision"],
         "side_inversion_rank_holdout_queue_precision": rank_holdout_queue["summary"]["precision"],
         "side_inversion_rank_holdout_verifier_accept_rows": rank_holdout_verifier["summary"]["accept_flip_rows"],
         "side_inversion_rank_holdout_gate_accepted_rows": rank_holdout_gate["summary"]["accepted_rows"],
         "side_inversion_rank_holdout_gate_introduced_rows": rank_holdout_gate["summary"]["introduced_side_error_rows"],
         "side_inversion_rank_holdout_gate_accept_precision": rank_holdout_gate["summary"]["accept_precision"],
+        "side_inversion_rank_holdout_strict_gate_accepted_rows": rank_holdout_strict_gate["summary"]["accepted_rows"],
+        "side_inversion_rank_holdout_strict_gate_introduced_rows": rank_holdout_strict_gate["summary"][
+            "introduced_side_error_rows"
+        ],
+        "side_inversion_rank_holdout_strict_gate_accept_precision": rank_holdout_strict_gate["summary"][
+            "accept_precision"
+        ],
         "side_inversion_fresh_seed_queue_precision": fresh_seed_queue["summary"]["precision"],
         "side_inversion_fresh_seed_verifier_accept_rows": fresh_seed_verifier["summary"]["accept_flip_rows"],
         "side_inversion_fresh_seed_gate_accept_precision": fresh_seed_gate["summary"]["accept_precision"],

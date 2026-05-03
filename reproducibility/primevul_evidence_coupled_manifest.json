@@ -172,6 +172,19 @@
       "rows": 10
     },
     {
+      "role": "side_inversion_strict_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
+      "sha256": "a59b5407b77ec1034acd0c85d609e014b83c18c54b6f160ec07d6e80507e6f2d",
+      "bytes": 6328
+    },
+    {
+      "role": "side_inversion_strict_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1_accepted.jsonl",
+      "sha256": "deea2157f7ce021e617aa2524cfee4433b7cfd84d4b17ae3935276261d322175",
+      "bytes": 4506,
+      "rows": 10
+    },
+    {
       "role": "side_inversion_rank_holdout_review_queue_json",
       "path": "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json",
       "sha256": "f8e7d96522f04a1149f608a81127ef0cef71e3a3c9258de89aebd5a5c68a33c1",
@@ -206,6 +219,19 @@
     {
       "role": "side_inversion_rank_holdout_safe_flip_gate_accepted_jsonl",
       "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl",
+      "sha256": "2e98325fa0dfed836e50a8026278292d7169a87993933f0273a756cc87b3a5d1",
+      "bytes": 915,
+      "rows": 2
+    },
+    {
+      "role": "side_inversion_rank_holdout_strict_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
+      "sha256": "a31f20410e80f1e0c387da9c17a4dad117acbead672b5c520a673dcf01c13456",
+      "bytes": 1850
+    },
+    {
+      "role": "side_inversion_rank_holdout_strict_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1_accepted.jsonl",
       "sha256": "2e98325fa0dfed836e50a8026278292d7169a87993933f0273a756cc87b3a5d1",
       "bytes": 915,
       "rows": 2
@@ -311,11 +337,17 @@
     "side_inversion_safe_flip_gate_repaired_rows": 10,
     "side_inversion_safe_flip_gate_introduced_rows": 0,
     "side_inversion_safe_flip_gate_net_pair_gain": 4,
+    "side_inversion_strict_safe_flip_gate_accepted_rows": 10,
+    "side_inversion_strict_safe_flip_gate_introduced_rows": 0,
+    "side_inversion_strict_safe_flip_gate_accept_precision": 1.0,
     "side_inversion_rank_holdout_queue_precision": 0.32,
     "side_inversion_rank_holdout_verifier_accept_rows": 8,
     "side_inversion_rank_holdout_gate_accepted_rows": 2,
     "side_inversion_rank_holdout_gate_introduced_rows": 0,
     "side_inversion_rank_holdout_gate_accept_precision": 1.0,
+    "side_inversion_rank_holdout_strict_gate_accepted_rows": 2,
+    "side_inversion_rank_holdout_strict_gate_introduced_rows": 0,
+    "side_inversion_rank_holdout_strict_gate_accept_precision": 1.0,
     "side_inversion_fresh_seed_queue_precision": 0.52,
     "side_inversion_fresh_seed_verifier_accept_rows": 13,
     "side_inversion_fresh_seed_gate_accept_precision": 0.9,
