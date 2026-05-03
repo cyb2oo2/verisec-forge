@@ -95,6 +95,7 @@ Important caveat:
 - lightweight verifier baselines set the next bar: `side_model_score` thresholds still accept all reject cases, while combining multi-split queue consensus with evidence margin reaches `1.0` accept precision on `10` accepted flips and `0.5556` accept recall; a trained verifier must improve recall without losing this precision-first behavior
 - the precision-first rule is now materialized as a safe flip gate: on the offline review queue it accepts `10` rows across `4` unique pairs, repairs `10` row-level side errors, and introduces `0` side errors; this is a gated operating point for future validation, not a full-benchmark automatic correction claim
 - a rank-holdout queue now stress-tests that gate beyond the top-5 candidates: ranks `6-10` have much lower candidate precision (`0.32`), but the same gate remains conservative, accepting only `2` rows with `1.0` accept precision and `0` introduced side errors
+- a fresh-seed candidate check exposes the safety/recall tradeoff more sharply: new top-5 candidate seeds have queue precision `0.52`; the default gate accepts `10` rows with `0.90` precision and `1` introduced side error, while a stricter evidence threshold (`13`) accepts `9` rows with `1.0` precision and `0` introduced errors
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -222,6 +223,8 @@ Important boundary result:
   Applying the precision-first rule to the offline review queue would repair `10` row-level side inversions across `4` unique pairs and introduce `0` side errors. The next test is to validate this gate on a fresh candidate queue, because the current one is selected from known model failures.
 - **The first rank-holdout validation is conservative but positive.**
   On ranks `6-10`, the candidate queue precision drops to `0.32`, yet the same safe flip gate accepts only `2` rows and still introduces `0` side errors. This supports the gate's safety profile, while also showing that recall remains the next bottleneck.
+- **Fresh candidate seeds show the original gate is slightly too loose.**
+  With new side-model split seeds (`211,307,401,503,601`), top-5 queue precision is `0.52`. The original `repeat>=3 OR evidence>=10` gate accepts `10` rows but introduces `1` side error; tightening evidence to `13` accepts `9` rows, repairs `9`, and restores `0` introduced side errors. The safer operating point is now the strict gate, not the original default.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**

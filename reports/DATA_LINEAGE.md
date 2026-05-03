@@ -326,3 +326,23 @@ This stress check applies the same safe flip gate to lower-ranked candidates fro
 - Gate accepted rows / unique pairs: `2` / `2`
 - Gate repaired / introduced rows: `2` / `0`
 - Interpretation: the gate remains conservative under lower-quality candidates, but recall falls sharply.
+
+## Side-Inversion Fresh-Seed Gate Check
+
+This stress check rebuilds the top-5 review queue with a different set of side-model split seeds. It tests whether the safe flip gate survives fresh candidate generation rather than only the original seeds.
+
+- Queue report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_FRESH_SEEDS_TOP5.md`
+- Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_FRESH_SEEDS_TOP5.md`
+- Default gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_FRESH_SEEDS_TOP5.md`
+- Strict gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_FRESH_SEEDS_TOP5_STRICT.md`
+- Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.jsonl`
+- Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.jsonl`
+- Default accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1_accepted.jsonl`
+- Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1_accepted.jsonl`
+- Fresh seeds: `211,307,401,503,601`
+- Candidate rows / unique pairs: `25` / `18`
+- Candidate true inversions: `13`
+- Candidate precision: `0.5200`
+- Default gate accepted / introduced rows: `10` / `1`
+- Strict gate accepted / introduced rows: `9` / `0`
+- Interpretation: the default gate is close but not strict enough for a zero-false-accept safety claim; the stricter evidence threshold restores precision-first behavior while retaining most accepted repairs.

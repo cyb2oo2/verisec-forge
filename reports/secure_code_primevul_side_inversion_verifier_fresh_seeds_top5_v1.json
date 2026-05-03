@@ -1,0 +1,17 @@
+{
+  "config": {
+    "queue": "data/processed/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.jsonl",
+    "jsonl_output": "data/processed/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.jsonl",
+    "summary_json": "reports/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.json",
+    "summary_md": "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_FRESH_SEEDS_TOP5.md"
+  },
+  "summary": {
+    "rows": 25,
+    "unique_pair_count": 18,
+    "accept_flip_rows": 13,
+    "reject_flip_rows": 12,
+    "accept_rate": 0.52,
+    "avg_prompt_chars": 3083.36,
+    "max_prompt_chars": 4666
+  }
+}

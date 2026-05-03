@@ -209,6 +209,58 @@
       "sha256": "2e98325fa0dfed836e50a8026278292d7169a87993933f0273a756cc87b3a5d1",
       "bytes": 915,
       "rows": 2
+    },
+    {
+      "role": "side_inversion_fresh_seed_review_queue_json",
+      "path": "reports/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json",
+      "sha256": "78566fab1705361ebf1fe0e7bdbf14746dc1e00a5fddb7e6007f5257679da299",
+      "bytes": 1542
+    },
+    {
+      "role": "side_inversion_fresh_seed_review_queue_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.jsonl",
+      "sha256": "def3b19ca6a0ba6a62e9dc901518725ca89d7fcf39306b2e7f2971432504287c",
+      "bytes": 150380,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_fresh_seed_verifier_json",
+      "path": "reports/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.json",
+      "sha256": "52f73f0b104e30d9df1e09a3456083f5a7190d76f60c4c9868be9aafef03b03b",
+      "bytes": 650
+    },
+    {
+      "role": "side_inversion_fresh_seed_verifier_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.jsonl",
+      "sha256": "7c1649c5c0d613e5e12a667f11cca1d9f098688ccd61174f4e19a3ef794a1c53",
+      "bytes": 95408,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_fresh_seed_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1.json",
+      "sha256": "0c1b1c61215856c3c13c18886748298abac9e3de19670c3553923b367b4837d9",
+      "bytes": 6390
+    },
+    {
+      "role": "side_inversion_fresh_seed_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1_accepted.jsonl",
+      "sha256": "7cc92e7269587bc0af5433a4a1342f1826e4aa49c109bc6c01e79d6a87fb86db",
+      "bytes": 4571,
+      "rows": 10
+    },
+    {
+      "role": "side_inversion_fresh_seed_strict_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
+      "sha256": "fdc19252be207691340e07be14e3b6fa5f6e524b1993b7142551454588c2696e",
+      "bytes": 5830
+    },
+    {
+      "role": "side_inversion_fresh_seed_strict_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1_accepted.jsonl",
+      "sha256": "20d4073508a9f7faadf41dd25d6c1b0250ff30124befbacd04e2a7a5419ec1bd",
+      "bytes": 4122,
+      "rows": 9
     }
   ],
   "expected": {
@@ -263,7 +315,14 @@
     "side_inversion_rank_holdout_verifier_accept_rows": 8,
     "side_inversion_rank_holdout_gate_accepted_rows": 2,
     "side_inversion_rank_holdout_gate_introduced_rows": 0,
-    "side_inversion_rank_holdout_gate_accept_precision": 1.0
+    "side_inversion_rank_holdout_gate_accept_precision": 1.0,
+    "side_inversion_fresh_seed_queue_precision": 0.52,
+    "side_inversion_fresh_seed_verifier_accept_rows": 13,
+    "side_inversion_fresh_seed_gate_accept_precision": 0.9,
+    "side_inversion_fresh_seed_gate_introduced_rows": 1,
+    "side_inversion_fresh_seed_strict_gate_accept_precision": 1.0,
+    "side_inversion_fresh_seed_strict_gate_accepted_rows": 9,
+    "side_inversion_fresh_seed_strict_gate_introduced_rows": 0
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

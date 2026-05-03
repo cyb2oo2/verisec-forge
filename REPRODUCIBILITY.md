@@ -68,6 +68,9 @@ Expected key outputs:
 - side-inversion safe flip gate repaired / introduced rows: `10` / `0`
 - side-inversion rank-holdout queue precision: `0.3200`
 - side-inversion rank-holdout safe flip gate accepted / introduced rows: `2` / `0`
+- side-inversion fresh-seed queue precision: `0.5200`
+- side-inversion fresh-seed default gate accept precision / introduced rows: `0.9000` / `1`
+- side-inversion fresh-seed strict gate accept precision / introduced rows: `1.0000` / `0`
 
 The exact local inputs and expected generated artifacts are listed in:
 
