@@ -339,6 +339,18 @@
       "sha256": "6f12b10ba9f529afd41dfdae4a8eb5ab6dd9f7df51a6545ffcef4a26360226e2",
       "bytes": 1367,
       "rows": 3
+    },
+    {
+      "role": "side_inversion_project_holdout_strict_gate_failure_analysis_json",
+      "path": "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json",
+      "sha256": "c6e54c90440509a2d3c9638c438a5457e662fb70803d2a6080e4f2afb7d8f5f2",
+      "bytes": 17019
+    },
+    {
+      "role": "side_inversion_project_holdout_conservative_gate_failure_analysis_json",
+      "path": "reports/secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json",
+      "sha256": "77c9f6035e1e32d773f7f2b1ba53776be36566d5312193fc3c21832fd3eda9d0",
+      "bytes": 18237
     }
   ],
   "expected": {
@@ -413,7 +425,11 @@
     "side_inversion_project_holdout_strict_gate_introduced_rows": 3,
     "side_inversion_project_holdout_conservative_gate_accept_precision": 1.0,
     "side_inversion_project_holdout_conservative_gate_accepted_rows": 3,
-    "side_inversion_project_holdout_conservative_gate_introduced_rows": 0
+    "side_inversion_project_holdout_conservative_gate_introduced_rows": 0,
+    "side_inversion_project_holdout_strict_analysis_false_accepts": 3,
+    "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": 1,
+    "side_inversion_project_holdout_conservative_analysis_false_accepts": 0,
+    "side_inversion_project_holdout_conservative_analysis_missed_true_flips": 9
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

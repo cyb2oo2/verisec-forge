@@ -579,6 +579,30 @@ def commands() -> list[list[str]]:
             "--accepted-jsonl-output",
             "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1_accepted.jsonl",
         ],
+        [
+            py,
+            "scripts/analyze_primevul_safe_flip_gate_failures.py",
+            "--verifier",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--gate-report",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_STRICT_GATE_FAILURE_ANALYSIS.md",
+        ],
+        [
+            py,
+            "scripts/analyze_primevul_safe_flip_gate_failures.py",
+            "--verifier",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--gate-report",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_CONSERVATIVE_GATE_FAILURE_ANALYSIS.md",
+        ],
     ]
 
 
@@ -633,6 +657,13 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     project_holdout_conservative_gate = read_json(
         REPO_ROOT
         / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
+    )
+    project_holdout_strict_analysis = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json"
+    )
+    project_holdout_conservative_analysis = read_json(
+        REPO_ROOT
+        / "reports/secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json"
     )
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
@@ -739,6 +770,18 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_project_holdout_conservative_gate_introduced_rows": project_holdout_conservative_gate[
             "summary"
         ]["introduced_side_error_rows"],
+        "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis["summary"][
+            "false_accepts"
+        ],
+        "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": project_holdout_strict_analysis[
+            "summary"
+        ]["false_accept_unique_pairs"],
+        "side_inversion_project_holdout_conservative_analysis_false_accepts": project_holdout_conservative_analysis[
+            "summary"
+        ]["false_accepts"],
+        "side_inversion_project_holdout_conservative_analysis_missed_true_flips": project_holdout_conservative_analysis[
+            "summary"
+        ]["missed_true_flips"],
     }
     checks = {
         key: {

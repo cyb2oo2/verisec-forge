@@ -360,6 +360,8 @@ This stress check rebuilds the top-5 review queue with project-disjoint calibrat
 - Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_PROJECT_HOLDOUT_TOP5.md`
 - Strict gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_STRICT.md`
 - Conservative gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_CONSERVATIVE.md`
+- Strict gate failure analysis: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_STRICT_GATE_FAILURE_ANALYSIS.md`
+- Conservative gate failure analysis: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_CONSERVATIVE_GATE_FAILURE_ANALYSIS.md`
 - Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl`
 - Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl`
 - Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1_accepted.jsonl`
@@ -370,4 +372,6 @@ This stress check rebuilds the top-5 review queue with project-disjoint calibrat
 - Candidate precision: `0.4800`
 - Strict gate accepted / introduced rows: `12` / `3`
 - Conservative gate accepted / introduced rows: `3` / `0`
-- Interpretation: the in-pool strict gate is not cross-project safe; the conservative cross-project gate restores zero false accepts by sacrificing recall.
+- Strict gate false accepts: `3` rows from `1` unique pair (`hexchat|CVE-2016-2087`)
+- Conservative gate false accepts / missed true flips: `0` / `9`
+- Interpretation: the in-pool strict gate is not cross-project safe; the conservative cross-project gate restores zero false accepts by sacrificing recall. The false accepts are repeat-consensus artifacts, not positive-evidence accepts.

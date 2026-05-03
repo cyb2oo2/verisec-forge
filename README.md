@@ -228,6 +228,8 @@ Important boundary result:
   With new side-model split seeds (`211,307,401,503,601`), top-5 queue precision is `0.52`. The original `repeat>=3 OR evidence>=10` gate accepts `10` rows but introduces `1` side error; tightening evidence to `13` accepts `9` rows, repairs `9`, and restores `0` introduced side errors. The safer operating point is now the strict gate, not the original default.
 - **Project-heldout validation forces a more conservative deployment boundary.**
   When candidate generation is split by `project`, top-5 precision falls to `0.48`. The in-pool strict gate (`repeat>=3 OR evidence>=13`) accepts `12` rows but introduces `3` side errors, so it should not be advertised as cross-project safe. A more conservative gate (`repeat>=4 OR evidence>=13`) accepts only `3` rows, repairs all `3`, and introduces `0` side errors. This is the current cross-project safety point, with recall intentionally sacrificed.
+- **The project-heldout false accepts are a consensus failure, not an evidence failure.**
+  All `3` false accepts come from one `hexchat/CVE-2016-2087` pair in the `26+` bucket with evidence score `-6.0`; they pass only because `pair_repeat_count=3`. This suggests the next verifier should condition repeat consensus on positive evidence or bucket/project robustness rather than treating consensus as an unconditional accept rule.
 - **More context is not automatically better for small models.**
   Candidate-plus-diff beats candidate-only and pair-context variants but remains far below diff-only, so the current best task design is the cleanest patch signal rather than the longest input.
 - **CodeXGLUE remains detector-limited.**
