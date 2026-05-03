@@ -145,7 +145,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate a precision-first safe flip gate over side-inversion verifier rows.")
     parser.add_argument("--input", required=True)
-    parser.add_argument("--repeat-threshold", type=int, default=3)
+    parser.add_argument("--repeat-threshold", type=int, default=4)
     parser.add_argument("--evidence-threshold", type=float, default=13.0)
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output")

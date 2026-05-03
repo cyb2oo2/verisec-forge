@@ -17,7 +17,6 @@ from scripts.evaluate_primevul_paired_window_side_model import (
     label,
     parse_ints,
     score_rows,
-    split_rows,
     train,
 )
 from vrf.io_utils import read_jsonl, write_json, write_jsonl
@@ -75,10 +74,11 @@ def build_queue(
     feature_mode: str,
     top_k: int,
     rank_start: int,
+    split_field: str | None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     queue: list[dict[str, Any]] = []
     for seed in seeds:
-        train_rows, eval_rows = split_rows(rows, calibration_fraction=calibration_fraction, seed=seed)
+        train_rows, eval_rows = split_rows_for_queue(rows, calibration_fraction=calibration_fraction, seed=seed, split_field=split_field)
         weights = train(
             train_rows,
             epochs=epochs,
@@ -94,10 +94,36 @@ def build_queue(
         selected = ordered[rank_start - 1 : rank_start - 1 + top_k]
         for rank, score in enumerate(selected, start=rank_start):
             queue.append(queue_row(seed, rank, row_by_key[score["pair_key"]], score))
-    return queue, summarize(queue, seeds=seeds, top_k=top_k, rank_start=rank_start)
+    return queue, summarize(queue, seeds=seeds, top_k=top_k, rank_start=rank_start, split_field=split_field)
 
 
-def summarize(queue: list[dict[str, Any]], *, seeds: list[int], top_k: int, rank_start: int) -> dict[str, Any]:
+def split_rows_for_queue(
+    rows: list[dict[str, Any]], *, calibration_fraction: float, seed: int, split_field: str | None
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    if not split_field:
+        from scripts.evaluate_primevul_paired_window_side_model import split_rows
+
+        return split_rows(rows, calibration_fraction=calibration_fraction, seed=seed)
+
+    import random
+
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        key = str(row.get(split_field) or "<missing>")
+        grouped.setdefault(key, []).append(row)
+    keys = sorted(grouped)
+    rng = random.Random(seed)
+    rng.shuffle(keys)
+    calibration_count = int(round(len(keys) * calibration_fraction))
+    calibration_keys = set(keys[:calibration_count])
+    train_rows = [row for key in keys if key in calibration_keys for row in grouped[key]]
+    eval_rows = [row for key in keys if key not in calibration_keys for row in grouped[key]]
+    return train_rows, eval_rows
+
+
+def summarize(
+    queue: list[dict[str, Any]], *, seeds: list[int], top_k: int, rank_start: int, split_field: str | None
+) -> dict[str, Any]:
     by_seed: list[dict[str, Any]] = []
     for seed in seeds:
         rows = [row for row in queue if int(row["seed"]) == seed]
@@ -117,6 +143,7 @@ def summarize(queue: list[dict[str, Any]], *, seeds: list[int], top_k: int, rank
         "top_k": top_k,
         "rank_start": rank_start,
         "rank_end": rank_start + top_k - 1,
+        "split_field": split_field,
         "rows": len(queue),
         "unique_pair_count": len(unique_pairs),
         "true_inversions": true_total,
@@ -135,6 +162,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "## Summary",
         "",
         f"- Seeds: `{summary['seeds']}`",
+        f"- Split field: `{summary.get('split_field') or 'pair_key_random'}`",
         f"- Rank window per seed: `{summary['rank_start']}-{summary['rank_end']}`",
         f"- Queue rows: `{summary['rows']}`",
         f"- Unique pair keys: `{summary['unique_pair_count']}`",
@@ -172,6 +200,7 @@ def main() -> None:
     parser.add_argument("--feature-mode", default="numeric_text", choices=["numeric", "numeric_text"])
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--rank-start", type=int, default=1)
+    parser.add_argument("--split-field", choices=["project"], help="Hold out queue candidates by metadata field.")
     parser.add_argument("--jsonl-output", required=True)
     parser.add_argument("--summary-json", required=True)
     parser.add_argument("--summary-md", required=True)
@@ -188,6 +217,7 @@ def main() -> None:
         feature_mode=args.feature_mode,
         top_k=args.top_k,
         rank_start=args.rank_start,
+        split_field=args.split_field,
     )
     payload = {"config": vars(args), "summary": summary}
     write_jsonl(args.jsonl_output, queue)

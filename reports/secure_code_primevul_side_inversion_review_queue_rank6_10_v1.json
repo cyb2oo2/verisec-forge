@@ -10,6 +10,7 @@
     "feature_mode": "numeric_text",
     "top_k": 5,
     "rank_start": 6,
+    "split_field": null,
     "jsonl_output": "data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl",
     "summary_json": "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json",
     "summary_md": "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md"
@@ -25,6 +26,7 @@
     "top_k": 5,
     "rank_start": 6,
     "rank_end": 10,
+    "split_field": null,
     "rows": 25,
     "unique_pair_count": 23,
     "true_inversions": 8,

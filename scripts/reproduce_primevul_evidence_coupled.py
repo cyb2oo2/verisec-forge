@@ -503,6 +503,82 @@ def commands() -> list[list[str]]:
             "--accepted-jsonl-output",
             "outputs/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1_accepted.jsonl",
         ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_review_queue.py",
+            "--input",
+            "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--split-field",
+            "project",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.01",
+            "--l2",
+            "0.0001",
+            "--positive-weight",
+            "8.0",
+            "--feature-mode",
+            "numeric_text",
+            "--top-k",
+            "5",
+            "--rank-start",
+            "1",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_PROJECT_HOLDOUT_TOP5.md",
+        ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_verifier_dataset.py",
+            "--queue",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_PROJECT_HOLDOUT_TOP5.md",
+        ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "13",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_STRICT.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1_accepted.jsonl",
+        ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+            "--repeat-threshold",
+            "4",
+            "--evidence-threshold",
+            "13",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_CONSERVATIVE.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1_accepted.jsonl",
+        ],
     ]
 
 
@@ -544,6 +620,19 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     )
     fresh_seed_strict_gate = read_json(
         REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
+    )
+    project_holdout_queue = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.json"
+    )
+    project_holdout_verifier = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.json"
+    )
+    project_holdout_strict_gate = read_json(
+        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
+    )
+    project_holdout_conservative_gate = read_json(
+        REPO_ROOT
+        / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
     )
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
@@ -633,6 +722,23 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_fresh_seed_strict_gate_introduced_rows": fresh_seed_strict_gate["summary"][
             "introduced_side_error_rows"
         ],
+        "side_inversion_project_holdout_queue_precision": project_holdout_queue["summary"]["precision"],
+        "side_inversion_project_holdout_verifier_accept_rows": project_holdout_verifier["summary"]["accept_flip_rows"],
+        "side_inversion_project_holdout_strict_gate_accept_precision": project_holdout_strict_gate["summary"][
+            "accept_precision"
+        ],
+        "side_inversion_project_holdout_strict_gate_introduced_rows": project_holdout_strict_gate["summary"][
+            "introduced_side_error_rows"
+        ],
+        "side_inversion_project_holdout_conservative_gate_accept_precision": project_holdout_conservative_gate[
+            "summary"
+        ]["accept_precision"],
+        "side_inversion_project_holdout_conservative_gate_accepted_rows": project_holdout_conservative_gate[
+            "summary"
+        ]["accepted_rows"],
+        "side_inversion_project_holdout_conservative_gate_introduced_rows": project_holdout_conservative_gate[
+            "summary"
+        ]["introduced_side_error_rows"],
     }
     checks = {
         key: {

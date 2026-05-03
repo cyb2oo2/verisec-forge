@@ -10,6 +10,7 @@
     "feature_mode": "numeric_text",
     "top_k": 5,
     "rank_start": 1,
+    "split_field": null,
     "jsonl_output": "data/processed/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.jsonl",
     "summary_json": "reports/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json",
     "summary_md": "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_FRESH_SEEDS_TOP5.md"
@@ -25,6 +26,7 @@
     "top_k": 5,
     "rank_start": 1,
     "rank_end": 5,
+    "split_field": null,
     "rows": 25,
     "unique_pair_count": 18,
     "true_inversions": 13,

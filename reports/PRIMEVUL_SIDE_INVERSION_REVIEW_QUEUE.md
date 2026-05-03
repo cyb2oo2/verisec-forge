@@ -5,6 +5,7 @@ This artifact materializes the top-scored paired-window side-inversion candidate
 ## Summary
 
 - Seeds: `[7, 13, 42, 99, 123]`
+- Split field: `pair_key_random`
 - Rank window per seed: `1-5`
 - Queue rows: `25`
 - Unique pair keys: `16`

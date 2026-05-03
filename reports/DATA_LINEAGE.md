@@ -351,3 +351,23 @@ This stress check rebuilds the top-5 review queue with a different set of side-m
 - Default gate accepted / introduced rows: `10` / `1`
 - Strict gate accepted / introduced rows: `9` / `0`
 - Interpretation: the default gate is close but not strict enough for a zero-false-accept safety claim; the stricter evidence threshold restores precision-first behavior while retaining most accepted repairs.
+
+## Side-Inversion Project-Holdout Gate Check
+
+This stress check rebuilds the top-5 review queue with project-disjoint calibration/eval splits. It is a harder candidate-generation protocol than changing side-model seeds because held-out candidate rows come from projects unseen by the side-model calibration split.
+
+- Queue report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_PROJECT_HOLDOUT_TOP5.md`
+- Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_PROJECT_HOLDOUT_TOP5.md`
+- Strict gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_STRICT.md`
+- Conservative gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_CONSERVATIVE.md`
+- Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl`
+- Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl`
+- Strict accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1_accepted.jsonl`
+- Conservative accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1_accepted.jsonl`
+- Split field: `project`
+- Candidate rows / unique pairs: `25` / `16`
+- Candidate true inversions: `12`
+- Candidate precision: `0.4800`
+- Strict gate accepted / introduced rows: `12` / `3`
+- Conservative gate accepted / introduced rows: `3` / `0`
+- Interpretation: the in-pool strict gate is not cross-project safe; the conservative cross-project gate restores zero false accepts by sacrificing recall.

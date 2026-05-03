@@ -129,8 +129,8 @@
     {
       "role": "side_inversion_review_queue_json",
       "path": "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json",
-      "sha256": "64e1a3f1809348cfdcb2e511755141041ffb65ced45b55b8d871f65f088a1076",
-      "bytes": 1486
+      "sha256": "a78b8d1cad635b660b9ea4015f158abcd7ada3d941950d4dbe9b297927a80024",
+      "bytes": 1538
     },
     {
       "role": "side_inversion_review_queue_jsonl",
@@ -187,8 +187,8 @@
     {
       "role": "side_inversion_rank_holdout_review_queue_json",
       "path": "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json",
-      "sha256": "f8e7d96522f04a1149f608a81127ef0cef71e3a3c9258de89aebd5a5c68a33c1",
-      "bytes": 1503
+      "sha256": "5fb28f88e7539348470364534dc97df8fa681e6c8881c397627ac6b35ca34f07",
+      "bytes": 1555
     },
     {
       "role": "side_inversion_rank_holdout_review_queue_jsonl",
@@ -239,8 +239,8 @@
     {
       "role": "side_inversion_fresh_seed_review_queue_json",
       "path": "reports/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json",
-      "sha256": "78566fab1705361ebf1fe0e7bdbf14746dc1e00a5fddb7e6007f5257679da299",
-      "bytes": 1542
+      "sha256": "76c509979bcdea3af3887f0125f9fd216027b6e947084636cda7db262c635e95",
+      "bytes": 1594
     },
     {
       "role": "side_inversion_fresh_seed_review_queue_jsonl",
@@ -287,6 +287,58 @@
       "sha256": "20d4073508a9f7faadf41dd25d6c1b0250ff30124befbacd04e2a7a5419ec1bd",
       "bytes": 4122,
       "rows": 9
+    },
+    {
+      "role": "side_inversion_project_holdout_review_queue_json",
+      "path": "reports/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.json",
+      "sha256": "52dc085e8b3b251c305e603cc1067624b215a3228f57fa7dfe01c1ba808cb38f",
+      "bytes": 1601
+    },
+    {
+      "role": "side_inversion_project_holdout_review_queue_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.jsonl",
+      "sha256": "053e0b3e4503279f9670701d4a1d079340b6c05cffce312ab50de98e9cb1266d",
+      "bytes": 152331,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_project_holdout_verifier_json",
+      "path": "reports/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.json",
+      "sha256": "08b8a2096d51626f72d2aa1161ba75dd5809a121f0faabe5ecc60140d8013e45",
+      "bytes": 666
+    },
+    {
+      "role": "side_inversion_project_holdout_verifier_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
+      "sha256": "7b9432072c5681be5f9fbccacac38212eebe9e184054ba354906df35b15acec3",
+      "bytes": 96303,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_project_holdout_strict_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
+      "sha256": "00d1ab6603c99c5e2f5d422b39e0ec76eba90020e6c754b74833c9bd11a5bfc5",
+      "bytes": 7474
+    },
+    {
+      "role": "side_inversion_project_holdout_strict_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1_accepted.jsonl",
+      "sha256": "973168952ff7ef5206f890589ba4543c8644038dc5da6fa4dc9b1d333f280a08",
+      "bytes": 5436,
+      "rows": 12
+    },
+    {
+      "role": "side_inversion_project_holdout_conservative_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
+      "sha256": "dd333af2d1b4035c8d6e06586faffe46b6a0709a55663689577e1768b97ebd36",
+      "bytes": 2413
+    },
+    {
+      "role": "side_inversion_project_holdout_conservative_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1_accepted.jsonl",
+      "sha256": "6f12b10ba9f529afd41dfdae4a8eb5ab6dd9f7df51a6545ffcef4a26360226e2",
+      "bytes": 1367,
+      "rows": 3
     }
   ],
   "expected": {
@@ -354,7 +406,14 @@
     "side_inversion_fresh_seed_gate_introduced_rows": 1,
     "side_inversion_fresh_seed_strict_gate_accept_precision": 1.0,
     "side_inversion_fresh_seed_strict_gate_accepted_rows": 9,
-    "side_inversion_fresh_seed_strict_gate_introduced_rows": 0
+    "side_inversion_fresh_seed_strict_gate_introduced_rows": 0,
+    "side_inversion_project_holdout_queue_precision": 0.48,
+    "side_inversion_project_holdout_verifier_accept_rows": 12,
+    "side_inversion_project_holdout_strict_gate_accept_precision": 0.75,
+    "side_inversion_project_holdout_strict_gate_introduced_rows": 3,
+    "side_inversion_project_holdout_conservative_gate_accept_precision": 1.0,
+    "side_inversion_project_holdout_conservative_gate_accepted_rows": 3,
+    "side_inversion_project_holdout_conservative_gate_introduced_rows": 0
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

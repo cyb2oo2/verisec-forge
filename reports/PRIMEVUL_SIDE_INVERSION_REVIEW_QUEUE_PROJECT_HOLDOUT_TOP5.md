@@ -5,21 +5,21 @@ This artifact materializes the top-scored paired-window side-inversion candidate
 ## Summary
 
 - Seeds: `[7, 13, 42, 99, 123]`
-- Split field: `pair_key_random`
-- Rank window per seed: `6-10`
+- Split field: `project`
+- Rank window per seed: `1-5`
 - Queue rows: `25`
-- Unique pair keys: `23`
-- True inversions: `8`
-- Queue precision: `0.32`
+- Unique pair keys: `16`
+- True inversions: `12`
+- Queue precision: `0.48`
 
 ## Per-Seed Precision
 
 | seed | rows | true_inversions | precision |
 | ---: | ---: | ---: | ---: |
-| 7 | 5 | 1 | 0.2 |
-| 13 | 5 | 1 | 0.2 |
-| 42 | 5 | 1 | 0.2 |
-| 99 | 5 | 3 | 0.6 |
+| 7 | 5 | 3 | 0.6 |
+| 13 | 5 | 3 | 0.6 |
+| 42 | 5 | 2 | 0.4 |
+| 99 | 5 | 2 | 0.4 |
 | 123 | 5 | 2 | 0.4 |
 
 ## Boundary

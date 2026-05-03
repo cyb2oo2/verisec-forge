@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from scripts.build_primevul_side_inversion_review_queue import build_queue, compact_side_windows, summarize
+from scripts.build_primevul_side_inversion_review_queue import (
+    build_queue,
+    compact_side_windows,
+    split_rows_for_queue,
+    summarize,
+)
 
 
 def example(pair_key: str, label: str, score_token: str) -> dict:
@@ -51,12 +56,13 @@ def test_summarize_reports_precision() -> None:
         {"seed": 1, "pair_key": "p2", "is_true_inversion_candidate": False},
     ]
 
-    summary = summarize(queue, seeds=[1], top_k=2, rank_start=1)
+    summary = summarize(queue, seeds=[1], top_k=2, rank_start=1, split_field=None)
 
     assert summary["precision"] == 0.5
     assert summary["by_seed"][0]["true_inversions"] == 1
     assert summary["rank_start"] == 1
     assert summary["rank_end"] == 2
+    assert summary["split_field"] is None
 
 
 def test_build_queue_runs_on_small_dataset() -> None:
@@ -78,6 +84,7 @@ def test_build_queue_runs_on_small_dataset() -> None:
         feature_mode="numeric_text",
         top_k=1,
         rank_start=1,
+        split_field=None,
     )
 
     assert len(queue) == 1
@@ -103,8 +110,26 @@ def test_build_queue_respects_rank_start() -> None:
         feature_mode="numeric_text",
         top_k=1,
         rank_start=2,
+        split_field=None,
     )
 
     assert len(queue) == 1
     assert queue[0]["rank"] == 2
     assert summary["rank_start"] == 2
+
+
+def test_split_rows_for_queue_can_hold_out_projects() -> None:
+    rows = [
+        {**example("p1", "A", "risk_a"), "project": "alpha"},
+        {**example("p2", "B", "risk_b"), "project": "alpha"},
+        {**example("p3", "A", "risk_c"), "project": "beta"},
+        {**example("p4", "B", "risk_d"), "project": "gamma"},
+    ]
+
+    train_rows, eval_rows = split_rows_for_queue(rows, calibration_fraction=0.34, seed=1, split_field="project")
+
+    train_projects = {row["project"] for row in train_rows}
+    eval_projects = {row["project"] for row in eval_rows}
+    assert train_projects
+    assert eval_projects
+    assert train_projects.isdisjoint(eval_projects)
