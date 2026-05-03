@@ -263,3 +263,18 @@ This generated local artifact materializes the top-scored paired-window side-inv
 - True inversions: `18`
 - Diagnostic precision: `0.7200`
 - Interpretation: review/verifier input with gold labels retained for analysis; not an automatic correction result.
+
+## Side-Inversion Verifier Dataset
+
+This generated local artifact converts the review queue into strict supervised verifier targets. The verifier task is intentionally narrow: decide whether to accept a proposed flip from the detector's high-probability side to the side model's alternative side, using only the compact paired evidence windows.
+
+- Report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET.md`
+- JSON: `reports/secure_code_primevul_side_inversion_verifier_top5_v1.json`
+- Local JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
+- Input queue: `data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl`
+- Rows: `25`
+- Unique pair keys: `16`
+- Accept / reject flip rows: `18` / `7`
+- Average prompt length: `2873.2` characters
+- Output contract: `accept_flip`, `reason_code`, `evidence_side`, `confidence`
+- Interpretation: supervised verifier/review target for future training; not an independent benchmark split and not a deployed automatic correction layer.

@@ -301,6 +301,18 @@ def commands() -> list[list[str]]:
             "--summary-md",
             "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE.md",
         ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_verifier_dataset.py",
+            "--queue",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET.md",
+        ],
     ]
 
 
@@ -319,6 +331,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     paired_window = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json")
     side_model = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_side_model_v1.json")
     review_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json")
+    verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -365,6 +378,10 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_review_queue_rows": review_queue["summary"]["rows"],
         "side_inversion_review_queue_unique_pairs": review_queue["summary"]["unique_pair_count"],
         "side_inversion_review_queue_precision": review_queue["summary"]["precision"],
+        "side_inversion_verifier_rows": verifier_dataset["summary"]["rows"],
+        "side_inversion_verifier_accept_flip_rows": verifier_dataset["summary"]["accept_flip_rows"],
+        "side_inversion_verifier_reject_flip_rows": verifier_dataset["summary"]["reject_flip_rows"],
+        "side_inversion_verifier_avg_prompt_chars": verifier_dataset["summary"]["avg_prompt_chars"],
     }
     checks = {
         key: {

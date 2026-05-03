@@ -138,6 +138,19 @@
       "sha256": "821ddad44a2da7847edd414cf675eff38a40ca70462587ed11461a1a166bc2e2",
       "bytes": 140313,
       "rows": 25
+    },
+    {
+      "role": "side_inversion_verifier_json",
+      "path": "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json",
+      "sha256": "f48da58c02542e29f7602174f13fdc7a685c5baf2438067c2216d6656bf19631",
+      "bytes": 595
+    },
+    {
+      "role": "side_inversion_verifier_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl",
+      "sha256": "621bee22f2cb29e70bc9e307b0cb6dde12da75992ccf7040b3ec96bc52620ec0",
+      "bytes": 90283,
+      "rows": 25
     }
   ],
   "expected": {
@@ -175,7 +188,11 @@
     "paired_window_side_model_top10_precision_mean": 0.52,
     "side_inversion_review_queue_rows": 25,
     "side_inversion_review_queue_unique_pairs": 16,
-    "side_inversion_review_queue_precision": 0.72
+    "side_inversion_review_queue_precision": 0.72,
+    "side_inversion_verifier_rows": 25,
+    "side_inversion_verifier_accept_flip_rows": 18,
+    "side_inversion_verifier_reject_flip_rows": 7,
+    "side_inversion_verifier_avg_prompt_chars": 2873.2
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",
