@@ -64,6 +64,8 @@ Expected key outputs:
 - side-inversion verifier average prompt chars: `2873.2`
 - side-inversion verifier baseline best balanced accuracy / accept precision: `0.7778` / `1.0000`
 - side-inversion verifier baseline accepted flips: `10`
+- side-inversion safe flip gate accepted rows / unique pairs: `10` / `4`
+- side-inversion safe flip gate repaired / introduced rows: `10` / `0`
 
 The exact local inputs and expected generated artifacts are listed in:
 
@@ -95,6 +97,7 @@ These files are intentionally not committed because `data/processed` and `output
 - `data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`
 - `data/processed/secure_code_primevul_side_inversion_review_queue_top5_v1.jsonl`
 - `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
+- `outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl`
 
 If a fresh clone is missing these files, the reproduction script fails with a structured missing-artifact report instead of silently producing partial results.
 

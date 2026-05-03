@@ -323,6 +323,22 @@ def commands() -> list[list[str]]:
             "--md-output",
             "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_BASELINES.md",
         ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl",
+            "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "10",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl",
+        ],
     ]
 
 
@@ -343,6 +359,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     review_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json")
     verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
     verifier_baselines = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
+    safe_flip_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -400,6 +417,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
             "accept_precision"
         ],
         "side_inversion_verifier_best_accepted": verifier_baselines["summary"]["best_accept_precision"]["accepted"],
+        "side_inversion_safe_flip_gate_accepted_rows": safe_flip_gate["summary"]["accepted_rows"],
+        "side_inversion_safe_flip_gate_accepted_unique_pairs": safe_flip_gate["summary"]["accepted_unique_pairs"],
+        "side_inversion_safe_flip_gate_repaired_rows": safe_flip_gate["summary"]["repaired_side_error_rows"],
+        "side_inversion_safe_flip_gate_introduced_rows": safe_flip_gate["summary"]["introduced_side_error_rows"],
+        "side_inversion_safe_flip_gate_net_pair_gain": safe_flip_gate["summary"]["net_pair_gain_if_applied"],
     }
     checks = {
         key: {

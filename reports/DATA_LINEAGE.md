@@ -292,3 +292,19 @@ This report evaluates cheap baselines before training a heavier verifier.
 - Best consensus-plus-evidence accept precision: `1.0000`
 - Accepted flips at the precision-first point: `10`
 - Interpretation: raw side-model confidence does not reject bad flips, but combining multi-split queue consensus with evidence-margin scoring can act as a higher-coverage precision-first verifier gate.
+
+## Side-Inversion Safe Flip Gate
+
+This report materializes the best precision-first verifier baseline as a concrete offline gate.
+
+- Report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md`
+- JSON: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json`
+- Accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl`
+- Input: `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
+- Gate: `pair_repeat_count >= 3 OR evidence_score >= 10`
+- Candidate rows / unique pairs: `25` / `16`
+- Accepted rows / unique pairs: `10` / `4`
+- Repaired side-error rows / pairs: `10` / `4`
+- Introduced side-error rows / pairs: `0` / `0`
+- Net row / pair gain if applied: `10` / `4`
+- Interpretation: offline safety operating point for side-inversion repair; not a full-benchmark automatic correction claim.

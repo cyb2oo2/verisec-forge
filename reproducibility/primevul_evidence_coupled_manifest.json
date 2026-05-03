@@ -157,6 +157,19 @@
       "path": "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json",
       "sha256": "511ea0afbd9cecdca80103aa3ea73b0ea8a793b78d06678a3ae8f09f00f5a4a0",
       "bytes": 10498
+    },
+    {
+      "role": "side_inversion_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json",
+      "sha256": "8847987dcad94415433410d7e9fa121392a207eb61faaec55e60d41cd7cb110f",
+      "bytes": 6328
+    },
+    {
+      "role": "side_inversion_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl",
+      "sha256": "deea2157f7ce021e617aa2524cfee4433b7cfd84d4b17ae3935276261d322175",
+      "bytes": 4506,
+      "rows": 10
     }
   ],
   "expected": {
@@ -201,7 +214,12 @@
     "side_inversion_verifier_avg_prompt_chars": 2873.2,
     "side_inversion_verifier_best_balanced_accuracy": 0.7778,
     "side_inversion_verifier_best_accept_precision": 1.0,
-    "side_inversion_verifier_best_accepted": 10
+    "side_inversion_verifier_best_accepted": 10,
+    "side_inversion_safe_flip_gate_accepted_rows": 10,
+    "side_inversion_safe_flip_gate_accepted_unique_pairs": 4,
+    "side_inversion_safe_flip_gate_repaired_rows": 10,
+    "side_inversion_safe_flip_gate_introduced_rows": 0,
+    "side_inversion_safe_flip_gate_net_pair_gain": 4
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",
