@@ -51,10 +51,12 @@ def test_summarize_reports_precision() -> None:
         {"seed": 1, "pair_key": "p2", "is_true_inversion_candidate": False},
     ]
 
-    summary = summarize(queue, seeds=[1], top_k=2)
+    summary = summarize(queue, seeds=[1], top_k=2, rank_start=1)
 
     assert summary["precision"] == 0.5
     assert summary["by_seed"][0]["true_inversions"] == 1
+    assert summary["rank_start"] == 1
+    assert summary["rank_end"] == 2
 
 
 def test_build_queue_runs_on_small_dataset() -> None:
@@ -75,7 +77,34 @@ def test_build_queue_runs_on_small_dataset() -> None:
         positive_weight=1.0,
         feature_mode="numeric_text",
         top_k=1,
+        rank_start=1,
     )
 
     assert len(queue) == 1
     assert summary["rows"] == 1
+
+
+def test_build_queue_respects_rank_start() -> None:
+    rows = [
+        example("p1", "A", "risk_a"),
+        example("p2", "B", "risk_b"),
+        example("p3", "A", "risk_c"),
+        example("p4", "B", "risk_d"),
+    ]
+
+    queue, summary = build_queue(
+        rows,
+        seeds=[1],
+        calibration_fraction=0.5,
+        epochs=2,
+        learning_rate=0.01,
+        l2=0.0,
+        positive_weight=1.0,
+        feature_mode="numeric_text",
+        top_k=1,
+        rank_start=2,
+    )
+
+    assert len(queue) == 1
+    assert queue[0]["rank"] == 2
+    assert summary["rank_start"] == 2

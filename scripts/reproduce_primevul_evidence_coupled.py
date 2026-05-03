@@ -339,6 +339,64 @@ def commands() -> list[list[str]]:
             "--accepted-jsonl-output",
             "outputs/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1_accepted.jsonl",
         ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_review_queue.py",
+            "--input",
+            "data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl",
+            "--seeds",
+            "7,13,42,99,123",
+            "--calibration-fraction",
+            "0.3",
+            "--epochs",
+            "80",
+            "--learning-rate",
+            "0.01",
+            "--l2",
+            "0.0001",
+            "--positive-weight",
+            "8.0",
+            "--feature-mode",
+            "numeric_text",
+            "--top-k",
+            "5",
+            "--rank-start",
+            "6",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md",
+        ],
+        [
+            py,
+            "scripts/build_primevul_side_inversion_verifier_dataset.py",
+            "--queue",
+            "data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl",
+            "--jsonl-output",
+            "data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl",
+            "--summary-json",
+            "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json",
+            "--summary-md",
+            "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md",
+        ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_safe_flip_gate.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl",
+            "--repeat-threshold",
+            "3",
+            "--evidence-threshold",
+            "10",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md",
+            "--accepted-jsonl-output",
+            "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl",
+        ],
     ]
 
 
@@ -360,6 +418,9 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
     verifier_baselines = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
     safe_flip_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json")
+    rank_holdout_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json")
+    rank_holdout_verifier = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json")
+    rank_holdout_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -422,6 +483,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_safe_flip_gate_repaired_rows": safe_flip_gate["summary"]["repaired_side_error_rows"],
         "side_inversion_safe_flip_gate_introduced_rows": safe_flip_gate["summary"]["introduced_side_error_rows"],
         "side_inversion_safe_flip_gate_net_pair_gain": safe_flip_gate["summary"]["net_pair_gain_if_applied"],
+        "side_inversion_rank_holdout_queue_precision": rank_holdout_queue["summary"]["precision"],
+        "side_inversion_rank_holdout_verifier_accept_rows": rank_holdout_verifier["summary"]["accept_flip_rows"],
+        "side_inversion_rank_holdout_gate_accepted_rows": rank_holdout_gate["summary"]["accepted_rows"],
+        "side_inversion_rank_holdout_gate_introduced_rows": rank_holdout_gate["summary"]["introduced_side_error_rows"],
+        "side_inversion_rank_holdout_gate_accept_precision": rank_holdout_gate["summary"]["accept_precision"],
     }
     checks = {
         key: {

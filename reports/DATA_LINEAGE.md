@@ -308,3 +308,21 @@ This report materializes the best precision-first verifier baseline as a concret
 - Introduced side-error rows / pairs: `0` / `0`
 - Net row / pair gain if applied: `10` / `4`
 - Interpretation: offline safety operating point for side-inversion repair; not a full-benchmark automatic correction claim.
+
+## Side-Inversion Rank-Holdout Gate Check
+
+This stress check applies the same safe flip gate to lower-ranked candidates from the same side model. It is not a fully external split, but it is harder than the original top-5 queue.
+
+- Queue report: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md`
+- Verifier target report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md`
+- Gate report: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md`
+- Queue JSONL: `data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl`
+- Verifier JSONL: `data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl`
+- Accepted rows JSONL: `outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl`
+- Rank window per seed: `6-10`
+- Candidate rows / unique pairs: `25` / `23`
+- Candidate true inversions: `8`
+- Candidate precision: `0.3200`
+- Gate accepted rows / unique pairs: `2` / `2`
+- Gate repaired / introduced rows: `2` / `0`
+- Interpretation: the gate remains conservative under lower-quality candidates, but recall falls sharply.

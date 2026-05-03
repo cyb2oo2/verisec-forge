@@ -129,8 +129,8 @@
     {
       "role": "side_inversion_review_queue_json",
       "path": "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json",
-      "sha256": "69f96a2bd683682c80388d75d1680d9358db50cf2ebf9147735455adf8cbf4f7",
-      "bytes": 1422
+      "sha256": "64e1a3f1809348cfdcb2e511755141041ffb65ced45b55b8d871f65f088a1076",
+      "bytes": 1486
     },
     {
       "role": "side_inversion_review_queue_jsonl",
@@ -170,6 +170,45 @@
       "sha256": "deea2157f7ce021e617aa2524cfee4433b7cfd84d4b17ae3935276261d322175",
       "bytes": 4506,
       "rows": 10
+    },
+    {
+      "role": "side_inversion_rank_holdout_review_queue_json",
+      "path": "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json",
+      "sha256": "f8e7d96522f04a1149f608a81127ef0cef71e3a3c9258de89aebd5a5c68a33c1",
+      "bytes": 1503
+    },
+    {
+      "role": "side_inversion_rank_holdout_review_queue_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl",
+      "sha256": "13db80d13a40f82d7705bac6dd08197f5cc88474ae06c2ce1869afd93d91f4cb",
+      "bytes": 130054,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_rank_holdout_verifier_json",
+      "path": "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json",
+      "sha256": "54373d3d6029f6b3b4bcc1332f15ed0114f085ba0a083d399878729dabc5ede7",
+      "bytes": 617
+    },
+    {
+      "role": "side_inversion_rank_holdout_verifier_jsonl",
+      "path": "data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl",
+      "sha256": "672b82d06fa7a8b1c2db5b75daea5c77557315701ad694fcfc5c78c73f60a872",
+      "bytes": 85264,
+      "rows": 25
+    },
+    {
+      "role": "side_inversion_rank_holdout_safe_flip_gate_json",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json",
+      "sha256": "f6264493b55e2597d7fd83b67d4d5ca61c6955569274181b9b57877e0238c1a0",
+      "bytes": 1850
+    },
+    {
+      "role": "side_inversion_rank_holdout_safe_flip_gate_accepted_jsonl",
+      "path": "outputs/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1_accepted.jsonl",
+      "sha256": "2e98325fa0dfed836e50a8026278292d7169a87993933f0273a756cc87b3a5d1",
+      "bytes": 915,
+      "rows": 2
     }
   ],
   "expected": {
@@ -219,7 +258,12 @@
     "side_inversion_safe_flip_gate_accepted_unique_pairs": 4,
     "side_inversion_safe_flip_gate_repaired_rows": 10,
     "side_inversion_safe_flip_gate_introduced_rows": 0,
-    "side_inversion_safe_flip_gate_net_pair_gain": 4
+    "side_inversion_safe_flip_gate_net_pair_gain": 4,
+    "side_inversion_rank_holdout_queue_precision": 0.32,
+    "side_inversion_rank_holdout_verifier_accept_rows": 8,
+    "side_inversion_rank_holdout_gate_accepted_rows": 2,
+    "side_inversion_rank_holdout_gate_introduced_rows": 0,
+    "side_inversion_rank_holdout_gate_accept_precision": 1.0
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

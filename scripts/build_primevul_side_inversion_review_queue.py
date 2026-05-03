@@ -74,6 +74,7 @@ def build_queue(
     positive_weight: float,
     feature_mode: str,
     top_k: int,
+    rank_start: int,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     queue: list[dict[str, Any]] = []
     for seed in seeds:
@@ -89,13 +90,14 @@ def build_queue(
         )
         scores = score_rows(eval_rows, weights, feature_mode=feature_mode)
         row_by_key = {row["pair_key"]: row for row in eval_rows}
-        ordered = sorted(scores, key=lambda score: float(score["inversion_probability"]), reverse=True)[:top_k]
-        for rank, score in enumerate(ordered, start=1):
+        ordered = sorted(scores, key=lambda score: float(score["inversion_probability"]), reverse=True)
+        selected = ordered[rank_start - 1 : rank_start - 1 + top_k]
+        for rank, score in enumerate(selected, start=rank_start):
             queue.append(queue_row(seed, rank, row_by_key[score["pair_key"]], score))
-    return queue, summarize(queue, seeds=seeds, top_k=top_k)
+    return queue, summarize(queue, seeds=seeds, top_k=top_k, rank_start=rank_start)
 
 
-def summarize(queue: list[dict[str, Any]], *, seeds: list[int], top_k: int) -> dict[str, Any]:
+def summarize(queue: list[dict[str, Any]], *, seeds: list[int], top_k: int, rank_start: int) -> dict[str, Any]:
     by_seed: list[dict[str, Any]] = []
     for seed in seeds:
         rows = [row for row in queue if int(row["seed"]) == seed]
@@ -113,6 +115,8 @@ def summarize(queue: list[dict[str, Any]], *, seeds: list[int], top_k: int) -> d
     return {
         "seeds": seeds,
         "top_k": top_k,
+        "rank_start": rank_start,
+        "rank_end": rank_start + top_k - 1,
         "rows": len(queue),
         "unique_pair_count": len(unique_pairs),
         "true_inversions": true_total,
@@ -131,7 +135,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "## Summary",
         "",
         f"- Seeds: `{summary['seeds']}`",
-        f"- Top-k per seed: `{summary['top_k']}`",
+        f"- Rank window per seed: `{summary['rank_start']}-{summary['rank_end']}`",
         f"- Queue rows: `{summary['rows']}`",
         f"- Unique pair keys: `{summary['unique_pair_count']}`",
         f"- True inversions: `{summary['true_inversions']}`",
@@ -167,6 +171,7 @@ def main() -> None:
     parser.add_argument("--positive-weight", type=float, default=8.0)
     parser.add_argument("--feature-mode", default="numeric_text", choices=["numeric", "numeric_text"])
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--rank-start", type=int, default=1)
     parser.add_argument("--jsonl-output", required=True)
     parser.add_argument("--summary-json", required=True)
     parser.add_argument("--summary-md", required=True)
@@ -182,6 +187,7 @@ def main() -> None:
         positive_weight=args.positive_weight,
         feature_mode=args.feature_mode,
         top_k=args.top_k,
+        rank_start=args.rank_start,
     )
     payload = {"config": vars(args), "summary": summary}
     write_jsonl(args.jsonl_output, queue)

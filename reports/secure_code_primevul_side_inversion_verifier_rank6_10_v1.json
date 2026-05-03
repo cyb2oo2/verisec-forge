@@ -1,0 +1,17 @@
+{
+  "config": {
+    "queue": "data/processed/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.jsonl",
+    "jsonl_output": "data/processed/secure_code_primevul_side_inversion_verifier_rank6_10_v1.jsonl",
+    "summary_json": "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json",
+    "summary_md": "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md"
+  },
+  "summary": {
+    "rows": 25,
+    "unique_pair_count": 23,
+    "accept_flip_rows": 8,
+    "reject_flip_rows": 17,
+    "accept_rate": 0.32,
+    "avg_prompt_chars": 2685.44,
+    "max_prompt_chars": 4666
+  }
+}

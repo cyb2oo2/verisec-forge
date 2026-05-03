@@ -144,6 +144,9 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Side-Inversion Verifier Baselines JSON`: `reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json`
 - `Paired Diff Side-Inversion Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md`
 - `Paired Diff Side-Inversion Safe Flip Gate JSON`: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json`
+- `Paired Diff Side-Inversion Rank-Holdout Review Queue`: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md`
+- `Paired Diff Side-Inversion Rank-Holdout Verifier Dataset`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md`
+- `Paired Diff Side-Inversion Rank-Holdout Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md`
 - `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
 - `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
 - `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`
