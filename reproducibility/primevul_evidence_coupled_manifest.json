@@ -151,6 +151,12 @@
       "sha256": "621bee22f2cb29e70bc9e307b0cb6dde12da75992ccf7040b3ec96bc52620ec0",
       "bytes": 90283,
       "rows": 25
+    },
+    {
+      "role": "side_inversion_verifier_baselines_json",
+      "path": "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json",
+      "sha256": "61e2aadac73fbcfbb2da68fcdefd15bcd04aa43c65b21c8d82f73c5299beccca",
+      "bytes": 4646
     }
   ],
   "expected": {
@@ -192,7 +198,10 @@
     "side_inversion_verifier_rows": 25,
     "side_inversion_verifier_accept_flip_rows": 18,
     "side_inversion_verifier_reject_flip_rows": 7,
-    "side_inversion_verifier_avg_prompt_chars": 2873.2
+    "side_inversion_verifier_avg_prompt_chars": 2873.2,
+    "side_inversion_verifier_best_balanced_accuracy": 0.6944,
+    "side_inversion_verifier_best_accept_precision": 1.0,
+    "side_inversion_verifier_best_accepted": 7
   },
   "limitations": [
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",

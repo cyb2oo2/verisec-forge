@@ -278,3 +278,17 @@ This generated local artifact converts the review queue into strict supervised v
 - Average prompt length: `2873.2` characters
 - Output contract: `accept_flip`, `reason_code`, `evidence_side`, `confidence`
 - Interpretation: supervised verifier/review target for future training; not an independent benchmark split and not a deployed automatic correction layer.
+
+## Side-Inversion Verifier Baselines
+
+This report evaluates cheap baselines before training a heavier verifier.
+
+- Report: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_BASELINES.md`
+- JSON: `reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json`
+- Input: `data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl`
+- `accept_all` accuracy / balanced accuracy: `0.7200` / `0.5000`
+- `side_model_score >= 0.9` accuracy / balanced accuracy: `0.7200` / `0.5000`
+- Best evidence-margin balanced accuracy: `0.6944`
+- Best evidence-margin accept precision: `1.0000`
+- Accepted flips at the precision-first point: `7`
+- Interpretation: raw side-model confidence does not reject bad flips, but evidence-margin scoring can act as a high-precision verifier gate with limited recall.

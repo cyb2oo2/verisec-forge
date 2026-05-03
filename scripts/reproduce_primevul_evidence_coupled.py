@@ -313,6 +313,16 @@ def commands() -> list[list[str]]:
             "--summary-md",
             "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET.md",
         ],
+        [
+            py,
+            "scripts/evaluate_primevul_side_inversion_verifier_baselines.py",
+            "--input",
+            "data/processed/secure_code_primevul_side_inversion_verifier_top5_v1.jsonl",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_BASELINES.md",
+        ],
     ]
 
 
@@ -332,6 +342,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
     side_model = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_side_model_v1.json")
     review_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json")
     verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
+    verifier_baselines = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
     actual = {
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
@@ -382,6 +393,13 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_verifier_accept_flip_rows": verifier_dataset["summary"]["accept_flip_rows"],
         "side_inversion_verifier_reject_flip_rows": verifier_dataset["summary"]["reject_flip_rows"],
         "side_inversion_verifier_avg_prompt_chars": verifier_dataset["summary"]["avg_prompt_chars"],
+        "side_inversion_verifier_best_balanced_accuracy": verifier_baselines["summary"]["best_balanced_accuracy"][
+            "balanced_accuracy"
+        ],
+        "side_inversion_verifier_best_accept_precision": verifier_baselines["summary"]["best_accept_precision"][
+            "accept_precision"
+        ],
+        "side_inversion_verifier_best_accepted": verifier_baselines["summary"]["best_accept_precision"]["accepted"],
     }
     checks = {
         key: {
