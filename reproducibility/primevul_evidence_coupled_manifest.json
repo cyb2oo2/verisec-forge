@@ -155,8 +155,8 @@
     {
       "role": "side_inversion_verifier_baselines_json",
       "path": "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json",
-      "sha256": "511ea0afbd9cecdca80103aa3ea73b0ea8a793b78d06678a3ae8f09f00f5a4a0",
-      "bytes": 10498
+      "sha256": "173ba54d96d19c036f810eaf5ca48806b24f7a60dce1dc2c60eb818338784433",
+      "bytes": 24109
     },
     {
       "role": "side_inversion_safe_flip_gate_json",

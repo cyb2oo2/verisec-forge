@@ -136,6 +136,42 @@ def consensus_margin_metrics(rows: list[dict[str, Any]], *, repeat_thresholds: l
     return metrics
 
 
+def evidence_conditioned_consensus_metrics(
+    rows: list[dict[str, Any]],
+    *,
+    repeat_thresholds: list[int],
+    evidence_thresholds: list[float],
+    repeat_evidence_thresholds: list[float],
+) -> list[dict[str, Any]]:
+    counts = collections.Counter(str(row.get("pair_key", row.get("id", ""))) for row in rows)
+    scores = [evidence_score(row) for row in rows]
+    metrics = []
+    for repeat_threshold in repeat_thresholds:
+        for repeat_evidence_threshold in repeat_evidence_thresholds:
+            for evidence_threshold in evidence_thresholds:
+                predictions = [
+                    int(
+                        score >= evidence_threshold
+                        or (
+                            counts[str(row.get("pair_key", row.get("id", "")))] >= repeat_threshold
+                            and score >= repeat_evidence_threshold
+                        )
+                    )
+                    for row, score in zip(rows, scores, strict=True)
+                ]
+                metrics.append(
+                    metric(
+                        rows,
+                        predictions,
+                        name=(
+                            f"evidence>={evidence_threshold:g}_or_"
+                            f"repeat>={repeat_threshold}_and_evidence>={repeat_evidence_threshold:g}"
+                        ),
+                    )
+                )
+    return metrics
+
+
 def best_by(metrics: list[dict[str, Any]], key: str) -> dict[str, Any]:
     return max(metrics, key=lambda row: (float(row[key]), float(row["accept_precision"]), float(row["accuracy"])))
 
@@ -146,6 +182,7 @@ def build_report(
     score_thresholds: list[float],
     evidence_thresholds: list[float],
     repeat_thresholds: list[int],
+    repeat_evidence_thresholds: list[float],
 ) -> dict[str, Any]:
     metrics = [
         metric(rows, [1 for _ in rows], name="accept_all"),
@@ -155,6 +192,14 @@ def build_report(
     metrics.extend(evidence_threshold_metrics(rows, evidence_thresholds))
     metrics.extend(repeat_count_metrics(rows, repeat_thresholds))
     metrics.extend(consensus_margin_metrics(rows, repeat_thresholds=repeat_thresholds, evidence_thresholds=evidence_thresholds))
+    metrics.extend(
+        evidence_conditioned_consensus_metrics(
+            rows,
+            repeat_thresholds=repeat_thresholds,
+            evidence_thresholds=evidence_thresholds,
+            repeat_evidence_thresholds=repeat_evidence_thresholds,
+        )
+    )
     scores = [evidence_score(row) for row in rows]
     positives = [score for score, row in zip(scores, rows, strict=True) if gold(row) == 1]
     negatives = [score for score, row in zip(scores, rows, strict=True) if gold(row) == 0]
@@ -165,6 +210,7 @@ def build_report(
             "score_thresholds": score_thresholds,
             "evidence_thresholds": evidence_thresholds,
             "repeat_thresholds": repeat_thresholds,
+            "repeat_evidence_thresholds": repeat_evidence_thresholds,
         },
         "summary": {
             "rows": len(rows),
@@ -212,7 +258,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "## Interpretation",
             "",
-            "A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. The multi-split consensus rule is especially important: if repeated top-k selection already gives zero-false-accept coverage, a trained verifier should be judged by whether it recovers additional true flips without accepting reject cases.",
+            "A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. The multi-split consensus rule is especially important: if repeated top-k selection already gives zero-false-accept coverage, a trained verifier should be judged by whether it recovers additional true flips without accepting reject cases. Evidence-conditioned consensus baselines test a stricter variant where repeated selection must also carry local evidence support.",
             "",
         ]
     )
@@ -239,6 +285,7 @@ def main() -> None:
     parser.add_argument("--score-thresholds", default="0.5,0.9,0.99,0.999")
     parser.add_argument("--evidence-thresholds", default="-5,0,5,10")
     parser.add_argument("--repeat-thresholds", default="2,3,4")
+    parser.add_argument("--repeat-evidence-thresholds", default="-5,0,5")
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output")
     args = parser.parse_args()
@@ -248,6 +295,7 @@ def main() -> None:
         score_thresholds=parse_floats(args.score_thresholds),
         evidence_thresholds=parse_floats(args.evidence_thresholds),
         repeat_thresholds=parse_ints(args.repeat_thresholds),
+        repeat_evidence_thresholds=parse_floats(args.repeat_evidence_thresholds),
     )
     write_json(args.json_output, payload)
     if args.md_output:

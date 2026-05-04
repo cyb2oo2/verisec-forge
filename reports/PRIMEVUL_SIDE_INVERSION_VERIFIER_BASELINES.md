@@ -40,7 +40,43 @@ This report evaluates lightweight baselines for the strict `accept_flip` verifie
 | repeat>=4_or_evidence>=0 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
 | repeat>=4_or_evidence>=5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
 | repeat>=4_or_evidence>=10 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=2_and_evidence>=-5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=2_and_evidence>=-5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=2_and_evidence>=-5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=2_and_evidence>=-5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=2_and_evidence>=0 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=2_and_evidence>=0 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=2_and_evidence>=0 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=2_and_evidence>=0 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=2_and_evidence>=5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=2_and_evidence>=5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=2_and_evidence>=5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=2_and_evidence>=5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=3_and_evidence>=-5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=3_and_evidence>=-5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=3_and_evidence>=-5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=3_and_evidence>=-5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=3_and_evidence>=0 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=3_and_evidence>=0 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=3_and_evidence>=0 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=3_and_evidence>=0 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=3_and_evidence>=5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=3_and_evidence>=5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=3_and_evidence>=5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=3_and_evidence>=5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=4_and_evidence>=-5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=4_and_evidence>=-5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=4_and_evidence>=-5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=4_and_evidence>=-5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=4_and_evidence>=0 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=4_and_evidence>=0 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=4_and_evidence>=0 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=4_and_evidence>=0 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
+| evidence>=-5_or_repeat>=4_and_evidence>=5 | 0.52 | 0.5357 | 0.5 | 0.5714 | 0.75 | 12 | 9 | 4 | 3 | 9 |
+| evidence>=0_or_repeat>=4_and_evidence>=5 | 0.56 | 0.6071 | 0.5 | 0.7143 | 0.8182 | 11 | 9 | 5 | 2 | 9 |
+| evidence>=5_or_repeat>=4_and_evidence>=5 | 0.52 | 0.623 | 0.3889 | 0.8571 | 0.875 | 8 | 7 | 6 | 1 | 11 |
+| evidence>=10_or_repeat>=4_and_evidence>=5 | 0.56 | 0.6944 | 0.3889 | 1.0 | 1.0 | 7 | 7 | 7 | 0 | 11 |
 
 ## Interpretation
 
-A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. The multi-split consensus rule is especially important: if repeated top-k selection already gives zero-false-accept coverage, a trained verifier should be judged by whether it recovers additional true flips without accepting reject cases.
+A useful trained verifier should beat these rules on held-out pair groups while preserving high accept precision. The multi-split consensus rule is especially important: if repeated top-k selection already gives zero-false-accept coverage, a trained verifier should be judged by whether it recovers additional true flips without accepting reject cases. Evidence-conditioned consensus baselines test a stricter variant where repeated selection must also carry local evidence support.

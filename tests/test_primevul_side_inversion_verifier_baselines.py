@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-from scripts.evaluate_primevul_side_inversion_verifier_baselines import build_report, evidence_score, metric, repeat_count_metrics
+from scripts.evaluate_primevul_side_inversion_verifier_baselines import (
+    build_report,
+    evidence_conditioned_consensus_metrics,
+    evidence_score,
+    metric,
+    repeat_count_metrics,
+)
 
 
 def row(*, accept: bool, prompt: str = "", score: float = 0.8, pair_key: str = "p") -> dict:
@@ -42,7 +48,7 @@ def test_build_report_includes_best_summaries() -> None:
         row(accept=False, score=0.7, pair_key="b", prompt="Side A windows:\nSignals: risk=4 safety=0\nSide B windows:\nSignals: risk=0 safety=3"),
     ]
 
-    report = build_report(rows, score_thresholds=[0.9], evidence_thresholds=[0.0], repeat_thresholds=[2])
+    report = build_report(rows, score_thresholds=[0.9], evidence_thresholds=[0.0], repeat_thresholds=[2], repeat_evidence_thresholds=[0.0])
 
     assert report["summary"]["rows"] == 2
     assert report["summary"]["best_balanced_accuracy"]["balanced_accuracy"] == 1.0
@@ -59,3 +65,22 @@ def test_repeat_count_metrics_use_pair_key_consensus() -> None:
 
     assert result["tp"] == 2
     assert result["tn"] == 1
+
+
+def test_evidence_conditioned_consensus_requires_repeat_evidence() -> None:
+    rows = [
+        row(accept=True, pair_key="supported", prompt="Side A windows:\nSignals: risk=0 safety=2\nSide B windows:\nSignals: risk=3 safety=0"),
+        row(accept=True, pair_key="supported", prompt="Side A windows:\nSignals: risk=0 safety=2\nSide B windows:\nSignals: risk=3 safety=0"),
+        row(accept=False, pair_key="unsupported"),
+        row(accept=False, pair_key="unsupported"),
+    ]
+
+    result = evidence_conditioned_consensus_metrics(
+        rows,
+        repeat_thresholds=[2],
+        evidence_thresholds=[10.0],
+        repeat_evidence_thresholds=[1.0],
+    )[0]
+
+    assert result["tp"] == 2
+    assert result["tn"] == 2
