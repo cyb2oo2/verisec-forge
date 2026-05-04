@@ -142,6 +142,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Side-Inversion Verifier Dataset JSON`: `reports/secure_code_primevul_side_inversion_verifier_top5_v1.json`
 - `Paired Diff Side-Inversion Verifier Baselines`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_BASELINES.md`
 - `Paired Diff Side-Inversion Verifier Baselines JSON`: `reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json`
+- `Paired Diff Side-Inversion Gate Summary`: `reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md`
+- `Paired Diff Side-Inversion Gate Summary JSON`: `reports/secure_code_primevul_side_inversion_gate_summary_v1.json`
 - `Paired Diff Side-Inversion Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md`
 - `Paired Diff Side-Inversion Safe Flip Gate JSON`: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json`
 - `Paired Diff Side-Inversion Strict Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_TOP5_STRICT.md`

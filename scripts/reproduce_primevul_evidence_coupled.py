@@ -599,6 +599,14 @@ def commands() -> list[list[str]]:
         ],
         [
             py,
+            "scripts/build_primevul_side_inversion_gate_summary.py",
+            "--json-output",
+            "reports/secure_code_primevul_side_inversion_gate_summary_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md",
+        ],
+        [
+            py,
             "scripts/analyze_primevul_safe_flip_gate_failures.py",
             "--verifier",
             "data/processed/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.jsonl",
@@ -692,6 +700,7 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         REPO_ROOT
         / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
     )
+    side_inversion_gate_summary = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_gate_summary_v1.json")
     project_holdout_strict_analysis = read_json(
         REPO_ROOT / "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json"
     )
@@ -817,6 +826,11 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_project_holdout_conservative_gate_introduced_rows": project_holdout_conservative_gate[
             "summary"
         ]["introduced_side_error_rows"],
+        "side_inversion_gate_summary_reports": side_inversion_gate_summary["summary"]["gate_reports"],
+        "side_inversion_gate_summary_pools": side_inversion_gate_summary["summary"]["pools"],
+        "side_inversion_gate_summary_zero_introduced_reports": side_inversion_gate_summary["summary"][
+            "zero_introduced_reports"
+        ],
         "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis["summary"][
             "false_accepts"
         ],
