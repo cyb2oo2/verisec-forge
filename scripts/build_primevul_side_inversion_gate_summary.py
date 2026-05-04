@@ -48,6 +48,18 @@ DEFAULT_GATE_SPECS = [
     },
 ]
 
+SELECTION_PROTOCOL = {
+    "discovery_pool": "top5",
+    "rank_holdout_pool": "rank6_10",
+    "fresh_seed_pool": "fresh_seed_top5",
+    "stress_pool": "project_holdout_top5",
+    "selection_policy": (
+        "Prefer zero-introduced-error gates; break ties by accepted repairs. "
+        "A gate that introduces side errors on the project-holdout stress pool is not cross-project safe."
+    ),
+    "current_preferred_gate": "project_holdout_top5:evidence_conditioned",
+}
+
 
 def load_gate_row(spec: dict[str, str], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
     payload = read_json(repo_root / spec["path"])
@@ -72,6 +84,21 @@ def load_gate_row(spec: dict[str, str], *, repo_root: Path = REPO_ROOT) -> dict[
     }
 
 
+def annotate_protocol_status(row: dict[str, Any]) -> str:
+    pool = row["pool"]
+    variant = row["gate_variant"]
+    introduced = int(row["introduced_side_error_rows"])
+    if f"{pool}:{variant}" == SELECTION_PROTOCOL["current_preferred_gate"]:
+        return "preferred_stress_safe"
+    if pool == SELECTION_PROTOCOL["stress_pool"] and introduced > 0:
+        return "stress_invalidated"
+    if pool == SELECTION_PROTOCOL["stress_pool"] and introduced == 0:
+        return "stress_safe_but_lower_recall"
+    if introduced == 0:
+        return "development_safe"
+    return "development_risky"
+
+
 def best_zero_introduced(rows: list[dict[str, Any]]) -> dict[str, Any]:
     candidates = [row for row in rows if row["introduced_side_error_rows"] == 0]
     if not candidates:
@@ -81,6 +108,8 @@ def best_zero_introduced(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_summary(specs: list[dict[str, str]], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
     rows = [load_gate_row(spec, repo_root=repo_root) for spec in specs]
+    for row in rows:
+        row["protocol_status"] = annotate_protocol_status(row)
     by_pool: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         by_pool.setdefault(row["pool"], []).append(row)
@@ -98,7 +127,9 @@ def build_summary(specs: list[dict[str, str]], *, repo_root: Path = REPO_ROOT) -
             "gate_reports": len(rows),
             "pools": len(pool_summaries),
             "zero_introduced_reports": sum(1 for row in rows if row["introduced_side_error_rows"] == 0),
+            "stress_invalidated_reports": sum(1 for row in rows if row["protocol_status"] == "stress_invalidated"),
         },
+        "selection_protocol": SELECTION_PROTOCOL,
         "pool_summaries": pool_summaries,
         "rows": rows,
     }
@@ -116,15 +147,25 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Gate reports: `{summary['gate_reports']}`",
         f"- Pools: `{summary['pools']}`",
         f"- Zero-introduced-error reports: `{summary['zero_introduced_reports']}`",
+        f"- Stress-invalidated reports: `{summary['stress_invalidated_reports']}`",
+        "",
+        "## Gate Selection Protocol",
+        "",
+        f"- Discovery pool: `{payload['selection_protocol']['discovery_pool']}`",
+        f"- Rank holdout pool: `{payload['selection_protocol']['rank_holdout_pool']}`",
+        f"- Fresh-seed pool: `{payload['selection_protocol']['fresh_seed_pool']}`",
+        f"- Cross-project stress pool: `{payload['selection_protocol']['stress_pool']}`",
+        f"- Selection policy: {payload['selection_protocol']['selection_policy']}",
+        f"- Current preferred gate: `{payload['selection_protocol']['current_preferred_gate']}`",
         "",
         "## Cross-Pool Gates",
         "",
-        "| pool | variant | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+        "| pool | variant | status | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
     for row in payload["rows"]:
         lines.append(
-            f"| {row['pool']} | {row['gate_variant']} | {row['accepted_rows']} | "
+            f"| {row['pool']} | {row['gate_variant']} | {row['protocol_status']} | {row['accepted_rows']} | "
             f"{row['repaired_side_error_rows']} | {row['introduced_side_error_rows']} | "
             f"{row['accept_precision']} | {row['accept_recall']} | {row['missed_true_flip_rows']} | "
             f"{row['net_row_gain_if_applied']} | `{row['gate']}` |"

@@ -7,17 +7,27 @@ This generated table compares safe-flip gates across side-inversion candidate po
 - Gate reports: `6`
 - Pools: `4`
 - Zero-introduced-error reports: `5`
+- Stress-invalidated reports: `1`
+
+## Gate Selection Protocol
+
+- Discovery pool: `top5`
+- Rank holdout pool: `rank6_10`
+- Fresh-seed pool: `fresh_seed_top5`
+- Cross-project stress pool: `project_holdout_top5`
+- Selection policy: Prefer zero-introduced-error gates; break ties by accepted repairs. A gate that introduces side errors on the project-holdout stress pool is not cross-project safe.
+- Current preferred gate: `project_holdout_top5:evidence_conditioned`
 
 ## Cross-Pool Gates
 
-| pool | variant | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| top5 | strict_or | 10 | 10 | 0 | 1.0 | 0.5556 | 8 | 10 | `pair_repeat_count>=3 OR evidence_score>=13` |
-| rank6_10 | strict_or | 2 | 2 | 0 | 1.0 | 0.25 | 6 | 2 | `pair_repeat_count>=3 OR evidence_score>=13` |
-| fresh_seed_top5 | strict_or | 9 | 9 | 0 | 1.0 | 0.6923 | 4 | 9 | `pair_repeat_count>=3 OR evidence_score>=13` |
-| project_holdout_top5 | strict_or | 12 | 9 | 3 | 0.75 | 0.75 | 3 | 6 | `pair_repeat_count>=3 OR evidence_score>=13` |
-| project_holdout_top5 | evidence_conditioned | 9 | 9 | 0 | 1.0 | 0.75 | 3 | 9 | `(pair_repeat_count>=3 AND evidence_score>=0) OR evidence_score>=13` |
-| project_holdout_top5 | conservative | 3 | 3 | 0 | 1.0 | 0.25 | 9 | 3 | `pair_repeat_count>=4 OR evidence_score>=13` |
+| pool | variant | status | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| top5 | strict_or | development_safe | 10 | 10 | 0 | 1.0 | 0.5556 | 8 | 10 | `pair_repeat_count>=3 OR evidence_score>=13` |
+| rank6_10 | strict_or | development_safe | 2 | 2 | 0 | 1.0 | 0.25 | 6 | 2 | `pair_repeat_count>=3 OR evidence_score>=13` |
+| fresh_seed_top5 | strict_or | development_safe | 9 | 9 | 0 | 1.0 | 0.6923 | 4 | 9 | `pair_repeat_count>=3 OR evidence_score>=13` |
+| project_holdout_top5 | strict_or | stress_invalidated | 12 | 9 | 3 | 0.75 | 0.75 | 3 | 6 | `pair_repeat_count>=3 OR evidence_score>=13` |
+| project_holdout_top5 | evidence_conditioned | preferred_stress_safe | 9 | 9 | 0 | 1.0 | 0.75 | 3 | 9 | `(pair_repeat_count>=3 AND evidence_score>=0) OR evidence_score>=13` |
+| project_holdout_top5 | conservative | stress_safe_but_lower_recall | 3 | 3 | 0 | 1.0 | 0.25 | 9 | 3 | `pair_repeat_count>=4 OR evidence_score>=13` |
 
 ## Interpretation
 

@@ -97,7 +97,7 @@ Important caveat:
 - a rank-holdout queue now stress-tests that gate beyond the top-5 candidates: ranks `6-10` have much lower candidate precision (`0.32`), but the strict gate remains conservative, accepting only `2` rows with `1.0` accept precision and `0` introduced side errors
 - a fresh-seed candidate check exposes the safety/recall tradeoff more sharply: new top-5 candidate seeds have queue precision `0.52`; the old threshold (`evidence_score>=10`) accepts `10` rows with `0.90` precision and `1` introduced side error, while the strict operating point accepts `9` rows with `1.0` precision and `0` introduced errors
 - a project-heldout candidate check is stricter and more sobering: project-disjoint top-5 candidates have queue precision `0.48`; the in-pool strict gate (`repeat>=3 OR evidence>=13`) drops to `0.75` precision with `3` introduced side errors, while an evidence-conditioned gate (`evidence>=13 OR (repeat>=3 AND evidence>=0)`) restores `1.0` precision and `0` introduced errors while accepting `9` rows
-- the cross-pool side-inversion gate summary is now generated from run artifacts: strict gates stay zero-introduced on top-5, rank-holdout, and fresh-seed pools, but project-heldout exposes the unsafe repeat-consensus path; the evidence-conditioned project-heldout gate is the current cross-project safety point
+- the cross-pool side-inversion gate summary is now generated from run artifacts with an explicit selection protocol: strict gates stay zero-introduced on top-5, rank-holdout, and fresh-seed pools, but project-heldout marks the unconditional repeat-consensus path as `stress_invalidated`; the evidence-conditioned project-heldout gate is the current `preferred_stress_safe` operating point
 - candidate-only control stays near chance with best balanced accuracy `0.5078`, which supports that the diff-only gain comes from vulnerability-repair differences rather than single-snippet artifacts
 - metadata-only and counterpart-only controls also stay near chance, with best balanced accuracy `0.5022` and `0.5156`
 - candidate-plus-diff training reaches best balanced accuracy `0.6728`, below diff-only, suggesting that extra full-candidate context dilutes the key patch signal for this 1.5B model
@@ -106,7 +106,7 @@ Important caveat:
 
 For the generated main-results table, see [PrimeVul Main Results](reports/PRIMEVUL_MAIN_RESULTS.md). It is rebuilt from run artifacts by `scripts/build_primevul_main_results.py`.
 
-For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports and highlights the project-heldout evidence-conditioned operating point.
+For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
 

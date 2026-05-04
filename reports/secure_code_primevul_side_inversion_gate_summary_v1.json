@@ -2,7 +2,16 @@
   "summary": {
     "gate_reports": 6,
     "pools": 4,
-    "zero_introduced_reports": 5
+    "zero_introduced_reports": 5,
+    "stress_invalidated_reports": 1
+  },
+  "selection_protocol": {
+    "discovery_pool": "top5",
+    "rank_holdout_pool": "rank6_10",
+    "fresh_seed_pool": "fresh_seed_top5",
+    "stress_pool": "project_holdout_top5",
+    "selection_policy": "Prefer zero-introduced-error gates; break ties by accepted repairs. A gate that introduces side errors on the project-holdout stress pool is not cross-project safe.",
+    "current_preferred_gate": "project_holdout_top5:evidence_conditioned"
   },
   "pool_summaries": {
     "fresh_seed_top5": {
@@ -22,7 +31,8 @@
         "accept_precision": 1.0,
         "accept_recall": 0.6923,
         "net_row_gain_if_applied": 9,
-        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
+        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
+        "protocol_status": "development_safe"
       },
       "max_accepted_rows": 9,
       "min_introduced_rows": 0
@@ -44,7 +54,8 @@
         "accept_precision": 1.0,
         "accept_recall": 0.75,
         "net_row_gain_if_applied": 9,
-        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json"
+        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
+        "protocol_status": "preferred_stress_safe"
       },
       "max_accepted_rows": 12,
       "min_introduced_rows": 0
@@ -66,7 +77,8 @@
         "accept_precision": 1.0,
         "accept_recall": 0.25,
         "net_row_gain_if_applied": 2,
-        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
+        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
+        "protocol_status": "development_safe"
       },
       "max_accepted_rows": 2,
       "min_introduced_rows": 0
@@ -88,7 +100,8 @@
         "accept_precision": 1.0,
         "accept_recall": 0.5556,
         "net_row_gain_if_applied": 10,
-        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json"
+        "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
+        "protocol_status": "development_safe"
       },
       "max_accepted_rows": 10,
       "min_introduced_rows": 0
@@ -110,7 +123,8 @@
       "accept_precision": 1.0,
       "accept_recall": 0.5556,
       "net_row_gain_if_applied": 10,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
+      "protocol_status": "development_safe"
     },
     {
       "pool": "rank6_10",
@@ -127,7 +141,8 @@
       "accept_precision": 1.0,
       "accept_recall": 0.25,
       "net_row_gain_if_applied": 2,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
+      "protocol_status": "development_safe"
     },
     {
       "pool": "fresh_seed_top5",
@@ -144,7 +159,8 @@
       "accept_precision": 1.0,
       "accept_recall": 0.6923,
       "net_row_gain_if_applied": 9,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
+      "protocol_status": "development_safe"
     },
     {
       "pool": "project_holdout_top5",
@@ -161,7 +177,8 @@
       "accept_precision": 0.75,
       "accept_recall": 0.75,
       "net_row_gain_if_applied": 6,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
+      "protocol_status": "stress_invalidated"
     },
     {
       "pool": "project_holdout_top5",
@@ -178,7 +195,8 @@
       "accept_precision": 1.0,
       "accept_recall": 0.75,
       "net_row_gain_if_applied": 9,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
+      "protocol_status": "preferred_stress_safe"
     },
     {
       "pool": "project_holdout_top5",
@@ -195,7 +213,8 @@
       "accept_precision": 1.0,
       "accept_recall": 0.25,
       "net_row_gain_if_applied": 3,
-      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
+      "source_path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
+      "protocol_status": "stress_safe_but_lower_recall"
     }
   ]
 }

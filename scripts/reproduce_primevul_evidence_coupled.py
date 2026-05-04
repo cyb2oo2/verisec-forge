@@ -831,6 +831,9 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         "side_inversion_gate_summary_zero_introduced_reports": side_inversion_gate_summary["summary"][
             "zero_introduced_reports"
         ],
+        "side_inversion_gate_summary_stress_invalidated_reports": side_inversion_gate_summary["summary"][
+            "stress_invalidated_reports"
+        ],
         "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis["summary"][
             "false_accepts"
         ],

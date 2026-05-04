@@ -53,16 +53,26 @@ def test_build_summary_selects_best_zero_introduced_gate() -> None:
     best = payload["pool_summaries"]["project"]["best_zero_introduced"]
     assert best["gate_variant"] == "evidence_conditioned"
     assert payload["summary"]["zero_introduced_reports"] == 2
+    assert payload["selection_protocol"]["stress_pool"] == "project_holdout_top5"
 
 
 def test_render_markdown_includes_cross_pool_table() -> None:
     payload = {
-        "summary": {"gate_reports": 1, "pools": 1, "zero_introduced_reports": 1},
+        "summary": {"gate_reports": 1, "pools": 1, "zero_introduced_reports": 1, "stress_invalidated_reports": 0},
+        "selection_protocol": {
+            "discovery_pool": "top5",
+            "rank_holdout_pool": "rank6_10",
+            "fresh_seed_pool": "fresh_seed_top5",
+            "stress_pool": "project_holdout_top5",
+            "selection_policy": "Prefer zero-introduced-error gates.",
+            "current_preferred_gate": "project_holdout_top5:evidence_conditioned",
+        },
         "pool_summaries": {},
         "rows": [
             {
                 "pool": "top5",
                 "gate_variant": "strict",
+                "protocol_status": "development_safe",
                 "accepted_rows": 2,
                 "repaired_side_error_rows": 2,
                 "introduced_side_error_rows": 0,
@@ -78,4 +88,5 @@ def test_render_markdown_includes_cross_pool_table() -> None:
     rendered = render_markdown(payload)
 
     assert "# PrimeVul Side-Inversion Gate Summary" in rendered
-    assert "| top5 | strict | 2 | 2 | 0 | 1.0 | 0.5 | 2 | 2 | `repeat>=3` |" in rendered
+    assert "## Gate Selection Protocol" in rendered
+    assert "| top5 | strict | development_safe | 2 | 2 | 0 | 1.0 | 0.5 | 2 | 2 | `repeat>=3` |" in rendered
