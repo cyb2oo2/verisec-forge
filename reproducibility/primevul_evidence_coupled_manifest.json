@@ -374,8 +374,8 @@
     {
       "role": "side_inversion_gate_summary_json",
       "path": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json",
-      "sha256": "3b44352e2bace42079e462b25343a1505f42223f61204280a432d10aa13a6b0b",
-      "bytes": 8161
+      "sha256": "7eba6b248e7fc388742829c40bdd1c2768f509e7202a398003c0de9c93c496af",
+      "bytes": 10218
     }
   ],
   "expected": {
@@ -458,6 +458,8 @@
     "side_inversion_gate_summary_pools": 4,
     "side_inversion_gate_summary_zero_introduced_reports": 5,
     "side_inversion_gate_summary_stress_invalidated_reports": 1,
+    "side_inversion_gate_summary_selection_allowed_reports": 1,
+    "side_inversion_gate_summary_audit_only_reports": 5,
     "side_inversion_project_holdout_strict_analysis_false_accepts": 3,
     "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": 1,
     "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": 0,

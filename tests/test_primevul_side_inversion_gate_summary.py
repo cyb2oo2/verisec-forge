@@ -43,9 +43,27 @@ def test_build_summary_selects_best_zero_introduced_gate() -> None:
 
     payload = build_summary(
         [
-            {"pool": "project", "gate_variant": "evidence_conditioned", "path": "reports/good.json"},
-            {"pool": "project", "gate_variant": "conservative", "path": "reports/conservative.json"},
-            {"pool": "project", "gate_variant": "strict_or", "path": "reports/risky.json"},
+            {
+                "pool": "project",
+                "gate_variant": "evidence_conditioned",
+                "path": "reports/good.json",
+                "protocol_role": "project_stress_candidate",
+                "selection_allowed": False,
+            },
+            {
+                "pool": "project",
+                "gate_variant": "conservative",
+                "path": "reports/conservative.json",
+                "protocol_role": "project_stress_baseline",
+                "selection_allowed": False,
+            },
+            {
+                "pool": "project",
+                "gate_variant": "strict_or",
+                "path": "reports/risky.json",
+                "protocol_role": "project_stress_test",
+                "selection_allowed": False,
+            },
         ],
         repo_root=tmp_path,
     )
@@ -53,12 +71,20 @@ def test_build_summary_selects_best_zero_introduced_gate() -> None:
     best = payload["pool_summaries"]["project"]["best_zero_introduced"]
     assert best["gate_variant"] == "evidence_conditioned"
     assert payload["summary"]["zero_introduced_reports"] == 2
+    assert payload["summary"]["audit_only_reports"] == 3
     assert payload["selection_protocol"]["stress_pool"] == "project_holdout_top5"
 
 
 def test_render_markdown_includes_cross_pool_table() -> None:
     payload = {
-        "summary": {"gate_reports": 1, "pools": 1, "zero_introduced_reports": 1, "stress_invalidated_reports": 0},
+        "summary": {
+            "gate_reports": 1,
+            "pools": 1,
+            "zero_introduced_reports": 1,
+            "stress_invalidated_reports": 0,
+            "selection_allowed_reports": 1,
+            "audit_only_reports": 0,
+        },
         "selection_protocol": {
             "discovery_pool": "top5",
             "rank_holdout_pool": "rank6_10",
@@ -72,6 +98,8 @@ def test_render_markdown_includes_cross_pool_table() -> None:
             {
                 "pool": "top5",
                 "gate_variant": "strict",
+                "protocol_role": "discovery",
+                "selection_allowed": True,
                 "protocol_status": "development_safe",
                 "accepted_rows": 2,
                 "repaired_side_error_rows": 2,
@@ -89,4 +117,4 @@ def test_render_markdown_includes_cross_pool_table() -> None:
 
     assert "# PrimeVul Side-Inversion Gate Summary" in rendered
     assert "## Gate Selection Protocol" in rendered
-    assert "| top5 | strict | development_safe | 2 | 2 | 0 | 1.0 | 0.5 | 2 | 2 | `repeat>=3` |" in rendered
+    assert "| top5 | strict | discovery | yes | development_safe | 2 | 2 | 0 | 1.0 | 0.5 | 2 | 2 | `repeat>=3` |" in rendered

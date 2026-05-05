@@ -3,7 +3,9 @@
     "gate_reports": 6,
     "pools": 4,
     "zero_introduced_reports": 5,
-    "stress_invalidated_reports": 1
+    "stress_invalidated_reports": 1,
+    "selection_allowed_reports": 1,
+    "audit_only_reports": 5
   },
   "selection_protocol": {
     "discovery_pool": "top5",
@@ -19,6 +21,9 @@
       "best_zero_introduced": {
         "pool": "fresh_seed_top5",
         "gate_variant": "strict_or",
+        "protocol_role": "fresh_seed_validation",
+        "selection_allowed": false,
+        "selection_note": "Built with fresh side-model seeds; validates seed stability for the selected gate.",
         "gate": "pair_repeat_count>=3 OR evidence_score>=13",
         "rows": 25,
         "unique_pair_count": 18,
@@ -42,6 +47,9 @@
       "best_zero_introduced": {
         "pool": "project_holdout_top5",
         "gate_variant": "evidence_conditioned",
+        "protocol_role": "project_stress_candidate",
+        "selection_allowed": false,
+        "selection_note": "Candidate safety patch motivated by failure analysis; reported as stress-safe, not as a fresh discovery win.",
         "gate": "(pair_repeat_count>=3 AND evidence_score>=0) OR evidence_score>=13",
         "rows": 25,
         "unique_pair_count": 16,
@@ -65,6 +73,9 @@
       "best_zero_introduced": {
         "pool": "rank6_10",
         "gate_variant": "strict_or",
+        "protocol_role": "rank_holdout_validation",
+        "selection_allowed": false,
+        "selection_note": "Held out by candidate rank; validates that the selected gate is not top-5 specific.",
         "gate": "pair_repeat_count>=3 OR evidence_score>=13",
         "rows": 25,
         "unique_pair_count": 23,
@@ -88,6 +99,9 @@
       "best_zero_introduced": {
         "pool": "top5",
         "gate_variant": "strict_or",
+        "protocol_role": "discovery",
+        "selection_allowed": true,
+        "selection_note": "Primary development pool for deriving the strict precision-first gate.",
         "gate": "pair_repeat_count>=3 OR evidence_score>=13",
         "rows": 25,
         "unique_pair_count": 16,
@@ -111,6 +125,9 @@
     {
       "pool": "top5",
       "gate_variant": "strict_or",
+      "protocol_role": "discovery",
+      "selection_allowed": true,
+      "selection_note": "Primary development pool for deriving the strict precision-first gate.",
       "gate": "pair_repeat_count>=3 OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 16,
@@ -129,6 +146,9 @@
     {
       "pool": "rank6_10",
       "gate_variant": "strict_or",
+      "protocol_role": "rank_holdout_validation",
+      "selection_allowed": false,
+      "selection_note": "Held out by candidate rank; validates that the selected gate is not top-5 specific.",
       "gate": "pair_repeat_count>=3 OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 23,
@@ -147,6 +167,9 @@
     {
       "pool": "fresh_seed_top5",
       "gate_variant": "strict_or",
+      "protocol_role": "fresh_seed_validation",
+      "selection_allowed": false,
+      "selection_note": "Built with fresh side-model seeds; validates seed stability for the selected gate.",
       "gate": "pair_repeat_count>=3 OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 18,
@@ -165,6 +188,9 @@
     {
       "pool": "project_holdout_top5",
       "gate_variant": "strict_or",
+      "protocol_role": "project_stress_test",
+      "selection_allowed": false,
+      "selection_note": "Project-heldout stress result; may invalidate a gate but should not be used as discovery evidence.",
       "gate": "pair_repeat_count>=3 OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 16,
@@ -183,6 +209,9 @@
     {
       "pool": "project_holdout_top5",
       "gate_variant": "evidence_conditioned",
+      "protocol_role": "project_stress_candidate",
+      "selection_allowed": false,
+      "selection_note": "Candidate safety patch motivated by failure analysis; reported as stress-safe, not as a fresh discovery win.",
       "gate": "(pair_repeat_count>=3 AND evidence_score>=0) OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 16,
@@ -201,6 +230,9 @@
     {
       "pool": "project_holdout_top5",
       "gate_variant": "conservative",
+      "protocol_role": "project_stress_baseline",
+      "selection_allowed": false,
+      "selection_note": "Conservative stress-safe fallback used to contextualize recall loss.",
       "gate": "pair_repeat_count>=4 OR evidence_score>=13",
       "rows": 25,
       "unique_pair_count": 16,

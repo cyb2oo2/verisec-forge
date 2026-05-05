@@ -19,31 +19,49 @@ DEFAULT_GATE_SPECS = [
     {
         "pool": "top5",
         "gate_variant": "strict_or",
+        "protocol_role": "discovery",
+        "selection_allowed": True,
+        "selection_note": "Primary development pool for deriving the strict precision-first gate.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
     },
     {
         "pool": "rank6_10",
         "gate_variant": "strict_or",
+        "protocol_role": "rank_holdout_validation",
+        "selection_allowed": False,
+        "selection_note": "Held out by candidate rank; validates that the selected gate is not top-5 specific.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
     },
     {
         "pool": "fresh_seed_top5",
         "gate_variant": "strict_or",
+        "protocol_role": "fresh_seed_validation",
+        "selection_allowed": False,
+        "selection_note": "Built with fresh side-model seeds; validates seed stability for the selected gate.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
     },
     {
         "pool": "project_holdout_top5",
         "gate_variant": "strict_or",
+        "protocol_role": "project_stress_test",
+        "selection_allowed": False,
+        "selection_note": "Project-heldout stress result; may invalidate a gate but should not be used as discovery evidence.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
     },
     {
         "pool": "project_holdout_top5",
         "gate_variant": "evidence_conditioned",
+        "protocol_role": "project_stress_candidate",
+        "selection_allowed": False,
+        "selection_note": "Candidate safety patch motivated by failure analysis; reported as stress-safe, not as a fresh discovery win.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json",
     },
     {
         "pool": "project_holdout_top5",
         "gate_variant": "conservative",
+        "protocol_role": "project_stress_baseline",
+        "selection_allowed": False,
+        "selection_note": "Conservative stress-safe fallback used to contextualize recall loss.",
         "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json",
     },
 ]
@@ -61,13 +79,16 @@ SELECTION_PROTOCOL = {
 }
 
 
-def load_gate_row(spec: dict[str, str], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
+def load_gate_row(spec: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
     payload = read_json(repo_root / spec["path"])
     config = payload["config"]
     summary = payload["summary"]
     return {
         "pool": spec["pool"],
         "gate_variant": spec["gate_variant"],
+        "protocol_role": spec.get("protocol_role", "unspecified"),
+        "selection_allowed": bool(spec.get("selection_allowed", False)),
+        "selection_note": spec.get("selection_note", ""),
         "gate": config["gate"],
         "rows": summary["rows"],
         "unique_pair_count": summary["unique_pair_count"],
@@ -128,6 +149,8 @@ def build_summary(specs: list[dict[str, str]], *, repo_root: Path = REPO_ROOT) -
             "pools": len(pool_summaries),
             "zero_introduced_reports": sum(1 for row in rows if row["introduced_side_error_rows"] == 0),
             "stress_invalidated_reports": sum(1 for row in rows if row["protocol_status"] == "stress_invalidated"),
+            "selection_allowed_reports": sum(1 for row in rows if row["selection_allowed"]),
+            "audit_only_reports": sum(1 for row in rows if not row["selection_allowed"]),
         },
         "selection_protocol": SELECTION_PROTOCOL,
         "pool_summaries": pool_summaries,
@@ -148,6 +171,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Pools: `{summary['pools']}`",
         f"- Zero-introduced-error reports: `{summary['zero_introduced_reports']}`",
         f"- Stress-invalidated reports: `{summary['stress_invalidated_reports']}`",
+        f"- Selection-allowed reports: `{summary['selection_allowed_reports']}`",
+        f"- Audit-only reports: `{summary['audit_only_reports']}`",
         "",
         "## Gate Selection Protocol",
         "",
@@ -160,12 +185,14 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "",
         "## Cross-Pool Gates",
         "",
-        "| pool | variant | status | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |",
-        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+        "| pool | variant | role | selectable | status | accepted | repaired | introduced | precision | recall | missed | net row gain | gate |",
+        "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
     for row in payload["rows"]:
+        selectable = "yes" if row["selection_allowed"] else "no"
         lines.append(
-            f"| {row['pool']} | {row['gate_variant']} | {row['protocol_status']} | {row['accepted_rows']} | "
+            f"| {row['pool']} | {row['gate_variant']} | {row['protocol_role']} | {selectable} | "
+            f"{row['protocol_status']} | {row['accepted_rows']} | "
             f"{row['repaired_side_error_rows']} | {row['introduced_side_error_rows']} | "
             f"{row['accept_precision']} | {row['accept_recall']} | {row['missed_true_flip_rows']} | "
             f"{row['net_row_gain_if_applied']} | `{row['gate']}` |"
