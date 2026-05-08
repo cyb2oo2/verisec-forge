@@ -27,6 +27,7 @@ High vulnerability-detection accuracy on standard splits can be shortcut-prone. 
 
 Primary artifacts:
 
+- `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
 - `reports/PRIMEVUL_SHORTCUT_DIAGNOSTICS.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 - `reports/TECHNICAL_REPORT.md`
@@ -51,6 +52,7 @@ Secure patch reasoning benefits from treating vulnerable/fixed examples as coupl
 
 Primary artifacts:
 
+- `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
@@ -130,9 +132,7 @@ Recommended contribution framing:
 
 ## Next Research Steps
 
-1. Build a progressive controls table for the application deck: same-source, shortcut controls, paired snippets, diff-only, pair-coupled, evidence/gate.
-2. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
-3. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-4. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
-5. Package a reproducibility artifact bundle or scripted artifact download path for reviewers.
-
+1. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
+2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
+3. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
+4. Package a reproducibility artifact bundle or scripted artifact download path for reviewers.

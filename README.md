@@ -106,6 +106,8 @@ Important caveat:
 
 For the generated main-results table, see [PrimeVul Main Results](reports/PRIMEVUL_MAIN_RESULTS.md). It is rebuilt from run artifacts by `scripts/build_primevul_main_results.py`.
 
+For a compact application-style narrative table, see [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md). It compresses the same-source shortcut diagnosis, paired diff controls, pair-coupled decoding, and evidence/gate audit loop into one generated table.
+
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.

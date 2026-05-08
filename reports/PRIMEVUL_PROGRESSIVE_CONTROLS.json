@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "rows": 8,
+    "headline": "Shortcut-aware paired diff reasoning is the credible mainline; evidence/gate results define the audit loop.",
+    "primary_result": {
+      "stage": "Pair-coupled decoding",
+      "question": "Does enforcing paired consistency improve decisions?",
+      "key_metric": "mean_balanced_accuracy",
+      "value": 0.8572,
+      "supporting_metric": "delta_bal=0.0348, delta_group=0.1114",
+      "interpretation": "Pair-coupled decoding gives stable row-level and group-level gains.",
+      "artifact": "reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json"
+    },
+    "main_limitation": "Evidence localization and safe flip gates remain pseudo-label/small-queue diagnostics."
+  },
+  "rows": [
+    {
+      "stage": "Same-source baseline",
+      "question": "Can a standard split look solved?",
+      "key_metric": "balanced_accuracy",
+      "value": 0.9524,
+      "supporting_metric": "recall=0.9709, specificity=0.9339",
+      "interpretation": "High score, but treated as artifact-sensitive rather than robust evidence.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_holdout2000_report.json"
+    },
+    {
+      "stage": "Paired stress test",
+      "question": "Does the same model survive vulnerable/fixed pairing?",
+      "key_metric": "balanced_accuracy",
+      "value": 0.4961,
+      "supporting_metric": "threshold=0.9999",
+      "interpretation": "Near-chance paired behavior invalidates the easy same-source headline.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json"
+    },
+    {
+      "stage": "Shortcut controls",
+      "question": "Can metadata/candidate/counterpart controls explain the result?",
+      "key_metric": "best_control_balanced_accuracy",
+      "value": 0.5156,
+      "supporting_metric": "metadata/candidate/counterpart controls",
+      "interpretation": "Controls stay close to chance, protecting the paired diff formulation.",
+      "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
+    },
+    {
+      "stage": "Paired diff detector",
+      "question": "Does diff-only reasoning form a stable harder-split signal?",
+      "key_metric": "three_seed_mean_balanced_accuracy",
+      "value": 0.8287,
+      "supporting_metric": "range=0.8158-0.8382",
+      "interpretation": "Diff-only paired reasoning is the strongest base formulation.",
+      "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
+    },
+    {
+      "stage": "No-metadata check",
+      "question": "Does the paired diff signal depend on Project/CVE/CWE prompt metadata?",
+      "key_metric": "balanced_accuracy",
+      "value": 0.8244,
+      "supporting_metric": "threshold=0.8",
+      "interpretation": "Removing metadata preserves the signal.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json"
+    },
+    {
+      "stage": "Pair-coupled decoding",
+      "question": "Does enforcing paired consistency improve decisions?",
+      "key_metric": "mean_balanced_accuracy",
+      "value": 0.8572,
+      "supporting_metric": "delta_bal=0.0348, delta_group=0.1114",
+      "interpretation": "Pair-coupled decoding gives stable row-level and group-level gains.",
+      "artifact": "reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json"
+    },
+    {
+      "stage": "Evidence propagation",
+      "question": "Is evidence localization independent of side decisions?",
+      "key_metric": "predicted_side_top1",
+      "value": 0.6555,
+      "supporting_metric": "side_correct_top1=0.761, side_wrong_top1=0.0632",
+      "interpretation": "Localization quality is coupled to upstream side correctness.",
+      "artifact": "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json"
+    },
+    {
+      "stage": "Safe flip gate",
+      "question": "Can high-confidence side inversions be repaired safely?",
+      "key_metric": "project_holdout_accept_precision",
+      "value": 1.0,
+      "supporting_metric": "accepted=9, introduced=0, stress_invalidated=1",
+      "interpretation": "Evidence-conditioned stress-safe gate repairs errors without introduced side errors, but remains small-scale.",
+      "artifact": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json"
+    }
+  ]
+}
