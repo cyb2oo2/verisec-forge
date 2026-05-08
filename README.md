@@ -380,6 +380,7 @@ The key result here is not just "which one is best", but **which designs fail in
 
 If you want the fast overview:
 
+- [PROJECT_STORY.md](PROJECT_STORY.md)
 - [reports/SECURE_CODE_RESEARCH_SUMMARY.md](reports/SECURE_CODE_RESEARCH_SUMMARY.md)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [reports/RESULTS_INDEX.md](reports/RESULTS_INDEX.md)
