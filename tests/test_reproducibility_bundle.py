@@ -88,6 +88,33 @@ def test_validate_manifest_artifacts_reports_missing_file() -> None:
     assert payload["checks"][0]["status"] == "missing"
 
 
+def test_validate_manifest_artifacts_deduplicates_repeated_paths() -> None:
+    first_manifest = _write_demo_manifest(TMP_ROOT)
+    second_manifest = TMP_ROOT / "reproducibility" / "second_manifest.json"
+    artifact_path = TMP_ROOT / "data" / "demo.jsonl"
+    write_json(
+        second_manifest,
+        {
+            "name": "demo_2",
+            "artifacts": [
+                {
+                    "role": "same_dataset",
+                    "path": "data/demo.jsonl",
+                    "sha256": sha256_file(artifact_path),
+                    "bytes": artifact_path.stat().st_size,
+                    "rows": 2,
+                }
+            ],
+        },
+    )
+
+    payload = validate_manifests([first_manifest, second_manifest], repo_root=TMP_ROOT)
+
+    assert payload["status"] == "ok"
+    assert payload["artifact_count"] == 1
+    assert payload["duplicate_artifact_paths"] == ["data/demo.jsonl"]
+
+
 def test_build_artifact_bundle_writes_zip_manifest_and_files() -> None:
     manifest_path = _write_demo_manifest(TMP_ROOT)
     output_path = TMP_ROOT / "artifacts" / "demo_bundle.zip"

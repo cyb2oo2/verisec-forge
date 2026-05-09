@@ -149,6 +149,8 @@ After the bundle is uploaded and `reproducibility/release_artifacts.json` is fil
 
 See `reproducibility/ARTIFACT_BUNDLE.md` for the full reviewer workflow and current boundary.
 
+The current local bundle metadata and upload checklist are in `reproducibility/release_artifacts.json` and `reproducibility/RELEASE_CHECKLIST.md`.
+
 ## Main Reports
 
 The calibrated router report is:

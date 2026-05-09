@@ -14,6 +14,7 @@ Start here for the main narrative and current system-level conclusions.
 - `Reproducibility Guide`: `REPRODUCIBILITY.md`
 - `Artifact Bundle Workflow`: `reproducibility/ARTIFACT_BUNDLE.md`
 - `Artifact Release Metadata`: `reproducibility/release_artifacts.json`
+- `Artifact Release Checklist`: `reproducibility/RELEASE_CHECKLIST.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 
 ## CodeXGLUE Mainline

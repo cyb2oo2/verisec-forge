@@ -171,11 +171,18 @@ def validate_manifests(
 ) -> dict[str, Any]:
     manifests = [load_manifest(path, repo_root) for path in manifest_paths]
     checks: list[ArtifactCheck] = []
+    seen_paths: set[str] = set()
+    duplicate_paths: list[str] = []
     for manifest in manifests:
         for artifact in iter_manifest_artifacts(
             manifest,
             include_generated=include_generated,
         ):
+            artifact_path = artifact["path"].replace("\\", "/")
+            if artifact_path in seen_paths:
+                duplicate_paths.append(artifact_path)
+                continue
+            seen_paths.add(artifact_path)
             checks.append(validate_artifact(artifact, repo_root=repo_root))
 
     return {
@@ -183,6 +190,7 @@ def validate_manifests(
         "include_generated": include_generated,
         "manifest_count": len(manifests),
         "artifact_count": len(checks),
+        "duplicate_artifact_paths": sorted(set(duplicate_paths)),
         "checks": [check.to_dict() for check in checks],
     }
 
@@ -216,6 +224,7 @@ def build_artifact_bundle(
         "include_generated": include_generated,
         "source_manifests": [str(path).replace("\\", "/") for path in manifest_paths],
         "artifact_count": validation["artifact_count"],
+        "duplicate_artifact_paths": validation["duplicate_artifact_paths"],
         "artifacts": validation["checks"],
     }
 

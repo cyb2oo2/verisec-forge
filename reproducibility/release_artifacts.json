@@ -1,14 +1,18 @@
 {
   "name": "verisec_forge_primevul_reproducibility_artifacts",
-  "status": "not_published",
-  "description": "Metadata placeholder for the public reproducibility bundle. Fill url, sha256, and bytes after attaching the generated zip to a stable artifact host.",
+  "status": "built_local_not_published",
+  "description": "Metadata for the local reproducibility bundle. Fill url after attaching the generated zip to a stable artifact host.",
   "bundles": [
     {
       "name": "primevul_router_and_evidence_coupled_inputs",
       "filename": "verisec_forge_primevul_repro_bundle.zip",
       "url": null,
-      "sha256": null,
-      "bytes": null,
+      "sha256": "e4713b7014ca9bae3404e8f24d1ab37eeda0147f4860b78d48042f7d91c03273",
+      "bytes": 5731758,
+      "artifact_count": 6,
+      "duplicate_artifact_paths": [
+        "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl"
+      ],
       "source_manifests": [
         "reproducibility/primevul_calibrated_router_manifest.json",
         "reproducibility/primevul_evidence_coupled_manifest.json"
