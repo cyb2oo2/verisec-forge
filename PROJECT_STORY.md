@@ -123,18 +123,18 @@ Recommended contribution framing:
 - Do not present the same-source `0.9524` result as a robust vulnerability detection breakthrough.
 - Do not present pseudo-label evidence localization as human-validated evidence-span supervision.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
-- Do not claim fresh-clone full artifact reproducibility until data and model artifacts have a public bundle or download pipeline.
+- Do not claim fresh-clone full artifact reproducibility until the local artifact bundle is published through a stable external host or download pipeline.
 
 ## Current Limitations
 
 - Evidence localization still relies on pseudo labels rather than manually verified evidence spans.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/time/CVE-disjoint external validation remains the most important next generalization check.
-- The repository is manifest-backed for key evidence-coupled runs, but not yet a complete fresh-clone artifact bundle.
+- The repository is manifest-backed and has a local artifact-bundle workflow for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
 
 ## Next Research Steps
 
 1. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 3. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
-4. Package a reproducibility artifact bundle or scripted artifact download path for reviewers.
+4. Publish the reproducibility artifact bundle and add a scripted download path for reviewers.

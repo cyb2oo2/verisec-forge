@@ -1,0 +1,106 @@
+from __future__ import annotations
+
+import json
+import shutil
+import zipfile
+from pathlib import Path
+
+from vrf.io_utils import write_json, write_jsonl
+from vrf.reproducibility import (
+    build_artifact_bundle,
+    sha256_file,
+    validate_manifests,
+)
+
+
+TMP_ROOT = Path(".tmp_test_runs/reproducibility_bundle")
+
+
+def setup_function() -> None:
+    if TMP_ROOT.exists():
+        shutil.rmtree(TMP_ROOT)
+    TMP_ROOT.mkdir(parents=True)
+
+
+def teardown_function() -> None:
+    if TMP_ROOT.exists():
+        shutil.rmtree(TMP_ROOT)
+
+
+def _write_demo_manifest(repo_root: Path) -> Path:
+    artifact_path = repo_root / "data" / "demo.jsonl"
+    rows = [{"id": "a", "label": 1}, {"id": "b", "label": 0}]
+    write_jsonl(artifact_path, rows)
+    manifest_path = repo_root / "reproducibility" / "demo_manifest.json"
+    write_json(
+        manifest_path,
+        {
+            "name": "demo",
+            "artifacts": [
+                {
+                    "role": "dataset",
+                    "path": "data/demo.jsonl",
+                    "sha256": sha256_file(artifact_path),
+                    "bytes": artifact_path.stat().st_size,
+                    "rows": len(rows),
+                }
+            ],
+        },
+    )
+    return manifest_path
+
+
+def test_validate_manifest_artifacts_ok() -> None:
+    manifest_path = _write_demo_manifest(TMP_ROOT)
+
+    payload = validate_manifests([manifest_path], repo_root=TMP_ROOT)
+
+    assert payload["status"] == "ok"
+    assert payload["artifact_count"] == 1
+    assert payload["checks"][0]["actual_rows"] == 2
+    assert payload["checks"][0]["status"] == "ok"
+
+
+def test_validate_manifest_artifacts_reports_missing_file() -> None:
+    manifest_path = TMP_ROOT / "reproducibility" / "demo_manifest.json"
+    write_json(
+        manifest_path,
+        {
+            "name": "demo",
+            "artifacts": [
+                {
+                    "role": "dataset",
+                    "path": "data/missing.jsonl",
+                    "sha256": "abc",
+                    "bytes": 10,
+                    "rows": 1,
+                }
+            ],
+        },
+    )
+
+    payload = validate_manifests([manifest_path], repo_root=TMP_ROOT)
+
+    assert payload["status"] == "failed"
+    assert payload["checks"][0]["status"] == "missing"
+
+
+def test_build_artifact_bundle_writes_zip_manifest_and_files() -> None:
+    manifest_path = _write_demo_manifest(TMP_ROOT)
+    output_path = TMP_ROOT / "artifacts" / "demo_bundle.zip"
+
+    payload = build_artifact_bundle(
+        [manifest_path],
+        output_path=output_path,
+        repo_root=TMP_ROOT,
+    )
+
+    assert payload["status"] == "ok"
+    assert output_path.exists()
+    with zipfile.ZipFile(output_path) as archive:
+        names = set(archive.namelist())
+        assert "BUNDLE_MANIFEST.json" in names
+        assert "data/demo.jsonl" in names
+        bundle_manifest = json.loads(archive.read("BUNDLE_MANIFEST.json"))
+    assert bundle_manifest["artifact_count"] == 1
+    assert bundle_manifest["artifacts"][0]["path"] == "data/demo.jsonl"
