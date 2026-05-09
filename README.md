@@ -10,6 +10,8 @@ This repository is built to answer a practical research question:
 
 ![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
 
+![PrimeVul progressive controls](reports/assets/primevul_progressive_controls.svg)
+
 ## Why This Repo Exists
 
 Most secure-code LLM demos blur together several different failure modes:

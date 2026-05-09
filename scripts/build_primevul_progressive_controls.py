@@ -170,6 +170,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "",
         "## Summary",
         "",
+        "![PrimeVul progressive controls](assets/primevul_progressive_controls.svg)",
+        "",
         f"- Rows: `{payload['summary']['rows']}`",
         f"- Headline: {payload['summary']['headline']}",
         f"- Main limitation: {payload['summary']['main_limitation']}",

@@ -4,6 +4,8 @@ This table compresses the PrimeVul research story into a small set of controls a
 
 ## Summary
 
+![PrimeVul progressive controls](assets/primevul_progressive_controls.svg)
+
 - Rows: `8`
 - Headline: Shortcut-aware paired diff reasoning is the credible mainline; evidence/gate results define the audit loop.
 - Main limitation: Evidence localization and safe flip gates remain pseudo-label/small-queue diagnostics.

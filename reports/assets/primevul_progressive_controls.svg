@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="968" viewBox="0 0 1180 968" role="img" aria-label="PrimeVul progressive controls chart">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="42" y="42" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="750">PrimeVul Progressive Controls</text>
+<text x="42" y="70" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14">Shortcut diagnosis -> paired diff reasoning -> evidence-coupled audit loop</text>
+<line x1="132" y1="88" x2="132" y2="808" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+<circle cx="132" cy="112" r="19" fill="#ef4444"/>
+<text x="132" y="117" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">1</text>
+<rect x="178" y="74" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="100" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Same-source baseline</text>
+<text x="200" y="124" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Can a standard split look solved?</text>
+<text x="650" y="100" fill="#ef4444" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.9524</text>
+<text x="650" y="124" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">balanced_accuracy; recall=0.9709, specificity=0.9339</text>
+<text x="200" y="144" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">High score, but treated as artifact-sensitive rather than robust evidence.</text>
+<circle cx="132" cy="208" r="19" fill="#ef4444"/>
+<text x="132" y="213" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">2</text>
+<rect x="178" y="170" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="196" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Paired stress test</text>
+<text x="200" y="220" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Does the same model survive vulnerable/fixed pairing?</text>
+<text x="650" y="196" fill="#ef4444" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.4961</text>
+<text x="650" y="220" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">balanced_accuracy; threshold=0.9999</text>
+<text x="200" y="240" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Near-chance paired behavior invalidates the easy same-source headline.</text>
+<circle cx="132" cy="304" r="19" fill="#64748b"/>
+<text x="132" y="309" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">3</text>
+<rect x="178" y="266" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="292" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Shortcut controls</text>
+<text x="200" y="316" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Can metadata/candidate/counterpart controls explain the result?</text>
+<text x="650" y="292" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.5156</text>
+<text x="650" y="316" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">best_control_balanced_accuracy; metadata/candidate/counterpart controls</text>
+<text x="200" y="336" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Controls stay close to chance, protecting the paired diff formulation.</text>
+<circle cx="132" cy="400" r="19" fill="#0f766e"/>
+<text x="132" y="405" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">4</text>
+<rect x="178" y="362" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="388" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Paired diff detector</text>
+<text x="200" y="412" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Does diff-only reasoning form a stable harder-split signal?</text>
+<text x="650" y="388" fill="#0f766e" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.8287</text>
+<text x="650" y="412" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">three_seed_mean_balanced_accuracy; range=0.8158-0.8382</text>
+<text x="200" y="432" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Diff-only paired reasoning is the strongest base formulation.</text>
+<circle cx="132" cy="496" r="19" fill="#0f766e"/>
+<text x="132" y="501" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">5</text>
+<rect x="178" y="458" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="484" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">No-metadata check</text>
+<text x="200" y="508" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Does the paired diff signal depend on Project/CVE/CWE prompt metadata?</text>
+<text x="650" y="484" fill="#0f766e" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.8244</text>
+<text x="650" y="508" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">balanced_accuracy; threshold=0.8</text>
+<text x="200" y="528" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Removing metadata preserves the signal.</text>
+<circle cx="132" cy="592" r="19" fill="#0f766e"/>
+<text x="132" y="597" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">6</text>
+<rect x="178" y="554" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="580" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Pair-coupled decoding</text>
+<text x="200" y="604" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Does enforcing paired consistency improve decisions?</text>
+<text x="650" y="580" fill="#0f766e" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.8572</text>
+<text x="650" y="604" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">mean_balanced_accuracy; delta_bal=0.0348, delta_group=0.1114</text>
+<text x="200" y="624" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Pair-coupled decoding gives stable row-level and group-level gains.</text>
+<circle cx="132" cy="688" r="19" fill="#2563eb"/>
+<text x="132" y="693" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">7</text>
+<rect x="178" y="650" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="676" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Evidence propagation</text>
+<text x="200" y="700" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Is evidence localization independent of side decisions?</text>
+<text x="650" y="676" fill="#2563eb" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">0.6555</text>
+<text x="650" y="700" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">predicted_side_top1; side_correct_top1=0.761, side_wrong_top1=0.0632</text>
+<text x="200" y="720" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Localization quality is coupled to upstream side correctness.</text>
+<circle cx="132" cy="784" r="19" fill="#2563eb"/>
+<text x="132" y="789" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">8</text>
+<rect x="178" y="746" width="930" height="76" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="200" y="772" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700">Safe flip gate</text>
+<text x="200" y="796" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="13">Can high-confidence side inversions be repaired safely?</text>
+<text x="650" y="772" fill="#2563eb" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="750">1.0000</text>
+<text x="650" y="796" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">project_holdout_accept_precision; accepted=9, introduced=0, stress_invalidated=1</text>
+<text x="200" y="816" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Evidence-conditioned stress-safe gate repairs errors without introduced side errors, but</text>
+<text x="200" y="832" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">remains small-scale.</text>
+<rect x="42" y="918" width="14" height="14" rx="4" fill="#ef4444"/>
+<text x="64" y="930" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">artifact/stress</text>
+<rect x="214" y="918" width="14" height="14" rx="4" fill="#64748b"/>
+<text x="236" y="930" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">negative control</text>
+<rect x="386" y="918" width="14" height="14" rx="4" fill="#0f766e"/>
+<text x="408" y="930" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">system result</text>
+<rect x="558" y="918" width="14" height="14" rx="4" fill="#2563eb"/>
+<text x="580" y="930" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="12">audit loop</text>
+</svg>

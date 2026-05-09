@@ -4,6 +4,8 @@ VeriSec Forge is a shortcut-aware secure patch/diff reasoning project. Its core 
 
 The project should be presented as a research system, not as a single leaderboard number.
 
+![PrimeVul progressive controls](reports/assets/primevul_progressive_controls.svg)
+
 ## One-Sentence Pitch
 
 I built a verifiable benchmark and calibration loop for secure-code reasoning that exposes artifact-sensitive vulnerability scores, replaces standalone snippet detection with paired vulnerable/fixed diff reasoning, and audits evidence-coupled failure repair under explicit selection protocols.
