@@ -130,7 +130,7 @@ Recommended contribution framing:
 - Evidence localization still relies on pseudo labels rather than manually verified evidence spans.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/time/CVE-disjoint external validation remains the most important next generalization check.
-- The repository is manifest-backed and has a local artifact-bundle workflow for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
+- The repository is manifest-backed and has local artifact-bundle build/restore workflows for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
 
 ## Next Research Steps
 

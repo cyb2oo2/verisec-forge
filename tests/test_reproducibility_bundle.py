@@ -8,6 +8,7 @@ from pathlib import Path
 from vrf.io_utils import write_json, write_jsonl
 from vrf.reproducibility import (
     build_artifact_bundle,
+    restore_artifact_bundle,
     sha256_file,
     validate_manifests,
 )
@@ -104,3 +105,41 @@ def test_build_artifact_bundle_writes_zip_manifest_and_files() -> None:
         bundle_manifest = json.loads(archive.read("BUNDLE_MANIFEST.json"))
     assert bundle_manifest["artifact_count"] == 1
     assert bundle_manifest["artifacts"][0]["path"] == "data/demo.jsonl"
+
+
+def test_restore_artifact_bundle_extracts_and_validates_files() -> None:
+    source_root = TMP_ROOT / "source"
+    restore_root = TMP_ROOT / "restore"
+    source_root.mkdir()
+    restore_root.mkdir()
+    manifest_path = _write_demo_manifest(source_root)
+    output_path = TMP_ROOT / "artifacts" / "demo_bundle.zip"
+    build_payload = build_artifact_bundle(
+        [manifest_path],
+        output_path=output_path,
+        repo_root=source_root,
+    )
+    assert build_payload["status"] == "ok"
+
+    payload = restore_artifact_bundle(output_path, repo_root=restore_root)
+
+    assert payload["status"] == "ok"
+    assert payload["actions"][0]["action"] == "extracted"
+    assert (restore_root / "data" / "demo.jsonl").exists()
+    assert payload["validation"][0]["status"] == "ok"
+
+
+def test_restore_artifact_bundle_blocks_mismatching_existing_file() -> None:
+    source_root = TMP_ROOT / "source"
+    restore_root = TMP_ROOT / "restore"
+    source_root.mkdir()
+    restore_root.mkdir()
+    manifest_path = _write_demo_manifest(source_root)
+    output_path = TMP_ROOT / "artifacts" / "demo_bundle.zip"
+    build_artifact_bundle([manifest_path], output_path=output_path, repo_root=source_root)
+    write_jsonl(restore_root / "data" / "demo.jsonl", [{"id": "wrong"}])
+
+    payload = restore_artifact_bundle(output_path, repo_root=restore_root)
+
+    assert payload["status"] == "failed"
+    assert payload["actions"][0]["action"] == "blocked_existing_mismatch"

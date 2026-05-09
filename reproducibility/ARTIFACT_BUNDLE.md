@@ -53,10 +53,18 @@ Use this only for archival snapshots. For reviewer reproduction, prefer required
 ## Reviewer Workflow
 
 1. Clone the repository.
-2. Restore the bundle contents into the repository root, preserving paths such as `data/processed/...` and `outputs/...`.
+2. Restore the bundle contents into the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\restore_reproducibility_bundle.py `
+  --bundle artifacts\verisec_forge_primevul_repro_bundle.zip
+```
+
 3. Run `scripts\build_reproducibility_bundle.py --check-only` against the relevant manifest.
 4. Run the corresponding reproduction script, for example `scripts\reproduce_primevul_evidence_coupled.py`.
 
+The restore script is conservative by default. Existing matching files are kept, existing mismatching files block restoration, and overwrites require `--overwrite`.
+
 ## Current Boundary
 
-The workflow verifies and packages local artifacts, but it does not yet publish them. The next step is to attach the generated bundle to a GitHub Release, Hugging Face dataset repo, or other stable artifact host, then add a small downloader that verifies the same `BUNDLE_MANIFEST.json`.
+The workflow verifies, packages, and restores local artifacts, but it does not yet publish them. The next step is to attach the generated bundle to a GitHub Release, Hugging Face dataset repo, or other stable artifact host, then add a small downloader that retrieves the zip before calling the same restore-and-validate path.

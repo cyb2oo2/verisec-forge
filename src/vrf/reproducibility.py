@@ -84,6 +84,19 @@ def repo_relative_path(path: str | Path, repo_root: str | Path) -> str:
         return Path(path).as_posix()
 
 
+def safe_repo_output_path(path: str | Path, repo_root: str | Path) -> Path:
+    raw_path = Path(path)
+    if raw_path.is_absolute():
+        raise ValueError(f"bundle artifact path must be relative: {path}")
+    output_path = (Path(repo_root) / raw_path).resolve()
+    root = Path(repo_root).resolve()
+    try:
+        output_path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"bundle artifact path escapes repo root: {path}") from exc
+    return output_path
+
+
 def iter_manifest_artifacts(
     manifest: dict[str, Any],
     *,
@@ -221,4 +234,102 @@ def build_artifact_bundle(
         "artifact_count": validation["artifact_count"],
         "include_generated": include_generated,
         "bundle_manifest": bundle_manifest,
+    }
+
+
+def _bundle_check_to_artifact(check: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "path": check["path"],
+        "role": check.get("role", "artifact"),
+        "sha256": check.get("expected_sha256"),
+        "bytes": check.get("expected_bytes"),
+        "rows": check.get("expected_rows"),
+        "_manifest_relpath": check.get("source_manifest"),
+    }
+
+
+def restore_artifact_bundle(
+    bundle_path: str | Path,
+    *,
+    repo_root: str | Path,
+    overwrite: bool = False,
+    check_only: bool = False,
+) -> dict[str, Any]:
+    bundle = Path(bundle_path)
+    if not bundle.exists():
+        return {
+            "status": "failed",
+            "bundle_path": str(bundle),
+            "message": "bundle path does not exist",
+        }
+
+    actions: list[dict[str, Any]] = []
+    with zipfile.ZipFile(bundle) as archive:
+        names = set(archive.namelist())
+        if "BUNDLE_MANIFEST.json" not in names:
+            return {
+                "status": "failed",
+                "bundle_path": str(bundle),
+                "message": "BUNDLE_MANIFEST.json is missing from bundle",
+            }
+
+        bundle_manifest = json.loads(archive.read("BUNDLE_MANIFEST.json"))
+        artifacts = [
+            _bundle_check_to_artifact(check)
+            for check in bundle_manifest.get("artifacts", [])
+        ]
+        for artifact in artifacts:
+            rel_path = artifact["path"].replace("\\", "/")
+            if rel_path not in names:
+                actions.append(
+                    {
+                        "path": rel_path,
+                        "action": "missing_in_bundle",
+                        "status": "failed",
+                    }
+                )
+                continue
+
+            target = safe_repo_output_path(rel_path, repo_root)
+            existing_check = validate_artifact(artifact, repo_root=repo_root)
+            if target.exists() and not overwrite:
+                actions.append(
+                    {
+                        "path": rel_path,
+                        "action": "keep_existing" if existing_check.ok else "blocked_existing_mismatch",
+                        "status": "ok" if existing_check.ok else "failed",
+                    }
+                )
+                continue
+
+            if check_only:
+                actions.append(
+                    {
+                        "path": rel_path,
+                        "action": "would_extract",
+                        "status": "ok",
+                    }
+                )
+                continue
+
+            ensure_parent(target)
+            with archive.open(rel_path, "r") as source, target.open("wb") as output:
+                for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                    output.write(chunk)
+            actions.append({"path": rel_path, "action": "extracted", "status": "ok"})
+
+    validation_checks = [
+        validate_artifact(artifact, repo_root=repo_root).to_dict()
+        for artifact in artifacts
+    ]
+    action_ok = all(action["status"] == "ok" for action in actions)
+    validation_ok = all(check["status"] == "ok" for check in validation_checks)
+    return {
+        "status": "ok" if action_ok and validation_ok else "failed",
+        "bundle_path": str(bundle),
+        "overwrite": overwrite,
+        "check_only": check_only,
+        "artifact_count": len(artifacts),
+        "actions": actions,
+        "validation": validation_checks,
     }
