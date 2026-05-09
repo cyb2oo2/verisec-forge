@@ -76,6 +76,7 @@ Expected key outputs:
 - side-inversion project-heldout evidence-conditioned gate accept precision / introduced rows: `1.0000` / `0`
 - side-inversion gate summary reports / pools / zero-introduced / stress-invalidated reports: `6` / `4` / `5` / `1`
 - side-inversion gate summary selection-allowed / audit-only reports: `1` / `5`
+- side-inversion gate summary protocol violations: `0`
 - side-inversion project-heldout conservative gate accept precision / introduced rows: `1.0000` / `0`
 
 The exact local inputs and expected generated artifacts are listed in:

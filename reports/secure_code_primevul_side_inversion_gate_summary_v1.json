@@ -5,7 +5,8 @@
     "zero_introduced_reports": 5,
     "stress_invalidated_reports": 1,
     "selection_allowed_reports": 1,
-    "audit_only_reports": 5
+    "audit_only_reports": 5,
+    "protocol_violation_count": 0
   },
   "selection_protocol": {
     "discovery_pool": "top5",

@@ -10,6 +10,7 @@ This generated table compares safe-flip gates across side-inversion candidate po
 - Stress-invalidated reports: `1`
 - Selection-allowed reports: `1`
 - Audit-only reports: `5`
+- Protocol violations: `0`
 
 ## Gate Selection Protocol
 

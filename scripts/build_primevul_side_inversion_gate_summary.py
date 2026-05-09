@@ -127,10 +127,39 @@ def best_zero_introduced(rows: list[dict[str, Any]]) -> dict[str, Any]:
     return max(candidates, key=lambda row: (row["accepted_rows"], row["accept_recall"], row["accept_precision"]))
 
 
+def validate_selection_protocol(rows: list[dict[str, Any]], protocol: dict[str, str] = SELECTION_PROTOCOL) -> list[str]:
+    violations: list[str] = []
+    discovery_pool = protocol["discovery_pool"]
+    stress_pool = protocol["stress_pool"]
+    preferred_gate = protocol["current_preferred_gate"]
+    selectable_rows = [row for row in rows if row["selection_allowed"]]
+    if not selectable_rows:
+        violations.append("at least one discovery row must be selection_allowed")
+    for row in rows:
+        key = f"{row['pool']}:{row['gate_variant']}"
+        if row["selection_allowed"] and row["pool"] != discovery_pool:
+            violations.append(f"{key} is selectable outside discovery pool {discovery_pool}")
+        if row["selection_allowed"] and "stress" in str(row["protocol_role"]):
+            violations.append(f"{key} is both selectable and marked as stress role {row['protocol_role']}")
+        if row["pool"] == stress_pool and row["selection_allowed"]:
+            violations.append(f"{key} is selectable on stress pool {stress_pool}")
+        if key == preferred_gate:
+            if row["selection_allowed"]:
+                violations.append(f"{key} is the preferred stress-safe gate and must remain audit-only")
+            if row.get("protocol_status") != "preferred_stress_safe":
+                violations.append(f"{key} must have protocol_status=preferred_stress_safe")
+            if int(row["introduced_side_error_rows"]) != 0:
+                violations.append(f"{key} is preferred but introduces side errors")
+    return violations
+
+
 def build_summary(specs: list[dict[str, str]], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
     rows = [load_gate_row(spec, repo_root=repo_root) for spec in specs]
     for row in rows:
         row["protocol_status"] = annotate_protocol_status(row)
+    protocol_violations = validate_selection_protocol(rows)
+    if protocol_violations:
+        raise ValueError("Gate selection protocol violations: " + "; ".join(protocol_violations))
     by_pool: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         by_pool.setdefault(row["pool"], []).append(row)
@@ -151,6 +180,7 @@ def build_summary(specs: list[dict[str, str]], *, repo_root: Path = REPO_ROOT) -
             "stress_invalidated_reports": sum(1 for row in rows if row["protocol_status"] == "stress_invalidated"),
             "selection_allowed_reports": sum(1 for row in rows if row["selection_allowed"]),
             "audit_only_reports": sum(1 for row in rows if not row["selection_allowed"]),
+            "protocol_violation_count": len(protocol_violations),
         },
         "selection_protocol": SELECTION_PROTOCOL,
         "pool_summaries": pool_summaries,
@@ -173,6 +203,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         f"- Stress-invalidated reports: `{summary['stress_invalidated_reports']}`",
         f"- Selection-allowed reports: `{summary['selection_allowed_reports']}`",
         f"- Audit-only reports: `{summary['audit_only_reports']}`",
+        f"- Protocol violations: `{summary['protocol_violation_count']}`",
         "",
         "## Gate Selection Protocol",
         "",

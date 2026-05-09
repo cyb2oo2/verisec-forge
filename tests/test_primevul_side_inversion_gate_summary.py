@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from uuid import uuid4
 
-from scripts.build_primevul_side_inversion_gate_summary import build_summary, render_markdown
+from scripts.build_primevul_side_inversion_gate_summary import build_summary, render_markdown, validate_selection_protocol
 
 
 def write_gate(path: Path, *, gate: str, accepted: int, introduced: int, recall: float) -> None:
@@ -37,12 +37,21 @@ def test_build_summary_selects_best_zero_introduced_gate() -> None:
     good_path = tmp_path / "reports" / "good.json"
     conservative_path = tmp_path / "reports" / "conservative.json"
     risky_path = tmp_path / "reports" / "risky.json"
+    discovery_path = tmp_path / "reports" / "discovery.json"
     write_gate(good_path, gate="evidence OR repeat", accepted=2, introduced=0, recall=0.67)
     write_gate(conservative_path, gate="repeat>=4", accepted=1, introduced=0, recall=0.33)
     write_gate(risky_path, gate="repeat>=3", accepted=3, introduced=1, recall=0.67)
+    write_gate(discovery_path, gate="repeat>=3", accepted=2, introduced=0, recall=0.67)
 
     payload = build_summary(
         [
+            {
+                "pool": "top5",
+                "gate_variant": "strict_or",
+                "path": "reports/discovery.json",
+                "protocol_role": "discovery",
+                "selection_allowed": True,
+            },
             {
                 "pool": "project",
                 "gate_variant": "evidence_conditioned",
@@ -70,8 +79,9 @@ def test_build_summary_selects_best_zero_introduced_gate() -> None:
 
     best = payload["pool_summaries"]["project"]["best_zero_introduced"]
     assert best["gate_variant"] == "evidence_conditioned"
-    assert payload["summary"]["zero_introduced_reports"] == 2
+    assert payload["summary"]["zero_introduced_reports"] == 3
     assert payload["summary"]["audit_only_reports"] == 3
+    assert payload["summary"]["protocol_violation_count"] == 0
     assert payload["selection_protocol"]["stress_pool"] == "project_holdout_top5"
 
 
@@ -84,6 +94,7 @@ def test_render_markdown_includes_cross_pool_table() -> None:
             "stress_invalidated_reports": 0,
             "selection_allowed_reports": 1,
             "audit_only_reports": 0,
+            "protocol_violation_count": 0,
         },
         "selection_protocol": {
             "discovery_pool": "top5",
@@ -118,3 +129,54 @@ def test_render_markdown_includes_cross_pool_table() -> None:
     assert "# PrimeVul Side-Inversion Gate Summary" in rendered
     assert "## Gate Selection Protocol" in rendered
     assert "| top5 | strict | discovery | yes | development_safe | 2 | 2 | 0 | 1.0 | 0.5 | 2 | 2 | `repeat>=3` |" in rendered
+
+
+def test_validate_selection_protocol_rejects_selectable_stress_rows() -> None:
+    rows = [
+        {
+            "pool": "top5",
+            "gate_variant": "strict_or",
+            "protocol_role": "discovery",
+            "selection_allowed": True,
+            "protocol_status": "development_safe",
+            "introduced_side_error_rows": 0,
+        },
+        {
+            "pool": "project_holdout_top5",
+            "gate_variant": "evidence_conditioned",
+            "protocol_role": "project_stress_candidate",
+            "selection_allowed": True,
+            "protocol_status": "preferred_stress_safe",
+            "introduced_side_error_rows": 0,
+        },
+    ]
+
+    violations = validate_selection_protocol(rows)
+
+    assert any("selectable on stress pool" in violation for violation in violations)
+    assert any("must remain audit-only" in violation for violation in violations)
+
+
+def test_validate_selection_protocol_rejects_preferred_gate_with_introduced_errors() -> None:
+    rows = [
+        {
+            "pool": "top5",
+            "gate_variant": "strict_or",
+            "protocol_role": "discovery",
+            "selection_allowed": True,
+            "protocol_status": "development_safe",
+            "introduced_side_error_rows": 0,
+        },
+        {
+            "pool": "project_holdout_top5",
+            "gate_variant": "evidence_conditioned",
+            "protocol_role": "project_stress_candidate",
+            "selection_allowed": False,
+            "protocol_status": "preferred_stress_safe",
+            "introduced_side_error_rows": 1,
+        },
+    ]
+
+    violations = validate_selection_protocol(rows)
+
+    assert any("introduces side errors" in violation for violation in violations)

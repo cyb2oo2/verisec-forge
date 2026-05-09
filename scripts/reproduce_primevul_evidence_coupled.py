@@ -838,6 +838,9 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
             "selection_allowed_reports"
         ],
         "side_inversion_gate_summary_audit_only_reports": side_inversion_gate_summary["summary"]["audit_only_reports"],
+        "side_inversion_gate_summary_protocol_violation_count": side_inversion_gate_summary["summary"][
+            "protocol_violation_count"
+        ],
         "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis["summary"][
             "false_accepts"
         ],

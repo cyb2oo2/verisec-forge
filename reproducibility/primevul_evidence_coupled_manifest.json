@@ -374,8 +374,8 @@
     {
       "role": "side_inversion_gate_summary_json",
       "path": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json",
-      "sha256": "7eba6b248e7fc388742829c40bdd1c2768f509e7202a398003c0de9c93c496af",
-      "bytes": 10218
+      "sha256": "af00bbc9495be985500ee3367e17113c99b05c774854df11ab9523805c8af686",
+      "bytes": 10254
     }
   ],
   "expected": {
@@ -460,6 +460,7 @@
     "side_inversion_gate_summary_stress_invalidated_reports": 1,
     "side_inversion_gate_summary_selection_allowed_reports": 1,
     "side_inversion_gate_summary_audit_only_reports": 5,
+    "side_inversion_gate_summary_protocol_violation_count": 0,
     "side_inversion_project_holdout_strict_analysis_false_accepts": 3,
     "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": 1,
     "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": 0,
