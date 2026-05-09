@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
+import urllib.request
 import zipfile
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -234,6 +236,91 @@ def build_artifact_bundle(
         "artifact_count": validation["artifact_count"],
         "include_generated": include_generated,
         "bundle_manifest": bundle_manifest,
+    }
+
+
+def verify_bundle_file(
+    bundle_path: str | Path,
+    *,
+    expected_sha256: str | None = None,
+    expected_bytes: int | None = None,
+) -> dict[str, Any]:
+    bundle = Path(bundle_path)
+    if not bundle.exists():
+        return {
+            "status": "failed",
+            "path": str(bundle),
+            "message": "bundle file does not exist",
+        }
+
+    actual_bytes = bundle.stat().st_size
+    actual_sha = sha256_file(bundle)
+    mismatches: list[str] = []
+    if expected_sha256 and actual_sha != expected_sha256:
+        mismatches.append("sha256")
+    if expected_bytes is not None and actual_bytes != expected_bytes:
+        mismatches.append("bytes")
+
+    return {
+        "status": "mismatch" if mismatches else "ok",
+        "path": str(bundle),
+        "expected_sha256": expected_sha256,
+        "actual_sha256": actual_sha,
+        "expected_bytes": expected_bytes,
+        "actual_bytes": actual_bytes,
+        "message": ", ".join(mismatches) if mismatches else None,
+    }
+
+
+def download_bundle_file(
+    source: str,
+    *,
+    output_path: str | Path,
+    expected_sha256: str | None = None,
+    expected_bytes: int | None = None,
+) -> dict[str, Any]:
+    output = ensure_parent(output_path)
+    if source.startswith(("http://", "https://", "file://")):
+        with urllib.request.urlopen(source) as response, output.open("wb") as handle:
+            shutil.copyfileobj(response, handle)
+    else:
+        source_path = Path(source)
+        if not source_path.exists():
+            return {
+                "status": "failed",
+                "source": source,
+                "output_path": str(output),
+                "message": "source path does not exist",
+            }
+        shutil.copyfile(source_path, output)
+
+    verification = verify_bundle_file(
+        output,
+        expected_sha256=expected_sha256,
+        expected_bytes=expected_bytes,
+    )
+    return {
+        "status": "ok" if verification["status"] == "ok" else "failed",
+        "source": source,
+        "output_path": str(output),
+        "verification": verification,
+    }
+
+
+def load_bundle_release_metadata(path: str | Path, repo_root: str | Path) -> dict[str, Any]:
+    metadata = read_json(resolve_repo_path(path, repo_root))
+    bundles = metadata.get("bundles", [])
+    if not bundles:
+        raise ValueError("release metadata must contain at least one bundle entry")
+    bundle = bundles[0]
+    return {
+        "name": bundle.get("name", metadata.get("name", "reproducibility_bundle")),
+        "url": bundle.get("url"),
+        "filename": bundle.get("filename"),
+        "sha256": bundle.get("sha256"),
+        "bytes": bundle.get("bytes"),
+        "status": metadata.get("status", "unknown"),
+        "metadata": metadata,
     }
 
 

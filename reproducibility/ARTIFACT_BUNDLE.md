@@ -53,7 +53,13 @@ Use this only for archival snapshots. For reviewer reproduction, prefer required
 ## Reviewer Workflow
 
 1. Clone the repository.
-2. Restore the bundle contents into the repository root:
+2. Once a public bundle URL is recorded in `reproducibility/release_artifacts.json`, download and restore it:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py --restore
+```
+
+Until the bundle is publicly hosted, restore a local bundle directly:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\restore_reproducibility_bundle.py `
@@ -67,4 +73,4 @@ The restore script is conservative by default. Existing matching files are kept,
 
 ## Current Boundary
 
-The workflow verifies, packages, and restores local artifacts, but it does not yet publish them. The next step is to attach the generated bundle to a GitHub Release, Hugging Face dataset repo, or other stable artifact host, then add a small downloader that retrieves the zip before calling the same restore-and-validate path.
+The workflow verifies, packages, downloads, and restores local artifacts, but it does not yet publish them. The next step is to attach the generated bundle to a GitHub Release, Hugging Face dataset repo, or other stable artifact host, then fill `reproducibility/release_artifacts.json` with the final URL, SHA256, and byte size.

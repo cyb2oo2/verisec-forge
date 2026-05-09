@@ -13,6 +13,7 @@ Start here for the main narrative and current system-level conclusions.
 - `Visual Diagnostics`: `reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md`
 - `Reproducibility Guide`: `REPRODUCIBILITY.md`
 - `Artifact Bundle Workflow`: `reproducibility/ARTIFACT_BUNDLE.md`
+- `Artifact Release Metadata`: `reproducibility/release_artifacts.json`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 
 ## CodeXGLUE Mainline

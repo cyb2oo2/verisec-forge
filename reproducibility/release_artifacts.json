@@ -1,0 +1,19 @@
+{
+  "name": "verisec_forge_primevul_reproducibility_artifacts",
+  "status": "not_published",
+  "description": "Metadata placeholder for the public reproducibility bundle. Fill url, sha256, and bytes after attaching the generated zip to a stable artifact host.",
+  "bundles": [
+    {
+      "name": "primevul_router_and_evidence_coupled_inputs",
+      "filename": "verisec_forge_primevul_repro_bundle.zip",
+      "url": null,
+      "sha256": null,
+      "bytes": null,
+      "source_manifests": [
+        "reproducibility/primevul_calibrated_router_manifest.json",
+        "reproducibility/primevul_evidence_coupled_manifest.json"
+      ],
+      "build_command": ".\\.venv\\Scripts\\python.exe scripts\\build_reproducibility_bundle.py --manifest reproducibility\\primevul_calibrated_router_manifest.json --manifest reproducibility\\primevul_evidence_coupled_manifest.json --output artifacts\\verisec_forge_primevul_repro_bundle.zip"
+    }
+  ]
+}

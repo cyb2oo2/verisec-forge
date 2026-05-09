@@ -8,6 +8,8 @@ from pathlib import Path
 from vrf.io_utils import write_json, write_jsonl
 from vrf.reproducibility import (
     build_artifact_bundle,
+    download_bundle_file,
+    load_bundle_release_metadata,
     restore_artifact_bundle,
     sha256_file,
     validate_manifests,
@@ -143,3 +145,67 @@ def test_restore_artifact_bundle_blocks_mismatching_existing_file() -> None:
 
     assert payload["status"] == "failed"
     assert payload["actions"][0]["action"] == "blocked_existing_mismatch"
+
+
+def test_download_bundle_file_copies_and_verifies_local_source() -> None:
+    source_root = TMP_ROOT / "source"
+    source_root.mkdir()
+    manifest_path = _write_demo_manifest(source_root)
+    source_bundle = TMP_ROOT / "artifacts" / "demo_bundle.zip"
+    build_artifact_bundle([manifest_path], output_path=source_bundle, repo_root=source_root)
+    output_bundle = TMP_ROOT / "downloads" / "demo_bundle.zip"
+
+    payload = download_bundle_file(
+        str(source_bundle),
+        output_path=output_bundle,
+        expected_sha256=sha256_file(source_bundle),
+        expected_bytes=source_bundle.stat().st_size,
+    )
+
+    assert payload["status"] == "ok"
+    assert output_bundle.exists()
+    assert payload["verification"]["actual_sha256"] == sha256_file(source_bundle)
+
+
+def test_download_bundle_file_reports_hash_mismatch() -> None:
+    source_root = TMP_ROOT / "source"
+    source_root.mkdir()
+    manifest_path = _write_demo_manifest(source_root)
+    source_bundle = TMP_ROOT / "artifacts" / "demo_bundle.zip"
+    build_artifact_bundle([manifest_path], output_path=source_bundle, repo_root=source_root)
+
+    payload = download_bundle_file(
+        str(source_bundle),
+        output_path=TMP_ROOT / "downloads" / "demo_bundle.zip",
+        expected_sha256="not-the-real-sha",
+    )
+
+    assert payload["status"] == "failed"
+    assert payload["verification"]["status"] == "mismatch"
+
+
+def test_load_bundle_release_metadata_reads_first_bundle() -> None:
+    metadata_path = TMP_ROOT / "reproducibility" / "release_artifacts.json"
+    write_json(
+        metadata_path,
+        {
+            "name": "demo_release",
+            "status": "published",
+            "bundles": [
+                {
+                    "name": "demo_bundle",
+                    "filename": "demo.zip",
+                    "url": "https://example.invalid/demo.zip",
+                    "sha256": "abc",
+                    "bytes": 123,
+                }
+            ],
+        },
+    )
+
+    payload = load_bundle_release_metadata(metadata_path, TMP_ROOT)
+
+    assert payload["name"] == "demo_bundle"
+    assert payload["status"] == "published"
+    assert payload["filename"] == "demo.zip"
+    assert payload["sha256"] == "abc"

@@ -130,11 +130,11 @@ Recommended contribution framing:
 - Evidence localization still relies on pseudo labels rather than manually verified evidence spans.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/time/CVE-disjoint external validation remains the most important next generalization check.
-- The repository is manifest-backed and has local artifact-bundle build/restore workflows for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
+- The repository is manifest-backed and has local artifact-bundle build/restore/download workflows for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
 
 ## Next Research Steps
 
 1. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 3. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
-4. Publish the reproducibility artifact bundle and add a scripted download path for reviewers.
+4. Publish the reproducibility artifact bundle and fill the release metadata URL/hash for reviewer downloads.
