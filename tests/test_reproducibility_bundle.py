@@ -136,6 +136,28 @@ def test_build_artifact_bundle_writes_zip_manifest_and_files() -> None:
     assert bundle_manifest["artifacts"][0]["path"] == "data/demo.jsonl"
 
 
+def test_build_artifact_bundle_is_deterministic() -> None:
+    manifest_path = _write_demo_manifest(TMP_ROOT)
+    first_output = TMP_ROOT / "artifacts" / "first_bundle.zip"
+    second_output = TMP_ROOT / "artifacts" / "second_bundle.zip"
+
+    first_payload = build_artifact_bundle(
+        [manifest_path],
+        output_path=first_output,
+        repo_root=TMP_ROOT,
+    )
+    second_payload = build_artifact_bundle(
+        [manifest_path],
+        output_path=second_output,
+        repo_root=TMP_ROOT,
+    )
+
+    assert first_payload["status"] == "ok"
+    assert second_payload["status"] == "ok"
+    assert first_payload["output_sha256"] == second_payload["output_sha256"]
+    assert first_output.read_bytes() == second_output.read_bytes()
+
+
 def test_restore_artifact_bundle_extracts_and_validates_files() -> None:
     source_root = TMP_ROOT / "source"
     restore_root = TMP_ROOT / "restore"

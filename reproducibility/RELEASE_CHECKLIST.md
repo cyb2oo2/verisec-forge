@@ -5,8 +5,8 @@ Use this checklist when publishing `artifacts/verisec_forge_primevul_repro_bundl
 ## Current Local Bundle
 
 - Filename: `verisec_forge_primevul_repro_bundle.zip`
-- Byte size: `5731758`
-- SHA256: `e4713b7014ca9bae3404e8f24d1ab37eeda0147f4860b78d48042f7d91c03273`
+- Byte size: `5731753`
+- SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`
 - Unique artifact count: `6`
 - Duplicate manifest path intentionally deduplicated: `data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl`
 
@@ -24,11 +24,14 @@ Use this checklist when publishing `artifacts/verisec_forge_primevul_repro_bundl
 2. Confirm the printed SHA256 and byte size match `reproducibility/release_artifacts.json`.
 3. Do not commit the zip file; `artifacts/` is intentionally gitignored.
 
+The bundle builder is deterministic: rebuilding from the same manifest inputs should reproduce the same byte size and SHA256.
+
 ## Upload
 
 1. Upload `artifacts/verisec_forge_primevul_repro_bundle.zip` to the chosen stable host.
-2. Copy the final public URL into `reproducibility/release_artifacts.json`.
-3. Keep `sha256` and `bytes` unchanged unless the bundle is rebuilt.
+2. If using GitHub Releases, use `reproducibility/GITHUB_RELEASE_NOTES.md` as the release body.
+3. Copy the final public URL into `reproducibility/release_artifacts.json`.
+4. Keep `sha256` and `bytes` unchanged unless the bundle is rebuilt.
 
 ## Post-Upload Smoke Test
 

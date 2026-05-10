@@ -6,11 +6,13 @@ import shutil
 import urllib.request
 import zipfile
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Iterable
 
 from vrf.io_utils import ensure_parent, read_json
+
+DETERMINISTIC_BUNDLE_TIME = "1980-01-01T00:00:00+00:00"
+DETERMINISTIC_ZIP_DATE_TIME = (1980, 1, 1, 0, 0, 0)
 
 
 @dataclass(frozen=True)
@@ -217,10 +219,9 @@ def build_artifact_bundle(
         }
 
     output = ensure_parent(output_path)
-    created_utc = datetime.now(UTC).replace(microsecond=0).isoformat()
     bundle_manifest = {
         "name": "verisec_forge_reproducibility_bundle",
-        "created_utc": created_utc,
+        "created_utc": DETERMINISTIC_BUNDLE_TIME,
         "include_generated": include_generated,
         "source_manifests": [str(path).replace("\\", "/") for path in manifest_paths],
         "artifact_count": validation["artifact_count"],
@@ -229,13 +230,20 @@ def build_artifact_bundle(
     }
 
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        manifest_info = zipfile.ZipInfo("BUNDLE_MANIFEST.json")
+        manifest_info.date_time = DETERMINISTIC_ZIP_DATE_TIME
+        manifest_info.compress_type = zipfile.ZIP_DEFLATED
         archive.writestr(
-            "BUNDLE_MANIFEST.json",
-            json.dumps(bundle_manifest, indent=2, ensure_ascii=False),
+            manifest_info,
+            json.dumps(bundle_manifest, indent=2, ensure_ascii=False).encode("utf-8"),
         )
         for check in validation["checks"]:
             artifact_path = resolve_repo_path(check["path"], repo_root)
-            archive.write(artifact_path, arcname=check["path"].replace("\\", "/"))
+            arcname = check["path"].replace("\\", "/")
+            artifact_info = zipfile.ZipInfo(arcname)
+            artifact_info.date_time = DETERMINISTIC_ZIP_DATE_TIME
+            artifact_info.compress_type = zipfile.ZIP_DEFLATED
+            archive.writestr(artifact_info, artifact_path.read_bytes())
 
     return {
         "status": "ok",
