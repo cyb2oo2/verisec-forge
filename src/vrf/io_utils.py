@@ -56,3 +56,8 @@ def write_csv(path: str | Path, rows: list[dict[str, Any]]) -> None:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def read_csv(path: str | Path) -> list[dict[str, str]]:
+    with Path(path).open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))

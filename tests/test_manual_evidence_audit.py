@@ -5,7 +5,10 @@ from pathlib import Path
 
 from vrf.evidence_audit import (
     analyze_manual_evidence_annotations,
+    annotation_template_rows,
+    apply_annotation_rows,
     build_manual_evidence_audit_set,
+    parse_window_ids,
     normalize_review_queue_row,
     render_manual_evidence_review_packet,
     select_audit_rows,
@@ -165,3 +168,63 @@ def test_render_manual_evidence_review_packet_contains_annotation_block() -> Non
     assert "Window `A1`" in packet
     assert "Window `B1`" in packet
     assert "```diff" in packet
+
+
+def test_annotation_template_rows_include_reference_metadata() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+
+    template = annotation_template_rows([row])
+
+    assert template[0]["audit_id"] == row["audit_id"]
+    assert template[0]["human_vulnerable_side"] == ""
+    assert template[0]["project"] == "demo"
+    assert template[0]["gold_vulnerable_side"] == "A"
+
+
+def test_parse_window_ids_accepts_semicolon_or_comma_lists() -> None:
+    assert parse_window_ids("A1, B2;A3") == ["A1", "B2", "A3"]
+
+
+def test_apply_annotation_rows_updates_matching_audit_rows() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    payload = apply_annotation_rows(
+        [row],
+        [
+            {
+                "audit_id": row["audit_id"],
+                "human_vulnerable_side": "A",
+                "evidence_side": "A",
+                "evidence_quality": "3",
+                "selected_window_ids": "A1",
+                "label_issue": "none",
+                "notes": "guard removed",
+                "annotator": "test",
+                "reviewed_at": "2026-05-12T00:00:00Z",
+            }
+        ],
+    )
+
+    assert payload["status"] == "ok"
+    assert payload["updated"] == 1
+    assert payload["audit_rows"][0]["annotation"]["selected_window_ids"] == ["A1"]
+    assert payload["audit_rows"][0]["annotation"]["evidence_quality"] == 3
+
+
+def test_apply_annotation_rows_rejects_unknown_window_ids() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    payload = apply_annotation_rows(
+        [row],
+        [
+            {
+                "audit_id": row["audit_id"],
+                "human_vulnerable_side": "A",
+                "evidence_side": "A",
+                "evidence_quality": "3",
+                "selected_window_ids": "Z9",
+                "label_issue": "none",
+            }
+        ],
+    )
+
+    assert payload["status"] == "failed"
+    assert payload["errors"][0]["errors"] == ["selected_window_ids"]

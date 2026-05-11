@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import re
 from collections import Counter
 from pathlib import Path
 from typing import Any, Iterable
@@ -31,6 +32,25 @@ VALID_HUMAN_SIDES = {"A", "B", "unclear"}
 VALID_EVIDENCE_SIDES = {"A", "B", "both", "none", "unclear"}
 VALID_EVIDENCE_QUALITY = {0, 1, 2, 3}
 VALID_LABEL_ISSUES = {"none", "ambiguous", "wrong_label", "insufficient_context"}
+ANNOTATION_CSV_FIELDS = [
+    "audit_id",
+    "human_vulnerable_side",
+    "evidence_side",
+    "evidence_quality",
+    "selected_window_ids",
+    "label_issue",
+    "notes",
+    "annotator",
+    "reviewed_at",
+]
+ANNOTATION_TEMPLATE_FIELDS = [
+    *ANNOTATION_CSV_FIELDS,
+    "project",
+    "cve",
+    "source_pool",
+    "model_vulnerable_side",
+    "gold_vulnerable_side",
+]
 
 
 def _window_id(side: str, index: int) -> str:
@@ -263,6 +283,132 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
         "evidence_vs_gold": dict(sorted(evidence_vs_gold.items())),
         "evidence_quality_counts": dict(sorted(evidence_quality.items())),
         "label_issue_counts": dict(sorted(label_issues.items())),
+    }
+
+
+def annotation_template_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    template_rows: list[dict[str, Any]] = []
+    for row in rows:
+        template_rows.append(
+            {
+                "audit_id": row.get("audit_id"),
+                "human_vulnerable_side": "",
+                "evidence_side": "",
+                "evidence_quality": "",
+                "selected_window_ids": "",
+                "label_issue": "none",
+                "notes": "",
+                "annotator": "",
+                "reviewed_at": "",
+                "project": row.get("project"),
+                "cve": row.get("cve"),
+                "source_pool": row.get("source_pool"),
+                "model_vulnerable_side": row.get("model_vulnerable_side"),
+                "gold_vulnerable_side": row.get("gold_vulnerable_side"),
+            }
+        )
+    return template_rows
+
+
+def parse_window_ids(value: str | list[str] | None) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    return [part.strip() for part in re.split(r"[;,]", value) if part.strip()]
+
+
+def _valid_window_ids(row: dict[str, Any]) -> set[str]:
+    ids: set[str] = set()
+    for side_key in ("side_a", "side_b"):
+        for window in row.get(side_key, {}).get("windows", []):
+            if window.get("window_id"):
+                ids.add(window["window_id"])
+    return ids
+
+
+def _parse_quality(value: str | int | None) -> int | None:
+    if value is None or value == "":
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def apply_annotation_rows(
+    audit_rows: list[dict[str, Any]],
+    annotation_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    by_audit_id = {row["audit_id"]: row for row in audit_rows}
+    updated = 0
+    skipped_blank = 0
+    errors: list[dict[str, Any]] = []
+
+    for annotation in annotation_rows:
+        audit_id = annotation.get("audit_id")
+        if audit_id not in by_audit_id:
+            errors.append({"audit_id": audit_id, "errors": ["unknown_audit_id"]})
+            continue
+
+        human_side = (annotation.get("human_vulnerable_side") or "").strip()
+        evidence_side = (annotation.get("evidence_side") or "").strip()
+        quality = _parse_quality(annotation.get("evidence_quality"))
+        selected_window_ids = parse_window_ids(annotation.get("selected_window_ids"))
+        label_issue = (annotation.get("label_issue") or "none").strip()
+        notes = annotation.get("notes") or ""
+        annotator = annotation.get("annotator") or ""
+        reviewed_at = annotation.get("reviewed_at") or ""
+
+        if not human_side and not evidence_side and quality is None and not selected_window_ids and not notes:
+            skipped_blank += 1
+            continue
+
+        row_errors: list[str] = []
+        if human_side not in VALID_HUMAN_SIDES:
+            row_errors.append("human_vulnerable_side")
+        if evidence_side not in VALID_EVIDENCE_SIDES:
+            row_errors.append("evidence_side")
+        if quality not in VALID_EVIDENCE_QUALITY:
+            row_errors.append("evidence_quality")
+        if label_issue not in VALID_LABEL_ISSUES:
+            row_errors.append("label_issue")
+
+        valid_window_ids = _valid_window_ids(by_audit_id[audit_id])
+        invalid_window_ids = [window_id for window_id in selected_window_ids if window_id not in valid_window_ids]
+        if invalid_window_ids:
+            row_errors.append("selected_window_ids")
+
+        if row_errors:
+            errors.append(
+                {
+                    "audit_id": audit_id,
+                    "errors": row_errors,
+                    "invalid_window_ids": invalid_window_ids,
+                }
+            )
+            continue
+
+        by_audit_id[audit_id]["annotation"] = {
+            "human_vulnerable_side": human_side,
+            "evidence_side": evidence_side,
+            "evidence_quality": quality,
+            "selected_window_ids": selected_window_ids,
+            "label_issue": label_issue,
+            "notes": notes,
+            "annotator": annotator,
+            "reviewed_at": reviewed_at,
+        }
+        updated += 1
+
+    return {
+        "status": "ok" if not errors else "failed",
+        "rows": len(audit_rows),
+        "annotation_rows": len(annotation_rows),
+        "updated": updated,
+        "skipped_blank": skipped_blank,
+        "errors": errors,
+        "audit_rows": audit_rows,
     }
 
 

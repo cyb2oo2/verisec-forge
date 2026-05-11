@@ -60,6 +60,38 @@ The script requests `50` rows but currently materializes `42` unique pair keys a
 .\.venv\Scripts\python.exe scripts\render_manual_evidence_review_packet.py
 ```
 
+## CSV Annotation Workflow
+
+Export a CSV template:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\export_manual_evidence_annotation_template.py
+```
+
+Fill the annotation columns in the generated CSV:
+
+- `human_vulnerable_side`
+- `evidence_side`
+- `evidence_quality`
+- `selected_window_ids`
+- `label_issue`
+- `notes`
+- `annotator`
+- `reviewed_at`
+
+Then validate and apply the completed annotations:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\apply_manual_evidence_annotations.py `
+  --annotations data\processed\secure_code_primevul_manual_evidence_audit_v1_template.csv `
+  --dry-run
+
+.\.venv\Scripts\python.exe scripts\apply_manual_evidence_annotations.py `
+  --annotations data\processed\secure_code_primevul_manual_evidence_audit_v1_template.csv
+```
+
+The apply script rejects unknown `audit_id` values, invalid enum values, invalid evidence quality values, and selected window IDs that do not exist for the row.
+
 ## Next Step
 
 After annotation, run:
