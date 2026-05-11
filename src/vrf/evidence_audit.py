@@ -264,3 +264,97 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
         "evidence_quality_counts": dict(sorted(evidence_quality.items())),
         "label_issue_counts": dict(sorted(label_issues.items())),
     }
+
+
+def _render_preview(lines: list[str], prefix: str) -> list[str]:
+    if not lines:
+        return [f"{prefix} <empty>"]
+    return [f"{prefix} {line}" for line in lines]
+
+
+def _render_side(side_label: str, side: dict[str, Any]) -> list[str]:
+    lines = [
+        f"### Side {side_label}",
+        "",
+        f"- ID: `{side.get('id')}`",
+        f"- Detector probability: `{side.get('detector_probability')}`",
+        "",
+    ]
+    for window in side.get("windows", []):
+        labels = ",".join(window.get("direction_labels", [])) or "none"
+        lines.extend(
+            [
+                f"#### Window `{window.get('window_id')}`",
+                "",
+                f"- Header: `{window.get('header')}`",
+                f"- Direction labels: `{labels}`",
+                f"- Risk support: `{window.get('risk_support')}`",
+                f"- Safety support: `{window.get('safety_support')}`",
+                "",
+                "Removed preview:",
+                "",
+                "```diff",
+                *_render_preview(window.get("removed_preview", []), "-"),
+                "```",
+                "",
+                "Added preview:",
+                "",
+                "```diff",
+                *_render_preview(window.get("added_preview", []), "+"),
+                "```",
+                "",
+            ]
+        )
+    return lines
+
+
+def render_manual_evidence_review_packet(rows: list[dict[str, Any]]) -> str:
+    lines = [
+        "# PrimeVul Manual Evidence Review Packet",
+        "",
+        "Use this packet to annotate the JSONL file without reading raw one-line JSON. Copy the final decisions back into the `annotation` object for each `audit_id`.",
+        "",
+        "Annotation fields:",
+        "",
+        "- `human_vulnerable_side`: `A`, `B`, or `unclear`.",
+        "- `evidence_side`: `A`, `B`, `both`, `none`, or `unclear`.",
+        "- `evidence_quality`: `0` no evidence, `1` weak, `2` plausible, `3` strong direct evidence.",
+        "- `selected_window_ids`: window IDs such as `A1`, `A2`, `B1`.",
+        "- `label_issue`: `none`, `ambiguous`, `wrong_label`, or `insufficient_context`.",
+        "",
+    ]
+
+    for index, row in enumerate(rows, start=1):
+        lines.extend(
+            [
+                f"## Item {index}: `{row.get('audit_id')}`",
+                "",
+                f"- Pair key: `{row.get('pair_key')}`",
+                f"- Source pool: `{row.get('source_pool')}`",
+                f"- Project/CVE: `{row.get('project')}` / `{row.get('cve')}`",
+                f"- Changed-line bucket: `{row.get('changed_line_bucket')}`",
+                f"- Model vulnerable side: `{row.get('model_vulnerable_side')}`",
+                f"- Gold vulnerable side: `{row.get('gold_vulnerable_side')}`",
+                f"- True inversion candidate: `{row.get('is_true_inversion_candidate')}`",
+                f"- Side model score: `{row.get('side_model_score')}`",
+                f"- Probability gap: `{row.get('probability_gap')}`",
+                "",
+                "### Annotation Block",
+                "",
+                "```yaml",
+                "human_vulnerable_side: ",
+                "evidence_side: ",
+                "evidence_quality: ",
+                "selected_window_ids: []",
+                "label_issue: none",
+                "notes: ",
+                "```",
+                "",
+            ]
+        )
+        lines.extend(_render_side("A", row.get("side_a", {})))
+        lines.extend(_render_side("B", row.get("side_b", {})))
+        lines.append("---")
+        lines.append("")
+
+    return "\n".join(lines)

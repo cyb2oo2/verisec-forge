@@ -121,6 +121,7 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
 - `Manual Evidence Audit Set Report`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
+- `Manual Evidence Review Packet`: `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_PACKET.md`
 - `Manual Evidence Audit Set Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_summary.json`
 - `Manual Evidence Audit Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_ANALYSIS.md`
 - `Paired Diff Hunk Pseudo-Label Train Summary`: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_TRAIN.md`

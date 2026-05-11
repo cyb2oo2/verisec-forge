@@ -18,6 +18,10 @@ Summary report:
 
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
 
+Human-readable review packet:
+
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_PACKET.md`
+
 The first version is built from the side-inversion review queues:
 
 - `top5_v1`
@@ -53,6 +57,7 @@ The script requests `50` rows but currently materializes `42` unique pair keys a
   --sample-size 50 `
   --seed 42 `
   --output data\processed\secure_code_primevul_manual_evidence_audit_v1.jsonl
+.\.venv\Scripts\python.exe scripts\render_manual_evidence_review_packet.py
 ```
 
 ## Next Step

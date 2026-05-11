@@ -7,6 +7,7 @@ from vrf.evidence_audit import (
     analyze_manual_evidence_annotations,
     build_manual_evidence_audit_set,
     normalize_review_queue_row,
+    render_manual_evidence_review_packet,
     select_audit_rows,
 )
 from vrf.io_utils import read_jsonl, write_jsonl
@@ -152,3 +153,15 @@ def test_analyze_manual_evidence_annotations_reports_invalid_rows() -> None:
         "evidence_quality",
         "selected_window_ids",
     ]
+
+
+def test_render_manual_evidence_review_packet_contains_annotation_block() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+
+    packet = render_manual_evidence_review_packet([row])
+
+    assert "# PrimeVul Manual Evidence Review Packet" in packet
+    assert "human_vulnerable_side:" in packet
+    assert "Window `A1`" in packet
+    assert "Window `B1`" in packet
+    assert "```diff" in packet
