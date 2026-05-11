@@ -5,6 +5,7 @@ from pathlib import Path
 
 from vrf.evidence_audit import (
     analyze_manual_evidence_annotations,
+    annotation_progress_summary,
     annotation_template_rows,
     apply_annotation_rows,
     build_manual_evidence_audit_set,
@@ -12,6 +13,7 @@ from vrf.evidence_audit import (
     normalize_review_queue_row,
     render_manual_evidence_review_packet,
     select_audit_rows,
+    split_annotation_batches,
 )
 from vrf.io_utils import read_jsonl, write_jsonl
 
@@ -173,12 +175,25 @@ def test_render_manual_evidence_review_packet_contains_annotation_block() -> Non
 def test_annotation_template_rows_include_reference_metadata() -> None:
     row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
 
-    template = annotation_template_rows([row])
+    template = annotation_template_rows([row], batch_id="batch_01")
 
     assert template[0]["audit_id"] == row["audit_id"]
     assert template[0]["human_vulnerable_side"] == ""
+    assert template[0]["batch_id"] == "batch_01"
+    assert template[0]["batch_index"] == 1
     assert template[0]["project"] == "demo"
     assert template[0]["gold_vulnerable_side"] == "A"
+
+
+def test_split_annotation_batches_uses_fixed_batch_size() -> None:
+    rows = [
+        normalize_review_queue_row(_queue_row(f"p{index}", rank=index), source_pool="top5", index=index)
+        for index in range(5)
+    ]
+
+    batches = split_annotation_batches(rows, batch_size=2)
+
+    assert [len(batch) for batch in batches] == [2, 2, 1]
 
 
 def test_parse_window_ids_accepts_semicolon_or_comma_lists() -> None:
@@ -228,3 +243,25 @@ def test_apply_annotation_rows_rejects_unknown_window_ids() -> None:
 
     assert payload["status"] == "failed"
     assert payload["errors"][0]["errors"] == ["selected_window_ids"]
+
+
+def test_annotation_progress_summary_counts_blank_and_completed_rows() -> None:
+    completed = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    blank = normalize_review_queue_row(_queue_row("p2", rank=2), source_pool="fresh", index=1)
+    completed["annotation"] = {
+        "human_vulnerable_side": "A",
+        "evidence_side": "A",
+        "evidence_quality": 2,
+        "selected_window_ids": ["A1"],
+        "label_issue": "none",
+        "notes": "",
+        "annotator": "test",
+        "reviewed_at": "2026-05-12T00:00:00Z",
+    }
+
+    payload = annotation_progress_summary([completed, blank])
+
+    assert payload["completed_annotations"] == 1
+    assert payload["blank_annotations"] == 1
+    assert payload["by_source_pool"]["top5"]["completed"] == 1
+    assert payload["by_source_pool"]["fresh"]["blank"] == 1

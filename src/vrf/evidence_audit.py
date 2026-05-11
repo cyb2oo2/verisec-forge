@@ -45,6 +45,8 @@ ANNOTATION_CSV_FIELDS = [
 ]
 ANNOTATION_TEMPLATE_FIELDS = [
     *ANNOTATION_CSV_FIELDS,
+    "batch_id",
+    "batch_index",
     "project",
     "cve",
     "source_pool",
@@ -286,9 +288,13 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
     }
 
 
-def annotation_template_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def annotation_template_rows(
+    rows: list[dict[str, Any]],
+    *,
+    batch_id: str | None = None,
+) -> list[dict[str, Any]]:
     template_rows: list[dict[str, Any]] = []
-    for row in rows:
+    for index, row in enumerate(rows, start=1):
         template_rows.append(
             {
                 "audit_id": row.get("audit_id"),
@@ -300,6 +306,8 @@ def annotation_template_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
                 "notes": "",
                 "annotator": "",
                 "reviewed_at": "",
+                "batch_id": batch_id or "",
+                "batch_index": index,
                 "project": row.get("project"),
                 "cve": row.get("cve"),
                 "source_pool": row.get("source_pool"),
@@ -308,6 +316,16 @@ def annotation_template_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
             }
         )
     return template_rows
+
+
+def split_annotation_batches(
+    rows: list[dict[str, Any]],
+    *,
+    batch_size: int,
+) -> list[list[dict[str, Any]]]:
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
+    return [rows[index : index + batch_size] for index in range(0, len(rows), batch_size)]
 
 
 def parse_window_ids(value: str | list[str] | None) -> list[str]:
@@ -409,6 +427,47 @@ def apply_annotation_rows(
         "skipped_blank": skipped_blank,
         "errors": errors,
         "audit_rows": audit_rows,
+    }
+
+
+def annotation_progress_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    analysis = analyze_manual_evidence_annotations(rows)
+    completed_ids: set[str] = set()
+    blank_ids: set[str] = set()
+    for row in rows:
+        annotation = row.get("annotation", {})
+        human_side = annotation.get("human_vulnerable_side")
+        evidence_side = annotation.get("evidence_side")
+        quality = annotation.get("evidence_quality")
+        if human_side is None and evidence_side is None and quality is None:
+            blank_ids.add(row.get("audit_id"))
+        elif row.get("audit_id") not in {item["audit_id"] for item in analysis["invalid_rows"]}:
+            completed_ids.add(row.get("audit_id"))
+
+    by_pool: dict[str, Counter[str]] = {}
+    for row in rows:
+        pool = row.get("source_pool", "unknown")
+        by_pool.setdefault(pool, Counter())
+        audit_id = row.get("audit_id")
+        if audit_id in completed_ids:
+            by_pool[pool]["completed"] += 1
+        elif audit_id in blank_ids:
+            by_pool[pool]["blank"] += 1
+        else:
+            by_pool[pool]["invalid"] += 1
+
+    return {
+        **analysis,
+        "blank_annotations": len(blank_ids),
+        "by_source_pool": {
+            pool: dict(sorted(counts.items()))
+            for pool, counts in sorted(by_pool.items())
+        },
+        "remaining_audit_ids": [
+            row.get("audit_id")
+            for row in rows
+            if row.get("audit_id") not in completed_ids
+        ],
     }
 
 

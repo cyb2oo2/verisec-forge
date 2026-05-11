@@ -68,6 +68,12 @@ Export a CSV template:
 .\.venv\Scripts\python.exe scripts\export_manual_evidence_annotation_template.py
 ```
 
+Or export smaller batch files for pilot annotation:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\export_manual_evidence_annotation_batches.py --batch-size 10
+```
+
 Fill the annotation columns in the generated CSV:
 
 - `human_vulnerable_side`
@@ -83,11 +89,11 @@ Then validate and apply the completed annotations:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\apply_manual_evidence_annotations.py `
-  --annotations data\processed\secure_code_primevul_manual_evidence_audit_v1_template.csv `
+  --annotations data\processed\manual_evidence_audit_batches\manual_evidence_audit_v1_batch_01.csv `
   --dry-run
 
 .\.venv\Scripts\python.exe scripts\apply_manual_evidence_annotations.py `
-  --annotations data\processed\secure_code_primevul_manual_evidence_audit_v1_template.csv
+  --annotations data\processed\manual_evidence_audit_batches\manual_evidence_audit_v1_batch_01.csv
 ```
 
 The apply script rejects unknown `audit_id` values, invalid enum values, invalid evidence quality values, and selected window IDs that do not exist for the row.
