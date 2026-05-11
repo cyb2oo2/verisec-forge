@@ -170,9 +170,20 @@ def test_render_manual_evidence_review_packet_contains_annotation_block() -> Non
     assert "Window `A1`" in packet
     assert "Window `B1`" in packet
     assert "```diff" in packet
+    assert "Gold vulnerable side" not in packet
+    assert "Detector probability" not in packet
 
 
-def test_annotation_template_rows_include_reference_metadata() -> None:
+def test_render_manual_evidence_review_packet_can_include_labels() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+
+    packet = render_manual_evidence_review_packet([row], include_labels=True)
+
+    assert "Gold vulnerable side" in packet
+    assert "Detector probability" in packet
+
+
+def test_annotation_template_rows_are_blinded_by_default() -> None:
     row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
 
     template = annotation_template_rows([row], batch_id="batch_01")
@@ -181,6 +192,15 @@ def test_annotation_template_rows_include_reference_metadata() -> None:
     assert template[0]["human_vulnerable_side"] == ""
     assert template[0]["batch_id"] == "batch_01"
     assert template[0]["batch_index"] == 1
+    assert "project" not in template[0]
+    assert "gold_vulnerable_side" not in template[0]
+
+
+def test_annotation_template_rows_can_include_reference_metadata() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+
+    template = annotation_template_rows([row], batch_id="batch_01", include_labels=True)
+
     assert template[0]["project"] == "demo"
     assert template[0]["gold_vulnerable_side"] == "A"
 

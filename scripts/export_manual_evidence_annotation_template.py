@@ -10,7 +10,11 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from vrf.evidence_audit import ANNOTATION_TEMPLATE_FIELDS, annotation_template_rows
+from vrf.evidence_audit import (
+    ANNOTATION_TEMPLATE_FIELDS,
+    ANNOTATION_TEMPLATE_REFERENCE_FIELDS,
+    annotation_template_rows,
+)
 from vrf.io_utils import ensure_parent, read_jsonl
 
 import csv
@@ -28,15 +32,23 @@ def parse_args() -> argparse.Namespace:
         "--output",
         default="data/processed/secure_code_primevul_manual_evidence_audit_v1_template.csv",
     )
+    parser.add_argument(
+        "--include-labels",
+        action="store_true",
+        help="Include gold/model reference columns. Off by default to keep annotation blinded.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    rows = annotation_template_rows(read_jsonl(ROOT / args.input))
+    rows = annotation_template_rows(read_jsonl(ROOT / args.input), include_labels=args.include_labels)
+    fields = ANNOTATION_TEMPLATE_FIELDS + (
+        ANNOTATION_TEMPLATE_REFERENCE_FIELDS if args.include_labels else []
+    )
     output = ensure_parent(ROOT / args.output)
     with output.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=ANNOTATION_TEMPLATE_FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
     print(json.dumps({"status": "ok", "output": args.output, "rows": len(rows)}, indent=2))

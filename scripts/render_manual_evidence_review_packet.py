@@ -25,6 +25,11 @@ def parse_args() -> argparse.Namespace:
         "--output",
         default="reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_PACKET.md",
     )
+    parser.add_argument(
+        "--include-labels",
+        action="store_true",
+        help="Include gold/model labels and probabilities. Off by default for blinded annotation.",
+    )
     return parser.parse_args()
 
 
@@ -32,7 +37,10 @@ def main() -> int:
     args = parse_args()
     rows = read_jsonl(ROOT / args.input)
     output = ensure_parent(ROOT / args.output)
-    output.write_text(render_manual_evidence_review_packet(rows), encoding="utf-8")
+    output.write_text(
+        render_manual_evidence_review_packet(rows, include_labels=args.include_labels),
+        encoding="utf-8",
+    )
     print(f"wrote {args.output} rows={len(rows)}")
     return 0
 

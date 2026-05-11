@@ -14,13 +14,7 @@ Annotation fields:
 
 - Pair key: `drogon|3c785326c63a34aa1799a639ae185bc9453cb447|CVE-2022-25297`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `drogon` / `CVE-2022-25297`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.999989`
-- Probability gap: `0.352792`
 
 ### Annotation Block
 
@@ -36,7 +30,6 @@ notes:
 ### Side A
 
 - ID: `250692::pairctx`
-- Detector probability: `0.8606036305427551`
 
 #### Window `A1`
 
@@ -106,7 +99,6 @@ Added preview:
 ### Side B
 
 - ID: `197057::pairctx`
-- Detector probability: `0.5078119039535522`
 
 #### Window `B1`
 
@@ -179,13 +171,7 @@ Added preview:
 
 - Pair key: `gpac|3dbe11b37d65c8472faf0654410068e5500b3adb|CVE-2022-1441`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `gpac` / `CVE-2022-1441`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `1.0`
-- Probability gap: `0.710533`
 
 ### Annotation Block
 
@@ -201,7 +187,6 @@ notes:
 ### Side A
 
 - ID: `236125::pairctx`
-- Detector probability: `0.8233283758163452`
 
 #### Window `A1`
 
@@ -270,7 +255,6 @@ Added preview:
 ### Side B
 
 - ID: `195984::pairctx`
-- Detector probability: `0.11279541254043579`
 
 #### Window `B1`
 
@@ -343,13 +327,7 @@ Added preview:
 
 - Pair key: `hexchat|4e061a43b3453a9856d34250c3913175c45afe9d|CVE-2016-2087`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `hexchat` / `CVE-2016-2087`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.413179`
 
 ### Annotation Block
 
@@ -365,7 +343,6 @@ notes:
 ### Side A
 
 - ID: `199767::pairctx`
-- Detector probability: `0.709019124507904`
 
 #### Window `A1`
 
@@ -435,7 +412,6 @@ Added preview:
 ### Side B
 
 - ID: `292205::pairctx`
-- Detector probability: `0.2958398759365082`
 
 #### Window `B1`
 
@@ -508,13 +484,7 @@ Added preview:
 
 - Pair key: `linux|ad9f151e560b016b6ad3280b48e42fa11e1a5440|CVE-2021-46283`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `linux` / `CVE-2021-46283`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `1.0`
-- Probability gap: `0.136901`
 
 ### Annotation Block
 
@@ -530,7 +500,6 @@ notes:
 ### Side A
 
 - ID: `328360::pairctx`
-- Detector probability: `0.8539127111434937`
 
 #### Window `A1`
 
@@ -603,7 +572,6 @@ Added preview:
 ### Side B
 
 - ID: `202069::pairctx`
-- Detector probability: `0.7170118689537048`
 
 #### Window `B1`
 
@@ -679,13 +647,7 @@ Added preview:
 
 - Pair key: `rpm|bd36c5dc9fb6d90c46fbfed8c2d67516fc571ec8|CVE-2021-3521`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `rpm` / `CVE-2021-3521`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.738336`
 
 ### Annotation Block
 
@@ -701,7 +663,6 @@ notes:
 ### Side A
 
 - ID: `196889::pairctx`
-- Detector probability: `0.9623913168907166`
 
 #### Window `A1`
 
@@ -770,7 +731,6 @@ Added preview:
 ### Side B
 
 - ID: `247337::pairctx`
-- Detector probability: `0.2240554541349411`
 
 #### Window `B1`
 
@@ -843,13 +803,7 @@ Added preview:
 
 - Pair key: `gpac|b03c9f252526bb42fbd1b87b9f5e339c3cf2390a|CVE-2021-40573`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `gpac` / `CVE-2021-40573`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.998504`
-- Probability gap: `0.436267`
 
 ### Annotation Block
 
@@ -865,7 +819,6 @@ notes:
 ### Side A
 
 - ID: `195334::pairctx`
-- Detector probability: `0.5467381477355957`
 
 #### Window `A1`
 
@@ -929,7 +882,6 @@ Added preview:
 ### Side B
 
 - ID: `224728::pairctx`
-- Detector probability: `0.11047115176916122`
 
 #### Window `B1`
 
@@ -996,13 +948,7 @@ Added preview:
 
 - Pair key: `squid|780c4ea1b4c9d2fb41f6962aa6ed73ae57f74b2b|CVE-2021-46784`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `squid` / `CVE-2021-46784`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.036245`
 
 ### Annotation Block
 
@@ -1018,7 +964,6 @@ notes:
 ### Side A
 
 - ID: `210206::pairctx`
-- Detector probability: `0.32082128524780273`
 
 #### Window `A1`
 
@@ -1089,7 +1034,6 @@ Added preview:
 ### Side B
 
 - ID: `430470::pairctx`
-- Detector probability: `0.2845759987831116`
 
 #### Window `B1`
 
@@ -1163,13 +1107,7 @@ Added preview:
 
 - Pair key: `ImageMagick|f221ea0fa3171f0f4fdf74ac9d81b203b9534c23|CVE-2022-32546`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `ImageMagick` / `CVE-2022-32546`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.195348`
 
 ### Annotation Block
 
@@ -1185,7 +1123,6 @@ notes:
 ### Side A
 
 - ID: `195237::pairctx`
-- Detector probability: `0.6992544531822205`
 
 #### Window `A1`
 
@@ -1250,7 +1187,6 @@ Added preview:
 ### Side B
 
 - ID: `223089::pairctx`
-- Detector probability: `0.5039061903953552`
 
 #### Window `B1`
 
@@ -1318,13 +1254,7 @@ Added preview:
 
 - Pair key: `cyrus-imapd|621f9e41465b521399f691c241181300fab55995|CVE-2021-32056`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `cyrus-imapd` / `CVE-2021-32056`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.117547`
 
 ### Annotation Block
 
@@ -1340,7 +1270,6 @@ notes:
 ### Side A
 
 - ID: `212934::pairctx`
-- Detector probability: `0.3106943964958191`
 
 #### Window `A1`
 
@@ -1410,7 +1339,6 @@ Added preview:
 ### Side B
 
 - ID: `463134::pairctx`
-- Detector probability: `0.19314739108085632`
 
 #### Window `B1`
 
@@ -1483,13 +1411,7 @@ Added preview:
 
 - Pair key: `gnutls|d223040e498bd50a4b9e0aa493e78587ae1ed653|CVE-2008-1948`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `gnutls` / `CVE-2008-1948`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.99996`
-- Probability gap: `0.798648`
 
 ### Annotation Block
 
@@ -1505,7 +1427,6 @@ notes:
 ### Side A
 
 - ID: `417234::pairctx`
-- Detector probability: `0.9437636137008667`
 
 #### Window `A1`
 
@@ -1573,7 +1494,6 @@ Added preview:
 ### Side B
 
 - ID: `209003::pairctx`
-- Detector probability: `0.14511536061763763`
 
 #### Window `B1`
 
@@ -1644,13 +1564,7 @@ Added preview:
 
 - Pair key: `tensorflow|698e01511f62a3c185754db78ebce0eee1f0184d|CVE-2021-29614`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `tensorflow` / `CVE-2021-29614`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.997116`
-- Probability gap: `0.025491`
 
 ### Annotation Block
 
@@ -1666,7 +1580,6 @@ notes:
 ### Side A
 
 - ID: `243619::pairctx`
-- Detector probability: `0.272024542093277`
 
 #### Window `A1`
 
@@ -1736,7 +1649,6 @@ Added preview:
 ### Side B
 
 - ID: `196739::pairctx`
-- Detector probability: `0.2465333640575409`
 
 #### Window `B1`
 
@@ -1809,13 +1721,7 @@ Added preview:
 
 - Pair key: `GIMP|22e2571c25425f225abdb11a566cc281fca6f366|CVE-2017-17786`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `GIMP` / `CVE-2017-17786`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.986543`
-- Probability gap: `0.742757`
 
 ### Annotation Block
 
@@ -1831,7 +1737,6 @@ notes:
 ### Side A
 
 - ID: `215994::pairctx`
-- Detector probability: `0.847967803478241`
 
 #### Window `A1`
 
@@ -1895,7 +1800,6 @@ Added preview:
 ### Side B
 
 - ID: `498639::pairctx`
-- Detector probability: `0.10521053522825241`
 
 #### Window `B1`
 
@@ -1962,13 +1866,7 @@ Added preview:
 
 - Pair key: `libxml2|bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2|CVE-2021-3517`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `libxml2` / `CVE-2021-3517`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.922736`
 
 ### Annotation Block
 
@@ -1984,7 +1882,6 @@ notes:
 ### Side A
 
 - ID: `200381::pairctx`
-- Detector probability: `0.9626730680465698`
 
 #### Window `A1`
 
@@ -2051,7 +1948,6 @@ Added preview:
 ### Side B
 
 - ID: `302155::pairctx`
-- Detector probability: `0.03993731737136841`
 
 #### Window `B1`
 
@@ -2121,13 +2017,7 @@ Added preview:
 
 - Pair key: `nanopb|aa9d0d1ca78d6adec3adfeecf3a706c7f9df81f2|CVE-2020-5235`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `nanopb` / `CVE-2020-5235`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.673998`
 
 ### Annotation Block
 
@@ -2143,7 +2033,6 @@ notes:
 ### Side A
 
 - ID: `197114::pairctx`
-- Detector probability: `0.8980534672737122`
 
 #### Window `A1`
 
@@ -2209,7 +2098,6 @@ Added preview:
 ### Side B
 
 - ID: `252505::pairctx`
-- Detector probability: `0.2240554541349411`
 
 #### Window `B1`
 
@@ -2278,13 +2166,7 @@ Added preview:
 
 - Pair key: `squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `squid` / `CVE-2021-46784`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `1.0`
-- Probability gap: `0.191501`
 
 ### Annotation Block
 
@@ -2300,7 +2182,6 @@ notes:
 ### Side A
 
 - ID: `224281::pairctx`
-- Detector probability: `0.5544704794883728`
 
 #### Window `A1`
 
@@ -2371,7 +2252,6 @@ Added preview:
 ### Side B
 
 - ID: `195309::pairctx`
-- Detector probability: `0.36296921968460083`
 
 #### Window `B1`
 
@@ -2445,13 +2325,7 @@ Added preview:
 
 - Pair key: `furnace|0eb02422d5161767e9983bdaa5c429762d3477ce|CVE-2022-1289`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `furnace` / `CVE-2022-1289`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999977`
-- Probability gap: `0.472775`
 
 ### Annotation Block
 
@@ -2467,7 +2341,6 @@ notes:
 ### Side A
 
 - ID: `196841::pairctx`
-- Detector probability: `0.9260365962982178`
 
 #### Window `A1`
 
@@ -2537,7 +2410,6 @@ Added preview:
 ### Side B
 
 - ID: `246237::pairctx`
-- Detector probability: `0.4532618522644043`
 
 #### Window `B1`
 
@@ -2609,13 +2481,7 @@ Added preview:
 
 - Pair key: `linux-2.6|8a0a9bd4db63bc45e3017bedeafbd88d0eb84d02|CVE-2009-3238`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `linux-2.6` / `CVE-2009-3238`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.667906`
 
 ### Annotation Block
 
@@ -2631,7 +2497,6 @@ notes:
 ### Side A
 
 - ID: `216119::pairctx`
-- Detector probability: `0.7879312038421631`
 
 #### Window `A1`
 
@@ -2701,7 +2566,6 @@ Added preview:
 ### Side B
 
 - ID: `499883::pairctx`
-- Detector probability: `0.12002561241388321`
 
 #### Window `B1`
 
@@ -2774,13 +2638,7 @@ Added preview:
 
 - Pair key: `linux-2.6|8faece5f906725c10e7a1f6caf84452abadbdc7b|CVE-2009-0787`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `linux-2.6` / `CVE-2009-0787`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.999446`
-- Probability gap: `0.296582`
 
 ### Annotation Block
 
@@ -2796,7 +2654,6 @@ notes:
 ### Side A
 
 - ID: `490193::pairctx`
-- Detector probability: `0.8740772008895874`
 
 #### Window `A1`
 
@@ -2863,7 +2720,6 @@ Added preview:
 ### Side B
 
 - ID: `215467::pairctx`
-- Detector probability: `0.5774953961372375`
 
 #### Window `B1`
 
@@ -2932,13 +2788,7 @@ Added preview:
 
 - Pair key: `linux|04c2a47ffb13c29778e2a14e414ad4cb5a5db4b5|CVE-2022-1055`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `linux` / `CVE-2022-1055`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.993235`
-- Probability gap: `0.144419`
 
 ### Annotation Block
 
@@ -2954,7 +2804,6 @@ notes:
 ### Side A
 
 - ID: `212414::pairctx`
-- Detector probability: `0.729519784450531`
 
 #### Window `A1`
 
@@ -3019,7 +2868,6 @@ Added preview:
 ### Side B
 
 - ID: `459107::pairctx`
-- Detector probability: `0.5851011276245117`
 
 #### Window `B1`
 
@@ -3087,13 +2935,7 @@ Added preview:
 
 - Pair key: `tensorflow|801c1c6be5324219689c98e1bd3e0ca365ee834d|CVE-2021-29588`
 - Source pool: `project_holdout_top5_v1`
-- Project/CVE: `tensorflow` / `CVE-2021-29588`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999417`
-- Probability gap: `0.973571`
 
 ### Annotation Block
 
@@ -3109,7 +2951,6 @@ notes:
 ### Side A
 
 - ID: `197892::pairctx`
-- Detector probability: `0.9843062162399292`
 
 #### Window `A1`
 
@@ -3176,7 +3017,6 @@ Added preview:
 ### Side B
 
 - ID: `265428::pairctx`
-- Detector probability: `0.01073516346514225`
 
 #### Window `B1`
 
@@ -3246,13 +3086,7 @@ Added preview:
 
 - Pair key: `linux|505d9dcb0f7ddf9d075e729523a33d38642ae680|CVE-2021-3744`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2021-3744`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999964`
-- Probability gap: `0.387118`
 
 ### Annotation Block
 
@@ -3268,7 +3102,6 @@ notes:
 ### Side A
 
 - ID: `197135::pairctx`
-- Detector probability: `0.43782347440719604`
 
 #### Window `A1`
 
@@ -3338,7 +3171,6 @@ Added preview:
 ### Side B
 
 - ID: `253699::pairctx`
-- Detector probability: `0.05070536211133003`
 
 #### Window `B1`
 
@@ -3411,13 +3243,7 @@ Added preview:
 
 - Pair key: `linux|8423f0b6d513b259fdab9c9bf4aaa6188d054c2d|CVE-2022-3303`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2022-3303`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.999972`
-- Probability gap: `0.180786`
 
 ### Annotation Block
 
@@ -3433,7 +3259,6 @@ notes:
 ### Side A
 
 - ID: `289293::pairctx`
-- Detector probability: `0.622459352016449`
 
 #### Window `A1`
 
@@ -3500,7 +3325,6 @@ Added preview:
 ### Side B
 
 - ID: `199159::pairctx`
-- Detector probability: `0.44167301058769226`
 
 #### Window `B1`
 
@@ -3570,13 +3394,7 @@ Added preview:
 
 - Pair key: `libyang|298b30ea4ebee137226acf9bb38678bd82704582|CVE-2021-28903`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `libyang` / `CVE-2021-28903`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.993995`
-- Probability gap: `0.703064`
 
 ### Annotation Block
 
@@ -3592,7 +3410,6 @@ notes:
 ### Side A
 
 - ID: `204825::pairctx`
-- Detector probability: `0.729519784450531`
 
 #### Window `A1`
 
@@ -3654,7 +3471,6 @@ Added preview:
 ### Side B
 
 - ID: `366009::pairctx`
-- Detector probability: `0.026455773040652275`
 
 #### Window `B1`
 
@@ -3721,13 +3537,7 @@ Added preview:
 
 - Pair key: `linux|d80b64ff297e40c2b6f7d7abc1b3eba70d22a068|CVE-2020-12768`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2020-12768`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `1.0`
-- Probability gap: `0.728616`
 
 ### Annotation Block
 
@@ -3743,7 +3553,6 @@ notes:
 ### Side A
 
 - ID: `432423::pairctx`
-- Detector probability: `0.8652240633964539`
 
 #### Window `A1`
 
@@ -3812,7 +3621,6 @@ Added preview:
 ### Side B
 
 - ID: `210296::pairctx`
-- Detector probability: `0.13660839200019836`
 
 #### Window `B1`
 
@@ -3883,13 +3691,7 @@ Added preview:
 
 - Pair key: `redis|789f10156009b404950ad717642a9496ed887083|CVE-2021-29478`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `redis` / `CVE-2021-29478`
 - Changed-line bucket: `00-02`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.903472`
-- Probability gap: `0.498855`
 
 ### Annotation Block
 
@@ -3905,7 +3707,6 @@ notes:
 ### Side A
 
 - ID: `199227::pairctx`
-- Detector probability: `0.7866228222846985`
 
 #### Window `A1`
 
@@ -3948,7 +3749,6 @@ Added preview:
 ### Side B
 
 - ID: `290629::pairctx`
-- Detector probability: `0.28776782751083374`
 
 #### Window `B1`
 
@@ -3994,13 +3794,7 @@ Added preview:
 
 - Pair key: `src|79a034b4aed29e965f45a13409268290c9910043|CVE-2020-35679`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `src` / `CVE-2020-35679`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999921`
-- Probability gap: `0.882031`
 
 ### Annotation Block
 
@@ -4016,7 +3810,6 @@ notes:
 ### Side A
 
 - ID: `213469::pairctx`
-- Detector probability: `0.9284088015556335`
 
 #### Window `A1`
 
@@ -4083,7 +3876,6 @@ Added preview:
 ### Side B
 
 - ID: `468895::pairctx`
-- Detector probability: `0.046378206461668015`
 
 #### Window `B1`
 
@@ -4153,13 +3945,7 @@ Added preview:
 
 - Pair key: `linux|6cd1ed50efd88261298577cd92a14f2768eddeeb|CVE-2020-36558`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2020-36558`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.993919`
-- Probability gap: `0.906324`
 
 ### Annotation Block
 
@@ -4175,7 +3961,6 @@ notes:
 ### Side A
 
 - ID: `212365::pairctx`
-- Detector probability: `0.9664104580879211`
 
 #### Window `A1`
 
@@ -4245,7 +4030,6 @@ Added preview:
 ### Side B
 
 - ID: `458189::pairctx`
-- Detector probability: `0.060086652636528015`
 
 #### Window `B1`
 
@@ -4318,13 +4102,7 @@ Added preview:
 
 - Pair key: `linux|c8c2a057fdc7de1cd16f4baa51425b932a42eb39|CVE-2019-19045`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2019-19045`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999699`
-- Probability gap: `0.923784`
 
 ### Annotation Block
 
@@ -4340,7 +4118,6 @@ notes:
 ### Side A
 
 - ID: `214909::pairctx`
-- Detector probability: `0.9453993439674377`
 
 #### Window `A1`
 
@@ -4405,7 +4182,6 @@ Added preview:
 ### Side B
 
 - ID: `481267::pairctx`
-- Detector probability: `0.02161533571779728`
 
 #### Window `B1`
 
@@ -4474,13 +4250,7 @@ Added preview:
 
 - Pair key: `znc|a4a5aeeb17d32937d8c7d743dae9a4cc755ce773|CVE-2018-14056`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `znc` / `CVE-2018-14056`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.902225`
-- Probability gap: `0.640104`
 
 ### Annotation Block
 
@@ -4496,7 +4266,6 @@ notes:
 ### Side A
 
 - ID: `197927::pairctx`
-- Detector probability: `0.9326989054679871`
 
 #### Window `A1`
 
@@ -4563,7 +4332,6 @@ Added preview:
 ### Side B
 
 - ID: `265791::pairctx`
-- Detector probability: `0.2925952970981598`
 
 #### Window `B1`
 
@@ -4633,13 +4401,7 @@ Added preview:
 
 - Pair key: `keepkey-firmware|e49d45594002d4d3fbc1f03488e6dfc0a0a65836|CVE-2021-31616`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `keepkey-firmware` / `CVE-2021-31616`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.999816`
-- Probability gap: `0.068865`
 
 ### Annotation Block
 
@@ -4655,7 +4417,6 @@ notes:
 ### Side A
 
 - ID: `220894::pairctx`
-- Detector probability: `0.23231014609336853`
 
 #### Window `A1`
 
@@ -4719,7 +4480,6 @@ Added preview:
 ### Side B
 
 - ID: `195057::pairctx`
-- Detector probability: `0.16344544291496277`
 
 #### Window `B1`
 
@@ -4786,13 +4546,7 @@ Added preview:
 
 - Pair key: `linux|b2f37aead1b82a770c48b5d583f35ec22aabb61e|CVE-2022-1195`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2022-1195`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.887729`
-- Probability gap: `0.0`
 
 ### Annotation Block
 
@@ -4808,7 +4562,6 @@ notes:
 ### Side A
 
 - ID: `210636::pairctx`
-- Detector probability: `0.4882833957672119`
 
 #### Window `A1`
 
@@ -4873,7 +4626,6 @@ Added preview:
 ### Side B
 
 - ID: `438876::pairctx`
-- Detector probability: `0.4882833957672119`
 
 #### Window `B1`
 
@@ -4941,13 +4693,7 @@ Added preview:
 
 - Pair key: `gpac|ebfa346eff05049718f7b80041093b4c5581c24e|CVE-2021-31258`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `gpac` / `CVE-2021-31258`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.985305`
-- Probability gap: `0.465134`
 
 ### Annotation Block
 
@@ -4963,7 +4709,6 @@ notes:
 ### Side A
 
 - ID: `267342::pairctx`
-- Detector probability: `0.7371581792831421`
 
 #### Window `A1`
 
@@ -5031,7 +4776,6 @@ Added preview:
 ### Side B
 
 - ID: `197972::pairctx`
-- Detector probability: `0.272024542093277`
 
 #### Window `B1`
 
@@ -5102,13 +4846,7 @@ Added preview:
 
 - Pair key: `mruby|b1d0296a937fe278239bdfac840a3fd0e93b3ee9|CVE-2022-1286`
 - Source pool: `top5_v1`
-- Project/CVE: `mruby` / `CVE-2022-1286`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999148`
-- Probability gap: `0.685929`
 
 ### Annotation Block
 
@@ -5124,7 +4862,6 @@ notes:
 ### Side A
 
 - ID: `196621::pairctx`
-- Detector probability: `0.7138307690620422`
 
 #### Window `A1`
 
@@ -5191,7 +4928,6 @@ Added preview:
 ### Side B
 
 - ID: `241311::pairctx`
-- Detector probability: `0.02790137380361557`
 
 #### Window `B1`
 
@@ -5260,13 +4996,7 @@ Added preview:
 
 - Pair key: `gst-plugins-good|9181191511f9c0be6a89c98b311f49d66bd46dc3|CVE-2021-3497`
 - Source pool: `top5_v1`
-- Project/CVE: `gst-plugins-good` / `CVE-2021-3497`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.999868`
-- Probability gap: `0.091026`
 
 ### Annotation Block
 
@@ -5282,7 +5012,6 @@ notes:
 ### Side A
 
 - ID: `444835::pairctx`
-- Detector probability: `0.6261242032051086`
 
 #### Window `A1`
 
@@ -5352,7 +5081,6 @@ Added preview:
 ### Side B
 
 - ID: `211032::pairctx`
-- Detector probability: `0.5350984334945679`
 
 #### Window `B1`
 
@@ -5425,13 +5153,7 @@ Added preview:
 
 - Pair key: `mruby|3cf291f72224715942beaf8553e42ba8891ab3c6|CVE-2022-1212`
 - Source pool: `top5_v1`
-- Project/CVE: `mruby` / `CVE-2022-1212`
 - Changed-line bucket: `00-02`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.989747`
-- Probability gap: `0.0`
 
 ### Annotation Block
 
@@ -5447,7 +5169,6 @@ notes:
 ### Side A
 
 - ID: `274773::pairctx`
-- Detector probability: `0.7356416583061218`
 
 #### Window `A1`
 
@@ -5490,7 +5211,6 @@ Added preview:
 ### Side B
 
 - ID: `198439::pairctx`
-- Detector probability: `0.7356416583061218`
 
 #### Window `B1`
 
@@ -5536,13 +5256,7 @@ Added preview:
 
 - Pair key: `nDPI|1ec621c85b9411cc611652fd57a892cfef478af3|CVE-2021-36082`
 - Source pool: `top5_v1`
-- Project/CVE: `nDPI` / `CVE-2021-36082`
 - Changed-line bucket: `26+`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.313863`
 
 ### Annotation Block
 
@@ -5558,7 +5272,6 @@ notes:
 ### Side A
 
 - ID: `195820::pairctx`
-- Detector probability: `0.965217649936676`
 
 #### Window `A1`
 
@@ -5632,7 +5345,6 @@ Added preview:
 ### Side B
 
 - ID: `234082::pairctx`
-- Detector probability: `0.6513549089431763`
 
 #### Window `B1`
 
@@ -5709,13 +5421,7 @@ Added preview:
 
 - Pair key: `qemu|1caff0340f49c93d535c6558a5138d20d475315c|CVE-2021-3416`
 - Source pool: `top5_v1`
-- Project/CVE: `qemu` / `CVE-2021-3416`
 - Changed-line bucket: `00-02`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.95879`
-- Probability gap: `0.069772`
 
 ### Annotation Block
 
@@ -5731,7 +5437,6 @@ notes:
 ### Side A
 
 - ID: `442189::pairctx`
-- Detector probability: `0.49609383940696716`
 
 #### Window `A1`
 
@@ -5774,7 +5479,6 @@ Added preview:
 ### Side B
 
 - ID: `210887::pairctx`
-- Detector probability: `0.4263215959072113`
 
 #### Window `B1`
 
@@ -5820,13 +5524,7 @@ Added preview:
 
 - Pair key: `radare2|2b77b277d67ce061ee6ef839e7139ebc2103c1e3|CVE-2022-1244`
 - Source pool: `top5_v1`
-- Project/CVE: `radare2` / `CVE-2022-1244`
 - Changed-line bucket: `03-05`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.99998`
-- Probability gap: `0.836476`
 
 ### Annotation Block
 
@@ -5842,7 +5540,6 @@ notes:
 ### Side A
 
 - ID: `207780::pairctx`
-- Detector probability: `0.9694401025772095`
 
 #### Window `A1`
 
@@ -5906,7 +5603,6 @@ Added preview:
 ### Side B
 
 - ID: `401034::pairctx`
-- Detector probability: `0.13296423852443695`
 
 #### Window `B1`
 
@@ -5973,13 +5669,7 @@ Added preview:
 
 - Pair key: `ImageMagick6|d5e7c2b5ba384e7d0d8ddac6c9ae2319cb74b9c5|CVE-2018-15607`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `ImageMagick6` / `CVE-2018-15607`
 - Changed-line bucket: `11-25`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `1.0`
-- Probability gap: `0.699534`
 
 ### Annotation Block
 
@@ -5995,7 +5685,6 @@ notes:
 ### Side A
 
 - ID: `210554::pairctx`
-- Detector probability: `0.8807970285415649`
 
 #### Window `A1`
 
@@ -6064,7 +5753,6 @@ Added preview:
 ### Side B
 
 - ID: `437401::pairctx`
-- Detector probability: `0.18126320838928223`
 
 #### Window `B1`
 
@@ -6136,13 +5824,7 @@ Added preview:
 
 - Pair key: `php-src|2bcbc95f033c31b00595ed39f79c3a99b4ed0501|CVE-2020-7060`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `php-src` / `CVE-2020-7060`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `1.0`
-- Probability gap: `0.818331`
 
 ### Annotation Block
 
@@ -6158,7 +5840,6 @@ notes:
 ### Side A
 
 - ID: `464942::pairctx`
-- Detector probability: `0.8925625681877136`
 
 #### Window `A1`
 
@@ -6225,7 +5906,6 @@ Added preview:
 ### Side B
 
 - ID: `213037::pairctx`
-- Detector probability: `0.07423137128353119`
 
 #### Window `B1`
 
@@ -6295,13 +5975,7 @@ Added preview:
 
 - Pair key: `FreeRDP|ce21b9d7ecd967e0bc98ed31a6b3757848aa6c9e|CVE-2020-11523`
 - Source pool: `fresh_seeds_top5_v1`
-- Project/CVE: `FreeRDP` / `CVE-2020-11523`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `A`
-- True inversion candidate: `False`
-- Side model score: `0.999712`
-- Probability gap: `0.128571`
 
 ### Annotation Block
 
@@ -6317,7 +5991,6 @@ notes:
 ### Side A
 
 - ID: `212839::pairctx`
-- Detector probability: `0.6791787147521973`
 
 #### Window `A1`
 
@@ -6386,7 +6059,6 @@ Added preview:
 ### Side B
 
 - ID: `462482::pairctx`
-- Detector probability: `0.5506073832511902`
 
 #### Window `B1`
 
@@ -6458,13 +6130,7 @@ Added preview:
 
 - Pair key: `linux|42933c8aa14be1caa9eda41f65cde8a3a95d3e39|CVE-2022-0487`
 - Source pool: `rank6_10_v1`
-- Project/CVE: `linux` / `CVE-2022-0487`
 - Changed-line bucket: `06-10`
-- Model vulnerable side: `A`
-- Gold vulnerable side: `B`
-- True inversion candidate: `True`
-- Side model score: `0.881797`
-- Probability gap: `0.54234`
 
 ### Annotation Block
 
@@ -6480,7 +6146,6 @@ notes:
 ### Side A
 
 - ID: `386074::pairctx`
-- Detector probability: `0.7057850360870361`
 
 #### Window `A1`
 
@@ -6548,7 +6213,6 @@ Added preview:
 ### Side B
 
 - ID: `206735::pairctx`
-- Detector probability: `0.16344544291496277`
 
 #### Window `B1`
 

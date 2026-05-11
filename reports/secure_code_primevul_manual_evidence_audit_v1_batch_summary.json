@@ -3,6 +3,7 @@
   "input": "data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl",
   "output_dir": "data/processed/manual_evidence_audit_batches",
   "batch_size": 10,
+  "include_labels": false,
   "batches": [
     {
       "batch_id": "manual_evidence_audit_v1_batch_01",

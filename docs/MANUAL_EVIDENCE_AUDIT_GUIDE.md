@@ -50,6 +50,12 @@ The script requests `50` rows but currently materializes `42` unique pair keys a
 4. Mark `wrong_label` only when the provided side label is clearly contradicted by the evidence and context.
 5. Use `evidence_quality=3` only when the selected window directly shows a security-relevant guard, check, sanitization, bounds fix, auth decision, lifetime fix, or equivalent risk change.
 
+## Blinding Policy
+
+The default CSV templates and Markdown review packet are blinded: they hide gold side, model side, detector probabilities, and CVE/project metadata. This keeps the manual audit focused on whether the shown code-change evidence supports side `A`, side `B`, both, neither, or an unclear judgment.
+
+Use `--include-labels` only for debugging the workflow, not for primary annotation.
+
 ## Regeneration
 
 ```powershell

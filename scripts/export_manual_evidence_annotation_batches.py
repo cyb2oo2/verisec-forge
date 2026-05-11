@@ -13,6 +13,7 @@ if str(SRC) not in sys.path:
 
 from vrf.evidence_audit import (
     ANNOTATION_TEMPLATE_FIELDS,
+    ANNOTATION_TEMPLATE_REFERENCE_FIELDS,
     annotation_progress_summary,
     annotation_template_rows,
     split_annotation_batches,
@@ -35,6 +36,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=10)
     parser.add_argument("--prefix", default="manual_evidence_audit_v1_batch")
     parser.add_argument(
+        "--include-labels",
+        action="store_true",
+        help="Include gold/model reference columns. Off by default to keep annotation blinded.",
+    )
+    parser.add_argument(
         "--summary-output",
         default="reports/secure_code_primevul_manual_evidence_audit_v1_batch_summary.json",
     )
@@ -45,10 +51,13 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
+def write_csv(path: Path, rows: list[dict[str, object]], *, include_labels: bool) -> None:
+    fields = ANNOTATION_TEMPLATE_FIELDS + (
+        ANNOTATION_TEMPLATE_REFERENCE_FIELDS if include_labels else []
+    )
     ensure_parent(path)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=ANNOTATION_TEMPLATE_FIELDS)
+        writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
 
@@ -104,7 +113,12 @@ def main() -> int:
         relative_path = f"{args.output_dir}/{batch_id}.csv".replace("\\", "/")
         write_csv(
             ROOT / relative_path,
-            annotation_template_rows(batch, batch_id=batch_id),
+            annotation_template_rows(
+                batch,
+                batch_id=batch_id,
+                include_labels=args.include_labels,
+            ),
+            include_labels=args.include_labels,
         )
         batch_summaries.append(
             {
@@ -119,6 +133,7 @@ def main() -> int:
         "input": args.input,
         "output_dir": str(output_dir.relative_to(ROOT)).replace("\\", "/"),
         "batch_size": args.batch_size,
+        "include_labels": args.include_labels,
         "batches": batch_summaries,
         "progress": annotation_progress_summary(rows),
     }

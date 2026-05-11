@@ -47,9 +47,11 @@ ANNOTATION_TEMPLATE_FIELDS = [
     *ANNOTATION_CSV_FIELDS,
     "batch_id",
     "batch_index",
+    "source_pool",
+]
+ANNOTATION_TEMPLATE_REFERENCE_FIELDS = [
     "project",
     "cve",
-    "source_pool",
     "model_vulnerable_side",
     "gold_vulnerable_side",
 ]
@@ -292,6 +294,7 @@ def annotation_template_rows(
     rows: list[dict[str, Any]],
     *,
     batch_id: str | None = None,
+    include_labels: bool = False,
 ) -> list[dict[str, Any]]:
     template_rows: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
@@ -308,12 +311,18 @@ def annotation_template_rows(
                 "reviewed_at": "",
                 "batch_id": batch_id or "",
                 "batch_index": index,
-                "project": row.get("project"),
-                "cve": row.get("cve"),
                 "source_pool": row.get("source_pool"),
-                "model_vulnerable_side": row.get("model_vulnerable_side"),
-                "gold_vulnerable_side": row.get("gold_vulnerable_side"),
             }
+            | (
+                {
+                    "project": row.get("project"),
+                    "cve": row.get("cve"),
+                    "model_vulnerable_side": row.get("model_vulnerable_side"),
+                    "gold_vulnerable_side": row.get("gold_vulnerable_side"),
+                }
+                if include_labels
+                else {}
+            )
         )
     return template_rows
 
@@ -477,14 +486,15 @@ def _render_preview(lines: list[str], prefix: str) -> list[str]:
     return [f"{prefix} {line}" for line in lines]
 
 
-def _render_side(side_label: str, side: dict[str, Any]) -> list[str]:
+def _render_side(side_label: str, side: dict[str, Any], *, include_labels: bool) -> list[str]:
     lines = [
         f"### Side {side_label}",
         "",
         f"- ID: `{side.get('id')}`",
-        f"- Detector probability: `{side.get('detector_probability')}`",
-        "",
     ]
+    if include_labels:
+        lines.append(f"- Detector probability: `{side.get('detector_probability')}`")
+    lines.append("")
     for window in side.get("windows", []):
         labels = ",".join(window.get("direction_labels", [])) or "none"
         lines.extend(
@@ -513,7 +523,11 @@ def _render_side(side_label: str, side: dict[str, Any]) -> list[str]:
     return lines
 
 
-def render_manual_evidence_review_packet(rows: list[dict[str, Any]]) -> str:
+def render_manual_evidence_review_packet(
+    rows: list[dict[str, Any]],
+    *,
+    include_labels: bool = False,
+) -> str:
     lines = [
         "# PrimeVul Manual Evidence Review Packet",
         "",
@@ -530,19 +544,26 @@ def render_manual_evidence_review_packet(rows: list[dict[str, Any]]) -> str:
     ]
 
     for index, row in enumerate(rows, start=1):
-        lines.extend(
+        item_lines = [
+            f"## Item {index}: `{row.get('audit_id')}`",
+            "",
+            f"- Pair key: `{row.get('pair_key')}`",
+            f"- Source pool: `{row.get('source_pool')}`",
+            f"- Changed-line bucket: `{row.get('changed_line_bucket')}`",
+        ]
+        if include_labels:
+            item_lines.extend(
+                [
+                    f"- Project/CVE: `{row.get('project')}` / `{row.get('cve')}`",
+                    f"- Model vulnerable side: `{row.get('model_vulnerable_side')}`",
+                    f"- Gold vulnerable side: `{row.get('gold_vulnerable_side')}`",
+                    f"- True inversion candidate: `{row.get('is_true_inversion_candidate')}`",
+                    f"- Side model score: `{row.get('side_model_score')}`",
+                    f"- Probability gap: `{row.get('probability_gap')}`",
+                ]
+            )
+        item_lines.extend(
             [
-                f"## Item {index}: `{row.get('audit_id')}`",
-                "",
-                f"- Pair key: `{row.get('pair_key')}`",
-                f"- Source pool: `{row.get('source_pool')}`",
-                f"- Project/CVE: `{row.get('project')}` / `{row.get('cve')}`",
-                f"- Changed-line bucket: `{row.get('changed_line_bucket')}`",
-                f"- Model vulnerable side: `{row.get('model_vulnerable_side')}`",
-                f"- Gold vulnerable side: `{row.get('gold_vulnerable_side')}`",
-                f"- True inversion candidate: `{row.get('is_true_inversion_candidate')}`",
-                f"- Side model score: `{row.get('side_model_score')}`",
-                f"- Probability gap: `{row.get('probability_gap')}`",
                 "",
                 "### Annotation Block",
                 "",
@@ -557,8 +578,9 @@ def render_manual_evidence_review_packet(rows: list[dict[str, Any]]) -> str:
                 "",
             ]
         )
-        lines.extend(_render_side("A", row.get("side_a", {})))
-        lines.extend(_render_side("B", row.get("side_b", {})))
+        lines.extend(item_lines)
+        lines.extend(_render_side("A", row.get("side_a", {}), include_labels=include_labels))
+        lines.extend(_render_side("B", row.get("side_b", {}), include_labels=include_labels))
         lines.append("---")
         lines.append("")
 
