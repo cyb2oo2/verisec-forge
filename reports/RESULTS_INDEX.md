@@ -8,6 +8,7 @@ Start here for the main narrative and current system-level conclusions.
 
 - `README`: `README.md`
 - `Project Story`: `PROJECT_STORY.md`
+- `Application One-Pager`: `APPLICATION_ONE_PAGER.md`
 - `Technical Report`: `reports/TECHNICAL_REPORT.md`
 - `Research Summary`: `reports/SECURE_CODE_RESEARCH_SUMMARY.md`
 - `Visual Diagnostics`: `reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md`

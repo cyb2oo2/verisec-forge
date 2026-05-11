@@ -2,7 +2,7 @@
 
 VeriSec Forge keeps large datasets, predictions, and generated experiment artifacts out of Git. The reproducibility manifests record the exact local files required for reviewer-facing reproduction, and the bundle workflow packages those manifest-listed files into a shareable zip when local artifacts are present.
 
-This is bundle-assisted reproducibility, not full fresh-clone reproducibility. A fresh clone still needs either the generated bundle or a future public downloader.
+This is public bundle-assisted reproducibility for the manifest-backed PrimeVul router and evidence-coupled chains. It is not a full archive of every exploratory run, checkpoint, or raw upstream dataset used during development.
 
 ## Validate Local Artifacts
 
@@ -53,13 +53,13 @@ Use this only for archival snapshots. For reviewer reproduction, prefer required
 ## Reviewer Workflow
 
 1. Clone the repository.
-2. Once a public bundle URL is recorded in `reproducibility/release_artifacts.json`, download and restore it:
+2. Download and restore the public bundle recorded in `reproducibility/release_artifacts.json`:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py --restore
 ```
 
-Until the bundle is publicly hosted, restore a local bundle directly:
+For local development, a locally built bundle can be restored directly:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\restore_reproducibility_bundle.py `
@@ -73,4 +73,4 @@ The restore script is conservative by default. Existing matching files are kept,
 
 ## Current Boundary
 
-The workflow verifies, packages, downloads, and restores local artifacts, but it does not yet publish them. The next step is to attach the generated bundle to a GitHub Release, Hugging Face dataset repo, or other stable artifact host, then fill `reproducibility/release_artifacts.json` with the final URL, SHA256, and byte size.
+The workflow verifies, packages, downloads, and restores the public reproducibility bundle. The remaining boundary is scope: the public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every historical experiment or model checkpoint.

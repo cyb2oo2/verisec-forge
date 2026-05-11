@@ -108,7 +108,7 @@ Primary artifacts:
 
 ## What To Emphasize In A PhD Application
 
-The strongest application narrative is not “I trained a vulnerability detector.” It is:
+The strongest application narrative is not "I trained a vulnerability detector." It is:
 
 I found that standard vulnerability-detection evaluation can be misleading, built stricter paired-diff controls, developed a pair-coupled reasoning system with stable multi-split gains, and then used evidence localization and failure mining to design a safer audit loop.
 
@@ -123,18 +123,18 @@ Recommended contribution framing:
 - Do not present the same-source `0.9524` result as a robust vulnerability detection breakthrough.
 - Do not present pseudo-label evidence localization as human-validated evidence-span supervision.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
-- Do not claim fresh-clone full artifact reproducibility until the local artifact bundle is published through a stable external host or download pipeline.
+- Do not claim complete archival reproducibility for every historical experiment; the public bundle currently covers the manifest-backed PrimeVul router and evidence-coupled chains.
 
 ## Current Limitations
 
 - Evidence localization still relies on pseudo labels rather than manually verified evidence spans.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/time/CVE-disjoint external validation remains the most important next generalization check.
-- The repository is manifest-backed and has local artifact-bundle build/restore/download workflows for key evidence-coupled runs, but the bundle still needs public hosting for complete fresh-clone reproduction.
+- The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
 1. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 3. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
-4. Publish the reproducibility artifact bundle and fill the release metadata URL/hash for reviewer downloads.
+4. Expand external validation with project/time/CVE-disjoint splits or a second paired patch dataset.
