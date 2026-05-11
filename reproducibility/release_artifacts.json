@@ -1,12 +1,12 @@
 {
   "name": "verisec_forge_primevul_reproducibility_artifacts",
-  "status": "built_local_not_published",
-  "description": "Metadata for the local reproducibility bundle. Fill url after attaching the generated zip to a stable artifact host.",
+  "status": "published_github_release",
+  "description": "Metadata for the public reproducibility bundle attached to the GitHub release primevul-repro-bundle-v1.",
   "bundles": [
     {
       "name": "primevul_router_and_evidence_coupled_inputs",
       "filename": "verisec_forge_primevul_repro_bundle.zip",
-      "url": null,
+      "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip",
       "sha256": "6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466",
       "bytes": 5731753,
       "artifact_count": 6,
