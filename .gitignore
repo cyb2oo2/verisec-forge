@@ -23,3 +23,4 @@ data/processed/primevul_candidate_recall_*_v1/
 !data/processed/eval_secure_code_sample.jsonl
 !data/processed/secure_code_primevul_eval_balanced_244.jsonl
 !data/processed/secure_code_primevul_holdout_eval_balanced_1000.jsonl
+!data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl

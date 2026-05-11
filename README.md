@@ -114,6 +114,8 @@ For a one-page application summary, see [Application One-Pager](APPLICATION_ONE_
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
+For the new manual evidence-span audit target, see [Manual Evidence Audit Guide](docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md) and [PrimeVul Manual Evidence Audit Set](reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md). The first version materializes `42` unique high-signal pair keys from side-inversion queues for human evidence grounding.
+
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
 
 The Evidence-Coupled chain is also manifest-backed: `scripts/reproduce_primevul_evidence_coupled.py` validates hunk+window candidates, pair-coupled predictions, generated localization artifacts, failure taxonomy, and the confident side-inversion set before reporting success.

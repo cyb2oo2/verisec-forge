@@ -1,0 +1,11 @@
+{
+  "rows": 42,
+  "completed_annotations": 0,
+  "completion_rate": 0.0,
+  "invalid_annotations": 0,
+  "invalid_rows": [],
+  "human_vs_gold": {},
+  "evidence_vs_gold": {},
+  "evidence_quality_counts": {},
+  "label_issue_counts": {}
+}

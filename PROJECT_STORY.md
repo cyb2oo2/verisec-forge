@@ -72,6 +72,7 @@ Key evidence:
 - Side-correct rows reach top-1 `0.7610`; side-wrong rows fall to `0.0632`.
 - Pair-coupled predictions still contain `190` side-wrong rows, balanced at `95` false positives and `95` false negatives.
 - High-confidence side-inversion mining extracts `86` gap-`>=0.50` hard cases across `43` pair groups.
+- Manual evidence audit v1 now materializes `42` unique high-signal pair keys for human evidence grounding.
 
 Research claim:
 
@@ -82,6 +83,8 @@ Primary artifacts:
 - `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`
 - `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md`
+- `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
 
 ### 4. Precision-First Safe Flip Gates: A Cautious Repair Protocol
 

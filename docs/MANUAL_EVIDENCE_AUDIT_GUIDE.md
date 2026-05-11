@@ -1,0 +1,66 @@
+# Manual Evidence Audit Guide
+
+This guide defines the first human-checkable evidence-span audit for the PrimeVul paired-diff line.
+
+## Goal
+
+The audit asks whether the generated hunk/window evidence actually supports the paired vulnerable/fixed side decision. It is designed to test the current core finding:
+
+Evidence localization is coupled to upstream side correctness. When the side decision is wrong, evidence ranking often fails with it.
+
+## Dataset
+
+Primary file:
+
+- `data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl`
+
+Summary report:
+
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
+
+The first version is built from the side-inversion review queues:
+
+- `top5_v1`
+- `rank6_10_v1`
+- `fresh_seeds_top5_v1`
+- `project_holdout_top5_v1`
+
+The script requests `50` rows but currently materializes `42` unique pair keys after deduplication. This is expected and should be reported honestly: the high-signal side-inversion pools are useful but still small.
+
+## Annotation Fields
+
+- `human_vulnerable_side`: choose `A`, `B`, or `unclear`.
+- `evidence_side`: choose `A`, `B`, `both`, `none`, or `unclear`.
+- `evidence_quality`: use `0` for no usable evidence, `1` for weak hint, `2` for plausible evidence, and `3` for strong direct evidence.
+- `selected_window_ids`: list the windows that justify the decision, such as `A1`, `A2`, or `B1`.
+- `label_issue`: choose `none`, `ambiguous`, `wrong_label`, or `insufficient_context`.
+- `notes`: short rationale explaining the judgment.
+- `annotator`: annotator name or handle.
+- `reviewed_at`: ISO-8601 timestamp.
+
+## Annotation Rules
+
+1. Prefer code-change evidence over CVE/project metadata.
+2. Mark `unclear` when the window is too small to justify either side.
+3. Mark `insufficient_context` when the likely vulnerability depends on code outside the shown windows.
+4. Mark `wrong_label` only when the provided side label is clearly contradicted by the evidence and context.
+5. Use `evidence_quality=3` only when the selected window directly shows a security-relevant guard, check, sanitization, bounds fix, auth decision, lifetime fix, or equivalent risk change.
+
+## Regeneration
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_manual_evidence_audit_set.py `
+  --sample-size 50 `
+  --seed 42 `
+  --output data\processed\secure_code_primevul_manual_evidence_audit_v1.jsonl
+```
+
+## Next Step
+
+After annotation, run:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\analyze_manual_evidence_audit.py
+```
+
+The analysis reports completion rate, invalid annotation rows, human-vs-gold agreement, evidence-vs-gold agreement, evidence quality distribution, and label issue rates.

@@ -46,7 +46,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 ## Next Research Steps
 
-1. Build a `50-200` example manual evidence-span audit set.
+1. Annotate and analyze the first manual evidence-span audit set; v1 materializes `42` unique high-signal pair keys from side-inversion queues.
 2. Expand side-inversion review queues to top-20/top-50 under the existing protocol checker.
 3. Add project/time/CVE-disjoint validation or a second paired patch dataset.
 4. Convert the evidence-coupled audit loop into a minimal patch-review demo/API.
