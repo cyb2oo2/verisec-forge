@@ -33,8 +33,8 @@
       "batch_id": "manual_evidence_audit_v1_batch_04",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_04.csv",
       "rows": 10,
-      "completed": 0,
-      "blank": 10,
+      "completed": 10,
+      "blank": 0,
       "invalid": 0
     },
     {
@@ -48,58 +48,49 @@
   ],
   "progress": {
     "rows": 42,
-    "completed_annotations": 30,
-    "completion_rate": 0.7143,
+    "completed_annotations": 40,
+    "completion_rate": 0.9524,
     "invalid_annotations": 0,
     "invalid_rows": [],
     "human_vs_gold": {
-      "match": 16,
-      "mismatch": 14
+      "match": 21,
+      "mismatch": 19
     },
     "evidence_vs_gold": {
-      "match": 16,
-      "mismatch": 14
+      "match": 21,
+      "mismatch": 19
     },
     "evidence_quality_counts": {
-      "1": 8,
-      "2": 9,
-      "3": 13
+      "0": 1,
+      "1": 12,
+      "2": 12,
+      "3": 15
     },
     "label_issue_counts": {
-      "insufficient_context": 8,
-      "none": 22
+      "insufficient_context": 13,
+      "none": 27
     },
     "annotator_counts": {
-      "codex_pilot": 30
+      "codex_pilot": 40
     },
-    "blank_annotations": 12,
+    "blank_annotations": 2,
     "by_source_pool": {
       "fresh_seeds_top5_v1": {
-        "blank": 3,
-        "completed": 12
+        "blank": 1,
+        "completed": 14
       },
       "project_holdout_top5_v1": {
         "completed": 8
       },
       "rank6_10_v1": {
-        "blank": 3,
-        "completed": 10
+        "blank": 1,
+        "completed": 12
       },
       "top5_v1": {
-        "blank": 6
+        "completed": 6
       }
     },
     "remaining_audit_ids": [
-      "manual_evidence_audit::7::9::linux__b2f37aead1b82a770c48b5d583f35ec22aabb61e__CVE-2022-1195",
-      "manual_evidence_audit::42::10::gpac__ebfa346eff05049718f7b80041093b4c5581c24e__CVE-2021-31258",
-      "manual_evidence_audit::7::2::mruby__b1d0296a937fe278239bdfac840a3fd0e93b3ee9__CVE-2022-1286",
-      "manual_evidence_audit::42::3::gst-plugins-good__9181191511f9c0be6a89c98b311f49d66bd46dc3__CVE-2021-3497",
-      "manual_evidence_audit::7::4::mruby__3cf291f72224715942beaf8553e42ba8891ab3c6__CVE-2022-1212",
-      "manual_evidence_audit::99::5::nDPI__1ec621c85b9411cc611652fd57a892cfef478af3__CVE-2021-36082",
-      "manual_evidence_audit::7::5::qemu__1caff0340f49c93d535c6558a5138d20d475315c__CVE-2021-3416",
-      "manual_evidence_audit::13::5::radare2__2b77b277d67ce061ee6ef839e7139ebc2103c1e3__CVE-2022-1244",
-      "manual_evidence_audit::401::4::ImageMagick6__d5e7c2b5ba384e7d0d8ddac6c9ae2319cb74b9c5__CVE-2018-15607",
-      "manual_evidence_audit::211::5::php-src__2bcbc95f033c31b00595ed39f79c3a99b4ed0501__CVE-2020-7060",
       "manual_evidence_audit::503::5::FreeRDP__ce21b9d7ecd967e0bc98ed31a6b3757848aa6c9e__CVE-2020-11523",
       "manual_evidence_audit::7::10::linux__42933c8aa14be1caa9eda41f65cde8a3a95d3e39__CVE-2022-0487"
     ]
