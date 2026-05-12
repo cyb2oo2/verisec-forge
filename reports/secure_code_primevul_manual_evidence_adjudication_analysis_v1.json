@@ -1,0 +1,10 @@
+{
+  "rows": 20,
+  "completed_adjudications": 0,
+  "completion_rate": 0.0,
+  "invalid_adjudications": 0,
+  "label_status_counts": {},
+  "evidence_span_sufficiency_counts": {},
+  "reviewer_counts": {},
+  "by_queue_type": {}
+}

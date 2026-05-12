@@ -17,6 +17,11 @@ from vrf.evidence_audit import (
 )
 from vrf.io_utils import read_jsonl, write_jsonl
 from scripts.build_manual_evidence_pilot_findings import build_findings
+from vrf.evidence_adjudication import (
+    adjudication_template_rows,
+    analyze_adjudications,
+    apply_adjudication_rows,
+)
 
 
 TMP_ROOT = Path(".tmp_test_runs/manual_evidence_audit")
@@ -341,3 +346,88 @@ def test_build_manual_evidence_pilot_findings_queues_review_targets() -> None:
     assert payload["high_quality_disagreements"][0]["priority"] == 1
     assert payload["insufficient_context_count"] == 1
     assert payload["insufficient_context_cases"][0]["review_action"] == "inspect_wider_context_before_direction_label"
+
+
+def _adjudication_queue_row() -> dict[str, object]:
+    return {
+        "audit_id": "manual_evidence_audit::demo",
+        "queue_type": "high_quality_disagreement",
+        "priority": 1,
+        "review_action": "adjudicate_gold_vs_pilot_direction",
+        "gold_vulnerable_side": "A",
+        "pilot_vulnerable_side": "B",
+        "evidence_quality": 3,
+        "selected_window_ids": ["A1", "B1"],
+        "notes": "visible evidence points to B",
+    }
+
+
+def test_adjudication_template_rows_preserve_review_context() -> None:
+    template = adjudication_template_rows([_adjudication_queue_row()])
+
+    assert template[0]["audit_id"] == "manual_evidence_audit::demo"
+    assert template[0]["queue_type"] == "high_quality_disagreement"
+    assert template[0]["selected_window_ids"] == "A1;B1"
+    assert template[0]["final_vulnerable_side"] == ""
+
+
+def test_apply_adjudication_rows_updates_queue_rows() -> None:
+    payload = apply_adjudication_rows(
+        [_adjudication_queue_row()],
+        [
+            {
+                "audit_id": "manual_evidence_audit::demo",
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": "B1",
+                "reviewer": "reviewer_a",
+                "reviewed_at": "2026-05-13T00:00:00+08:00",
+                "rationale": "B contains the unsafe change",
+            }
+        ],
+    )
+
+    assert payload["status"] == "ok"
+    assert payload["updated"] == 1
+    adjudication = payload["queue_rows"][0]["adjudication"]
+    assert adjudication["final_vulnerable_side"] == "B"
+    assert adjudication["final_evidence_window_ids"] == ["B1"]
+
+
+def test_apply_adjudication_rows_rejects_unknown_final_window_ids() -> None:
+    payload = apply_adjudication_rows(
+        [_adjudication_queue_row()],
+        [
+            {
+                "audit_id": "manual_evidence_audit::demo",
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": "Z9",
+            }
+        ],
+    )
+
+    assert payload["status"] == "failed"
+    assert payload["errors"][0]["errors"] == ["final_evidence_window_ids"]
+
+
+def test_analyze_adjudications_counts_completed_rows() -> None:
+    row = _adjudication_queue_row()
+    row["adjudication"] = {
+        "final_vulnerable_side": "B",
+        "label_status": "corrected_side",
+        "evidence_span_sufficient": "yes",
+        "final_evidence_window_ids": ["B1"],
+        "reviewer": "reviewer_a",
+        "reviewed_at": "2026-05-13T00:00:00+08:00",
+        "rationale": "B contains the unsafe change",
+    }
+
+    payload = analyze_adjudications([row])
+
+    assert payload["completed_adjudications"] == 1
+    assert payload["label_status_counts"] == {"corrected_side": 1}
+    assert payload["evidence_span_sufficiency_counts"] == {"yes": 1}
+    assert payload["reviewer_counts"] == {"reviewer_a": 1}
