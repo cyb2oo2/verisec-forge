@@ -12,7 +12,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from vrf.io_utils import ensure_parent, read_jsonl, write_json
+from vrf.io_utils import ensure_parent, read_jsonl, write_json, write_jsonl
 
 
 def parse_args() -> argparse.Namespace:
@@ -33,6 +33,21 @@ def parse_args() -> argparse.Namespace:
         "--md-output",
         default="reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md",
         help="Output Markdown findings path.",
+    )
+    parser.add_argument(
+        "--high-quality-output",
+        default="data/processed/secure_code_primevul_manual_evidence_high_quality_disagreements_v1.jsonl",
+        help="JSONL queue for high-quality pilot/gold disagreements that need adjudication.",
+    )
+    parser.add_argument(
+        "--insufficient-context-output",
+        default="data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl",
+        help="JSONL queue for cases that need wider-context evidence review.",
+    )
+    parser.add_argument(
+        "--queue-md-output",
+        default="reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES.md",
+        help="Markdown summary of adjudication and wider-context review queues.",
     )
     return parser.parse_args()
 
@@ -66,6 +81,27 @@ def _case_summary(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _queue_row(row: dict[str, Any], *, queue_type: str, priority: int, reason: str) -> dict[str, Any]:
+    summary = _case_summary(row)
+    annotation = row.get("annotation", {})
+    return {
+        **summary,
+        "queue_type": queue_type,
+        "priority": priority,
+        "reason": reason,
+        "pair_key": row.get("pair_key"),
+        "changed_line_bucket": row.get("changed_line_bucket"),
+        "model_vulnerable_side": row.get("model_vulnerable_side"),
+        "is_true_inversion_candidate": row.get("is_true_inversion_candidate"),
+        "selected_window_ids": annotation.get("selected_window_ids", []),
+        "review_action": (
+            "adjudicate_gold_vs_pilot_direction"
+            if queue_type == "high_quality_disagreement"
+            else "inspect_wider_context_before_direction_label"
+        ),
+    }
+
+
 def build_findings(rows: list[dict[str, Any]]) -> dict[str, Any]:
     completed = _completed_rows(rows)
     by_pool: dict[str, Counter[str]] = defaultdict(Counter)
@@ -96,9 +132,23 @@ def build_findings(rows: list[dict[str, Any]]) -> dict[str, Any]:
         quality_by_agreement[agreement][str(quality)] += 1
 
         if agreement == "mismatch" and quality in {2, 3} and issue == "none":
-            high_quality_disagreements.append(_case_summary(row))
+            high_quality_disagreements.append(
+                _queue_row(
+                    row,
+                    queue_type="high_quality_disagreement",
+                    priority=1 if quality == 3 else 2,
+                    reason="visible evidence conflicts with stored gold vulnerable side",
+                )
+            )
         if issue == "insufficient_context":
-            insufficient_context_cases.append(_case_summary(row))
+            insufficient_context_cases.append(
+                _queue_row(
+                    row,
+                    queue_type="insufficient_context",
+                    priority=2 if quality == 1 else 3,
+                    reason="hunk/window evidence is too narrow for a reliable side decision",
+                )
+            )
 
     completed_count = len(completed)
     return {
@@ -130,6 +180,48 @@ def build_findings(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "Insufficient-context cases indicate where hunk windows are too narrow for reliable evidence localization.",
         ],
     }
+
+
+def render_queue_report(payload: dict[str, Any], queue_paths: dict[str, str]) -> str:
+    high_quality = payload["high_quality_disagreements"]
+    insufficient = payload["insufficient_context_cases"]
+    lines = [
+        "# PrimeVul Manual Evidence Review Queues",
+        "",
+        "These queues are derived from the completed `codex_pilot` audit and are designed for independent follow-up review.",
+        "",
+        "## Queue Files",
+        "",
+        f"- High-quality disagreement queue: `{queue_paths['high_quality']}`",
+        f"- Insufficient-context queue: `{queue_paths['insufficient_context']}`",
+        "",
+        "## Review Protocol",
+        "",
+        "- Treat `codex_pilot` as a triage signal, not a final label.",
+        "- For high-quality disagreements, decide whether the stored gold side, pilot side, or pair orientation is wrong.",
+        "- For insufficient-context cases, inspect wider function/commit context before assigning a vulnerable side.",
+        "- Record reviewer identity, final adjudicated side, evidence span, and whether the original hunk window was sufficient.",
+        "",
+        "## High-Quality Disagreement Queue",
+        "",
+        f"- Rows: `{len(high_quality)}`",
+        "",
+    ]
+    for item in high_quality:
+        lines.append(
+            f"- priority=`{item['priority']}` `{item['audit_id']}`: "
+            f"gold=`{item['gold_vulnerable_side']}`, pilot=`{item['pilot_vulnerable_side']}`, "
+            f"q=`{item['evidence_quality']}`, action=`{item['review_action']}`"
+        )
+    lines.extend(["", "## Insufficient-Context Queue", "", f"- Rows: `{len(insufficient)}`", ""])
+    for item in insufficient:
+        lines.append(
+            f"- priority=`{item['priority']}` `{item['audit_id']}`: "
+            f"gold=`{item['gold_vulnerable_side']}`, pilot=`{item['pilot_vulnerable_side']}`, "
+            f"q=`{item['evidence_quality']}`, action=`{item['review_action']}`"
+        )
+    lines.append("")
+    return "\n".join(lines)
 
 
 def render_markdown(payload: dict[str, Any], input_path: str) -> str:
@@ -206,8 +298,16 @@ def main() -> int:
     rows = read_jsonl(ROOT / args.input)
     payload = build_findings(rows)
     write_json(ROOT / args.json_output, payload)
+    write_jsonl(ROOT / args.high_quality_output, payload["high_quality_disagreements"])
+    write_jsonl(ROOT / args.insufficient_context_output, payload["insufficient_context_cases"])
     md_path = ensure_parent(ROOT / args.md_output)
     md_path.write_text(render_markdown(payload, args.input.replace("\\", "/")), encoding="utf-8")
+    queue_md_path = ensure_parent(ROOT / args.queue_md_output)
+    queue_paths = {
+        "high_quality": args.high_quality_output.replace("\\", "/"),
+        "insufficient_context": args.insufficient_context_output.replace("\\", "/"),
+    }
+    queue_md_path.write_text(render_queue_report(payload, queue_paths), encoding="utf-8")
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 

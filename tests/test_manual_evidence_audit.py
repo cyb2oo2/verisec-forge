@@ -16,6 +16,7 @@ from vrf.evidence_audit import (
     split_annotation_batches,
 )
 from vrf.io_utils import read_jsonl, write_jsonl
+from scripts.build_manual_evidence_pilot_findings import build_findings
 
 
 TMP_ROOT = Path(".tmp_test_runs/manual_evidence_audit")
@@ -307,3 +308,36 @@ def test_annotation_progress_summary_counts_blank_and_completed_rows() -> None:
     assert payload["blank_annotations"] == 1
     assert payload["by_source_pool"]["top5"]["completed"] == 1
     assert payload["by_source_pool"]["fresh"]["blank"] == 1
+
+
+def test_build_manual_evidence_pilot_findings_queues_review_targets() -> None:
+    high_quality = normalize_review_queue_row(_queue_row("p1", rank=1, label="A"), source_pool="top5", index=0)
+    high_quality["annotation"] = {
+        "human_vulnerable_side": "B",
+        "evidence_side": "B",
+        "evidence_quality": 3,
+        "selected_window_ids": ["B1"],
+        "label_issue": "none",
+        "notes": "visible evidence points to B",
+        "annotator": "test",
+        "reviewed_at": "2026-05-12T00:00:00Z",
+    }
+    insufficient = normalize_review_queue_row(_queue_row("p2", rank=2, label="A"), source_pool="fresh", index=1)
+    insufficient["annotation"] = {
+        "human_vulnerable_side": "unclear",
+        "evidence_side": "unclear",
+        "evidence_quality": 1,
+        "selected_window_ids": ["A1"],
+        "label_issue": "insufficient_context",
+        "notes": "needs context",
+        "annotator": "test",
+        "reviewed_at": "2026-05-12T00:00:00Z",
+    }
+
+    payload = build_findings([high_quality, insufficient])
+
+    assert payload["high_quality_disagreement_count"] == 1
+    assert payload["high_quality_disagreements"][0]["review_action"] == "adjudicate_gold_vs_pilot_direction"
+    assert payload["high_quality_disagreements"][0]["priority"] == 1
+    assert payload["insufficient_context_count"] == 1
+    assert payload["insufficient_context_cases"][0]["review_action"] == "inspect_wider_context_before_direction_label"
