@@ -1,27 +1,27 @@
 {
   "rows": 42,
-  "completed_annotations": 20,
-  "completion_rate": 0.4762,
+  "completed_annotations": 30,
+  "completion_rate": 0.7143,
   "invalid_annotations": 0,
   "invalid_rows": [],
   "human_vs_gold": {
-    "match": 9,
-    "mismatch": 11
+    "match": 16,
+    "mismatch": 14
   },
   "evidence_vs_gold": {
-    "match": 9,
-    "mismatch": 11
+    "match": 16,
+    "mismatch": 14
   },
   "evidence_quality_counts": {
-    "1": 6,
-    "2": 5,
-    "3": 9
+    "1": 8,
+    "2": 9,
+    "3": 13
   },
   "label_issue_counts": {
-    "insufficient_context": 6,
-    "none": 14
+    "insufficient_context": 8,
+    "none": 22
   },
   "annotator_counts": {
-    "codex_pilot": 20
+    "codex_pilot": 30
   }
 }

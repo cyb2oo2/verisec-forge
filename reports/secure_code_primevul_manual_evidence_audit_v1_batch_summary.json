@@ -25,8 +25,8 @@
       "batch_id": "manual_evidence_audit_v1_batch_03",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_03.csv",
       "rows": 10,
-      "completed": 0,
-      "blank": 10,
+      "completed": 10,
+      "blank": 0,
       "invalid": 0
     },
     {
@@ -48,31 +48,31 @@
   ],
   "progress": {
     "rows": 42,
-    "completed_annotations": 20,
-    "completion_rate": 0.4762,
+    "completed_annotations": 30,
+    "completion_rate": 0.7143,
     "invalid_annotations": 0,
     "invalid_rows": [],
     "human_vs_gold": {
-      "match": 9,
-      "mismatch": 11
+      "match": 16,
+      "mismatch": 14
     },
     "evidence_vs_gold": {
-      "match": 9,
-      "mismatch": 11
+      "match": 16,
+      "mismatch": 14
     },
     "evidence_quality_counts": {
-      "1": 6,
-      "2": 5,
-      "3": 9
+      "1": 8,
+      "2": 9,
+      "3": 13
     },
     "label_issue_counts": {
-      "insufficient_context": 6,
-      "none": 14
+      "insufficient_context": 8,
+      "none": 22
     },
     "annotator_counts": {
-      "codex_pilot": 20
+      "codex_pilot": 30
     },
-    "blank_annotations": 22,
+    "blank_annotations": 12,
     "by_source_pool": {
       "fresh_seeds_top5_v1": {
         "blank": 3,
@@ -82,23 +82,14 @@
         "completed": 8
       },
       "rank6_10_v1": {
-        "blank": 13
+        "blank": 3,
+        "completed": 10
       },
       "top5_v1": {
         "blank": 6
       }
     },
     "remaining_audit_ids": [
-      "manual_evidence_audit::99::6::linux__505d9dcb0f7ddf9d075e729523a33d38642ae680__CVE-2021-3744",
-      "manual_evidence_audit::13::6::linux__8423f0b6d513b259fdab9c9bf4aaa6188d054c2d__CVE-2022-3303",
-      "manual_evidence_audit::42::7::libyang__298b30ea4ebee137226acf9bb38678bd82704582__CVE-2021-28903",
-      "manual_evidence_audit::123::7::linux__d80b64ff297e40c2b6f7d7abc1b3eba70d22a068__CVE-2020-12768",
-      "manual_evidence_audit::7::7::redis__789f10156009b404950ad717642a9496ed887083__CVE-2021-29478",
-      "manual_evidence_audit::99::7::src__79a034b4aed29e965f45a13409268290c9910043__CVE-2020-35679",
-      "manual_evidence_audit::42::8::linux__6cd1ed50efd88261298577cd92a14f2768eddeeb__CVE-2020-36558",
-      "manual_evidence_audit::13::8::linux__c8c2a057fdc7de1cd16f4baa51425b932a42eb39__CVE-2019-19045",
-      "manual_evidence_audit::7::8::znc__a4a5aeeb17d32937d8c7d743dae9a4cc755ce773__CVE-2018-14056",
-      "manual_evidence_audit::99::9::keepkey-firmware__e49d45594002d4d3fbc1f03488e6dfc0a0a65836__CVE-2021-31616",
       "manual_evidence_audit::7::9::linux__b2f37aead1b82a770c48b5d583f35ec22aabb61e__CVE-2022-1195",
       "manual_evidence_audit::42::10::gpac__ebfa346eff05049718f7b80041093b4c5581c24e__CVE-2021-31258",
       "manual_evidence_audit::7::2::mruby__b1d0296a937fe278239bdfac840a3fd0e93b3ee9__CVE-2022-1286",
