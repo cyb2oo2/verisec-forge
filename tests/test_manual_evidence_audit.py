@@ -137,6 +137,7 @@ def test_analyze_manual_evidence_annotations_counts_completed_rows() -> None:
     assert payload["completion_rate"] == 1.0
     assert payload["human_vs_gold"] == {"match": 1}
     assert payload["evidence_quality_counts"] == {"3": 1}
+    assert payload["annotator_counts"] == {"test": 1}
 
 
 def test_analyze_manual_evidence_annotations_reports_invalid_rows() -> None:
@@ -194,6 +195,27 @@ def test_annotation_template_rows_are_blinded_by_default() -> None:
     assert template[0]["batch_index"] == 1
     assert "project" not in template[0]
     assert "gold_vulnerable_side" not in template[0]
+
+
+def test_annotation_template_rows_preserve_existing_annotations() -> None:
+    row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    row["annotation"] = {
+        "human_vulnerable_side": "A",
+        "evidence_side": "A",
+        "evidence_quality": 3,
+        "selected_window_ids": ["A1", "B1"],
+        "label_issue": "none",
+        "notes": "guard removed",
+        "annotator": "test",
+        "reviewed_at": "2026-05-12T00:00:00Z",
+    }
+
+    template = annotation_template_rows([row], batch_id="batch_01")
+
+    assert template[0]["human_vulnerable_side"] == "A"
+    assert template[0]["evidence_quality"] == "3"
+    assert template[0]["selected_window_ids"] == "A1;B1"
+    assert template[0]["annotator"] == "test"
 
 
 def test_annotation_template_rows_can_include_reference_metadata() -> None:

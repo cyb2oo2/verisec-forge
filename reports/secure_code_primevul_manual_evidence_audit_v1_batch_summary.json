@@ -8,43 +8,75 @@
     {
       "batch_id": "manual_evidence_audit_v1_batch_01",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_01.csv",
-      "rows": 10
+      "rows": 10,
+      "completed": 10,
+      "blank": 0,
+      "invalid": 0
     },
     {
       "batch_id": "manual_evidence_audit_v1_batch_02",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_02.csv",
-      "rows": 10
+      "rows": 10,
+      "completed": 0,
+      "blank": 10,
+      "invalid": 0
     },
     {
       "batch_id": "manual_evidence_audit_v1_batch_03",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_03.csv",
-      "rows": 10
+      "rows": 10,
+      "completed": 0,
+      "blank": 10,
+      "invalid": 0
     },
     {
       "batch_id": "manual_evidence_audit_v1_batch_04",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_04.csv",
-      "rows": 10
+      "rows": 10,
+      "completed": 0,
+      "blank": 10,
+      "invalid": 0
     },
     {
       "batch_id": "manual_evidence_audit_v1_batch_05",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_05.csv",
-      "rows": 2
+      "rows": 2,
+      "completed": 0,
+      "blank": 2,
+      "invalid": 0
     }
   ],
   "progress": {
     "rows": 42,
-    "completed_annotations": 0,
-    "completion_rate": 0.0,
+    "completed_annotations": 10,
+    "completion_rate": 0.2381,
     "invalid_annotations": 0,
     "invalid_rows": [],
-    "human_vs_gold": {},
-    "evidence_vs_gold": {},
-    "evidence_quality_counts": {},
-    "label_issue_counts": {},
-    "blank_annotations": 42,
+    "human_vs_gold": {
+      "match": 4,
+      "mismatch": 6
+    },
+    "evidence_vs_gold": {
+      "match": 4,
+      "mismatch": 6
+    },
+    "evidence_quality_counts": {
+      "1": 3,
+      "2": 3,
+      "3": 4
+    },
+    "label_issue_counts": {
+      "insufficient_context": 3,
+      "none": 7
+    },
+    "annotator_counts": {
+      "codex_pilot": 10
+    },
+    "blank_annotations": 32,
     "by_source_pool": {
       "fresh_seeds_top5_v1": {
-        "blank": 15
+        "blank": 5,
+        "completed": 10
       },
       "project_holdout_top5_v1": {
         "blank": 8
@@ -57,16 +89,6 @@
       }
     },
     "remaining_audit_ids": [
-      "manual_evidence_audit::307::1::drogon__3c785326c63a34aa1799a639ae185bc9453cb447__CVE-2022-25297",
-      "manual_evidence_audit::401::1::gpac__3dbe11b37d65c8472faf0654410068e5500b3adb__CVE-2022-1441",
-      "manual_evidence_audit::601::1::hexchat__4e061a43b3453a9856d34250c3913175c45afe9d__CVE-2016-2087",
-      "manual_evidence_audit::503::1::linux__ad9f151e560b016b6ad3280b48e42fa11e1a5440__CVE-2021-46283",
-      "manual_evidence_audit::211::1::rpm__bd36c5dc9fb6d90c46fbfed8c2d67516fc571ec8__CVE-2021-3521",
-      "manual_evidence_audit::307::2::gpac__b03c9f252526bb42fbd1b87b9f5e339c3cf2390a__CVE-2021-40573",
-      "manual_evidence_audit::211::2::squid__780c4ea1b4c9d2fb41f6962aa6ed73ae57f74b2b__CVE-2021-46784",
-      "manual_evidence_audit::211::3::ImageMagick__f221ea0fa3171f0f4fdf74ac9d81b203b9534c23__CVE-2022-32546",
-      "manual_evidence_audit::401::3::cyrus-imapd__621f9e41465b521399f691c241181300fab55995__CVE-2021-32056",
-      "manual_evidence_audit::503::3::gnutls__d223040e498bd50a4b9e0aa493e78587ae1ed653__CVE-2008-1948",
       "manual_evidence_audit::307::3::tensorflow__698e01511f62a3c185754db78ebce0eee1f0184d__CVE-2021-29614",
       "manual_evidence_audit::307::4::GIMP__22e2571c25425f225abdb11a566cc281fca6f366__CVE-2017-17786",
       "manual_evidence_audit::123::2::libxml2__bf22713507fe1fc3a2c4b525cf0a88c2dc87a3a2__CVE-2021-3517",

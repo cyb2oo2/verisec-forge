@@ -237,6 +237,7 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
     evidence_vs_gold = Counter()
     evidence_quality = Counter()
     label_issues = Counter()
+    annotators = Counter()
 
     for row in rows:
         annotation = row.get("annotation", {})
@@ -245,6 +246,7 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
         quality = annotation.get("evidence_quality")
         label_issue = annotation.get("label_issue", "none")
         selected_window_ids = annotation.get("selected_window_ids", [])
+        annotator = annotation.get("annotator") or "unknown"
         gold_side = row.get("gold_vulnerable_side")
 
         if human_side is None and evidence_side is None and quality is None:
@@ -276,6 +278,7 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
         evidence_vs_gold["match" if evidence_side == gold_side else "mismatch"] += 1
         evidence_quality[str(quality)] += 1
         label_issues[label_issue] += 1
+        annotators[annotator] += 1
 
     return {
         "rows": len(rows),
@@ -287,6 +290,7 @@ def analyze_manual_evidence_annotations(rows: list[dict[str, Any]]) -> dict[str,
         "evidence_vs_gold": dict(sorted(evidence_vs_gold.items())),
         "evidence_quality_counts": dict(sorted(evidence_quality.items())),
         "label_issue_counts": dict(sorted(label_issues.items())),
+        "annotator_counts": dict(sorted(annotators.items())),
     }
 
 
@@ -298,17 +302,20 @@ def annotation_template_rows(
 ) -> list[dict[str, Any]]:
     template_rows: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
+        annotation = row.get("annotation", {})
+        selected_window_ids = annotation.get("selected_window_ids") or []
+        evidence_quality = annotation.get("evidence_quality")
         template_rows.append(
             {
                 "audit_id": row.get("audit_id"),
-                "human_vulnerable_side": "",
-                "evidence_side": "",
-                "evidence_quality": "",
-                "selected_window_ids": "",
-                "label_issue": "none",
-                "notes": "",
-                "annotator": "",
-                "reviewed_at": "",
+                "human_vulnerable_side": annotation.get("human_vulnerable_side") or "",
+                "evidence_side": annotation.get("evidence_side") or "",
+                "evidence_quality": "" if evidence_quality is None else str(evidence_quality),
+                "selected_window_ids": ";".join(str(window_id) for window_id in selected_window_ids),
+                "label_issue": annotation.get("label_issue") or "none",
+                "notes": annotation.get("notes") or "",
+                "annotator": annotation.get("annotator") or "",
+                "reviewed_at": annotation.get("reviewed_at") or "",
                 "batch_id": batch_id or "",
                 "batch_index": index,
                 "source_pool": row.get("source_pool"),

@@ -1,11 +1,27 @@
 {
   "rows": 42,
-  "completed_annotations": 0,
-  "completion_rate": 0.0,
+  "completed_annotations": 10,
+  "completion_rate": 0.2381,
   "invalid_annotations": 0,
   "invalid_rows": [],
-  "human_vs_gold": {},
-  "evidence_vs_gold": {},
-  "evidence_quality_counts": {},
-  "label_issue_counts": {}
+  "human_vs_gold": {
+    "match": 4,
+    "mismatch": 6
+  },
+  "evidence_vs_gold": {
+    "match": 4,
+    "mismatch": 6
+  },
+  "evidence_quality_counts": {
+    "1": 3,
+    "2": 3,
+    "3": 4
+  },
+  "label_issue_counts": {
+    "insufficient_context": 3,
+    "none": 7
+  },
+  "annotator_counts": {
+    "codex_pilot": 10
+  }
 }

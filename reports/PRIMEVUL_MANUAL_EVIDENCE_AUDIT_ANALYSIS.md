@@ -2,20 +2,34 @@
 
 - Input: `data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl`
 - Rows: `42`
-- Completed annotations: `0`
-- Completion rate: `0.0`
+- Completed annotations: `10`
+- Completion rate: `0.2381`
 - Invalid annotations: `0`
 
-This report is expected to show `0` completed annotations before human review. After annotation, it becomes the primary summary for evidence-side agreement, evidence quality, and label issue rates.
+This report tracks completed evidence annotations and is the primary summary for evidence-side agreement, evidence quality, and label issue rates.
+Annotator counts are reported explicitly so pilot/self-review rows are not confused with independent human gold annotations.
+
+## Annotator Counts
+
+- `codex_pilot`: `10`
 
 ## Human vs Gold
 
+- `match`: `4`
+- `mismatch`: `6`
 
 ## Evidence vs Gold
 
+- `match`: `4`
+- `mismatch`: `6`
 
 ## Evidence Quality Counts
 
+- `1`: `3`
+- `2`: `3`
+- `3`: `4`
 
 ## Label Issue Counts
 
+- `insufficient_context`: `3`
+- `none`: `7`

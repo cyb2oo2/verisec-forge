@@ -65,6 +65,14 @@ def write_csv(path: Path, rows: list[dict[str, object]], *, include_labels: bool
 def render_progress_report(summary: dict[str, object]) -> str:
     batch_rows = summary["batches"]
     by_pool = summary["progress"]["by_source_pool"]
+    next_batch = next((batch for batch in batch_rows if batch.get("blank", 0) > 0), None)
+    if next_batch is None:
+        recommendation = "All exported batches are complete. Re-run analysis and move to independent review or adjudication."
+    else:
+        recommendation = (
+            f"Continue with `{next_batch['path']}`: run the apply script with `--dry-run`, "
+            "then apply and analyze before moving to the next batch."
+        )
     lines = [
         "# PrimeVul Manual Evidence Audit Progress",
         "",
@@ -81,7 +89,7 @@ def render_progress_report(summary: dict[str, object]) -> str:
         "## Batch Files",
         "",
         *[
-            f"- `{batch['path']}`: `{batch['rows']}` rows"
+            f"- `{batch['path']}`: `{batch['rows']}` rows, completed=`{batch['completed']}`, blank=`{batch['blank']}`"
             for batch in batch_rows
         ],
         "",
@@ -93,9 +101,9 @@ def render_progress_report(summary: dict[str, object]) -> str:
             for pool, counts in sorted(by_pool.items())
         ],
         "",
-        "## Recommended Pilot",
+        "## Recommended Next Step",
         "",
-        "Start with the first batch, run the apply script with `--dry-run`, then analyze annotations before continuing to the remaining batches.",
+        recommendation,
         "",
     ]
     return "\n".join(lines)
@@ -111,6 +119,7 @@ def main() -> int:
     for index, batch in enumerate(batches, start=1):
         batch_id = f"{args.prefix}_{index:02d}"
         relative_path = f"{args.output_dir}/{batch_id}.csv".replace("\\", "/")
+        batch_progress = annotation_progress_summary(batch)
         write_csv(
             ROOT / relative_path,
             annotation_template_rows(
@@ -125,6 +134,9 @@ def main() -> int:
                 "batch_id": batch_id,
                 "path": relative_path,
                 "rows": len(batch),
+                "completed": batch_progress["completed_annotations"],
+                "blank": batch_progress["blank_annotations"],
+                "invalid": batch_progress["invalid_annotations"],
             }
         )
 
