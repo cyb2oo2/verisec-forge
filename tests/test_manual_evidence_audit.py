@@ -17,6 +17,10 @@ from vrf.evidence_audit import (
 )
 from vrf.io_utils import read_jsonl, write_jsonl
 from scripts.build_manual_evidence_pilot_findings import build_findings
+from scripts.build_manual_evidence_draft_adjudications import (
+    build_draft_adjudications,
+    summarize_drafts,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -431,3 +435,13 @@ def test_analyze_adjudications_counts_completed_rows() -> None:
     assert payload["label_status_counts"] == {"corrected_side": 1}
     assert payload["evidence_span_sufficiency_counts"] == {"yes": 1}
     assert payload["reviewer_counts"] == {"reviewer_a": 1}
+
+
+def test_build_draft_adjudications_marks_outputs_non_final() -> None:
+    draft_rows = build_draft_adjudications([_adjudication_queue_row()])
+    summary = summarize_drafts(draft_rows)
+
+    assert draft_rows[0]["draft_reviewer"] == "codex_draft"
+    assert draft_rows[0]["draft_final_vulnerable_side"] == "B"
+    assert "final_vulnerable_side" not in draft_rows[0]
+    assert summary["is_final_adjudication"] is False
