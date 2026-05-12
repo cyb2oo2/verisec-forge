@@ -41,58 +41,53 @@
       "batch_id": "manual_evidence_audit_v1_batch_05",
       "path": "data/processed/manual_evidence_audit_batches/manual_evidence_audit_v1_batch_05.csv",
       "rows": 2,
-      "completed": 0,
-      "blank": 2,
+      "completed": 2,
+      "blank": 0,
       "invalid": 0
     }
   ],
   "progress": {
     "rows": 42,
-    "completed_annotations": 40,
-    "completion_rate": 0.9524,
+    "completed_annotations": 42,
+    "completion_rate": 1.0,
     "invalid_annotations": 0,
     "invalid_rows": [],
     "human_vs_gold": {
-      "match": 21,
-      "mismatch": 19
+      "match": 22,
+      "mismatch": 20
     },
     "evidence_vs_gold": {
-      "match": 21,
-      "mismatch": 19
+      "match": 22,
+      "mismatch": 20
     },
     "evidence_quality_counts": {
-      "0": 1,
+      "0": 2,
       "1": 12,
       "2": 12,
-      "3": 15
+      "3": 16
     },
     "label_issue_counts": {
-      "insufficient_context": 13,
-      "none": 27
+      "insufficient_context": 14,
+      "none": 28
     },
     "annotator_counts": {
-      "codex_pilot": 40
+      "codex_pilot": 42
     },
-    "blank_annotations": 2,
+    "blank_annotations": 0,
     "by_source_pool": {
       "fresh_seeds_top5_v1": {
-        "blank": 1,
-        "completed": 14
+        "completed": 15
       },
       "project_holdout_top5_v1": {
         "completed": 8
       },
       "rank6_10_v1": {
-        "blank": 1,
-        "completed": 12
+        "completed": 13
       },
       "top5_v1": {
         "completed": 6
       }
     },
-    "remaining_audit_ids": [
-      "manual_evidence_audit::503::5::FreeRDP__ce21b9d7ecd967e0bc98ed31a6b3757848aa6c9e__CVE-2020-11523",
-      "manual_evidence_audit::7::10::linux__42933c8aa14be1caa9eda41f65cde8a3a95d3e39__CVE-2022-0487"
-    ]
+    "remaining_audit_ids": []
   }
 }
