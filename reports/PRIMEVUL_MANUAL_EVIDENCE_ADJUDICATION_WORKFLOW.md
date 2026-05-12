@@ -11,6 +11,7 @@ This workflow turns the `codex_pilot` review queues into independent adjudicatio
 
 - CSV template: `data/processed/secure_code_primevul_manual_evidence_adjudication_template_v1.csv`
 - Rows: `20`
+- Focused review packet: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
 
 ## Required Reviewer Fields
 
@@ -24,6 +25,7 @@ This workflow turns the `codex_pilot` review queues into independent adjudicatio
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\export_manual_evidence_adjudication_template.py
+.\.venv\Scripts\python.exe scripts\render_manual_evidence_adjudication_packet.py
 .\.venv\Scripts\python.exe scripts\apply_manual_evidence_adjudications.py --dry-run
 .\.venv\Scripts\python.exe scripts\apply_manual_evidence_adjudications.py
 .\.venv\Scripts\python.exe scripts\analyze_manual_evidence_adjudications.py
