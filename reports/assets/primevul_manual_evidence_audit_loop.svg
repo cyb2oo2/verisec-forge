@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520" role="img" aria-label="PrimeVul manual evidence audit loop">
+<rect width="1180" height="520" fill="#fbfaf7"/>
+<text x="40" y="52" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#1f2933">PrimeVul Manual Evidence Audit Loop</text>
+<text x="40" y="84" font-family="Verdana, sans-serif" font-size="15" fill="#52606d">Triage artifacts stay separate from reviewer-confirmed adjudication.</text>
+<rect x="40" y="155" width="190" height="140" rx="18" fill="#d7efe8" stroke="#243b53" stroke-width="1.5"/>
+<text x="58" y="195" font-family="Verdana, sans-serif" font-size="18" font-weight="700" fill="#102a43">Pseudo-localizer</text>
+<text x="58" y="233" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">
+<tspan x="58" dy="0">hunk/window</tspan>
+<tspan x="58" dy="24">candidates</tspan>
+</text>
+<line x1="242" y1="225" x2="284" y2="225" stroke="#486581" stroke-width="3"/>
+<polygon points="284,225 272,217 272,233" fill="#486581"/>
+<rect x="265" y="155" width="190" height="140" rx="18" fill="#f7e4c6" stroke="#243b53" stroke-width="1.5"/>
+<text x="283" y="195" font-family="Verdana, sans-serif" font-size="18" font-weight="700" fill="#102a43">Pilot audit</text>
+<text x="283" y="233" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">
+<tspan x="283" dy="0">42 rows</tspan>
+<tspan x="283" dy="24">22/20 split</tspan>
+</text>
+<line x1="467" y1="225" x2="509" y2="225" stroke="#486581" stroke-width="3"/>
+<polygon points="509,225 497,217 497,233" fill="#486581"/>
+<rect x="490" y="155" width="190" height="140" rx="18" fill="#dfe6ff" stroke="#243b53" stroke-width="1.5"/>
+<text x="508" y="195" font-family="Verdana, sans-serif" font-size="18" font-weight="700" fill="#102a43">Review queues</text>
+<text x="508" y="233" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">
+<tspan x="508" dy="0">6 HQ + 14 context</tspan>
+</text>
+<line x1="692" y1="225" x2="734" y2="225" stroke="#486581" stroke-width="3"/>
+<polygon points="734,225 722,217 722,233" fill="#486581"/>
+<rect x="715" y="155" width="190" height="140" rx="18" fill="#eadcf8" stroke="#243b53" stroke-width="1.5"/>
+<text x="733" y="195" font-family="Verdana, sans-serif" font-size="18" font-weight="700" fill="#102a43">Adjudication</text>
+<text x="733" y="233" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">
+<tspan x="733" dy="0">CSV + packet</tspan>
+<tspan x="733" dy="24">ready</tspan>
+</text>
+<line x1="917" y1="225" x2="959" y2="225" stroke="#486581" stroke-width="3"/>
+<polygon points="959,225 947,217 947,233" fill="#486581"/>
+<rect x="940" y="155" width="190" height="140" rx="18" fill="#f2d6d6" stroke="#243b53" stroke-width="1.5"/>
+<text x="958" y="195" font-family="Verdana, sans-serif" font-size="18" font-weight="700" fill="#102a43">Final labels</text>
+<text x="958" y="233" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">
+<tspan x="958" dy="0">0 complete</tspan>
+</text>
+<rect x="40" y="360" width="1100" height="92" rx="16" fill="#ffffff" stroke="#bcccdc"/>
+<text x="62" y="392" font-family="Verdana, sans-serif" font-size="17" font-weight="700" fill="#102a43">Current boundary</text>
+<text x="62" y="424" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">codex_pilot and codex_draft are triage signals only; final labels require independent adjudication.</text>
+<text x="62" y="448" font-family="Verdana, sans-serif" font-size="15" fill="#334e68">Pilot agreement: 22 match / 20 mismatch. Reviewer-confirmed labels: 0.</text>
+</svg>

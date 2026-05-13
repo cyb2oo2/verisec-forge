@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "pilot_rows": 42,
+  "pilot_agreement_match": 22,
+  "pilot_agreement_mismatch": 20,
+  "pilot_agreement_rate": 0.5238,
+  "high_quality_disagreements": 6,
+  "insufficient_context_cases": 14,
+  "draft_rows": 6,
+  "draft_is_final_adjudication": false,
+  "completed_adjudications": 0,
+  "adjudication_completion_rate": 0.0,
+  "artifact_links": {
+    "pilot_findings": "reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md",
+    "review_queues": "reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES.md",
+    "adjudication_workflow": "reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_WORKFLOW.md",
+    "high_quality_packet": "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md",
+    "draft_adjudications": "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_DRAFT_ADJUDICATIONS.md"
+  },
+  "interpretation": [
+    "Pseudo-localization produces hard cases, not final evidence labels.",
+    "codex_pilot review completed all 42 rows but agrees with stored gold only about half the time.",
+    "The useful outputs are review queues: 6 high-quality disagreements and 14 insufficient-context cases.",
+    "codex_draft suggestions are non-final triage aids; final labels require independent adjudication."
+  ]
+}
