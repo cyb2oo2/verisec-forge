@@ -127,6 +127,24 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Manual Evidence Annotation Apply Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_apply_summary.json`
 - `Manual Evidence Batch Progress`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_PROGRESS.md`
 - `Manual Evidence Batch Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_batch_summary.json`
+- `Manual Evidence Pilot Findings`: `reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md`
+- `Manual Evidence Pilot Findings JSON`: `reports/secure_code_primevul_manual_evidence_pilot_findings_v1.json`
+- `Manual Evidence Review Queues`: `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES.md`
+- `Manual Evidence High-Quality Disagreement Queue`: `data/processed/secure_code_primevul_manual_evidence_high_quality_disagreements_v1.jsonl`
+- `Manual Evidence Insufficient-Context Queue`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl`
+- `Manual Evidence Adjudication Workflow`: `reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_WORKFLOW.md`
+- `Manual Evidence Adjudication Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_ANALYSIS.md`
+- `Manual Evidence Adjudication Analysis JSON`: `reports/secure_code_primevul_manual_evidence_adjudication_analysis_v1.json`
+- `Manual Evidence Adjudication Apply Summary`: `reports/secure_code_primevul_manual_evidence_adjudication_apply_summary_v1.json`
+- `Manual Evidence Adjudication Template Summary`: `reports/secure_code_primevul_manual_evidence_adjudication_template_v1.json`
+- `Manual Evidence Adjudication Template CSV`: `data/processed/secure_code_primevul_manual_evidence_adjudication_template_v1.csv`
+- `Manual Evidence High-Quality Adjudication Packet`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
+- `Manual Evidence High-Quality Draft Adjudications`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_DRAFT_ADJUDICATIONS.md`
+- `Manual Evidence High-Quality Draft Adjudications JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_codex_draft_adjudications_v1.json`
+- `Manual Evidence High-Quality Draft Adjudications JSONL`: `data/processed/secure_code_primevul_manual_evidence_high_quality_codex_draft_adjudications_v1.jsonl`
+- `Manual Evidence Audit Loop`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_LOOP.md`
+- `Manual Evidence Audit Loop JSON`: `reports/secure_code_primevul_manual_evidence_audit_loop_summary_v1.json`
+- `Manual Evidence Audit Loop Chart`: `reports/assets/primevul_manual_evidence_audit_loop.svg`
 - `Paired Diff Hunk Pseudo-Label Train Summary`: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_TRAIN.md`
 - `Paired Diff Hunk Pseudo-Label Eval Summary`: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_EVAL.md`
 - `Paired Diff Hunk Linear Scorer`: `reports/PRIMEVUL_HUNK_LINEAR_SCORER.md`
