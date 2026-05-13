@@ -59,9 +59,9 @@ Primary artifacts:
 - `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
-### 3. Evidence-Coupled Audit Loop: Failure Repair Must Be Safe
+### 3. Evidence-Coupled Audit Loop: From Pseudo-Spans To Review Queues
 
-The evidence line is a diagnostic and next-stage research direction. It shows that explanation quality is coupled to the upstream side decision: when the paired decision chooses the wrong side, localization largely fails.
+The evidence line is a diagnostic and next-stage research direction. It shows that explanation quality is coupled to the upstream side decision: when the paired decision chooses the wrong side, localization largely fails. The latest work turns this from a pseudo-label-only analysis into a reviewer-facing audit workflow.
 
 Key evidence:
 
@@ -72,11 +72,14 @@ Key evidence:
 - Side-correct rows reach top-1 `0.7610`; side-wrong rows fall to `0.0632`.
 - Pair-coupled predictions still contain `190` side-wrong rows, balanced at `95` false positives and `95` false negatives.
 - High-confidence side-inversion mining extracts `86` gap-`>=0.50` hard cases across `43` pair groups.
-- Manual evidence audit v1 now materializes `42` unique high-signal pair keys for human evidence grounding.
+- Manual evidence audit v1 materializes `42` unique high-signal pair keys for evidence grounding.
+- A completed `codex_pilot` audit over all `42` rows gives pilot/gold agreement `22` match / `20` mismatch, with `14` insufficient-context cases.
+- The audit produces `6` high-quality pilot/gold disagreements as an adjudication queue and `14` insufficient-context rows as a wider-context review queue.
+- A reviewer-facing adjudication workflow now exists: CSV template, apply/analyze scripts, focused high-quality packet, and non-final `codex_draft` suggestions.
 
 Research claim:
 
-Evidence localization is not merely a ranking problem. It is coupled to side-decision correctness, and high-confidence side inversions are a useful source of hard-negative calibration data.
+Evidence localization is not merely a ranking problem. It is coupled to side-decision correctness, and high-confidence side inversions are a useful source of hard-negative calibration data. Pilot evidence review should be treated as triage until an independent adjudication pass confirms the final side and evidence span.
 
 Primary artifacts:
 
@@ -85,6 +88,10 @@ Primary artifacts:
 - `reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md`
 - `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_WORKFLOW.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
 
 ### 4. Precision-First Safe Flip Gates: A Cautious Repair Protocol
 
@@ -125,19 +132,20 @@ Recommended contribution framing:
 
 - Do not present the same-source `0.9524` result as a robust vulnerability detection breakthrough.
 - Do not present pseudo-label evidence localization as human-validated evidence-span supervision.
+- Do not present `codex_pilot` annotations or `codex_draft` adjudications as independent human labels.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
 - Do not claim complete archival reproducibility for every historical experiment; the public bundle currently covers the manifest-backed PrimeVul router and evidence-coupled chains.
 
 ## Current Limitations
 
-- Evidence localization still relies on pseudo labels rather than manually verified evidence spans.
+- Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/time/CVE-disjoint external validation remains the most important next generalization check.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
-1. Add a small manual evidence-span audit set, ideally `50-200` examples, to validate pseudo-localization.
-2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Add a protocol violation checker so stress/audit-only reports cannot accidentally become selection-allowed.
+1. Run independent reviewer adjudication on the `6` high-quality disagreement rows.
+2. Run wider-context review on the `14` insufficient-context rows and decide whether the hunk/window packet needs larger context.
+3. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 4. Expand external validation with project/time/CVE-disjoint splits or a second paired patch dataset.

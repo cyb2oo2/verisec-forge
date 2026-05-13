@@ -114,7 +114,9 @@ For a one-page application summary, see [Application One-Pager](APPLICATION_ONE_
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
-For the new manual evidence-span audit target, see [Manual Evidence Audit Guide](docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md) and [PrimeVul Manual Evidence Audit Set](reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md). The first version materializes `42` unique high-signal pair keys from side-inversion queues for human evidence grounding.
+For the manual evidence-span audit loop, see [Manual Evidence Audit Guide](docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md), [PrimeVul Manual Evidence Audit Set](reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md), [PrimeVul Manual Evidence Pilot Findings](reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md), and [PrimeVul Manual Evidence Adjudication Workflow](reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_WORKFLOW.md). The first version materializes `42` unique high-signal pair keys from side-inversion queues, completes a `codex_pilot` audit over all `42`, and turns the resulting `6` high-quality disagreements plus `14` insufficient-context cases into reviewer-facing adjudication queues.
+
+Important evidence-audit caveat: the `codex_pilot` annotations and `codex_draft` adjudication suggestions are triage artifacts, not independent human gold. The reviewer-confirmed artifact begins with the adjudication CSV workflow and should be reported separately from the pilot.
 
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
 
