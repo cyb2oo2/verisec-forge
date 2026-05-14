@@ -18,6 +18,7 @@ Start here for the main narrative and current system-level conclusions.
 - `Artifact Release Checklist`: `reproducibility/RELEASE_CHECKLIST.md`
 - `GitHub Release Notes Draft`: `reproducibility/GITHUB_RELEASE_NOTES.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
+- `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 
 ## CodeXGLUE Mainline
 

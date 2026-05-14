@@ -8,6 +8,13 @@ from vrf.evaluation import evaluate_run
 from vrf.inference import build_backend, run_generation
 from vrf.io_utils import read_json
 from vrf.pipelines import run_baseline
+from vrf.patch_review_demo import (
+    DEFAULT_DATASET_PATH,
+    DEFAULT_EVIDENCE_PATH,
+    DEFAULT_PREDICTIONS_PATH,
+    build_patch_review_demo,
+    list_demo_examples,
+)
 from vrf.schemas import SecureCodeSample
 from vrf.training_dpo import run_dpo
 from vrf.training_grpo import run_grpo
@@ -28,6 +35,16 @@ def build_parser() -> argparse.ArgumentParser:
     serve_once.add_argument("--prompt", required=True)
     serve_once.add_argument("--task-type", default="weakness_identification")
     serve_once.add_argument("--language", default="python")
+
+    patch_demo = subparsers.add_parser("patch-demo")
+    patch_demo.add_argument("--id", dest="sample_id")
+    patch_demo.add_argument("--pair-key")
+    patch_demo.add_argument("--dataset", default=DEFAULT_DATASET_PATH)
+    patch_demo.add_argument("--predictions", default=DEFAULT_PREDICTIONS_PATH)
+    patch_demo.add_argument("--evidence", default=DEFAULT_EVIDENCE_PATH)
+    patch_demo.add_argument("--evidence-limit", type=int, default=2)
+    patch_demo.add_argument("--text-limit", type=int, default=700)
+    patch_demo.add_argument("--list-examples", type=int, default=0)
     return parser
 
 
@@ -80,6 +97,21 @@ def main() -> None:
             source="cli",
         )
         print(json.dumps(run_generation(backend, sample).to_dict(), indent=2))
+        return
+    if args.command == "patch-demo":
+        if args.list_examples:
+            payload = list_demo_examples(args.dataset, limit=args.list_examples)
+        else:
+            payload = build_patch_review_demo(
+                dataset_path=args.dataset,
+                predictions_path=args.predictions,
+                evidence_path=args.evidence,
+                sample_id=args.sample_id,
+                pair_key=args.pair_key,
+                evidence_limit=args.evidence_limit,
+                text_limit=args.text_limit,
+            )
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
         return
     raise ValueError(f"Unknown command: {args.command}")
 
