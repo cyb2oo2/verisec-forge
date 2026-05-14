@@ -132,6 +132,8 @@ def apply_adjudication_rows(
         "adjudication_rows": len(adjudication_rows),
         "updated": updated,
         "skipped_blank": skipped_blank,
+        "completion_rate": round(updated / len(queue_rows), 4) if queue_rows else 0.0,
+        "has_blank_adjudications": skipped_blank > 0,
         "errors": errors,
         "queue_rows": list(by_audit_id.values()),
     }

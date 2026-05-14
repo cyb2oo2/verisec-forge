@@ -32,4 +32,5 @@ This workflow turns the `codex_pilot` review queues into independent adjudicatio
 ```
 
 Fill the reviewer fields in the CSV template before running the non-dry-run apply command.
+In dry-run output, check `completion_rate` and `has_blank_adjudications`: a blank template should report `completion_rate = 0.0` and `has_blank_adjudications = true`, which means the workflow is valid but not yet reviewer-complete.
 Treat the pilot annotation as a triage signal only. The adjudication output is the first artifact that can be treated as reviewer-confirmed.

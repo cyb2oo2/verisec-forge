@@ -394,9 +394,77 @@ def test_apply_adjudication_rows_updates_queue_rows() -> None:
 
     assert payload["status"] == "ok"
     assert payload["updated"] == 1
+    assert payload["completion_rate"] == 1.0
+    assert payload["has_blank_adjudications"] is False
     adjudication = payload["queue_rows"][0]["adjudication"]
     assert adjudication["final_vulnerable_side"] == "B"
     assert adjudication["final_evidence_window_ids"] == ["B1"]
+
+
+def test_apply_adjudication_rows_reports_blank_template_progress() -> None:
+    payload = apply_adjudication_rows(
+        [_adjudication_queue_row()],
+        [
+            {
+                "audit_id": "manual_evidence_audit::demo",
+                "final_vulnerable_side": "",
+                "label_status": "",
+                "evidence_span_sufficient": "",
+                "final_evidence_window_ids": "",
+                "reviewer": "",
+                "reviewed_at": "",
+                "rationale": "",
+            }
+        ],
+    )
+
+    assert payload["status"] == "ok"
+    assert payload["updated"] == 0
+    assert payload["skipped_blank"] == 1
+    assert payload["completion_rate"] == 0.0
+    assert payload["has_blank_adjudications"] is True
+    assert "adjudication" not in payload["queue_rows"][0]
+
+
+def test_apply_adjudication_rows_accepts_unclear_without_final_windows() -> None:
+    payload = apply_adjudication_rows(
+        [_adjudication_queue_row()],
+        [
+            {
+                "audit_id": "manual_evidence_audit::demo",
+                "final_vulnerable_side": "unclear",
+                "label_status": "ambiguous",
+                "evidence_span_sufficient": "not_applicable",
+                "final_evidence_window_ids": "",
+                "reviewer": "reviewer_a",
+                "reviewed_at": "2026-05-13T00:00:00+08:00",
+                "rationale": "Visible context is insufficient for a final side.",
+            }
+        ],
+    )
+
+    assert payload["status"] == "ok"
+    adjudication = payload["queue_rows"][0]["adjudication"]
+    assert adjudication["final_vulnerable_side"] == "unclear"
+    assert adjudication["final_evidence_window_ids"] == []
+
+
+def test_apply_adjudication_rows_rejects_unknown_audit_id() -> None:
+    payload = apply_adjudication_rows(
+        [_adjudication_queue_row()],
+        [
+            {
+                "audit_id": "manual_evidence_audit::missing",
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": "B1",
+            }
+        ],
+    )
+
+    assert payload["status"] == "failed"
+    assert payload["errors"][0]["errors"] == ["unknown_audit_id"]
 
 
 def test_apply_adjudication_rows_rejects_unknown_final_window_ids() -> None:
