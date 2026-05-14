@@ -22,6 +22,23 @@ You can also select by pair key:
 .\.venv\Scripts\python.exe -m vrf.cli patch-demo --pair-key "tensorflow|c2b31ff2d3151acb230edc3f5b1832d2c713a9e0|CVE-2022-23565"
 ```
 
+## API Mode
+
+The FastAPI service also exposes the same artifact-backed review path:
+
+```powershell
+.\.venv\Scripts\python.exe -m vrf.cli serve --config configs/serve_patch_review_demo.json
+```
+
+Then call:
+
+```powershell
+Invoke-RestMethod -Method Get "http://127.0.0.1:8000/review-pair/examples?limit=5"
+Invoke-RestMethod -Method Post "http://127.0.0.1:8000/review-pair" `
+  -ContentType "application/json" `
+  -Body '{"sample_id":"225086::pairctx","evidence_limit":1}'
+```
+
 ## Output Contract
 
 The command returns JSON with:

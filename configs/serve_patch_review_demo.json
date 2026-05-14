@@ -1,0 +1,13 @@
+{
+  "host": "127.0.0.1",
+  "port": 8000,
+  "backend": {
+    "type": "mock",
+    "model_name": "artifact-backed-demo"
+  },
+  "patch_review_demo": {
+    "dataset": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+    "predictions": "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+    "evidence": "outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl"
+  }
+}

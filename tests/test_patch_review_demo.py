@@ -4,9 +4,12 @@ import json
 import sys
 from pathlib import Path
 
+from fastapi.testclient import TestClient
+
 from vrf import cli
 from vrf.io_utils import write_jsonl
 from vrf.patch_review_demo import build_patch_review_demo, list_demo_examples
+from vrf.serving import create_app
 
 
 def _write_demo_artifacts(tmp_path: Path) -> tuple[Path, Path, Path]:
@@ -141,3 +144,34 @@ def test_cli_patch_demo_lists_examples(monkeypatch, capsys, tmp_path: Path) -> N
 
     payload = json.loads(capsys.readouterr().out)
     assert payload[0]["pair_key"] == "demo-project|demo-commit|CVE-0000-0001"
+
+
+def test_serving_review_pair_endpoint_reads_artifact_demo(monkeypatch, tmp_path: Path) -> None:
+    dataset, predictions, evidence = _write_demo_artifacts(tmp_path)
+
+    class StubBackend:
+        model_version = "stub-model"
+
+    monkeypatch.setattr("vrf.serving.build_backend", lambda _cfg: StubBackend())
+    app = create_app(
+        {
+            "backend": {"type": "mock", "model_name": "stub"},
+            "patch_review_demo": {
+                "dataset": str(dataset),
+                "predictions": str(predictions),
+                "evidence": str(evidence),
+            },
+        }
+    )
+    client = TestClient(app)
+
+    examples = client.get("/review-pair/examples", params={"limit": 1})
+    assert examples.status_code == 200
+    assert examples.json()[0]["ids"] == ["safe-side", "risk-side"]
+
+    response = client.post("/review-pair", json={"sample_id": "risk-side", "evidence_limit": 1})
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["pair_decision"]["riskier_side_id"] == "risk-side"
+    risk_row = next(row for row in payload["rows"] if row["id"] == "risk-side")
+    assert risk_row["evidence_windows"][0]["added"] == "memcpy(dst, src, size);"
