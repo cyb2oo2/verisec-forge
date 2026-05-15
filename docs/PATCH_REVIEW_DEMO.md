@@ -39,6 +39,12 @@ Invoke-RestMethod -Method Post "http://127.0.0.1:8000/review-pair" `
   -Body '{"sample_id":"225086::pairctx","evidence_limit":1}'
 ```
 
+For a browser-friendly walkthrough, open:
+
+```text
+http://127.0.0.1:8000/review-pair/ui
+```
+
 ## Output Contract
 
 The command returns JSON with:

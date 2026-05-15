@@ -175,3 +175,8 @@ def test_serving_review_pair_endpoint_reads_artifact_demo(monkeypatch, tmp_path:
     assert payload["pair_decision"]["riskier_side_id"] == "risk-side"
     risk_row = next(row for row in payload["rows"] if row["id"] == "risk-side")
     assert risk_row["evidence_windows"][0]["added"] == "memcpy(dst, src, size);"
+
+    ui = client.get("/review-pair/ui")
+    assert ui.status_code == 200
+    assert "Patch review, without pretending the benchmark is magic." in ui.text
+    assert "/review-pair/examples" in ui.text
