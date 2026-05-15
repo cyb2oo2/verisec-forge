@@ -4,6 +4,8 @@ This demo exposes the current PrimeVul paired-diff research stack as a lightweig
 
 It is intentionally artifact-backed: it reads the paired eval dataset, pair-coupled predictions, and evidence-localization outputs already produced by the reproducible PrimeVul chain. It does not run a model checkpoint and it should not be described as an online vulnerability scanner for arbitrary new code.
 
+![Patch review demo UI preview](../reports/assets/patch_review_demo_ui.svg)
+
 ## List Demo Pairs
 
 ```powershell

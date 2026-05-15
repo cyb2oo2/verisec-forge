@@ -19,6 +19,7 @@ Start here for the main narrative and current system-level conclusions.
 - `GitHub Release Notes Draft`: `reproducibility/GITHUB_RELEASE_NOTES.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
+- `Patch Review Demo UI Preview`: `reports/assets/patch_review_demo_ui.svg`
 
 ## CodeXGLUE Mainline
 

@@ -14,6 +14,8 @@ This repository is built to answer a practical research question:
 
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
+![Patch review demo UI](reports/assets/patch_review_demo_ui.svg)
+
 ## Why This Repo Exists
 
 Most secure-code LLM demos blur together several different failure modes:
