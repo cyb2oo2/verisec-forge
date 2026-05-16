@@ -57,6 +57,21 @@ VeriSec Forge is designed to **untangle those cases**. It combines:
 
 ## Current Headline Results
 
+The short version:
+
+- Standard same-source vulnerability detection can look solved while still being shortcut-prone.
+- PrimeVul same-source detection reaches `0.9524` accuracy, but paired vulnerable/fixed evaluation exposes that result as artifact-sensitive.
+- Paired diff reasoning is the credible mainline: diff-only training reaches a three-seed balanced-accuracy mean of `0.8287`.
+- Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
+- Pair-coupled decoding is the strongest current system layer, reaching five-split mean balanced accuracy `0.8572` and mean group all-correct gain `+0.1114`.
+- Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
+- The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
+
+For the compact generated table, see [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md). For the full generated result inventory, see [PrimeVul Main Results](reports/PRIMEVUL_MAIN_RESULTS.md). For the research narrative, see [Project Story](PROJECT_STORY.md).
+
+<details>
+<summary>Detailed historical experiment notes</summary>
+
 The current main conclusion is architectural:
 
 - a discriminative detector should be the first-class vulnerability decision model
@@ -182,6 +197,8 @@ Important boundary result:
 | Base 0.5B | 0.2920 | 0.6930 | 0.1700 |
 | SFT 0.5B | 0.4200 | 0.7820 | 0.0220 |
 | SFT 0.5B (`safe->none`) | **0.4540** | **0.8150** | 0.0290 |
+
+</details>
 
 ## Main Research Takeaways So Far
 
