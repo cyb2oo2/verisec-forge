@@ -14,7 +14,7 @@ This repository is built to answer a practical research question:
 
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
-![Patch review demo UI](reports/assets/patch_review_demo_ui.svg)
+![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
 
 ## Why This Repo Exists
 
