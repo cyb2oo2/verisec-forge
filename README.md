@@ -202,6 +202,19 @@ Important boundary result:
 
 ## Main Research Takeaways So Far
 
+The high-level takeaways:
+
+- Same-source secure-code detection is artifact-sensitive; paired vulnerable/fixed evaluation is the safer research unit.
+- Diff-only paired reasoning is currently stronger than standalone snippets, pair-context text, or extra full-candidate context.
+- Negative controls and overlap diagnostics are first-class evidence, not appendix material.
+- Pair-coupled decoding is the clearest system-level improvement because it uses the paired benchmark structure directly.
+- Evidence localization is valuable for failure triage, but pseudo-spans and `codex_pilot` annotations must stay separate from reviewer-confirmed labels.
+- Safe flip gates should be precision-first and stress-tested; project-heldout validation already invalidated one too-loose consensus rule.
+- The most credible project framing is not "universal vulnerability scanner"; it is shortcut-aware paired diff reasoning plus an evidence-coupled audit loop.
+
+<details>
+<summary>Detailed research takeaways</summary>
+
 - **Detector-first modeling is the strongest current path.**
   PrimeVul shows that a narrow presence detector can learn the vulnerable-vs-safe boundary much better than a monolithic generative auditor.
 - **Second-stage scoring should be treated as a diagnostic interface unless it beats detector-only.**
@@ -298,6 +311,8 @@ Important boundary result:
   Several secure-code DPO variants degraded either output structure or semantic reliability.
 - **Verifier-style second review is interesting, but not solved.**
   We found real recall signal, especially in failure-driven verifier training, but no verifier variant has yet produced a trustworthy net gain over the main auditor.
+
+</details>
 
 ## What the Model Must Output
 
