@@ -8,13 +8,33 @@ This repository is built to answer a practical research question:
 
 > Can we build a shortcut-aware secure patch/diff reasoning benchmark and detector stack where paired decisions, support checking, structured reporting, and failure analysis are evaluated separately instead of blurred into one generative score?
 
-![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
+![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
+
+## Quick Start
+
+| Goal | Entry point |
+| --- | --- |
+| Read the research narrative | [Project Story](PROJECT_STORY.md) |
+| Try the artifact-backed patch review demo | [Patch Review Demo](docs/PATCH_REVIEW_DEMO.md) |
+| Inspect the main result table | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) |
+| Reproduce manifest-backed artifacts | [Reproducibility Guide](REPRODUCIBILITY.md) |
+| Browse all reports and diagnostics | [Results Index](reports/RESULTS_INDEX.md) |
+
+Run the local patch-review UI:
+
+```powershell
+.\.venv\Scripts\python.exe -m vrf.cli serve --config configs/serve_patch_review_demo.json
+```
+
+Then open `http://127.0.0.1:8000/review-pair/ui`.
+
+## Research Snapshot
 
 ![PrimeVul progressive controls](reports/assets/primevul_progressive_controls.svg)
 
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
-![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
+![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
 
 ## Why This Repo Exists
 
