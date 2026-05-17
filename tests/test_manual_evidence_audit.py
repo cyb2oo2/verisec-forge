@@ -33,6 +33,10 @@ from scripts.build_insufficient_context_review_brief import (
     build_context_brief as build_insufficient_context_brief,
     render_report as render_insufficient_context_brief_report,
 )
+from scripts.build_manual_adjudication_status_dashboard import (
+    build_dashboard as build_manual_adjudication_dashboard,
+    render_report as render_manual_adjudication_dashboard_report,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -615,3 +619,35 @@ def test_insufficient_context_brief_report_discourages_guessing() -> None:
     assert "not a final label artifact" in report
     assert "Wider-context requests" in report
     assert "rather than forcing a vulnerable-side decision" in report
+
+
+def test_manual_adjudication_dashboard_keeps_dry_run_non_final() -> None:
+    payload = build_manual_adjudication_dashboard(
+        {"rows": 6},
+        {"updated": 0, "skipped_blank": 6, "dry_run": True, "errors": []},
+        {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
+        {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
+    )
+
+    assert payload["is_final_adjudication"] is False
+    assert payload["total_rows"] == 20
+    assert payload["total_completed"] == 0
+    assert payload["overall_completion_rate"] == 0.0
+    assert payload["tracks"][0]["status"] == "not_started_dry_run"
+    assert payload["tracks"][0]["diagnostics"]["skipped_blank"] == 6
+
+
+def test_manual_adjudication_dashboard_report_links_both_tracks() -> None:
+    payload = build_manual_adjudication_dashboard(
+        {"rows": 6},
+        {"updated": 0, "skipped_blank": 6, "dry_run": True, "errors": []},
+        {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
+        {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
+    )
+
+    report = render_manual_adjudication_dashboard_report(payload)
+
+    assert "Manual Adjudication Status Dashboard" in report
+    assert "`high_quality_disagreement`" in report
+    assert "`insufficient_context`" in report
+    assert "not a final adjudication artifact" in report
