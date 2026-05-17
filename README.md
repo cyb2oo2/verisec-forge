@@ -162,6 +162,8 @@ Important evidence-audit caveat: the `codex_pilot` annotations and `codex_draft`
 
 Current high-quality adjudication status: the `6` strongest disagreement rows have an AI-filled adjudication pass by `codex_ai_adjudication_v1` (`5` corrected-side, `1` insufficient-context), but human-confirmed rows remain `0`. Treat this as an AI audit draft until a non-AI reviewer confirms or revises the CSV.
 
+Current insufficient-context status: the `14` wider-review rows also have an AI-filled adjudication pass by `codex_ai_adjudication_v1` (`3` confirmed-gold, `1` corrected-side, `10` still insufficient-context), but human-confirmed rows remain `0`. This preserves the project boundary: AI can replace manual labor for triage and draft adjudication, but not the claim of independent human gold.
+
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
 
 The Evidence-Coupled chain is also manifest-backed: `scripts/reproduce_primevul_evidence_coupled.py` validates hunk+window candidates, pair-coupled predictions, generated localization artifacts, failure taxonomy, and the confident side-inversion set before reporting success.

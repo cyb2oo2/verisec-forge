@@ -6,18 +6,18 @@ It is not a final adjudication artifact; it tracks what is ready, blocked, or st
 ## Summary
 
 - Total rows: `20`
-- Completed rows: `6`
+- Completed rows: `20`
 - Human-confirmed rows: `0`
-- Overall completion rate: `0.3`
+- Overall completion rate: `1.0`
 - Final adjudication: `false`
-- Research gate: AI-filled adjudications are complete for the high-quality queue, but reviewer-confirmed labels begin only after non-AI human confirmation.
+- Research gate: AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation.
 
 ## Track Status
 
 | Track | Rows | Completed | Completion | Status | Blocked By | Next Action |
 | --- | ---: | ---: | ---: | --- | --- | --- |
 | `high_quality_disagreement` | 6 | 6 | 1.0 | `ai_adjudicated_needs_human_confirmation` | human reviewer confirmation is still missing | Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed. |
-| `insufficient_context` | 14 | 0 | 0.0 | `review_packet_ready` | requires wider-context inspection before final side labels | Inspect wider context for each row; keep insufficient_context when evidence remains ambiguous. |
+| `insufficient_context` | 14 | 14 | 1.0 | `ai_adjudicated_needs_human_confirmation` | human reviewer confirmation is still missing | Request human confirmation or revision of the AI-filled insufficient-context pass. |
 
 ## high_quality_disagreement
 
@@ -48,13 +48,22 @@ Diagnostics:
 - Primary artifacts:
   - `data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl`
   - `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
+  - `data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv`
+  - `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md`
 
 Diagnostics:
 
 - `bucket_counts`: `00-02: 2, 03-05: 2, 06-10: 4, 11-25: 2, 26+: 4`
 - `evidence_side_counts`: `both: 8, unclear: 6`
 - `source_pool_counts`: `fresh_seeds_top5_v1: 6, project_holdout_top5_v1: 2, rank6_10_v1: 4, top5_v1: 2`
+- `label_status_counts`: `confirmed_gold: 3, corrected_side: 1, insufficient_context: 10`
+- `evidence_span_sufficiency_counts`: `no: 6, partial: 8`
+- `reviewer_counts`: `codex_ai_adjudication_v1: 14`
+- `ai_completed`: `14`
+- `human_confirmed_completed`: `0`
+- `apply_errors`: `[]`
+- `skipped_blank`: `0`
 
 ## Next Step
 
-The high-quality queue now has an AI-filled adjudication pass. The next gate is human confirmation or revision of those `6` rows; only then should they be described as reviewer-confirmed. In parallel, use the insufficient-context brief to decide whether the current hunk/window packet needs wider code context before final labels are assigned.
+Both review queues now have AI-filled adjudication passes. The next gate is human confirmation or revision; only then should any row be described as reviewer-confirmed.

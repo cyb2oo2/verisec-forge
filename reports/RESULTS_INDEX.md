@@ -147,6 +147,10 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Manual Evidence High-Quality Adjudication Brief JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_brief_v1.json`
 - `Manual Evidence Insufficient-Context Review Brief`: `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
 - `Manual Evidence Insufficient-Context Review Brief JSON`: `reports/secure_code_primevul_manual_evidence_insufficient_context_brief_v1.json`
+- `Manual Evidence Insufficient-Context AI Adjudication CSV`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv`
+- `Manual Evidence Insufficient-Context AI Adjudicated JSONL`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudicated_v1.jsonl`
+- `Manual Evidence Insufficient-Context AI Adjudication Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md`
+- `Manual Evidence Insufficient-Context AI Adjudication Analysis JSON`: `reports/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_analysis_v1.json`
 - `Manual Evidence Adjudication Status Dashboard`: `reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md`
 - `Manual Evidence Adjudication Status Dashboard JSON`: `reports/secure_code_primevul_manual_adjudication_status_dashboard_v1.json`
 - `Manual Evidence High-Quality Adjudication Template Summary`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.json`

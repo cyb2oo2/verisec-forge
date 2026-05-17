@@ -3,9 +3,9 @@
   "scope": "manual_adjudication_status_dashboard",
   "is_final_adjudication": false,
   "total_rows": 20,
-  "total_completed": 6,
+  "total_completed": 20,
   "human_confirmed_completed": 0,
-  "overall_completion_rate": 0.3,
+  "overall_completion_rate": 1.0,
   "tracks": [
     {
       "track": "high_quality_disagreement",
@@ -48,16 +48,18 @@
       "track": "insufficient_context",
       "purpose": "Decide whether narrow hunk/window evidence needs wider context.",
       "rows": 14,
-      "completed": 0,
-      "completion_rate": 0.0,
-      "status": "review_packet_ready",
+      "completed": 14,
+      "completion_rate": 1.0,
+      "status": "ai_adjudicated_needs_human_confirmation",
       "dry_run": false,
-      "blocked_by": "requires wider-context inspection before final side labels",
+      "blocked_by": "human reviewer confirmation is still missing",
       "primary_artifacts": [
         "data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl",
-        "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md"
+        "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md",
+        "data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv",
+        "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md"
       ],
-      "next_action": "Inspect wider context for each row; keep insufficient_context when evidence remains ambiguous.",
+      "next_action": "Request human confirmation or revision of the AI-filled insufficient-context pass.",
       "diagnostics": {
         "bucket_counts": {
           "00-02": 2,
@@ -75,9 +77,25 @@
           "project_holdout_top5_v1": 2,
           "rank6_10_v1": 4,
           "top5_v1": 2
-        }
+        },
+        "label_status_counts": {
+          "confirmed_gold": 3,
+          "corrected_side": 1,
+          "insufficient_context": 10
+        },
+        "evidence_span_sufficiency_counts": {
+          "no": 6,
+          "partial": 8
+        },
+        "reviewer_counts": {
+          "codex_ai_adjudication_v1": 14
+        },
+        "ai_completed": 14,
+        "human_confirmed_completed": 0,
+        "apply_errors": [],
+        "skipped_blank": 0
       }
     }
   ],
-  "next_research_gate": "AI-filled adjudications are complete for the high-quality queue, but reviewer-confirmed labels begin only after non-AI human confirmation."
+  "next_research_gate": "AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation."
 }

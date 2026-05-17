@@ -1,0 +1,25 @@
+{
+  "rows": 14,
+  "completed_adjudications": 14,
+  "completion_rate": 1.0,
+  "invalid_adjudications": 0,
+  "label_status_counts": {
+    "confirmed_gold": 3,
+    "corrected_side": 1,
+    "insufficient_context": 10
+  },
+  "evidence_span_sufficiency_counts": {
+    "no": 6,
+    "partial": 8
+  },
+  "reviewer_counts": {
+    "codex_ai_adjudication_v1": 14
+  },
+  "by_queue_type": {
+    "insufficient_context": {
+      "confirmed_gold": 3,
+      "corrected_side": 1,
+      "insufficient_context": 10
+    }
+  }
+}

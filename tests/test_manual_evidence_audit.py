@@ -37,6 +37,10 @@ from scripts.build_manual_adjudication_status_dashboard import (
     build_dashboard as build_manual_adjudication_dashboard,
     render_report as render_manual_adjudication_dashboard_report,
 )
+from scripts.build_ai_insufficient_context_adjudications import (
+    build_rows as build_ai_insufficient_context_rows,
+    summarize as summarize_ai_insufficient_context_rows,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -667,10 +671,36 @@ def test_manual_adjudication_dashboard_separates_ai_from_human_confirmation() ->
         },
         {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
         {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
+        {"updated": 14, "skipped_blank": 0, "dry_run": False, "errors": []},
+        {"reviewer_counts": {"codex_ai_adjudication_v1": 14}},
     )
 
-    assert payload["total_completed"] == 6
+    assert payload["total_completed"] == 20
     assert payload["human_confirmed_completed"] == 0
     assert payload["tracks"][0]["status"] == "ai_adjudicated_needs_human_confirmation"
+    assert payload["tracks"][1]["status"] == "ai_adjudicated_needs_human_confirmation"
     assert payload["tracks"][0]["diagnostics"]["ai_completed"] == 6
+    assert payload["tracks"][1]["diagnostics"]["ai_completed"] == 14
     assert payload["tracks"][0]["diagnostics"]["human_confirmed_completed"] == 0
+
+
+def test_ai_insufficient_context_adjudication_rows_are_non_final() -> None:
+    queue_row = {
+        "audit_id": "manual_evidence_audit::7::4::mruby__3cf291f72224715942beaf8553e42ba8891ab3c6__CVE-2022-1212",
+        "queue_type": "insufficient_context",
+        "priority": 3,
+        "review_action": "inspect_wider_context_before_direction_label",
+        "gold_vulnerable_side": "B",
+        "pilot_vulnerable_side": "unclear",
+        "evidence_quality": 0,
+        "selected_window_ids": ["A1", "B1"],
+    }
+
+    rows = build_ai_insufficient_context_rows([queue_row])
+    summary = summarize_ai_insufficient_context_rows(rows)
+
+    assert rows[0]["reviewer"] == "codex_ai_adjudication_v1"
+    assert rows[0]["final_vulnerable_side"] == "unclear"
+    assert rows[0]["label_status"] == "insufficient_context"
+    assert summary["is_final_adjudication"] is False
+    assert summary["label_status_counts"] == {"insufficient_context": 1}
