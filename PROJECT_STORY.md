@@ -127,6 +127,7 @@ Recommended contribution framing:
 - Benchmark diagnosis: shortcut-aware secure-code evaluation.
 - System result: paired diff reasoning plus pair-coupled decoding.
 - Research loop: evidence-coupled failure analysis and precision-first repair.
+- System prototype: artifact-backed patch review CLI/API/UI for reviewer-facing walkthroughs.
 
 ## What Not To Overclaim
 
@@ -134,6 +135,7 @@ Recommended contribution framing:
 - Do not present pseudo-label evidence localization as human-validated evidence-span supervision.
 - Do not present `codex_pilot` annotations or `codex_draft` adjudications as independent human labels.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
+- Do not present the patch review demo as online scanning for arbitrary new code; it is artifact-backed over reproduced PrimeVul paired examples.
 - Do not claim complete archival reproducibility for every historical experiment; the public bundle currently covers the manifest-backed PrimeVul router and evidence-coupled chains.
 
 ## Current Limitations

@@ -31,12 +31,16 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 7. Public bundle-assisted reproducibility.
    The manifest-backed PrimeVul router and evidence-coupled chains are reproducible from a public GitHub Release bundle with verified SHA256 and byte size.
 
+8. Artifact-backed patch review demo.
+   The current paired-diff stack is exposed through a lightweight CLI, FastAPI endpoint, and browser UI that show pair-coupled decisions, probability gaps, support labels, evidence windows, and caveats.
+
 ## Current Evidence
 
-- Tests: `164 passed`.
+- Tests: `171 passed`.
 - Public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - Public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
 - Main project story: `PROJECT_STORY.md`.
+- Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Manual evidence audit loop: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_LOOP.md`.
 - Reproducibility guide: `REPRODUCIBILITY.md`.
@@ -53,7 +57,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 1. Run independent adjudication on the `6` high-quality disagreement rows and wider-context review on the `14` insufficient-context rows.
 2. Expand side-inversion review queues to top-20/top-50 under the existing protocol checker.
 3. Add project/time/CVE-disjoint validation or a second paired patch dataset.
-4. Convert the evidence-coupled audit loop into a minimal patch-review demo/API.
+4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once project/time/CVE-disjoint artifacts are available.
 
 ## Recommended Framing
 
