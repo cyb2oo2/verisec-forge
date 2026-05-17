@@ -160,6 +160,8 @@ For the manual evidence-span audit loop, see [Manual Evidence Audit Loop](report
 
 Important evidence-audit caveat: the `codex_pilot` annotations and `codex_draft` adjudication suggestions are triage artifacts, not independent human gold. The reviewer-confirmed artifact begins with the adjudication CSV workflow and should be reported separately from the pilot.
 
+Current high-quality adjudication status: the `6` strongest disagreement rows have an AI-filled adjudication pass by `codex_ai_adjudication_v1` (`5` corrected-side, `1` insufficient-context), but human-confirmed rows remain `0`. Treat this as an AI audit draft until a non-AI reviewer confirms or revises the CSV.
+
 For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated router now has a manifest-backed reproduction script that validates required local artifacts by SHA256 before regenerating the report.
 
 The Evidence-Coupled chain is also manifest-backed: `scripts/reproduce_primevul_evidence_coupled.py` validates hunk+window candidates, pair-coupled predictions, generated localization artifacts, failure taxonomy, and the confident side-inversion set before reporting success.

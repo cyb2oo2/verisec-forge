@@ -1,0 +1,24 @@
+{
+  "rows": 6,
+  "completed_adjudications": 6,
+  "completion_rate": 1.0,
+  "invalid_adjudications": 0,
+  "label_status_counts": {
+    "corrected_side": 5,
+    "insufficient_context": 1
+  },
+  "evidence_span_sufficiency_counts": {
+    "no": 1,
+    "partial": 2,
+    "yes": 3
+  },
+  "reviewer_counts": {
+    "codex_ai_adjudication_v1": 6
+  },
+  "by_queue_type": {
+    "high_quality_disagreement": {
+      "corrected_side": 5,
+      "insufficient_context": 1
+    }
+  }
+}

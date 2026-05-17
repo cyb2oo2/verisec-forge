@@ -625,6 +625,7 @@ def test_manual_adjudication_dashboard_keeps_dry_run_non_final() -> None:
     payload = build_manual_adjudication_dashboard(
         {"rows": 6},
         {"updated": 0, "skipped_blank": 6, "dry_run": True, "errors": []},
+        {},
         {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
         {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
     )
@@ -632,6 +633,7 @@ def test_manual_adjudication_dashboard_keeps_dry_run_non_final() -> None:
     assert payload["is_final_adjudication"] is False
     assert payload["total_rows"] == 20
     assert payload["total_completed"] == 0
+    assert payload["human_confirmed_completed"] == 0
     assert payload["overall_completion_rate"] == 0.0
     assert payload["tracks"][0]["status"] == "not_started_dry_run"
     assert payload["tracks"][0]["diagnostics"]["skipped_blank"] == 6
@@ -641,6 +643,7 @@ def test_manual_adjudication_dashboard_report_links_both_tracks() -> None:
     payload = build_manual_adjudication_dashboard(
         {"rows": 6},
         {"updated": 0, "skipped_blank": 6, "dry_run": True, "errors": []},
+        {},
         {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
         {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
     )
@@ -651,3 +654,23 @@ def test_manual_adjudication_dashboard_report_links_both_tracks() -> None:
     assert "`high_quality_disagreement`" in report
     assert "`insufficient_context`" in report
     assert "not a final adjudication artifact" in report
+
+
+def test_manual_adjudication_dashboard_separates_ai_from_human_confirmation() -> None:
+    payload = build_manual_adjudication_dashboard(
+        {"rows": 6},
+        {"updated": 6, "skipped_blank": 0, "dry_run": False, "errors": []},
+        {
+            "label_status_counts": {"corrected_side": 5, "insufficient_context": 1},
+            "evidence_span_sufficiency_counts": {"yes": 3, "partial": 2, "no": 1},
+            "reviewer_counts": {"codex_ai_adjudication_v1": 6},
+        },
+        {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
+        {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
+    )
+
+    assert payload["total_completed"] == 6
+    assert payload["human_confirmed_completed"] == 0
+    assert payload["tracks"][0]["status"] == "ai_adjudicated_needs_human_confirmation"
+    assert payload["tracks"][0]["diagnostics"]["ai_completed"] == 6
+    assert payload["tracks"][0]["diagnostics"]["human_confirmed_completed"] == 0

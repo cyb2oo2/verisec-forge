@@ -3,30 +3,45 @@
   "scope": "manual_adjudication_status_dashboard",
   "is_final_adjudication": false,
   "total_rows": 20,
-  "total_completed": 0,
-  "overall_completion_rate": 0.0,
+  "total_completed": 6,
+  "human_confirmed_completed": 0,
+  "overall_completion_rate": 0.3,
   "tracks": [
     {
       "track": "high_quality_disagreement",
       "purpose": "Resolve strongest pilot/gold evidence conflicts.",
       "rows": 6,
-      "completed": 0,
-      "completion_rate": 0.0,
-      "status": "not_started_dry_run",
-      "dry_run": true,
-      "blocked_by": "independent reviewer fields are blank",
+      "completed": 6,
+      "completion_rate": 1.0,
+      "status": "ai_adjudicated_needs_human_confirmation",
+      "dry_run": false,
+      "blocked_by": "human reviewer confirmation is still missing",
       "primary_artifacts": [
         "data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md"
       ],
-      "next_action": "Fill the focused CSV, rerun apply with --dry-run, then apply without --dry-run.",
+      "next_action": "Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed.",
       "diagnostics": {
         "gold_pilot_conflicts": 6,
         "model_pilot_conflicts": 4,
+        "label_status_counts": {
+          "corrected_side": 5,
+          "insufficient_context": 1
+        },
+        "evidence_span_sufficiency_counts": {
+          "no": 1,
+          "partial": 2,
+          "yes": 3
+        },
+        "reviewer_counts": {
+          "codex_ai_adjudication_v1": 6
+        },
+        "ai_completed": 6,
+        "human_confirmed_completed": 0,
         "apply_errors": [],
-        "skipped_blank": 6
+        "skipped_blank": 0
       }
     },
     {
@@ -64,5 +79,5 @@
       }
     }
   ],
-  "next_research_gate": "Reviewer-confirmed labels begin only after non-dry-run apply writes adjudicated JSONL."
+  "next_research_gate": "AI-filled adjudications are complete for the high-quality queue, but reviewer-confirmed labels begin only after non-AI human confirmation."
 }

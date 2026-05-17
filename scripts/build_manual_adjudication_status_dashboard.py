@@ -15,6 +15,7 @@ from vrf.io_utils import ensure_parent, read_json, write_json
 
 HIGH_QUALITY_TEMPLATE_SUMMARY = "reports/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.json"
 HIGH_QUALITY_APPLY_SUMMARY = "reports/secure_code_primevul_manual_evidence_high_quality_adjudication_apply_summary_v1.json"
+HIGH_QUALITY_ANALYSIS = "reports/secure_code_primevul_manual_evidence_high_quality_adjudication_analysis_v1.json"
 HIGH_QUALITY_BRIEF = "reports/secure_code_primevul_manual_evidence_high_quality_adjudication_brief_v1.json"
 INSUFFICIENT_CONTEXT_BRIEF = "reports/secure_code_primevul_manual_evidence_insufficient_context_brief_v1.json"
 JSON_OUTPUT = "reports/secure_code_primevul_manual_adjudication_status_dashboard_v1.json"
@@ -43,12 +44,20 @@ def _track_status(rows: int, completed: int, *, dry_run: bool = False) -> str:
 def build_dashboard(
     high_quality_template: dict[str, Any],
     high_quality_apply: dict[str, Any],
+    high_quality_analysis: dict[str, Any],
     high_quality_brief: dict[str, Any],
     insufficient_context_brief: dict[str, Any],
 ) -> dict[str, Any]:
     high_quality_rows = int(high_quality_template.get("rows", high_quality_brief.get("rows", 0)))
     high_quality_completed = int(high_quality_apply.get("updated", 0))
     high_quality_dry_run = bool(high_quality_apply.get("dry_run", False))
+    reviewer_counts = high_quality_analysis.get("reviewer_counts", {})
+    ai_completed = sum(
+        int(count)
+        for reviewer, count in reviewer_counts.items()
+        if str(reviewer).startswith(("codex_", "ai_", "gpt_"))
+    )
+    human_completed = max(0, high_quality_completed - ai_completed)
     insufficient_rows = int(insufficient_context_brief.get("rows", 0))
 
     tracks = [
@@ -60,10 +69,14 @@ def build_dashboard(
             "completion_rate": round(high_quality_completed / high_quality_rows, 4)
             if high_quality_rows
             else 0.0,
-            "status": _track_status(high_quality_rows, high_quality_completed, dry_run=high_quality_dry_run),
+            "status": "ai_adjudicated_needs_human_confirmation"
+            if ai_completed == high_quality_completed and high_quality_completed
+            else _track_status(high_quality_rows, high_quality_completed, dry_run=high_quality_dry_run),
             "dry_run": high_quality_dry_run,
             "blocked_by": "independent reviewer fields are blank"
             if high_quality_completed == 0
+            else "human reviewer confirmation is still missing"
+            if ai_completed == high_quality_completed
             else "",
             "primary_artifacts": [
                 "data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv",
@@ -71,10 +84,20 @@ def build_dashboard(
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md",
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md",
             ],
-            "next_action": "Fill the focused CSV, rerun apply with --dry-run, then apply without --dry-run.",
+            "next_action": "Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed."
+            if ai_completed == high_quality_completed and high_quality_completed
+            else "Fill the focused CSV, rerun apply with --dry-run, then apply without --dry-run.",
             "diagnostics": {
                 "gold_pilot_conflicts": high_quality_brief.get("gold_pilot_conflicts", 0),
                 "model_pilot_conflicts": high_quality_brief.get("model_pilot_conflicts", 0),
+                "label_status_counts": high_quality_analysis.get("label_status_counts", {}),
+                "evidence_span_sufficiency_counts": high_quality_analysis.get(
+                    "evidence_span_sufficiency_counts",
+                    {},
+                ),
+                "reviewer_counts": reviewer_counts,
+                "ai_completed": ai_completed,
+                "human_confirmed_completed": human_completed,
                 "apply_errors": high_quality_apply.get("errors", []),
                 "skipped_blank": high_quality_apply.get("skipped_blank", 0),
             },
@@ -108,9 +131,10 @@ def build_dashboard(
         "is_final_adjudication": False,
         "total_rows": total_rows,
         "total_completed": total_completed,
+        "human_confirmed_completed": human_completed,
         "overall_completion_rate": round(total_completed / total_rows, 4) if total_rows else 0.0,
         "tracks": tracks,
-        "next_research_gate": "Reviewer-confirmed labels begin only after non-dry-run apply writes adjudicated JSONL.",
+        "next_research_gate": "AI-filled adjudications are complete for the high-quality queue, but reviewer-confirmed labels begin only after non-AI human confirmation.",
     }
 
 
@@ -135,6 +159,7 @@ def render_report(payload: dict[str, Any]) -> str:
         "",
         f"- Total rows: `{payload['total_rows']}`",
         f"- Completed rows: `{payload['total_completed']}`",
+        f"- Human-confirmed rows: `{payload['human_confirmed_completed']}`",
         f"- Overall completion rate: `{payload['overall_completion_rate']}`",
         f"- Final adjudication: `{str(payload['is_final_adjudication']).lower()}`",
         f"- Research gate: {payload['next_research_gate']}",
@@ -177,7 +202,7 @@ def render_report(payload: dict[str, Any]) -> str:
             "",
             "## Next Step",
             "",
-            "Complete the high-quality CSV first because it is the smallest reviewer-confirmed gate. Then use the insufficient-context brief to decide whether the current hunk/window packet needs wider code context before final labels are assigned.",
+            "The high-quality queue now has an AI-filled adjudication pass. The next gate is human confirmation or revision of those `6` rows; only then should they be described as reviewer-confirmed. In parallel, use the insufficient-context brief to decide whether the current hunk/window packet needs wider code context before final labels are assigned.",
             "",
         ]
     )
@@ -188,6 +213,7 @@ def main() -> int:
     payload = build_dashboard(
         _safe_read_json(HIGH_QUALITY_TEMPLATE_SUMMARY),
         _safe_read_json(HIGH_QUALITY_APPLY_SUMMARY),
+        _safe_read_json(HIGH_QUALITY_ANALYSIS),
         _safe_read_json(HIGH_QUALITY_BRIEF),
         _safe_read_json(INSUFFICIENT_CONTEXT_BRIEF),
     )
