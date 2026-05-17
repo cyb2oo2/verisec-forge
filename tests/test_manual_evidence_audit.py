@@ -29,6 +29,10 @@ from scripts.build_high_quality_adjudication_brief import (
     build_case_briefs as build_high_quality_case_briefs,
     render_report as render_high_quality_case_brief_report,
 )
+from scripts.build_insufficient_context_review_brief import (
+    build_context_brief as build_insufficient_context_brief,
+    render_report as render_insufficient_context_brief_report,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -572,3 +576,42 @@ def test_high_quality_case_brief_report_is_review_guide_not_gold() -> None:
     assert "not a final label artifact" in report
     assert "Reviewer questions" in report
     assert "Window `A1`" in report
+
+
+def test_insufficient_context_brief_tracks_mixed_evidence_requests() -> None:
+    audit_row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    queue_row = _adjudication_queue_row()
+    queue_row["audit_id"] = audit_row["audit_id"]
+    queue_row["queue_type"] = "insufficient_context"
+    queue_row["evidence_side"] = "both"
+    queue_row["selected_window_ids"] = ["A1", "B1"]
+    queue_row["changed_line_bucket"] = "26+"
+
+    payload = build_insufficient_context_brief([audit_row], [queue_row])
+
+    assert payload["status"] == "ok"
+    assert payload["rows"] == 1
+    assert payload["is_final_adjudication"] is False
+    assert payload["bucket_counts"] == {"26+": 1}
+    assert payload["evidence_side_counts"] == {"both": 1}
+    assert any(
+        "Review surrounding control flow" in request
+        for request in payload["cases"][0]["context_requests"]
+    )
+
+
+def test_insufficient_context_brief_report_discourages_guessing() -> None:
+    audit_row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    queue_row = _adjudication_queue_row()
+    queue_row["audit_id"] = audit_row["audit_id"]
+    queue_row["queue_type"] = "insufficient_context"
+    queue_row["evidence_side"] = "unclear"
+    queue_row["selected_window_ids"] = ["A1"]
+    payload = build_insufficient_context_brief([audit_row], [queue_row])
+
+    report = render_insufficient_context_brief_report(payload)
+
+    assert "Insufficient-Context Review Brief" in report
+    assert "not a final label artifact" in report
+    assert "Wider-context requests" in report
+    assert "rather than forcing a vulnerable-side decision" in report

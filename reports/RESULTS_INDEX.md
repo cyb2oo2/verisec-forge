@@ -145,6 +145,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Manual Evidence High-Quality Adjudication Workflow`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md`
 - `Manual Evidence High-Quality Adjudication Brief`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md`
 - `Manual Evidence High-Quality Adjudication Brief JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_brief_v1.json`
+- `Manual Evidence Insufficient-Context Review Brief`: `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
+- `Manual Evidence Insufficient-Context Review Brief JSON`: `reports/secure_code_primevul_manual_evidence_insufficient_context_brief_v1.json`
 - `Manual Evidence High-Quality Adjudication Template Summary`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.json`
 - `Manual Evidence High-Quality Adjudication Template CSV`: `data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv`
 - `Manual Evidence High-Quality Adjudication Packet`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`

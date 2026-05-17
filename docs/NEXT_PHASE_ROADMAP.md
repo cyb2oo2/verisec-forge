@@ -56,7 +56,7 @@ These artifacts are important for credibility and communication, but they should
 ## Immediate Next Steps
 
 1. Complete independent evidence adjudication.
-   The focused high-quality CSV/workflow and case brief now exist for the `6` strongest disagreement rows. Fill and apply that CSV first, then run wider-context review for the `14` insufficient-context rows and decide whether larger windows are required.
+   The focused high-quality CSV/workflow, high-quality case brief, and insufficient-context wider-review brief now exist. Fill and apply the `6`-row CSV first, then use the `14`-row insufficient-context brief to decide whether larger windows are required.
 
 2. Build one external validation split.
    Prefer the smallest defensible path first: CVE-disjoint or time-disjoint paired diff evaluation if project-disjoint balanced sampling remains infeasible from the current pool.

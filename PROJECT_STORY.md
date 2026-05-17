@@ -94,6 +94,7 @@ Primary artifacts:
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md`
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md`
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
+- `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
 
 ### 4. Precision-First Safe Flip Gates: A Cautious Repair Protocol
 
@@ -150,7 +151,7 @@ Recommended contribution framing:
 ## Next Research Steps
 
 1. Fill and apply the focused adjudication CSV for the `6` high-quality disagreement rows.
-2. Run wider-context review on the `14` insufficient-context rows and decide whether the hunk/window packet needs larger context.
+2. Use the insufficient-context brief to run wider-context review on the `14` unclear rows and decide whether the hunk/window packet needs larger context.
 3. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 4. Expand external validation with project/time/CVE-disjoint splits or a second paired patch dataset.
 
