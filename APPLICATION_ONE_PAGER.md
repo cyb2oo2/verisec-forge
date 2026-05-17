@@ -40,6 +40,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - Public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
 - Main project story: `PROJECT_STORY.md`.
+- Next phase roadmap: `docs/NEXT_PHASE_ROADMAP.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Manual evidence audit loop: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_LOOP.md`.

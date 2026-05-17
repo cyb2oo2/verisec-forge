@@ -151,3 +151,5 @@ Recommended contribution framing:
 2. Run wider-context review on the `14` insufficient-context rows and decide whether the hunk/window packet needs larger context.
 3. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
 4. Expand external validation with project/time/CVE-disjoint splits or a second paired patch dataset.
+
+For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.
