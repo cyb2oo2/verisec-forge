@@ -79,6 +79,26 @@ def commands() -> list[list[str]]:
     return [
         [
             py,
+            "scripts/analyze_primevul_pair_evidence_localization.py",
+            "--dataset",
+            "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+            "--predictions",
+            "outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
+            "--hunk-limit",
+            "2",
+            "--example-limit",
+            "6",
+            "--sweep-hunk-limits",
+            "1,2,3,5",
+            "--json-output",
+            "reports/secure_code_primevul_pair_evidence_localization_v1.json",
+            "--md-output",
+            "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
+            "--rows-output",
+            "outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl",
+        ],
+        [
+            py,
             "scripts/train_primevul_hunk_linear_scorer.py",
             "--train",
             "data/processed/primevul_candidate_recall_train_v1/hunk_plus_window_candidates.jsonl",
@@ -649,6 +669,7 @@ def first_coverage(report: dict[str, Any], section: str, scorer: str) -> float:
 
 
 def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
+    pair_evidence = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_evidence_localization_v1.json")
     hunk = read_json(REPO_ROOT / "reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json")
     predicted = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json")
     taxonomy = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json")
@@ -713,6 +734,9 @@ def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
         / "reports/secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json"
     )
     actual = {
+        "pair_evidence_rows": pair_evidence["summary"]["rows"],
+        "pair_evidence_support_rate": pair_evidence["summary"]["support_rate"],
+        "pair_evidence_pseudo_localization_accuracy": pair_evidence["summary"]["pseudo_localization_accuracy"],
         "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
         "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
         "predicted_side_accuracy": predicted["side_source"]["pair_coupled_pred"]["decision_side_accuracy"],

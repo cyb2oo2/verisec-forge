@@ -38,6 +38,25 @@
   ],
   "generated_artifacts": [
     {
+      "role": "pair_evidence_localization_json",
+      "path": "reports/secure_code_primevul_pair_evidence_localization_v1.json",
+      "sha256": "8150eb893decefa60354c7c2de47450a0d93b28a94ff148a5fff02a0ff2b4dc3",
+      "bytes": 67807
+    },
+    {
+      "role": "pair_evidence_localization_markdown",
+      "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
+      "sha256": "9500bc0fa8e8e4b8b67cbf24298a3bf4216d58c50bad8c03a238748d19a55c25",
+      "bytes": 20312
+    },
+    {
+      "role": "pair_evidence_localization_rows",
+      "path": "outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl",
+      "sha256": "e3feae87689b85b0cd05e1550322b5ce1aca13b26172523e3afeffc112c68ca7",
+      "bytes": 1805589,
+      "rows": 1261
+    },
+    {
       "role": "hunk_window_scorer_json",
       "path": "reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json",
       "sha256": "c4da2bd5bf38e6828cd74feffe88adb7d88a131f78dd96338a2653d875bf2b88",
@@ -379,6 +398,9 @@
     }
   ],
   "expected": {
+    "pair_evidence_rows": 1261,
+    "pair_evidence_support_rate": 0.6376,
+    "pair_evidence_pseudo_localization_accuracy": 0.6003,
     "hunk_linear_top1": 0.6178,
     "hunk_side_aware_top1": 0.7073,
     "predicted_side_accuracy": 0.8488,

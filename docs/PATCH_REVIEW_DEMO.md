@@ -6,6 +6,12 @@ It is intentionally artifact-backed: it reads the paired eval dataset, pair-coup
 
 ![Patch review demo UI screenshot](../reports/assets/patch_review_demo_ui.png)
 
+If you restored a fresh artifact bundle, run the evidence-coupled reproduction script first so the demo evidence rows are materialized:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py
+```
+
 ## List Demo Pairs
 
 ```powershell
