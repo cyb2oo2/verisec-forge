@@ -21,6 +21,10 @@ from scripts.build_manual_evidence_draft_adjudications import (
     build_draft_adjudications,
     summarize_drafts,
 )
+from scripts.export_high_quality_manual_evidence_adjudication_template import (
+    build_payload as build_high_quality_adjudication_payload,
+    render_report as render_high_quality_adjudication_report,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -513,3 +517,23 @@ def test_build_draft_adjudications_marks_outputs_non_final() -> None:
     assert draft_rows[0]["draft_final_vulnerable_side"] == "B"
     assert "final_vulnerable_side" not in draft_rows[0]
     assert summary["is_final_adjudication"] is False
+
+
+def test_high_quality_adjudication_payload_is_non_final_review_contract() -> None:
+    payload = build_high_quality_adjudication_payload([_adjudication_queue_row()])
+
+    assert payload["scope"] == "high_quality_disagreement"
+    assert payload["rows"] == 1
+    assert payload["is_final_adjudication"] is False
+    assert payload["requires_independent_review"] is True
+    assert payload["queue_type_counts"] == {"high_quality_disagreement": 1}
+
+
+def test_high_quality_adjudication_report_points_to_focused_commands() -> None:
+    payload = build_high_quality_adjudication_payload([_adjudication_queue_row()])
+    report = render_high_quality_adjudication_report(payload)
+
+    assert "High-Quality Evidence Adjudication Workflow" in report
+    assert "--dry-run" in report
+    assert "secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv" in report
+    assert "not independent gold" in report
