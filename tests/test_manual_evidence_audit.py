@@ -25,6 +25,10 @@ from scripts.export_high_quality_manual_evidence_adjudication_template import (
     build_payload as build_high_quality_adjudication_payload,
     render_report as render_high_quality_adjudication_report,
 )
+from scripts.build_high_quality_adjudication_brief import (
+    build_case_briefs as build_high_quality_case_briefs,
+    render_report as render_high_quality_case_brief_report,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -537,3 +541,34 @@ def test_high_quality_adjudication_report_points_to_focused_commands() -> None:
     assert "--dry-run" in report
     assert "secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv" in report
     assert "not independent gold" in report
+
+
+def test_high_quality_case_brief_summarizes_selected_windows() -> None:
+    audit_row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    queue_row = _adjudication_queue_row()
+    queue_row["audit_id"] = audit_row["audit_id"]
+    queue_row["selected_window_ids"] = ["A1"]
+
+    payload = build_high_quality_case_briefs([audit_row], [queue_row])
+
+    assert payload["status"] == "ok"
+    assert payload["rows"] == 1
+    assert payload["is_final_adjudication"] is False
+    assert payload["gold_pilot_conflicts"] == 1
+    assert payload["cases"][0]["selected_windows"][0]["window_id"] == "A1"
+    assert payload["cases"][0]["decision_questions"]
+
+
+def test_high_quality_case_brief_report_is_review_guide_not_gold() -> None:
+    audit_row = normalize_review_queue_row(_queue_row("p1", rank=1), source_pool="top5", index=0)
+    queue_row = _adjudication_queue_row()
+    queue_row["audit_id"] = audit_row["audit_id"]
+    queue_row["selected_window_ids"] = ["A1"]
+    payload = build_high_quality_case_briefs([audit_row], [queue_row])
+
+    report = render_high_quality_case_brief_report(payload)
+
+    assert "High-Quality Adjudication Brief" in report
+    assert "not a final label artifact" in report
+    assert "Reviewer questions" in report
+    assert "Window `A1`" in report
