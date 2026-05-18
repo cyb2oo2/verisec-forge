@@ -45,6 +45,7 @@ from scripts.build_ai_adjudication_summary import (
     build_summary as build_ai_adjudication_summary,
     render_report as render_ai_adjudication_summary_report,
 )
+from scripts.evaluate_primevul_cve_disjoint import build_report as build_cve_disjoint_report
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -761,3 +762,26 @@ def test_ai_adjudication_summary_report_lists_corrected_cases() -> None:
     assert "AI audit draft" in report
     assert "Corrected-Side Cases" in report
     assert "selected evidence supports side B" in report
+
+
+def test_cve_disjoint_report_removes_train_cves_and_keeps_pair_delta() -> None:
+    train_rows = [{"id": "train1", "cve": "CVE-A"}]
+    eval_rows = [
+        {"id": "eval1", "cve": "CVE-A", "pair_key": "p1", "changed_line_bucket": "00-02"},
+        {"id": "eval2", "cve": "CVE-B", "pair_key": "p2", "changed_line_bucket": "00-02"},
+        {"id": "eval3", "cve": "CVE-B", "pair_key": "p2", "changed_line_bucket": "00-02"},
+    ]
+    predictions = [
+        {"id": "eval1", "gold": 1, "pred": 1, "vuln_probability": 0.9},
+        {"id": "eval2", "gold": 1, "pred": 0, "vuln_probability": 0.8},
+        {"id": "eval3", "gold": 0, "pred": 1, "vuln_probability": 0.2},
+    ]
+
+    report, rows = build_cve_disjoint_report(train_rows, eval_rows, predictions, margin=0.02)
+
+    assert report["split"]["eval_rows_before"] == 3
+    assert report["split"]["eval_rows_after"] == 2
+    assert report["split"]["cve_overlap_after_filter"] == 0
+    assert report["pair_coupled"]["coupling_counts"]["coupled_groups"] == 1
+    assert rows[0]["pred"] == 1
+    assert rows[1]["pred"] == 0

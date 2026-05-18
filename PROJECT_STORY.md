@@ -47,6 +47,7 @@ Key evidence:
 - Pair-coupled minus bucket-router mean balanced-accuracy delta: `+0.0348`.
 - Pair-coupled mean group all-correct gain: `+0.1114`.
 - Per-seed paired tests are consistently favorable in the multi-split report.
+- A first CVE-disjoint stress check removes all eval rows whose CVE appears in paired-diff training metadata; pair-coupled balanced accuracy remains `0.8491` versus diff-only `0.8168`.
 
 Research claim:
 
@@ -57,6 +58,7 @@ Primary artifacts:
 - `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
+- `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
 ### 3. Evidence-Coupled Audit Loop: From Pseudo-Spans To Review Queues
@@ -76,10 +78,11 @@ Key evidence:
 - A completed `codex_pilot` audit over all `42` rows gives pilot/gold agreement `22` match / `20` mismatch, with `14` insufficient-context cases.
 - The audit produces `6` high-quality pilot/gold disagreements as an adjudication queue and `14` insufficient-context rows as a wider-context review queue.
 - A reviewer-facing adjudication workflow now exists: CSV template, apply/analyze scripts, focused high-quality packet, and non-final `codex_draft` suggestions.
+- AI-filled adjudication now covers the `20` routed rows: `3` confirmed-gold, `6` corrected-side, and `11` insufficient-context; human-confirmed rows remain `0`.
 
 Research claim:
 
-Evidence localization is not merely a ranking problem. It is coupled to side-decision correctness, and high-confidence side inversions are a useful source of hard-negative calibration data. Pilot evidence review should be treated as triage until an independent adjudication pass confirms the final side and evidence span.
+Evidence localization is not merely a ranking problem. It is coupled to side-decision correctness, and high-confidence side inversions are a useful source of hard-negative calibration data. Pilot evidence review and AI-filled adjudications should be treated as triage until a non-AI adjudication pass confirms the final side and evidence span.
 
 Primary artifacts:
 
@@ -96,6 +99,7 @@ Primary artifacts:
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md`
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
+- `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`
 
 ### 4. Precision-First Safe Flip Gates: A Cautious Repair Protocol
 
@@ -137,23 +141,23 @@ Recommended contribution framing:
 
 - Do not present the same-source `0.9524` result as a robust vulnerability detection breakthrough.
 - Do not present pseudo-label evidence localization as human-validated evidence-span supervision.
-- Do not present `codex_pilot` annotations or `codex_draft` adjudications as independent human labels.
+- Do not present `codex_pilot`, `codex_draft`, or `codex_ai_adjudication_v1` annotations as independent human labels.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
 - Do not present the patch review demo as online scanning for arbitrary new code; it is artifact-backed over reproduced PrimeVul paired examples.
 - Do not claim complete archival reproducibility for every historical experiment; the public bundle currently covers the manifest-backed PrimeVul router and evidence-coupled chains.
 
 ## Current Limitations
 
-- Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit and adjudication workflow are now complete.
+- Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
-- Project/time/CVE-disjoint external validation remains the most important next generalization check.
+- CVE-disjoint stress evaluation is now covered, but project/time-disjoint validation or a second paired patch dataset remains the most important next generalization check.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
-1. Fill and apply the focused adjudication CSV for the `6` high-quality disagreement rows.
-2. Use the insufficient-context brief to run wider-context review on the `14` unclear rows and decide whether the hunk/window packet needs larger context.
-3. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-4. Expand external validation with project/time/CVE-disjoint splits or a second paired patch dataset.
+1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
+2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
+3. Expand external validation beyond the current CVE-disjoint stress check with project/time-disjoint splits or a second paired patch dataset.
+4. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.

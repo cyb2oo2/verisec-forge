@@ -6,59 +6,45 @@ VeriSec Forge is a shortcut-aware secure patch/diff reasoning system that diagno
 
 ## Research Motivation
 
-Standard vulnerability-detection benchmarks can reward dataset shortcuts such as project identity, code length, or split artifacts. VeriSec Forge asks a stricter question: can a model reason over paired vulnerable/fixed code changes, make consistent side decisions, and expose when evidence localization or correction gates fail?
+Standard vulnerability-detection benchmarks can reward dataset shortcuts such as project identity, code length, CVE leakage, or split artifacts. VeriSec Forge asks a stricter question: can a model reason over paired vulnerable/fixed code changes, make consistent side decisions, and expose when evidence localization or correction gates fail?
 
-## Main Contributions
+## Three Contributions
 
-1. Shortcut diagnosis for secure-code evaluation.
-   A same-source PrimeVul detector reaches `0.9524` accuracy, but paired evaluation shows the result is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough.
+1. Shortcut-aware benchmark diagnosis.
+   A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, and the first CVE-disjoint stress check removes eval rows whose CVE appears in paired-diff training metadata.
 
-2. Paired diff reasoning as a stronger task formulation.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata diff evaluation remains strong at `0.8244`. Negative controls stay near chance.
+2. Paired diff reasoning plus pair-coupled decoding.
+   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572` and group all-correct by about `+0.1114`; on the CVE-disjoint stress subset it remains strong at `0.8491` versus diff-only `0.8168`.
 
-3. Pair-coupled decoding for benchmark-consistent decisions.
-   Five pair-key split seeds show pair-coupled decoding improves mean balanced accuracy to `0.8572`, with mean group all-correct gain of about `+0.1114`.
-
-4. Evidence-coupled failure analysis.
-   Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`.
-
-5. Precision-first correction protocol.
-   Safe flip gates are treated as audited, stress-tested repair candidates rather than headline scores. Project-holdout checks reveal where naive consensus fails, while evidence-conditioned gating avoids introduced side errors in the current small pool.
-
-6. Manual evidence audit loop.
-   The first `42` high-signal evidence cases have a completed `codex_pilot` audit, with `6` high-quality disagreements and `14` insufficient-context cases routed into reviewer-facing adjudication queues. These are triage artifacts, not independent human gold.
-
-7. Public bundle-assisted reproducibility.
-   The manifest-backed PrimeVul router and evidence-coupled chains are reproducible from a public GitHub Release bundle with verified SHA256 and byte size.
-
-8. Artifact-backed patch review demo.
-   The current paired-diff stack is exposed through a lightweight CLI, FastAPI endpoint, and browser UI that show pair-coupled decisions, probability gaps, support labels, evidence windows, and caveats.
+3. Evidence-coupled audit loop.
+   Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
 
 ## Current Evidence
 
-- Tests: `171 passed`.
+- Tests: see the latest CI/local pytest run in the repository history.
 - Public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - Public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
 - Main project story: `PROJECT_STORY.md`.
-- Next phase roadmap: `docs/NEXT_PHASE_ROADMAP.md`.
-- Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
-- Manual evidence audit loop: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_LOOP.md`.
+- Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
+- CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
+- AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
+- Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Reproducibility guide: `REPRODUCIBILITY.md`.
 
 ## Honest Limitations
 
-- Evidence localization still uses pseudo labels plus `codex_pilot` triage; final evidence labels require independent adjudication.
+- Evidence localization still uses pseudo labels, pilot triage, and AI-filled adjudication; final evidence labels require non-AI independent adjudication.
 - Safe flip gate pools remain small and should be expanded beyond top-5/top-10 candidates.
-- Project/time/CVE-disjoint generalization remains the most important next validation step.
+- CVE-disjoint stress evaluation is covered, but project/time-disjoint validation or a second paired patch dataset remains the most important next generalization check.
 - The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every exploratory run, raw upstream dataset, or model checkpoint.
 
 ## Next Research Steps
 
-1. Run independent adjudication on the `6` high-quality disagreement rows and wider-context review on the `14` insufficient-context rows.
-2. Expand side-inversion review queues to top-20/top-50 under the existing protocol checker.
-3. Add project/time/CVE-disjoint validation or a second paired patch dataset.
-4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once project/time/CVE-disjoint artifacts are available.
+1. Add project/time-disjoint validation or a second paired patch dataset.
+2. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
+3. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
+4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
 
 ## Recommended Framing
 

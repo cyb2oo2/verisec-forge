@@ -65,6 +65,7 @@ The short version:
 - Paired diff reasoning is the credible mainline: diff-only training reaches a three-seed balanced-accuracy mean of `0.8287`.
 - Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
 - Pair-coupled decoding is the strongest current system layer, reaching five-split mean balanced accuracy `0.8572` and mean group all-correct gain `+0.1114`.
+- A first CVE-disjoint stress check keeps the mainline intact: after removing eval rows whose CVE appears in paired-diff training metadata, diff-only reaches balanced accuracy `0.8168` and pair-coupled reaches `0.8491`.
 - Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
 - The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
 
@@ -151,6 +152,8 @@ For the generated main-results table, see [PrimeVul Main Results](reports/PRIMEV
 For a compact application-style narrative table, see [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md). It compresses the same-source shortcut diagnosis, paired diff controls, pair-coupled decoding, and evidence/gate audit loop into one generated table.
 
 For a one-page application summary, see [Application One-Pager](APPLICATION_ONE_PAGER.md).
+
+For the first external-generalization stress check, see [PrimeVul CVE-Disjoint Evaluation](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md). It removes eval rows whose CVE appears in paired-diff training metadata and preserves the pair-coupled gain over diff-only on the remaining held-out CVEs.
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 

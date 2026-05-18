@@ -1,0 +1,79 @@
+{
+  "status": "ok",
+  "scope": "primevul_cve_disjoint_eval",
+  "protocol": {
+    "train_cves_removed_from_eval": true,
+    "source_eval": "pair_diff_only_eval_balanced_1800_dedup",
+    "model": "qwen15bcoder_lora_pair_diff_only_3000_v1",
+    "pair_coupling_margin": 0.02
+  },
+  "split": {
+    "train_unique_cves": 2141,
+    "eval_rows_before": 1792,
+    "eval_rows_after": 1703,
+    "removed_rows": 89,
+    "removed_unique_cves": 40,
+    "cve_overlap_after_filter": 0
+  },
+  "baseline": {
+    "overall": {
+      "num_examples": 1703,
+      "presence_accuracy": 0.8168,
+      "label_accuracy": 0.8168,
+      "vulnerable_recall": 0.8298,
+      "safe_specificity": 0.8038,
+      "precision": 0.8089,
+      "f1": 0.8192,
+      "balanced_accuracy": 0.8168,
+      "tp": 707,
+      "tn": 684,
+      "fp": 167,
+      "fn": 145
+    },
+    "group_metrics": {
+      "unique_pair_count": 830,
+      "mixed_label_pair_count": 809,
+      "group_all_correct": 579,
+      "group_all_correct_rate": 0.6976,
+      "orientation_eligible_pair_count": 809,
+      "orientation_correct": 686,
+      "orientation_accuracy": 0.848
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 1703,
+      "presence_accuracy": 0.8491,
+      "label_accuracy": 0.8491,
+      "vulnerable_recall": 0.8357,
+      "safe_specificity": 0.8625,
+      "precision": 0.8589,
+      "f1": 0.8471,
+      "balanced_accuracy": 0.8491,
+      "tp": 712,
+      "tn": 734,
+      "fp": 117,
+      "fn": 140
+    },
+    "group_metrics": {
+      "unique_pair_count": 830,
+      "mixed_label_pair_count": 809,
+      "group_all_correct": 681,
+      "group_all_correct_rate": 0.8205,
+      "orientation_eligible_pair_count": 809,
+      "orientation_correct": 686,
+      "orientation_accuracy": 0.848
+    },
+    "coupling_counts": {
+      "groups": 830,
+      "eligible_groups": 809,
+      "coupled_groups": 767,
+      "unchanged_groups": 63
+    }
+  },
+  "delta": {
+    "balanced_accuracy": 0.0323,
+    "group_all_correct_rate": 0.1229,
+    "orientation_accuracy": 0.0
+  }
+}
