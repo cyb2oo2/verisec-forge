@@ -41,6 +41,10 @@ from scripts.build_ai_insufficient_context_adjudications import (
     build_rows as build_ai_insufficient_context_rows,
     summarize as summarize_ai_insufficient_context_rows,
 )
+from scripts.build_ai_adjudication_summary import (
+    build_summary as build_ai_adjudication_summary,
+    render_report as render_ai_adjudication_summary_report,
+)
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -704,3 +708,56 @@ def test_ai_insufficient_context_adjudication_rows_are_non_final() -> None:
     assert rows[0]["label_status"] == "insufficient_context"
     assert summary["is_final_adjudication"] is False
     assert summary["label_status_counts"] == {"insufficient_context": 1}
+
+
+def test_ai_adjudication_summary_keeps_ai_separate_from_human_gold() -> None:
+    rows = [
+        {
+            "audit_id": "a1",
+            "queue_type": "high_quality_disagreement",
+            "pair_key": "demo|commit|CVE-0000-0001",
+            "changed_line_bucket": "26+",
+            "adjudication": {
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": ["B1"],
+                "reviewer": "codex_ai_adjudication_v1",
+                "rationale": "demo",
+            },
+        }
+    ]
+
+    table_rows, payload = build_ai_adjudication_summary(rows)
+
+    assert payload["rows"] == 1
+    assert payload["ai_filled_rows"] == 1
+    assert payload["human_confirmed_rows"] == 0
+    assert payload["is_final_human_gold"] is False
+    assert table_rows[0]["is_ai_filled"] is True
+
+
+def test_ai_adjudication_summary_report_lists_corrected_cases() -> None:
+    rows = [
+        {
+            "audit_id": "a1",
+            "queue_type": "high_quality_disagreement",
+            "pair_key": "demo|commit|CVE-0000-0001",
+            "changed_line_bucket": "26+",
+            "adjudication": {
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": ["B1"],
+                "reviewer": "codex_ai_adjudication_v1",
+                "rationale": "selected evidence supports side B",
+            },
+        }
+    ]
+
+    table_rows, payload = build_ai_adjudication_summary(rows)
+    report = render_ai_adjudication_summary_report(payload, table_rows)
+
+    assert "AI audit draft" in report
+    assert "Corrected-Side Cases" in report
+    assert "selected evidence supports side B" in report
