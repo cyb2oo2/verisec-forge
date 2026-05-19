@@ -1,0 +1,246 @@
+{
+  "status": "ok",
+  "scope": "three_source_available_adapter_mixture",
+  "protocol": {
+    "sources": [
+      "PrimeVul-time",
+      "DeltaSecommits",
+      "PatchEval"
+    ],
+    "note": "This report extends the source-aware adapter mixture to three sources. PatchEval currently uses the matched-mixed fallback because the full PatchEval-specific 1.5B adapter run was speed-gated on this Windows setup."
+  },
+  "systems": [
+    {
+      "system": "single matched-mixed checkpoint",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8591,
+        "balanced_accuracy": 0.8591,
+        "vulnerable_recall": 0.854,
+        "safe_specificity": 0.8642,
+        "precision": 0.8628,
+        "f1": 0.8584,
+        "tp": 1176,
+        "tn": 1190,
+        "fp": 187,
+        "fn": 201
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "group_all_correct": 1151,
+        "group_all_correct_rate": 0.8482,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1167,
+        "orientation_accuracy": 0.86
+      },
+      "sources": [
+        {
+          "source": "PrimeVul-time",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8809,
+            "label_accuracy": 0.8809,
+            "vulnerable_recall": 0.8758,
+            "safe_specificity": 0.886,
+            "precision": 0.8849,
+            "f1": 0.8803,
+            "balanced_accuracy": 0.8809,
+            "tp": 684,
+            "tn": 692,
+            "fp": 89,
+            "fn": 97
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 660,
+            "group_all_correct_rate": 0.8673,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        },
+        {
+          "source": "DeltaSecommits",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8486,
+            "label_accuracy": 0.8486,
+            "vulnerable_recall": 0.844,
+            "safe_specificity": 0.8532,
+            "precision": 0.8519,
+            "f1": 0.8479,
+            "balanced_accuracy": 0.8486,
+            "tp": 276,
+            "tn": 279,
+            "fp": 48,
+            "fn": 51
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 276,
+            "group_all_correct_rate": 0.844,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 277,
+            "orientation_accuracy": 0.8471
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        },
+        {
+          "source": "PatchEval",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.8086,
+            "label_accuracy": 0.8086,
+            "vulnerable_recall": 0.803,
+            "safe_specificity": 0.8141,
+            "precision": 0.812,
+            "f1": 0.8075,
+            "balanced_accuracy": 0.8086,
+            "tp": 216,
+            "tn": 219,
+            "fp": 50,
+            "fn": 53
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 215,
+            "group_all_correct_rate": 0.7993,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 218,
+            "orientation_accuracy": 0.8104
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        }
+      ]
+    },
+    {
+      "system": "available source-routed adapters",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8624,
+        "balanced_accuracy": 0.8624,
+        "vulnerable_recall": 0.8584,
+        "safe_specificity": 0.8664,
+        "precision": 0.8653,
+        "f1": 0.8618,
+        "tp": 1182,
+        "tn": 1193,
+        "fp": 184,
+        "fn": 195
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "group_all_correct": 1159,
+        "group_all_correct_rate": 0.8541,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1170,
+        "orientation_accuracy": 0.8622
+      },
+      "sources": [
+        {
+          "source": "PrimeVul-time",
+          "adapter": "primevul-time expert",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8835,
+            "label_accuracy": 0.8835,
+            "vulnerable_recall": 0.8796,
+            "safe_specificity": 0.8873,
+            "precision": 0.8865,
+            "f1": 0.883,
+            "balanced_accuracy": 0.8835,
+            "tp": 687,
+            "tn": 693,
+            "fp": 88,
+            "fn": 94
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 667,
+            "group_all_correct_rate": 0.8765,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1"
+        },
+        {
+          "source": "DeltaSecommits",
+          "adapter": "deltasecommits expert",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8563,
+            "label_accuracy": 0.8563,
+            "vulnerable_recall": 0.8532,
+            "safe_specificity": 0.8593,
+            "precision": 0.8585,
+            "f1": 0.8558,
+            "balanced_accuracy": 0.8563,
+            "tp": 279,
+            "tn": 281,
+            "fp": 46,
+            "fn": 48
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 277,
+            "group_all_correct_rate": 0.8471,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 280,
+            "orientation_accuracy": 0.8563
+          },
+          "checkpoint": "cls_secure_code_deltasecommits_qwen15bcoder_lora_pair_diff_cpp_v1"
+        },
+        {
+          "source": "PatchEval",
+          "adapter": "matched-mixed fallback",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.8086,
+            "label_accuracy": 0.8086,
+            "vulnerable_recall": 0.803,
+            "safe_specificity": 0.8141,
+            "precision": 0.812,
+            "f1": 0.8075,
+            "balanced_accuracy": 0.8086,
+            "tp": 216,
+            "tn": 219,
+            "fp": 50,
+            "fn": 53
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 215,
+            "group_all_correct_rate": 0.7993,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 218,
+            "orientation_accuracy": 0.8104
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        }
+      ]
+    }
+  ],
+  "routed_minus_single": {
+    "balanced_accuracy": 0.0033,
+    "f1": 0.0034,
+    "group_all_correct_rate": 0.0059,
+    "orientation_accuracy": 0.0022
+  },
+  "missing_adapter": {
+    "source": "PatchEval",
+    "reason": "No completed PatchEval-specific 1.5B LoRA adapter yet; attempted full run was stopped because observed step time projected to multi-hour training.",
+    "next_protocol": "Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert."
+  },
+  "conclusion": "The three-source mixture still improves over a single matched-mixed checkpoint using only the available PrimeVul and Delta source experts. The next adapter experiment should target PatchEval specifically, because it is now the unfilled expert slot and the hardest cross-language source."
+}

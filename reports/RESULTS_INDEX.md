@@ -159,6 +159,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Cross-Source Domain Calibration JSON`: `reports/secure_code_cross_source_domain_calibration_v1.json`
 - `Source-Aware Expert Mixture`: `reports/SOURCE_AWARE_EXPERT_MIXTURE.md`
 - `Source-Aware Expert Mixture JSON`: `reports/secure_code_source_aware_expert_mixture_v1.json`
+- `Three-Source Adapter Mixture`: `reports/THREE_SOURCE_ADAPTER_MIXTURE.md`
+- `Three-Source Adapter Mixture JSON`: `reports/secure_code_three_source_adapter_mixture_v1.json`
 - `PatchEval Pair-Diff Dataset`: `reports/PATCHEVAL_PAIR_DIFF_DATASET.md`
 - `PatchEval Pair-Diff Dataset JSON`: `reports/secure_code_patcheval_pair_diff_dataset_v1.json`
 - `PatchEval Zero-Shot Matched Mixed-Source Eval`: `reports/PATCHEVAL_ZERO_SHOT_MATCHED_MIXED_PRIMEVUL_SHORT_DELTA.md`
