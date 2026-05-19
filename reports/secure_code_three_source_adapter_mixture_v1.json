@@ -240,7 +240,7 @@
   "patch_adapter_status": {
     "available": true,
     "adapter": "patcheval expert",
-    "next_protocol": "Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
+    "next_protocol": "Use the PatchEval multi-seed report for stability, then cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
   },
   "conclusion": "The three-source source-routed adapter mixture improves over a single matched-mixed checkpoint. With the PatchEval expert available, the mixture now covers the hardest cross-language source rather than relying on a fallback."
 }

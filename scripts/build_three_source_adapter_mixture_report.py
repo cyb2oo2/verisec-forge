@@ -126,7 +126,7 @@ def build_report(
             "available": patch_expert_available,
             "adapter": routed_patch_adapter,
             "next_protocol": (
-                "Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
+                "Use the PatchEval multi-seed report for stability, then cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
                 if patch_expert_available
                 else "Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert."
             ),

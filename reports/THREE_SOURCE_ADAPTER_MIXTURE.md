@@ -20,7 +20,7 @@ This report extends source-aware routing to PrimeVul-time, DeltaSecommits, and P
 
 - Available: `True`
 - Adapter: `patcheval expert`
-- Next protocol: Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs.
+- Next protocol: Use the PatchEval multi-seed report for stability, then cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs.
 
 ## Interpretation
 

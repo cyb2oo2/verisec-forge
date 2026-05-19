@@ -1,0 +1,134 @@
+{
+  "status": "ok",
+  "scope": "patcheval_adapter_multiseed",
+  "protocol": {
+    "source_dataset": "ByteDance/PatchEval",
+    "seeds": [
+      "42",
+      "7",
+      "99"
+    ],
+    "note": "This report summarizes three PatchEval source-specific Qwen2.5-Coder-1.5B LoRA adapter runs. It reports seed variance rather than promoting the strongest single seed."
+  },
+  "seeds": [
+    {
+      "seed": "42",
+      "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1",
+      "default_balanced_accuracy": 0.8011,
+      "default_f1": 0.7954,
+      "default_group_all_correct": 0.7026,
+      "default_orientation": 0.8364,
+      "pair_coupled_balanced_accuracy": 0.829,
+      "pair_coupled_recall": 0.8253,
+      "pair_coupled_specificity": 0.8327,
+      "pair_coupled_f1": 0.8284,
+      "pair_coupled_group_all_correct": 0.8141,
+      "pair_coupled_orientation": 0.8364,
+      "pair_coupled_minus_default_ba": 0.0279,
+      "pair_coupled_minus_default_group_all_correct": 0.1115,
+      "best_threshold_balanced_accuracy": 0.8011,
+      "best_threshold": 0.5,
+      "best_threshold_f1": 0.7993,
+      "best_f1_threshold": 0.4
+    },
+    {
+      "seed": "7",
+      "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_seed7_v1",
+      "default_balanced_accuracy": 0.7993,
+      "default_f1": 0.7939,
+      "default_group_all_correct": 0.7026,
+      "default_orientation": 0.8141,
+      "pair_coupled_balanced_accuracy": 0.8197,
+      "pair_coupled_recall": 0.8141,
+      "pair_coupled_specificity": 0.8253,
+      "pair_coupled_f1": 0.8187,
+      "pair_coupled_group_all_correct": 0.8104,
+      "pair_coupled_orientation": 0.8141,
+      "pair_coupled_minus_default_ba": 0.0204,
+      "pair_coupled_minus_default_group_all_correct": 0.1078,
+      "best_threshold_balanced_accuracy": 0.7993,
+      "best_threshold": 0.5,
+      "best_threshold_f1": 0.8007,
+      "best_f1_threshold": 0.4
+    },
+    {
+      "seed": "99",
+      "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_seed99_v1",
+      "default_balanced_accuracy": 0.7546,
+      "default_f1": 0.736,
+      "default_group_all_correct": 0.6617,
+      "default_orientation": 0.8067,
+      "pair_coupled_balanced_accuracy": 0.803,
+      "pair_coupled_recall": 0.7918,
+      "pair_coupled_specificity": 0.8141,
+      "pair_coupled_f1": 0.8008,
+      "pair_coupled_group_all_correct": 0.7881,
+      "pair_coupled_orientation": 0.8067,
+      "pair_coupled_minus_default_ba": 0.0484,
+      "pair_coupled_minus_default_group_all_correct": 0.1264,
+      "best_threshold_balanced_accuracy": 0.7788,
+      "best_threshold": 0.3,
+      "best_threshold_f1": 0.7873,
+      "best_f1_threshold": 0.2
+    }
+  ],
+  "summary": {
+    "default_balanced_accuracy": {
+      "mean": 0.785,
+      "min": 0.7546,
+      "max": 0.8011,
+      "range": 0.0465,
+      "population_std": 0.0215
+    },
+    "pair_coupled_balanced_accuracy": {
+      "mean": 0.8172,
+      "min": 0.803,
+      "max": 0.829,
+      "range": 0.026,
+      "population_std": 0.0108
+    },
+    "pair_coupled_f1": {
+      "mean": 0.816,
+      "min": 0.8008,
+      "max": 0.8284,
+      "range": 0.0276,
+      "population_std": 0.0114
+    },
+    "pair_coupled_group_all_correct": {
+      "mean": 0.8042,
+      "min": 0.7881,
+      "max": 0.8141,
+      "range": 0.026,
+      "population_std": 0.0115
+    },
+    "pair_coupled_orientation": {
+      "mean": 0.8191,
+      "min": 0.8067,
+      "max": 0.8364,
+      "range": 0.0297,
+      "population_std": 0.0126
+    },
+    "pair_coupled_minus_default_ba": {
+      "mean": 0.0322,
+      "min": 0.0204,
+      "max": 0.0484,
+      "range": 0.028,
+      "population_std": 0.0118
+    },
+    "pair_coupled_minus_default_group_all_correct": {
+      "mean": 0.1152,
+      "min": 0.1078,
+      "max": 0.1264,
+      "range": 0.0186,
+      "population_std": 0.008
+    },
+    "best_threshold_balanced_accuracy": {
+      "mean": 0.7931,
+      "min": 0.7788,
+      "max": 0.8011,
+      "range": 0.0223,
+      "population_std": 0.0101
+    }
+  },
+  "conclusion": "PatchEval source-specific adaptation is beneficial but seed-sensitive. Across three seeds, pair-coupled decoding consistently improves over the default threshold and keeps the cross-language PatchEval adapter above the zero-shot matched-mixed baseline."
+}
