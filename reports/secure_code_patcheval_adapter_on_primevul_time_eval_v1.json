@@ -1,0 +1,78 @@
+{
+  "status": "ok",
+  "scope": "patcheval_adapter_on_primevul_time_eval",
+  "protocol": {
+    "source_dataset": "PrimeVul-time-ge2021",
+    "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "PatchEval train split only; cross-source evaluation on PrimeVul later-CVE"
+  },
+  "split": {
+    "rows": 1562,
+    "unique_pair_count": 761,
+    "label_counts": {
+      "safe": 781,
+      "vulnerable": 781
+    },
+    "changed_line_buckets": {
+      "unknown": 1562
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 1562,
+      "presence_accuracy": 0.8175,
+      "label_accuracy": 0.8175,
+      "vulnerable_recall": 0.872,
+      "safe_specificity": 0.7631,
+      "precision": 0.7864,
+      "f1": 0.827,
+      "balanced_accuracy": 0.8175,
+      "tp": 681,
+      "tn": 596,
+      "fp": 185,
+      "fn": 100
+    },
+    "group_metrics": {
+      "unique_pair_count": 761,
+      "mixed_label_pair_count": 761,
+      "group_all_correct": 526,
+      "group_all_correct_rate": 0.6912,
+      "orientation_eligible_pair_count": 761,
+      "orientation_correct": 663,
+      "orientation_accuracy": 0.8712
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 1562,
+      "presence_accuracy": 0.8521,
+      "label_accuracy": 0.8521,
+      "vulnerable_recall": 0.8976,
+      "safe_specificity": 0.8067,
+      "precision": 0.8228,
+      "f1": 0.8585,
+      "balanced_accuracy": 0.8521,
+      "tp": 701,
+      "tn": 630,
+      "fp": 151,
+      "fn": 80
+    },
+    "group_metrics": {
+      "unique_pair_count": 761,
+      "mixed_label_pair_count": 761,
+      "group_all_correct": 605,
+      "group_all_correct_rate": 0.795,
+      "orientation_eligible_pair_count": 761,
+      "orientation_correct": 663,
+      "orientation_accuracy": 0.8712
+    },
+    "coupling_counts": {
+      "groups": 761,
+      "eligible_groups": 761,
+      "coupled_groups": 674,
+      "unchanged_groups": 87
+    }
+  }
+}

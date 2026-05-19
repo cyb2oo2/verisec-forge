@@ -1,0 +1,61 @@
+{
+  "status": "ok",
+  "scope": "patcheval_cross_source_specialization",
+  "protocol": {
+    "adapter": "PatchEval source-specific Qwen2.5-Coder-1.5B LoRA, seed42 checkpoint",
+    "note": "This report tests whether the PatchEval expert is a general paired-diff detector or a source-specialized adapter. PatchEval in-domain stability is represented by the separate three-seed summary."
+  },
+  "datasets": [
+    {
+      "dataset": "PrimeVul-time",
+      "patcheval_adapter_default_ba": 0.8175,
+      "patcheval_adapter_pair_coupled_ba": 0.8521,
+      "patcheval_adapter_group_all_correct": 0.795,
+      "patcheval_adapter_orientation": 0.8712,
+      "source_expert_pair_coupled_ba": 0.8835,
+      "source_expert_group_all_correct": 0.8765,
+      "patcheval_minus_source_expert_ba": -0.0314,
+      "patcheval_adapter_best_threshold_ba": 0.8169,
+      "patcheval_adapter_best_threshold": 0.6
+    },
+    {
+      "dataset": "DeltaSecommits",
+      "patcheval_adapter_default_ba": 0.7859,
+      "patcheval_adapter_pair_coupled_ba": 0.844,
+      "patcheval_adapter_group_all_correct": 0.8349,
+      "patcheval_adapter_orientation": 0.8379,
+      "source_expert_pair_coupled_ba": 0.8563,
+      "source_expert_group_all_correct": 0.8471,
+      "patcheval_minus_source_expert_ba": -0.0123,
+      "patcheval_adapter_best_threshold_ba": 0.8211,
+      "patcheval_adapter_best_threshold": 0.8
+    },
+    {
+      "dataset": "PatchEval",
+      "patcheval_adapter_default_ba": 0.8011,
+      "patcheval_adapter_pair_coupled_ba": 0.829,
+      "patcheval_adapter_multiseed_pair_coupled_ba_mean": 0.8172,
+      "patcheval_adapter_multiseed_pair_coupled_ba_min": 0.803,
+      "patcheval_adapter_multiseed_pair_coupled_ba_max": 0.829,
+      "patcheval_adapter_group_all_correct": 0.8141,
+      "patcheval_adapter_orientation": 0.8364,
+      "matched_mixed_pair_coupled_ba": 0.8086,
+      "patcheval_minus_matched_mixed_ba": 0.0204
+    }
+  ],
+  "cross_source_summary": {
+    "mean_cross_source_pair_coupled_ba": 0.848,
+    "mean_cross_source_gap_to_source_expert_ba": -0.0218,
+    "delta_best_threshold_recovery": {
+      "best_threshold_ba": 0.8211,
+      "best_threshold": 0.8,
+      "pair_coupled_ba": 0.844
+    },
+    "prime_best_threshold_recovery": {
+      "best_threshold_ba": 0.8169,
+      "best_threshold": 0.6,
+      "pair_coupled_ba": 0.8521
+    }
+  },
+  "conclusion": "The PatchEval adapter transfers non-trivially to PrimeVul-time and DeltaSecommits, but it remains below the matched source experts. This supports source-aware routing: PatchEval adaptation is useful in-domain, while cross-source deployment should prefer the dataset/source expert when available."
+}

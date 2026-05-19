@@ -168,6 +168,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `PatchEval Matched Mixed-Source Threshold Sweep`: `reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_threshold_sweep.json`
 - `PatchEval Adapter Multi-Seed Eval`: `reports/PATCHEVAL_ADAPTER_MULTISEED.md`
 - `PatchEval Adapter Multi-Seed JSON`: `reports/secure_code_patcheval_adapter_multiseed_v1.json`
+- `PatchEval Cross-Source Specialization`: `reports/PATCHEVAL_CROSS_SOURCE_SPECIALIZATION.md`
+- `PatchEval Cross-Source Specialization JSON`: `reports/secure_code_patcheval_cross_source_specialization_v1.json`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`

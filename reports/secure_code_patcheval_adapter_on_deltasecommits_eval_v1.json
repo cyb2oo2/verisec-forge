@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "patcheval_adapter_on_deltasecommits_eval",
+  "protocol": {
+    "source_dataset": "rufimelo/DeltaSecommits",
+    "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "PatchEval train split only; cross-source evaluation on DeltaSecommits"
+  },
+  "split": {
+    "rows": 654,
+    "unique_pair_count": 327,
+    "label_counts": {
+      "safe": 327,
+      "vulnerable": 327
+    },
+    "changed_line_buckets": {
+      "00-02": 186,
+      "03-05": 174,
+      "06-10": 152,
+      "11-25": 98,
+      "26+": 44
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.7859,
+      "label_accuracy": 0.7859,
+      "vulnerable_recall": 0.8563,
+      "safe_specificity": 0.7156,
+      "precision": 0.7507,
+      "f1": 0.8,
+      "balanced_accuracy": 0.7859,
+      "tp": 280,
+      "tn": 234,
+      "fp": 93,
+      "fn": 47
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 211,
+      "group_all_correct_rate": 0.6453,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 274,
+      "orientation_accuracy": 0.8379
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.844,
+      "label_accuracy": 0.844,
+      "vulnerable_recall": 0.844,
+      "safe_specificity": 0.844,
+      "precision": 0.844,
+      "f1": 0.844,
+      "balanced_accuracy": 0.844,
+      "tp": 276,
+      "tn": 276,
+      "fp": 51,
+      "fn": 51
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 273,
+      "group_all_correct_rate": 0.8349,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 274,
+      "orientation_accuracy": 0.8379
+    },
+    "coupling_counts": {
+      "groups": 327,
+      "eligible_groups": 327,
+      "coupled_groups": 321,
+      "unchanged_groups": 6
+    }
+  }
+}
