@@ -49,6 +49,7 @@ def build_report(
     checkpoint_label: str,
     scope: str,
     target_training: str,
+    source_dataset: str = "rufimelo/DeltaSecommits",
 ) -> dict[str, Any]:
     threshold_rows = join_predictions(metadata_rows, predictions, threshold=threshold)
     pair_rows, coupling_counts = apply_pair_coupling(threshold_rows, margin=margin)
@@ -58,7 +59,7 @@ def build_report(
         "status": "ok",
         "scope": scope,
         "protocol": {
-            "source_dataset": "rufimelo/DeltaSecommits",
+            "source_dataset": source_dataset,
             "checkpoint": checkpoint_label,
             "threshold": threshold,
             "pair_coupling_margin": margin,
@@ -89,7 +90,7 @@ def render_report(report: dict[str, Any], *, title: str) -> str:
         [
             f"# {title}",
             "",
-            "This report evaluates paired-diff detector predictions on DeltaSecommits C/C++ paired vulnerable/secure snapshots.",
+            f"This report evaluates paired-diff detector predictions on `{report['protocol']['source_dataset']}` paired vulnerable/secure snapshots.",
             f"Target training: {report['protocol']['target_training']}.",
             "",
             "## Protocol",
@@ -114,7 +115,7 @@ def render_report(report: dict[str, Any], *, title: str) -> str:
             "",
             "## Interpretation",
             "",
-            "This is the first true cross-source paired-diff transfer check. If it is much lower than PrimeVul, that is useful negative evidence: the system has learned the PrimeVul paired-diff formulation, but cross-dataset patch semantics may need source-specific calibration or a mixed-source detector.",
+            "This is a cross-source paired-diff transfer check. If it is much lower than PrimeVul, that is useful negative evidence: the system has learned the PrimeVul paired-diff formulation, but cross-dataset patch semantics may need source-specific calibration, source-aware adapters, or a mixed-source detector.",
             "",
         ]
     )
@@ -137,6 +138,7 @@ def main() -> int:
     parser.add_argument("--checkpoint-label", default="cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1")
     parser.add_argument("--scope", default="deltasecommits_zero_shot_primevul_checkpoint")
     parser.add_argument("--target-training", default="none; zero-shot cross-source evaluation")
+    parser.add_argument("--source-dataset", default="rufimelo/DeltaSecommits")
     parser.add_argument("--title", default="DeltaSecommits Zero-Shot Transfer Evaluation")
     parser.add_argument("--json-output", default="reports/secure_code_deltasecommits_zero_shot_primevul_time_checkpoint_v1.json")
     parser.add_argument("--md-output", default="reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md")
@@ -150,6 +152,7 @@ def main() -> int:
         checkpoint_label=args.checkpoint_label,
         scope=args.scope,
         target_training=args.target_training,
+        source_dataset=args.source_dataset,
     )
     write_json(ROOT / args.json_output, report)
     ensure_parent(ROOT / args.md_output).write_text(render_report(report, title=args.title), encoding="utf-8")

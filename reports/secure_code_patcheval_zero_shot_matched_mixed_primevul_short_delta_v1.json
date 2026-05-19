@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "patcheval_zero_shot_matched_mixed_primevul_short_delta",
+  "protocol": {
+    "source_dataset": "ByteDance/PatchEval",
+    "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "short PrimeVul time train + DeltaSecommits C/C++ train"
+  },
+  "split": {
+    "rows": 538,
+    "unique_pair_count": 269,
+    "label_counts": {
+      "safe": 269,
+      "vulnerable": 269
+    },
+    "changed_line_buckets": {
+      "00-02": 128,
+      "03-05": 156,
+      "06-10": 96,
+      "11-25": 104,
+      "26+": 54
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 538,
+      "presence_accuracy": 0.7955,
+      "label_accuracy": 0.7955,
+      "vulnerable_recall": 0.7509,
+      "safe_specificity": 0.8401,
+      "precision": 0.8245,
+      "f1": 0.786,
+      "balanced_accuracy": 0.7955,
+      "tp": 202,
+      "tn": 226,
+      "fp": 43,
+      "fn": 67
+    },
+    "group_metrics": {
+      "unique_pair_count": 269,
+      "mixed_label_pair_count": 269,
+      "group_all_correct": 198,
+      "group_all_correct_rate": 0.7361,
+      "orientation_eligible_pair_count": 269,
+      "orientation_correct": 218,
+      "orientation_accuracy": 0.8104
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 538,
+      "presence_accuracy": 0.8086,
+      "label_accuracy": 0.8086,
+      "vulnerable_recall": 0.803,
+      "safe_specificity": 0.8141,
+      "precision": 0.812,
+      "f1": 0.8075,
+      "balanced_accuracy": 0.8086,
+      "tp": 216,
+      "tn": 219,
+      "fp": 50,
+      "fn": 53
+    },
+    "group_metrics": {
+      "unique_pair_count": 269,
+      "mixed_label_pair_count": 269,
+      "group_all_correct": 215,
+      "group_all_correct_rate": 0.7993,
+      "orientation_eligible_pair_count": 269,
+      "orientation_correct": 218,
+      "orientation_accuracy": 0.8104
+    },
+    "coupling_counts": {
+      "groups": 269,
+      "eligible_groups": 269,
+      "coupled_groups": 264,
+      "unchanged_groups": 5
+    }
+  }
+}

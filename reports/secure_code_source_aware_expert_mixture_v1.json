@@ -1,0 +1,177 @@
+{
+  "status": "ok",
+  "scope": "source_aware_expert_mixture",
+  "protocol": {
+    "single_checkpoint": "matched short PrimeVul + DeltaSecommits LoRA",
+    "routed_experts": {
+      "primevul_time": "PrimeVul <=2020 direct-train LoRA",
+      "deltasecommits": "DeltaSecommits C/C++ train LoRA"
+    },
+    "note": "This is a lightweight source-aware mixture experiment using existing checkpoints and pair-coupled reports; no new model training is performed."
+  },
+  "systems": [
+    {
+      "system": "single matched-mixed checkpoint",
+      "overall": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8714,
+        "balanced_accuracy": 0.8714,
+        "vulnerable_recall": 0.8664,
+        "safe_specificity": 0.8764,
+        "precision": 0.8751,
+        "f1": 0.8707,
+        "tp": 960,
+        "tn": 971,
+        "fp": 137,
+        "fn": 148
+      },
+      "group_metrics": {
+        "unique_pair_count": 1088,
+        "group_all_correct": 936,
+        "group_all_correct_rate": 0.8603,
+        "orientation_eligible_pair_count": 1088,
+        "orientation_correct": 949,
+        "orientation_accuracy": 0.8722
+      },
+      "sources": {
+        "primevul_time": {
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8809,
+            "label_accuracy": 0.8809,
+            "vulnerable_recall": 0.8758,
+            "safe_specificity": 0.886,
+            "precision": 0.8849,
+            "f1": 0.8803,
+            "balanced_accuracy": 0.8809,
+            "tp": 684,
+            "tn": 692,
+            "fp": 89,
+            "fn": 97
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 660,
+            "group_all_correct_rate": 0.8673,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        },
+        "deltasecommits": {
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8486,
+            "label_accuracy": 0.8486,
+            "vulnerable_recall": 0.844,
+            "safe_specificity": 0.8532,
+            "precision": 0.8519,
+            "f1": 0.8479,
+            "balanced_accuracy": 0.8486,
+            "tp": 276,
+            "tn": 279,
+            "fp": 48,
+            "fn": 51
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 276,
+            "group_all_correct_rate": 0.844,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 277,
+            "orientation_accuracy": 0.8471
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        }
+      }
+    },
+    {
+      "system": "source-routed expert mixture",
+      "overall": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8755,
+        "balanced_accuracy": 0.8755,
+        "vulnerable_recall": 0.8718,
+        "safe_specificity": 0.8791,
+        "precision": 0.8782,
+        "f1": 0.875,
+        "tp": 966,
+        "tn": 974,
+        "fp": 134,
+        "fn": 142
+      },
+      "group_metrics": {
+        "unique_pair_count": 1088,
+        "group_all_correct": 944,
+        "group_all_correct_rate": 0.8676,
+        "orientation_eligible_pair_count": 1088,
+        "orientation_correct": 952,
+        "orientation_accuracy": 0.875
+      },
+      "sources": {
+        "primevul_time": {
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8835,
+            "label_accuracy": 0.8835,
+            "vulnerable_recall": 0.8796,
+            "safe_specificity": 0.8873,
+            "precision": 0.8865,
+            "f1": 0.883,
+            "balanced_accuracy": 0.8835,
+            "tp": 687,
+            "tn": 693,
+            "fp": 88,
+            "fn": 94
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 667,
+            "group_all_correct_rate": 0.8765,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1"
+        },
+        "deltasecommits": {
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8563,
+            "label_accuracy": 0.8563,
+            "vulnerable_recall": 0.8532,
+            "safe_specificity": 0.8593,
+            "precision": 0.8585,
+            "f1": 0.8558,
+            "balanced_accuracy": 0.8563,
+            "tp": 279,
+            "tn": 281,
+            "fp": 46,
+            "fn": 48
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 277,
+            "group_all_correct_rate": 0.8471,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 280,
+            "orientation_accuracy": 0.8563
+          },
+          "checkpoint": "cls_secure_code_deltasecommits_qwen15bcoder_lora_pair_diff_cpp_v1"
+        }
+      }
+    }
+  ],
+  "routed_minus_single": {
+    "balanced_accuracy": 0.0041,
+    "f1": 0.0043,
+    "group_all_correct_rate": 0.0073,
+    "orientation_accuracy": 0.0028
+  },
+  "conclusion": "A source-routed expert mixture improves the aggregate pair-coupled result over the single matched-mixed checkpoint. This supports source-aware adaptation/mixture as the next training direction, while keeping the claim lightweight because the route uses known dataset source."
+}

@@ -1,0 +1,53 @@
+{
+  "status": "ok",
+  "scope": "patcheval_pair_diff_dataset",
+  "source": {
+    "hf_dataset": "ByteDance/PatchEval",
+    "license": "apache-2.0",
+    "input_examples": 1000,
+    "selected_pairs": 1344,
+    "selected_pair_rows": 2688
+  },
+  "labels": {
+    "rows": 2688,
+    "safe": 1344,
+    "vulnerable": 1344,
+    "pair_keys": 1344
+  },
+  "split": {
+    "train": {
+      "rows": 2150,
+      "safe": 1075,
+      "vulnerable": 1075,
+      "pair_keys": 1075
+    },
+    "eval": {
+      "rows": 538,
+      "safe": 269,
+      "vulnerable": 269,
+      "pair_keys": 269
+    }
+  },
+  "language_counts": {
+    "Go": 874,
+    "JavaScript": 730,
+    "Python": 1084
+  },
+  "changed_line_buckets": {
+    "00-02": 608,
+    "03-05": 662,
+    "06-10": 651,
+    "11-25": 515,
+    "26+": 252
+  },
+  "pair_text_length": {
+    "p50": 779,
+    "p90": 1666,
+    "max": 8540
+  },
+  "protocol": {
+    "eval_fraction": 0.2,
+    "seed": 20260519,
+    "split_policy": "pair-key disjoint random split"
+  }
+}

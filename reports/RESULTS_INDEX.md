@@ -157,6 +157,13 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `PrimeVul Time-Disjoint Matched Mixed-Source JSON`: `reports/secure_code_primevul_time_disjoint_matched_mixed_primevul_short_delta_v1.json`
 - `Cross-Source Domain Calibration`: `reports/CROSS_SOURCE_DOMAIN_CALIBRATION.md`
 - `Cross-Source Domain Calibration JSON`: `reports/secure_code_cross_source_domain_calibration_v1.json`
+- `Source-Aware Expert Mixture`: `reports/SOURCE_AWARE_EXPERT_MIXTURE.md`
+- `Source-Aware Expert Mixture JSON`: `reports/secure_code_source_aware_expert_mixture_v1.json`
+- `PatchEval Pair-Diff Dataset`: `reports/PATCHEVAL_PAIR_DIFF_DATASET.md`
+- `PatchEval Pair-Diff Dataset JSON`: `reports/secure_code_patcheval_pair_diff_dataset_v1.json`
+- `PatchEval Zero-Shot Matched Mixed-Source Eval`: `reports/PATCHEVAL_ZERO_SHOT_MATCHED_MIXED_PRIMEVUL_SHORT_DELTA.md`
+- `PatchEval Zero-Shot Matched Mixed-Source JSON`: `reports/secure_code_patcheval_zero_shot_matched_mixed_primevul_short_delta_v1.json`
+- `PatchEval Matched Mixed-Source Threshold Sweep`: `reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_threshold_sweep.json`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
