@@ -1,0 +1,149 @@
+{
+  "status": "ok",
+  "scope": "deltasecommits_pair_diff_dataset",
+  "source": {
+    "hf_dataset": "rufimelo/DeltaSecommits",
+    "license": "mit",
+    "input_rows": 2516,
+    "selected_pairs": 1634,
+    "selected_pair_rows": 3268,
+    "extensions": [
+      "c",
+      "cc",
+      "cpp"
+    ]
+  },
+  "labels": {
+    "safe": 1634,
+    "vulnerable": 1634
+  },
+  "unique_pair_count": 1634,
+  "unique_projects": 280,
+  "unique_vulnerabilities": 1560,
+  "extension_counts": {
+    "c": 2766,
+    "cc": 352,
+    "cpp": 150
+  },
+  "cwe_top20": [
+    [
+      "CWE-119",
+      448
+    ],
+    [
+      "CWE-125",
+      436
+    ],
+    [
+      "CWE-476",
+      356
+    ],
+    [
+      "CWE-787",
+      328
+    ],
+    [
+      "CWE-20",
+      232
+    ],
+    [
+      "CWE-416",
+      220
+    ],
+    [
+      "CWE-200",
+      200
+    ],
+    [
+      "CWE-190",
+      156
+    ],
+    [
+      "CWE-401",
+      140
+    ],
+    [
+      "CWE-399",
+      120
+    ],
+    [
+      "CWE-362",
+      120
+    ],
+    [
+      "CWE-369",
+      106
+    ],
+    [
+      "CWE-120",
+      86
+    ],
+    [
+      "CWE-264",
+      80
+    ],
+    [
+      "CWE-189",
+      72
+    ],
+    [
+      "CWE-415",
+      70
+    ],
+    [
+      "CWE-400",
+      40
+    ],
+    [
+      "CWE-287",
+      18
+    ],
+    [
+      "CWE-22",
+      16
+    ],
+    [
+      "CWE-78",
+      8
+    ]
+  ],
+  "changed_line_buckets": {
+    "00-02": 994,
+    "03-05": 858,
+    "06-10": 655,
+    "11-25": 509,
+    "26+": 252
+  },
+  "pair_text_length": {
+    "p50": 862,
+    "p90": 2560,
+    "max": 22052
+  },
+  "protocol": {
+    "text_mode": "diff_only",
+    "eval_fraction": 0.2,
+    "seed": 20260519,
+    "split_policy": "pair-key disjoint random split"
+  },
+  "split": {
+    "train": {
+      "rows": 2614,
+      "safe": 1307,
+      "vulnerable": 1307,
+      "pair_keys": 1307
+    },
+    "eval": {
+      "rows": 654,
+      "safe": 327,
+      "vulnerable": 327,
+      "pair_keys": 327
+    }
+  },
+  "outputs": {
+    "all": "data/processed/secure_code_deltasecommits_pair_diff_cpp_all_metadata.jsonl",
+    "train": "data/processed/secure_code_deltasecommits_pair_diff_cpp_train_metadata.jsonl",
+    "eval": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl",
+    "json": "reports/secure_code_deltasecommits_pair_diff_dataset_v1.json",
+    "markdown": "reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md"
+  }
+}

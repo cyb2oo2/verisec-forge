@@ -54,6 +54,7 @@ Key evidence:
 - The original paired-diff checkpoint transfers strongly to the later-CVE eval split: selected-threshold balanced accuracy `0.8412`, pair-coupled balanced accuracy `0.8745`, and group all-correct `0.8555`.
 - Direct training on the `<=2020` split improves the later-CVE eval result: selected-threshold balanced accuracy `0.8745`, pair-coupled balanced accuracy `0.8835`, and group all-correct `0.8765`.
 - A stricter temporal composite slice removes later-CVE eval rows that overlap training by project and file hash; the remaining `218` rows are balanced (`109/109`) and pair-coupled balanced accuracy remains `0.8853`.
+- A second-source DeltaSecommits C/C++ validation set is now built from `1634` paired vulnerable/secure snapshots. Without Delta training, the PrimeVul time-trained checkpoint reaches default-threshold balanced accuracy `0.8360`; pair-coupled decoding improves this to `0.8641` with group all-correct `0.8556`.
 
 Research claim:
 
@@ -72,6 +73,8 @@ Primary artifacts:
 - `reports/PRIMEVUL_TIME_DISJOINT_DIRECT_TRAIN.md`
 - `reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md`
 - `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`
+- `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`
+- `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
 ### 3. Evidence-Coupled Audit Loop: From Pseudo-Spans To Review Queues
@@ -163,14 +166,14 @@ Recommended contribution framing:
 
 - Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
-- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, and the detector stack now has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split. A second paired patch dataset is the next most important generalization check.
+- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, and a second-source DeltaSecommits zero-shot validation now exists. The next limitation is broader multi-source replication, not merely having a second dataset.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
 1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Add a second paired patch dataset to test whether the temporal PrimeVul result generalizes beyond one source.
+3. Train a mixed-source or Delta-specific detector only after preserving the zero-shot Delta result as the external-transfer baseline.
 4. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.

@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "deltasecommits_zero_shot_primevul_checkpoint",
+  "protocol": {
+    "source_dataset": "rufimelo/DeltaSecommits",
+    "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "none; zero-shot cross-source evaluation"
+  },
+  "split": {
+    "rows": 3268,
+    "unique_pair_count": 1634,
+    "label_counts": {
+      "safe": 1634,
+      "vulnerable": 1634
+    },
+    "changed_line_buckets": {
+      "00-02": 994,
+      "03-05": 858,
+      "06-10": 655,
+      "11-25": 509,
+      "26+": 252
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 3268,
+      "presence_accuracy": 0.836,
+      "label_accuracy": 0.836,
+      "vulnerable_recall": 0.7662,
+      "safe_specificity": 0.9058,
+      "precision": 0.8905,
+      "f1": 0.8237,
+      "balanced_accuracy": 0.836,
+      "tp": 1252,
+      "tn": 1480,
+      "fp": 154,
+      "fn": 382
+    },
+    "group_metrics": {
+      "unique_pair_count": 1634,
+      "mixed_label_pair_count": 1634,
+      "group_all_correct": 1214,
+      "group_all_correct_rate": 0.743,
+      "orientation_eligible_pair_count": 1634,
+      "orientation_correct": 1415,
+      "orientation_accuracy": 0.866
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 3268,
+      "presence_accuracy": 0.8641,
+      "label_accuracy": 0.8641,
+      "vulnerable_recall": 0.8605,
+      "safe_specificity": 0.8678,
+      "precision": 0.8668,
+      "f1": 0.8636,
+      "balanced_accuracy": 0.8641,
+      "tp": 1406,
+      "tn": 1418,
+      "fp": 216,
+      "fn": 228
+    },
+    "group_metrics": {
+      "unique_pair_count": 1634,
+      "mixed_label_pair_count": 1634,
+      "group_all_correct": 1398,
+      "group_all_correct_rate": 0.8556,
+      "orientation_eligible_pair_count": 1634,
+      "orientation_correct": 1415,
+      "orientation_accuracy": 0.866
+    },
+    "coupling_counts": {
+      "groups": 1634,
+      "eligible_groups": 1634,
+      "coupled_groups": 1606,
+      "unchanged_groups": 28
+    }
+  }
+}

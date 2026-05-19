@@ -140,6 +140,11 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Time-Disjoint Transfer vs Direct Comparison JSON`: `reports/secure_code_primevul_time_disjoint_comparison_v1.json`
 - `Paired Diff Time-Disjoint Composite Stress`: `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`
 - `Paired Diff Time-Disjoint Composite Stress JSON`: `reports/secure_code_primevul_time_disjoint_composite_stress_v1.json`
+- `DeltaSecommits Pair-Diff Dataset`: `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`
+- `DeltaSecommits Pair-Diff Dataset JSON`: `reports/secure_code_deltasecommits_pair_diff_dataset_v1.json`
+- `DeltaSecommits Zero-Shot PrimeVul Checkpoint`: `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
+- `DeltaSecommits Zero-Shot PrimeVul Checkpoint JSON`: `reports/secure_code_deltasecommits_zero_shot_primevul_time_checkpoint_v1.json`
+- `DeltaSecommits Zero-Shot Threshold Sweep`: `reports/secure_code_deltasecommits_primevul_time_checkpoint_zero_shot_threshold_sweep.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
