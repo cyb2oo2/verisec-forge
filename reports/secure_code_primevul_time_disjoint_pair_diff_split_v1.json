@@ -1,0 +1,137 @@
+{
+  "status": "ok",
+  "scope": "primevul_time_disjoint_pair_diff_split",
+  "protocol": {
+    "train_condition": "cve_year <= 2020",
+    "eval_condition": "cve_year >= 2021",
+    "text_mode": "diff_only",
+    "seed": 20260519,
+    "train_per_label_requested": 3000,
+    "eval_per_label_requested": 1000
+  },
+  "source": {
+    "rows_with_cve_year": 9407,
+    "train_source": {
+      "rows": 7844,
+      "safe": 3922,
+      "vulnerable": 3922,
+      "unique_pair_keys": 0,
+      "unique_projects": 565,
+      "unique_cves": 3345,
+      "year_counts": {
+        "2000": 2,
+        "2002": 2,
+        "2005": 38,
+        "2006": 10,
+        "2007": 20,
+        "2008": 68,
+        "2009": 91,
+        "2010": 80,
+        "2011": 258,
+        "2012": 196,
+        "2013": 507,
+        "2014": 524,
+        "2015": 527,
+        "2016": 1110,
+        "2017": 1322,
+        "2018": 1142,
+        "2019": 1091,
+        "2020": 856
+      }
+    },
+    "eval_source": {
+      "rows": 1563,
+      "safe": 781,
+      "vulnerable": 782,
+      "unique_pair_keys": 0,
+      "unique_projects": 187,
+      "unique_cves": 714,
+      "year_counts": {
+        "2021": 943,
+        "2022": 620
+      }
+    }
+  },
+  "selected": {
+    "train": {
+      "rows": 6000,
+      "safe": 3000,
+      "vulnerable": 3000,
+      "unique_pair_keys": 3472,
+      "unique_projects": 554,
+      "unique_cves": 3179,
+      "year_counts": {
+        "2000": 2,
+        "2002": 2,
+        "2005": 30,
+        "2006": 9,
+        "2007": 16,
+        "2008": 54,
+        "2009": 70,
+        "2010": 65,
+        "2011": 200,
+        "2012": 152,
+        "2013": 387,
+        "2014": 399,
+        "2015": 396,
+        "2016": 860,
+        "2017": 971,
+        "2018": 889,
+        "2019": 844,
+        "2020": 654
+      },
+      "builder_summary": {
+        "input_rows": 7844,
+        "group_count": 3674,
+        "usable_pair_group_count": 3655,
+        "candidate_pair_context_rows": 7825,
+        "selected": {
+          "vulnerable": 3000,
+          "safe": 3000,
+          "total": 6000
+        },
+        "per_label_count_requested": 3000,
+        "seed": 20260519,
+        "text_mode": "diff_only"
+      }
+    },
+    "eval": {
+      "rows": 1562,
+      "safe": 781,
+      "vulnerable": 781,
+      "unique_pair_keys": 761,
+      "unique_projects": 187,
+      "unique_cves": 713,
+      "year_counts": {
+        "2021": 942,
+        "2022": 620
+      },
+      "builder_summary": {
+        "input_rows": 1563,
+        "group_count": 762,
+        "usable_pair_group_count": 761,
+        "candidate_pair_context_rows": 1562,
+        "selected": {
+          "vulnerable": 781,
+          "safe": 781,
+          "total": 1562
+        },
+        "per_label_count_requested": 1000,
+        "seed": 20260520,
+        "text_mode": "diff_only"
+      }
+    }
+  },
+  "overlap": {
+    "year_overlap": [],
+    "cve_overlap": 0,
+    "pair_key_overlap": 0,
+    "project_overlap": 100
+  },
+  "outputs": {
+    "train": "data/processed/secure_code_primevul_pair_diff_time_train_le2020_balanced_6000_metadata.jsonl",
+    "eval": "data/processed/secure_code_primevul_pair_diff_time_eval_ge2021_balanced_2000_metadata.jsonl",
+    "json": "reports/secure_code_primevul_time_disjoint_pair_diff_split_v1.json",
+    "markdown": "reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md"
+  }
+}

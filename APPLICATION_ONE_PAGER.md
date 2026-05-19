@@ -13,10 +13,10 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 ## Three Contributions
 
 1. Shortcut-aware benchmark diagnosis.
-   A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, and the current disjoint stress matrix removes eval rows overlapping training by project, CVE, commit, and file hash.
+   A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, the current disjoint stress matrix removes eval rows overlapping training by project/CVE/commit/file hash, and a true CVE-year time split is now materialized.
 
 2. Paired diff reasoning plus pair-coupled decoding.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On project-disjoint rows it reaches `0.8225`, and on CVE-disjoint rows it reaches `0.8491`.
+   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On project-disjoint rows it reaches `0.8225`, and the next target is the newly built train `<=2020` / eval `>=2021` temporal split.
 
 3. Evidence-coupled audit loop.
    Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
@@ -31,6 +31,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
 - Pair-coupled significance summary: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`.
 - Disjoint stress evaluation: `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`.
+- Time-disjoint split manifest: `reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md`.
 - CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
@@ -40,12 +41,12 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 - Evidence localization still uses pseudo labels, pilot triage, and AI-filled adjudication; final evidence labels require non-AI independent adjudication.
 - Safe flip gate pools remain small and should be expanded beyond top-5/top-10 candidates.
-- Project/CVE/commit/file-hash disjoint stress evaluation is covered, but true time-disjoint validation or a second paired patch dataset remains the most important next generalization check.
+- Project/CVE/commit/file-hash disjoint stress evaluation is covered, and a true time-disjoint split is materialized but not yet trained/evaluated.
 - The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every exploratory run, raw upstream dataset, or model checkpoint.
 
 ## Next Research Steps
 
-1. Add true time-disjoint validation or a second paired patch dataset.
+1. Train/evaluate the paired-diff detector stack on the time-disjoint split.
 2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
 3. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
 4. Convert the significance report into a figure/table suitable for the final application packet.

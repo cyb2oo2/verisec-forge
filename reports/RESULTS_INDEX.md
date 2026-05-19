@@ -128,6 +128,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff CVE-Disjoint Eval JSON`: `reports/secure_code_primevul_cve_disjoint_eval_v1.json`
 - `Paired Diff Disjoint Stress Eval`: `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`
 - `Paired Diff Disjoint Stress Eval JSON`: `reports/secure_code_primevul_disjoint_stress_eval_v1.json`
+- `Paired Diff Time-Disjoint Split`: `reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md`
+- `Paired Diff Time-Disjoint Split JSON`: `reports/secure_code_primevul_time_disjoint_pair_diff_split_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
