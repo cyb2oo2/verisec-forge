@@ -170,6 +170,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `PatchEval Adapter Multi-Seed JSON`: `reports/secure_code_patcheval_adapter_multiseed_v1.json`
 - `PatchEval Cross-Source Specialization`: `reports/PATCHEVAL_CROSS_SOURCE_SPECIALIZATION.md`
 - `PatchEval Cross-Source Specialization JSON`: `reports/secure_code_patcheval_cross_source_specialization_v1.json`
+- `Non-Oracle Source Router`: `reports/NON_ORACLE_SOURCE_ROUTER.md`
+- `Non-Oracle Source Router JSON`: `reports/secure_code_non_oracle_source_router_v1.json`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`

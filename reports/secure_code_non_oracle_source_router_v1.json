@@ -1,0 +1,409 @@
+{
+  "status": "ok",
+  "scope": "non_oracle_source_router",
+  "protocol": {
+    "router": "metadata-schema router",
+    "forbidden_fields": [
+      "source_dataset",
+      "id",
+      "pair_key"
+    ],
+    "routing_features": {
+      "PatchEval": [
+        "programming_language",
+        "patch_url",
+        "vul_patch",
+        "file_path"
+      ],
+      "DeltaSecommits": [
+        "file_extension in C/C++ family"
+      ],
+      "PrimeVul-time": [
+        "time_disjoint_split",
+        "cve_year",
+        "file_name",
+        "file_hash"
+      ]
+    },
+    "limitation": "This is a non-oracle source router because it does not consume explicit source labels, but it is still a metadata-schema router. It should be treated as a routing sanity check, not a deployment-grade semantic source classifier."
+  },
+  "routing_metrics": {
+    "row_count": 2754,
+    "row_accuracy": 1.0,
+    "pair_group_count": 1357,
+    "pair_group_accuracy": 1.0,
+    "confusion": {
+      "DeltaSecommits": {
+        "DeltaSecommits": 654
+      },
+      "PatchEval": {
+        "PatchEval": 538
+      },
+      "PrimeVul-time": {
+        "PrimeVul-time": 1562
+      }
+    },
+    "by_source": {
+      "DeltaSecommits": {
+        "rows": 654,
+        "correct": 654,
+        "accuracy": 1.0
+      },
+      "PatchEval": {
+        "rows": 538,
+        "correct": 538,
+        "accuracy": 1.0
+      },
+      "PrimeVul-time": {
+        "rows": 1562,
+        "correct": 1562,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "systems": [
+    {
+      "system": "single matched-mixed checkpoint",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8591,
+        "balanced_accuracy": 0.8591,
+        "vulnerable_recall": 0.854,
+        "safe_specificity": 0.8642,
+        "precision": 0.8628,
+        "f1": 0.8584,
+        "tp": 1176,
+        "tn": 1190,
+        "fp": 187,
+        "fn": 201
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "group_all_correct": 1151,
+        "group_all_correct_rate": 0.8482,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1167,
+        "orientation_accuracy": 0.86
+      },
+      "sources": [
+        {
+          "source": "PrimeVul-time",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8809,
+            "label_accuracy": 0.8809,
+            "vulnerable_recall": 0.8758,
+            "safe_specificity": 0.886,
+            "precision": 0.8849,
+            "f1": 0.8803,
+            "balanced_accuracy": 0.8809,
+            "tp": 684,
+            "tn": 692,
+            "fp": 89,
+            "fn": 97
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 660,
+            "group_all_correct_rate": 0.8673,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        },
+        {
+          "source": "DeltaSecommits",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8486,
+            "label_accuracy": 0.8486,
+            "vulnerable_recall": 0.844,
+            "safe_specificity": 0.8532,
+            "precision": 0.8519,
+            "f1": 0.8479,
+            "balanced_accuracy": 0.8486,
+            "tp": 276,
+            "tn": 279,
+            "fp": 48,
+            "fn": 51
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 276,
+            "group_all_correct_rate": 0.844,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 277,
+            "orientation_accuracy": 0.8471
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        },
+        {
+          "source": "PatchEval",
+          "adapter": "matched-mixed",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.8086,
+            "label_accuracy": 0.8086,
+            "vulnerable_recall": 0.803,
+            "safe_specificity": 0.8141,
+            "precision": 0.812,
+            "f1": 0.8075,
+            "balanced_accuracy": 0.8086,
+            "tp": 216,
+            "tn": 219,
+            "fp": 50,
+            "fn": 53
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 215,
+            "group_all_correct_rate": 0.7993,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 218,
+            "orientation_accuracy": 0.8104
+          },
+          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+        }
+      ]
+    },
+    {
+      "system": "oracle source-routed experts",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8664,
+        "balanced_accuracy": 0.8664,
+        "vulnerable_recall": 0.8627,
+        "safe_specificity": 0.87,
+        "precision": 0.8691,
+        "f1": 0.8659,
+        "tp": 1188,
+        "tn": 1198,
+        "fp": 179,
+        "fn": 189
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "group_all_correct": 1163,
+        "group_all_correct_rate": 0.857,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1177,
+        "orientation_accuracy": 0.8674
+      },
+      "sources": [
+        {
+          "source": "PrimeVul-time",
+          "adapter": "primevul-time expert",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8835,
+            "label_accuracy": 0.8835,
+            "vulnerable_recall": 0.8796,
+            "safe_specificity": 0.8873,
+            "precision": 0.8865,
+            "f1": 0.883,
+            "balanced_accuracy": 0.8835,
+            "tp": 687,
+            "tn": 693,
+            "fp": 88,
+            "fn": 94
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 667,
+            "group_all_correct_rate": 0.8765,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1"
+        },
+        {
+          "source": "DeltaSecommits",
+          "adapter": "deltasecommits expert",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8563,
+            "label_accuracy": 0.8563,
+            "vulnerable_recall": 0.8532,
+            "safe_specificity": 0.8593,
+            "precision": 0.8585,
+            "f1": 0.8558,
+            "balanced_accuracy": 0.8563,
+            "tp": 279,
+            "tn": 281,
+            "fp": 46,
+            "fn": 48
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 277,
+            "group_all_correct_rate": 0.8471,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 280,
+            "orientation_accuracy": 0.8563
+          },
+          "checkpoint": "cls_secure_code_deltasecommits_qwen15bcoder_lora_pair_diff_cpp_v1"
+        },
+        {
+          "source": "PatchEval",
+          "adapter": "patcheval expert",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.829,
+            "label_accuracy": 0.829,
+            "vulnerable_recall": 0.8253,
+            "safe_specificity": 0.8327,
+            "precision": 0.8315,
+            "f1": 0.8284,
+            "balanced_accuracy": 0.829,
+            "tp": 222,
+            "tn": 224,
+            "fp": 45,
+            "fn": 47
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 219,
+            "group_all_correct_rate": 0.8141,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 225,
+            "orientation_accuracy": 0.8364
+          },
+          "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1"
+        }
+      ]
+    },
+    {
+      "system": "non-oracle metadata-schema router",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8664,
+        "balanced_accuracy": 0.8664,
+        "vulnerable_recall": 0.8627,
+        "safe_specificity": 0.87,
+        "precision": 0.8691,
+        "f1": 0.8659,
+        "tp": 1188,
+        "tn": 1198,
+        "fp": 179,
+        "fn": 189
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "group_all_correct": 1163,
+        "group_all_correct_rate": 0.857,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1177,
+        "orientation_accuracy": 0.8674
+      },
+      "sources": [
+        {
+          "source": "PrimeVul-time",
+          "adapter": "primevul-time expert",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8835,
+            "label_accuracy": 0.8835,
+            "vulnerable_recall": 0.8796,
+            "safe_specificity": 0.8873,
+            "precision": 0.8865,
+            "f1": 0.883,
+            "balanced_accuracy": 0.8835,
+            "tp": 687,
+            "tn": 693,
+            "fp": 88,
+            "fn": 94
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 667,
+            "group_all_correct_rate": 0.8765,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1"
+        },
+        {
+          "source": "DeltaSecommits",
+          "adapter": "deltasecommits expert",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8563,
+            "label_accuracy": 0.8563,
+            "vulnerable_recall": 0.8532,
+            "safe_specificity": 0.8593,
+            "precision": 0.8585,
+            "f1": 0.8558,
+            "balanced_accuracy": 0.8563,
+            "tp": 279,
+            "tn": 281,
+            "fp": 46,
+            "fn": 48
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 277,
+            "group_all_correct_rate": 0.8471,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 280,
+            "orientation_accuracy": 0.8563
+          },
+          "checkpoint": "cls_secure_code_deltasecommits_qwen15bcoder_lora_pair_diff_cpp_v1"
+        },
+        {
+          "source": "PatchEval",
+          "adapter": "patcheval expert",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.829,
+            "label_accuracy": 0.829,
+            "vulnerable_recall": 0.8253,
+            "safe_specificity": 0.8327,
+            "precision": 0.8315,
+            "f1": 0.8284,
+            "balanced_accuracy": 0.829,
+            "tp": 222,
+            "tn": 224,
+            "fp": 45,
+            "fn": 47
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 219,
+            "group_all_correct_rate": 0.8141,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 225,
+            "orientation_accuracy": 0.8364
+          },
+          "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1"
+        }
+      ]
+    }
+  ],
+  "automatic_minus_single": {
+    "balanced_accuracy": 0.0073,
+    "f1": 0.0075,
+    "group_all_correct_rate": 0.0088,
+    "orientation_accuracy": 0.0074
+  },
+  "automatic_minus_oracle": {
+    "balanced_accuracy": 0.0,
+    "f1": 0.0,
+    "group_all_correct_rate": 0.0,
+    "orientation_accuracy": 0.0
+  },
+  "conclusion": "The metadata-schema router exactly matches the oracle source assignment on this three-source benchmark. The result supports source-aware routing as a system layer, but the next step is a content-based router that avoids dataset-schema fingerprints."
+}
