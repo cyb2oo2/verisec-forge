@@ -54,7 +54,7 @@ Key evidence:
 - The original paired-diff checkpoint transfers strongly to the later-CVE eval split: selected-threshold balanced accuracy `0.8412`, pair-coupled balanced accuracy `0.8745`, and group all-correct `0.8555`.
 - Direct training on the `<=2020` split improves the later-CVE eval result: selected-threshold balanced accuracy `0.8745`, pair-coupled balanced accuracy `0.8835`, and group all-correct `0.8765`.
 - A stricter temporal composite slice removes later-CVE eval rows that overlap training by project and file hash; the remaining `218` rows are balanced (`109/109`) and pair-coupled balanced accuracy remains `0.8853`.
-- A second-source DeltaSecommits C/C++ validation set is now built from `1634` paired vulnerable/secure snapshots. On the matched Delta eval split, the PrimeVul time-trained checkpoint transfers zero-shot at default balanced accuracy `0.8333`, and pair-coupled decoding improves this to `0.8486`.
+- A second-source DeltaSecommits C/C++ validation set is now built from `1634` paired vulnerable/secure snapshots. On the matched Delta eval split, the PrimeVul time-trained checkpoint transfers zero-shot at default balanced accuracy `0.8333`, and pair-coupled decoding improves this to `0.8486`. Delta-only adaptation reaches pair-coupled BA `0.8563`; a short/matched PrimeVul+Delta mix reaches the best calibrated single-row BA `0.8670` at threshold `0.3`, but does not improve pair-coupled BA beyond `0.8486`.
 - Delta-only adaptation reaches default balanced accuracy `0.8517` and pair-coupled balanced accuracy `0.8563`.
 - Full PrimeVul+Delta mixed training is not a clear win on Delta eval: default balanced accuracy is `0.8532`, while pair-coupled balanced accuracy falls to `0.8456`.
 
@@ -169,7 +169,7 @@ Recommended contribution framing:
 
 - Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
-- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, and a second-source DeltaSecommits ablation now exists. The next limitation is broader multi-source replication and better source-matched mixing, not merely having a second dataset.
+- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, and a second-source DeltaSecommits ablation now exists. The next limitation is broader multi-source replication and domain-aware source mixing/adapters, because short matched mixing helped threshold calibration but not pair-coupled consistency.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps

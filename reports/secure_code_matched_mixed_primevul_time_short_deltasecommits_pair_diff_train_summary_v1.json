@@ -1,0 +1,54 @@
+{
+  "scope": "matched_mixed_pair_diff_dataset",
+  "seed": 42,
+  "rows": 5228,
+  "unique_ids": 5228,
+  "unique_pair_keys": 3367,
+  "labels": {
+    "safe": 2614,
+    "vulnerable": 2614
+  },
+  "source_counts": {
+    "primevul_time_short": 2614,
+    "deltasecommits": 2614
+  },
+  "changed_line_buckets": {
+    "00-02": 1479,
+    "03-05": 1341,
+    "06-10": 1091,
+    "11-25": 868,
+    "26+": 449
+  },
+  "prompt_lengths": {
+    "p50": 769,
+    "p90": 2151,
+    "p99": 5885,
+    "max": 14567
+  },
+  "prime_sampling": {
+    "eligible_rows": 5969,
+    "eligible_labels": {
+      "safe": 2980,
+      "vulnerable": 2989
+    },
+    "sampled_rows": 2614,
+    "sampled_labels": {
+      "safe": 1307,
+      "vulnerable": 1307
+    },
+    "max_chars": 8192
+  },
+  "delta_input": {
+    "rows": 2614,
+    "labels": {
+      "safe": 1307,
+      "vulnerable": 1307
+    },
+    "prompt_lengths": {
+      "p50": 868,
+      "p90": 2667,
+      "p99": 8155,
+      "max": 14567
+    }
+  }
+}

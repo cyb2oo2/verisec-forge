@@ -29,6 +29,13 @@ SYSTEMS = [
         "threshold_sweep": "reports/secure_code_mixed_primevul_time_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_threshold_sweep.json",
         "note": "Full mixed-source training; tests whether adding PrimeVul helps Delta beyond Delta-only.",
     },
+    {
+        "name": "PrimeVul-short+Delta matched",
+        "training": "Short PrimeVul time-disjoint + DeltaSecommits C/C++ train",
+        "report": "reports/secure_code_deltasecommits_matched_mixed_primevul_time_short_delta_pair_diff_eval_v1.json",
+        "threshold_sweep": "reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_threshold_sweep.json",
+        "note": "Matched/short mixed-source training removes the PrimeVul extreme prompt-length tail before mixing.",
+    },
 ]
 
 
@@ -78,7 +85,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
     lines = [
         "# DeltaSecommits Cross-Source Ablation",
         "",
-        "This report compares three matched DeltaSecommits eval-split settings. It is the project first true second-source paired-patch validation table.",
+        "This report compares matched DeltaSecommits eval-split settings. It is the project first true second-source paired-patch validation table.",
         "",
         "## Results",
         "",
@@ -100,7 +107,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "- PrimeVul zero-shot remains strong on a second paired-patch source, especially after pair-coupled decoding.",
             "- Delta-only training improves the default detector slightly, but not by a large margin, which supports cross-source transfer rather than pure dataset memorization.",
-            "- Full PrimeVul+Delta mixed training does not materially beat Delta-only on Delta eval; the next useful direction is matched/short mixed training or domain-aware adapters, not indiscriminate source mixing.",
+            "- Full PrimeVul+Delta mixed training does not materially beat Delta-only on Delta eval, which argues against indiscriminate source mixing.",
+            "- Matched/short mixed-source training improves the calibrated single-row operating point, but it still does not beat Delta-only on pair-coupled consistency; the next useful direction is domain-aware mixing/adapters rather than simply adding more source rows.",
             "",
             "## Notes",
             "",
@@ -120,7 +128,7 @@ def main() -> int:
         "systems": systems,
         "conclusion": (
             "Second-source DeltaSecommits validation supports the paired-diff transfer story. "
-            "Mixed full-source training is not yet a clear win over Delta-only adaptation."
+            "Matched/short source mixing improves threshold-calibrated Delta accuracy, but Delta-only remains the best pair-coupled consistency baseline."
         ),
     }
     json_path = ROOT / "reports/secure_code_deltasecommits_cross_source_ablation_v1.json"

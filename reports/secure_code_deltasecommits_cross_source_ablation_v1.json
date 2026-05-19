@@ -49,7 +49,23 @@
       "best_threshold_balanced_accuracy": 0.8563,
       "best_threshold": 0.3,
       "note": "Full mixed-source training; tests whether adding PrimeVul helps Delta beyond Delta-only."
+    },
+    {
+      "system": "PrimeVul-short+Delta matched",
+      "training": "Short PrimeVul time-disjoint + DeltaSecommits C/C++ train",
+      "rows": 654,
+      "pairs": 327,
+      "default_balanced_accuracy": 0.8471,
+      "default_recall": 0.8043,
+      "default_specificity": 0.8899,
+      "default_group_all_correct": 0.7798,
+      "pair_coupled_balanced_accuracy": 0.8486,
+      "pair_coupled_group_all_correct": 0.844,
+      "orientation_accuracy": 0.8471,
+      "best_threshold_balanced_accuracy": 0.867,
+      "best_threshold": 0.3,
+      "note": "Matched/short mixed-source training removes the PrimeVul extreme prompt-length tail before mixing."
     }
   ],
-  "conclusion": "Second-source DeltaSecommits validation supports the paired-diff transfer story. Mixed full-source training is not yet a clear win over Delta-only adaptation."
+  "conclusion": "Second-source DeltaSecommits validation supports the paired-diff transfer story. Matched/short source mixing improves threshold-calibrated Delta accuracy, but Delta-only remains the best pair-coupled consistency baseline."
 }
