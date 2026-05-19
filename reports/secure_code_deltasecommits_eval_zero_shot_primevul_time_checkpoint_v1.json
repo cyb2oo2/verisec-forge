@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "deltasecommits_eval_zero_shot_primevul_checkpoint",
+  "protocol": {
+    "source_dataset": "rufimelo/DeltaSecommits",
+    "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "none on DeltaSecommits; PrimeVul time-disjoint checkpoint only"
+  },
+  "split": {
+    "rows": 654,
+    "unique_pair_count": 327,
+    "label_counts": {
+      "safe": 327,
+      "vulnerable": 327
+    },
+    "changed_line_buckets": {
+      "00-02": 186,
+      "03-05": 174,
+      "06-10": 152,
+      "11-25": 98,
+      "26+": 44
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.8333,
+      "label_accuracy": 0.8333,
+      "vulnerable_recall": 0.7492,
+      "safe_specificity": 0.9174,
+      "precision": 0.9007,
+      "f1": 0.818,
+      "balanced_accuracy": 0.8333,
+      "tp": 245,
+      "tn": 300,
+      "fp": 27,
+      "fn": 82
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 240,
+      "group_all_correct_rate": 0.7339,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 277,
+      "orientation_accuracy": 0.8471
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.8486,
+      "label_accuracy": 0.8486,
+      "vulnerable_recall": 0.844,
+      "safe_specificity": 0.8532,
+      "precision": 0.8519,
+      "f1": 0.8479,
+      "balanced_accuracy": 0.8486,
+      "tp": 276,
+      "tn": 279,
+      "fp": 48,
+      "fn": 51
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 275,
+      "group_all_correct_rate": 0.841,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 277,
+      "orientation_accuracy": 0.8471
+    },
+    "coupling_counts": {
+      "groups": 327,
+      "eligible_groups": 327,
+      "coupled_groups": 322,
+      "unchanged_groups": 5
+    }
+  }
+}

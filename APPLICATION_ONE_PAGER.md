@@ -16,7 +16,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
    A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, the current disjoint stress matrix removes eval rows overlapping training by project/CVE/commit/file hash, and a true CVE-year time split is now materialized.
 
 2. Paired diff reasoning plus pair-coupled decoding.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On project-disjoint rows it reaches `0.8225`; on the true later-CVE temporal eval split, direct `<=2020` training reaches `0.8835`; on second-source DeltaSecommits C/C++ pairs, the PrimeVul checkpoint transfers zero-shot at pair-coupled BA `0.8641`.
+   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On project-disjoint rows it reaches `0.8225`; on the true later-CVE temporal eval split, direct `<=2020` training reaches `0.8835`; on second-source DeltaSecommits C/C++ eval pairs, the PrimeVul checkpoint transfers zero-shot at pair-coupled BA `0.8486`, while Delta-only training reaches `0.8563`.
 
 3. Evidence-coupled audit loop.
    Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
@@ -38,6 +38,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Time-disjoint composite stress: `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`.
 - DeltaSecommits pair-diff dataset: `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`.
 - DeltaSecommits zero-shot transfer: `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`.
+- DeltaSecommits cross-source ablation: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`.
 - CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
@@ -47,12 +48,12 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 - Evidence localization still uses pseudo labels, pilot triage, and AI-filled adjudication; final evidence labels require non-AI independent adjudication.
 - Safe flip gate pools remain small and should be expanded beyond top-5/top-10 candidates.
-- Project/CVE/commit/file-hash disjoint stress evaluation is covered, the true time-disjoint setting now has zero-retraining transfer, direct `<=2020` training, and a project/file-hash composite stress slice, and DeltaSecommits provides a second-source zero-shot validation. Stronger external generalization still needs broader multi-source replication.
+- Project/CVE/commit/file-hash disjoint stress evaluation is covered, the true time-disjoint setting now has zero-retraining transfer, direct `<=2020` training, and a project/file-hash composite stress slice, and DeltaSecommits provides a second-source ablation. Stronger external generalization still needs broader multi-source replication.
 - The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every exploratory run, raw upstream dataset, or model checkpoint.
 
 ## Next Research Steps
 
-1. Preserve the DeltaSecommits zero-shot result as the external baseline, then test mixed-source or Delta-specific training as an ablation rather than the main claim.
+1. Build matched/short mixed-source or domain-aware adapter experiments, because full PrimeVul+Delta mixing did not clearly beat Delta-only adaptation.
 2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
 3. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
 4. Convert the significance report into a figure/table suitable for the final application packet.

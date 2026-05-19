@@ -71,7 +71,7 @@ The short version:
 - A harder project-disjoint stress check is now covered: after removing eval rows from projects seen during paired-diff training, pair-coupled reaches balanced accuracy `0.8225` on `355` balanced rows.
 - A true time-disjoint paired-diff split is now constructed from full PrimeVul paired metadata: train `<=2020` has `6000` rows, eval `>=2021` has `1562` rows, with `0` CVE-year/CVE/pair-key overlap. The original paired-diff checkpoint transfers to this later-CVE eval at pair-coupled balanced accuracy `0.8745`; direct training on the `<=2020` split improves this to `0.8835`.
 - A stricter temporal composite stress check now removes later-CVE eval rows from training-period projects and file hashes; the remaining `218` rows stay balanced (`109/109`) and pair-coupled BA remains `0.8853`.
-- A second-source validation is now materialized on DeltaSecommits C/C++ paired vulnerable/secure snapshots: `1634` pairs / `3268` rows. The PrimeVul time-trained checkpoint transfers zero-shot with default BA `0.8360`; pair-coupled decoding reaches BA `0.8641` and group all-correct `0.8556`.
+- A second-source validation is now materialized on DeltaSecommits C/C++ paired vulnerable/secure snapshots: `1634` pairs / `3268` rows. On the matched Delta eval split, the PrimeVul time-trained checkpoint transfers zero-shot at default BA `0.8333` and pair-coupled BA `0.8486`; Delta-only training reaches default BA `0.8517` and pair-coupled BA `0.8563`; full PrimeVul+Delta mixed training is not a clear win (`0.8532` default BA, `0.8456` pair-coupled BA).
 - Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
 - The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
 
@@ -169,7 +169,7 @@ For the temporal generalization results, see [PrimeVul Time-Disjoint Transfer Ev
 
 For the strictest current temporal stress slice, see [PrimeVul Time-Disjoint Composite Stress Evaluation](reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md). It keeps the `<=2020`/`>=2021` split, then removes eval rows overlapping training by project and file hash; the balanced composite slice still reaches pair-coupled BA `0.8853`.
 
-For cross-source validation, see [DeltaSecommits Pair-Diff Dataset](reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md) and [DeltaSecommits Zero-Shot Transfer Evaluation](reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md). The PrimeVul-trained detector is evaluated on DeltaSecommits without target training.
+For cross-source validation, see [DeltaSecommits Pair-Diff Dataset](reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md), [DeltaSecommits Zero-Shot Transfer Evaluation](reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md), and [DeltaSecommits Cross-Source Ablation](reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md). The latest ablation preserves the zero-shot result, adds Delta-only adaptation, and shows that full mixed-source training is not yet materially better than Delta-only.
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 

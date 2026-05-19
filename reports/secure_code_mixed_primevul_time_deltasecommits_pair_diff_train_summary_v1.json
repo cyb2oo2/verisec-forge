@@ -1,0 +1,39 @@
+{
+  "scope": "mixed_pair_diff_dataset",
+  "seed": 42,
+  "inputs": [
+    {
+      "source_dataset": "primevul_time",
+      "path": "data\\processed\\secure_code_primevul_pair_diff_time_train_le2020_balanced_6000_metadata.jsonl",
+      "rows": 6000,
+      "pair_keys": 3472,
+      "labels": {
+        "safe": 3000,
+        "vulnerable": 3000
+      },
+      "duplicate_ids_after_prefix": 0
+    },
+    {
+      "source_dataset": "deltasecommits",
+      "path": "data\\processed\\secure_code_deltasecommits_pair_diff_cpp_train_metadata.jsonl",
+      "rows": 2614,
+      "pair_keys": 1307,
+      "labels": {
+        "safe": 1307,
+        "vulnerable": 1307
+      },
+      "duplicate_ids_after_prefix": 0
+    }
+  ],
+  "rows": 8614,
+  "unique_ids": 8614,
+  "unique_pair_keys": 4779,
+  "labels": {
+    "safe": 4307,
+    "vulnerable": 4307
+  },
+  "source_counts": {
+    "primevul_time": 6000,
+    "deltasecommits": 2614
+  }
+}

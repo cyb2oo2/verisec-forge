@@ -47,6 +47,8 @@ def build_report(
     threshold: float,
     margin: float,
     checkpoint_label: str,
+    scope: str,
+    target_training: str,
 ) -> dict[str, Any]:
     threshold_rows = join_predictions(metadata_rows, predictions, threshold=threshold)
     pair_rows, coupling_counts = apply_pair_coupling(threshold_rows, margin=margin)
@@ -54,13 +56,13 @@ def build_report(
     buckets = Counter(str(row.get("changed_line_bucket") or "unknown") for row in threshold_rows)
     return {
         "status": "ok",
-        "scope": "deltasecommits_zero_shot_primevul_checkpoint",
+        "scope": scope,
         "protocol": {
             "source_dataset": "rufimelo/DeltaSecommits",
             "checkpoint": checkpoint_label,
             "threshold": threshold,
             "pair_coupling_margin": margin,
-            "target_training": "none; zero-shot cross-source evaluation",
+            "target_training": target_training,
         },
         "split": {
             "rows": len(threshold_rows),
@@ -80,15 +82,15 @@ def build_report(
     }
 
 
-def render_report(report: dict[str, Any]) -> str:
+def render_report(report: dict[str, Any], *, title: str) -> str:
     default = report["default_threshold"]
     pair = report["pair_coupled"]
     return "\n".join(
         [
-            "# DeltaSecommits Zero-Shot Transfer Evaluation",
+            f"# {title}",
             "",
-            "This report evaluates a PrimeVul-trained paired-diff detector directly on DeltaSecommits C/C++ paired vulnerable/secure snapshots.",
-            "No DeltaSecommits training is used here; this is a cross-source transfer stress test.",
+            "This report evaluates paired-diff detector predictions on DeltaSecommits C/C++ paired vulnerable/secure snapshots.",
+            f"Target training: {report['protocol']['target_training']}.",
             "",
             "## Protocol",
             "",
@@ -133,6 +135,9 @@ def main() -> int:
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--pair-margin", type=float, default=0.02)
     parser.add_argument("--checkpoint-label", default="cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_time_le2020_v1")
+    parser.add_argument("--scope", default="deltasecommits_zero_shot_primevul_checkpoint")
+    parser.add_argument("--target-training", default="none; zero-shot cross-source evaluation")
+    parser.add_argument("--title", default="DeltaSecommits Zero-Shot Transfer Evaluation")
     parser.add_argument("--json-output", default="reports/secure_code_deltasecommits_zero_shot_primevul_time_checkpoint_v1.json")
     parser.add_argument("--md-output", default="reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md")
     args = parser.parse_args()
@@ -143,9 +148,11 @@ def main() -> int:
         threshold=args.threshold,
         margin=args.pair_margin,
         checkpoint_label=args.checkpoint_label,
+        scope=args.scope,
+        target_training=args.target_training,
     )
     write_json(ROOT / args.json_output, report)
-    ensure_parent(ROOT / args.md_output).write_text(render_report(report), encoding="utf-8")
+    ensure_parent(ROOT / args.md_output).write_text(render_report(report, title=args.title), encoding="utf-8")
     print(json.dumps(report, indent=2, ensure_ascii=False))
     return 0
 

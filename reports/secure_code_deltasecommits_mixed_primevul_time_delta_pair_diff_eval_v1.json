@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "deltasecommits_mixed_primevul_time_delta_checkpoint",
+  "protocol": {
+    "source_dataset": "rufimelo/DeltaSecommits",
+    "checkpoint": "cls_secure_code_mixed_primevul_time_deltasecommits_qwen15bcoder_lora_pair_diff_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "PrimeVul time train + DeltaSecommits C/C++ train"
+  },
+  "split": {
+    "rows": 654,
+    "unique_pair_count": 327,
+    "label_counts": {
+      "safe": 327,
+      "vulnerable": 327
+    },
+    "changed_line_buckets": {
+      "00-02": 186,
+      "03-05": 174,
+      "06-10": 152,
+      "11-25": 98,
+      "26+": 44
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.8532,
+      "label_accuracy": 0.8532,
+      "vulnerable_recall": 0.8318,
+      "safe_specificity": 0.8746,
+      "precision": 0.869,
+      "f1": 0.85,
+      "balanced_accuracy": 0.8532,
+      "tp": 272,
+      "tn": 286,
+      "fp": 41,
+      "fn": 55
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 259,
+      "group_all_correct_rate": 0.792,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 277,
+      "orientation_accuracy": 0.8471
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 654,
+      "presence_accuracy": 0.8456,
+      "label_accuracy": 0.8456,
+      "vulnerable_recall": 0.8379,
+      "safe_specificity": 0.8532,
+      "precision": 0.8509,
+      "f1": 0.8444,
+      "balanced_accuracy": 0.8456,
+      "tp": 274,
+      "tn": 279,
+      "fp": 48,
+      "fn": 53
+    },
+    "group_metrics": {
+      "unique_pair_count": 327,
+      "mixed_label_pair_count": 327,
+      "group_all_correct": 273,
+      "group_all_correct_rate": 0.8349,
+      "orientation_eligible_pair_count": 327,
+      "orientation_correct": 277,
+      "orientation_accuracy": 0.8471
+    },
+    "coupling_counts": {
+      "groups": 327,
+      "eligible_groups": 327,
+      "coupled_groups": 320,
+      "unchanged_groups": 7
+    }
+  }
+}

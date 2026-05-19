@@ -13,9 +13,18 @@ def test_deltasecommits_zero_shot_report_applies_pair_coupling() -> None:
         {"id": "p1:s", "gold": 0, "pred": 1, "vuln_probability": 0.2},
     ]
 
-    report = build_report(metadata, predictions, threshold=0.95, margin=0.02, checkpoint_label="demo")
+    report = build_report(
+        metadata,
+        predictions,
+        threshold=0.95,
+        margin=0.02,
+        checkpoint_label="demo",
+        scope="demo_scope",
+        target_training="demo",
+    )
 
     assert report["split"]["rows"] == 2
+    assert report["scope"] == "demo_scope"
     assert report["default_threshold"]["overall"]["balanced_accuracy"] == 0.5
     assert report["pair_coupled"]["overall"]["balanced_accuracy"] == 1.0
     assert report["pair_coupled"]["coupling_counts"]["coupled_groups"] == 1

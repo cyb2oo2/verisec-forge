@@ -145,6 +145,13 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `DeltaSecommits Zero-Shot PrimeVul Checkpoint`: `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
 - `DeltaSecommits Zero-Shot PrimeVul Checkpoint JSON`: `reports/secure_code_deltasecommits_zero_shot_primevul_time_checkpoint_v1.json`
 - `DeltaSecommits Zero-Shot Threshold Sweep`: `reports/secure_code_deltasecommits_primevul_time_checkpoint_zero_shot_threshold_sweep.json`
+- `DeltaSecommits Eval Zero-Shot PrimeVul Checkpoint`: `reports/DELTASECCOMMITS_EVAL_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
+- `DeltaSecommits Delta-Only Pair-Diff Eval`: `reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md`
+- `DeltaSecommits Delta-Only Threshold Sweep`: `reports/secure_code_deltasecommits_cls_qwen15bcoder_lora_pair_diff_cpp_v1_threshold_sweep.json`
+- `DeltaSecommits Mixed-Source Pair-Diff Eval`: `reports/DELTASECCOMMITS_MIXED_PRIMEVUL_TIME_DELTA_PAIR_DIFF_EVAL.md`
+- `DeltaSecommits Mixed-Source Threshold Sweep`: `reports/secure_code_mixed_primevul_time_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_threshold_sweep.json`
+- `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
+- `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
