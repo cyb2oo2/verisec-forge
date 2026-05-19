@@ -7,7 +7,7 @@
       "DeltaSecommits",
       "PatchEval"
     ],
-    "note": "This report extends the source-aware adapter mixture to three sources. PatchEval currently uses the matched-mixed fallback because the full PatchEval-specific 1.5B adapter run was speed-gated on this Windows setup."
+    "note": "This report extends the source-aware adapter mixture to three sources. When a PatchEval-specific adapter report is supplied, PatchEval is routed to that expert; otherwise it falls back to the matched-mixed checkpoint."
   },
   "systems": [
     {
@@ -124,24 +124,24 @@
       "system": "available source-routed adapters",
       "overall": {
         "num_examples": 2754,
-        "presence_accuracy": 0.8624,
-        "balanced_accuracy": 0.8624,
-        "vulnerable_recall": 0.8584,
-        "safe_specificity": 0.8664,
-        "precision": 0.8653,
-        "f1": 0.8618,
-        "tp": 1182,
-        "tn": 1193,
-        "fp": 184,
-        "fn": 195
+        "presence_accuracy": 0.8664,
+        "balanced_accuracy": 0.8664,
+        "vulnerable_recall": 0.8627,
+        "safe_specificity": 0.87,
+        "precision": 0.8691,
+        "f1": 0.8659,
+        "tp": 1188,
+        "tn": 1198,
+        "fp": 179,
+        "fn": 189
       },
       "group_metrics": {
         "unique_pair_count": 1357,
-        "group_all_correct": 1159,
-        "group_all_correct_rate": 0.8541,
+        "group_all_correct": 1163,
+        "group_all_correct_rate": 0.857,
         "orientation_eligible_pair_count": 1357,
-        "orientation_correct": 1170,
-        "orientation_accuracy": 0.8622
+        "orientation_correct": 1177,
+        "orientation_accuracy": 0.8674
       },
       "sources": [
         {
@@ -202,45 +202,45 @@
         },
         {
           "source": "PatchEval",
-          "adapter": "matched-mixed fallback",
+          "adapter": "patcheval expert",
           "overall": {
             "num_examples": 538,
-            "presence_accuracy": 0.8086,
-            "label_accuracy": 0.8086,
-            "vulnerable_recall": 0.803,
-            "safe_specificity": 0.8141,
-            "precision": 0.812,
-            "f1": 0.8075,
-            "balanced_accuracy": 0.8086,
-            "tp": 216,
-            "tn": 219,
-            "fp": 50,
-            "fn": 53
+            "presence_accuracy": 0.829,
+            "label_accuracy": 0.829,
+            "vulnerable_recall": 0.8253,
+            "safe_specificity": 0.8327,
+            "precision": 0.8315,
+            "f1": 0.8284,
+            "balanced_accuracy": 0.829,
+            "tp": 222,
+            "tn": 224,
+            "fp": 45,
+            "fn": 47
           },
           "group_metrics": {
             "unique_pair_count": 269,
             "mixed_label_pair_count": 269,
-            "group_all_correct": 215,
-            "group_all_correct_rate": 0.7993,
+            "group_all_correct": 219,
+            "group_all_correct_rate": 0.8141,
             "orientation_eligible_pair_count": 269,
-            "orientation_correct": 218,
-            "orientation_accuracy": 0.8104
+            "orientation_correct": 225,
+            "orientation_accuracy": 0.8364
           },
-          "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1"
+          "checkpoint": "cls_secure_code_patcheval_qwen15bcoder_lora_pair_diff_v1"
         }
       ]
     }
   ],
   "routed_minus_single": {
-    "balanced_accuracy": 0.0033,
-    "f1": 0.0034,
-    "group_all_correct_rate": 0.0059,
-    "orientation_accuracy": 0.0022
+    "balanced_accuracy": 0.0073,
+    "f1": 0.0075,
+    "group_all_correct_rate": 0.0088,
+    "orientation_accuracy": 0.0074
   },
-  "missing_adapter": {
-    "source": "PatchEval",
-    "reason": "No completed PatchEval-specific 1.5B LoRA adapter yet; attempted full run was stopped because observed step time projected to multi-hour training.",
-    "next_protocol": "Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert."
+  "patch_adapter_status": {
+    "available": true,
+    "adapter": "patcheval expert",
+    "next_protocol": "Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
   },
-  "conclusion": "The three-source mixture still improves over a single matched-mixed checkpoint using only the available PrimeVul and Delta source experts. The next adapter experiment should target PatchEval specifically, because it is now the unfilled expert slot and the hardest cross-language source."
+  "conclusion": "The three-source source-routed adapter mixture improves over a single matched-mixed checkpoint. With the PatchEval expert available, the mixture now covers the hardest cross-language source rather than relying on a fallback."
 }

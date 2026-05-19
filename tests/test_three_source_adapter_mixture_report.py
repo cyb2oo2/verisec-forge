@@ -27,12 +27,13 @@ def _report(tp, tn, fp, fn, group_correct, orientation_correct, *, checkpoint):
     }
 
 
-def test_three_source_mixture_uses_patch_fallback_and_reports_delta():
+def test_three_source_mixture_uses_patch_expert_when_available_and_reports_delta():
     matched_prime = _report(8, 8, 2, 2, 7, 7, checkpoint="matched")
     matched_delta = _report(7, 7, 3, 3, 6, 6, checkpoint="matched")
     matched_patch = _report(6, 6, 4, 4, 5, 5, checkpoint="matched")
     expert_prime = _report(9, 9, 1, 1, 8, 8, checkpoint="prime")
     expert_delta = _report(8, 8, 2, 2, 7, 7, checkpoint="delta")
+    expert_patch = _report(7, 7, 3, 3, 6, 6, checkpoint="patch")
 
     payload = build_report(
         matched_prime_report=matched_prime,
@@ -40,9 +41,11 @@ def test_three_source_mixture_uses_patch_fallback_and_reports_delta():
         matched_patch_report=matched_patch,
         expert_prime_report=expert_prime,
         expert_delta_report=expert_delta,
+        expert_patch_report=expert_patch,
     )
 
     routed_patch = payload["systems"][1]["sources"][2]
     assert routed_patch["source"] == "PatchEval"
-    assert routed_patch["adapter"] == "matched-mixed fallback"
+    assert routed_patch["adapter"] == "patcheval expert"
+    assert payload["patch_adapter_status"]["available"] is True
     assert payload["routed_minus_single"]["balanced_accuracy"] > 0

@@ -7,21 +7,21 @@ This report extends source-aware routing to PrimeVul-time, DeltaSecommits, and P
 | System | BA | Recall | Specificity | F1 | Group All-Correct | Orientation |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `single matched-mixed checkpoint` | `0.8591` | `0.854` | `0.8642` | `0.8584` | `0.8482` | `0.86` |
-| `available source-routed adapters` | `0.8624` | `0.8584` | `0.8664` | `0.8618` | `0.8541` | `0.8622` |
+| `available source-routed adapters` | `0.8664` | `0.8627` | `0.87` | `0.8659` | `0.857` | `0.8674` |
 
 ## Delta
 
-- Routed minus single BA: `0.0033`
-- Routed minus single F1: `0.0034`
-- Routed minus single group all-correct: `0.0059`
-- Routed minus single orientation: `0.0022`
+- Routed minus single BA: `0.0073`
+- Routed minus single F1: `0.0075`
+- Routed minus single group all-correct: `0.0088`
+- Routed minus single orientation: `0.0074`
 
-## Missing Adapter
+## PatchEval Adapter
 
-- Source: `PatchEval`
-- Reason: No completed PatchEval-specific 1.5B LoRA adapter yet; attempted full run was stopped because observed step time projected to multi-hour training.
-- Next protocol: Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert.
+- Available: `True`
+- Adapter: `patcheval expert`
+- Next protocol: Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs.
 
 ## Interpretation
 
-The three-source mixture still improves over a single matched-mixed checkpoint using only the available PrimeVul and Delta source experts. The next adapter experiment should target PatchEval specifically, because it is now the unfilled expert slot and the hardest cross-language source.
+The three-source source-routed adapter mixture improves over a single matched-mixed checkpoint. With the PatchEval expert available, the mixture now covers the hardest cross-language source rather than relying on a fallback.

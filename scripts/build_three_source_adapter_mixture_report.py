@@ -84,16 +84,20 @@ def build_report(
     matched_patch_report: dict[str, Any],
     expert_prime_report: dict[str, Any],
     expert_delta_report: dict[str, Any],
+    expert_patch_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     single_sources = [
         source_payload("PrimeVul-time", matched_prime_report, adapter="matched-mixed"),
         source_payload("DeltaSecommits", matched_delta_report, adapter="matched-mixed"),
         source_payload("PatchEval", matched_patch_report, adapter="matched-mixed"),
     ]
+    patch_expert_available = expert_patch_report is not None
+    routed_patch_report = expert_patch_report or matched_patch_report
+    routed_patch_adapter = "patcheval expert" if patch_expert_available else "matched-mixed fallback"
     routed_sources = [
         source_payload("PrimeVul-time", expert_prime_report, adapter="primevul-time expert"),
         source_payload("DeltaSecommits", expert_delta_report, adapter="deltasecommits expert"),
-        source_payload("PatchEval", matched_patch_report, adapter="matched-mixed fallback"),
+        source_payload("PatchEval", routed_patch_report, adapter=routed_patch_adapter),
     ]
     single = system_payload("single matched-mixed checkpoint", single_sources)
     routed = system_payload("available source-routed adapters", routed_sources)
@@ -104,7 +108,7 @@ def build_report(
             "sources": ["PrimeVul-time", "DeltaSecommits", "PatchEval"],
             "note": (
                 "This report extends the source-aware adapter mixture to three sources. "
-                "PatchEval currently uses the matched-mixed fallback because the full PatchEval-specific 1.5B adapter run was speed-gated on this Windows setup."
+                "When a PatchEval-specific adapter report is supplied, PatchEval is routed to that expert; otherwise it falls back to the matched-mixed checkpoint."
             ),
         },
         "systems": [single, routed],
@@ -118,14 +122,18 @@ def build_report(
                 routed["group_metrics"]["orientation_accuracy"] - single["group_metrics"]["orientation_accuracy"], 4
             ),
         },
-        "missing_adapter": {
-            "source": "PatchEval",
-            "reason": "No completed PatchEval-specific 1.5B LoRA adapter yet; attempted full run was stopped because observed step time projected to multi-hour training.",
-            "next_protocol": "Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert.",
+        "patch_adapter_status": {
+            "available": patch_expert_available,
+            "adapter": routed_patch_adapter,
+            "next_protocol": (
+                "Run multi-seed PatchEval adapters and cross-evaluate the PatchEval expert on PrimeVul/Delta to quantify specialization tradeoffs."
+                if patch_expert_available
+                else "Run PatchEval-specific adapter on a faster Linux/CUDA training path or a controlled smaller-model smoke before adding it as a routed expert."
+            ),
         },
         "conclusion": (
-            "The three-source mixture still improves over a single matched-mixed checkpoint using only the available PrimeVul and Delta source experts. "
-            "The next adapter experiment should target PatchEval specifically, because it is now the unfilled expert slot and the hardest cross-language source."
+            "The three-source source-routed adapter mixture improves over a single matched-mixed checkpoint. "
+            "With the PatchEval expert available, the mixture now covers the hardest cross-language source rather than relying on a fallback."
         ),
     }
 
@@ -150,7 +158,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
             f"`{group['orientation_accuracy']}` |"
         )
     delta = payload["routed_minus_single"]
-    missing = payload["missing_adapter"]
+    patch_status = payload["patch_adapter_status"]
     lines.extend(
         [
             "",
@@ -161,11 +169,11 @@ def render_markdown(payload: dict[str, Any]) -> str:
             f"- Routed minus single group all-correct: `{delta['group_all_correct_rate']}`",
             f"- Routed minus single orientation: `{delta['orientation_accuracy']}`",
             "",
-            "## Missing Adapter",
+            "## PatchEval Adapter",
             "",
-            f"- Source: `{missing['source']}`",
-            f"- Reason: {missing['reason']}",
-            f"- Next protocol: {missing['next_protocol']}",
+            f"- Available: `{patch_status['available']}`",
+            f"- Adapter: `{patch_status['adapter']}`",
+            f"- Next protocol: {patch_status['next_protocol']}",
             "",
             "## Interpretation",
             "",
@@ -192,6 +200,7 @@ def main() -> int:
     )
     parser.add_argument("--expert-prime-report", default="reports/secure_code_primevul_time_disjoint_direct_train_v1.json")
     parser.add_argument("--expert-delta-report", default="reports/secure_code_deltasecommits_delta_only_pair_diff_eval_v1.json")
+    parser.add_argument("--expert-patch-report", default="reports/secure_code_patcheval_adapter_pair_diff_eval_v1.json")
     parser.add_argument("--json-output", default="reports/secure_code_three_source_adapter_mixture_v1.json")
     parser.add_argument("--md-output", default="reports/THREE_SOURCE_ADAPTER_MIXTURE.md")
     args = parser.parse_args()
@@ -202,6 +211,7 @@ def main() -> int:
         matched_patch_report=read_json(args.matched_patch_report),
         expert_prime_report=read_json(args.expert_prime_report),
         expert_delta_report=read_json(args.expert_delta_report),
+        expert_patch_report=read_json(args.expert_patch_report) if (ROOT / args.expert_patch_report).exists() else None,
     )
     (ROOT / args.json_output).write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     (ROOT / args.md_output).write_text(render_markdown(payload), encoding="utf-8")
