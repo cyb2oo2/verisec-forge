@@ -119,6 +119,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Pair-Coupled Router Statistics JSON`: `reports/secure_code_primevul_pair_coupled_router_statistics_v1.json`
 - `Paired Diff Pair-Coupled Multi-Split Balanced Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
 - `Paired Diff Pair-Coupled Multi-Split Balanced JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json`
+- `Paired Diff Pair-Coupled Significance Report`: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`
+- `Paired Diff Pair-Coupled Significance JSON`: `reports/secure_code_primevul_pair_coupled_significance_v1.json`
 - `Paired Diff Pair-Coupled Multi-Split Group Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT.md`
 - `Paired Diff Pair-Coupled Multi-Split Group JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_v1.json`
 - `Paired Diff CVE-Disjoint Eval`: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`

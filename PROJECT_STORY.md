@@ -46,6 +46,7 @@ Key evidence:
 - Pair-coupled decoding over five pair-key split seeds reaches mean balanced accuracy `0.8572`.
 - Pair-coupled minus bucket-router mean balanced-accuracy delta: `+0.0348`.
 - Pair-coupled mean group all-correct gain: `+0.1114`.
+- Bootstrap over split seeds keeps the strict pair-minus-bucket deltas above zero: balanced-accuracy CI `[0.0329, 0.0368]`, group all-correct CI `[0.1046, 0.1199]`.
 - Per-seed paired tests are consistently favorable in the multi-split report.
 - A first CVE-disjoint stress check removes all eval rows whose CVE appears in paired-diff training metadata; pair-coupled balanced accuracy remains `0.8491` versus diff-only `0.8168`.
 
@@ -57,6 +58,7 @@ Primary artifacts:
 
 - `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
+- `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`
 - `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
 - `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`

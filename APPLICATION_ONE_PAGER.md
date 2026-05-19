@@ -14,7 +14,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
    A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, and the first CVE-disjoint stress check removes eval rows whose CVE appears in paired-diff training metadata.
 
 2. Paired diff reasoning plus pair-coupled decoding.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572` and group all-correct by about `+0.1114`; on the CVE-disjoint stress subset it remains strong at `0.8491` versus diff-only `0.8168`.
+   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On the CVE-disjoint stress subset it remains strong at `0.8491` versus diff-only `0.8168`.
 
 3. Evidence-coupled audit loop.
    Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
@@ -27,6 +27,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Main project story: `PROJECT_STORY.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
+- Pair-coupled significance summary: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`.
 - CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
@@ -42,9 +43,9 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 ## Next Research Steps
 
 1. Add project/time-disjoint validation or a second paired patch dataset.
-2. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
-3. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
-4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
+2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
+3. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
+4. Convert the significance report into a figure/table suitable for the final application packet.
 
 ## Recommended Framing
 

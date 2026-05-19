@@ -1,0 +1,116 @@
+{
+  "status": "ok",
+  "scope": "primevul_pair_coupled_significance",
+  "protocol": {
+    "strict_same_split_delta": "pair_coupled_minus_bucket_router_over_same_multi_split_eval_groups",
+    "headline_delta": "pair_coupled_multisplit_mean_minus_diff_only_three_seed_mean",
+    "headline_delta_caveat": "The headline 0.8287 -> 0.8572 comparison uses related but not identical split protocols; the strict paired significance claim is pair-coupled versus bucket router within each held-out split."
+  },
+  "diff_only_three_seed": {
+    "balanced_accuracy_values": [
+      0.8158,
+      0.8382,
+      0.8321
+    ],
+    "mean": 0.8287,
+    "ci95_low": 0.8158,
+    "ci95_high": 0.8382,
+    "iterations": 10000,
+    "seed": 20260519,
+    "units": 3
+  },
+  "bucket_router_multisplit": {
+    "balanced_accuracy_values": [
+      0.818,
+      0.8312,
+      0.8136,
+      0.8215,
+      0.8279
+    ],
+    "mean": 0.8224,
+    "ci95_low": 0.8169,
+    "ci95_high": 0.8279,
+    "iterations": 10000,
+    "seed": 20260520,
+    "units": 5
+  },
+  "pair_coupled_multisplit": {
+    "balanced_accuracy_values": [
+      0.8528,
+      0.8644,
+      0.8493,
+      0.8599,
+      0.8596
+    ],
+    "mean": 0.8572,
+    "ci95_low": 0.8523,
+    "ci95_high": 0.8616,
+    "iterations": 10000,
+    "seed": 20260521,
+    "units": 5
+  },
+  "strict_pair_minus_bucket": {
+    "balanced_accuracy_delta_values": [
+      0.0348,
+      0.0332,
+      0.0357,
+      0.0384,
+      0.0317
+    ],
+    "balanced_accuracy_delta": {
+      "mean": 0.0348,
+      "ci95_low": 0.0329,
+      "ci95_high": 0.0368,
+      "iterations": 10000,
+      "seed": 20260522,
+      "units": 5
+    },
+    "group_all_correct_delta_values": [
+      0.1059,
+      0.101,
+      0.1091,
+      0.114,
+      0.1271
+    ],
+    "group_all_correct_delta": {
+      "mean": 0.1114,
+      "ci95_low": 0.1046,
+      "ci95_high": 0.1199,
+      "iterations": 10000,
+      "seed": 20260523,
+      "units": 5
+    },
+    "positive_balanced_accuracy_splits": 5,
+    "positive_group_all_correct_splits": 5,
+    "total_splits": 5
+  },
+  "headline_pair_minus_diff_only": {
+    "balanced_accuracy_delta": 0.0285,
+    "diff_only_mean": 0.8287,
+    "pair_coupled_mean": 0.8572,
+    "comparison_caveat": "Use as a narrative headline, not as the strict paired test."
+  },
+  "paired_tests": {
+    "row_mcnemar_p_values": [
+      1.6e-05,
+      2.1e-05,
+      1.6e-05,
+      3e-06,
+      0.001269
+    ],
+    "group_all_correct_sign_p_values": [
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06,
+      1e-06
+    ],
+    "orientation_sign_p_values": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  }
+}
