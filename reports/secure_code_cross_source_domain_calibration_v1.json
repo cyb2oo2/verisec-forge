@@ -1,0 +1,455 @@
+{
+  "status": "ok",
+  "scope": "matched_mixed_cross_source_domain_calibration",
+  "system": "PrimeVul-short+Delta matched",
+  "sources": [
+    "primevul_time_ge2021",
+    "deltasecommits_cpp_eval"
+  ],
+  "global_threshold_sweep": [
+    {
+      "threshold": 0.1,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8574,
+        "balanced_accuracy": 0.8574,
+        "vulnerable_recall": 0.907,
+        "safe_specificity": 0.8078,
+        "precision": 0.8251,
+        "f1": 0.8641,
+        "tp": 1005,
+        "tn": 895,
+        "fp": 213,
+        "fn": 103
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8624,
+        "vulnerable_recall": 0.9168,
+        "safe_specificity": 0.8079,
+        "precision": 0.8268,
+        "f1": 0.8695,
+        "tp": 716,
+        "tn": 631,
+        "fp": 150,
+        "fn": 65
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8456,
+        "vulnerable_recall": 0.8838,
+        "safe_specificity": 0.8073,
+        "precision": 0.821,
+        "f1": 0.8513,
+        "tp": 289,
+        "tn": 264,
+        "fp": 63,
+        "fn": 38
+      }
+    },
+    {
+      "threshold": 0.2,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8664,
+        "balanced_accuracy": 0.8664,
+        "vulnerable_recall": 0.8881,
+        "safe_specificity": 0.8448,
+        "precision": 0.8512,
+        "f1": 0.8693,
+        "tp": 984,
+        "tn": 936,
+        "fp": 172,
+        "fn": 124
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.87,
+        "vulnerable_recall": 0.8963,
+        "safe_specificity": 0.8438,
+        "precision": 0.8516,
+        "f1": 0.8734,
+        "tp": 700,
+        "tn": 659,
+        "fp": 122,
+        "fn": 81
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8578,
+        "vulnerable_recall": 0.8685,
+        "safe_specificity": 0.8471,
+        "precision": 0.8503,
+        "f1": 0.8593,
+        "tp": 284,
+        "tn": 277,
+        "fp": 50,
+        "fn": 43
+      }
+    },
+    {
+      "threshold": 0.3,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8714,
+        "balanced_accuracy": 0.8714,
+        "vulnerable_recall": 0.8791,
+        "safe_specificity": 0.8637,
+        "precision": 0.8658,
+        "f1": 0.8724,
+        "tp": 974,
+        "tn": 957,
+        "fp": 151,
+        "fn": 134
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8732,
+        "vulnerable_recall": 0.886,
+        "safe_specificity": 0.8604,
+        "precision": 0.8639,
+        "f1": 0.8748,
+        "tp": 692,
+        "tn": 672,
+        "fp": 109,
+        "fn": 89
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.867,
+        "vulnerable_recall": 0.8624,
+        "safe_specificity": 0.8716,
+        "precision": 0.8704,
+        "f1": 0.8664,
+        "tp": 282,
+        "tn": 285,
+        "fp": 42,
+        "fn": 45
+      }
+    },
+    {
+      "threshold": 0.4,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8682,
+        "balanced_accuracy": 0.8682,
+        "vulnerable_recall": 0.8565,
+        "safe_specificity": 0.88,
+        "precision": 0.8771,
+        "f1": 0.8667,
+        "tp": 949,
+        "tn": 975,
+        "fp": 133,
+        "fn": 159
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8732,
+        "vulnerable_recall": 0.8681,
+        "safe_specificity": 0.8784,
+        "precision": 0.8771,
+        "f1": 0.8726,
+        "tp": 678,
+        "tn": 686,
+        "fp": 95,
+        "fn": 103
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8563,
+        "vulnerable_recall": 0.8287,
+        "safe_specificity": 0.8838,
+        "precision": 0.877,
+        "f1": 0.8522,
+        "tp": 271,
+        "tn": 289,
+        "fp": 38,
+        "fn": 56
+      }
+    },
+    {
+      "threshold": 0.5,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8628,
+        "balanced_accuracy": 0.8628,
+        "vulnerable_recall": 0.8321,
+        "safe_specificity": 0.8935,
+        "precision": 0.8865,
+        "f1": 0.8585,
+        "tp": 922,
+        "tn": 990,
+        "fp": 118,
+        "fn": 186
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8694,
+        "vulnerable_recall": 0.8438,
+        "safe_specificity": 0.895,
+        "precision": 0.8893,
+        "f1": 0.866,
+        "tp": 659,
+        "tn": 699,
+        "fp": 82,
+        "fn": 122
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8471,
+        "vulnerable_recall": 0.8043,
+        "safe_specificity": 0.8899,
+        "precision": 0.8796,
+        "f1": 0.8403,
+        "tp": 263,
+        "tn": 291,
+        "fp": 36,
+        "fn": 64
+      }
+    },
+    {
+      "threshold": 0.6,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8606,
+        "balanced_accuracy": 0.8606,
+        "vulnerable_recall": 0.8168,
+        "safe_specificity": 0.9043,
+        "precision": 0.8952,
+        "f1": 0.8542,
+        "tp": 905,
+        "tn": 1002,
+        "fp": 106,
+        "fn": 203
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8681,
+        "vulnerable_recall": 0.8297,
+        "safe_specificity": 0.9065,
+        "precision": 0.8988,
+        "f1": 0.8628,
+        "tp": 648,
+        "tn": 708,
+        "fp": 73,
+        "fn": 133
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8425,
+        "vulnerable_recall": 0.7859,
+        "safe_specificity": 0.8991,
+        "precision": 0.8862,
+        "f1": 0.8331,
+        "tp": 257,
+        "tn": 294,
+        "fp": 33,
+        "fn": 70
+      }
+    },
+    {
+      "threshold": 0.7,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8574,
+        "balanced_accuracy": 0.8574,
+        "vulnerable_recall": 0.7987,
+        "safe_specificity": 0.9161,
+        "precision": 0.9049,
+        "f1": 0.8485,
+        "tp": 885,
+        "tn": 1015,
+        "fp": 93,
+        "fn": 223
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8662,
+        "vulnerable_recall": 0.8118,
+        "safe_specificity": 0.9206,
+        "precision": 0.9109,
+        "f1": 0.8585,
+        "tp": 634,
+        "tn": 719,
+        "fp": 62,
+        "fn": 147
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8364,
+        "vulnerable_recall": 0.7676,
+        "safe_specificity": 0.9052,
+        "precision": 0.8901,
+        "f1": 0.8243,
+        "tp": 251,
+        "tn": 296,
+        "fp": 31,
+        "fn": 76
+      }
+    },
+    {
+      "threshold": 0.8,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8533,
+        "balanced_accuracy": 0.8533,
+        "vulnerable_recall": 0.7789,
+        "safe_specificity": 0.9278,
+        "precision": 0.9152,
+        "f1": 0.8415,
+        "tp": 863,
+        "tn": 1028,
+        "fp": 80,
+        "fn": 245
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8604,
+        "vulnerable_recall": 0.79,
+        "safe_specificity": 0.9309,
+        "precision": 0.9195,
+        "f1": 0.8499,
+        "tp": 617,
+        "tn": 727,
+        "fp": 54,
+        "fn": 164
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8364,
+        "vulnerable_recall": 0.7523,
+        "safe_specificity": 0.9205,
+        "precision": 0.9044,
+        "f1": 0.8214,
+        "tp": 246,
+        "tn": 301,
+        "fp": 26,
+        "fn": 81
+      }
+    },
+    {
+      "threshold": 0.9,
+      "global": {
+        "num_examples": 2216,
+        "presence_accuracy": 0.8412,
+        "balanced_accuracy": 0.8412,
+        "vulnerable_recall": 0.7419,
+        "safe_specificity": 0.9404,
+        "precision": 0.9257,
+        "f1": 0.8236,
+        "tp": 822,
+        "tn": 1042,
+        "fp": 66,
+        "fn": 286
+      },
+      "primevul_time": {
+        "balanced_accuracy": 0.8476,
+        "vulnerable_recall": 0.749,
+        "safe_specificity": 0.9462,
+        "precision": 0.933,
+        "f1": 0.831,
+        "tp": 585,
+        "tn": 739,
+        "fp": 42,
+        "fn": 196
+      },
+      "deltasecommits": {
+        "balanced_accuracy": 0.8257,
+        "vulnerable_recall": 0.7248,
+        "safe_specificity": 0.9266,
+        "precision": 0.908,
+        "f1": 0.8061,
+        "tp": 237,
+        "tn": 303,
+        "fp": 24,
+        "fn": 90
+      }
+    }
+  ],
+  "best_global_threshold": {
+    "threshold": 0.3,
+    "global": {
+      "num_examples": 2216,
+      "presence_accuracy": 0.8714,
+      "balanced_accuracy": 0.8714,
+      "vulnerable_recall": 0.8791,
+      "safe_specificity": 0.8637,
+      "precision": 0.8658,
+      "f1": 0.8724,
+      "tp": 974,
+      "tn": 957,
+      "fp": 151,
+      "fn": 134
+    },
+    "primevul_time": {
+      "balanced_accuracy": 0.8732,
+      "vulnerable_recall": 0.886,
+      "safe_specificity": 0.8604,
+      "precision": 0.8639,
+      "f1": 0.8748,
+      "tp": 692,
+      "tn": 672,
+      "fp": 109,
+      "fn": 89
+    },
+    "deltasecommits": {
+      "balanced_accuracy": 0.867,
+      "vulnerable_recall": 0.8624,
+      "safe_specificity": 0.8716,
+      "precision": 0.8704,
+      "f1": 0.8664,
+      "tp": 282,
+      "tn": 285,
+      "fp": 42,
+      "fn": 45
+    }
+  },
+  "source_aware_thresholds": {
+    "global": {
+      "num_examples": 2216,
+      "presence_accuracy": 0.8714,
+      "balanced_accuracy": 0.8714,
+      "vulnerable_recall": 0.8664,
+      "safe_specificity": 0.8764,
+      "precision": 0.8751,
+      "f1": 0.8707,
+      "tp": 960,
+      "tn": 971,
+      "fp": 137,
+      "fn": 148
+    },
+    "primevul_time_threshold": 0.4,
+    "deltasecommits_threshold": 0.3,
+    "primevul_time": {
+      "num_examples": 1562,
+      "presence_accuracy": 0.8732,
+      "label_accuracy": 0.8732,
+      "vulnerable_recall": 0.8681,
+      "safe_specificity": 0.8784,
+      "precision": 0.8771,
+      "f1": 0.8726,
+      "balanced_accuracy": 0.8732,
+      "tp": 678,
+      "tn": 686,
+      "fp": 95,
+      "fn": 103,
+      "threshold": 0.4
+    },
+    "deltasecommits": {
+      "num_examples": 654,
+      "presence_accuracy": 0.867,
+      "label_accuracy": 0.867,
+      "vulnerable_recall": 0.8624,
+      "safe_specificity": 0.8716,
+      "precision": 0.8704,
+      "f1": 0.8664,
+      "balanced_accuracy": 0.867,
+      "tp": 282,
+      "tn": 285,
+      "fp": 42,
+      "fn": 45,
+      "threshold": 0.3
+    }
+  },
+  "source_aware_minus_best_global": {
+    "balanced_accuracy": 0.0,
+    "f1": -0.0017
+  },
+  "pair_coupled": {
+    "primevul_time": {
+      "balanced_accuracy": 0.8809,
+      "group_all_correct": 0.8673,
+      "orientation_accuracy": 0.883
+    },
+    "deltasecommits": {
+      "balanced_accuracy": 0.8486,
+      "group_all_correct": 0.844,
+      "orientation_accuracy": 0.8471
+    }
+  },
+  "conclusion": "The matched mixed-source checkpoint has different best thresholds on PrimeVul-time and DeltaSecommits. However, source-aware thresholding does not materially improve over the best shared threshold on the combined eval; the remaining cross-source gap is in pair-coupled consistency, not just scalar threshold calibration."
+}

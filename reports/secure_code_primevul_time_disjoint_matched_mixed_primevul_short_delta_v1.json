@@ -1,0 +1,84 @@
+{
+  "status": "ok",
+  "scope": "primevul_time_disjoint_matched_mixed_primevul_short_delta",
+  "protocol": {
+    "checkpoint": "cls_secure_code_matched_mixed_primevul_time_short_deltasecommits_qwen15bcoder_lora_pair_diff_v1",
+    "note": "This report evaluates the matched short PrimeVul + DeltaSecommits paired-diff checkpoint on the true PrimeVul later-CVE time-disjoint eval split.",
+    "threshold": 0.4,
+    "pair_coupling_margin": 0.02
+  },
+  "split": {
+    "rows": 1562,
+    "unique_pair_count": 761,
+    "cve_years": [
+      2021,
+      2022
+    ]
+  },
+  "default_threshold": {
+    "num_examples": 1562,
+    "presence_accuracy": 0.8694,
+    "label_accuracy": 0.8694,
+    "vulnerable_recall": 0.8438,
+    "safe_specificity": 0.895,
+    "precision": 0.8893,
+    "f1": 0.866,
+    "balanced_accuracy": 0.8694,
+    "tp": 659,
+    "tn": 699,
+    "fp": 82,
+    "fn": 122,
+    "threshold": 0.5
+  },
+  "selected_threshold": {
+    "num_examples": 1562,
+    "presence_accuracy": 0.8732,
+    "label_accuracy": 0.8732,
+    "vulnerable_recall": 0.8681,
+    "safe_specificity": 0.8784,
+    "precision": 0.8771,
+    "f1": 0.8726,
+    "balanced_accuracy": 0.8732,
+    "tp": 678,
+    "tn": 686,
+    "fp": 95,
+    "fn": 103,
+    "threshold": 0.4
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 1562,
+      "presence_accuracy": 0.8809,
+      "label_accuracy": 0.8809,
+      "vulnerable_recall": 0.8758,
+      "safe_specificity": 0.886,
+      "precision": 0.8849,
+      "f1": 0.8803,
+      "balanced_accuracy": 0.8809,
+      "tp": 684,
+      "tn": 692,
+      "fp": 89,
+      "fn": 97
+    },
+    "group_metrics": {
+      "unique_pair_count": 761,
+      "mixed_label_pair_count": 761,
+      "group_all_correct": 660,
+      "group_all_correct_rate": 0.8673,
+      "orientation_eligible_pair_count": 761,
+      "orientation_correct": 672,
+      "orientation_accuracy": 0.883
+    },
+    "coupling_counts": {
+      "groups": 761,
+      "eligible_groups": 761,
+      "coupled_groups": 738,
+      "unchanged_groups": 23
+    }
+  },
+  "delta_vs_selected_threshold": {
+    "balanced_accuracy": 0.0077,
+    "group_all_correct_rate": 0.0513,
+    "orientation_accuracy": 0.0
+  }
+}
