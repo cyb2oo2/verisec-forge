@@ -46,6 +46,7 @@ from scripts.build_ai_adjudication_summary import (
     render_report as render_ai_adjudication_summary_report,
 )
 from scripts.evaluate_primevul_cve_disjoint import build_report as build_cve_disjoint_report
+from scripts.evaluate_primevul_disjoint_stress import build_report as build_disjoint_stress_report
 from vrf.evidence_adjudication import (
     adjudication_template_rows,
     analyze_adjudications,
@@ -785,3 +786,33 @@ def test_cve_disjoint_report_removes_train_cves_and_keeps_pair_delta() -> None:
     assert report["pair_coupled"]["coupling_counts"]["coupled_groups"] == 1
     assert rows[0]["pred"] == 1
     assert rows[1]["pred"] == 0
+
+
+def test_disjoint_stress_report_filters_multiple_metadata_fields() -> None:
+    train_rows = [
+        {"id": "train1", "project": "seen", "cve": "CVE-A"},
+    ]
+    eval_rows = [
+        {"id": "eval1", "project": "seen", "cve": "CVE-B", "pair_key": "p1"},
+        {"id": "eval2", "project": "new", "cve": "CVE-A", "pair_key": "p2"},
+        {"id": "eval3", "project": "new", "cve": "CVE-C", "pair_key": "p2"},
+    ]
+    predictions = [
+        {"id": "eval1", "gold": 1, "pred": 1, "vuln_probability": 0.9},
+        {"id": "eval2", "gold": 1, "pred": 0, "vuln_probability": 0.8},
+        {"id": "eval3", "gold": 0, "pred": 1, "vuln_probability": 0.2},
+    ]
+
+    report, field_predictions = build_disjoint_stress_report(
+        train_rows,
+        eval_rows,
+        predictions,
+        fields=["project", "cve"],
+        margin=0.02,
+    )
+
+    assert report["fields"]["project"]["split"]["eval_rows_after"] == 2
+    assert report["fields"]["cve"]["split"]["eval_rows_after"] == 2
+    assert report["fields"]["project"]["split"]["overlap_after_filter"] == 0
+    assert report["fields"]["cve"]["split"]["overlap_after_filter"] == 0
+    assert len(field_predictions["project"]) == 2

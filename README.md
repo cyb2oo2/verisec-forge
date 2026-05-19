@@ -68,6 +68,7 @@ The short version:
 - Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
 - Pair-coupled decoding is the strongest current system layer, reaching five-split mean balanced accuracy `0.8572`; the strict same-split pair-minus-bucket delta is `+0.0348` BA with bootstrap 95% CI `[0.0329, 0.0368]`.
 - A first CVE-disjoint stress check keeps the mainline intact: after removing eval rows whose CVE appears in paired-diff training metadata, diff-only reaches balanced accuracy `0.8168` and pair-coupled reaches `0.8491`.
+- A harder project-disjoint stress check is now covered: after removing eval rows from projects seen during paired-diff training, pair-coupled reaches balanced accuracy `0.8225` on `355` balanced rows; time-disjoint is explicitly marked infeasible for the current sample because eval has no unseen CVE years.
 - Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
 - The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
 
@@ -156,6 +157,8 @@ For a compact application-style narrative table, see [PrimeVul Progressive Contr
 For a one-page application summary, see [Application One-Pager](APPLICATION_ONE_PAGER.md).
 
 For the first external-generalization stress check, see [PrimeVul CVE-Disjoint Evaluation](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md). It removes eval rows whose CVE appears in paired-diff training metadata and preserves the pair-coupled gain over diff-only on the remaining held-out CVEs.
+
+For the broader shortcut/generalization stress matrix, see [PrimeVul Disjoint Stress Evaluation](reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md). It covers project-, CVE-, commit-, and file-hash-disjoint filters and records why time-disjoint evaluation is not feasible from the current train/eval sample.
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
