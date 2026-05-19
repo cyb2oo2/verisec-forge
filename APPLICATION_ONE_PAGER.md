@@ -1,5 +1,7 @@
 # VeriSec Forge: Application One-Pager
 
+![PrimeVul pair-coupled significance](reports/assets/primevul_pair_coupled_significance.svg)
+
 ## One-Sentence Summary
 
 VeriSec Forge is a shortcut-aware secure patch/diff reasoning system that diagnoses misleading vulnerability-detection scores, replaces standalone snippet classification with paired vulnerable/fixed diff reasoning, and makes the resulting audit loop reproducible through public bundle-assisted artifacts.

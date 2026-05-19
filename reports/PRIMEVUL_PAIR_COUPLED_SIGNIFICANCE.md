@@ -2,6 +2,8 @@
 
 This report packages the statistical support for the paired-diff mainline. It separates the strict same-split claim from the headline narrative comparison.
 
+![PrimeVul pair-coupled significance](assets/primevul_pair_coupled_significance.svg)
+
 ## Strict Same-Split Claim
 
 Pair-coupled decoding is compared against the bucket-router baseline on the same held-out pair groups for each split seed.

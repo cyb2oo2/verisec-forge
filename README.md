@@ -33,6 +33,8 @@ Then open `http://127.0.0.1:8000/review-pair/ui`.
 
 ![PrimeVul progressive controls](reports/assets/primevul_progressive_controls.svg)
 
+![PrimeVul pair-coupled significance](reports/assets/primevul_pair_coupled_significance.svg)
+
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
 ![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
