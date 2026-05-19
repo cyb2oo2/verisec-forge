@@ -60,15 +60,18 @@ def build_report(
     selected_threshold_report: dict[str, Any],
     threshold: float,
     margin: float,
+    scope: str = "primevul_time_disjoint_transfer",
+    checkpoint_label: str = "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+    protocol_note: str = "This report evaluates the original paired-diff detector checkpoint on the true CVE-year time-disjoint eval split. No retraining is performed here; this is a temporal transfer baseline.",
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     threshold_rows = join_predictions(metadata_rows, predictions, threshold=threshold)
     pair_rows, coupling_counts = apply_pair_coupling(threshold_rows, margin=margin)
     report = {
         "status": "ok",
-        "scope": "primevul_time_disjoint_transfer",
+        "scope": scope,
         "protocol": {
-            "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
-            "train_eval_mismatch": "checkpoint trained on original paired-diff train split; evaluated on CVE-year time-disjoint eval >=2021",
+            "checkpoint": checkpoint_label,
+            "note": protocol_note,
             "threshold": threshold,
             "pair_coupling_margin": margin,
         },
@@ -110,12 +113,14 @@ def render_report(report: dict[str, Any]) -> str:
     selected = report["selected_threshold"]
     pair = report["pair_coupled"]
     delta = report["delta_vs_selected_threshold"]
+    title = "PrimeVul Time-Disjoint Transfer Evaluation"
+    if "direct" in str(report.get("scope", "")):
+        title = "PrimeVul Time-Disjoint Direct-Train Evaluation"
     return "\n".join(
         [
-            "# PrimeVul Time-Disjoint Transfer Evaluation",
+            f"# {title}",
             "",
-            "This report evaluates the original paired-diff detector checkpoint on the true CVE-year time-disjoint eval split.",
-            "No retraining is performed here; this is a temporal transfer baseline.",
+            str(report["protocol"]["note"]),
             "",
             "## Split",
             "",
@@ -139,7 +144,7 @@ def render_report(report: dict[str, Any]) -> str:
             "",
             "## Interpretation",
             "",
-            "The old paired-diff detector transfers strongly to later CVE years. Pair-coupling is still useful for group consistency, but this transfer run should be treated as a baseline before training directly on the time-disjoint split.",
+            "This report uses the true CVE-year time-disjoint eval split. The selected threshold is chosen from the supplied threshold sweep, and pair-coupled decoding is evaluated as a structured inference layer over paired vulnerable/fixed groups.",
             "",
         ]
     )
@@ -163,6 +168,12 @@ def main() -> int:
     parser.add_argument("--threshold-sweep", default="reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_time_eval_ge2021_threshold_sweep.json")
     parser.add_argument("--default-report", default="reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_time_eval_ge2021_report.json")
     parser.add_argument("--pair-margin", type=float, default=0.02)
+    parser.add_argument("--scope", default="primevul_time_disjoint_transfer")
+    parser.add_argument("--checkpoint-label", default="cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1")
+    parser.add_argument(
+        "--protocol-note",
+        default="This report evaluates the original paired-diff detector checkpoint on the true CVE-year time-disjoint eval split. No retraining is performed here; this is a temporal transfer baseline.",
+    )
     parser.add_argument("--json-output", default="reports/secure_code_primevul_time_disjoint_transfer_v1.json")
     parser.add_argument("--md-output", default="reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md")
     parser.add_argument("--predictions-output", default="outputs/secure_code_primevul_time_disjoint_pair_coupled_transfer_v1_predictions.jsonl")
@@ -177,6 +188,9 @@ def main() -> int:
         selected_threshold_report=selected,
         threshold=float(selected["threshold"]),
         margin=args.pair_margin,
+        scope=args.scope,
+        checkpoint_label=args.checkpoint_label,
+        protocol_note=args.protocol_note,
     )
     write_json(ROOT / args.json_output, report)
     write_jsonl(ROOT / args.predictions_output, pair_rows)

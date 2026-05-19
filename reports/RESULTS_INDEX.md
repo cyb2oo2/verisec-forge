@@ -133,6 +133,11 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Time-Disjoint Transfer`: `reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md`
 - `Paired Diff Time-Disjoint Transfer JSON`: `reports/secure_code_primevul_time_disjoint_transfer_v1.json`
 - `Paired Diff Time-Disjoint Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_time_eval_ge2021_threshold_sweep.json`
+- `Paired Diff Time-Disjoint Direct-Train`: `reports/PRIMEVUL_TIME_DISJOINT_DIRECT_TRAIN.md`
+- `Paired Diff Time-Disjoint Direct-Train JSON`: `reports/secure_code_primevul_time_disjoint_direct_train_v1.json`
+- `Paired Diff Time-Disjoint Direct-Train Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_time_le2020_v1_eval_ge2021_threshold_sweep.json`
+- `Paired Diff Time-Disjoint Transfer vs Direct Comparison`: `reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md`
+- `Paired Diff Time-Disjoint Transfer vs Direct Comparison JSON`: `reports/secure_code_primevul_time_disjoint_comparison_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
