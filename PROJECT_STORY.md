@@ -51,6 +51,7 @@ Key evidence:
 - A first CVE-disjoint stress check removes all eval rows whose CVE appears in paired-diff training metadata; pair-coupled balanced accuracy remains `0.8491` versus diff-only `0.8168`.
 - A harder project-disjoint stress check removes all eval rows from projects seen during paired-diff training; pair-coupled balanced accuracy remains `0.8225` on `355` balanced rows.
 - A true time-disjoint paired-diff split is now materialized from full paired metadata: train `<=2020` has `6000` rows, eval `>=2021` has `1562` rows, with `0` CVE-year/CVE/pair-key overlap.
+- The original paired-diff checkpoint transfers strongly to the later-CVE eval split: selected-threshold balanced accuracy `0.8412`, pair-coupled balanced accuracy `0.8745`, and group all-correct `0.8555`.
 
 Research claim:
 
@@ -65,6 +66,7 @@ Primary artifacts:
 - `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`
 - `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`
 - `reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md`
+- `reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
 ### 3. Evidence-Coupled Audit Loop: From Pseudo-Spans To Review Queues
@@ -156,14 +158,14 @@ Recommended contribution framing:
 
 - Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
-- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, and a true time-disjoint split is materialized but not yet trained/evaluated. Running the detector stack on that temporal split or adding a second paired patch dataset remains the most important next generalization check.
+- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, and the existing detector stack has a first zero-retraining transfer result on a true time-disjoint split. Training directly on the temporal split or adding a second paired patch dataset remains the most important next generalization check.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains, but it is not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
 1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Train/evaluate the paired-diff detector stack on the time-disjoint split, then add a second paired patch dataset if the temporal result holds.
+3. Train a detector directly on the `<=2020` time-disjoint train split and compare it against the zero-retraining transfer baseline, then add a second paired patch dataset if the temporal result holds.
 4. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.

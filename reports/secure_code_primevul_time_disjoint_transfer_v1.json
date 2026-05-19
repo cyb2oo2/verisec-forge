@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "primevul_time_disjoint_transfer",
+  "protocol": {
+    "checkpoint": "cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+    "train_eval_mismatch": "checkpoint trained on original paired-diff train split; evaluated on CVE-year time-disjoint eval >=2021",
+    "threshold": 0.6,
+    "pair_coupling_margin": 0.02
+  },
+  "split": {
+    "rows": 1562,
+    "unique_pair_count": 761,
+    "cve_years": [
+      2021,
+      2022
+    ]
+  },
+  "default_threshold": {
+    "num_examples": 1562,
+    "presence_accuracy": 0.8348,
+    "label_accuracy": 0.8348,
+    "vulnerable_recall": 0.8566,
+    "safe_specificity": 0.8131,
+    "precision": 0.8209,
+    "f1": 0.8383,
+    "tp": 669,
+    "tn": 635,
+    "fp": 146,
+    "fn": 112
+  },
+  "selected_threshold": {
+    "num_examples": 1562,
+    "presence_accuracy": 0.8412,
+    "label_accuracy": 0.8412,
+    "vulnerable_recall": 0.8335,
+    "safe_specificity": 0.8489,
+    "precision": 0.8466,
+    "f1": 0.84,
+    "balanced_accuracy": 0.8412,
+    "tp": 651,
+    "tn": 663,
+    "fp": 118,
+    "fn": 130,
+    "threshold": 0.6
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 1562,
+      "presence_accuracy": 0.8745,
+      "label_accuracy": 0.8745,
+      "vulnerable_recall": 0.8643,
+      "safe_specificity": 0.8848,
+      "precision": 0.8824,
+      "f1": 0.8732,
+      "balanced_accuracy": 0.8745,
+      "tp": 675,
+      "tn": 691,
+      "fp": 90,
+      "fn": 106
+    },
+    "group_metrics": {
+      "unique_pair_count": 761,
+      "mixed_label_pair_count": 761,
+      "group_all_correct": 651,
+      "group_all_correct_rate": 0.8555,
+      "orientation_eligible_pair_count": 761,
+      "orientation_correct": 666,
+      "orientation_accuracy": 0.8752
+    },
+    "coupling_counts": {
+      "groups": 761,
+      "eligible_groups": 761,
+      "coupled_groups": 735,
+      "unchanged_groups": 26
+    }
+  },
+  "delta_vs_selected_threshold": {
+    "balanced_accuracy": 0.0333,
+    "group_all_correct_rate": 0.1144,
+    "orientation_accuracy": 0.0
+  }
+}
