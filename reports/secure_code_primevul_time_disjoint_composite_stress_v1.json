@@ -1,0 +1,504 @@
+{
+  "status": "ok",
+  "scope": "primevul_time_disjoint_composite_stress",
+  "protocol": {
+    "train_condition": "CVE-year <=2020",
+    "eval_condition": "CVE-year >=2021",
+    "threshold": 0.6,
+    "pair_coupling_margin": 0.02,
+    "strict_missing_policy": "exclude rows missing each requested disjoint field"
+  },
+  "base_split": {
+    "train_rows": 6000,
+    "eval_rows": 1562,
+    "train_years": [
+      2000,
+      2002,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020
+    ],
+    "eval_years": [
+      2021,
+      2022
+    ],
+    "cve_overlap": 0,
+    "pair_key_overlap": 0
+  },
+  "scenarios": {
+    "time_only": {
+      "split": {
+        "constraints": [],
+        "rows_after": 1562,
+        "unique_pair_count_after": 761,
+        "label_counts_after": {
+          "safe": 781,
+          "vulnerable": 781
+        },
+        "field_filters": {}
+      },
+      "baseline": {
+        "overall": {
+          "num_examples": 1562,
+          "presence_accuracy": 0.8745,
+          "label_accuracy": 0.8745,
+          "vulnerable_recall": 0.8476,
+          "safe_specificity": 0.9014,
+          "precision": 0.8958,
+          "f1": 0.8711,
+          "balanced_accuracy": 0.8745,
+          "tp": 662,
+          "tn": 704,
+          "fp": 77,
+          "fn": 119
+        },
+        "group_metrics": {
+          "unique_pair_count": 761,
+          "mixed_label_pair_count": 761,
+          "group_all_correct": 631,
+          "group_all_correct_rate": 0.8292,
+          "orientation_eligible_pair_count": 761,
+          "orientation_correct": 672,
+          "orientation_accuracy": 0.883
+        }
+      },
+      "pair_coupled": {
+        "overall": {
+          "num_examples": 1562,
+          "presence_accuracy": 0.8835,
+          "label_accuracy": 0.8835,
+          "vulnerable_recall": 0.8796,
+          "safe_specificity": 0.8873,
+          "precision": 0.8865,
+          "f1": 0.883,
+          "balanced_accuracy": 0.8835,
+          "tp": 687,
+          "tn": 693,
+          "fp": 88,
+          "fn": 94
+        },
+        "group_metrics": {
+          "unique_pair_count": 761,
+          "mixed_label_pair_count": 761,
+          "group_all_correct": 667,
+          "group_all_correct_rate": 0.8765,
+          "orientation_eligible_pair_count": 761,
+          "orientation_correct": 672,
+          "orientation_accuracy": 0.883
+        },
+        "coupling_counts": {
+          "groups": 761,
+          "eligible_groups": 761,
+          "coupled_groups": 742,
+          "unchanged_groups": 19
+        }
+      },
+      "delta": {
+        "balanced_accuracy": 0.009,
+        "group_all_correct_rate": 0.0473,
+        "orientation_accuracy": 0.0
+      }
+    },
+    "time_project_disjoint": {
+      "split": {
+        "constraints": [
+          "project"
+        ],
+        "rows_after": 296,
+        "unique_pair_count_after": 140,
+        "label_counts_after": {
+          "safe": 148,
+          "vulnerable": 148
+        },
+        "field_filters": {
+          "project": {
+            "train_unique_values": 554,
+            "rows_before": 1562,
+            "pairs_before": 761,
+            "removed_overlap_rows": 1266,
+            "removed_missing_rows": 0,
+            "rows_after": 296,
+            "pairs_after": 140,
+            "overlap_after_filter": 0
+          }
+        }
+      },
+      "baseline": {
+        "overall": {
+          "num_examples": 296,
+          "presence_accuracy": 0.8716,
+          "label_accuracy": 0.8716,
+          "vulnerable_recall": 0.8446,
+          "safe_specificity": 0.8986,
+          "precision": 0.8929,
+          "f1": 0.8681,
+          "balanced_accuracy": 0.8716,
+          "tp": 125,
+          "tn": 133,
+          "fp": 15,
+          "fn": 23
+        },
+        "group_metrics": {
+          "unique_pair_count": 140,
+          "mixed_label_pair_count": 140,
+          "group_all_correct": 113,
+          "group_all_correct_rate": 0.8071,
+          "orientation_eligible_pair_count": 140,
+          "orientation_correct": 119,
+          "orientation_accuracy": 0.85
+        }
+      },
+      "pair_coupled": {
+        "overall": {
+          "num_examples": 296,
+          "presence_accuracy": 0.8581,
+          "label_accuracy": 0.8581,
+          "vulnerable_recall": 0.8514,
+          "safe_specificity": 0.8649,
+          "precision": 0.863,
+          "f1": 0.8571,
+          "balanced_accuracy": 0.8581,
+          "tp": 126,
+          "tn": 128,
+          "fp": 20,
+          "fn": 22
+        },
+        "group_metrics": {
+          "unique_pair_count": 140,
+          "mixed_label_pair_count": 140,
+          "group_all_correct": 118,
+          "group_all_correct_rate": 0.8429,
+          "orientation_eligible_pair_count": 140,
+          "orientation_correct": 119,
+          "orientation_accuracy": 0.85
+        },
+        "coupling_counts": {
+          "groups": 140,
+          "eligible_groups": 140,
+          "coupled_groups": 135,
+          "unchanged_groups": 5
+        }
+      },
+      "delta": {
+        "balanced_accuracy": -0.0135,
+        "group_all_correct_rate": 0.0358,
+        "orientation_accuracy": 0.0
+      }
+    },
+    "time_file_hash_disjoint": {
+      "split": {
+        "constraints": [
+          "file_hash"
+        ],
+        "rows_after": 1295,
+        "unique_pair_count_after": 649,
+        "label_counts_after": {
+          "safe": 641,
+          "vulnerable": 654
+        },
+        "field_filters": {
+          "file_hash": {
+            "train_unique_values": 3678,
+            "rows_before": 1562,
+            "pairs_before": 761,
+            "removed_overlap_rows": 5,
+            "removed_missing_rows": 262,
+            "rows_after": 1295,
+            "pairs_after": 649,
+            "overlap_after_filter": 0
+          }
+        }
+      },
+      "baseline": {
+        "overall": {
+          "num_examples": 1295,
+          "presence_accuracy": 0.8749,
+          "label_accuracy": 0.8749,
+          "vulnerable_recall": 0.8502,
+          "safe_specificity": 0.9002,
+          "precision": 0.8968,
+          "f1": 0.8728,
+          "balanced_accuracy": 0.8752,
+          "tp": 556,
+          "tn": 577,
+          "fp": 64,
+          "fn": 98
+        },
+        "group_metrics": {
+          "unique_pair_count": 649,
+          "mixed_label_pair_count": 620,
+          "group_all_correct": 542,
+          "group_all_correct_rate": 0.8351,
+          "orientation_eligible_pair_count": 620,
+          "orientation_correct": 551,
+          "orientation_accuracy": 0.8887
+        }
+      },
+      "pair_coupled": {
+        "overall": {
+          "num_examples": 1295,
+          "presence_accuracy": 0.8896,
+          "label_accuracy": 0.8896,
+          "vulnerable_recall": 0.8853,
+          "safe_specificity": 0.8939,
+          "precision": 0.8949,
+          "f1": 0.8901,
+          "balanced_accuracy": 0.8896,
+          "tp": 579,
+          "tn": 573,
+          "fp": 68,
+          "fn": 75
+        },
+        "group_metrics": {
+          "unique_pair_count": 649,
+          "mixed_label_pair_count": 620,
+          "group_all_correct": 574,
+          "group_all_correct_rate": 0.8844,
+          "orientation_eligible_pair_count": 620,
+          "orientation_correct": 551,
+          "orientation_accuracy": 0.8887
+        },
+        "coupling_counts": {
+          "groups": 649,
+          "eligible_groups": 620,
+          "coupled_groups": 604,
+          "unchanged_groups": 45
+        }
+      },
+      "delta": {
+        "balanced_accuracy": 0.0144,
+        "group_all_correct_rate": 0.0493,
+        "orientation_accuracy": 0.0
+      }
+    },
+    "time_project_file_hash_disjoint": {
+      "split": {
+        "constraints": [
+          "project",
+          "file_hash"
+        ],
+        "rows_after": 218,
+        "unique_pair_count_after": 108,
+        "label_counts_after": {
+          "safe": 109,
+          "vulnerable": 109
+        },
+        "field_filters": {
+          "project": {
+            "train_unique_values": 554,
+            "rows_before": 1562,
+            "pairs_before": 761,
+            "removed_overlap_rows": 1266,
+            "removed_missing_rows": 0,
+            "rows_after": 296,
+            "pairs_after": 140,
+            "overlap_after_filter": 0
+          },
+          "file_hash": {
+            "train_unique_values": 3678,
+            "rows_before": 296,
+            "pairs_before": 140,
+            "removed_overlap_rows": 0,
+            "removed_missing_rows": 78,
+            "rows_after": 218,
+            "pairs_after": 108,
+            "overlap_after_filter": 0
+          }
+        }
+      },
+      "baseline": {
+        "overall": {
+          "num_examples": 218,
+          "presence_accuracy": 0.8761,
+          "label_accuracy": 0.8761,
+          "vulnerable_recall": 0.8532,
+          "safe_specificity": 0.8991,
+          "precision": 0.8942,
+          "f1": 0.8732,
+          "balanced_accuracy": 0.8761,
+          "tp": 93,
+          "tn": 98,
+          "fp": 11,
+          "fn": 16
+        },
+        "group_metrics": {
+          "unique_pair_count": 108,
+          "mixed_label_pair_count": 108,
+          "group_all_correct": 89,
+          "group_all_correct_rate": 0.8241,
+          "orientation_eligible_pair_count": 108,
+          "orientation_correct": 95,
+          "orientation_accuracy": 0.8796
+        }
+      },
+      "pair_coupled": {
+        "overall": {
+          "num_examples": 218,
+          "presence_accuracy": 0.8853,
+          "label_accuracy": 0.8853,
+          "vulnerable_recall": 0.8807,
+          "safe_specificity": 0.8899,
+          "precision": 0.8889,
+          "f1": 0.8848,
+          "balanced_accuracy": 0.8853,
+          "tp": 96,
+          "tn": 97,
+          "fp": 12,
+          "fn": 13
+        },
+        "group_metrics": {
+          "unique_pair_count": 108,
+          "mixed_label_pair_count": 108,
+          "group_all_correct": 95,
+          "group_all_correct_rate": 0.8796,
+          "orientation_eligible_pair_count": 108,
+          "orientation_correct": 95,
+          "orientation_accuracy": 0.8796
+        },
+        "coupling_counts": {
+          "groups": 108,
+          "eligible_groups": 108,
+          "coupled_groups": 106,
+          "unchanged_groups": 2
+        }
+      },
+      "delta": {
+        "balanced_accuracy": 0.0092,
+        "group_all_correct_rate": 0.0555,
+        "orientation_accuracy": 0.0
+      }
+    },
+    "time_project_cve_commit_file_disjoint": {
+      "split": {
+        "constraints": [
+          "project",
+          "cve",
+          "commit_id",
+          "file_hash"
+        ],
+        "rows_after": 218,
+        "unique_pair_count_after": 108,
+        "label_counts_after": {
+          "safe": 109,
+          "vulnerable": 109
+        },
+        "field_filters": {
+          "project": {
+            "train_unique_values": 554,
+            "rows_before": 1562,
+            "pairs_before": 761,
+            "removed_overlap_rows": 1266,
+            "removed_missing_rows": 0,
+            "rows_after": 296,
+            "pairs_after": 140,
+            "overlap_after_filter": 0
+          },
+          "cve": {
+            "train_unique_values": 3179,
+            "rows_before": 296,
+            "pairs_before": 140,
+            "removed_overlap_rows": 0,
+            "removed_missing_rows": 0,
+            "rows_after": 296,
+            "pairs_after": 140,
+            "overlap_after_filter": 0
+          },
+          "commit_id": {
+            "train_unique_values": 3446,
+            "rows_before": 296,
+            "pairs_before": 140,
+            "removed_overlap_rows": 0,
+            "removed_missing_rows": 0,
+            "rows_after": 296,
+            "pairs_after": 140,
+            "overlap_after_filter": 0
+          },
+          "file_hash": {
+            "train_unique_values": 3678,
+            "rows_before": 296,
+            "pairs_before": 140,
+            "removed_overlap_rows": 0,
+            "removed_missing_rows": 78,
+            "rows_after": 218,
+            "pairs_after": 108,
+            "overlap_after_filter": 0
+          }
+        }
+      },
+      "baseline": {
+        "overall": {
+          "num_examples": 218,
+          "presence_accuracy": 0.8761,
+          "label_accuracy": 0.8761,
+          "vulnerable_recall": 0.8532,
+          "safe_specificity": 0.8991,
+          "precision": 0.8942,
+          "f1": 0.8732,
+          "balanced_accuracy": 0.8761,
+          "tp": 93,
+          "tn": 98,
+          "fp": 11,
+          "fn": 16
+        },
+        "group_metrics": {
+          "unique_pair_count": 108,
+          "mixed_label_pair_count": 108,
+          "group_all_correct": 89,
+          "group_all_correct_rate": 0.8241,
+          "orientation_eligible_pair_count": 108,
+          "orientation_correct": 95,
+          "orientation_accuracy": 0.8796
+        }
+      },
+      "pair_coupled": {
+        "overall": {
+          "num_examples": 218,
+          "presence_accuracy": 0.8853,
+          "label_accuracy": 0.8853,
+          "vulnerable_recall": 0.8807,
+          "safe_specificity": 0.8899,
+          "precision": 0.8889,
+          "f1": 0.8848,
+          "balanced_accuracy": 0.8853,
+          "tp": 96,
+          "tn": 97,
+          "fp": 12,
+          "fn": 13
+        },
+        "group_metrics": {
+          "unique_pair_count": 108,
+          "mixed_label_pair_count": 108,
+          "group_all_correct": 95,
+          "group_all_correct_rate": 0.8796,
+          "orientation_eligible_pair_count": 108,
+          "orientation_correct": 95,
+          "orientation_accuracy": 0.8796
+        },
+        "coupling_counts": {
+          "groups": 108,
+          "eligible_groups": 108,
+          "coupled_groups": 106,
+          "unchanged_groups": 2
+        }
+      },
+      "delta": {
+        "balanced_accuracy": 0.0092,
+        "group_all_correct_rate": 0.0555,
+        "orientation_accuracy": 0.0
+      }
+    }
+  }
+}

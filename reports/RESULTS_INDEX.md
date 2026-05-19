@@ -138,6 +138,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Paired Diff Time-Disjoint Direct-Train Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_time_le2020_v1_eval_ge2021_threshold_sweep.json`
 - `Paired Diff Time-Disjoint Transfer vs Direct Comparison`: `reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md`
 - `Paired Diff Time-Disjoint Transfer vs Direct Comparison JSON`: `reports/secure_code_primevul_time_disjoint_comparison_v1.json`
+- `Paired Diff Time-Disjoint Composite Stress`: `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`
+- `Paired Diff Time-Disjoint Composite Stress JSON`: `reports/secure_code_primevul_time_disjoint_composite_stress_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
 - `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`

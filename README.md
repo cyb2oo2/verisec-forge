@@ -70,6 +70,7 @@ The short version:
 - A first CVE-disjoint stress check keeps the mainline intact: after removing eval rows whose CVE appears in paired-diff training metadata, diff-only reaches balanced accuracy `0.8168` and pair-coupled reaches `0.8491`.
 - A harder project-disjoint stress check is now covered: after removing eval rows from projects seen during paired-diff training, pair-coupled reaches balanced accuracy `0.8225` on `355` balanced rows.
 - A true time-disjoint paired-diff split is now constructed from full PrimeVul paired metadata: train `<=2020` has `6000` rows, eval `>=2021` has `1562` rows, with `0` CVE-year/CVE/pair-key overlap. The original paired-diff checkpoint transfers to this later-CVE eval at pair-coupled balanced accuracy `0.8745`; direct training on the `<=2020` split improves this to `0.8835`.
+- A stricter temporal composite stress check now removes later-CVE eval rows from training-period projects and file hashes; the remaining `218` rows stay balanced (`109/109`) and pair-coupled BA remains `0.8853`.
 - Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
 - The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
 
@@ -164,6 +165,8 @@ For the broader shortcut/generalization stress matrix, see [PrimeVul Disjoint St
 For the true temporal generalization target, see [PrimeVul Time-Disjoint Pair-Diff Split](reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md). It rebuilds train/eval from full paired metadata using CVE years rather than filtering the old eval slice.
 
 For the temporal generalization results, see [PrimeVul Time-Disjoint Transfer Evaluation](reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md), [PrimeVul Time-Disjoint Direct-Train Evaluation](reports/PRIMEVUL_TIME_DISJOINT_DIRECT_TRAIN.md), and [PrimeVul Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md). The direct `<=2020` training run reaches pair-coupled balanced accuracy `0.8835` on the `>=2021` split.
+
+For the strictest current temporal stress slice, see [PrimeVul Time-Disjoint Composite Stress Evaluation](reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md). It keeps the `<=2020`/`>=2021` split, then removes eval rows overlapping training by project and file hash; the balanced composite slice still reaches pair-coupled BA `0.8853`.
 
 For the current side-inversion gate comparison, see [PrimeVul Side-Inversion Gate Summary](reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md). It is generated from the safe-flip gate reports, includes the gate selection protocol, and highlights the project-heldout evidence-conditioned operating point.
 
