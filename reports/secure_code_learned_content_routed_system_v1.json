@@ -1,0 +1,178 @@
+{
+  "status": "ok",
+  "scope": "learned_content_routed_system",
+  "protocol": {
+    "router": "character n-gram naive bayes over diff-body-only text",
+    "max_features": 50000,
+    "routing_rows": 2754,
+    "routing_accuracy": 0.9063,
+    "prediction_matrix_policy": "Use source-specific expert predictions when the learned route has a materialized prediction file. If a cross-source expert prediction is missing for the routed source, fall back to the single matched-mixed checkpoint and count that fallback explicitly.",
+    "available_cross_predictions": [
+      "DeltaSecommits->PatchEval",
+      "DeltaSecommits->PrimeVul-time",
+      "PrimeVul-time->PatchEval"
+    ],
+    "missing_cross_prediction_fallbacks": {
+      "PrimeVul-time->DeltaSecommits": 228,
+      "PatchEval->PrimeVul-time": 2
+    }
+  },
+  "routing_confusion": {
+    "PrimeVul-time": {
+      "PrimeVul-time": 1322,
+      "DeltaSecommits": 228,
+      "PatchEval": 12
+    },
+    "DeltaSecommits": {
+      "DeltaSecommits": 638,
+      "PrimeVul-time": 10,
+      "PatchEval": 6
+    },
+    "PatchEval": {
+      "PatchEval": 536,
+      "PrimeVul-time": 2
+    }
+  },
+  "systems": [
+    {
+      "system": "single matched-mixed checkpoint",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8591,
+        "label_accuracy": 0.8591,
+        "vulnerable_recall": 0.854,
+        "safe_specificity": 0.8642,
+        "precision": 0.8628,
+        "f1": 0.8584,
+        "balanced_accuracy": 0.8591,
+        "tp": 1176,
+        "tn": 1190,
+        "fp": 187,
+        "fn": 201
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "mixed_label_pair_count": 1357,
+        "group_all_correct": 1151,
+        "group_all_correct_rate": 0.8482,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1167,
+        "orientation_accuracy": 0.86
+      },
+      "route_counts": {
+        "None": 2754
+      },
+      "adapter_counts": {
+        "matched-mixed": 2754
+      },
+      "source_counts": {
+        "PrimeVul-time": 1562,
+        "DeltaSecommits": 654,
+        "PatchEval": 538
+      }
+    },
+    {
+      "system": "oracle source-routed experts",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8664,
+        "label_accuracy": 0.8664,
+        "vulnerable_recall": 0.8627,
+        "safe_specificity": 0.87,
+        "precision": 0.8691,
+        "f1": 0.8659,
+        "balanced_accuracy": 0.8664,
+        "tp": 1188,
+        "tn": 1198,
+        "fp": 179,
+        "fn": 189
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "mixed_label_pair_count": 1357,
+        "group_all_correct": 1163,
+        "group_all_correct_rate": 0.857,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1177,
+        "orientation_accuracy": 0.8674
+      },
+      "route_counts": {
+        "None": 2754
+      },
+      "adapter_counts": {
+        "primevul-time expert": 1562,
+        "deltasecommits expert": 654,
+        "patcheval expert": 538
+      },
+      "source_counts": {
+        "PrimeVul-time": 1562,
+        "DeltaSecommits": 654,
+        "PatchEval": 538
+      }
+    },
+    {
+      "system": "learned diff-body router with available cross-prediction fallback",
+      "overall": {
+        "num_examples": 2754,
+        "presence_accuracy": 0.8664,
+        "label_accuracy": 0.8664,
+        "vulnerable_recall": 0.8635,
+        "safe_specificity": 0.8693,
+        "precision": 0.8685,
+        "f1": 0.866,
+        "balanced_accuracy": 0.8664,
+        "tp": 1189,
+        "tn": 1197,
+        "fp": 180,
+        "fn": 188
+      },
+      "group_metrics": {
+        "unique_pair_count": 1357,
+        "mixed_label_pair_count": 1357,
+        "group_all_correct": 1162,
+        "group_all_correct_rate": 0.8563,
+        "orientation_eligible_pair_count": 1357,
+        "orientation_correct": 1178,
+        "orientation_accuracy": 0.8681
+      },
+      "route_counts": {
+        "PrimeVul-time->PrimeVul-time": 1322,
+        "PrimeVul-time->DeltaSecommits fallback:matched-mixed": 228,
+        "PrimeVul-time->PatchEval": 12,
+        "DeltaSecommits->DeltaSecommits": 638,
+        "DeltaSecommits->PrimeVul-time": 10,
+        "DeltaSecommits->PatchEval": 6,
+        "PatchEval->PatchEval": 536,
+        "PatchEval->PrimeVul-time fallback:matched-mixed": 2
+      },
+      "adapter_counts": {
+        "primevul-time expert": 1322,
+        "matched-mixed": 230,
+        "patcheval expert cross-source": 18,
+        "deltasecommits expert": 638,
+        "primevul-time checkpoint zero-shot": 10,
+        "patcheval expert": 536
+      },
+      "source_counts": {
+        "PrimeVul-time": 1562,
+        "DeltaSecommits": 654,
+        "PatchEval": 538
+      }
+    }
+  ],
+  "deltas": {
+    "learned_minus_single": {
+      "balanced_accuracy": 0.0073,
+      "f1": 0.0076,
+      "group_all_correct_rate": 0.0081,
+      "orientation_accuracy": 0.0081
+    },
+    "learned_minus_oracle": {
+      "balanced_accuracy": 0.0,
+      "f1": 0.0001,
+      "group_all_correct_rate": -0.0007,
+      "orientation_accuracy": 0.0007
+    }
+  },
+  "conclusion": "The learned diff-body router can now be evaluated as a routed system rather than only as a source classifier. The current result should still be read with its fallback policy: several cross-expert prediction files are not yet materialized, so misroutes without cross predictions use the matched-mixed fallback instead of an unobserved expert output."
+}

@@ -71,6 +71,16 @@ ARTIFACTS: list[tuple[str, str, str]] = [
         "Matched mixed-source checkpoint predictions on Delta eval.",
     ),
     (
+        "deltasecommits_primevul_checkpoint_predictions",
+        "outputs/secure_code_deltasecommits_primevul_time_checkpoint_zero_shot_predictions.jsonl",
+        "PrimeVul checkpoint zero-shot predictions on DeltaSecommits rows for learned routed-system cross-route evaluation.",
+    ),
+    (
+        "patcheval_matched_mixed_raw_predictions",
+        "outputs/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_raw_predictions.jsonl",
+        "Matched mixed-source checkpoint raw predictions on PatchEval eval used as fallback rows in learned routed-system evaluation.",
+    ),
+    (
         "patcheval_seed42_predictions",
         "outputs/secure_code_patcheval_cls_qwen15bcoder_lora_pair_diff_v1_eval_predictions.jsonl",
         "PatchEval seed42 source expert predictions on PatchEval eval.",
@@ -107,6 +117,7 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("non_oracle_source_router_report", "reports/secure_code_non_oracle_source_router_v1.json", "Metadata-schema source router report."),
     ("content_source_router_report", "reports/secure_code_content_source_router_v1.json", "Surface/diff-body content router stress report."),
     ("learned_content_source_router_report", "reports/secure_code_learned_content_source_router_v1.json", "Learned character n-gram source router report."),
+    ("learned_content_routed_system_report", "reports/secure_code_learned_content_routed_system_v1.json", "Learned diff-body content router evaluated as an end-to-end routed system with explicit fallback accounting."),
 ]
 
 
@@ -152,6 +163,8 @@ def build_manifest() -> dict[str, Any]:
             "patcheval_reverse_delta_pair_coupled_ba": 0.8440,
             "learned_diff_body_router_row_accuracy": 0.9063,
             "learned_diff_body_router_pair_group_accuracy": 0.9057,
+            "learned_content_routed_system_ba": 0.8664,
+            "learned_content_routed_system_group_all_correct": 0.8563,
         },
         "limitations": [
             "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

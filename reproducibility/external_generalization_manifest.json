@@ -100,6 +100,22 @@
       "rows": 654
     },
     {
+      "role": "deltasecommits_primevul_checkpoint_predictions",
+      "path": "outputs/secure_code_deltasecommits_primevul_time_checkpoint_zero_shot_predictions.jsonl",
+      "sha256": "bb2f77b269cdf588bf5f2060b8b9457e72e6aca2df5b1868b3c143f98bdc855c",
+      "bytes": 335202,
+      "note": "PrimeVul checkpoint zero-shot predictions on DeltaSecommits rows for learned routed-system cross-route evaluation.",
+      "rows": 3268
+    },
+    {
+      "role": "patcheval_matched_mixed_raw_predictions",
+      "path": "outputs/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_raw_predictions.jsonl",
+      "sha256": "228fb9d6392bf0493eb6fac88a4460c79b7e94b2d723c333837947065679e249",
+      "bytes": 41042,
+      "note": "Matched mixed-source checkpoint raw predictions on PatchEval eval used as fallback rows in learned routed-system evaluation.",
+      "rows": 538
+    },
+    {
       "role": "patcheval_seed42_predictions",
       "path": "outputs/secure_code_patcheval_cls_qwen15bcoder_lora_pair_diff_v1_eval_predictions.jsonl",
       "sha256": "2ce85f999862a930ba6d2efb6845037a0803aa9d842f25f3b6574b8d3b773860",
@@ -203,6 +219,13 @@
       "sha256": "402055187fe25d87c830d0d32480f2d980cd76b95bc603a8d860cd8a56e1e2c1",
       "bytes": 5091,
       "note": "Learned character n-gram source router report."
+    },
+    {
+      "role": "learned_content_routed_system_report",
+      "path": "reports/secure_code_learned_content_routed_system_v1.json",
+      "sha256": "90ed5db607edf47e117f3bbfcd3369b9f16ae5917ef0d1ee967f583fb9b74a73",
+      "bytes": 5665,
+      "note": "Learned diff-body content router evaluated as an end-to-end routed system with explicit fallback accounting."
     }
   ],
   "expected": {
@@ -212,7 +235,9 @@
     "patcheval_reverse_primevul_pair_coupled_ba": 0.8521,
     "patcheval_reverse_delta_pair_coupled_ba": 0.844,
     "learned_diff_body_router_row_accuracy": 0.9063,
-    "learned_diff_body_router_pair_group_accuracy": 0.9057
+    "learned_diff_body_router_pair_group_accuracy": 0.9057,
+    "learned_content_routed_system_ba": 0.8664,
+    "learned_content_routed_system_group_all_correct": 0.8563
   },
   "limitations": [
     "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

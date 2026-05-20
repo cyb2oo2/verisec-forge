@@ -21,16 +21,16 @@
     },
     {
       "name": "external_generalization_and_source_routing_inputs",
-      "filename": "verisec_forge_external_generalization_bundle.zip",
-      "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v1/verisec_forge_external_generalization_bundle.zip",
-      "sha256": "7e2484bdc8ac5d1b1e3295e5563df36b1b08f6a41e048f886f668bf5b783407f",
-      "bytes": 29046027,
-      "artifact_count": 25,
+      "filename": "verisec_forge_external_generalization_bundle_v2.zip",
+      "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v2/verisec_forge_external_generalization_bundle_v2.zip",
+      "sha256": "148d18cb80a85647e960b0d228cfcc13dd97326ae5a5eb23ebf6ea50aa432808",
+      "bytes": 29094120,
+      "artifact_count": 28,
       "duplicate_artifact_paths": [],
       "source_manifests": [
         "reproducibility/external_generalization_manifest.json"
       ],
-      "build_command": ".\\.venv\\Scripts\\python.exe scripts\\build_reproducibility_bundle.py --manifest reproducibility\\external_generalization_manifest.json --include-generated --output artifacts\\verisec_forge_external_generalization_bundle.zip"
+      "build_command": ".\\.venv\\Scripts\\python.exe scripts\\build_reproducibility_bundle.py --manifest reproducibility\\external_generalization_manifest.json --include-generated --output artifacts\\verisec_forge_external_generalization_bundle_v2.zip"
     }
   ]
 }

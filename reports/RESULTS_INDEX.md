@@ -20,6 +20,7 @@ Start here for the main narrative and current system-level conclusions.
 - `GitHub Release Notes Draft`: `reproducibility/GITHUB_RELEASE_NOTES.md`
 - `External Generalization Manifest`: `reproducibility/external_generalization_manifest.json`
 - `External Generalization Release Notes`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES.md`
+- `External Generalization Release Notes v2`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V2.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
@@ -178,6 +179,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Content Source Router JSON`: `reports/secure_code_content_source_router_v1.json`
 - `Learned Content Source Router`: `reports/LEARNED_CONTENT_SOURCE_ROUTER.md`
 - `Learned Content Source Router JSON`: `reports/secure_code_learned_content_source_router_v1.json`
+- `Learned Content-Routed System`: `reports/LEARNED_CONTENT_ROUTED_SYSTEM.md`
+- `Learned Content-Routed System JSON`: `reports/secure_code_learned_content_routed_system_v1.json`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
