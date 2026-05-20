@@ -285,6 +285,13 @@
       "sha256": "e2da09fc32d03b98887acf7875aecece10e63af950eaee036dd7cb88012654e3",
       "bytes": 16256,
       "note": "Leave-one-source-out stress report for learned diff-body content routing."
+    },
+    {
+      "role": "learned_content_router_feature_ablation_report",
+      "path": "reports/secure_code_learned_content_router_feature_ablation_v1.json",
+      "sha256": "3a8b8133a1fc83c2e21d2939187c37c32fc805cb9134ff79b787f6ebb2017236",
+      "bytes": 19814,
+      "note": "Feature ablation report for learned diff-body source routing."
     }
   ],
   "expected": {
@@ -305,7 +312,9 @@
     ],
     "leave_one_source_primevul_routed_minus_oracle_ba": -0.025,
     "leave_one_source_delta_routed_minus_oracle_ba": -0.0077,
-    "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242
+    "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
+    "feature_ablation_token_routed_ba": 0.8627,
+    "feature_ablation_diff_line_routed_ba": 0.8649
   },
   "limitations": [
     "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

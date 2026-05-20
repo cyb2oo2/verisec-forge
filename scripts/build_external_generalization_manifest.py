@@ -138,6 +138,7 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("learned_content_routed_system_report", "reports/secure_code_learned_content_routed_system_v1.json", "Learned diff-body content router evaluated as an end-to-end routed system with explicit fallback accounting."),
     ("learned_content_routed_system_statistics_report", "reports/secure_code_learned_content_routed_system_statistics_v1.json", "Bootstrap and paired-test statistics for the learned content-routed system."),
     ("learned_content_router_leave_one_source_report", "reports/secure_code_learned_content_router_leave_one_source_v1.json", "Leave-one-source-out stress report for learned diff-body content routing."),
+    ("learned_content_router_feature_ablation_report", "reports/secure_code_learned_content_router_feature_ablation_v1.json", "Feature ablation report for learned diff-body source routing."),
 ]
 
 
@@ -191,6 +192,8 @@ def build_manifest() -> dict[str, Any]:
             "leave_one_source_primevul_routed_minus_oracle_ba": -0.025,
             "leave_one_source_delta_routed_minus_oracle_ba": -0.0077,
             "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
+            "feature_ablation_token_routed_ba": 0.8627,
+            "feature_ablation_diff_line_routed_ba": 0.8649,
         },
         "limitations": [
             "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

@@ -1,0 +1,638 @@
+{
+  "status": "ok",
+  "scope": "learned_content_router_feature_ablation",
+  "protocol": {
+    "router": "multinomial naive bayes over diff-body-only text",
+    "feature_modes": [
+      "char_3_5",
+      "token_1_2",
+      "diff_line_markers"
+    ],
+    "max_features": 50000,
+    "purpose": "Stress whether learned source/expert routing only works with character n-gram fingerprints or also survives coarser token and diff-line feature views."
+  },
+  "feature_results": [
+    {
+      "feature_mode": "char_3_5",
+      "model_stats": {
+        "vocab_size": 50000,
+        "train_doc_counts": {
+          "PrimeVul-time": 6000,
+          "DeltaSecommits": 2614,
+          "PatchEval": 2150
+        }
+      },
+      "routing_metrics": {
+        "row_count": 2754,
+        "row_accuracy": 0.9063,
+        "pair_group_count": 1357,
+        "pair_group_accuracy": 0.9057,
+        "confusion": {
+          "DeltaSecommits": {
+            "DeltaSecommits": 638,
+            "PrimeVul-time": 10,
+            "PatchEval": 6
+          },
+          "PatchEval": {
+            "PatchEval": 536,
+            "PrimeVul-time": 2
+          },
+          "PrimeVul-time": {
+            "PrimeVul-time": 1322,
+            "DeltaSecommits": 228,
+            "PatchEval": 12
+          }
+        },
+        "by_source": {
+          "DeltaSecommits": {
+            "rows": 654,
+            "correct": 638,
+            "accuracy": 0.9755
+          },
+          "PatchEval": {
+            "rows": 538,
+            "correct": 536,
+            "accuracy": 0.9963
+          },
+          "PrimeVul-time": {
+            "rows": 1562,
+            "correct": 1322,
+            "accuracy": 0.8464
+          }
+        }
+      },
+      "routing_confusion": {
+        "PrimeVul-time": {
+          "DeltaSecommits": 228,
+          "PatchEval": 12,
+          "PrimeVul-time": 1322
+        },
+        "DeltaSecommits": {
+          "DeltaSecommits": 638,
+          "PatchEval": 6,
+          "PrimeVul-time": 10
+        },
+        "PatchEval": {
+          "PatchEval": 536,
+          "PrimeVul-time": 2
+        }
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8591,
+            "label_accuracy": 0.8591,
+            "vulnerable_recall": 0.854,
+            "safe_specificity": 0.8642,
+            "precision": 0.8628,
+            "f1": 0.8584,
+            "balanced_accuracy": 0.8591,
+            "tp": 1176,
+            "tn": 1190,
+            "fp": 187,
+            "fn": 201
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1151,
+            "group_all_correct_rate": 0.8482,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1167,
+            "orientation_accuracy": 0.86
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "matched-mixed": 2754
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "oracle source-routed experts",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8664,
+            "label_accuracy": 0.8664,
+            "vulnerable_recall": 0.8627,
+            "safe_specificity": 0.87,
+            "precision": 0.8691,
+            "f1": 0.8659,
+            "balanced_accuracy": 0.8664,
+            "tp": 1188,
+            "tn": 1198,
+            "fp": 179,
+            "fn": 189
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1163,
+            "group_all_correct_rate": 0.857,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1177,
+            "orientation_accuracy": 0.8674
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "primevul-time expert": 1562,
+            "deltasecommits expert": 654,
+            "patcheval expert": 538
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "learned router char_3_5",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8664,
+            "label_accuracy": 0.8664,
+            "vulnerable_recall": 0.8642,
+            "safe_specificity": 0.8686,
+            "precision": 0.868,
+            "f1": 0.8661,
+            "balanced_accuracy": 0.8664,
+            "tp": 1190,
+            "tn": 1196,
+            "fp": 181,
+            "fn": 187
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1160,
+            "group_all_correct_rate": 0.8548,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1178,
+            "orientation_accuracy": 0.8681
+          },
+          "route_counts": {
+            "PrimeVul-time->PrimeVul-time": 1322,
+            "PrimeVul-time->DeltaSecommits": 228,
+            "PrimeVul-time->PatchEval": 12,
+            "DeltaSecommits->DeltaSecommits": 638,
+            "DeltaSecommits->PrimeVul-time": 10,
+            "DeltaSecommits->PatchEval": 6,
+            "PatchEval->PatchEval": 536,
+            "PatchEval->PrimeVul-time": 2
+          },
+          "adapter_counts": {
+            "primevul-time expert": 1322,
+            "deltasecommits expert cross-source": 228,
+            "patcheval expert cross-source": 18,
+            "deltasecommits expert": 638,
+            "primevul-time checkpoint zero-shot": 10,
+            "patcheval expert": 536,
+            "primevul-time expert cross-source": 2
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": 0.0073,
+          "group_all_correct_rate": 0.0066,
+          "orientation_accuracy": 0.0081
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": 0.0,
+          "group_all_correct_rate": -0.0022,
+          "orientation_accuracy": 0.0007
+        }
+      }
+    },
+    {
+      "feature_mode": "token_1_2",
+      "model_stats": {
+        "vocab_size": 50000,
+        "train_doc_counts": {
+          "PrimeVul-time": 6000,
+          "DeltaSecommits": 2614,
+          "PatchEval": 2150
+        }
+      },
+      "routing_metrics": {
+        "row_count": 2754,
+        "row_accuracy": 0.7106,
+        "pair_group_count": 1357,
+        "pair_group_accuracy": 0.7089,
+        "confusion": {
+          "DeltaSecommits": {
+            "DeltaSecommits": 403,
+            "PrimeVul-time": 251
+          },
+          "PatchEval": {
+            "PatchEval": 532,
+            "PrimeVul-time": 6
+          },
+          "PrimeVul-time": {
+            "DeltaSecommits": 526,
+            "PrimeVul-time": 1022,
+            "PatchEval": 14
+          }
+        },
+        "by_source": {
+          "DeltaSecommits": {
+            "rows": 654,
+            "correct": 403,
+            "accuracy": 0.6162
+          },
+          "PatchEval": {
+            "rows": 538,
+            "correct": 532,
+            "accuracy": 0.9888
+          },
+          "PrimeVul-time": {
+            "rows": 1562,
+            "correct": 1022,
+            "accuracy": 0.6543
+          }
+        }
+      },
+      "routing_confusion": {
+        "PrimeVul-time": {
+          "DeltaSecommits": 526,
+          "PatchEval": 14,
+          "PrimeVul-time": 1022
+        },
+        "DeltaSecommits": {
+          "DeltaSecommits": 403,
+          "PrimeVul-time": 251
+        },
+        "PatchEval": {
+          "PatchEval": 532,
+          "PrimeVul-time": 6
+        }
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8591,
+            "label_accuracy": 0.8591,
+            "vulnerable_recall": 0.854,
+            "safe_specificity": 0.8642,
+            "precision": 0.8628,
+            "f1": 0.8584,
+            "balanced_accuracy": 0.8591,
+            "tp": 1176,
+            "tn": 1190,
+            "fp": 187,
+            "fn": 201
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1151,
+            "group_all_correct_rate": 0.8482,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1167,
+            "orientation_accuracy": 0.86
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "matched-mixed": 2754
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "oracle source-routed experts",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8664,
+            "label_accuracy": 0.8664,
+            "vulnerable_recall": 0.8627,
+            "safe_specificity": 0.87,
+            "precision": 0.8691,
+            "f1": 0.8659,
+            "balanced_accuracy": 0.8664,
+            "tp": 1188,
+            "tn": 1198,
+            "fp": 179,
+            "fn": 189
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1163,
+            "group_all_correct_rate": 0.857,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1177,
+            "orientation_accuracy": 0.8674
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "primevul-time expert": 1562,
+            "deltasecommits expert": 654,
+            "patcheval expert": 538
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "learned router token_1_2",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8627,
+            "label_accuracy": 0.8627,
+            "vulnerable_recall": 0.8635,
+            "safe_specificity": 0.862,
+            "precision": 0.8622,
+            "f1": 0.8628,
+            "balanced_accuracy": 0.8627,
+            "tp": 1189,
+            "tn": 1187,
+            "fp": 190,
+            "fn": 188
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1147,
+            "group_all_correct_rate": 0.8452,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1175,
+            "orientation_accuracy": 0.8659
+          },
+          "route_counts": {
+            "PrimeVul-time->DeltaSecommits": 526,
+            "PrimeVul-time->PrimeVul-time": 1022,
+            "PrimeVul-time->PatchEval": 14,
+            "DeltaSecommits->DeltaSecommits": 403,
+            "DeltaSecommits->PrimeVul-time": 251,
+            "PatchEval->PatchEval": 532,
+            "PatchEval->PrimeVul-time": 6
+          },
+          "adapter_counts": {
+            "deltasecommits expert cross-source": 526,
+            "primevul-time expert": 1022,
+            "patcheval expert cross-source": 14,
+            "deltasecommits expert": 403,
+            "primevul-time checkpoint zero-shot": 251,
+            "patcheval expert": 532,
+            "primevul-time expert cross-source": 6
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": 0.0036,
+          "group_all_correct_rate": -0.003,
+          "orientation_accuracy": 0.0059
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": -0.0037,
+          "group_all_correct_rate": -0.0118,
+          "orientation_accuracy": -0.0015
+        }
+      }
+    },
+    {
+      "feature_mode": "diff_line_markers",
+      "model_stats": {
+        "vocab_size": 50000,
+        "train_doc_counts": {
+          "PrimeVul-time": 6000,
+          "DeltaSecommits": 2614,
+          "PatchEval": 2150
+        }
+      },
+      "routing_metrics": {
+        "row_count": 2754,
+        "row_accuracy": 0.7778,
+        "pair_group_count": 1357,
+        "pair_group_accuracy": 0.773,
+        "confusion": {
+          "DeltaSecommits": {
+            "DeltaSecommits": 507,
+            "PrimeVul-time": 145,
+            "PatchEval": 2
+          },
+          "PatchEval": {
+            "PatchEval": 526,
+            "PrimeVul-time": 6,
+            "DeltaSecommits": 6
+          },
+          "PrimeVul-time": {
+            "DeltaSecommits": 430,
+            "PrimeVul-time": 1109,
+            "PatchEval": 23
+          }
+        },
+        "by_source": {
+          "DeltaSecommits": {
+            "rows": 654,
+            "correct": 507,
+            "accuracy": 0.7752
+          },
+          "PatchEval": {
+            "rows": 538,
+            "correct": 526,
+            "accuracy": 0.9777
+          },
+          "PrimeVul-time": {
+            "rows": 1562,
+            "correct": 1109,
+            "accuracy": 0.71
+          }
+        }
+      },
+      "routing_confusion": {
+        "PrimeVul-time": {
+          "DeltaSecommits": 430,
+          "PatchEval": 23,
+          "PrimeVul-time": 1109
+        },
+        "DeltaSecommits": {
+          "DeltaSecommits": 507,
+          "PatchEval": 2,
+          "PrimeVul-time": 145
+        },
+        "PatchEval": {
+          "DeltaSecommits": 6,
+          "PatchEval": 526,
+          "PrimeVul-time": 6
+        }
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8591,
+            "label_accuracy": 0.8591,
+            "vulnerable_recall": 0.854,
+            "safe_specificity": 0.8642,
+            "precision": 0.8628,
+            "f1": 0.8584,
+            "balanced_accuracy": 0.8591,
+            "tp": 1176,
+            "tn": 1190,
+            "fp": 187,
+            "fn": 201
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1151,
+            "group_all_correct_rate": 0.8482,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1167,
+            "orientation_accuracy": 0.86
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "matched-mixed": 2754
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "oracle source-routed experts",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8664,
+            "label_accuracy": 0.8664,
+            "vulnerable_recall": 0.8627,
+            "safe_specificity": 0.87,
+            "precision": 0.8691,
+            "f1": 0.8659,
+            "balanced_accuracy": 0.8664,
+            "tp": 1188,
+            "tn": 1198,
+            "fp": 179,
+            "fn": 189
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1163,
+            "group_all_correct_rate": 0.857,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1177,
+            "orientation_accuracy": 0.8674
+          },
+          "route_counts": {
+            "None": 2754
+          },
+          "adapter_counts": {
+            "primevul-time expert": 1562,
+            "deltasecommits expert": 654,
+            "patcheval expert": 538
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "learned router diff_line_markers",
+          "overall": {
+            "num_examples": 2754,
+            "presence_accuracy": 0.8649,
+            "label_accuracy": 0.8649,
+            "vulnerable_recall": 0.8656,
+            "safe_specificity": 0.8642,
+            "precision": 0.8644,
+            "f1": 0.865,
+            "balanced_accuracy": 0.8649,
+            "tp": 1192,
+            "tn": 1190,
+            "fp": 187,
+            "fn": 185
+          },
+          "group_metrics": {
+            "unique_pair_count": 1357,
+            "mixed_label_pair_count": 1357,
+            "group_all_correct": 1153,
+            "group_all_correct_rate": 0.8497,
+            "orientation_eligible_pair_count": 1357,
+            "orientation_correct": 1175,
+            "orientation_accuracy": 0.8659
+          },
+          "route_counts": {
+            "PrimeVul-time->DeltaSecommits": 430,
+            "PrimeVul-time->PrimeVul-time": 1109,
+            "PrimeVul-time->PatchEval": 23,
+            "DeltaSecommits->DeltaSecommits": 507,
+            "DeltaSecommits->PrimeVul-time": 145,
+            "DeltaSecommits->PatchEval": 2,
+            "PatchEval->PatchEval": 526,
+            "PatchEval->PrimeVul-time": 6,
+            "PatchEval->DeltaSecommits": 6
+          },
+          "adapter_counts": {
+            "deltasecommits expert cross-source": 436,
+            "primevul-time expert": 1109,
+            "patcheval expert cross-source": 25,
+            "deltasecommits expert": 507,
+            "primevul-time checkpoint zero-shot": 145,
+            "patcheval expert": 526,
+            "primevul-time expert cross-source": 6
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562,
+            "DeltaSecommits": 654,
+            "PatchEval": 538
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": 0.0058,
+          "group_all_correct_rate": 0.0015,
+          "orientation_accuracy": 0.0059
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": -0.0015,
+          "group_all_correct_rate": -0.0073,
+          "orientation_accuracy": -0.0015
+        }
+      }
+    }
+  ],
+  "conclusion": "Feature ablation is a robustness check, not a new headline metric. If token or diff-line features remain competitive, the router claim is less dependent on a single character-fingerprint representation; if they collapse, the claim should stay narrow."
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -36,6 +37,41 @@ def char_ngrams(text: str, *, min_n: int = 3, max_n: int = 5, limit: int = 5000)
     return counts
 
 
+def token_ngrams(text: str, *, min_n: int = 1, max_n: int = 2, limit: int = 5000) -> Counter[str]:
+    normalized = " ".join(text.lower().split())[:limit]
+    tokens = re.findall(r"[a-z_][a-z0-9_]*|==|!=|<=|>=|->|::|[{}()[\].,;:+\-*/%<>=!&|]", normalized)
+    counts: Counter[str] = Counter()
+    for n in range(min_n, max_n + 1):
+        if len(tokens) < n:
+            continue
+        for idx in range(0, len(tokens) - n + 1):
+            counts[" ".join(tokens[idx : idx + n])] += 1
+    return counts
+
+
+def diff_line_markers(text: str, *, limit: int = 5000) -> Counter[str]:
+    counts: Counter[str] = Counter()
+    for raw_line in text[:limit].splitlines():
+        line = raw_line.strip().lower()
+        if not line:
+            continue
+        prefix = line[:1] if line[:1] in {"+", "-", "@"} else "context"
+        counts[f"line_prefix={prefix}"] += 1
+        for token in re.findall(r"[a-z_][a-z0-9_]*|==|!=|<=|>=|->|::", line)[:8]:
+            counts[f"{prefix}:{token}"] += 1
+    return counts
+
+
+def feature_counts(text: str, *, feature_mode: str = "char_3_5") -> Counter[str]:
+    if feature_mode == "char_3_5":
+        return char_ngrams(text)
+    if feature_mode == "token_1_2":
+        return token_ngrams(text)
+    if feature_mode == "diff_line_markers":
+        return diff_line_markers(text)
+    raise ValueError(f"Unsupported feature mode: {feature_mode}")
+
+
 def input_text(row: dict[str, Any], mode: str) -> str:
     text = text_payload(row)
     if mode == "surface":
@@ -59,10 +95,10 @@ def examples(metadata_by_source: dict[str, list[dict[str, Any]]], *, mode: str) 
     return rows
 
 
-def select_vocabulary(train_examples: list[dict[str, str]], *, max_features: int) -> set[str]:
+def select_vocabulary(train_examples: list[dict[str, str]], *, max_features: int, feature_mode: str = "char_3_5") -> set[str]:
     doc_freq: Counter[str] = Counter()
     for row in train_examples:
-        doc_freq.update(char_ngrams(row["text"]).keys())
+        doc_freq.update(feature_counts(row["text"], feature_mode=feature_mode).keys())
     return {feature for feature, _count in doc_freq.most_common(max_features)}
 
 
@@ -72,9 +108,10 @@ def train_nb(
     max_features: int = 50000,
     alpha: float = 1.0,
     classes: list[str] | None = None,
+    feature_mode: str = "char_3_5",
 ) -> dict[str, Any]:
     class_names = classes or SOURCES
-    vocab = select_vocabulary(train_examples, max_features=max_features)
+    vocab = select_vocabulary(train_examples, max_features=max_features, feature_mode=feature_mode)
     class_doc_counts: Counter[str] = Counter()
     token_counts: dict[str, Counter[str]] = {source: Counter() for source in class_names}
     token_totals: Counter[str] = Counter()
@@ -83,7 +120,7 @@ def train_nb(
         if source not in token_counts:
             raise ValueError(f"Training example source {source!r} is not in classes: {class_names}")
         class_doc_counts[source] += 1
-        features = char_ngrams(row["text"])
+        features = feature_counts(row["text"], feature_mode=feature_mode)
         for feature, count in features.items():
             if feature not in vocab:
                 continue
@@ -95,6 +132,7 @@ def train_nb(
         "classes": class_names,
         "vocab": vocab,
         "alpha": alpha,
+        "feature_mode": feature_mode,
         "class_log_prior": {
             source: math.log((class_doc_counts[source] + alpha) / (total_docs + alpha * len(class_names))) for source in class_names
         },
@@ -114,7 +152,7 @@ def train_nb(
 
 
 def predict_one(model: dict[str, Any], text: str) -> str:
-    features = char_ngrams(text)
+    features = feature_counts(text, feature_mode=str(model.get("feature_mode", "char_3_5")))
     vocab = model["vocab"]
     scores: dict[str, float] = {}
     for source in model["classes"]:
