@@ -170,14 +170,14 @@ Recommended contribution framing:
 - Do not present `codex_pilot`, `codex_draft`, or `codex_ai_adjudication_v1` annotations as independent human labels.
 - Do not present safe flip gates as a large-scale deployable correction system yet.
 - Do not present the patch review demo as online scanning for arbitrary new code; it is artifact-backed over reproduced PrimeVul paired examples.
-- Do not claim complete archival reproducibility for every historical experiment; the public bundle currently covers the manifest-backed PrimeVul router and evidence-coupled chains, while external-generalization/source-router experiments are now covered by a separate local manifest pending public bundle packaging.
+- Do not claim complete archival reproducibility for every historical experiment; the public bundles currently cover the manifest-backed PrimeVul router/evidence-coupled chain and the external-generalization/source-routing chain, but not every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Current Limitations
 
 - Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
 - Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, DeltaSecommits gives a second-source C/C++ ablation, and PatchEval gives a third-source Go/JavaScript/Python stress test. Cross-source calibration shows that source-aware thresholds do not materially beat the best shared threshold, while source-routed experts do help. The next limitation is multi-seed stability and cross-source specialization tradeoff analysis.
-- The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains. External-generalization and source-routing artifacts are now manifest-backed in `reproducibility/external_generalization_manifest.json`, but they are not yet published as a public bundle and the repository is still not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
+- The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router/evidence-coupled and external-generalization/source-routing chains. It is still not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 

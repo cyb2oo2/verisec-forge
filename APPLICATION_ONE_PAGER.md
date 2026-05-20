@@ -24,8 +24,10 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 ## Current Evidence
 
 - Tests: see the latest CI/local pytest run in the repository history.
-- Public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
-- Public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
+- PrimeVul public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
+- PrimeVul public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
+- External-generalization public bundle SHA256: `7e2484bdc8ac5d1b1e3295e5563df36b1b08f6a41e048f886f668bf5b783407f`.
+- External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v1/verisec_forge_external_generalization_bundle.zip`.
 - Main project story: `PROJECT_STORY.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
@@ -49,7 +51,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Evidence localization still uses pseudo labels, pilot triage, and AI-filled adjudication; final evidence labels require non-AI independent adjudication.
 - Safe flip gate pools remain small and should be expanded beyond top-5/top-10 candidates.
 - Project/CVE/commit/file-hash disjoint stress evaluation is covered, the true time-disjoint setting now has zero-retraining transfer, direct `<=2020` training, and a project/file-hash composite stress slice. DeltaSecommits and PatchEval now provide second- and third-source validation. Cross-source threshold calibration is not the missing lever; source-routed experts help, and the next check is multi-seed stability plus cross-source specialization tradeoffs.
-- The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains. External-generalization/source-routing results now have a local SHA256 manifest, but are not yet published as a public bundle; the repo still does not archive every exploratory run, raw upstream dataset, or model checkpoint.
+- The public bundles cover the manifest-backed PrimeVul router/evidence-coupled and external-generalization/source-routing chains. The repo still does not archive every exploratory run, raw upstream dataset, or model checkpoint.
 
 ## Next Research Steps
 

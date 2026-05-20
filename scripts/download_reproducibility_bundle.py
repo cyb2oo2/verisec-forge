@@ -28,6 +28,10 @@ def parse_args() -> argparse.Namespace:
         help="Release metadata JSON used when --url is not provided.",
     )
     parser.add_argument(
+        "--bundle-name",
+        help="Bundle name to select from release metadata. Defaults to the first bundle.",
+    )
+    parser.add_argument(
         "--output",
         help="Downloaded bundle path. Defaults to artifacts/<metadata filename>.",
     )
@@ -56,6 +60,32 @@ def main() -> int:
 
     if source is None:
         metadata = load_bundle_release_metadata(args.metadata, ROOT)
+        if args.bundle_name:
+            release_metadata = metadata["metadata"]
+            matches = [
+                bundle
+                for bundle in release_metadata.get("bundles", [])
+                if bundle.get("name") == args.bundle_name
+            ]
+            if not matches:
+                payload = {
+                    "status": "failed",
+                    "metadata": args.metadata,
+                    "bundle_name": args.bundle_name,
+                    "message": "release metadata does not contain the requested bundle",
+                }
+                print(json.dumps(payload, indent=2, ensure_ascii=False))
+                return 1
+            bundle = matches[0]
+            metadata = {
+                "name": bundle.get("name", args.bundle_name),
+                "url": bundle.get("url"),
+                "filename": bundle.get("filename"),
+                "sha256": bundle.get("sha256"),
+                "bytes": bundle.get("bytes"),
+                "status": release_metadata.get("status", "unknown"),
+                "metadata": release_metadata,
+            }
         source = metadata.get("url")
         filename = metadata.get("filename") or filename
         expected_sha = expected_sha or metadata.get("sha256")

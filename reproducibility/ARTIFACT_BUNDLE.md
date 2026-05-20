@@ -2,7 +2,7 @@
 
 VeriSec Forge keeps large datasets, predictions, and generated experiment artifacts out of Git. The reproducibility manifests record the exact local files required for reviewer-facing reproduction, and the bundle workflow packages those manifest-listed files into a shareable zip when local artifacts are present.
 
-This is public bundle-assisted reproducibility for the manifest-backed PrimeVul router and evidence-coupled chains. It is not a full archive of every exploratory run, checkpoint, or raw upstream dataset used during development.
+This is public bundle-assisted reproducibility for the manifest-backed PrimeVul router/evidence-coupled chains and the external-generalization/source-routing chain. It is not a full archive of every exploratory run, checkpoint, or raw upstream dataset used during development.
 
 ## Validate Local Artifacts
 
@@ -23,6 +23,15 @@ For the evidence-coupled chain:
 ```
 
 The command exits non-zero and prints a structured missing/mismatch report if any required artifact is absent or has drifted.
+
+For the external-generalization and source-routing chain:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\external_generalization_manifest.json `
+  --check-only `
+  --include-generated
+```
 
 ## Build A Shareable Bundle
 
@@ -59,6 +68,14 @@ Use this only for archival snapshots. For reviewer reproduction, prefer required
 .\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py --restore
 ```
 
+The default bundle is the PrimeVul router/evidence-coupled bundle. To restore the external-generalization/source-routing bundle instead:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py `
+  --bundle-name external_generalization_and_source_routing_inputs `
+  --restore
+```
+
 For local development, a locally built bundle can be restored directly:
 
 ```powershell
@@ -86,6 +103,11 @@ Then open `http://127.0.0.1:8000/review-pair/ui`. The demo uses:
 - `outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl`
 - `outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl`
 
+## Public Bundle Inventory
+
+- `primevul_router_and_evidence_coupled_inputs`: `verisec_forge_primevul_repro_bundle.zip`, SHA256 `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`, `5731753` bytes, `6` artifacts.
+- `external_generalization_and_source_routing_inputs`: `verisec_forge_external_generalization_bundle.zip`, SHA256 `7e2484bdc8ac5d1b1e3295e5563df36b1b08f6a41e048f886f668bf5b783407f`, `29046027` bytes, `25` artifacts.
+
 ## Current Boundary
 
-The workflow verifies, packages, downloads, and restores the public reproducibility bundle. The remaining boundary is scope: the public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every historical experiment or model checkpoint.
+The workflow verifies, packages, downloads, and restores the public reproducibility bundles. The remaining boundary is scope: the public bundles cover the manifest-backed PrimeVul router/evidence-coupled and external-generalization/source-routing chains, not every historical experiment, raw upstream dataset, or model checkpoint.

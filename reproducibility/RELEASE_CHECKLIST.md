@@ -1,14 +1,24 @@
 # Reproducibility Artifact Release Checklist
 
-Use this checklist when publishing `artifacts/verisec_forge_primevul_repro_bundle.zip` to GitHub Releases, Hugging Face Datasets, or another stable artifact host.
+Use this checklist when publishing reproducibility bundles to GitHub Releases, Hugging Face Datasets, or another stable artifact host.
 
-## Current Local Bundle
+## PrimeVul Router / Evidence-Coupled Bundle
 
 - Filename: `verisec_forge_primevul_repro_bundle.zip`
 - Byte size: `5731753`
 - SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`
 - Unique artifact count: `6`
+- GitHub release: `https://github.com/cyb2oo2/verisec-forge/releases/tag/primevul-repro-bundle-v1`
 - Duplicate manifest path intentionally deduplicated: `data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl`
+
+## External Generalization / Source-Routing Bundle
+
+- Filename: `verisec_forge_external_generalization_bundle.zip`
+- Byte size: `29046027`
+- SHA256: `7e2484bdc8ac5d1b1e3295e5563df36b1b08f6a41e048f886f668bf5b783407f`
+- Unique artifact count: `25`
+- GitHub release: `https://github.com/cyb2oo2/verisec-forge/releases/tag/external-generalization-bundle-v1`
+- Source manifest: `reproducibility/external_generalization_manifest.json`
 
 ## Pre-Upload
 
@@ -30,6 +40,7 @@ The bundle builder is deterministic: rebuilding from the same manifest inputs sh
 
 1. Upload `artifacts/verisec_forge_primevul_repro_bundle.zip` to the chosen stable host.
 2. If using GitHub Releases, use `reproducibility/GITHUB_RELEASE_NOTES.md` as the release body.
+   For the external bundle, use `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES.md`.
 3. Copy the final public URL into `reproducibility/release_artifacts.json`.
 4. Keep `sha256` and `bytes` unchanged unless the bundle is rebuilt.
 
@@ -39,6 +50,13 @@ After filling the public URL, run:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py
+```
+
+For the external-generalization/source-routing bundle:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py `
+  --bundle-name external_generalization_and_source_routing_inputs
 ```
 
 For a clean restore test:
@@ -51,4 +69,4 @@ For a clean restore test:
 
 ## Claim Boundary
 
-Before the URL is filled, the project should be described as local bundle-ready. After the URL is filled and smoke-tested, it can be described as public bundle-assisted reproducible for the manifest-backed PrimeVul router and evidence-coupled chains.
+Before the URL is filled, the project should be described as local bundle-ready. After the URL is filled and smoke-tested, it can be described as public bundle-assisted reproducible for the corresponding manifest-backed chain. This now applies to both the PrimeVul router/evidence-coupled chain and the external-generalization/source-routing chain.
