@@ -1,0 +1,189 @@
+{
+  "status": "ok",
+  "scope": "learned_content_routed_system_statistics",
+  "iterations": 2000,
+  "seed": 2026,
+  "bootstrap": {
+    "single matched-mixed checkpoint": {
+      "balanced_accuracy": {
+        "observed": 0.8591,
+        "ci95_low": 0.8415,
+        "ci95_high": 0.8763,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "group_all_correct_rate": {
+        "observed": 0.8482,
+        "ci95_low": 0.829,
+        "ci95_high": 0.8674,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "orientation_accuracy": {
+        "observed": 0.86,
+        "ci95_low": 0.8416,
+        "ci95_high": 0.8784,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      }
+    },
+    "oracle source-routed experts": {
+      "balanced_accuracy": {
+        "observed": 0.8664,
+        "ci95_low": 0.8483,
+        "ci95_high": 0.8846,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "group_all_correct_rate": {
+        "observed": 0.857,
+        "ci95_low": 0.8379,
+        "ci95_high": 0.8762,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "orientation_accuracy": {
+        "observed": 0.8674,
+        "ci95_low": 0.8482,
+        "ci95_high": 0.8858,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      }
+    },
+    "learned diff-body router with full cross-prediction matrix": {
+      "balanced_accuracy": {
+        "observed": 0.8664,
+        "ci95_low": 0.8483,
+        "ci95_high": 0.8844,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "group_all_correct_rate": {
+        "observed": 0.8548,
+        "ci95_low": 0.8349,
+        "ci95_high": 0.874,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "orientation_accuracy": {
+        "observed": 0.8681,
+        "ci95_low": 0.8497,
+        "ci95_high": 0.8865,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      }
+    }
+  },
+  "deltas": {
+    "single matched-mixed checkpoint": {
+      "balanced_accuracy": {
+        "observed_delta": 0.0073,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0145,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "group_all_correct_rate": {
+        "observed_delta": 0.0066,
+        "ci95_low": -0.0015,
+        "ci95_high": 0.0147,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "orientation_accuracy": {
+        "observed_delta": 0.0081,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0162,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      }
+    },
+    "oracle source-routed experts": {
+      "balanced_accuracy": {
+        "observed_delta": 0.0,
+        "ci95_low": -0.0022,
+        "ci95_high": 0.0022,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "group_all_correct_rate": {
+        "observed_delta": -0.0022,
+        "ci95_low": -0.0052,
+        "ci95_high": 0.0007,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      },
+      "orientation_accuracy": {
+        "observed_delta": 0.0007,
+        "ci95_low": -0.0015,
+        "ci95_high": 0.0029,
+        "iterations": 2000,
+        "seed": 2026,
+        "units": 1357
+      }
+    }
+  },
+  "paired_tests": {
+    "single matched-mixed checkpoint": {
+      "balanced_accuracy": {
+        "candidate_correct_baseline_wrong": 46,
+        "candidate_wrong_baseline_correct": 26,
+        "ties": 2682,
+        "two_sided_p_value": 0.024461,
+        "test": "exact_mcnemar_binomial"
+      },
+      "group_all_correct_rate": {
+        "wins": 22,
+        "losses": 13,
+        "ties": 1322,
+        "two_sided_p_value": 0.175465,
+        "test": "exact_group_sign_test"
+      },
+      "orientation_accuracy": {
+        "wins": 21,
+        "losses": 10,
+        "ties": 1326,
+        "two_sided_p_value": 0.070756,
+        "test": "exact_group_sign_test"
+      }
+    },
+    "oracle source-routed experts": {
+      "balanced_accuracy": {
+        "candidate_correct_baseline_wrong": 4,
+        "candidate_wrong_baseline_correct": 4,
+        "ties": 2746,
+        "two_sided_p_value": 1.0,
+        "test": "exact_mcnemar_binomial"
+      },
+      "group_all_correct_rate": {
+        "wins": 1,
+        "losses": 4,
+        "ties": 1352,
+        "two_sided_p_value": 0.375,
+        "test": "exact_group_sign_test"
+      },
+      "orientation_accuracy": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 1354,
+        "two_sided_p_value": 1.0,
+        "test": "exact_group_sign_test"
+      }
+    }
+  },
+  "interpretation": "The learned routed system improves over the single matched-mixed baseline at the point estimate, but the bootstrap interval should be used as the reviewer-facing claim boundary. Against oracle source routing, the learned system matches row-level balanced accuracy while remaining slightly below oracle group all-correct."
+}

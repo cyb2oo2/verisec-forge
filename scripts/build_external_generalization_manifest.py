@@ -136,6 +136,7 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("content_source_router_report", "reports/secure_code_content_source_router_v1.json", "Surface/diff-body content router stress report."),
     ("learned_content_source_router_report", "reports/secure_code_learned_content_source_router_v1.json", "Learned character n-gram source router report."),
     ("learned_content_routed_system_report", "reports/secure_code_learned_content_routed_system_v1.json", "Learned diff-body content router evaluated as an end-to-end routed system with explicit fallback accounting."),
+    ("learned_content_routed_system_statistics_report", "reports/secure_code_learned_content_routed_system_statistics_v1.json", "Bootstrap and paired-test statistics for the learned content-routed system."),
 ]
 
 
@@ -184,6 +185,8 @@ def build_manifest() -> dict[str, Any]:
             "learned_content_routed_system_ba": 0.8664,
             "learned_content_routed_system_group_all_correct": 0.8548,
             "learned_content_routed_system_fallback_rows": 0,
+            "learned_content_routed_system_ba_delta_vs_single": 0.0073,
+            "learned_content_routed_system_ba_delta_vs_single_ci95": [0.0, 0.0145],
         },
         "limitations": [
             "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",
