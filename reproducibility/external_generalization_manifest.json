@@ -1,0 +1,222 @@
+{
+  "name": "external_generalization_and_source_routing_v1",
+  "description": "Manifest-backed local artifacts for DeltaSecommits/PatchEval/time-disjoint external-generalization, source-aware adapter mixture, and source-router reports.",
+  "created_utc": "2026-05-20",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/build_reproducibility_bundle.py",
+    "--manifest",
+    "reproducibility/external_generalization_manifest.json",
+    "--check-only",
+    "--include-generated"
+  ],
+  "artifacts": [
+    {
+      "role": "primevul_time_train_metadata",
+      "path": "data/processed/secure_code_primevul_pair_diff_time_train_le2020_balanced_6000_metadata.jsonl",
+      "sha256": "6eab018b0bbb4d0e833616763875e5fcb5a853092c1097602571c674dd8bb5da",
+      "bytes": 86357136,
+      "note": "PrimeVul <=2020 paired-diff training metadata used by time-disjoint and learned-router experiments.",
+      "rows": 6000
+    },
+    {
+      "role": "primevul_time_eval_metadata",
+      "path": "data/processed/secure_code_primevul_pair_diff_time_eval_ge2021_balanced_2000_metadata.jsonl",
+      "sha256": "9251abbd9d87b89d7936b985a8ef65cdc966312795f69d31f00d9fc23fcff4c2",
+      "bytes": 21818588,
+      "note": "PrimeVul >=2021 paired-diff eval metadata.",
+      "rows": 1562
+    },
+    {
+      "role": "deltasecommits_train_metadata",
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_train_metadata.jsonl",
+      "sha256": "66fd2717fda03daf212d88c2a6f51b0f8a0795091c43b5f2f46ded644b9adb69",
+      "bytes": 10776963,
+      "note": "DeltaSecommits C/C++ paired-diff train metadata.",
+      "rows": 2614
+    },
+    {
+      "role": "deltasecommits_eval_metadata",
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl",
+      "sha256": "5d24596fc85bf967cebc2785b0508c0061b6b80fef5824f4d128b663e733cc37",
+      "bytes": 2592398,
+      "note": "DeltaSecommits C/C++ paired-diff eval metadata.",
+      "rows": 654
+    },
+    {
+      "role": "patcheval_train_metadata",
+      "path": "data/processed/secure_code_patcheval_pair_diff_train_metadata.jsonl",
+      "sha256": "050451c27d98258f0bab1006ce8102a99ceba73512f0c6e20756f6a78a6c8273",
+      "bytes": 12090026,
+      "note": "PatchEval paired-diff train metadata.",
+      "rows": 2150
+    },
+    {
+      "role": "patcheval_eval_metadata",
+      "path": "data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+      "sha256": "f3b27cbaf40809ba0f7bf06fdaa4313377de5579b70ff64f15b22ed9ff459e6a",
+      "bytes": 3161037,
+      "note": "PatchEval paired-diff eval metadata.",
+      "rows": 538
+    },
+    {
+      "role": "matched_mixed_train_metadata",
+      "path": "data/processed/secure_code_matched_mixed_primevul_time_short_deltasecommits_pair_diff_train_metadata.jsonl",
+      "sha256": "0cad4fd4d730ba4db5d493319d978c95f3e4d0c82e26a1c5fb49dffa2526ba71",
+      "bytes": 47613271,
+      "note": "Matched short PrimeVul-time + DeltaSecommits mixed-source training metadata.",
+      "rows": 5228
+    },
+    {
+      "role": "primevul_time_direct_predictions",
+      "path": "outputs/secure_code_primevul_time_disjoint_pair_coupled_direct_train_v1_predictions.jsonl",
+      "sha256": "5b3cd12b2b896aa3062944656f0251b2d7bbfc15431cbed4dbcceb78a76e458c",
+      "bytes": 603727,
+      "note": "PrimeVul <=2020 direct-train expert predictions on later-CVE eval.",
+      "rows": 1562
+    },
+    {
+      "role": "primevul_time_matched_mixed_predictions",
+      "path": "outputs/secure_code_primevul_time_disjoint_matched_mixed_primevul_short_delta_pair_coupled_v1_predictions.jsonl",
+      "sha256": "39bfbfdadef9876dc2ba77e62ffe5778eeca732842f18de56ae1191531014c23",
+      "bytes": 574367,
+      "note": "Matched mixed-source checkpoint predictions on PrimeVul later-CVE eval.",
+      "rows": 1562
+    },
+    {
+      "role": "deltasecommits_expert_predictions",
+      "path": "outputs/secure_code_deltasecommits_cls_qwen15bcoder_lora_pair_diff_cpp_v1_eval_predictions.jsonl",
+      "sha256": "7fd6ea51101955a99e8b46e148317bd55f89d0c0b881eaaaeb32520fb2d58785",
+      "bytes": 67134,
+      "note": "DeltaSecommits source expert predictions on Delta eval.",
+      "rows": 654
+    },
+    {
+      "role": "deltasecommits_matched_mixed_predictions",
+      "path": "outputs/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_eval_predictions.jsonl",
+      "sha256": "b7edcb0cb0ca3cb343e5d9c3d6e036ecc3f50199c254966d6364c8709d781bc6",
+      "bytes": 67113,
+      "note": "Matched mixed-source checkpoint predictions on Delta eval.",
+      "rows": 654
+    },
+    {
+      "role": "patcheval_seed42_predictions",
+      "path": "outputs/secure_code_patcheval_cls_qwen15bcoder_lora_pair_diff_v1_eval_predictions.jsonl",
+      "sha256": "2ce85f999862a930ba6d2efb6845037a0803aa9d842f25f3b6574b8d3b773860",
+      "bytes": 52948,
+      "note": "PatchEval seed42 source expert predictions on PatchEval eval.",
+      "rows": 538
+    },
+    {
+      "role": "patcheval_seed7_predictions",
+      "path": "outputs/secure_code_patcheval_cls_qwen15bcoder_lora_pair_diff_seed7_v1_eval_predictions.jsonl",
+      "sha256": "0b798d19b2ac41a9c39eb73c1d06b5404799ab7b7d68d7f2e72d52672f2a2e05",
+      "bytes": 52865,
+      "note": "PatchEval seed7 source expert predictions on PatchEval eval.",
+      "rows": 538
+    },
+    {
+      "role": "patcheval_seed99_predictions",
+      "path": "outputs/secure_code_patcheval_cls_qwen15bcoder_lora_pair_diff_seed99_v1_eval_predictions.jsonl",
+      "sha256": "9aea6b99e5cc341e77e07b68a3ecefb350f7cd892d3f90a8c8f8bebd77b8882b",
+      "bytes": 52924,
+      "note": "PatchEval seed99 source expert predictions on PatchEval eval.",
+      "rows": 538
+    },
+    {
+      "role": "patcheval_on_primevul_predictions",
+      "path": "outputs/secure_code_patcheval_adapter_primevul_time_eval_predictions.jsonl",
+      "sha256": "a07b11094921b73857e7ae8ad81cafb14f93d428b967a1045c3a99f7b94a2dad",
+      "bytes": 139746,
+      "note": "PatchEval source expert reverse-transfer predictions on PrimeVul later-CVE eval.",
+      "rows": 1562
+    },
+    {
+      "role": "patcheval_on_delta_predictions",
+      "path": "outputs/secure_code_patcheval_adapter_delta_eval_predictions.jsonl",
+      "sha256": "6516cd617df4a20df44a5affd19d6ab05c633e1f2960242e17c7a9706b74348f",
+      "bytes": 66696,
+      "note": "PatchEval source expert reverse-transfer predictions on Delta eval.",
+      "rows": 654
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "time_disjoint_direct_report",
+      "path": "reports/secure_code_primevul_time_disjoint_direct_train_v1.json",
+      "sha256": "8d57f91593e6976173ca81539b823ef807ab6af2f705218ec0172c5ccd856ce7",
+      "bytes": 2138,
+      "note": "PrimeVul time-disjoint direct-train pair-coupled report."
+    },
+    {
+      "role": "deltasecommits_delta_only_report",
+      "path": "reports/secure_code_deltasecommits_delta_only_pair_diff_eval_v1.json",
+      "sha256": "4b585b4640ba35b06f06b50fc7041b468e4fecbd2e7dc54b26448cca2e0659e1",
+      "bytes": 2133,
+      "note": "Delta-only expert pair-coupled report."
+    },
+    {
+      "role": "patcheval_zero_shot_report",
+      "path": "reports/secure_code_patcheval_zero_shot_matched_mixed_primevul_short_delta_v1.json",
+      "sha256": "86a77d2e796b35b87d0822c6b8b1b1c5ee4e92738ef7608768215bc732ce87bf",
+      "bytes": 2191,
+      "note": "PatchEval matched-mixed zero-shot report."
+    },
+    {
+      "role": "patcheval_multiseed_report",
+      "path": "reports/secure_code_patcheval_adapter_multiseed_v1.json",
+      "sha256": "a50326d9e2d63f2cccbde008df2f05eecab1bc24d3bc17b96ab7585d647b7aa7",
+      "bytes": 4422,
+      "note": "PatchEval source expert multi-seed report."
+    },
+    {
+      "role": "patcheval_cross_source_report",
+      "path": "reports/secure_code_patcheval_cross_source_specialization_v1.json",
+      "sha256": "dffe5fa848de142c07453c80a002d463bd8c120baf8243f5790517a6e8f634c9",
+      "bytes": 2715,
+      "note": "PatchEval reverse cross-source specialization report."
+    },
+    {
+      "role": "three_source_mixture_report",
+      "path": "reports/secure_code_three_source_adapter_mixture_v1.json",
+      "sha256": "3940e6d1772ecbe511dc6075b89a01542ebcde5a172463715e52b7819cc0fc6d",
+      "bytes": 8500,
+      "note": "Three-source source-routed adapter mixture report."
+    },
+    {
+      "role": "non_oracle_source_router_report",
+      "path": "reports/secure_code_non_oracle_source_router_v1.json",
+      "sha256": "534c834918a53f93770bbae152d0a82fe9c5719ccf27d78b0a205784ea23d048",
+      "bytes": 13188,
+      "note": "Metadata-schema source router report."
+    },
+    {
+      "role": "content_source_router_report",
+      "path": "reports/secure_code_content_source_router_v1.json",
+      "sha256": "e1f138a4bcab7543923b384ffe0169dc653e429ea60a0a75804a856ae59ce0ab",
+      "bytes": 14236,
+      "note": "Surface/diff-body content router stress report."
+    },
+    {
+      "role": "learned_content_source_router_report",
+      "path": "reports/secure_code_learned_content_source_router_v1.json",
+      "sha256": "402055187fe25d87c830d0d32480f2d980cd76b95bc603a8d860cd8a56e1e2c1",
+      "bytes": 5091,
+      "note": "Learned character n-gram source router report."
+    }
+  ],
+  "expected": {
+    "three_source_single_matched_mixed_ba": 0.8591,
+    "three_source_source_routed_ba": 0.8664,
+    "patcheval_adapter_multiseed_pair_coupled_ba_mean": 0.8172,
+    "patcheval_reverse_primevul_pair_coupled_ba": 0.8521,
+    "patcheval_reverse_delta_pair_coupled_ba": 0.844,
+    "learned_diff_body_router_row_accuracy": 0.9063,
+    "learned_diff_body_router_pair_group_accuracy": 0.9057
+  },
+  "limitations": [
+    "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",
+    "It does not include model checkpoints; reports can be audited from materialized predictions and metadata.",
+    "It is manifest-backed reproducibility, not yet a public fresh-clone bundle unless packaged and uploaded with the bundle workflow."
+  ]
+}

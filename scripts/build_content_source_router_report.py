@@ -15,6 +15,13 @@ if str(ROOT) not in sys.path:
 from scripts.build_non_oracle_source_router_report import read_json, read_jsonl, routed_system_from_mapping
 
 
+def metric_delta(system: dict[str, Any] | None, baseline: dict[str, Any], metric_path: tuple[str, str]) -> float | None:
+    if system is None:
+        return None
+    section, metric = metric_path
+    return round(float(system[section][metric]) - float(baseline[section][metric]), 4)
+
+
 def text_payload(row: dict[str, Any]) -> str:
     return str(row.get("pair_text") or row.get("prompt") or row.get("diff") or row.get("code") or "")
 
@@ -175,24 +182,12 @@ def build_report(
             "surface_content_router": surface_system,
         },
         "surface_minus_single": {
-            "balanced_accuracy": round(
-                (surface_system or oracle)["overall"]["balanced_accuracy"] - single["overall"]["balanced_accuracy"], 4
-            ),
-            "group_all_correct_rate": round(
-                (surface_system or oracle)["group_metrics"]["group_all_correct_rate"]
-                - single["group_metrics"]["group_all_correct_rate"],
-                4,
-            ),
+            "balanced_accuracy": metric_delta(surface_system, single, ("overall", "balanced_accuracy")),
+            "group_all_correct_rate": metric_delta(surface_system, single, ("group_metrics", "group_all_correct_rate")),
         },
         "surface_minus_oracle": {
-            "balanced_accuracy": round(
-                (surface_system or oracle)["overall"]["balanced_accuracy"] - oracle["overall"]["balanced_accuracy"], 4
-            ),
-            "group_all_correct_rate": round(
-                (surface_system or oracle)["group_metrics"]["group_all_correct_rate"]
-                - oracle["group_metrics"]["group_all_correct_rate"],
-                4,
-            ),
+            "balanced_accuracy": metric_delta(surface_system, oracle, ("overall", "balanced_accuracy")),
+            "group_all_correct_rate": metric_delta(surface_system, oracle, ("group_metrics", "group_all_correct_rate")),
         },
         "conclusion": (
             "A prompt-surface content router can recover the oracle source routing on the current benchmark, but a stricter diff-body-only heuristic is much weaker. "
@@ -217,6 +212,10 @@ def render_system_row(name: str, system: dict[str, Any] | None) -> str:
         f"| `{name}` | `{overall['balanced_accuracy']}` | `{overall['f1']}` | "
         f"`{group['group_all_correct_rate']}` | `{group['orientation_accuracy']}` |"
     )
+
+
+def fmt_metric(value: Any) -> str:
+    return "n/a" if value is None else str(value)
 
 
 def render_markdown(payload: dict[str, Any]) -> str:
@@ -246,10 +245,10 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "",
         "## Deltas",
         "",
-        f"- Surface router minus single BA: `{payload['surface_minus_single']['balanced_accuracy']}`",
-        f"- Surface router minus single group all-correct: `{payload['surface_minus_single']['group_all_correct_rate']}`",
-        f"- Surface router minus oracle BA: `{payload['surface_minus_oracle']['balanced_accuracy']}`",
-        f"- Surface router minus oracle group all-correct: `{payload['surface_minus_oracle']['group_all_correct_rate']}`",
+        f"- Surface router minus single BA: `{fmt_metric(payload['surface_minus_single']['balanced_accuracy'])}`",
+        f"- Surface router minus single group all-correct: `{fmt_metric(payload['surface_minus_single']['group_all_correct_rate'])}`",
+        f"- Surface router minus oracle BA: `{fmt_metric(payload['surface_minus_oracle']['balanced_accuracy'])}`",
+        f"- Surface router minus oracle group all-correct: `{fmt_metric(payload['surface_minus_oracle']['group_all_correct_rate'])}`",
         "",
         "## Interpretation",
         "",

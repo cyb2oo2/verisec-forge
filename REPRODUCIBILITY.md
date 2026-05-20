@@ -90,11 +90,40 @@ This chain also regenerates the artifact-backed patch review demo evidence file:
 
 - `outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl`
 
+## External Generalization And Source Routing
+
+The DeltaSecommits, PatchEval, time-disjoint, source-aware mixture, and source-router reports are now manifest-backed as a separate external-generalization chain:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_external_generalization_manifest.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\external_generalization_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+Expected key outputs from the manifest-backed reports:
+
+- three-source single matched-mixed BA: `0.8591`
+- three-source source-routed BA: `0.8664`
+- PatchEval adapter multi-seed pair-coupled BA mean: `0.8172`
+- PatchEval reverse-transfer pair-coupled BA on PrimeVul-time: `0.8521`
+- PatchEval reverse-transfer pair-coupled BA on DeltaSecommits: `0.8440`
+- learned diff-body source-router row accuracy: `0.9063`
+- learned diff-body source-router pair-group accuracy: `0.9057`
+
+The exact local inputs and generated report hashes are listed in:
+
+- `reproducibility/external_generalization_manifest.json`
+
+This closes the previous gap where external-generalization reports existed but their local `data/processed` and `outputs` dependencies were not listed in a reviewer-checkable manifest. It is still not a public uploaded bundle until packaged and published through the artifact bundle workflow below.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:
 
 - `reproducibility/primevul_calibrated_router_manifest.json`
+- `reproducibility/external_generalization_manifest.json`
 
 The manifest records:
 

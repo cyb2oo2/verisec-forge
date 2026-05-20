@@ -49,7 +49,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Evidence localization still uses pseudo labels, pilot triage, and AI-filled adjudication; final evidence labels require non-AI independent adjudication.
 - Safe flip gate pools remain small and should be expanded beyond top-5/top-10 candidates.
 - Project/CVE/commit/file-hash disjoint stress evaluation is covered, the true time-disjoint setting now has zero-retraining transfer, direct `<=2020` training, and a project/file-hash composite stress slice. DeltaSecommits and PatchEval now provide second- and third-source validation. Cross-source threshold calibration is not the missing lever; source-routed experts help, and the next check is multi-seed stability plus cross-source specialization tradeoffs.
-- The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains, not every exploratory run, raw upstream dataset, or model checkpoint.
+- The public bundle covers the manifest-backed PrimeVul router and evidence-coupled chains. External-generalization/source-routing results now have a local SHA256 manifest, but are not yet published as a public bundle; the repo still does not archive every exploratory run, raw upstream dataset, or model checkpoint.
 
 ## Next Research Steps
 

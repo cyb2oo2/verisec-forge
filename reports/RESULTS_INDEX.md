@@ -18,6 +18,7 @@ Start here for the main narrative and current system-level conclusions.
 - `Artifact Release Metadata`: `reproducibility/release_artifacts.json`
 - `Artifact Release Checklist`: `reproducibility/RELEASE_CHECKLIST.md`
 - `GitHub Release Notes Draft`: `reproducibility/GITHUB_RELEASE_NOTES.md`
+- `External Generalization Manifest`: `reproducibility/external_generalization_manifest.json`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`

@@ -58,3 +58,22 @@ def test_content_source_router_reports_surface_system_when_surface_routing_is_pe
     assert payload["routing_metrics"]["surface_content"]["row_accuracy"] == 1.0
     assert payload["systems"]["surface_content_router"] is not None
     assert payload["surface_minus_oracle"]["balanced_accuracy"] == 0.0
+
+
+def test_content_source_router_does_not_fallback_to_oracle_when_surface_routing_is_imperfect():
+    payload = build_report(
+        prime_metadata=[{"pair_key": "p1", "pair_text": "Project: linux\nUnified diff:\n+ut64 x;"}],
+        delta_metadata=[{"pair_key": "d1", "pair_text": "Project: https://github.com/tensorflow/tensorflow\nUnified diff:\n+std::string x;"}],
+        patch_metadata=[{"pair_key": "e1", "pair_text": "Project: https://github.com/owner/repo\nUnified diff:\n+func f() {}"}],
+        matched_prime_report=_report(8, 8, 2, 2, 7, 7),
+        matched_delta_report=_report(7, 7, 3, 3, 6, 6),
+        matched_patch_report=_report(6, 6, 4, 4, 5, 5),
+        expert_prime_report=_report(9, 9, 1, 1, 8, 8),
+        expert_delta_report=_report(8, 8, 2, 2, 7, 7),
+        expert_patch_report=_report(7, 7, 3, 3, 6, 6),
+    )
+
+    assert payload["routing_metrics"]["surface_content"]["row_accuracy"] < 1.0
+    assert payload["systems"]["surface_content_router"] is None
+    assert payload["surface_minus_single"]["balanced_accuracy"] is None
+    assert payload["surface_minus_oracle"]["balanced_accuracy"] is None
