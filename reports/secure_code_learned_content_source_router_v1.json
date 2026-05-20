@@ -1,0 +1,205 @@
+{
+  "status": "ok",
+  "scope": "learned_content_source_router",
+  "protocol": {
+    "model": "character n-gram multinomial naive bayes",
+    "max_features": 50000,
+    "inputs": {
+      "surface": "pair_text/prompt content only",
+      "diff_body": "text after Unified diff marker only"
+    },
+    "forbidden_row_fields": [
+      "source_dataset",
+      "id",
+      "pair_key",
+      "programming_language",
+      "file_extension",
+      "file_path",
+      "patch_url"
+    ],
+    "train_rows": {
+      "PrimeVul-time": 6000,
+      "DeltaSecommits": 2614,
+      "PatchEval": 2150
+    },
+    "eval_rows": {
+      "PrimeVul-time": 1562,
+      "DeltaSecommits": 654,
+      "PatchEval": 538
+    }
+  },
+  "routing_metrics": {
+    "heuristic_surface": {
+      "row_count": 2754,
+      "row_accuracy": 1.0,
+      "pair_group_count": 1357,
+      "pair_group_accuracy": 1.0,
+      "confusion": {
+        "DeltaSecommits": {
+          "DeltaSecommits": 654
+        },
+        "PatchEval": {
+          "PatchEval": 538
+        },
+        "PrimeVul-time": {
+          "PrimeVul-time": 1562
+        }
+      },
+      "by_source": {
+        "DeltaSecommits": {
+          "rows": 654,
+          "correct": 654,
+          "accuracy": 1.0
+        },
+        "PatchEval": {
+          "rows": 538,
+          "correct": 538,
+          "accuracy": 1.0
+        },
+        "PrimeVul-time": {
+          "rows": 1562,
+          "correct": 1562,
+          "accuracy": 1.0
+        }
+      }
+    },
+    "heuristic_diff_body": {
+      "row_count": 2754,
+      "row_accuracy": 0.4466,
+      "pair_group_count": 1357,
+      "pair_group_accuracy": 0.4436,
+      "confusion": {
+        "DeltaSecommits": {
+          "DeltaSecommits": 86,
+          "PatchEval": 62,
+          "PrimeVul-time": 488,
+          "unknown": 18
+        },
+        "PatchEval": {
+          "PatchEval": 392,
+          "unknown": 92,
+          "PrimeVul-time": 52,
+          "DeltaSecommits": 2
+        },
+        "PrimeVul-time": {
+          "PrimeVul-time": 752,
+          "DeltaSecommits": 510,
+          "PatchEval": 174,
+          "unknown": 126
+        }
+      },
+      "by_source": {
+        "DeltaSecommits": {
+          "rows": 654,
+          "correct": 86,
+          "accuracy": 0.1315
+        },
+        "PatchEval": {
+          "rows": 538,
+          "correct": 392,
+          "accuracy": 0.7286
+        },
+        "PrimeVul-time": {
+          "rows": 1562,
+          "correct": 752,
+          "accuracy": 0.4814
+        }
+      }
+    },
+    "learned_surface": {
+      "row_count": 2754,
+      "row_accuracy": 0.911,
+      "pair_group_count": 1357,
+      "pair_group_accuracy": 0.9108,
+      "confusion": {
+        "DeltaSecommits": {
+          "DeltaSecommits": 648,
+          "PatchEval": 6
+        },
+        "PatchEval": {
+          "PatchEval": 538
+        },
+        "PrimeVul-time": {
+          "PrimeVul-time": 1323,
+          "DeltaSecommits": 228,
+          "PatchEval": 11
+        }
+      },
+      "by_source": {
+        "DeltaSecommits": {
+          "rows": 654,
+          "correct": 648,
+          "accuracy": 0.9908
+        },
+        "PatchEval": {
+          "rows": 538,
+          "correct": 538,
+          "accuracy": 1.0
+        },
+        "PrimeVul-time": {
+          "rows": 1562,
+          "correct": 1323,
+          "accuracy": 0.847
+        }
+      }
+    },
+    "learned_diff_body": {
+      "row_count": 2754,
+      "row_accuracy": 0.9063,
+      "pair_group_count": 1357,
+      "pair_group_accuracy": 0.9057,
+      "confusion": {
+        "DeltaSecommits": {
+          "DeltaSecommits": 638,
+          "PrimeVul-time": 10,
+          "PatchEval": 6
+        },
+        "PatchEval": {
+          "PatchEval": 536,
+          "PrimeVul-time": 2
+        },
+        "PrimeVul-time": {
+          "PrimeVul-time": 1322,
+          "DeltaSecommits": 228,
+          "PatchEval": 12
+        }
+      },
+      "by_source": {
+        "DeltaSecommits": {
+          "rows": 654,
+          "correct": 638,
+          "accuracy": 0.9755
+        },
+        "PatchEval": {
+          "rows": 538,
+          "correct": 536,
+          "accuracy": 0.9963
+        },
+        "PrimeVul-time": {
+          "rows": 1562,
+          "correct": 1322,
+          "accuracy": 0.8464
+        }
+      }
+    }
+  },
+  "model_stats": {
+    "surface": {
+      "vocab_size": 50000,
+      "train_doc_counts": {
+        "PrimeVul-time": 6000,
+        "DeltaSecommits": 2614,
+        "PatchEval": 2150
+      }
+    },
+    "diff_body": {
+      "vocab_size": 50000,
+      "train_doc_counts": {
+        "PrimeVul-time": 6000,
+        "DeltaSecommits": 2614,
+        "PatchEval": 2150
+      }
+    }
+  },
+  "conclusion": "The learned character n-gram router establishes a dependency-free content-routing baseline. Surface routing tests whether visible prompt content can select experts; diff-body routing is the stricter check for code-diff-only expert selection."
+}

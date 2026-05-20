@@ -174,6 +174,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Non-Oracle Source Router JSON`: `reports/secure_code_non_oracle_source_router_v1.json`
 - `Content Source Router`: `reports/CONTENT_SOURCE_ROUTER.md`
 - `Content Source Router JSON`: `reports/secure_code_content_source_router_v1.json`
+- `Learned Content Source Router`: `reports/LEARNED_CONTENT_SOURCE_ROUTER.md`
+- `Learned Content Source Router JSON`: `reports/secure_code_learned_content_source_router_v1.json`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
