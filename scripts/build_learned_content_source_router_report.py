@@ -71,13 +71,17 @@ def train_nb(
     *,
     max_features: int = 50000,
     alpha: float = 1.0,
+    classes: list[str] | None = None,
 ) -> dict[str, Any]:
+    class_names = classes or SOURCES
     vocab = select_vocabulary(train_examples, max_features=max_features)
     class_doc_counts: Counter[str] = Counter()
-    token_counts: dict[str, Counter[str]] = {source: Counter() for source in SOURCES}
+    token_counts: dict[str, Counter[str]] = {source: Counter() for source in class_names}
     token_totals: Counter[str] = Counter()
     for row in train_examples:
         source = row["true_source"]
+        if source not in token_counts:
+            raise ValueError(f"Training example source {source!r} is not in classes: {class_names}")
         class_doc_counts[source] += 1
         features = char_ngrams(row["text"])
         for feature, count in features.items():
@@ -88,21 +92,21 @@ def train_nb(
     total_docs = sum(class_doc_counts.values())
     vocab_size = len(vocab)
     return {
-        "classes": SOURCES,
+        "classes": class_names,
         "vocab": vocab,
         "alpha": alpha,
         "class_log_prior": {
-            source: math.log((class_doc_counts[source] + alpha) / (total_docs + alpha * len(SOURCES))) for source in SOURCES
+            source: math.log((class_doc_counts[source] + alpha) / (total_docs + alpha * len(class_names))) for source in class_names
         },
         "token_log_prob": {
             source: {
                 feature: math.log((count + alpha) / (token_totals[source] + alpha * vocab_size))
                 for feature, count in token_counts[source].items()
             }
-            for source in SOURCES
+            for source in class_names
         },
         "unknown_log_prob": {
-            source: math.log(alpha / (token_totals[source] + alpha * vocab_size)) for source in SOURCES
+            source: math.log(alpha / (token_totals[source] + alpha * vocab_size)) for source in class_names
         },
         "train_doc_counts": dict(class_doc_counts),
         "vocab_size": vocab_size,

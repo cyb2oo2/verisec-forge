@@ -1,0 +1,525 @@
+{
+  "status": "ok",
+  "scope": "learned_content_router_leave_one_source",
+  "protocol": {
+    "router": "character n-gram naive bayes over diff-body-only text",
+    "max_features": 50000,
+    "stress_type": "leave-one-source-out open-set routing boundary",
+    "interpretation": "For each source, the router is trained only on the other two sources and must map held-out rows to one of the available existing experts. This is not expected to recover the hidden source label; it tests whether source/expert routing has a graceful fallback boundary under unseen-source shift."
+  },
+  "heldout_results": [
+    {
+      "heldout_source": "PrimeVul-time",
+      "train_sources": [
+        "DeltaSecommits",
+        "PatchEval"
+      ],
+      "train_rows": {
+        "DeltaSecommits": 2614,
+        "PatchEval": 2150
+      },
+      "heldout_eval_rows": 1562,
+      "heldout_eval_pair_groups": 761,
+      "seen_source_routing_metrics": {
+        "row_count": 1192,
+        "row_accuracy": 0.995,
+        "pair_group_count": 596,
+        "pair_group_accuracy": 0.995,
+        "confusion": {
+          "DeltaSecommits": {
+            "DeltaSecommits": 648,
+            "PatchEval": 6
+          },
+          "PatchEval": {
+            "PatchEval": 538
+          }
+        },
+        "by_source": {
+          "DeltaSecommits": {
+            "rows": 654,
+            "correct": 648,
+            "accuracy": 0.9908
+          },
+          "PatchEval": {
+            "rows": 538,
+            "correct": 538,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "heldout_route_distribution": {
+        "DeltaSecommits": 1379,
+        "PatchEval": 183
+      },
+      "heldout_pair_route_distribution": {
+        "DeltaSecommits": 672,
+        "PatchEval": 89
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "heldout single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8809,
+            "label_accuracy": 0.8809,
+            "vulnerable_recall": 0.8758,
+            "safe_specificity": 0.886,
+            "precision": 0.8849,
+            "f1": 0.8803,
+            "balanced_accuracy": 0.8809,
+            "tp": 684,
+            "tn": 692,
+            "fp": 89,
+            "fn": 97
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 660,
+            "group_all_correct_rate": 0.8673,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "route_counts": {
+            "None": 1562
+          },
+          "adapter_counts": {
+            "matched-mixed": 1562
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562
+          }
+        },
+        {
+          "system": "heldout source-specific expert",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8835,
+            "label_accuracy": 0.8835,
+            "vulnerable_recall": 0.8796,
+            "safe_specificity": 0.8873,
+            "precision": 0.8865,
+            "f1": 0.883,
+            "balanced_accuracy": 0.8835,
+            "tp": 687,
+            "tn": 693,
+            "fp": 88,
+            "fn": 94
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 667,
+            "group_all_correct_rate": 0.8765,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 672,
+            "orientation_accuracy": 0.883
+          },
+          "route_counts": {
+            "None": 1562
+          },
+          "adapter_counts": {
+            "primevul-time expert": 1562
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562
+          }
+        },
+        {
+          "system": "heldout leave-one-source routed existing experts",
+          "overall": {
+            "num_examples": 1562,
+            "presence_accuracy": 0.8585,
+            "label_accuracy": 0.8585,
+            "vulnerable_recall": 0.8886,
+            "safe_specificity": 0.8284,
+            "precision": 0.8382,
+            "f1": 0.8626,
+            "balanced_accuracy": 0.8585,
+            "tp": 694,
+            "tn": 647,
+            "fp": 134,
+            "fn": 87
+          },
+          "group_metrics": {
+            "unique_pair_count": 761,
+            "mixed_label_pair_count": 761,
+            "group_all_correct": 613,
+            "group_all_correct_rate": 0.8055,
+            "orientation_eligible_pair_count": 761,
+            "orientation_correct": 667,
+            "orientation_accuracy": 0.8765
+          },
+          "route_counts": {
+            "PrimeVul-time->DeltaSecommits": 1379,
+            "PrimeVul-time->PatchEval": 183
+          },
+          "adapter_counts": {
+            "deltasecommits expert cross-source": 1379,
+            "patcheval expert cross-source": 183
+          },
+          "source_counts": {
+            "PrimeVul-time": 1562
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": -0.0224,
+          "group_all_correct_rate": -0.0618,
+          "orientation_accuracy": -0.0065
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": -0.025,
+          "group_all_correct_rate": -0.071,
+          "orientation_accuracy": -0.0065
+        }
+      }
+    },
+    {
+      "heldout_source": "DeltaSecommits",
+      "train_sources": [
+        "PrimeVul-time",
+        "PatchEval"
+      ],
+      "train_rows": {
+        "PrimeVul-time": 6000,
+        "PatchEval": 2150
+      },
+      "heldout_eval_rows": 654,
+      "heldout_eval_pair_groups": 327,
+      "seen_source_routing_metrics": {
+        "row_count": 2100,
+        "row_accuracy": 0.9929,
+        "pair_group_count": 1030,
+        "pair_group_accuracy": 0.9932,
+        "confusion": {
+          "PatchEval": {
+            "PatchEval": 537,
+            "PrimeVul-time": 1
+          },
+          "PrimeVul-time": {
+            "PrimeVul-time": 1548,
+            "PatchEval": 14
+          }
+        },
+        "by_source": {
+          "PatchEval": {
+            "rows": 538,
+            "correct": 537,
+            "accuracy": 0.9981
+          },
+          "PrimeVul-time": {
+            "rows": 1562,
+            "correct": 1548,
+            "accuracy": 0.991
+          }
+        }
+      },
+      "heldout_route_distribution": {
+        "PatchEval": 25,
+        "PrimeVul-time": 629
+      },
+      "heldout_pair_route_distribution": {
+        "PatchEval": 13,
+        "PrimeVul-time": 314
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "heldout single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8486,
+            "label_accuracy": 0.8486,
+            "vulnerable_recall": 0.844,
+            "safe_specificity": 0.8532,
+            "precision": 0.8519,
+            "f1": 0.8479,
+            "balanced_accuracy": 0.8486,
+            "tp": 276,
+            "tn": 279,
+            "fp": 48,
+            "fn": 51
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 276,
+            "group_all_correct_rate": 0.844,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 277,
+            "orientation_accuracy": 0.8471
+          },
+          "route_counts": {
+            "None": 654
+          },
+          "adapter_counts": {
+            "matched-mixed": 654
+          },
+          "source_counts": {
+            "DeltaSecommits": 654
+          }
+        },
+        {
+          "system": "heldout source-specific expert",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8563,
+            "label_accuracy": 0.8563,
+            "vulnerable_recall": 0.8532,
+            "safe_specificity": 0.8593,
+            "precision": 0.8585,
+            "f1": 0.8558,
+            "balanced_accuracy": 0.8563,
+            "tp": 279,
+            "tn": 281,
+            "fp": 46,
+            "fn": 48
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 277,
+            "group_all_correct_rate": 0.8471,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 280,
+            "orientation_accuracy": 0.8563
+          },
+          "route_counts": {
+            "None": 654
+          },
+          "adapter_counts": {
+            "deltasecommits expert": 654
+          },
+          "source_counts": {
+            "DeltaSecommits": 654
+          }
+        },
+        {
+          "system": "heldout leave-one-source routed existing experts",
+          "overall": {
+            "num_examples": 654,
+            "presence_accuracy": 0.8486,
+            "label_accuracy": 0.8486,
+            "vulnerable_recall": 0.8471,
+            "safe_specificity": 0.8502,
+            "precision": 0.8497,
+            "f1": 0.8484,
+            "balanced_accuracy": 0.8486,
+            "tp": 277,
+            "tn": 278,
+            "fp": 49,
+            "fn": 50
+          },
+          "group_metrics": {
+            "unique_pair_count": 327,
+            "mixed_label_pair_count": 327,
+            "group_all_correct": 275,
+            "group_all_correct_rate": 0.841,
+            "orientation_eligible_pair_count": 327,
+            "orientation_correct": 277,
+            "orientation_accuracy": 0.8471
+          },
+          "route_counts": {
+            "DeltaSecommits->PatchEval": 25,
+            "DeltaSecommits->PrimeVul-time": 629
+          },
+          "adapter_counts": {
+            "patcheval expert cross-source": 25,
+            "primevul-time checkpoint zero-shot": 629
+          },
+          "source_counts": {
+            "DeltaSecommits": 654
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": 0.0,
+          "group_all_correct_rate": -0.003,
+          "orientation_accuracy": 0.0
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": -0.0077,
+          "group_all_correct_rate": -0.0061,
+          "orientation_accuracy": -0.0092
+        }
+      }
+    },
+    {
+      "heldout_source": "PatchEval",
+      "train_sources": [
+        "PrimeVul-time",
+        "DeltaSecommits"
+      ],
+      "train_rows": {
+        "PrimeVul-time": 6000,
+        "DeltaSecommits": 2614
+      },
+      "heldout_eval_rows": 538,
+      "heldout_eval_pair_groups": 269,
+      "seen_source_routing_metrics": {
+        "row_count": 2216,
+        "row_accuracy": 0.8863,
+        "pair_group_count": 1088,
+        "pair_group_accuracy": 0.886,
+        "confusion": {
+          "DeltaSecommits": {
+            "DeltaSecommits": 640,
+            "PrimeVul-time": 14
+          },
+          "PrimeVul-time": {
+            "PrimeVul-time": 1324,
+            "DeltaSecommits": 238
+          }
+        },
+        "by_source": {
+          "DeltaSecommits": {
+            "rows": 654,
+            "correct": 640,
+            "accuracy": 0.9786
+          },
+          "PrimeVul-time": {
+            "rows": 1562,
+            "correct": 1324,
+            "accuracy": 0.8476
+          }
+        }
+      },
+      "heldout_route_distribution": {
+        "DeltaSecommits": 58,
+        "PrimeVul-time": 480
+      },
+      "heldout_pair_route_distribution": {
+        "DeltaSecommits": 29,
+        "PrimeVul-time": 240
+      },
+      "fallback_counts": {},
+      "systems": [
+        {
+          "system": "heldout single matched-mixed checkpoint",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.8086,
+            "label_accuracy": 0.8086,
+            "vulnerable_recall": 0.803,
+            "safe_specificity": 0.8141,
+            "precision": 0.812,
+            "f1": 0.8075,
+            "balanced_accuracy": 0.8086,
+            "tp": 216,
+            "tn": 219,
+            "fp": 50,
+            "fn": 53
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 215,
+            "group_all_correct_rate": 0.7993,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 218,
+            "orientation_accuracy": 0.8104
+          },
+          "route_counts": {
+            "None": 538
+          },
+          "adapter_counts": {
+            "matched-mixed": 538
+          },
+          "source_counts": {
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "heldout source-specific expert",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.829,
+            "label_accuracy": 0.829,
+            "vulnerable_recall": 0.8253,
+            "safe_specificity": 0.8327,
+            "precision": 0.8315,
+            "f1": 0.8284,
+            "balanced_accuracy": 0.829,
+            "tp": 222,
+            "tn": 224,
+            "fp": 45,
+            "fn": 47
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 219,
+            "group_all_correct_rate": 0.8141,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 225,
+            "orientation_accuracy": 0.8364
+          },
+          "route_counts": {
+            "None": 538
+          },
+          "adapter_counts": {
+            "patcheval expert": 538
+          },
+          "source_counts": {
+            "PatchEval": 538
+          }
+        },
+        {
+          "system": "heldout leave-one-source routed existing experts",
+          "overall": {
+            "num_examples": 538,
+            "presence_accuracy": 0.8048,
+            "label_accuracy": 0.8048,
+            "vulnerable_recall": 0.7993,
+            "safe_specificity": 0.8104,
+            "precision": 0.8083,
+            "f1": 0.8037,
+            "balanced_accuracy": 0.8048,
+            "tp": 215,
+            "tn": 218,
+            "fp": 51,
+            "fn": 54
+          },
+          "group_metrics": {
+            "unique_pair_count": 269,
+            "mixed_label_pair_count": 269,
+            "group_all_correct": 215,
+            "group_all_correct_rate": 0.7993,
+            "orientation_eligible_pair_count": 269,
+            "orientation_correct": 217,
+            "orientation_accuracy": 0.8067
+          },
+          "route_counts": {
+            "PatchEval->PrimeVul-time": 480,
+            "PatchEval->DeltaSecommits": 58
+          },
+          "adapter_counts": {
+            "primevul-time expert cross-source": 480,
+            "deltasecommits expert cross-source": 58
+          },
+          "source_counts": {
+            "PatchEval": 538
+          }
+        }
+      ],
+      "deltas": {
+        "routed_minus_single": {
+          "balanced_accuracy": -0.0038,
+          "group_all_correct_rate": 0.0,
+          "orientation_accuracy": -0.0037
+        },
+        "routed_minus_oracle": {
+          "balanced_accuracy": -0.0242,
+          "group_all_correct_rate": -0.0148,
+          "orientation_accuracy": -0.0297
+        }
+      }
+    }
+  ],
+  "conclusion": "Leave-one-source-out routing should be read as an open-set boundary test. If routed existing experts trail the source-specific oracle, the system should keep source-aware routing as a closed-world adapter selection claim rather than a deployment-grade unseen-source expert discovery claim."
+}

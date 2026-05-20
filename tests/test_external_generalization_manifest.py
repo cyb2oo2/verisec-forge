@@ -19,3 +19,5 @@ def test_external_generalization_manifest_declares_inputs_and_expected_metrics(m
     assert payload["generated_artifacts"]
     assert payload["expected"]["three_source_source_routed_ba"] == 0.8664
     assert any(item["role"] == "learned_content_source_router_report" for item in payload["generated_artifacts"])
+    assert any(item["role"] == "learned_content_router_leave_one_source_report" for item in payload["generated_artifacts"])
+    assert payload["expected"]["leave_one_source_primevul_routed_minus_oracle_ba"] == -0.025
