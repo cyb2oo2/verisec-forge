@@ -21,6 +21,7 @@ Start here for the main narrative and current system-level conclusions.
 - `External Generalization Manifest`: `reproducibility/external_generalization_manifest.json`
 - `External Generalization Release Notes`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES.md`
 - `External Generalization Release Notes v2`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V2.md`
+- `External Generalization Release Notes v3`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V3.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
@@ -173,6 +174,9 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `PatchEval Adapter Multi-Seed JSON`: `reports/secure_code_patcheval_adapter_multiseed_v1.json`
 - `PatchEval Cross-Source Specialization`: `reports/PATCHEVAL_CROSS_SOURCE_SPECIALIZATION.md`
 - `PatchEval Cross-Source Specialization JSON`: `reports/secure_code_patcheval_cross_source_specialization_v1.json`
+- `DeltaSecommits Expert On PrimeVul-Time Report`: `reports/secure_code_deltasecommits_adapter_primevul_time_eval_report.json`
+- `DeltaSecommits Expert On PatchEval Report`: `reports/secure_code_deltasecommits_adapter_patcheval_eval_report.json`
+- `PrimeVul-Time Expert On PatchEval Report`: `reports/secure_code_primevul_time_adapter_patcheval_eval_report.json`
 - `Non-Oracle Source Router`: `reports/NON_ORACLE_SOURCE_ROUTER.md`
 - `Non-Oracle Source Router JSON`: `reports/secure_code_non_oracle_source_router_v1.json`
 - `Content Source Router`: `reports/CONTENT_SOURCE_ROUTER.md`

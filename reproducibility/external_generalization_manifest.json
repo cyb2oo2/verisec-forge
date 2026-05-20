@@ -108,6 +108,22 @@
       "rows": 3268
     },
     {
+      "role": "deltasecommits_on_primevul_predictions",
+      "path": "outputs/secure_code_deltasecommits_adapter_primevul_time_eval_predictions.jsonl",
+      "sha256": "3a0cb25be1e342dd0b8078f62313b441ad15ec9365a7e4fa266c24cd7de3615d",
+      "bytes": 140611,
+      "note": "DeltaSecommits source expert cross-source predictions on PrimeVul later-CVE eval.",
+      "rows": 1562
+    },
+    {
+      "role": "deltasecommits_on_patcheval_predictions",
+      "path": "outputs/secure_code_deltasecommits_adapter_patcheval_eval_predictions.jsonl",
+      "sha256": "e716eabf4e04fce12c78ae1719acab1b5c8ee1750e9bf745c035e441af862438",
+      "bytes": 53285,
+      "note": "DeltaSecommits source expert cross-source predictions on PatchEval eval.",
+      "rows": 538
+    },
+    {
       "role": "patcheval_matched_mixed_raw_predictions",
       "path": "outputs/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_raw_predictions.jsonl",
       "sha256": "228fb9d6392bf0493eb6fac88a4460c79b7e94b2d723c333837947065679e249",
@@ -154,6 +170,14 @@
       "bytes": 66696,
       "note": "PatchEval source expert reverse-transfer predictions on Delta eval.",
       "rows": 654
+    },
+    {
+      "role": "primevul_time_on_patcheval_predictions",
+      "path": "outputs/secure_code_primevul_time_adapter_patcheval_eval_predictions.jsonl",
+      "sha256": "dad3d6abdff84c22eae8291ca1580cc72afedd6b2c3669333274ba9291d26711",
+      "bytes": 53173,
+      "note": "PrimeVul-time source expert cross-source predictions on PatchEval eval.",
+      "rows": 538
     }
   ],
   "generated_artifacts": [
@@ -193,6 +217,27 @@
       "note": "PatchEval reverse cross-source specialization report."
     },
     {
+      "role": "deltasecommits_on_primevul_eval_report",
+      "path": "reports/secure_code_deltasecommits_adapter_primevul_time_eval_report.json",
+      "sha256": "2379c78011b190ef90733020fd12860689eea3029dd15456a799ca2b2dabb0d5",
+      "bytes": 247,
+      "note": "DeltaSecommits source expert default-threshold report on PrimeVul later-CVE eval."
+    },
+    {
+      "role": "deltasecommits_on_patcheval_eval_report",
+      "path": "reports/secure_code_deltasecommits_adapter_patcheval_eval_report.json",
+      "sha256": "4ca093cb596b6c6d8fba33721559fec69a8fc8f1e36c035b4d6542c195812140",
+      "bytes": 246,
+      "note": "DeltaSecommits source expert default-threshold report on PatchEval eval."
+    },
+    {
+      "role": "primevul_time_on_patcheval_eval_report",
+      "path": "reports/secure_code_primevul_time_adapter_patcheval_eval_report.json",
+      "sha256": "f22d6bb2a8ac52a2b8e192e2d442842354d050bb4834b3dc594c482777d38aaa",
+      "bytes": 245,
+      "note": "PrimeVul-time source expert default-threshold report on PatchEval eval."
+    },
+    {
       "role": "three_source_mixture_report",
       "path": "reports/secure_code_three_source_adapter_mixture_v1.json",
       "sha256": "3940e6d1772ecbe511dc6075b89a01542ebcde5a172463715e52b7819cc0fc6d",
@@ -223,8 +268,8 @@
     {
       "role": "learned_content_routed_system_report",
       "path": "reports/secure_code_learned_content_routed_system_v1.json",
-      "sha256": "90ed5db607edf47e117f3bbfcd3369b9f16ae5917ef0d1ee967f583fb9b74a73",
-      "bytes": 5665,
+      "sha256": "9b3c4d7aa9dddf546999b54b133945658c2277412b345194eae4a61a429962e9",
+      "bytes": 5472,
       "note": "Learned diff-body content router evaluated as an end-to-end routed system with explicit fallback accounting."
     }
   ],
@@ -237,7 +282,8 @@
     "learned_diff_body_router_row_accuracy": 0.9063,
     "learned_diff_body_router_pair_group_accuracy": 0.9057,
     "learned_content_routed_system_ba": 0.8664,
-    "learned_content_routed_system_group_all_correct": 0.8563
+    "learned_content_routed_system_group_all_correct": 0.8548,
+    "learned_content_routed_system_fallback_rows": 0
   },
   "limitations": [
     "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

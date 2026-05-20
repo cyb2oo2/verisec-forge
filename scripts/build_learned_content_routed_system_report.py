@@ -190,6 +190,11 @@ def build_report(
         prediction_matrix=prediction_matrix,
         matched_predictions=matched_predictions,
     )
+    learned_system_name = (
+        "learned diff-body router with full cross-prediction matrix"
+        if not fallback_counts
+        else "learned diff-body router with available cross-prediction fallback"
+    )
     route_confusion: dict[str, dict[str, int]] = {}
     for row in route_rows:
         route_confusion.setdefault(row["true_source"], {})
@@ -208,6 +213,8 @@ def build_report(
             "prediction_matrix_policy": (
                 "Use source-specific expert predictions when the learned route has a materialized prediction file. "
                 "If a cross-source expert prediction is missing for the routed source, fall back to the single matched-mixed checkpoint and count that fallback explicitly."
+                if fallback_counts
+                else "Use source-specific and cross-source expert predictions for every learned route; no matched-mixed fallback rows are used."
             ),
             "available_cross_predictions": [f"{source}->{routed}" for source, routed in sorted(cross_predictions)],
             "missing_cross_prediction_fallbacks": fallback_counts,
@@ -216,11 +223,14 @@ def build_report(
         "systems": [
             system_metrics("single matched-mixed checkpoint", single_rows),
             system_metrics("oracle source-routed experts", oracle_rows),
-            system_metrics("learned diff-body router with available cross-prediction fallback", learned_rows),
+            system_metrics(learned_system_name, learned_rows),
         ],
         "deltas": {},
         "conclusion": (
             "The learned diff-body router can now be evaluated as a routed system rather than only as a source classifier. "
+            "The current report uses a complete cross-prediction matrix for all observed learned routes, so no matched-mixed fallback rows are needed."
+            if not fallback_counts
+            else "The learned diff-body router can now be evaluated as a routed system rather than only as a source classifier. "
             "The current result should still be read with its fallback policy: several cross-expert prediction files are not yet materialized, so misroutes without cross predictions use the matched-mixed fallback instead of an unobserved expert output."
         ),
     }
@@ -379,6 +389,14 @@ def main() -> int:
         ),
     }
     cross_predictions = {
+        ("PrimeVul-time", "DeltaSecommits"): coupled_prediction_rows(
+            source="PrimeVul-time",
+            metadata_rows=eval_metadata_by_source["PrimeVul-time"],
+            prediction_path="outputs/secure_code_deltasecommits_adapter_primevul_time_eval_predictions.jsonl",
+            threshold=0.5,
+            margin=0.02,
+            adapter="deltasecommits expert cross-source",
+        ),
         ("DeltaSecommits", "PrimeVul-time"): coupled_prediction_rows(
             source="DeltaSecommits",
             metadata_rows=eval_metadata_by_source["DeltaSecommits"],
@@ -403,6 +421,22 @@ def main() -> int:
             threshold=0.5,
             margin=0.02,
             adapter="patcheval expert cross-source",
+        ),
+        ("PatchEval", "PrimeVul-time"): coupled_prediction_rows(
+            source="PatchEval",
+            metadata_rows=eval_metadata_by_source["PatchEval"],
+            prediction_path="outputs/secure_code_primevul_time_adapter_patcheval_eval_predictions.jsonl",
+            threshold=0.6,
+            margin=0.02,
+            adapter="primevul-time expert cross-source",
+        ),
+        ("PatchEval", "DeltaSecommits"): coupled_prediction_rows(
+            source="PatchEval",
+            metadata_rows=eval_metadata_by_source["PatchEval"],
+            prediction_path="outputs/secure_code_deltasecommits_adapter_patcheval_eval_predictions.jsonl",
+            threshold=0.5,
+            margin=0.02,
+            adapter="deltasecommits expert cross-source",
         ),
     }
     payload = build_report(

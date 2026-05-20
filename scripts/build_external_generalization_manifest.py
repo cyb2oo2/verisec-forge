@@ -76,6 +76,16 @@ ARTIFACTS: list[tuple[str, str, str]] = [
         "PrimeVul checkpoint zero-shot predictions on DeltaSecommits rows for learned routed-system cross-route evaluation.",
     ),
     (
+        "deltasecommits_on_primevul_predictions",
+        "outputs/secure_code_deltasecommits_adapter_primevul_time_eval_predictions.jsonl",
+        "DeltaSecommits source expert cross-source predictions on PrimeVul later-CVE eval.",
+    ),
+    (
+        "deltasecommits_on_patcheval_predictions",
+        "outputs/secure_code_deltasecommits_adapter_patcheval_eval_predictions.jsonl",
+        "DeltaSecommits source expert cross-source predictions on PatchEval eval.",
+    ),
+    (
         "patcheval_matched_mixed_raw_predictions",
         "outputs/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_raw_predictions.jsonl",
         "Matched mixed-source checkpoint raw predictions on PatchEval eval used as fallback rows in learned routed-system evaluation.",
@@ -105,6 +115,11 @@ ARTIFACTS: list[tuple[str, str, str]] = [
         "outputs/secure_code_patcheval_adapter_delta_eval_predictions.jsonl",
         "PatchEval source expert reverse-transfer predictions on Delta eval.",
     ),
+    (
+        "primevul_time_on_patcheval_predictions",
+        "outputs/secure_code_primevul_time_adapter_patcheval_eval_predictions.jsonl",
+        "PrimeVul-time source expert cross-source predictions on PatchEval eval.",
+    ),
 ]
 
 GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
@@ -113,6 +128,9 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("patcheval_zero_shot_report", "reports/secure_code_patcheval_zero_shot_matched_mixed_primevul_short_delta_v1.json", "PatchEval matched-mixed zero-shot report."),
     ("patcheval_multiseed_report", "reports/secure_code_patcheval_adapter_multiseed_v1.json", "PatchEval source expert multi-seed report."),
     ("patcheval_cross_source_report", "reports/secure_code_patcheval_cross_source_specialization_v1.json", "PatchEval reverse cross-source specialization report."),
+    ("deltasecommits_on_primevul_eval_report", "reports/secure_code_deltasecommits_adapter_primevul_time_eval_report.json", "DeltaSecommits source expert default-threshold report on PrimeVul later-CVE eval."),
+    ("deltasecommits_on_patcheval_eval_report", "reports/secure_code_deltasecommits_adapter_patcheval_eval_report.json", "DeltaSecommits source expert default-threshold report on PatchEval eval."),
+    ("primevul_time_on_patcheval_eval_report", "reports/secure_code_primevul_time_adapter_patcheval_eval_report.json", "PrimeVul-time source expert default-threshold report on PatchEval eval."),
     ("three_source_mixture_report", "reports/secure_code_three_source_adapter_mixture_v1.json", "Three-source source-routed adapter mixture report."),
     ("non_oracle_source_router_report", "reports/secure_code_non_oracle_source_router_v1.json", "Metadata-schema source router report."),
     ("content_source_router_report", "reports/secure_code_content_source_router_v1.json", "Surface/diff-body content router stress report."),
@@ -164,7 +182,8 @@ def build_manifest() -> dict[str, Any]:
             "learned_diff_body_router_row_accuracy": 0.9063,
             "learned_diff_body_router_pair_group_accuracy": 0.9057,
             "learned_content_routed_system_ba": 0.8664,
-            "learned_content_routed_system_group_all_correct": 0.8563,
+            "learned_content_routed_system_group_all_correct": 0.8548,
+            "learned_content_routed_system_fallback_rows": 0,
         },
         "limitations": [
             "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",
