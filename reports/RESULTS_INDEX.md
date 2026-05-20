@@ -25,6 +25,7 @@ Start here for the main narrative and current system-level conclusions.
 - `External Generalization Release Notes v4`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V4.md`
 - `External Generalization Release Notes v5`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V5.md`
 - `External Generalization Release Notes v6`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V6.md`
+- `External Generalization Release Notes v7`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V7.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
@@ -194,6 +195,9 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Learned Content Router Leave-One-Source Stress JSON`: `reports/secure_code_learned_content_router_leave_one_source_v1.json`
 - `Learned Content Router Feature Ablation`: `reports/LEARNED_CONTENT_ROUTER_FEATURE_ABLATION.md`
 - `Learned Content Router Feature Ablation JSON`: `reports/secure_code_learned_content_router_feature_ablation_v1.json`
+- `Learned Router Claim Boundary`: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
+- `Learned Router Claim Boundary JSON`: `reports/secure_code_learned_router_claim_boundary_v1.json`
+- `Learned Router Claim Boundary Figure`: `reports/assets/learned_router_claim_boundary.svg`
 - `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
 - `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`

@@ -106,7 +106,7 @@ Then open `http://127.0.0.1:8000/review-pair/ui`. The demo uses:
 ## Public Bundle Inventory
 
 - `primevul_router_and_evidence_coupled_inputs`: `verisec_forge_primevul_repro_bundle.zip`, SHA256 `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`, `5731753` bytes, `6` artifacts.
-- `external_generalization_and_source_routing_inputs`: `verisec_forge_external_generalization_bundle_v6.zip`, SHA256 `01db24d1c217fe154903b02a6e2ea1d943bccb6569d5b02dd6221562e256bffa`, `29139984` bytes, `37` artifacts.
+- `external_generalization_and_source_routing_inputs`: `verisec_forge_external_generalization_bundle_v7.zip`, SHA256 `fc34a8f5d94a602289bf481dfaf053fcd0cef4730190cda8cc63542a9ce01a25`, `29141784` bytes, `39` artifacts.
 
 ## Current Boundary
 

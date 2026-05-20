@@ -292,6 +292,20 @@
       "sha256": "3a8b8133a1fc83c2e21d2939187c37c32fc805cb9134ff79b787f6ebb2017236",
       "bytes": 19814,
       "note": "Feature ablation report for learned diff-body source routing."
+    },
+    {
+      "role": "learned_router_claim_boundary_report",
+      "path": "reports/secure_code_learned_router_claim_boundary_v1.json",
+      "sha256": "14a95d8880e86b837042e851ffc8b597e8c3ee86ec42abaf7e01d4863d8b06b1",
+      "bytes": 1642,
+      "note": "Reviewer-facing claim-boundary summary for learned source routing."
+    },
+    {
+      "role": "learned_router_claim_boundary_figure",
+      "path": "reports/assets/learned_router_claim_boundary.svg",
+      "sha256": "65a4d0dc1d491239a606d96c290e38729ae32b12fc8b99224b5dc191bccd4dd8",
+      "bytes": 2483,
+      "note": "SVG figure for the learned source-router claim-boundary summary."
     }
   ],
   "expected": {
@@ -314,7 +328,9 @@
     "leave_one_source_delta_routed_minus_oracle_ba": -0.0077,
     "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
     "feature_ablation_token_routed_ba": 0.8627,
-    "feature_ablation_diff_line_routed_ba": 0.8649
+    "feature_ablation_diff_line_routed_ba": 0.8649,
+    "claim_boundary_closed_world_ba_delta": 0.0073,
+    "claim_boundary_leave_one_worst_delta_vs_oracle": -0.025
   },
   "limitations": [
     "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",

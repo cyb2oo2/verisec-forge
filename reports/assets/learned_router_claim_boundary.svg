@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300">
+<rect width="100%" height="100%" fill="#fbfaf7"/>
+<text x="34" y="34" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#24313a">Learned Router Claim Boundary</text>
+<text x="34" y="56" font-family="Arial, sans-serif" font-size="12" fill="#52616b">Routed-system balanced accuracy by feature view</text>
+<line x1="180" y1="238" x2="660" y2="238" stroke="#9aa6ad" stroke-width="1"/>
+<line x1="180.0" y1="232" x2="180.0" y2="244" stroke="#9aa6ad" stroke-width="1"/>
+<text x="166.0" y="262" font-family="Arial, sans-serif" font-size="11" fill="#52616b">0.850</text>
+<line x1="300.0" y1="232" x2="300.0" y2="244" stroke="#9aa6ad" stroke-width="1"/>
+<text x="286.0" y="262" font-family="Arial, sans-serif" font-size="11" fill="#52616b">0.855</text>
+<line x1="420.0" y1="232" x2="420.0" y2="244" stroke="#9aa6ad" stroke-width="1"/>
+<text x="406.0" y="262" font-family="Arial, sans-serif" font-size="11" fill="#52616b">0.860</text>
+<line x1="540.0" y1="232" x2="540.0" y2="244" stroke="#9aa6ad" stroke-width="1"/>
+<text x="526.0" y="262" font-family="Arial, sans-serif" font-size="11" fill="#52616b">0.865</text>
+<line x1="660.0" y1="232" x2="660.0" y2="244" stroke="#9aa6ad" stroke-width="1"/>
+<text x="646.0" y="262" font-family="Arial, sans-serif" font-size="11" fill="#52616b">0.870</text>
+<text x="34" y="92" font-family="Arial, sans-serif" font-size="13" fill="#24313a">char_3_5</text>
+<rect x="180" y="70" width="393.6" height="32" fill="#1f6f8b" rx="5"/>
+<text x="581.6" y="91" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8664</text>
+<text x="34" y="152" font-family="Arial, sans-serif" font-size="13" fill="#24313a">token_1_2</text>
+<rect x="180" y="130" width="304.8" height="32" fill="#d57a1f" rx="5"/>
+<text x="492.8" y="151" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8627</text>
+<text x="34" y="212" font-family="Arial, sans-serif" font-size="13" fill="#24313a">diff_line</text>
+<rect x="180" y="190" width="357.6" height="32" fill="#4f8f3a" rx="5"/>
+<text x="545.6" y="211" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8649</text>
+<text x="34" y="286" font-family="Arial, sans-serif" font-size="12" fill="#52616b">Boundary: group gain is non-significant; leave-one-source stress supports closed-world routing only.</text>
+</svg>

@@ -1,0 +1,45 @@
+{
+  "status": "ok",
+  "scope": "learned_router_claim_boundary",
+  "claim": "Learned diff-body routing provides a small row-level system gain in a closed-world three-source setting, but group consistency and unseen-source routing remain bounded claims.",
+  "closed_world_statistical_support": {
+    "learned_minus_single_ba": 0.0073,
+    "learned_minus_single_ba_ci95": [
+      0.0,
+      0.0145
+    ],
+    "learned_minus_single_ba_p_value": 0.024461,
+    "learned_minus_single_group_all_correct": 0.0066,
+    "learned_minus_single_group_all_correct_ci95": [
+      -0.0015,
+      0.0147
+    ]
+  },
+  "feature_ablation": {
+    "char_3_5": {
+      "routing_row_accuracy": 0.9063,
+      "routed_ba": 0.8664,
+      "delta_vs_single_ba": 0.0073
+    },
+    "token_1_2": {
+      "routing_row_accuracy": 0.7106,
+      "routed_ba": 0.8627,
+      "delta_vs_single_ba": 0.0036
+    },
+    "diff_line_markers": {
+      "routing_row_accuracy": 0.7778,
+      "routed_ba": 0.8649,
+      "delta_vs_single_ba": 0.0058
+    }
+  },
+  "leave_one_source_boundary": {
+    "deltas_vs_oracle_ba": {
+      "PrimeVul-time": -0.025,
+      "DeltaSecommits": -0.0077,
+      "PatchEval": -0.0242
+    },
+    "worst_delta_vs_oracle_ba": -0.025,
+    "best_delta_vs_oracle_ba": -0.0077
+  },
+  "reviewer_facing_conclusion": "The safest claim is closed-world source-aware expert selection. The row-level BA gain over a single matched-mixed checkpoint is statistically positive at the point estimate, weaker feature views preserve some system benefit, and leave-one-source stress prevents overclaiming unseen-source expert discovery."
+}

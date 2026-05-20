@@ -13,11 +13,11 @@ Use this checklist when publishing reproducibility bundles to GitHub Releases, H
 
 ## External Generalization / Source-Routing Bundle
 
-- Filename: `verisec_forge_external_generalization_bundle_v6.zip`
-- Byte size: `29139984`
-- SHA256: `01db24d1c217fe154903b02a6e2ea1d943bccb6569d5b02dd6221562e256bffa`
-- Unique artifact count: `37`
-- GitHub release: `https://github.com/cyb2oo2/verisec-forge/releases/tag/external-generalization-bundle-v6`
+- Filename: `verisec_forge_external_generalization_bundle_v7.zip`
+- Byte size: `29141784`
+- SHA256: `fc34a8f5d94a602289bf481dfaf053fcd0cef4730190cda8cc63542a9ce01a25`
+- Unique artifact count: `39`
+- GitHub release: `https://github.com/cyb2oo2/verisec-forge/releases/tag/external-generalization-bundle-v7`
 - Source manifest: `reproducibility/external_generalization_manifest.json`
 
 ## Pre-Upload
@@ -40,7 +40,7 @@ The bundle builder is deterministic: rebuilding from the same manifest inputs sh
 
 1. Upload `artifacts/verisec_forge_primevul_repro_bundle.zip` to the chosen stable host.
 2. If using GitHub Releases, use `reproducibility/GITHUB_RELEASE_NOTES.md` as the release body.
-   For the external bundle, use the latest external release notes, currently `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V6.md`.
+   For the external bundle, use the latest external release notes, currently `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V7.md`.
 3. Copy the final public URL into `reproducibility/release_artifacts.json`.
 4. Keep `sha256` and `bytes` unchanged unless the bundle is rebuilt.
 
