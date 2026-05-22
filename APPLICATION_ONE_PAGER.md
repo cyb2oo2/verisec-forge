@@ -18,7 +18,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 2. Paired diff reasoning plus pair-coupled decoding.
    Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`.
 
-   The result now has external stress coverage rather than only PrimeVul-internal validation: project-disjoint BA `0.8225`, later-CVE time-disjoint direct-train BA `0.8835`, DeltaSecommits pair-coupled BA `0.8563`, and PatchEval adapter three-seed mean BA `0.8172`. A three-source source-routed adapter mixture improves aggregate BA from `0.8591` to `0.8664`. The learned diff-body-only router reaches `0.9063` row routing accuracy and end-to-end routed BA `0.8664`; a weaker diff-line router remains stable under pair-group subsampling with 50% train-pair mean BA `0.8634`. The claim is explicitly bounded as closed-world source-aware expert selection: BA gain over single is `+0.0073` with CI `[0.0000, 0.0145]`, group all-correct is not reliable, and leave-one-source stress prevents open-set overclaiming.
+   The result now has external stress coverage rather than only PrimeVul-internal validation: project-disjoint BA `0.8225`, later-CVE time-disjoint direct-train BA `0.8835`, DeltaSecommits pair-coupled BA `0.8563`, and PatchEval adapter three-seed mean BA `0.8172`. A three-source source-routed adapter mixture improves aggregate BA from `0.8591` to `0.8664`. The learned diff-body-only router reaches `0.9063` row routing accuracy and end-to-end routed BA `0.8664`; cached multi-seed stability checks reach 50% train-pair mean BA `0.8649` with char features, `0.8630` with token features, and `0.8634` with diff-line features. The claim is explicitly bounded as closed-world source-aware expert selection: BA gain over single is `+0.0073` with CI `[0.0000, 0.0145]`, group all-correct is not reliable, and leave-one-source stress prevents open-set overclaiming.
 
 3. Evidence-coupled audit loop.
    Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
@@ -28,8 +28,8 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Tests: see the latest CI/local pytest run in the repository history.
 - PrimeVul public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - PrimeVul public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
-- External-generalization public bundle SHA256: `f6df036e21f3cec4de777807289835390bcdf5f9e3ac6ed14a4c7edea2a577c9`.
-- External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v8/verisec_forge_external_generalization_bundle_v8.zip`.
+- External-generalization public bundle SHA256: `2a2ef2dd534404682837b9bf43d7ee6515b4609c7725bb2acd3a775a8df2adec`.
+- External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v9/verisec_forge_external_generalization_bundle_v9.zip`.
 - Main project story: `PROJECT_STORY.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
@@ -47,7 +47,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Learned router claim boundary: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`.
-- Learned router stability: `reports/LEARNED_CONTENT_ROUTER_STABILITY.md`.
+- Learned router stability: `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`.
 - Reproducibility guide: `REPRODUCIBILITY.md`.
 
 ## Honest Limitations
@@ -59,7 +59,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 ## Next Research Steps
 
-1. Extend router stability from the fast diff-line view to optimized char/token cached runs if runtime becomes acceptable.
+1. Turn the router stability summary into a small figure for the final application packet.
 2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
 3. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
 4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough over the public bundles.

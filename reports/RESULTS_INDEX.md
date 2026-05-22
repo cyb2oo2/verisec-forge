@@ -27,6 +27,7 @@ Start here for the main narrative and current system-level conclusions.
 - `External Generalization Release Notes v6`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V6.md`
 - `External Generalization Release Notes v7`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V7.md`
 - `External Generalization Release Notes v8`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V8.md`
+- `External Generalization Release Notes v9`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V9.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
@@ -196,6 +197,11 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Learned Content Router Leave-One-Source Stress JSON`: `reports/secure_code_learned_content_router_leave_one_source_v1.json`
 - `Learned Content Router Feature Ablation`: `reports/LEARNED_CONTENT_ROUTER_FEATURE_ABLATION.md`
 - `Learned Content Router Feature Ablation JSON`: `reports/secure_code_learned_content_router_feature_ablation_v1.json`
+- `Learned Content Router Stability Summary`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`
+- `Learned Content Router Stability Char`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_CHAR.md`
+- `Learned Content Router Stability Char JSON`: `reports/secure_code_learned_content_router_stability_char_v1.json`
+- `Learned Content Router Stability Token`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_TOKEN.md`
+- `Learned Content Router Stability Token JSON`: `reports/secure_code_learned_content_router_stability_token_v1.json`
 - `Learned Content Router Stability`: `reports/LEARNED_CONTENT_ROUTER_STABILITY.md`
 - `Learned Content Router Stability JSON`: `reports/secure_code_learned_content_router_stability_v1.json`
 - `Learned Router Claim Boundary`: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`

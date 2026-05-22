@@ -294,11 +294,32 @@
       "note": "Feature ablation report for learned diff-body source routing."
     },
     {
+      "role": "learned_content_router_stability_char_report",
+      "path": "reports/secure_code_learned_content_router_stability_char_v1.json",
+      "sha256": "dfd80aba7841014d1614155a067cf95447e20dbae26f694aed821a7181dceb15",
+      "bytes": 47583,
+      "note": "Multi-seed pair-group subsampling stability report for the learned char n-gram source router."
+    },
+    {
+      "role": "learned_content_router_stability_token_report",
+      "path": "reports/secure_code_learned_content_router_stability_token_v1.json",
+      "sha256": "a9a2c2cecfd92e6a4036c7ada835c1579c2646ed0a395ae04c80f8138faa9055",
+      "bytes": 47752,
+      "note": "Multi-seed pair-group subsampling stability report for the learned token n-gram source router."
+    },
+    {
       "role": "learned_content_router_stability_report",
       "path": "reports/secure_code_learned_content_router_stability_v1.json",
       "sha256": "84c4e9a06e50cd3053c542f77742a79ee19003d187e18cebe6f85a77925006e2",
       "bytes": 48970,
       "note": "Multi-seed pair-group subsampling stability report for learned diff-body source routing."
+    },
+    {
+      "role": "learned_content_router_stability_summary",
+      "path": "reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md",
+      "sha256": "511cff75abffc2dffef4a6a2bc19a0c640db0125d0502fa014175aed32191e5c",
+      "bytes": 2449,
+      "note": "Reviewer-facing summary of char/token/diff-line source-router stability checks."
     },
     {
       "role": "learned_router_claim_boundary_report",
@@ -336,6 +357,8 @@
     "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
     "feature_ablation_token_routed_ba": 0.8627,
     "feature_ablation_diff_line_routed_ba": 0.8649,
+    "stability_char_half_train_ba_mean": 0.8649,
+    "stability_token_half_train_ba_mean": 0.863,
     "stability_diff_line_half_train_ba_mean": 0.8634,
     "stability_diff_line_half_train_ba_range": [
       0.8627,

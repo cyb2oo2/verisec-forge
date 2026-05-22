@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import random
 import sys
 from collections import Counter, defaultdict
@@ -16,7 +17,7 @@ from scripts.build_content_source_router_report import routing_metrics
 from scripts.build_learned_content_routed_system_report import normalize_metadata, route_predictions, system_metrics
 from scripts.build_learned_content_router_feature_ablation_report import build_prediction_matrix
 from scripts.build_learned_content_router_leave_one_source_report import build_default_artifacts
-from scripts.build_learned_content_source_router_report import SOURCES, examples, predict_one, train_nb
+from scripts.build_learned_content_source_router_report import SOURCES, examples, feature_counts, input_text, predict_one
 from scripts.build_non_oracle_source_router_report import read_jsonl
 
 
@@ -52,6 +53,149 @@ def sample_rows_by_pair(
     for key in selected:
         sampled.extend(groups[key])
     return sampled
+
+
+def cached_examples_by_source(
+    metadata_by_source: dict[str, list[dict[str, Any]]],
+    *,
+    feature_mode: str,
+) -> dict[str, list[dict[str, Any]]]:
+    cached: dict[str, list[dict[str, Any]]] = {}
+    for source, rows in metadata_by_source.items():
+        cached[source] = []
+        for index, row in enumerate(rows):
+            cached[source].append(
+                {
+                    "true_source": source,
+                    "id": str(row["id"]),
+                    "row_key": f"{source}::{index}::{row['id']}",
+                    "pair_key": pair_key(row),
+                    "features": feature_counts(input_text(row, "diff_body"), feature_mode=feature_mode),
+                }
+            )
+    return cached
+
+
+def sample_cached_by_pair(
+    rows: list[dict[str, Any]],
+    *,
+    fraction: float,
+    seed: int,
+) -> list[dict[str, Any]]:
+    if not 0 < fraction <= 1:
+        raise ValueError(f"fraction must be in (0, 1], got {fraction}")
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        groups[str(row["pair_key"])].append(row)
+    keys = sorted(groups)
+    if fraction >= 1:
+        selected = keys
+    else:
+        rng = random.Random(seed)
+        selected_count = max(1, round(len(keys) * fraction))
+        selected = sorted(rng.sample(keys, selected_count))
+    sampled: list[dict[str, Any]] = []
+    for key in selected:
+        sampled.extend(groups[key])
+    return sampled
+
+
+def select_cached_vocabulary(
+    train_examples: list[dict[str, Any]],
+    *,
+    max_features: int,
+) -> set[str]:
+    doc_freq: Counter[str] = Counter()
+    for row in train_examples:
+        doc_freq.update(row["features"].keys())
+    return {feature for feature, _count in doc_freq.most_common(max_features)}
+
+
+def train_cached_nb(
+    train_examples: list[dict[str, Any]],
+    *,
+    max_features: int,
+    classes: list[str] | None = None,
+    alpha: float = 1.0,
+    feature_mode: str,
+) -> dict[str, Any]:
+    class_names = classes or SOURCES
+    vocab = select_cached_vocabulary(train_examples, max_features=max_features)
+    class_doc_counts: Counter[str] = Counter()
+    token_counts: dict[str, Counter[str]] = {source: Counter() for source in class_names}
+    token_totals: Counter[str] = Counter()
+    for row in train_examples:
+        source = row["true_source"]
+        if source not in token_counts:
+            raise ValueError(f"Training example source {source!r} is not in classes: {class_names}")
+        class_doc_counts[source] += 1
+        for feature, count in row["features"].items():
+            if feature not in vocab:
+                continue
+            token_counts[source][feature] += count
+            token_totals[source] += count
+    total_docs = sum(class_doc_counts.values())
+    vocab_size = len(vocab)
+    return {
+        "classes": class_names,
+        "vocab": vocab,
+        "alpha": alpha,
+        "feature_mode": feature_mode,
+        "class_log_prior": {
+            source: math.log((class_doc_counts[source] + alpha) / (total_docs + alpha * len(class_names)))
+            for source in class_names
+        },
+        "token_log_prob": {
+            source: {
+                feature: math.log((count + alpha) / (token_totals[source] + alpha * vocab_size))
+                for feature, count in token_counts[source].items()
+            }
+            for source in class_names
+        },
+        "unknown_log_prob": {
+            source: math.log(alpha / (token_totals[source] + alpha * vocab_size)) for source in class_names
+        },
+        "train_doc_counts": dict(class_doc_counts),
+        "vocab_size": vocab_size,
+    }
+
+
+def predict_cached(model: dict[str, Any], features: Counter[str]) -> str:
+    vocab = model["vocab"]
+    scores: dict[str, float] = {}
+    for source in model["classes"]:
+        score = float(model["class_log_prior"][source])
+        token_log_prob = model["token_log_prob"][source]
+        unknown = float(model["unknown_log_prob"][source])
+        for feature, count in features.items():
+            if feature not in vocab:
+                continue
+            score += count * float(token_log_prob.get(feature, unknown))
+        scores[source] = score
+    return max(scores.items(), key=lambda item: (item[1], item[0]))[0]
+
+
+def route_cached_eval(
+    *,
+    model: dict[str, Any],
+    eval_features_by_source: dict[str, list[dict[str, Any]]],
+) -> tuple[dict[str, str], list[dict[str, Any]]]:
+    routing_by_key: dict[str, str] = {}
+    route_rows: list[dict[str, Any]] = []
+    for source, rows in eval_features_by_source.items():
+        for row in rows:
+            predicted_source = predict_cached(model, row["features"])
+            routing_by_key[row["row_key"]] = predicted_source
+            route_rows.append(
+                {
+                    "true_source": source,
+                    "predicted_source": predicted_source,
+                    "id": row["id"],
+                    "row_key": row["row_key"],
+                    "pair_key": row["pair_key"],
+                }
+            )
+    return routing_by_key, route_rows
 
 
 def route_eval(
@@ -118,22 +262,49 @@ def evaluate_seed_fraction(
     train_fraction: float,
     train_metadata_by_source: dict[str, list[dict[str, Any]]],
     eval_metadata_by_source: dict[str, list[dict[str, Any]]],
+    train_features_by_source: dict[str, list[dict[str, Any]]] | None = None,
+    eval_features_by_source: dict[str, list[dict[str, Any]]] | None = None,
     matched_predictions: dict[str, dict[str, dict[str, Any]]],
     expert_predictions: dict[str, dict[str, dict[str, Any]]],
     cross_predictions: dict[tuple[str, str], dict[str, dict[str, Any]]],
     max_features: int,
     feature_mode: str,
 ) -> dict[str, Any]:
-    sampled_train = {
-        source: sample_rows_by_pair(rows, fraction=train_fraction, seed=seed)
-        for source, rows in train_metadata_by_source.items()
-    }
-    model = train_nb(
-        examples(sampled_train, mode="diff_body"),
-        max_features=max_features,
-        feature_mode=feature_mode,
-    )
-    routing_by_key, route_rows = route_eval(model=model, eval_metadata_by_source=eval_metadata_by_source)
+    if train_features_by_source is not None and eval_features_by_source is not None:
+        sampled_train_features = {
+            source: sample_cached_by_pair(rows, fraction=train_fraction, seed=seed)
+            for source, rows in train_features_by_source.items()
+        }
+        train_examples = [row for rows in sampled_train_features.values() for row in rows]
+        model = train_cached_nb(
+            train_examples,
+            max_features=max_features,
+            feature_mode=feature_mode,
+        )
+        routing_by_key, route_rows = route_cached_eval(model=model, eval_features_by_source=eval_features_by_source)
+        train_pair_groups = {
+            source: len({str(row["pair_key"]) for row in rows})
+            for source, rows in sampled_train_features.items()
+        }
+    else:
+        sampled_train = {
+            source: sample_rows_by_pair(rows, fraction=train_fraction, seed=seed)
+            for source, rows in train_metadata_by_source.items()
+        }
+        # This fallback keeps the function easy to unit-test, but normal report generation uses cached features.
+        train_features = cached_examples_by_source(sampled_train, feature_mode=feature_mode)
+        eval_features = cached_examples_by_source(eval_metadata_by_source, feature_mode=feature_mode)
+        train_examples = [row for rows in train_features.values() for row in rows]
+        model = train_cached_nb(
+            train_examples,
+            max_features=max_features,
+            feature_mode=feature_mode,
+        )
+        routing_by_key, route_rows = route_cached_eval(model=model, eval_features_by_source=eval_features)
+        train_pair_groups = {
+            source: len({pair_key(row) for row in rows})
+            for source, rows in sampled_train.items()
+        }
     prediction_matrix = build_prediction_matrix(expert_predictions, cross_predictions)
     learned_rows, fallback_counts = route_predictions(
         metadata_by_source=eval_metadata_by_source,
@@ -163,10 +334,7 @@ def evaluate_seed_fraction(
         "seed": seed,
         "train_fraction": train_fraction,
         "feature_mode": feature_mode,
-        "train_pair_groups": {
-            source: len({pair_key(row) for row in rows})
-            for source, rows in sampled_train.items()
-        },
+        "train_pair_groups": train_pair_groups,
         "routing_metrics": routing_metrics(route_rows),
         "routing_confusion": {
             source: dict(sorted(Counter(row["predicted_source"] for row in route_rows if row["true_source"] == source).items()))
@@ -236,12 +404,16 @@ def build_report(
 ) -> dict[str, Any]:
     selected_seeds = seeds or [7, 42, 123]
     selected_fractions = train_fractions or [0.5, 1.0]
+    train_features_by_source = cached_examples_by_source(train_metadata_by_source, feature_mode=feature_mode)
+    eval_features_by_source = cached_examples_by_source(eval_metadata_by_source, feature_mode=feature_mode)
     runs = [
         evaluate_seed_fraction(
             seed=seed,
             train_fraction=fraction,
             train_metadata_by_source=train_metadata_by_source,
             eval_metadata_by_source=eval_metadata_by_source,
+            train_features_by_source=train_features_by_source,
+            eval_features_by_source=eval_features_by_source,
             matched_predictions=matched_predictions,
             expert_predictions=expert_predictions,
             cross_predictions=cross_predictions,
