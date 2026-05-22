@@ -294,6 +294,13 @@
       "note": "Feature ablation report for learned diff-body source routing."
     },
     {
+      "role": "learned_content_router_stability_report",
+      "path": "reports/secure_code_learned_content_router_stability_v1.json",
+      "sha256": "84c4e9a06e50cd3053c542f77742a79ee19003d187e18cebe6f85a77925006e2",
+      "bytes": 48970,
+      "note": "Multi-seed pair-group subsampling stability report for learned diff-body source routing."
+    },
+    {
       "role": "learned_router_claim_boundary_report",
       "path": "reports/secure_code_learned_router_claim_boundary_v1.json",
       "sha256": "14a95d8880e86b837042e851ffc8b597e8c3ee86ec42abaf7e01d4863d8b06b1",
@@ -329,6 +336,12 @@
     "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
     "feature_ablation_token_routed_ba": 0.8627,
     "feature_ablation_diff_line_routed_ba": 0.8649,
+    "stability_diff_line_half_train_ba_mean": 0.8634,
+    "stability_diff_line_half_train_ba_range": [
+      0.8627,
+      0.8638
+    ],
+    "stability_diff_line_full_train_ba": 0.8642,
     "claim_boundary_closed_world_ba_delta": 0.0073,
     "claim_boundary_leave_one_worst_delta_vs_oracle": -0.025
   },

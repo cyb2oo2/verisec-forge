@@ -21,8 +21,10 @@ def test_external_generalization_manifest_declares_inputs_and_expected_metrics(m
     assert any(item["role"] == "learned_content_source_router_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_content_router_leave_one_source_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_content_router_feature_ablation_report" for item in payload["generated_artifacts"])
+    assert any(item["role"] == "learned_content_router_stability_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_router_claim_boundary_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_router_claim_boundary_figure" for item in payload["generated_artifacts"])
     assert payload["expected"]["leave_one_source_primevul_routed_minus_oracle_ba"] == -0.025
     assert payload["expected"]["feature_ablation_diff_line_routed_ba"] == 0.8649
+    assert payload["expected"]["stability_diff_line_half_train_ba_mean"] == 0.8634
     assert payload["expected"]["claim_boundary_closed_world_ba_delta"] == 0.0073

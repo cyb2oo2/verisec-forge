@@ -139,6 +139,7 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("learned_content_routed_system_statistics_report", "reports/secure_code_learned_content_routed_system_statistics_v1.json", "Bootstrap and paired-test statistics for the learned content-routed system."),
     ("learned_content_router_leave_one_source_report", "reports/secure_code_learned_content_router_leave_one_source_v1.json", "Leave-one-source-out stress report for learned diff-body content routing."),
     ("learned_content_router_feature_ablation_report", "reports/secure_code_learned_content_router_feature_ablation_v1.json", "Feature ablation report for learned diff-body source routing."),
+    ("learned_content_router_stability_report", "reports/secure_code_learned_content_router_stability_v1.json", "Multi-seed pair-group subsampling stability report for learned diff-body source routing."),
     ("learned_router_claim_boundary_report", "reports/secure_code_learned_router_claim_boundary_v1.json", "Reviewer-facing claim-boundary summary for learned source routing."),
     ("learned_router_claim_boundary_figure", "reports/assets/learned_router_claim_boundary.svg", "SVG figure for the learned source-router claim-boundary summary."),
 ]
@@ -196,6 +197,9 @@ def build_manifest() -> dict[str, Any]:
             "leave_one_source_patcheval_routed_minus_oracle_ba": -0.0242,
             "feature_ablation_token_routed_ba": 0.8627,
             "feature_ablation_diff_line_routed_ba": 0.8649,
+            "stability_diff_line_half_train_ba_mean": 0.8634,
+            "stability_diff_line_half_train_ba_range": [0.8627, 0.8638],
+            "stability_diff_line_full_train_ba": 0.8642,
             "claim_boundary_closed_world_ba_delta": 0.0073,
             "claim_boundary_leave_one_worst_delta_vs_oracle": -0.025,
         },

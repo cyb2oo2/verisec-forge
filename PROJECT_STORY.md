@@ -66,6 +66,7 @@ Key evidence:
 - The learned routed-system gain is now statistically bounded: learned minus single matched-mixed BA is `+0.0073` with bootstrap 95% CI `[0.0000, 0.0145]` and McNemar `p=0.024461`, but group all-correct remains non-significant with CI `[-0.0015, 0.0147]`. This makes the claim reviewer-safe: useful row-level routing signal, not a broad consistency breakthrough.
 - A leave-one-source-out stress test gives the router an open-set boundary: if a source is hidden during router training, routing held-out rows to the remaining experts trails the source-specific oracle by `-0.0250` BA on PrimeVul-time, `-0.0077` on DeltaSecommits, and `-0.0242` on PatchEval. This is useful because it prevents overclaiming: the current router is a closed-world source-aware adapter selector, not an unseen-source expert discovery mechanism.
 - Feature ablation shows the end-to-end system is not exclusively tied to character n-gram routing. Token `1-2` features have much lower route row accuracy (`0.7106`) but still reach routed BA `0.8627`; diff-line marker features reach route row accuracy `0.7778` and routed BA `0.8649`. The conservative interpretation is that expert routing has useful redundancy across feature views, while exact source recovery and group consistency remain sensitive.
+- Multi-seed pair-group subsampling now stress-tests the weaker diff-line router. With only 50% of train pairs per source, routed BA has mean `0.8634` and range `[0.8627, 0.8638]`; with full train pairs it reaches BA `0.8642`. Per-source deltas are uneven: PrimeVul-time is slightly below the single model, DeltaSecommits improves over single and matches oracle, and PatchEval gains most over single while staying below oracle. This sharpens the source-specialization tradeoff instead of pretending routing is uniformly beneficial.
 - The router claim is now consolidated into a single boundary table: closed-world BA gain is small but statistically supported, group all-correct is not reliable, feature ablation weakens the single-fingerprint concern, and leave-one-source stress keeps the claim out of open-set expert discovery territory.
 - Delta-only adaptation reaches default balanced accuracy `0.8517` and pair-coupled balanced accuracy `0.8563`.
 - Full PrimeVul+Delta mixed training is not a clear win on Delta eval: default balanced accuracy is `0.8532`, while pair-coupled balanced accuracy falls to `0.8456`.
@@ -90,6 +91,7 @@ Primary artifacts:
 - `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`
 - `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
 - `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
+- `reports/LEARNED_CONTENT_ROUTER_STABILITY.md`
 - `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
@@ -189,7 +191,7 @@ Recommended contribution framing:
 
 1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Run multi-seed source-router stability checks and source-specialization tradeoff analysis across PrimeVul-time, DeltaSecommits, and PatchEval.
+3. Extend router stability from the fast diff-line view to optimized char/token cached runs if runtime becomes acceptable.
 4. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.
