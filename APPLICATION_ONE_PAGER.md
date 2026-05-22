@@ -16,7 +16,9 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
    A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, the current disjoint stress matrix removes eval rows overlapping training by project/CVE/commit/file hash, and a true CVE-year time split is now materialized.
 
 2. Paired diff reasoning plus pair-coupled decoding.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. On project-disjoint rows it reaches `0.8225`; on the true later-CVE temporal eval split, direct `<=2020` training reaches `0.8835`; on second-source DeltaSecommits C/C++ eval pairs, the PrimeVul checkpoint transfers zero-shot at pair-coupled BA `0.8486`, Delta-only training reaches `0.8563`, and short/matched PrimeVul+Delta mixing reaches calibrated Delta BA `0.8670` while leaving Delta pair-coupled BA at `0.8486`. A third-source PatchEval stress test across Go/JavaScript/Python reaches pair-coupled BA `0.8086`; PatchEval-specific adapters improve this to a three-seed mean of `0.8172` with range `0.8030-0.8290`; reverse transfer reaches `0.8521` on PrimeVul-time and `0.8440` on Delta but stays below matched source experts; a three-source source-routed adapter mixture improves aggregate BA from `0.8591` to `0.8664`, metadata-schema and prompt-surface routers match oracle routing on the current benchmark, while a learned diff-body-only source router reaches `0.9063` row accuracy versus the hand-written diff heuristic `0.4466` and now produces an end-to-end routed-system BA of `0.8664` with a complete cross-prediction matrix. The source-router claim is consolidated into a boundary table: BA gain over single is `+0.0073` with CI `[0.0000, 0.0145]`, group all-correct is not reliable, token/diff-line feature views still reach routed BA `0.8627`/`0.8649`, and leave-one-source stress keeps the claim closed-world.
+   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`.
+
+   The result now has external stress coverage rather than only PrimeVul-internal validation: project-disjoint BA `0.8225`, later-CVE time-disjoint direct-train BA `0.8835`, DeltaSecommits pair-coupled BA `0.8563`, and PatchEval adapter three-seed mean BA `0.8172`. A three-source source-routed adapter mixture improves aggregate BA from `0.8591` to `0.8664`. The learned diff-body-only router reaches `0.9063` row routing accuracy and end-to-end routed BA `0.8664`, but the claim is explicitly bounded as closed-world source-aware expert selection: BA gain over single is `+0.0073` with CI `[0.0000, 0.0145]`, group all-correct is not reliable, and leave-one-source stress prevents open-set overclaiming.
 
 3. Evidence-coupled audit loop.
    Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
@@ -56,10 +58,10 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 ## Next Research Steps
 
-1. Build matched/short mixed-source or domain-aware adapter experiments, because full PrimeVul+Delta mixing did not clearly beat Delta-only adaptation.
+1. Add multi-seed routing stability and a clearer source-specialization tradeoff analysis for the three-source router.
 2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
-3. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough once harder generalization artifacts are available.
-4. Convert the significance report into a figure/table suitable for the final application packet.
+3. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
+4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough over the public bundles.
 
 ## Recommended Framing
 

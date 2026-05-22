@@ -90,6 +90,7 @@ Primary artifacts:
 - `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`
 - `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
 - `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
+- `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
 ### 3. Evidence-Coupled Audit Loop: From Pseudo-Spans To Review Queues
@@ -132,7 +133,7 @@ Primary artifacts:
 - `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
 - `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`
 
-### 4. Precision-First Safe Flip Gates: A Cautious Repair Protocol
+#### Precision-First Safe Flip Gates: A Cautious Repair Protocol
 
 The safe flip gate is intentionally framed as a small, precision-first audit layer, not as a headline benchmark score. Its value is methodological: it shows how to repair high-confidence side inversions only when evidence and protocol checks agree.
 
@@ -166,7 +167,7 @@ Recommended contribution framing:
 - Benchmark diagnosis: shortcut-aware secure-code evaluation.
 - System result: paired diff reasoning plus pair-coupled decoding.
 - Research loop: evidence-coupled failure analysis and precision-first repair.
-- System prototype: artifact-backed patch review CLI/API/UI for reviewer-facing walkthroughs.
+- Supporting artifact: artifact-backed patch review CLI/API/UI for reviewer-facing walkthroughs.
 
 ## What Not To Overclaim
 
@@ -188,7 +189,7 @@ Recommended contribution framing:
 
 1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Replace full mixed-source training with matched/short mixed training or domain-aware adapters, because the first full PrimeVul+Delta run does not clearly beat Delta-only adaptation.
-4. Package bootstrap confidence intervals, split variance, and paired significance summaries for the diff-only to pair-coupled gain.
+3. Run multi-seed source-router stability checks and source-specialization tradeoff analysis across PrimeVul-time, DeltaSecommits, and PatchEval.
+4. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.

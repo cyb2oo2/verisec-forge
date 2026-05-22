@@ -35,6 +35,8 @@ Then open `http://127.0.0.1:8000/review-pair/ui`.
 
 ![PrimeVul pair-coupled significance](reports/assets/primevul_pair_coupled_significance.svg)
 
+![Learned router claim boundary](reports/assets/learned_router_claim_boundary.svg)
+
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
 ![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
@@ -60,13 +62,18 @@ VeriSec Forge is designed to **untangle those cases**. It combines:
 
 ## Current Headline Results
 
-The short version:
+The short version is three contributions:
 
-- Standard same-source vulnerability detection can look solved while still being shortcut-prone.
-- PrimeVul same-source detection reaches `0.9524` accuracy, but paired vulnerable/fixed evaluation exposes that result as artifact-sensitive.
-- Paired diff reasoning is the credible mainline: diff-only training reaches a three-seed balanced-accuracy mean of `0.8287`.
-- Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
-- Pair-coupled decoding is the strongest current system layer, reaching five-split mean balanced accuracy `0.8572`; the strict same-split pair-minus-bucket delta is `+0.0348` BA with bootstrap 95% CI `[0.0329, 0.0368]`.
+1. **Shortcut-aware benchmark diagnosis.** PrimeVul same-source detection reaches `0.9524` accuracy, but paired vulnerable/fixed evaluation exposes that score as artifact-sensitive. Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
+2. **Paired diff reasoning and task-structured decoding.** Diff-only paired training is the credible mainline, with three-seed mean balanced accuracy `0.8287`. Pair-coupled decoding is the strongest current system layer, reaching five-split mean BA `0.8572`; the strict same-split pair-minus-bucket delta is `+0.0348` BA with bootstrap 95% CI `[0.0329, 0.0368]`.
+3. **Evidence-coupled audit loop.** Evidence localization is useful as failure triage, but remains pseudo-label/pilot-audit driven until independent adjudication is complete. Side-correct rows reach top-1 localization `0.7610`, while side-wrong rows fall to `0.0632`, showing that evidence quality is coupled to upstream side decisions.
+
+External and source-aware stress tests make the main claim broader but still bounded. The paired-diff stack survives CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks; source-routed three-source experts improve aggregate BA from `0.8591` to `0.8664`. A learned diff-body-only router reaches row routing accuracy `0.9063` and end-to-end routed BA `0.8664`, but bootstrap and leave-one-source stress keep the claim narrow: this is closed-world source-aware expert selection, not open-set expert discovery.
+
+The patch review demo exposes the stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
+
+<details>
+<summary>External validation and source-routing details</summary>
 - A first CVE-disjoint stress check keeps the mainline intact: after removing eval rows whose CVE appears in paired-diff training metadata, diff-only reaches balanced accuracy `0.8168` and pair-coupled reaches `0.8491`.
 - A harder project-disjoint stress check is now covered: after removing eval rows from projects seen during paired-diff training, pair-coupled reaches balanced accuracy `0.8225` on `355` balanced rows.
 - A true time-disjoint paired-diff split is now constructed from full PrimeVul paired metadata: train `<=2020` has `6000` rows, eval `>=2021` has `1562` rows, with `0` CVE-year/CVE/pair-key overlap. The original paired-diff checkpoint transfers to this later-CVE eval at pair-coupled balanced accuracy `0.8745`; direct training on the `<=2020` split improves this to `0.8835`.
@@ -82,10 +89,12 @@ The short version:
 - The learned content router is now evaluated as an end-to-end routed system, not just a source classifier. With a complete cross-prediction matrix for observed learned routes, it reaches aggregate BA `0.8664`, group all-correct `0.8548`, and orientation `0.8681`, essentially matching oracle source-routed BA without matched-mixed fallback rows.
 - Pair-group bootstrap keeps the learned routed-system claim appropriately narrow: learned minus single matched-mixed BA is `+0.0073` with 95% CI `[0.0000, 0.0145]` and McNemar `p=0.024461`, while group all-correct has CI `[-0.0015, 0.0147]` and should be treated as a non-significant point-estimate gain.
 - A leave-one-source-out stress test bounds the router claim: when one source is hidden during router training, held-out routing to existing experts trails the source-specific oracle by `-0.0250` BA on PrimeVul-time, `-0.0077` on DeltaSecommits, and `-0.0242` on PatchEval. This keeps the claim as closed-world source-aware expert selection, not open-set expert discovery.
-- Feature ablation weakens the “just char fingerprints” criticism without overclaiming: token `1-2` features route less accurately (`0.7106` row accuracy) but still reach routed-system BA `0.8627`, and diff-line marker features reach routing accuracy `0.7778` with routed-system BA `0.8649`; both remain above the single matched-mixed BA `0.8591` but below/near oracle `0.8664`.
+- Feature ablation weakens the "just char fingerprints" criticism without overclaiming: token `1-2` features route less accurately (`0.7106` row accuracy) but still reach routed-system BA `0.8627`, and diff-line marker features reach routing accuracy `0.7778` with routed-system BA `0.8649`; both remain above the single matched-mixed BA `0.8591` but below/near oracle `0.8664`.
 - The router claim is now summarized in a reviewer-facing boundary table: closed-world row-level BA gain is positive, group consistency is not statistically reliable, feature ablation reduces the single-fingerprint concern, and leave-one-source stress prevents open-set overclaiming.
 - Evidence localization is useful as failure triage, but it remains pseudo-label/pilot-audit driven until independent adjudication is complete.
 - The patch review demo exposes this stack as an artifact-backed reviewer UI, not as an arbitrary online vulnerability scanner.
+
+</details>
 
 For the compact generated table, see [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md). For the statistical support behind pair-coupled decoding, see [PrimeVul Pair-Coupled Significance Summary](reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md). For the source-router claim boundary, see [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md). For the full generated result inventory, see [PrimeVul Main Results](reports/PRIMEVUL_MAIN_RESULTS.md). For the research narrative, see [Project Story](PROJECT_STORY.md).
 
@@ -201,7 +210,7 @@ For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated r
 
 The Evidence-Coupled chain is also manifest-backed: `scripts/reproduce_primevul_evidence_coupled.py` validates hunk+window candidates, pair-coupled predictions, generated localization artifacts, failure taxonomy, and the confident side-inversion set before reporting success.
 
-The external-generalization and source-routing chain is now public bundle-assisted too: `reproducibility/external_generalization_manifest.json` records DeltaSecommits, PatchEval, PrimeVul time-disjoint, adapter mixture, learned routed-system, and source-router dependencies by path, rows, bytes, and SHA256, and `external-generalization-bundle-v2` publishes the corresponding artifact bundle.
+The external-generalization and source-routing chain is now public bundle-assisted too: `reproducibility/external_generalization_manifest.json` records DeltaSecommits, PatchEval, PrimeVul time-disjoint, adapter mixture, learned routed-system, and source-router dependencies by path, rows, bytes, and SHA256, and `external-generalization-bundle-v7` publishes the corresponding artifact bundle.
 
 For bundle-assisted reviewer reproduction, see [Artifact Bundle Workflow](reproducibility/ARTIFACT_BUNDLE.md). `scripts/build_reproducibility_bundle.py` checks manifest-listed local inputs and can package them into a gitignored zip with an internal `BUNDLE_MANIFEST.json`; `scripts/restore_reproducibility_bundle.py` restores bundles conservatively into a fresh clone; `scripts/download_reproducibility_bundle.py` downloads and verifies the public bundles recorded in `reproducibility/release_artifacts.json`, with `--bundle-name external_generalization_and_source_routing_inputs` selecting the external-generalization bundle. Bundle hashes, sizes, and upload steps are tracked in [Artifact Release Checklist](reproducibility/RELEASE_CHECKLIST.md).
 
