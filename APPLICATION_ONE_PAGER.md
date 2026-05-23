@@ -28,8 +28,8 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Tests: see the latest CI/local pytest run in the repository history.
 - PrimeVul public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - PrimeVul public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
-- External-generalization public bundle SHA256: `2a2ef2dd534404682837b9bf43d7ee6515b4609c7725bb2acd3a775a8df2adec`.
-- External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v9/verisec_forge_external_generalization_bundle_v9.zip`.
+- External-generalization public bundle SHA256: `90dbaaf40665494b2b1fa62781c3e09d7ec59ed3cf3611e76b9b61a27ae3465c`.
+- External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v10/verisec_forge_external_generalization_bundle_v10.zip`.
 - Main project story: `PROJECT_STORY.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
@@ -48,6 +48,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
 - Learned router claim boundary: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`.
 - Learned router stability: `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`.
+- Learned router stability figure: `reports/assets/learned_content_router_stability.svg`.
 - Reproducibility guide: `REPRODUCIBILITY.md`.
 
 ## Honest Limitations
@@ -59,10 +60,9 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 ## Next Research Steps
 
-1. Turn the router stability summary into a small figure for the final application packet.
-2. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
-3. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
-4. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough over the public bundles.
+1. Expand AI-filled evidence adjudication and side-inversion review queues to larger stratified samples while keeping them separate from human gold.
+2. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
+3. Turn the artifact-backed patch-review demo into a richer external-validation walkthrough over the public bundles.
 
 ## Recommended Framing
 

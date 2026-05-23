@@ -93,6 +93,7 @@ Primary artifacts:
 - `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
 - `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`
 - `reports/LEARNED_CONTENT_ROUTER_STABILITY.md`
+- `reports/assets/learned_content_router_stability.svg`
 - `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
 - `reports/PRIMEVUL_MAIN_RESULTS.md`
 
@@ -185,14 +186,13 @@ Recommended contribution framing:
 
 - Evidence localization still lacks independent reviewer-confirmed final adjudications, even though the pilot audit, AI-filled adjudication pass, and adjudication workflow are now complete.
 - Safe flip gate pools are small and should be expanded before being treated as a mature correction benchmark.
-- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, DeltaSecommits gives a second-source C/C++ ablation, and PatchEval gives a third-source Go/JavaScript/Python stress test. Cross-source calibration shows that source-aware thresholds do not materially beat the best shared threshold, while source-routed experts do help. The next limitation is multi-seed stability and cross-source specialization tradeoff analysis.
+- Project/CVE/commit/file-hash disjoint stress evaluation is now covered, the detector stack has zero-retraining transfer, direct-training, and composite project/file-hash stress results on a true time-disjoint split, DeltaSecommits gives a second-source C/C++ ablation, and PatchEval gives a third-source Go/JavaScript/Python stress test. Cross-source calibration shows that source-aware thresholds do not materially beat the best shared threshold, while source-routed experts do help. Router stability is now summarized across char, token, and diff-line views; the remaining limitation is richer cross-source specialization tradeoff analysis.
 - The repository is public bundle-assisted reproducible for the manifest-backed PrimeVul router/evidence-coupled and external-generalization/source-routing chains. It is still not a complete archive of every exploratory run, checkpoint, or upstream raw dataset.
 
 ## Next Research Steps
 
 1. Extend AI-filled adjudication from the first `20` routed rows to a larger stratified evidence/localization sample, while keeping it separate from human gold.
 2. Expand the side-inversion review queue from top-5 to top-20/top-50 under the same protocol audit.
-3. Turn the router stability summary into a small figure for the final application packet.
-4. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
+3. Add a small non-AI evidence adjudication pass for the highest-value disagreement and insufficient-context queues.
 
 For the reviewer-facing contribution hierarchy and next-phase success criteria, see `docs/NEXT_PHASE_ROADMAP.md`.

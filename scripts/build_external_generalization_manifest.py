@@ -143,6 +143,7 @@ GENERATED_ARTIFACTS: list[tuple[str, str, str]] = [
     ("learned_content_router_stability_token_report", "reports/secure_code_learned_content_router_stability_token_v1.json", "Multi-seed pair-group subsampling stability report for the learned token n-gram source router."),
     ("learned_content_router_stability_report", "reports/secure_code_learned_content_router_stability_v1.json", "Multi-seed pair-group subsampling stability report for learned diff-body source routing."),
     ("learned_content_router_stability_summary", "reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md", "Reviewer-facing summary of char/token/diff-line source-router stability checks."),
+    ("learned_content_router_stability_figure", "reports/assets/learned_content_router_stability.svg", "SVG figure for char/token/diff-line source-router stability checks."),
     ("learned_router_claim_boundary_report", "reports/secure_code_learned_router_claim_boundary_v1.json", "Reviewer-facing claim-boundary summary for learned source routing."),
     ("learned_router_claim_boundary_figure", "reports/assets/learned_router_claim_boundary.svg", "SVG figure for the learned source-router claim-boundary summary."),
 ]

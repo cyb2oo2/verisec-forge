@@ -37,6 +37,8 @@ Then open `http://127.0.0.1:8000/review-pair/ui`.
 
 ![Learned router claim boundary](reports/assets/learned_router_claim_boundary.svg)
 
+![Learned router stability](reports/assets/learned_content_router_stability.svg)
+
 ![PrimeVul manual evidence audit loop](reports/assets/primevul_manual_evidence_audit_loop.svg)
 
 ![PrimeVul paired benchmark results](reports/assets/primevul_main_results.svg)
@@ -211,7 +213,7 @@ For reproducibility, see [REPRODUCIBILITY](REPRODUCIBILITY.md). The calibrated r
 
 The Evidence-Coupled chain is also manifest-backed: `scripts/reproduce_primevul_evidence_coupled.py` validates hunk+window candidates, pair-coupled predictions, generated localization artifacts, failure taxonomy, and the confident side-inversion set before reporting success.
 
-The external-generalization and source-routing chain is now public bundle-assisted too: `reproducibility/external_generalization_manifest.json` records DeltaSecommits, PatchEval, PrimeVul time-disjoint, adapter mixture, learned routed-system, and source-router dependencies by path, rows, bytes, and SHA256, and `external-generalization-bundle-v9` publishes the corresponding artifact bundle.
+The external-generalization and source-routing chain is now public bundle-assisted too: `reproducibility/external_generalization_manifest.json` records DeltaSecommits, PatchEval, PrimeVul time-disjoint, adapter mixture, learned routed-system, and source-router dependencies by path, rows, bytes, and SHA256, and `external-generalization-bundle-v10` publishes the corresponding artifact bundle.
 
 For bundle-assisted reviewer reproduction, see [Artifact Bundle Workflow](reproducibility/ARTIFACT_BUNDLE.md). `scripts/build_reproducibility_bundle.py` checks manifest-listed local inputs and can package them into a gitignored zip with an internal `BUNDLE_MANIFEST.json`; `scripts/restore_reproducibility_bundle.py` restores bundles conservatively into a fresh clone; `scripts/download_reproducibility_bundle.py` downloads and verifies the public bundles recorded in `reproducibility/release_artifacts.json`, with `--bundle-name external_generalization_and_source_routing_inputs` selecting the external-generalization bundle. Bundle hashes, sizes, and upload steps are tracked in [Artifact Release Checklist](reproducibility/RELEASE_CHECKLIST.md).
 

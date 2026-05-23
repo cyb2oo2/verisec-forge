@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-label="Learned content router stability chart">
+<rect width="100%" height="100%" fill="#fbfaf7"/>
+<text x="36" y="38" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#24313a">Learned Router Robustness</text>
+<text x="36" y="64" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#52616b">Routed-system balanced accuracy under multi-seed pair-group subsampling</text>
+<line x1="321.3" y1="76" x2="321.3" y2="312" stroke="#8a96a0" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text x="327.3" y="69" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#8a96a0">single matched-mixed: 0.8591</text>
+<line x1="808.0" y1="76" x2="808.0" y2="312" stroke="#334155" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text x="814.0" y="69" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#334155">oracle source-routed: 0.8664</text>
+<line x1="248.0" y1="88" x2="248.0" y2="312" stroke="#e3e7ea" stroke-width="1"/>
+<text x="235.0" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">0.858</text>
+<line x1="381.3" y1="88" x2="381.3" y2="312" stroke="#e3e7ea" stroke-width="1"/>
+<text x="368.3" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">0.860</text>
+<line x1="514.7" y1="88" x2="514.7" y2="312" stroke="#e3e7ea" stroke-width="1"/>
+<text x="501.7" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">0.862</text>
+<line x1="648.0" y1="88" x2="648.0" y2="312" stroke="#e3e7ea" stroke-width="1"/>
+<text x="635.0" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">0.864</text>
+<line x1="781.3" y1="88" x2="781.3" y2="312" stroke="#e3e7ea" stroke-width="1"/>
+<text x="768.3" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">0.866</text>
+<text x="36" y="120" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#24313a">char n-grams</text>
+<rect x="248" y="100" width="460.0" height="18" fill="#1f6f8b" rx="5"/>
+<text x="716.0" y="114" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8649</text>
+<text x="190" y="114" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">0.5 train</text>
+<rect x="248" y="124" width="460.0" height="18" fill="#d57a1f" rx="5"/>
+<text x="716.0" y="138" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8649</text>
+<text x="190" y="138" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">1.0 train</text>
+<text x="36" y="192" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#24313a">token n-grams</text>
+<rect x="248" y="172" width="333.3" height="18" fill="#1f6f8b" rx="5"/>
+<text x="589.3" y="186" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.863</text>
+<text x="190" y="186" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">0.5 train</text>
+<rect x="248" y="196" width="366.7" height="18" fill="#d57a1f" rx="5"/>
+<text x="622.7" y="210" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8635</text>
+<text x="190" y="210" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">1.0 train</text>
+<text x="36" y="264" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#24313a">diff-line markers</text>
+<rect x="248" y="244" width="360.0" height="18" fill="#1f6f8b" rx="5"/>
+<text x="616.0" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8634</text>
+<text x="190" y="258" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">0.5 train</text>
+<rect x="248" y="268" width="413.3" height="18" fill="#d57a1f" rx="5"/>
+<text x="669.3" y="282" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#24313a">0.8642</text>
+<text x="190" y="282" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">1.0 train</text>
+<rect x="36" y="472" width="14" height="14" fill="#1f6f8b" rx="3"/>
+<text x="58" y="484" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">50% train pairs, 3 seeds</text>
+<rect x="226" y="472" width="14" height="14" fill="#d57a1f" rx="3"/>
+<text x="248" y="484" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">100% train pairs, deterministic full set</text>
+<text x="36" y="528" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#52616b">Interpretation: robust small BA gain across feature views; group consistency and open-set routing remain bounded claims.</text>
+</svg>

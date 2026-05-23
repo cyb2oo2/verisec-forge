@@ -25,6 +25,7 @@ def test_external_generalization_manifest_declares_inputs_and_expected_metrics(m
     assert any(item["role"] == "learned_content_router_stability_token_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_content_router_stability_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_content_router_stability_summary" for item in payload["generated_artifacts"])
+    assert any(item["role"] == "learned_content_router_stability_figure" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_router_claim_boundary_report" for item in payload["generated_artifacts"])
     assert any(item["role"] == "learned_router_claim_boundary_figure" for item in payload["generated_artifacts"])
     assert payload["expected"]["leave_one_source_primevul_routed_minus_oracle_ba"] == -0.025

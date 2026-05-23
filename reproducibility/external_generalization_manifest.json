@@ -322,6 +322,13 @@
       "note": "Reviewer-facing summary of char/token/diff-line source-router stability checks."
     },
     {
+      "role": "learned_content_router_stability_figure",
+      "path": "reports/assets/learned_content_router_stability.svg",
+      "sha256": "b6621f1e9048733a98f1f0ba77a4f71004b649f9bef64c3a97117f36ce216f92",
+      "bytes": 4878,
+      "note": "SVG figure for char/token/diff-line source-router stability checks."
+    },
+    {
       "role": "learned_router_claim_boundary_report",
       "path": "reports/secure_code_learned_router_claim_boundary_v1.json",
       "sha256": "14a95d8880e86b837042e851ffc8b597e8c3ee86ec42abaf7e01d4863d8b06b1",
