@@ -1,0 +1,120 @@
+{
+  "status": "ok",
+  "walkthrough_type": "artifact_backed_external_validation_walkthrough",
+  "selected_pair_key": "tensorflow|c2b31ff2d3151acb230edc3f5b1832d2c713a9e0|CVE-2022-23565",
+  "pair_decision": {
+    "riskier_side_id": "195389::pairctx",
+    "safer_side_id": "225086::pairctx",
+    "probability_gap": 0.853033,
+    "pair_coupled": true
+  },
+  "row_summaries": [
+    {
+      "id": "195389::pairctx",
+      "decision": "vulnerable",
+      "gold_label": "vulnerable",
+      "correct_on_benchmark": true,
+      "vulnerability_probability": 0.9118099808692932,
+      "support_label": "supported",
+      "risk_support": 2,
+      "safety_support": 0,
+      "top_evidence_direction": [
+        "candidate_removes_protection"
+      ]
+    },
+    {
+      "id": "225086::pairctx",
+      "decision": "safe",
+      "gold_label": "safe",
+      "correct_on_benchmark": true,
+      "vulnerability_probability": 0.058776553720235825,
+      "support_label": "supported",
+      "risk_support": 0,
+      "safety_support": 2,
+      "top_evidence_direction": [
+        "candidate_adds_protection"
+      ]
+    }
+  ],
+  "full_payload": {
+    "mode": "artifact_backed_patch_review_demo",
+    "query": {
+      "id": "225086::pairctx",
+      "pair_key": null
+    },
+    "pair_key": "tensorflow|c2b31ff2d3151acb230edc3f5b1832d2c713a9e0|CVE-2022-23565",
+    "pair_decision": {
+      "riskier_side_id": "195389::pairctx",
+      "safer_side_id": "225086::pairctx",
+      "probability_gap": 0.853033,
+      "pair_coupled": true
+    },
+    "rows": [
+      {
+        "id": "195389::pairctx",
+        "project": "tensorflow",
+        "cve": "CVE-2022-23565",
+        "file_name": "op_def_util.cc",
+        "cwe": "cwe-617",
+        "decision": "vulnerable",
+        "gold_label": "vulnerable",
+        "correct_on_benchmark": true,
+        "vulnerability_probability": 0.9118099808692932,
+        "pre_coupled_decision": "vulnerable",
+        "pair_coupled": true,
+        "support_label": "supported",
+        "risk_support": 2,
+        "safety_support": 0,
+        "net_risk_support": 2,
+        "evidence_windows": [
+          {
+            "header": "@@ -3,10 +3,9 @@     const protobuf::RepeatedPtrField<OpDef::AttrDef>& a2) {",
+            "direction_labels": [
+              "candidate_removes_protection"
+            ],
+            "risk_support": 2,
+            "safety_support": 0,
+            "net_risk_support": 2,
+            "removed": "    if (a1_set.find(def.name()) != a1_set.end()) {\n      LOG(ERROR) << \"AttrDef names must be unique, but '\" << def.name()\n                 << \"' appears more than once\";\n    }",
+            "added": "    DCHECK(a1_set.find(def.name()) == a1_set.end())\n        << \"AttrDef names must be unique, but '\" << def.name()\n        << \"' appears more than once\";"
+          }
+        ]
+      },
+      {
+        "id": "225086::pairctx",
+        "project": "tensorflow",
+        "cve": "CVE-2022-23565",
+        "file_name": "op_def_util.cc",
+        "cwe": "cwe-617",
+        "decision": "safe",
+        "gold_label": "safe",
+        "correct_on_benchmark": true,
+        "vulnerability_probability": 0.058776553720235825,
+        "pre_coupled_decision": "safe",
+        "pair_coupled": true,
+        "support_label": "supported",
+        "risk_support": 0,
+        "safety_support": 2,
+        "net_risk_support": -2,
+        "evidence_windows": [
+          {
+            "header": "@@ -3,9 +3,10 @@     const protobuf::RepeatedPtrField<OpDef::AttrDef>& a2) {",
+            "direction_labels": [
+              "candidate_adds_protection"
+            ],
+            "risk_support": 0,
+            "safety_support": 2,
+            "net_risk_support": -2,
+            "removed": "    DCHECK(a1_set.find(def.name()) == a1_set.end())\n        << \"AttrDef names must be unique, but '\" << def.name()\n        << \"' appears more than once\";",
+            "added": "    if (a1_set.find(def.name()) != a1_set.end()) {\n      LOG(ERROR) << \"AttrDef names must be unique, but '\" << def.name()\n                 << \"' appears more than once\";\n    }"
+          }
+        ]
+      }
+    ],
+    "caveats": [
+      "This is an artifact-backed demo over the PrimeVul paired eval artifacts, not online inference for arbitrary new code.",
+      "Evidence windows are heuristic/pseudo-localization outputs; final evidence labels require independent adjudication.",
+      "Use this output for reviewer orientation and failure analysis, not as a standalone vulnerability scanner."
+    ]
+  }
+}

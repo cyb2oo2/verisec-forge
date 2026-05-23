@@ -53,6 +53,8 @@ For a browser-friendly walkthrough, open:
 http://127.0.0.1:8000/review-pair/ui
 ```
 
+For a fixed reviewer-facing example that connects bundle restore, pair decision, and evidence windows, see [Patch Review Walkthrough](PATCH_REVIEW_WALKTHROUGH.md).
+
 ## Output Contract
 
 The command returns JSON with:

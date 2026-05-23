@@ -47,6 +47,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.
+- Patch review walkthrough: `docs/PATCH_REVIEW_WALKTHROUGH.md`.
 - Learned router claim boundary: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`.
 - Learned router stability: `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`.
 - Learned router stability figure: `reports/assets/learned_content_router_stability.svg`.
