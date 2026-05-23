@@ -1,6 +1,6 @@
 # Next Phase Roadmap
 
-This roadmap records the reviewer-facing interpretation of the project after the paired-diff, evidence-coupled, reproducibility, and patch-review-demo work.
+This roadmap records the reviewer-facing interpretation of the project after the paired-diff, evidence-coupled, external-generalization, source-routing, reproducibility, and patch-review-demo work.
 
 ## Current Positioning
 
@@ -33,44 +33,47 @@ The strongest claim is not that the project builds a universal vulnerability sca
 
 ### Engineering And Portfolio Artifacts
 
-- Public bundle-assisted reproducibility for the manifest-backed PrimeVul router and evidence-coupled chains.
+- Public bundle-assisted reproducibility for the manifest-backed PrimeVul router/evidence-coupled and external-generalization/source-routing chains.
 - Artifact-backed patch review CLI/API/UI for walkthroughs.
-- Results index, project story, application one-pager, and generated figures for reviewer orientation.
+- Results index, project story, application one-pager, application packet, and generated figures for reviewer orientation.
 
 These artifacts are important for credibility and communication, but they should not displace the research contribution hierarchy.
 
 ## Current Gaps
 
-1. External generalization.
-   The main line is still PrimeVul-centered. A top-tier paper needs at least one harder external validation path: broader project-disjoint sampling, time-disjoint split, CVE-disjoint split, or a second paired patch dataset.
+1. External generalization claim boundary.
+   The project now has PrimeVul time-disjoint, project/CVE/commit/file-hash stress, DeltaSecommits, and PatchEval coverage. The remaining gap is no longer "no external validation"; it is whether the source-aware routing and paired-diff claims remain stable under larger external queues, broader languages, and open-set source shift.
 
 2. Independent evidence adjudication.
-   The `codex_pilot` and `codex_draft` artifacts are triage signals. The next evidence milestone is independent adjudication of the `6` high-quality disagreement rows and wider-context review of the `14` insufficient-context rows.
+   The `codex_pilot`, `codex_draft`, and AI-filled adjudication artifacts are triage signals. The next evidence milestone is a small non-AI confirmation pass over the highest-value disagreement and insufficient-context rows.
 
 3. Statistical packaging.
-   Pair-coupled gains already have multi-split support, but the final paper/application package should surface confidence intervals, split variance, and significance tests in one compact table.
+   Pair-coupled gains and learned routed-system gains now have reviewer-facing statistics, but the final paper/application package should keep confidence intervals, split variance, and significance tests in one compact table instead of scattering them across reports.
 
 4. Claim focus.
    The repo contains many branches: SFT, DPO, verifier, support scorer, router, evidence localization, safe flip gates, demo. Public framing should keep three levels clear: core contributions, supporting experiments, and engineering demonstration.
 
 ## Immediate Next Steps
 
-1. Complete independent evidence adjudication.
-   The focused high-quality CSV/workflow, high-quality case brief, and insufficient-context wider-review brief now exist. Fill and apply the `6`-row CSV first, then use the `14`-row insufficient-context brief to decide whether larger windows are required.
+1. Complete a small non-AI evidence adjudication pass.
+   Keep AI-filled adjudication as triage. Use non-AI review only for the highest-value disagreement and insufficient-context rows so the evidence line has at least one clean human-confirmed anchor.
 
-2. Build one external validation split.
-   Prefer the smallest defensible path first: CVE-disjoint or time-disjoint paired diff evaluation if project-disjoint balanced sampling remains infeasible from the current pool.
+2. Expand external validation carefully.
+   Prefer one deeper follow-up over many shallow datasets: expand PatchEval/DeltaSecommits queues, add a harder open-set source split, or add a language-family stress slice.
 
-3. Add a final statistics table.
-   Consolidate three-seed diff-only, no-metadata, five-split pair-coupled, and key controls with confidence intervals or split variance.
+3. Build a final submission statistics table.
+   Consolidate same-source diagnosis, negative controls, three-seed diff-only, no-metadata, five-split pair-coupled, external sources, and learned-router claim boundaries.
 
-4. Keep demo claims bounded.
+4. Turn the demo into an external-validation walkthrough.
+   Use the public bundles to show how a reviewer can restore artifacts, inspect a paired diff, view model probability, route/source decision, support/evidence window, and failure mode.
+
+5. Keep demo claims bounded.
    The patch review UI should be described as an artifact-backed reviewer walkthrough over reproduced PrimeVul paired examples, not as online scanning for arbitrary new code.
 
 ## Success Criteria For A Strong Submission
 
 - The main narrative can be explained in three contributions without mentioning every experiment branch.
-- External validation shows that paired diff reasoning still carries signal outside the current easy split.
-- Evidence adjudication produces reviewer-confirmed labels or clearly documents ambiguity/insufficient context.
+- External validation shows that paired diff reasoning carries signal beyond PrimeVul-internal easy splits and remains bounded under harder source shift.
+- Evidence adjudication produces reviewer-confirmed labels or clearly documents ambiguity/insufficient context without treating AI adjudication as human gold.
 - Reproduction from the public bundle regenerates the reports and demo-required artifacts.
 - The README and application materials foreground trustworthy evaluation and evidence-grounded reasoning, not raw accuracy.

@@ -31,6 +31,7 @@ Start here for the main narrative and current system-level conclusions.
 - `External Generalization Release Notes v10`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V10.md`
 - `Data Lineage`: `reports/DATA_LINEAGE.md`
 - `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
+- `Application Packet`: `docs/APPLICATION_PACKET.md`
 - `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
 - `Patch Review Demo UI Preview`: `reports/assets/patch_review_demo_ui.svg`
 

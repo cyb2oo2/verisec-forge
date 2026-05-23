@@ -16,6 +16,7 @@ This repository is built to answer a practical research question:
 | --- | --- |
 | Read the research narrative | [Project Story](PROJECT_STORY.md) |
 | Understand the next research phase | [Next Phase Roadmap](docs/NEXT_PHASE_ROADMAP.md) |
+| Read the application packet | [Application Packet](docs/APPLICATION_PACKET.md) |
 | Try the artifact-backed patch review demo | [Patch Review Demo](docs/PATCH_REVIEW_DEMO.md) |
 | Inspect the main result table | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) |
 | Reproduce manifest-backed artifacts | [Reproducibility Guide](REPRODUCIBILITY.md) |
