@@ -32,6 +32,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - External-generalization public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/external-generalization-bundle-v10/verisec_forge_external_generalization_bundle_v10.zip`.
 - Main project story: `PROJECT_STORY.md`.
 - Progressive controls: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`.
+- Final submission statistics: `reports/FINAL_SUBMISSION_STATISTICS.md`.
 - Pair-coupled multi-split report: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`.
 - Pair-coupled significance summary: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`.
 - Disjoint stress evaluation: `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`.

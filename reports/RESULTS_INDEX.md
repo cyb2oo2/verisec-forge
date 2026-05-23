@@ -65,6 +65,8 @@ PrimeVul secure-code experiments, including the artifact-sensitive same-source d
 - `Progressive Controls Table`: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
 - `Progressive Controls JSON`: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.json`
 - `Progressive Controls Chart`: `reports/assets/primevul_progressive_controls.svg`
+- `Final Submission Statistics`: `reports/FINAL_SUBMISSION_STATISTICS.md`
+- `Final Submission Statistics JSON`: `reports/FINAL_SUBMISSION_STATISTICS.json`
 - `Pair-Coupled Significance Chart`: `reports/assets/primevul_pair_coupled_significance.svg`
 - `Paired Diff Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_FAILURE_ANALYSIS.md`
 - `Paired Diff Failure Analysis JSON`: `reports/secure_code_primevul_pair_diff_only_failure_analysis.json`

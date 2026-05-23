@@ -36,6 +36,7 @@ Evidence localization is treated as failure triage rather than gold-span proof. 
 - External-generalization/source-routing public bundle v10: `external-generalization-bundle-v10`
 - Current external bundle SHA256: `90dbaaf40665494b2b1fa62781c3e09d7ec59ed3cf3611e76b9b61a27ae3465c`
 - Patch review walkthrough: `docs/PATCH_REVIEW_DEMO.md`
+- Final submission statistics: `reports/FINAL_SUBMISSION_STATISTICS.md`
 - Full research narrative: `PROJECT_STORY.md`
 
 ## Claim Boundary

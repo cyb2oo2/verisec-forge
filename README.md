@@ -19,6 +19,7 @@ This repository is built to answer a practical research question:
 | Read the application packet | [Application Packet](docs/APPLICATION_PACKET.md) |
 | Try the artifact-backed patch review demo | [Patch Review Demo](docs/PATCH_REVIEW_DEMO.md) |
 | Inspect the main result table | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) |
+| Inspect the final submission statistics | [Final Submission Statistics](reports/FINAL_SUBMISSION_STATISTICS.md) |
 | Reproduce manifest-backed artifacts | [Reproducibility Guide](REPRODUCIBILITY.md) |
 | Browse all reports and diagnostics | [Results Index](reports/RESULTS_INDEX.md) |
 

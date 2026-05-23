@@ -1,0 +1,117 @@
+{
+  "status": "ok",
+  "rows": [
+    {
+      "claim_area": "Shortcut diagnosis",
+      "setting": "PrimeVul same-source detector",
+      "primary_result": "BA `0.9524`",
+      "uncertainty_or_control": "Recall `0.9709`, specificity `0.9339`; treated as artifact-sensitive.",
+      "reviewer_safe_interpretation": "High standard-split score motivates stricter paired evaluation; it is not the headline breakthrough.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_holdout2000_report.json"
+    },
+    {
+      "claim_area": "Shortcut diagnosis",
+      "setting": "Same detector on vulnerable/fixed paired stress",
+      "primary_result": "BA `0.4961`",
+      "uncertainty_or_control": "Best threshold `0.9999`; near chance.",
+      "reviewer_safe_interpretation": "The easy same-source result does not survive paired patch structure.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json"
+    },
+    {
+      "claim_area": "Negative controls",
+      "setting": "Metadata/candidate/counterpart-only controls",
+      "primary_result": "best control BA `0.5156`",
+      "uncertainty_or_control": "Metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` BA.",
+      "reviewer_safe_interpretation": "Controls stay near chance, protecting the paired-diff formulation.",
+      "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
+    },
+    {
+      "claim_area": "Paired diff reasoning",
+      "setting": "PrimeVul diff-only paired detector",
+      "primary_result": "mean BA `0.8287`",
+      "uncertainty_or_control": "3 seeds, range `0.8158-0.8382`.",
+      "reviewer_safe_interpretation": "Diff-only paired reasoning is the credible base formulation after shortcut diagnosis.",
+      "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
+    },
+    {
+      "claim_area": "Metadata removal",
+      "setting": "PrimeVul diff-only without Project/CVE/CWE prompt metadata",
+      "primary_result": "BA `0.8244`",
+      "uncertainty_or_control": "Threshold `0.8`.",
+      "reviewer_safe_interpretation": "The paired-diff signal does not depend on obvious prompt metadata.",
+      "artifact": "reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json"
+    },
+    {
+      "claim_area": "Task-structured decoding",
+      "setting": "Pair-coupled decoding over held-out pair-key splits",
+      "primary_result": "mean BA `0.8572`",
+      "uncertainty_or_control": "5 splits, CI `[0.8523, 0.8616]`; strict pair-minus-bucket BA delta `0.0348` CI `[0.0329, 0.0368]`.",
+      "reviewer_safe_interpretation": "This is the main method-like contribution because it uses paired task structure.",
+      "artifact": "reports/secure_code_primevul_pair_coupled_significance_v1.json"
+    },
+    {
+      "claim_area": "External validation",
+      "setting": "PrimeVul true time-disjoint direct train <=2020, eval >=2021",
+      "primary_result": "BA `0.8835`",
+      "uncertainty_or_control": "`1562` rows, `761` pair groups.",
+      "reviewer_safe_interpretation": "Temporal split keeps paired-diff signal strong under later-CVE evaluation.",
+      "artifact": "reports/secure_code_primevul_time_disjoint_direct_train_v1.json"
+    },
+    {
+      "claim_area": "External validation",
+      "setting": "DeltaSecommits C/C++ source-specific adapter",
+      "primary_result": "BA `0.8563`",
+      "uncertainty_or_control": "`654` balanced rows, `327` pair groups.",
+      "reviewer_safe_interpretation": "Second-source C/C++ paired patches support the paired-diff formulation outside PrimeVul.",
+      "artifact": "reports/secure_code_deltasecommits_delta_only_pair_diff_eval_v1.json"
+    },
+    {
+      "claim_area": "External validation",
+      "setting": "PatchEval zero-shot matched-mixed checkpoint",
+      "primary_result": "BA `0.8086`",
+      "uncertainty_or_control": "`538` rows across Go/JavaScript/Python-oriented repairs.",
+      "reviewer_safe_interpretation": "Third-source cross-language transfer is harder but remains above chance.",
+      "artifact": "reports/secure_code_patcheval_zero_shot_matched_mixed_primevul_short_delta_v1.json"
+    },
+    {
+      "claim_area": "External adaptation",
+      "setting": "PatchEval source-specific adapter, 3 seeds",
+      "primary_result": "mean BA `0.8172`",
+      "uncertainty_or_control": "Range `0.803-0.829`.",
+      "reviewer_safe_interpretation": "PatchEval adaptation helps but is seed-sensitive, so report mean/range rather than best seed.",
+      "artifact": "reports/secure_code_patcheval_adapter_multiseed_v1.json"
+    },
+    {
+      "claim_area": "Source-aware routing",
+      "setting": "Three-source source-routed adapter mixture",
+      "primary_result": "BA `0.8664`",
+      "uncertainty_or_control": "Single matched-mixed BA `0.8591`; delta `0.0073`.",
+      "reviewer_safe_interpretation": "Source-specific experts provide a small aggregate gain over one mixed checkpoint.",
+      "artifact": "reports/secure_code_three_source_adapter_mixture_v1.json"
+    },
+    {
+      "claim_area": "Learned router boundary",
+      "setting": "Learned diff-body-only source/expert router",
+      "primary_result": "routed BA `0.8664`",
+      "uncertainty_or_control": "BA delta `0.0073`, CI `[0, 0.0145]`; leave-one-source routed-minus-oracle range `[-0.025, -0.0077]`.",
+      "reviewer_safe_interpretation": "Closed-world expert selection is supported; open-set source discovery is not claimed.",
+      "artifact": "reports/secure_code_learned_router_claim_boundary_v1.json"
+    },
+    {
+      "claim_area": "Evidence-coupled audit loop",
+      "setting": "Predicted-side hunk/window localization",
+      "primary_result": "top-1 `0.6555`",
+      "uncertainty_or_control": "Side-correct top-1 `0.7610`; side-wrong top-1 `0.0632`.",
+      "reviewer_safe_interpretation": "Evidence quality depends on upstream side decisions; current evidence labels remain pseudo-label/triage.",
+      "artifact": "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json"
+    },
+    {
+      "claim_area": "Safe correction protocol",
+      "setting": "Evidence-conditioned project-holdout safe flip gate",
+      "primary_result": "accept precision `1.0`",
+      "uncertainty_or_control": "Accepted `9`, introduced `0`; small queue and stress-invalidated earlier strict gate.",
+      "reviewer_safe_interpretation": "Useful precision-first review protocol, not a deployable large-scale automatic flipper.",
+      "artifact": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json"
+    }
+  ]
+}
