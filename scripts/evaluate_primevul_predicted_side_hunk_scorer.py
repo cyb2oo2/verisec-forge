@@ -92,10 +92,7 @@ def build_report(
     paired_rows, paired_summary = attach_decision_side(candidate_rows, prediction_lookup, prediction_key="pred")
     pre_rows, pre_summary = attach_decision_side(candidate_rows, prediction_lookup, prediction_key="pre_coupled_pred")
     matched_source_ids = {str(row["source_id"]) for row in paired_rows}
-    oracle_matched_rows = [
-        row for row in oracle_rows
-        if str(row["source_id"]) in matched_source_ids
-    ]
+    oracle_matched_rows = [row for row in oracle_rows if str(row["source_id"]) in matched_source_ids]
 
     scored_paired = score_rows(paired_rows, weights, side_aware=True, score_prefix="predicted_side_aware")
     scored_pre = score_rows(pre_rows, weights, side_aware=True, score_prefix="pre_coupled_side_aware")
@@ -116,10 +113,26 @@ def build_report(
             "pre_coupled_pred": pre_summary,
         },
         "coverage": {
-            "oracle_side_aware_all": coverage_bundle(oracle_rows, k_values=k_values, score_key="oracle_side_aware_score"),
-            "oracle_side_aware_matched": coverage_bundle(oracle_matched_rows, k_values=k_values, score_key="oracle_side_aware_score"),
-            "pair_coupled_predicted_side": coverage_bundle(scored_paired, k_values=k_values, score_key="predicted_side_aware_score"),
-            "pre_coupled_predicted_side": coverage_bundle(scored_pre, k_values=k_values, score_key="pre_coupled_side_aware_score"),
+            "oracle_side_aware_all": coverage_bundle(
+                oracle_rows,
+                k_values=k_values,
+                score_key="oracle_side_aware_score",
+            ),
+            "oracle_side_aware_matched": coverage_bundle(
+                oracle_matched_rows,
+                k_values=k_values,
+                score_key="oracle_side_aware_score",
+            ),
+            "pair_coupled_predicted_side": coverage_bundle(
+                scored_paired,
+                k_values=k_values,
+                score_key="predicted_side_aware_score",
+            ),
+            "pre_coupled_predicted_side": coverage_bundle(
+                scored_pre,
+                k_values=k_values,
+                score_key="pre_coupled_side_aware_score",
+            ),
             "pair_coupled_predicted_side_correct_only": coverage_bundle(
                 filter_by_source_correctness(scored_paired, correct=True),
                 k_values=k_values,

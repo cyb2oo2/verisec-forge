@@ -51,7 +51,7 @@ These artifacts are important for credibility and communication, but they should
    Pair-coupled gains and learned routed-system gains now have reviewer-facing statistics, but the final paper/application package should keep confidence intervals, split variance, and significance tests in one compact table instead of scattering them across reports.
 
 4. Claim focus.
-   The repo contains many branches: SFT, DPO, verifier, support scorer, router, evidence localization, safe flip gates, demo. Public framing should keep three levels clear: core contributions, supporting experiments, and engineering demonstration.
+   The pruned repo now keeps router, evidence localization, safe flip summaries, and the demo as supporting material. Public framing should keep three levels clear: core contributions, supporting experiments, and engineering demonstration.
 
 ## Immediate Next Steps
 

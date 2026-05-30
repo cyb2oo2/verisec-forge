@@ -48,7 +48,7 @@ def build_report_index(sections: list[ReportIndexSection], root: str | Path | No
     lines = [
         "# Results Index",
         "",
-        "This index collects the most important reports, diagnostics, and benchmark summaries in the repository.",
+        "This index collects the application-facing reports and reproducibility entry points retained after pruning.",
         "",
     ]
 

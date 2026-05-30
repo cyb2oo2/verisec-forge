@@ -9,7 +9,7 @@ description = "A reproducible research stack for secure code reasoning, post-tra
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Codex" }]
+authors = [{ name = "VeriSec Forge" }]
 dependencies = [
   "fastapi>=0.115.0",
   "pydantic>=2.9.0",

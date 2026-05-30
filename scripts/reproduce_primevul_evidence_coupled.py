@@ -669,221 +669,466 @@ def first_coverage(report: dict[str, Any], section: str, scorer: str) -> float:
 
 
 def metric_check(expected: dict[str, Any]) -> dict[str, Any]:
-    pair_evidence = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_evidence_localization_v1.json")
-    hunk = read_json(REPO_ROOT / "reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json")
-    predicted = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json")
-    taxonomy = read_json(REPO_ROOT / "reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json")
-    inversions = read_json(REPO_ROOT / "reports/secure_code_primevul_confident_side_inversions_gap50_v1.json")
-    correction = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_gate_v1.json")
-    correction_multisplit = read_json(REPO_ROOT / "reports/secure_code_primevul_pair_side_correction_multisplit_v1.json")
-    contrastive = read_json(REPO_ROOT / "reports/secure_code_primevul_contrastive_side_correction_v1.json")
-    paired_window = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_contrastive_eval_v1.json")
-    side_model = read_json(REPO_ROOT / "reports/secure_code_primevul_paired_window_side_model_v1.json")
-    review_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json")
-    verifier_dataset = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_top5_v1.json")
-    verifier_baselines = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
-    safe_flip_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json")
-    strict_safe_flip_gate = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json"
-    )
-    rank_holdout_queue = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json")
-    rank_holdout_verifier = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_rank6_10_v1.json")
-    rank_holdout_gate = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json")
-    rank_holdout_strict_gate = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
-    )
-    fresh_seed_queue = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json"
-    )
-    fresh_seed_verifier = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.json"
-    )
-    fresh_seed_gate = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1.json"
-    )
-    fresh_seed_strict_gate = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
-    )
-    project_holdout_queue = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.json"
-    )
-    project_holdout_verifier = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.json"
-    )
-    project_holdout_strict_gate = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
-    )
-    project_holdout_evidence_conditioned_gate = read_json(
-        REPO_ROOT
-        / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json"
-    )
-    project_holdout_conservative_gate = read_json(
-        REPO_ROOT
-        / "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
-    )
-    side_inversion_gate_summary = read_json(REPO_ROOT / "reports/secure_code_primevul_side_inversion_gate_summary_v1.json")
-    project_holdout_strict_analysis = read_json(
-        REPO_ROOT / "reports/secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json"
-    )
-    project_holdout_evidence_conditioned_analysis = read_json(
-        REPO_ROOT
-        / "reports/secure_code_primevul_side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_v1.json"
-    )
-    project_holdout_conservative_analysis = read_json(
-        REPO_ROOT
-        / "reports/secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json"
-    )
-    actual = {
-        "pair_evidence_rows": pair_evidence["summary"]["rows"],
-        "pair_evidence_support_rate": pair_evidence["summary"]["support_rate"],
-        "pair_evidence_pseudo_localization_accuracy": pair_evidence["summary"]["pseudo_localization_accuracy"],
-        "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
-        "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
-        "predicted_side_accuracy": predicted["side_source"]["pair_coupled_pred"]["decision_side_accuracy"],
-        "oracle_matched_top1": first_coverage(predicted, "coverage", "oracle_side_aware_matched"),
-        "predicted_side_top1": first_coverage(predicted, "coverage", "pair_coupled_predicted_side"),
-        "side_correct_top1": first_coverage(predicted, "coverage", "pair_coupled_predicted_side_correct_only"),
-        "side_wrong_top1": first_coverage(predicted, "coverage", "pair_coupled_predicted_side_wrong_only"),
-        "side_wrong_rows": taxonomy["summary"]["wrong_sources"],
-        "side_wrong_false_positives": taxonomy["summary"]["false_positives"],
-        "side_wrong_false_negatives": taxonomy["summary"]["false_negatives"],
-        "confident_inversion_rows": inversions["summary"]["rows"],
-        "confident_inversion_pair_groups": inversions["summary"]["pair_groups"],
-        "confident_inversion_false_positives": inversions["summary"]["false_positives"],
-        "confident_inversion_false_negatives": inversions["summary"]["false_negatives"],
-        "confident_inversion_avg_gap": inversions["summary"]["avg_gap"],
-        "pair_side_correction_seed42_baseline_balanced_accuracy": correction["eval"]["baseline_pair_coupled"]["overall"]["balanced_accuracy"],
-        "pair_side_correction_seed42_corrected_balanced_accuracy": correction["eval"]["corrected"]["overall"]["balanced_accuracy"],
-        "pair_side_correction_seed42_gated_groups": correction["eval"]["corrected"]["gate_counts"]["gated_groups"],
-        "pair_side_correction_multisplit_balanced_delta_mean": correction_multisplit["summary"]["balanced_accuracy_delta"]["mean"],
-        "pair_side_correction_multisplit_group_delta_mean": correction_multisplit["summary"]["group_all_correct_delta"]["mean"],
-        "contrastive_side_correction_seed42_corrected_balanced_accuracy": [
-            row for row in contrastive["seed_reports"] if row["seed"] == 42
-        ][0]["corrected_balanced_accuracy"],
-        "contrastive_side_correction_multisplit_balanced_delta_mean": contrastive["summary"]["balanced_accuracy_delta"]["mean"],
-        "contrastive_side_correction_multisplit_group_delta_mean": contrastive["summary"]["group_all_correct_delta"]["mean"],
-        "paired_window_contrastive_rows": paired_window["summary"]["rows"],
-        "paired_window_contrastive_label_b_rows": paired_window["summary"]["label_b_rows"],
-        "paired_window_contrastive_high_gap_orientation_inversion_pairs": paired_window["summary"][
-            "high_gap_orientation_inversion_pairs"
-        ],
-        "paired_window_contrastive_avg_prompt_chars": paired_window["summary"]["avg_prompt_chars"],
-        "paired_window_side_model_balanced_accuracy_mean": side_model["summary"]["eval_balanced_accuracy"]["mean"],
-        "paired_window_side_model_balanced_delta_mean": side_model["summary"]["balanced_accuracy_delta_vs_always_a"][
-            "mean"
-        ],
-        "paired_window_side_model_label_b_recall_mean": side_model["summary"]["label_b_recall"]["mean"],
-        "paired_window_side_model_top5_precision_mean": side_model["summary"]["eval_topk_precision"]["5"][
-            "precision_mean"
-        ],
-        "paired_window_side_model_top10_precision_mean": side_model["summary"]["eval_topk_precision"]["10"][
-            "precision_mean"
-        ],
-        "side_inversion_review_queue_rows": review_queue["summary"]["rows"],
-        "side_inversion_review_queue_unique_pairs": review_queue["summary"]["unique_pair_count"],
-        "side_inversion_review_queue_precision": review_queue["summary"]["precision"],
-        "side_inversion_verifier_rows": verifier_dataset["summary"]["rows"],
-        "side_inversion_verifier_accept_flip_rows": verifier_dataset["summary"]["accept_flip_rows"],
-        "side_inversion_verifier_reject_flip_rows": verifier_dataset["summary"]["reject_flip_rows"],
-        "side_inversion_verifier_avg_prompt_chars": verifier_dataset["summary"]["avg_prompt_chars"],
-        "side_inversion_verifier_best_balanced_accuracy": verifier_baselines["summary"]["best_balanced_accuracy"][
-            "balanced_accuracy"
-        ],
-        "side_inversion_verifier_best_accept_precision": verifier_baselines["summary"]["best_accept_precision"][
-            "accept_precision"
-        ],
-        "side_inversion_verifier_best_accepted": verifier_baselines["summary"]["best_accept_precision"]["accepted"],
-        "side_inversion_safe_flip_gate_accepted_rows": safe_flip_gate["summary"]["accepted_rows"],
-        "side_inversion_safe_flip_gate_accepted_unique_pairs": safe_flip_gate["summary"]["accepted_unique_pairs"],
-        "side_inversion_safe_flip_gate_repaired_rows": safe_flip_gate["summary"]["repaired_side_error_rows"],
-        "side_inversion_safe_flip_gate_introduced_rows": safe_flip_gate["summary"]["introduced_side_error_rows"],
-        "side_inversion_safe_flip_gate_net_pair_gain": safe_flip_gate["summary"]["net_pair_gain_if_applied"],
-        "side_inversion_strict_safe_flip_gate_accepted_rows": strict_safe_flip_gate["summary"]["accepted_rows"],
-        "side_inversion_strict_safe_flip_gate_introduced_rows": strict_safe_flip_gate["summary"][
-            "introduced_side_error_rows"
-        ],
-        "side_inversion_strict_safe_flip_gate_accept_precision": strict_safe_flip_gate["summary"]["accept_precision"],
-        "side_inversion_rank_holdout_queue_precision": rank_holdout_queue["summary"]["precision"],
-        "side_inversion_rank_holdout_verifier_accept_rows": rank_holdout_verifier["summary"]["accept_flip_rows"],
-        "side_inversion_rank_holdout_gate_accepted_rows": rank_holdout_gate["summary"]["accepted_rows"],
-        "side_inversion_rank_holdout_gate_introduced_rows": rank_holdout_gate["summary"]["introduced_side_error_rows"],
-        "side_inversion_rank_holdout_gate_accept_precision": rank_holdout_gate["summary"]["accept_precision"],
-        "side_inversion_rank_holdout_strict_gate_accepted_rows": rank_holdout_strict_gate["summary"]["accepted_rows"],
-        "side_inversion_rank_holdout_strict_gate_introduced_rows": rank_holdout_strict_gate["summary"][
-            "introduced_side_error_rows"
-        ],
-        "side_inversion_rank_holdout_strict_gate_accept_precision": rank_holdout_strict_gate["summary"][
-            "accept_precision"
-        ],
-        "side_inversion_fresh_seed_queue_precision": fresh_seed_queue["summary"]["precision"],
-        "side_inversion_fresh_seed_verifier_accept_rows": fresh_seed_verifier["summary"]["accept_flip_rows"],
-        "side_inversion_fresh_seed_gate_accept_precision": fresh_seed_gate["summary"]["accept_precision"],
-        "side_inversion_fresh_seed_gate_introduced_rows": fresh_seed_gate["summary"]["introduced_side_error_rows"],
-        "side_inversion_fresh_seed_strict_gate_accept_precision": fresh_seed_strict_gate["summary"]["accept_precision"],
-        "side_inversion_fresh_seed_strict_gate_accepted_rows": fresh_seed_strict_gate["summary"]["accepted_rows"],
-        "side_inversion_fresh_seed_strict_gate_introduced_rows": fresh_seed_strict_gate["summary"][
-            "introduced_side_error_rows"
-        ],
-        "side_inversion_project_holdout_queue_precision": project_holdout_queue["summary"]["precision"],
-        "side_inversion_project_holdout_verifier_accept_rows": project_holdout_verifier["summary"]["accept_flip_rows"],
-        "side_inversion_project_holdout_strict_gate_accept_precision": project_holdout_strict_gate["summary"][
-            "accept_precision"
-        ],
-        "side_inversion_project_holdout_strict_gate_introduced_rows": project_holdout_strict_gate["summary"][
-            "introduced_side_error_rows"
-        ],
-        "side_inversion_project_holdout_evidence_conditioned_gate_accept_precision": project_holdout_evidence_conditioned_gate[
-            "summary"
-        ]["accept_precision"],
-        "side_inversion_project_holdout_evidence_conditioned_gate_accepted_rows": project_holdout_evidence_conditioned_gate[
-            "summary"
-        ]["accepted_rows"],
-        "side_inversion_project_holdout_evidence_conditioned_gate_introduced_rows": project_holdout_evidence_conditioned_gate[
-            "summary"
-        ]["introduced_side_error_rows"],
-        "side_inversion_project_holdout_conservative_gate_accept_precision": project_holdout_conservative_gate[
-            "summary"
-        ]["accept_precision"],
-        "side_inversion_project_holdout_conservative_gate_accepted_rows": project_holdout_conservative_gate[
-            "summary"
-        ]["accepted_rows"],
-        "side_inversion_project_holdout_conservative_gate_introduced_rows": project_holdout_conservative_gate[
-            "summary"
-        ]["introduced_side_error_rows"],
-        "side_inversion_gate_summary_reports": side_inversion_gate_summary["summary"]["gate_reports"],
-        "side_inversion_gate_summary_pools": side_inversion_gate_summary["summary"]["pools"],
-        "side_inversion_gate_summary_zero_introduced_reports": side_inversion_gate_summary["summary"][
-            "zero_introduced_reports"
-        ],
-        "side_inversion_gate_summary_stress_invalidated_reports": side_inversion_gate_summary["summary"][
-            "stress_invalidated_reports"
-        ],
-        "side_inversion_gate_summary_selection_allowed_reports": side_inversion_gate_summary["summary"][
-            "selection_allowed_reports"
-        ],
-        "side_inversion_gate_summary_audit_only_reports": side_inversion_gate_summary["summary"]["audit_only_reports"],
-        "side_inversion_gate_summary_protocol_violation_count": side_inversion_gate_summary["summary"][
-            "protocol_violation_count"
-        ],
-        "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis["summary"][
-            "false_accepts"
-        ],
-        "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": project_holdout_strict_analysis[
-            "summary"
-        ]["false_accept_unique_pairs"],
-        "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": project_holdout_evidence_conditioned_analysis[
-            "summary"
-        ]["false_accepts"],
-        "side_inversion_project_holdout_evidence_conditioned_analysis_missed_true_flips": project_holdout_evidence_conditioned_analysis[
-            "summary"
-        ]["missed_true_flips"],
-        "side_inversion_project_holdout_conservative_analysis_false_accepts": project_holdout_conservative_analysis[
-            "summary"
-        ]["false_accepts"],
-        "side_inversion_project_holdout_conservative_analysis_missed_true_flips": project_holdout_conservative_analysis[
-            "summary"
-        ]["missed_true_flips"],
-    }
+    def wants(*keys: str) -> bool:
+        return any(key in expected for key in keys)
+
+    def read_report(name: str) -> dict[str, Any]:
+        return read_json(REPO_ROOT / "reports" / name)
+
+    def seed_row(report: dict[str, Any], seed_value: int) -> dict[str, Any]:
+        for row in report["seed_reports"]:
+            if int(row["seed"]) == seed_value:
+                return row
+        raise KeyError(f"missing seed report: {seed_value}")
+
+    actual: dict[str, Any] = {}
+
+    if wants("pair_evidence_rows", "pair_evidence_support_rate", "pair_evidence_pseudo_localization_accuracy"):
+        pair_evidence = read_report("secure_code_primevul_pair_evidence_localization_v1.json")
+        actual.update(
+            {
+                "pair_evidence_rows": pair_evidence["summary"]["rows"],
+                "pair_evidence_support_rate": pair_evidence["summary"]["support_rate"],
+                "pair_evidence_pseudo_localization_accuracy": pair_evidence["summary"][
+                    "pseudo_localization_accuracy"
+                ],
+            }
+        )
+
+    if wants("hunk_linear_top1", "hunk_side_aware_top1"):
+        hunk = read_report("secure_code_primevul_hunk_plus_window_linear_scorer_v1.json")
+        actual.update(
+            {
+                "hunk_linear_top1": first_coverage(hunk, "eval_coverage", "linear_scorer"),
+                "hunk_side_aware_top1": first_coverage(hunk, "eval_coverage", "side_aware_linear_scorer"),
+            }
+        )
+
+    if wants("predicted_side_accuracy", "oracle_matched_top1", "predicted_side_top1", "side_correct_top1", "side_wrong_top1"):
+        predicted = read_report("secure_code_primevul_predicted_side_hunk_scorer_v1.json")
+        actual.update(
+            {
+                "predicted_side_accuracy": predicted["side_source"]["pair_coupled_pred"]["decision_side_accuracy"],
+                "oracle_matched_top1": first_coverage(predicted, "coverage", "oracle_side_aware_matched"),
+                "predicted_side_top1": first_coverage(predicted, "coverage", "pair_coupled_predicted_side"),
+                "side_correct_top1": first_coverage(
+                    predicted,
+                    "coverage",
+                    "pair_coupled_predicted_side_correct_only",
+                ),
+                "side_wrong_top1": first_coverage(predicted, "coverage", "pair_coupled_predicted_side_wrong_only"),
+            }
+        )
+
+    if wants("side_wrong_rows", "side_wrong_false_positives", "side_wrong_false_negatives"):
+        taxonomy = read_report("secure_code_primevul_predicted_side_failure_taxonomy_v1.json")
+        actual.update(
+            {
+                "side_wrong_rows": taxonomy["summary"]["wrong_sources"],
+                "side_wrong_false_positives": taxonomy["summary"]["false_positives"],
+                "side_wrong_false_negatives": taxonomy["summary"]["false_negatives"],
+            }
+        )
+
+    if wants(
+        "confident_inversion_rows",
+        "confident_inversion_pair_groups",
+        "confident_inversion_false_positives",
+        "confident_inversion_false_negatives",
+        "confident_inversion_avg_gap",
+    ):
+        inversions = read_report("secure_code_primevul_confident_side_inversions_gap50_v1.json")
+        actual.update(
+            {
+                "confident_inversion_rows": inversions["summary"]["rows"],
+                "confident_inversion_pair_groups": inversions["summary"]["pair_groups"],
+                "confident_inversion_false_positives": inversions["summary"]["false_positives"],
+                "confident_inversion_false_negatives": inversions["summary"]["false_negatives"],
+                "confident_inversion_avg_gap": inversions["summary"]["avg_gap"],
+            }
+        )
+
+    if wants(
+        "pair_side_correction_seed42_baseline_balanced_accuracy",
+        "pair_side_correction_seed42_corrected_balanced_accuracy",
+        "pair_side_correction_seed42_gated_groups",
+        "pair_side_correction_multisplit_balanced_delta_mean",
+        "pair_side_correction_multisplit_group_delta_mean",
+    ):
+        correction_multisplit = read_report("secure_code_primevul_pair_side_correction_multisplit_v1.json")
+        seed42 = seed_row(correction_multisplit, 42)
+        actual.update(
+            {
+                "pair_side_correction_seed42_baseline_balanced_accuracy": seed42["eval"]["baseline"][
+                    "balanced_accuracy"
+                ],
+                "pair_side_correction_seed42_corrected_balanced_accuracy": seed42["eval"]["corrected"][
+                    "balanced_accuracy"
+                ],
+                "pair_side_correction_seed42_gated_groups": seed42["eval"]["gated_groups"],
+                "pair_side_correction_multisplit_balanced_delta_mean": correction_multisplit["summary"][
+                    "balanced_accuracy_delta"
+                ]["mean"],
+                "pair_side_correction_multisplit_group_delta_mean": correction_multisplit["summary"][
+                    "group_all_correct_delta"
+                ]["mean"],
+            }
+        )
+
+    if wants(
+        "contrastive_side_correction_seed42_corrected_balanced_accuracy",
+        "contrastive_side_correction_multisplit_balanced_delta_mean",
+        "contrastive_side_correction_multisplit_group_delta_mean",
+    ):
+        contrastive = read_report("secure_code_primevul_contrastive_side_correction_v1.json")
+        actual.update(
+            {
+                "contrastive_side_correction_seed42_corrected_balanced_accuracy": seed_row(contrastive, 42)[
+                    "corrected_balanced_accuracy"
+                ],
+                "contrastive_side_correction_multisplit_balanced_delta_mean": contrastive["summary"][
+                    "balanced_accuracy_delta"
+                ]["mean"],
+                "contrastive_side_correction_multisplit_group_delta_mean": contrastive["summary"][
+                    "group_all_correct_delta"
+                ]["mean"],
+            }
+        )
+
+    if wants(
+        "paired_window_contrastive_rows",
+        "paired_window_contrastive_label_b_rows",
+        "paired_window_contrastive_high_gap_orientation_inversion_pairs",
+        "paired_window_contrastive_avg_prompt_chars",
+    ):
+        paired_window = read_report("secure_code_primevul_paired_window_contrastive_eval_v1.json")
+        actual.update(
+            {
+                "paired_window_contrastive_rows": paired_window["summary"]["rows"],
+                "paired_window_contrastive_label_b_rows": paired_window["summary"]["label_b_rows"],
+                "paired_window_contrastive_high_gap_orientation_inversion_pairs": paired_window["summary"][
+                    "high_gap_orientation_inversion_pairs"
+                ],
+                "paired_window_contrastive_avg_prompt_chars": paired_window["summary"]["avg_prompt_chars"],
+            }
+        )
+
+    if wants(
+        "paired_window_side_model_balanced_accuracy_mean",
+        "paired_window_side_model_balanced_delta_mean",
+        "paired_window_side_model_label_b_recall_mean",
+        "paired_window_side_model_top5_precision_mean",
+        "paired_window_side_model_top10_precision_mean",
+    ):
+        side_model = read_report("secure_code_primevul_paired_window_side_model_v1.json")
+        actual.update(
+            {
+                "paired_window_side_model_balanced_accuracy_mean": side_model["summary"]["eval_balanced_accuracy"][
+                    "mean"
+                ],
+                "paired_window_side_model_balanced_delta_mean": side_model["summary"][
+                    "balanced_accuracy_delta_vs_always_a"
+                ]["mean"],
+                "paired_window_side_model_label_b_recall_mean": side_model["summary"]["label_b_recall"]["mean"],
+                "paired_window_side_model_top5_precision_mean": side_model["summary"]["eval_topk_precision"]["5"][
+                    "precision_mean"
+                ],
+                "paired_window_side_model_top10_precision_mean": side_model["summary"]["eval_topk_precision"]["10"][
+                    "precision_mean"
+                ],
+            }
+        )
+
+    if wants("side_inversion_review_queue_rows", "side_inversion_review_queue_unique_pairs", "side_inversion_review_queue_precision"):
+        review_queue = read_report("secure_code_primevul_side_inversion_review_queue_top5_v1.json")
+        actual.update(
+            {
+                "side_inversion_review_queue_rows": review_queue["summary"]["rows"],
+                "side_inversion_review_queue_unique_pairs": review_queue["summary"]["unique_pair_count"],
+                "side_inversion_review_queue_precision": review_queue["summary"]["precision"],
+            }
+        )
+
+    if wants(
+        "side_inversion_verifier_rows",
+        "side_inversion_verifier_accept_flip_rows",
+        "side_inversion_verifier_reject_flip_rows",
+        "side_inversion_verifier_avg_prompt_chars",
+    ):
+        verifier_dataset = read_report("secure_code_primevul_side_inversion_verifier_top5_v1.json")
+        actual.update(
+            {
+                "side_inversion_verifier_rows": verifier_dataset["summary"]["rows"],
+                "side_inversion_verifier_accept_flip_rows": verifier_dataset["summary"]["accept_flip_rows"],
+                "side_inversion_verifier_reject_flip_rows": verifier_dataset["summary"]["reject_flip_rows"],
+                "side_inversion_verifier_avg_prompt_chars": verifier_dataset["summary"]["avg_prompt_chars"],
+            }
+        )
+
+    if wants(
+        "side_inversion_verifier_best_balanced_accuracy",
+        "side_inversion_verifier_best_accept_precision",
+        "side_inversion_verifier_best_accepted",
+    ):
+        verifier_baselines = read_report("secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json")
+        actual.update(
+            {
+                "side_inversion_verifier_best_balanced_accuracy": verifier_baselines["summary"][
+                    "best_balanced_accuracy"
+                ]["balanced_accuracy"],
+                "side_inversion_verifier_best_accept_precision": verifier_baselines["summary"][
+                    "best_accept_precision"
+                ]["accept_precision"],
+                "side_inversion_verifier_best_accepted": verifier_baselines["summary"]["best_accept_precision"][
+                    "accepted"
+                ],
+            }
+        )
+
+    if wants(
+        "side_inversion_safe_flip_gate_accepted_rows",
+        "side_inversion_safe_flip_gate_accepted_unique_pairs",
+        "side_inversion_safe_flip_gate_repaired_rows",
+        "side_inversion_safe_flip_gate_introduced_rows",
+        "side_inversion_safe_flip_gate_net_pair_gain",
+    ):
+        safe_flip_gate = read_report("secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json")
+        actual.update(
+            {
+                "side_inversion_safe_flip_gate_accepted_rows": safe_flip_gate["summary"]["accepted_rows"],
+                "side_inversion_safe_flip_gate_accepted_unique_pairs": safe_flip_gate["summary"][
+                    "accepted_unique_pairs"
+                ],
+                "side_inversion_safe_flip_gate_repaired_rows": safe_flip_gate["summary"]["repaired_side_error_rows"],
+                "side_inversion_safe_flip_gate_introduced_rows": safe_flip_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+                "side_inversion_safe_flip_gate_net_pair_gain": safe_flip_gate["summary"]["net_pair_gain_if_applied"],
+            }
+        )
+
+    if wants(
+        "side_inversion_strict_safe_flip_gate_accepted_rows",
+        "side_inversion_strict_safe_flip_gate_introduced_rows",
+        "side_inversion_strict_safe_flip_gate_accept_precision",
+    ):
+        strict_safe_flip_gate = read_report("secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json")
+        actual.update(
+            {
+                "side_inversion_strict_safe_flip_gate_accepted_rows": strict_safe_flip_gate["summary"]["accepted_rows"],
+                "side_inversion_strict_safe_flip_gate_introduced_rows": strict_safe_flip_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+                "side_inversion_strict_safe_flip_gate_accept_precision": strict_safe_flip_gate["summary"][
+                    "accept_precision"
+                ],
+            }
+        )
+
+    if wants(
+        "side_inversion_rank_holdout_queue_precision",
+        "side_inversion_rank_holdout_verifier_accept_rows",
+        "side_inversion_rank_holdout_gate_accepted_rows",
+        "side_inversion_rank_holdout_gate_introduced_rows",
+        "side_inversion_rank_holdout_gate_accept_precision",
+        "side_inversion_rank_holdout_strict_gate_accepted_rows",
+        "side_inversion_rank_holdout_strict_gate_introduced_rows",
+        "side_inversion_rank_holdout_strict_gate_accept_precision",
+    ):
+        rank_holdout_queue = read_report("secure_code_primevul_side_inversion_review_queue_rank6_10_v1.json")
+        rank_holdout_verifier = read_report("secure_code_primevul_side_inversion_verifier_rank6_10_v1.json")
+        rank_holdout_gate = read_report("secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_v1.json")
+        rank_holdout_strict_gate = read_report(
+            "secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
+        )
+        actual.update(
+            {
+                "side_inversion_rank_holdout_queue_precision": rank_holdout_queue["summary"]["precision"],
+                "side_inversion_rank_holdout_verifier_accept_rows": rank_holdout_verifier["summary"][
+                    "accept_flip_rows"
+                ],
+                "side_inversion_rank_holdout_gate_accepted_rows": rank_holdout_gate["summary"]["accepted_rows"],
+                "side_inversion_rank_holdout_gate_introduced_rows": rank_holdout_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+                "side_inversion_rank_holdout_gate_accept_precision": rank_holdout_gate["summary"][
+                    "accept_precision"
+                ],
+                "side_inversion_rank_holdout_strict_gate_accepted_rows": rank_holdout_strict_gate["summary"][
+                    "accepted_rows"
+                ],
+                "side_inversion_rank_holdout_strict_gate_introduced_rows": rank_holdout_strict_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+                "side_inversion_rank_holdout_strict_gate_accept_precision": rank_holdout_strict_gate["summary"][
+                    "accept_precision"
+                ],
+            }
+        )
+
+    if wants(
+        "side_inversion_fresh_seed_queue_precision",
+        "side_inversion_fresh_seed_verifier_accept_rows",
+        "side_inversion_fresh_seed_gate_accept_precision",
+        "side_inversion_fresh_seed_gate_introduced_rows",
+        "side_inversion_fresh_seed_strict_gate_accept_precision",
+        "side_inversion_fresh_seed_strict_gate_accepted_rows",
+        "side_inversion_fresh_seed_strict_gate_introduced_rows",
+    ):
+        fresh_seed_queue = read_report("secure_code_primevul_side_inversion_review_queue_fresh_seeds_top5_v1.json")
+        fresh_seed_verifier = read_report("secure_code_primevul_side_inversion_verifier_fresh_seeds_top5_v1.json")
+        fresh_seed_gate = read_report("secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_v1.json")
+        fresh_seed_strict_gate = read_report(
+            "secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
+        )
+        actual.update(
+            {
+                "side_inversion_fresh_seed_queue_precision": fresh_seed_queue["summary"]["precision"],
+                "side_inversion_fresh_seed_verifier_accept_rows": fresh_seed_verifier["summary"]["accept_flip_rows"],
+                "side_inversion_fresh_seed_gate_accept_precision": fresh_seed_gate["summary"]["accept_precision"],
+                "side_inversion_fresh_seed_gate_introduced_rows": fresh_seed_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+                "side_inversion_fresh_seed_strict_gate_accept_precision": fresh_seed_strict_gate["summary"][
+                    "accept_precision"
+                ],
+                "side_inversion_fresh_seed_strict_gate_accepted_rows": fresh_seed_strict_gate["summary"][
+                    "accepted_rows"
+                ],
+                "side_inversion_fresh_seed_strict_gate_introduced_rows": fresh_seed_strict_gate["summary"][
+                    "introduced_side_error_rows"
+                ],
+            }
+        )
+
+    if wants(
+        "side_inversion_project_holdout_queue_precision",
+        "side_inversion_project_holdout_verifier_accept_rows",
+        "side_inversion_project_holdout_strict_gate_accept_precision",
+        "side_inversion_project_holdout_strict_gate_introduced_rows",
+        "side_inversion_project_holdout_evidence_conditioned_gate_accept_precision",
+        "side_inversion_project_holdout_evidence_conditioned_gate_accepted_rows",
+        "side_inversion_project_holdout_evidence_conditioned_gate_introduced_rows",
+        "side_inversion_project_holdout_conservative_gate_accept_precision",
+        "side_inversion_project_holdout_conservative_gate_accepted_rows",
+        "side_inversion_project_holdout_conservative_gate_introduced_rows",
+    ):
+        project_holdout_queue = read_report("secure_code_primevul_side_inversion_review_queue_project_holdout_top5_v1.json")
+        project_holdout_verifier = read_report("secure_code_primevul_side_inversion_verifier_project_holdout_top5_v1.json")
+        project_holdout_strict_gate = read_report(
+            "secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
+        )
+        project_holdout_evidence_conditioned_gate = read_report(
+            "secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_evidence_conditioned_v1.json"
+        )
+        project_holdout_conservative_gate = read_report(
+            "secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
+        )
+        actual.update(
+            {
+                "side_inversion_project_holdout_queue_precision": project_holdout_queue["summary"]["precision"],
+                "side_inversion_project_holdout_verifier_accept_rows": project_holdout_verifier["summary"][
+                    "accept_flip_rows"
+                ],
+                "side_inversion_project_holdout_strict_gate_accept_precision": project_holdout_strict_gate["summary"][
+                    "accept_precision"
+                ],
+                "side_inversion_project_holdout_strict_gate_introduced_rows": project_holdout_strict_gate[
+                    "summary"
+                ]["introduced_side_error_rows"],
+                "side_inversion_project_holdout_evidence_conditioned_gate_accept_precision": project_holdout_evidence_conditioned_gate[
+                    "summary"
+                ]["accept_precision"],
+                "side_inversion_project_holdout_evidence_conditioned_gate_accepted_rows": project_holdout_evidence_conditioned_gate[
+                    "summary"
+                ]["accepted_rows"],
+                "side_inversion_project_holdout_evidence_conditioned_gate_introduced_rows": project_holdout_evidence_conditioned_gate[
+                    "summary"
+                ]["introduced_side_error_rows"],
+                "side_inversion_project_holdout_conservative_gate_accept_precision": project_holdout_conservative_gate[
+                    "summary"
+                ]["accept_precision"],
+                "side_inversion_project_holdout_conservative_gate_accepted_rows": project_holdout_conservative_gate[
+                    "summary"
+                ]["accepted_rows"],
+                "side_inversion_project_holdout_conservative_gate_introduced_rows": project_holdout_conservative_gate[
+                    "summary"
+                ]["introduced_side_error_rows"],
+            }
+        )
+
+    if wants(
+        "side_inversion_gate_summary_reports",
+        "side_inversion_gate_summary_pools",
+        "side_inversion_gate_summary_zero_introduced_reports",
+        "side_inversion_gate_summary_stress_invalidated_reports",
+        "side_inversion_gate_summary_selection_allowed_reports",
+        "side_inversion_gate_summary_audit_only_reports",
+        "side_inversion_gate_summary_protocol_violation_count",
+    ):
+        side_inversion_gate_summary = read_report("secure_code_primevul_side_inversion_gate_summary_v1.json")
+        actual.update(
+            {
+                "side_inversion_gate_summary_reports": side_inversion_gate_summary["summary"]["gate_reports"],
+                "side_inversion_gate_summary_pools": side_inversion_gate_summary["summary"]["pools"],
+                "side_inversion_gate_summary_zero_introduced_reports": side_inversion_gate_summary["summary"][
+                    "zero_introduced_reports"
+                ],
+                "side_inversion_gate_summary_stress_invalidated_reports": side_inversion_gate_summary["summary"][
+                    "stress_invalidated_reports"
+                ],
+                "side_inversion_gate_summary_selection_allowed_reports": side_inversion_gate_summary["summary"][
+                    "selection_allowed_reports"
+                ],
+                "side_inversion_gate_summary_audit_only_reports": side_inversion_gate_summary["summary"][
+                    "audit_only_reports"
+                ],
+                "side_inversion_gate_summary_protocol_violation_count": side_inversion_gate_summary["summary"][
+                    "protocol_violation_count"
+                ],
+            }
+        )
+
+    if wants(
+        "side_inversion_project_holdout_strict_analysis_false_accepts",
+        "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs",
+        "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts",
+        "side_inversion_project_holdout_evidence_conditioned_analysis_missed_true_flips",
+        "side_inversion_project_holdout_conservative_analysis_false_accepts",
+        "side_inversion_project_holdout_conservative_analysis_missed_true_flips",
+    ):
+        project_holdout_strict_analysis = read_report(
+            "secure_code_primevul_side_inversion_project_holdout_strict_gate_failure_analysis_v1.json"
+        )
+        project_holdout_evidence_conditioned_analysis = read_report(
+            "secure_code_primevul_side_inversion_project_holdout_evidence_conditioned_gate_failure_analysis_v1.json"
+        )
+        project_holdout_conservative_analysis = read_report(
+            "secure_code_primevul_side_inversion_project_holdout_conservative_gate_failure_analysis_v1.json"
+        )
+        actual.update(
+            {
+                "side_inversion_project_holdout_strict_analysis_false_accepts": project_holdout_strict_analysis[
+                    "summary"
+                ]["false_accepts"],
+                "side_inversion_project_holdout_strict_analysis_false_accept_unique_pairs": project_holdout_strict_analysis[
+                    "summary"
+                ]["false_accept_unique_pairs"],
+                "side_inversion_project_holdout_evidence_conditioned_analysis_false_accepts": project_holdout_evidence_conditioned_analysis[
+                    "summary"
+                ]["false_accepts"],
+                "side_inversion_project_holdout_evidence_conditioned_analysis_missed_true_flips": project_holdout_evidence_conditioned_analysis[
+                    "summary"
+                ]["missed_true_flips"],
+                "side_inversion_project_holdout_conservative_analysis_false_accepts": project_holdout_conservative_analysis[
+                    "summary"
+                ]["false_accepts"],
+                "side_inversion_project_holdout_conservative_analysis_missed_true_flips": project_holdout_conservative_analysis[
+                    "summary"
+                ]["missed_true_flips"],
+            }
+        )
+
     checks = {
         key: {
             "expected": expected[key],

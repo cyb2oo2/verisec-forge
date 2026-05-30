@@ -1,59 +1,45 @@
 # Project Charter
 
-## Title
+VeriSec Forge is maintained as a focused research artifact for secure patch reasoning. Its job is to support a clear PhD-application claim, not to preserve every historical experiment.
 
-VeriSec Forge
+## Research Question
 
-## Subtitle
+Can secure-code models be evaluated and improved under paired vulnerable/fixed patch conditions, with explicit controls for shortcut artifacts and measurable evidence failures?
 
-Verifiable Post-Training and Auto-Benchmarking for Secure Code Reasoning
+## Scope Kept
 
-## Mission
+- Paired vulnerable/fixed PrimeVul evaluation.
+- Diff-only and pair-coupled decision layers.
+- CVE/project/time-disjoint stress tests.
+- DeltaSecommits and PatchEval external checks.
+- Closed-world source-aware routing and its claim boundaries.
+- Evidence-coupled localization and side-inversion diagnostics.
+- Artifact-backed demo and manifest-backed reproducibility.
 
-Build a reproducible, extensible, and deployable research system for defensive secure code reasoning. The system should turn a small open-weight model into a more reliable security analysis model through staged post-training, structured evaluation, benchmark curation, failure analysis, and API serving.
+## Scope Removed
 
-## Core questions
+- Historical CodeXGLUE branches.
+- Generic SFT/DPO/verifier sweeps.
+- Old config matrices and failure-analysis dumps.
+- Repeated threshold sweeps and queue variants that are summarized by retained reports.
+- Generated package metadata.
 
-- Can structured post-training improve secure code reasoning quality and stability?
-- Can the model localize evidence that truly supports its vulnerability judgment?
-- Can we separate benchmark noise caused by parsing and formatting issues from real reasoning failure?
+## Current Success Criteria
 
-## v1 Scope
+The project is successful if a reviewer can verify these points quickly:
 
-- Domain: secure code reasoning
-- Task A: security weakness identification and evidence localization
-- Task B: secure fix candidate ranking
-- Model scale: `0.5B` to `1.5B` active focus, PEFT-first
-- Training stages: baseline, SFT, DPO, reward modeling, mini-GRPO
-- Outputs: offline metrics, failure reports, benchmark artifacts, and a callable API
+1. The shortcut problem is real.
+2. Paired-diff reasoning is a better formulation than standalone snippet classification.
+3. Pair-coupled decoding gives stable gains under split stress.
+4. External/source-aware results are useful but bounded.
+5. Evidence localization exposes a decision-coupled failure mode.
+6. The retained artifacts are reproducible through tests and manifests.
 
-## Current anchor benchmark
+## Primary Entry Points
 
-- Dataset: `PrimeVul`
-- Current balanced evaluation slice: `eval244`
-- Current strongest model: `0.5B + balanced PrimeVul + completion-only SFT + tolerant parser`
-
-## Current working conclusions
-
-- `completion-only` SFT is the strongest secure-code training recipe in the repo so far
-- larger zero-shot secure-code models can sound more expert while being less calibrated
-- current DPO variants do not yet beat the SFT anchor and can easily destabilize the output protocol
-
-## Primary structured output
-
-- `has_vulnerability`
-- `vulnerability_type`
-- `severity`
-- `evidence`
-- `explanation`
-- `fix_principle`
-- `confidence`
-
-## Non-goals
-
-- Offensive exploitation workflows
-- General chat product
-- Multimodal inputs in v1
-- RAG
-- Multi-agent orchestration
-- Heavy frontend work
+- [README](README.md)
+- [Application Focus](docs/APPLICATION_FOCUS.md)
+- [Application Packet](docs/APPLICATION_PACKET.md)
+- [Project Story](PROJECT_STORY.md)
+- [Results Index](reports/RESULTS_INDEX.md)
+- [Reproducibility](REPRODUCIBILITY.md)
