@@ -25,3 +25,16 @@ def test_pair_records_requires_both_orientations():
             "vulnerable_candidate_text": "vulnerable",
         }
     ]
+
+
+def test_reverse_view_is_available_for_consistency_training():
+    module = _load_script()
+    text = (
+        "Task: compare two versions of the same code change.\n"
+        "The unified diff transforms Side A into Side B.\n"
+        "Predict which side contains the security vulnerability.\n\n"
+        "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-bad\n+good"
+    )
+    reversed_text = module.reverse_side_choice_text(text)
+    assert "@@ -1 +1 @@" in reversed_text
+    assert "+bad\n-good" in reversed_text

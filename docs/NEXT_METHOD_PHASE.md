@@ -53,6 +53,9 @@ Current learned baseline:
 - existing pair-coupled decoder remains stronger at five-split mean `0.8572`
 - frozen explicit pair-head probes reach only `0.6856` to `0.6941`
 - synthetic reverse is highly similar to real reverse (`0.9278` mean character similarity) but only `1.21%` exact
+- real-only pairwise training reaches `0.7219`; synthetic consistency raises it to `0.7437`
+- the consistency gain is paired-significant but small (`+0.0218`, McNemar `p=0.0474`)
+- synthetic supervision remains stronger and more stable under the current counterfactual suite
 
 ## Research Gate
 

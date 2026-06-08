@@ -28,6 +28,11 @@ def main() -> int:
         default="outputs/secure_code_primevul_pair_coupled_router_v1_predictions.jsonl",
     )
     parser.add_argument(
+        "--base-dataset",
+        default="data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+    )
+    parser.add_argument("--recompute-base", action="store_true")
+    parser.add_argument(
         "--output",
         default="outputs/secure_code_primevul_counterfactual_intervention_predictions_v1.jsonl",
     )
@@ -58,6 +63,34 @@ def main() -> int:
     device = torch.device("cuda")
     model.to(device)
     model.eval()
+
+    if args.recompute_base:
+        base_rows_by_id = {str(row["id"]): row for row in read_jsonl(args.base_dataset)}
+        required_ids = sorted({str(row["base_id"]) for row in rows})
+        missing = [row_id for row_id in required_ids if row_id not in base_rows_by_id]
+        if missing:
+            raise RuntimeError(f"base dataset is missing {len(missing)} intervention base IDs")
+        recomputed: dict[str, dict[str, Any]] = {}
+        for start in range(0, len(required_ids), args.batch_size):
+            ids = required_ids[start : start + args.batch_size]
+            tokenized = tokenizer(
+                [str(base_rows_by_id[row_id].get("pair_text") or "") for row_id in ids],
+                truncation=True,
+                max_length=args.max_seq_length,
+                padding=True,
+                return_tensors="pt",
+            )
+            tokenized = {key: value.to(device, non_blocking=True) for key, value in tokenized.items()}
+            with torch.inference_mode():
+                probabilities = _softmax_positive(torch, model(**tokenized).logits)
+            for row_id, probability in zip(ids, probabilities, strict=True):
+                recomputed[row_id] = {
+                    "id": row_id,
+                    "pred": int(probability >= args.threshold),
+                    "vuln_probability": float(probability),
+                }
+        base_predictions = recomputed
+        print(f"recomputed {len(base_predictions)} base predictions with the active checkpoint", flush=True)
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

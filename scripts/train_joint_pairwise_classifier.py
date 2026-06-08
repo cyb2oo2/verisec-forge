@@ -15,6 +15,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from vrf.io_utils import read_jsonl, write_json
+from vrf.joint_reasoning import reverse_side_choice_text
 from vrf.training_common import optional_import_train_stack
 
 
@@ -76,8 +77,16 @@ def main() -> int:
     class PairCollator:
         def __call__(self, features: list[dict[str, Any]]) -> dict[str, Any]:
             texts = []
+            consistency_weight = float(config["loss"].get("synthetic_consistency_weight", 0.0))
             for feature in features:
                 texts.extend([feature["safe_candidate_text"], feature["vulnerable_candidate_text"]])
+                if consistency_weight:
+                    texts.extend(
+                        [
+                            reverse_side_choice_text(feature["safe_candidate_text"]),
+                            reverse_side_choice_text(feature["vulnerable_candidate_text"]),
+                        ]
+                    )
             encoded = tokenizer(
                 texts,
                 truncation=True,
@@ -93,17 +102,27 @@ def main() -> int:
         def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
             labels = inputs.pop("pair_labels")
             outputs = model(**inputs)
-            logits = outputs.logits.reshape(labels.shape[0], 2, 2)
-            classification = torch.nn.functional.cross_entropy(logits.reshape(-1, 2), labels.reshape(-1))
-            vulnerable_scores = logits[:, :, 1]
+            consistency_weight = float(config["loss"].get("synthetic_consistency_weight", 0.0))
+            orientations = 4 if consistency_weight else 2
+            logits = outputs.logits.reshape(labels.shape[0], orientations, 2)
+            real_logits = logits[:, :2]
+            classification = torch.nn.functional.cross_entropy(real_logits.reshape(-1, 2), labels.reshape(-1))
+            vulnerable_scores = real_logits[:, :, 1]
             margin = torch.relu(float(config["loss"]["margin"]) - (vulnerable_scores[:, 1] - vulnerable_scores[:, 0])).mean()
-            probabilities = logits.softmax(dim=-1)[:, :, 1]
+            probabilities = real_logits.softmax(dim=-1)[:, :, 1]
             complement = ((probabilities.sum(dim=1) - 1.0) ** 2).mean()
             loss = (
                 classification
                 + float(config["loss"]["margin_weight"]) * margin
                 + float(config["loss"]["complement_weight"]) * complement
             )
+            if consistency_weight:
+                all_probabilities = logits.softmax(dim=-1)[:, :, 1]
+                consistency = (
+                    torch.nn.functional.mse_loss(all_probabilities[:, 2], all_probabilities[:, 1])
+                    + torch.nn.functional.mse_loss(all_probabilities[:, 3], all_probabilities[:, 0])
+                ) / 2
+                loss = loss + consistency_weight * consistency
             return (loss, outputs) if return_outputs else loss
 
     training = config["training"]

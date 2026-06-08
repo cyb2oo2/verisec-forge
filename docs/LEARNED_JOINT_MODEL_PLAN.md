@@ -29,11 +29,14 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 2. Completed: expand from `589` naturally complete pairs to `3,000` synthetic-complete pairs.
 3. Completed negative ablation: frozen explicit pair heads reach only `0.6856` with hidden features and `0.6941` with detector scores.
 4. Completed diagnostic: synthetic reverse has `0.9278` mean character similarity to real reverse text but only `1.21%` exact matches.
-5. Next: supervise side choice with real bidirectional pairs and use synthetic reversal only for consistency regularization.
-6. Add counterfactual consistency loss before adding evidence ranking.
-7. Add evidence-ranking loss only after side choice is stable.
-8. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
-9. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
+5. Completed: real-only supervision reaches `0.7219`; adding synthetic consistency reaches `0.7437`.
+6. Completed: paired McNemar confirms the small consistency gain (`+0.0218`, `p=0.0474`).
+7. Completed: counterfactual comparison favors synthetic supervision overall (`0.2494` vs `0.2944` mean invariant change).
+8. Next: calibrate the stronger synthetic-supervised checkpoint with held-out pair groups.
+9. Add targeted nuisance consistency only for the interventions that remain weak.
+10. Add evidence-ranking loss only after side choice is stable.
+11. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
+12. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
 
 ## Success Criteria
 

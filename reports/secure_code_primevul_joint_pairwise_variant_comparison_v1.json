@@ -1,0 +1,34 @@
+{
+  "status": "ok",
+  "scope": "primevul_joint_pairwise_variant_comparison",
+  "comparisons": {
+    "real_to_consistency": {
+      "pairs": 827,
+      "baseline_accuracy": 0.7218863361547763,
+      "candidate_accuracy": 0.7436517533252721,
+      "delta": 0.02176541717049577,
+      "repaired": 46,
+      "introduced": 28,
+      "mcnemar_exact_pvalue": 0.04739297550405179
+    },
+    "synthetic_to_consistency": {
+      "pairs": 827,
+      "baseline_accuracy": 0.8282950423216445,
+      "candidate_accuracy": 0.7436517533252721,
+      "delta": -0.08464328899637243,
+      "repaired": 41,
+      "introduced": 111,
+      "mcnemar_exact_pvalue": 1.216219000604349e-08
+    },
+    "synthetic_to_real": {
+      "pairs": 827,
+      "baseline_accuracy": 0.8282950423216445,
+      "candidate_accuracy": 0.7218863361547763,
+      "delta": -0.10640870616686819,
+      "repaired": 45,
+      "introduced": 133,
+      "mcnemar_exact_pvalue": 2.73492113556604e-11
+    }
+  },
+  "interpretation": "Consistency regularization yields a small paired improvement over real-only supervision, while synthetic label supervision remains substantially stronger on this held-out set. Counterfactual stress is required before interpreting the synthetic-supervised advantage as robust semantic improvement."
+}

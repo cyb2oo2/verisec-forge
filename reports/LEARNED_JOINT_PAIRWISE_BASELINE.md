@@ -19,6 +19,20 @@ Training uses `3,000` observed PrimeVul directions plus deterministic synthetic 
 
 The expanded learned model improves over its zero-shot initialization by about `+0.1209`, but it does not beat the existing pair-coupled decoder.
 
+## Real-Pair And Consistency Ablation
+
+Reconstructing `3,772` real bidirectional train pairs and excluding all held-out source pair keys does not by itself improve the learned model:
+
+| Supervision | Held-out orientation |
+| --- | ---: |
+| Real bidirectional only | `0.7219` |
+| Real bidirectional + synthetic consistency | `0.7437` |
+| Synthetic reverse as direct supervision | `0.8283` |
+
+The consistency model repairs `46` real-only mistakes and introduces `28` new mistakes (`+0.0218`, exact McNemar `p=0.0474`). The gain is real but small. Synthetic supervision remains substantially stronger (`p<1.3e-8` versus consistency).
+
+Counterfactual stress does not show a hidden robustness win for the consistency model. At the same 768-token inference cap, synthetic supervision has higher base accuracy (`0.8225` vs `0.7900`), lower mean invariant change (`0.2494` vs `0.2944`), and lower side-order violation (`0.2250` vs `0.3125`).
+
 ## Explicit Pair-Head Ablation
 
 An explicit MLP pair head was also trained over frozen detector representations, using a train-derived validation split for epoch selection and scoring the held-out `827` pairs only once.
@@ -47,10 +61,10 @@ The reported `1.0` side-swap equivariance is enforced by the joint decision rule
 
 ## Next Method Step
 
-The next model should use real bidirectional pairs for supervised side choice and synthetic reversal only as a consistency regularizer. It should add:
+The next step should preserve the stronger synthetic-supervised checkpoint and test validation-selected pair calibration before adding more training objectives. It should add:
 
-1. real-pair supervised adaptation of the encoder and side-choice head
-2. counterfactual consistency loss for metadata, formatting, identifiers, and non-security padding
+1. validation-selected pair threshold/margin calibration over the learned checkpoint
+2. targeted consistency for non-security padding and identifier normalization rather than a uniform reverse-view loss
 3. evidence ranking only after side choice is stable
 4. insufficient-context abstention after cleaner annotation targets exist
 
