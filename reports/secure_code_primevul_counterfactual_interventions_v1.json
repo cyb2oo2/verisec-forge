@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "pairs": 200,
+  "base_rows": 400,
+  "intervention_rows": 2400,
+  "interventions": {
+    "context_truncated": 400,
+    "format_normalized": 400,
+    "identifier_normalized": 400,
+    "metadata_removed": 400,
+    "nonsecurity_padding": 400,
+    "side_order_swapped": 400
+  },
+  "relations": {
+    "metadata_removed": "invariant",
+    "identifier_normalized": "invariant",
+    "format_normalized": "invariant",
+    "nonsecurity_padding": "invariant",
+    "side_order_swapped": "equivariant_flip",
+    "context_truncated": "abstention_sensitivity"
+  },
+  "output": "data/processed/secure_code_primevul_counterfactual_interventions_v1.jsonl"
+}

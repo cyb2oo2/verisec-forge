@@ -1,0 +1,33 @@
+{
+  "status": "ok",
+  "protocol": "two_independent_blinded_annotators",
+  "requested_pairs": 150,
+  "materialized_pairs": 150,
+  "candidate_pairs": 827,
+  "selection_strata": {
+    "control": 31,
+    "high_confidence": 31,
+    "large_patch": 25,
+    "low_margin": 31,
+    "model_error": 32
+  },
+  "output_dir": "data/annotation/primevul_pair_study_v1",
+  "annotation_fields": [
+    "case_id",
+    "annotator_id",
+    "vulnerable_side",
+    "root_cause",
+    "minimal_evidence_lines",
+    "context_sufficient",
+    "confidence",
+    "notes",
+    "reviewed_at"
+  ],
+  "minimum_publishable_gate": {
+    "completed_by_both_annotators": 100,
+    "target_completed_by_both_annotators": 150,
+    "report_side_cohen_kappa": true,
+    "report_context_cohen_kappa": true,
+    "adjudicate_all_disagreements": true
+  }
+}

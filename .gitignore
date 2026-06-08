@@ -17,6 +17,7 @@ checkpoints/
 pytest-cache-files-*/
 configs/tmp_baseline_*.json
 data/raw/
+data/annotation/
 data/processed/*.jsonl
 data/processed/*.json
 data/processed/primevul_diff_bucket_slices/

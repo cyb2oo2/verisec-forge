@@ -55,19 +55,22 @@ These artifacts are important for credibility and communication, but they should
 
 ## Immediate Next Steps
 
-1. Complete a small non-AI evidence adjudication pass.
-   Keep AI-filled adjudication as triage. Use non-AI review only for the highest-value disagreement and insufficient-context rows so the evidence line has at least one clean human-confirmed anchor.
+1. Run the independent 150-pair human annotation study.
+   Use two blinded annotators, report vulnerable-side and context-sufficiency kappa, and adjudicate all disagreements. Keep AI-filled adjudication separate from human gold.
 
-2. Expand external validation carefully.
+2. Run controlled counterfactual shortcut interventions.
+   Measure invariant prediction flips under metadata, identifier, formatting, padding, side-order, and context-range changes.
+
+3. Train the learned joint pair model.
+   Begin with side-choice-only 1.5B cross-encoder LoRA, then add evidence ranking and human-supervised abstention/calibration losses.
+
+4. Expand external validation carefully.
    Prefer one deeper follow-up over many shallow datasets: expand PatchEval/DeltaSecommits queues, add a harder open-set source split, or add a language-family stress slice.
 
-3. Build a final submission statistics table.
-   Consolidate same-source diagnosis, negative controls, three-seed diff-only, no-metadata, five-split pair-coupled, external sources, and learned-router claim boundaries.
-
-4. Turn the demo into an external-validation walkthrough.
+5. Turn the demo into an external-validation walkthrough.
    Use the public bundles to show how a reviewer can restore artifacts, inspect a paired diff, view model probability, route/source decision, support/evidence window, and failure mode.
 
-5. Keep demo claims bounded.
+6. Keep demo claims bounded.
    The patch review UI should be described as an artifact-backed reviewer walkthrough over reproduced PrimeVul paired examples, not as online scanning for arbitrary new code.
 
 ## Success Criteria For A Strong Submission

@@ -9,6 +9,13 @@ Reviewer-facing narrative and reproducibility entry points.
 - `README`: `README.md`
 - `Application Packet`: `docs/APPLICATION_PACKET.md`
 - `Application Focus`: `docs/APPLICATION_FOCUS.md`
+- `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
+- `Human Patch-Pair Annotation Protocol`: `docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md`
+- `Counterfactual Shortcut Protocol`: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
+- `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
+- `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`
+- `Counterfactual Intervention Summary`: `reports/secure_code_primevul_counterfactual_interventions_v1.json`
+- `Joint Reasoning Dataset Summary`: `reports/secure_code_primevul_joint_reasoning_dataset_v1.json`
 - `Project Story`: `PROJECT_STORY.md`
 - `Reproducibility Guide`: `REPRODUCIBILITY.md`
 

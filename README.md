@@ -36,6 +36,7 @@ Start with:
 
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
+- [Next Method Phase](docs/NEXT_METHOD_PHASE.md)
 - [Project Story](PROJECT_STORY.md)
 - [Results Index](reports/RESULTS_INDEX.md)
 - [Reproducibility Guide](REPRODUCIBILITY.md)
