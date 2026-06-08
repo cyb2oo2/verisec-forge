@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from typing import Any
 
 
@@ -97,4 +98,125 @@ def summarize_joint_records(records: list[dict[str, Any]]) -> dict[str, Any]:
         "side_choice_counts": dict(sorted(side_counts.items())),
         "insufficient_context_target_counts": dict(sorted(context_counts.items())),
         "avg_evidence_candidates_per_pair": round(evidence_candidate_count / len(records), 4) if records else 0.0,
+    }
+
+
+def extract_unified_diff(pair_text: str) -> str:
+    marker = "Unified diff:"
+    body = pair_text.split(marker, 1)[1] if marker in pair_text else pair_text
+    body = body.strip()
+    body = re.sub(r"^--- paired_counterpart\s*\+\+\+ candidate", "--- Side A\n+++ Side B", body, count=1)
+    return body
+
+
+def build_side_choice_text(candidate_row: dict[str, Any]) -> str:
+    diff = extract_unified_diff(str(candidate_row.get("pair_text") or ""))
+    return (
+        "Task: compare two versions of the same code change.\n"
+        "The unified diff transforms Side A into Side B.\n"
+        "Predict which side contains the security vulnerability.\n\n"
+        f"{diff}"
+    )
+
+
+def reverse_unified_diff(diff: str) -> str:
+    reversed_lines = []
+    hunk_pattern = re.compile(r"^@@ -([^ ]+) \+([^ ]+) @@(.*)$")
+    for line in diff.splitlines():
+        match = hunk_pattern.match(line)
+        if match:
+            reversed_lines.append(f"@@ -{match.group(2)} +{match.group(1)} @@{match.group(3)}")
+        elif line.startswith("+") and not line.startswith("+++"):
+            reversed_lines.append("-" + line[1:])
+        elif line.startswith("-") and not line.startswith("---"):
+            reversed_lines.append("+" + line[1:])
+        else:
+            reversed_lines.append(line)
+    return "\n".join(reversed_lines)
+
+
+def reverse_side_choice_text(text: str) -> str:
+    prefix, diff = text.split("\n\n", 1)
+    return f"{prefix}\n\n{reverse_unified_diff(diff)}"
+
+
+def build_synthetic_side_choice_examples(row: dict[str, Any]) -> list[dict[str, Any]]:
+    forward_text = build_side_choice_text(row)
+    forward_label = int(bool(row.get("has_vulnerability")))
+    source_pair_key = str(row.get("pair_key") or row["id"])
+    instance_id = row.get("_synthetic_instance", row["id"])
+    synthetic_key = f"{source_pair_key}::source::{instance_id}"
+    return [
+        {
+            "id": f"{synthetic_key}::forward",
+            "pair_key": synthetic_key,
+            "source_pair_key": source_pair_key,
+            "text": forward_text,
+            "label": forward_label,
+            "vulnerable_side": "B" if forward_label else "A",
+            "orientation": "observed",
+        },
+        {
+            "id": f"{synthetic_key}::reverse",
+            "pair_key": synthetic_key,
+            "source_pair_key": source_pair_key,
+            "text": reverse_side_choice_text(forward_text),
+            "label": 1 - forward_label,
+            "vulnerable_side": "A" if forward_label else "B",
+            "orientation": "synthetic_reverse",
+        },
+    ]
+
+
+def build_side_choice_examples(
+    pair_key: str,
+    rows: list[dict[str, Any]],
+    *,
+    include_reverse: bool = True,
+) -> list[dict[str, Any]]:
+    if len(rows) != 2:
+        raise ValueError("side-choice examples require exactly two sides")
+    by_id = {str(row["id"]): row for row in rows}
+    examples: list[dict[str, Any]] = []
+    for candidate in sorted(rows, key=lambda row: str(row["id"])):
+        counterpart_id = str(candidate.get("pair_counterpart_id") or "")
+        counterpart = next(
+            (
+                row
+                for row_id, row in by_id.items()
+                if row_id == counterpart_id or row_id.split("::", 1)[0] == counterpart_id
+            ),
+            None,
+        )
+        if counterpart is None:
+            counterpart = next(row for row in rows if row is not candidate)
+        label = 1 if bool(candidate.get("has_vulnerability")) else 0
+        examples.append(
+            {
+                "id": f"{pair_key}::{'b_vulnerable' if label else 'a_vulnerable'}",
+                "pair_key": pair_key,
+                "text": build_side_choice_text(candidate),
+                "label": label,
+                "vulnerable_side": "B" if label else "A",
+                "side_a_id": counterpart["id"],
+                "side_b_id": candidate["id"],
+                "orientation": "counterpart_to_candidate",
+            }
+        )
+        if not include_reverse:
+            break
+    return examples
+
+
+def summarize_side_choice_examples(examples: list[dict[str, Any]]) -> dict[str, Any]:
+    pair_keys = {str(row["pair_key"]) for row in examples}
+    label_counts = {
+        str(label): sum(int(row["label"]) == label for row in examples)
+        for label in (0, 1)
+    }
+    return {
+        "examples": len(examples),
+        "unique_pairs": len(pair_keys),
+        "label_counts": label_counts,
+        "examples_per_pair": round(len(examples) / len(pair_keys), 4) if pair_keys else 0.0,
     }

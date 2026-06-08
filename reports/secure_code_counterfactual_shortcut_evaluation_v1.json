@@ -1,0 +1,209 @@
+{
+  "rows": 2400,
+  "by_intervention": {
+    "context_truncated": {
+      "expected_relation": "abstention_sensitivity",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.7525,
+      "relation_success_ci95": [
+        0.7079392288053334,
+        0.7922570625558467
+      ],
+      "unexpected_change_rate": 0.24750000000000005,
+      "unexpected_change_ci95": [
+        0.20774293744415318,
+        0.29206077119466656
+      ],
+      "mean_probability_shift": -0.030689235067693516,
+      "mean_absolute_probability_shift": 0.37143131913384425,
+      "flip_0_to_1": 68,
+      "flip_1_to_0": 99,
+      "expected_label_rows": 0,
+      "base_expected_label_accuracy": null,
+      "intervention_expected_label_accuracy": null,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.755,
+          "unexpected_change_rate": 0.245
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.75,
+          "unexpected_change_rate": 0.25
+        }
+      }
+    },
+    "format_normalized": {
+      "expected_relation": "invariant",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.55,
+      "relation_success_ci95": [
+        0.5010009985806122,
+        0.5980477719859582
+      ],
+      "unexpected_change_rate": 0.44999999999999996,
+      "unexpected_change_ci95": [
+        0.40195222801404185,
+        0.4989990014193878
+      ],
+      "mean_probability_shift": 0.3199925352108403,
+      "mean_absolute_probability_shift": 0.409281736356279,
+      "flip_0_to_1": 160,
+      "flip_1_to_0": 20,
+      "expected_label_rows": 400,
+      "base_expected_label_accuracy": 0.7275,
+      "intervention_expected_label_accuracy": 0.6125,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.465,
+          "unexpected_change_rate": 0.5349999999999999
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.635,
+          "unexpected_change_rate": 0.365
+        }
+      }
+    },
+    "identifier_normalized": {
+      "expected_relation": "invariant",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.6925,
+      "relation_success_ci95": [
+        0.6456251644125997,
+        0.7357126022686962
+      ],
+      "unexpected_change_rate": 0.3075,
+      "unexpected_change_ci95": [
+        0.2642873977313039,
+        0.3543748355874003
+      ],
+      "mean_probability_shift": -0.033667372954660095,
+      "mean_absolute_probability_shift": 0.3233637050999096,
+      "flip_0_to_1": 33,
+      "flip_1_to_0": 90,
+      "expected_label_rows": 400,
+      "base_expected_label_accuracy": 0.7275,
+      "intervention_expected_label_accuracy": 0.585,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.82,
+          "unexpected_change_rate": 0.18000000000000005
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.565,
+          "unexpected_change_rate": 0.43500000000000005
+        }
+      }
+    },
+    "metadata_removed": {
+      "expected_relation": "invariant",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.6825,
+      "relation_success_ci95": [
+        0.6353297856503707,
+        0.7261982269176112
+      ],
+      "unexpected_change_rate": 0.3175,
+      "unexpected_change_ci95": [
+        0.27380177308238884,
+        0.36467021434962943
+      ],
+      "mean_probability_shift": 0.12236896618749597,
+      "mean_absolute_probability_shift": 0.321744978196366,
+      "flip_0_to_1": 84,
+      "flip_1_to_0": 43,
+      "expected_label_rows": 400,
+      "base_expected_label_accuracy": 0.7275,
+      "intervention_expected_label_accuracy": 0.67,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.75,
+          "unexpected_change_rate": 0.25
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.615,
+          "unexpected_change_rate": 0.385
+        }
+      }
+    },
+    "nonsecurity_padding": {
+      "expected_relation": "invariant",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.3925,
+      "relation_success_ci95": [
+        0.34588652662317476,
+        0.44115861665869904
+      ],
+      "unexpected_change_rate": 0.6074999999999999,
+      "unexpected_change_ci95": [
+        0.5588413833413011,
+        0.6541134733768252
+      ],
+      "mean_probability_shift": 0.46009692462321256,
+      "mean_absolute_probability_shift": 0.4989589088568755,
+      "flip_0_to_1": 239,
+      "flip_1_to_0": 4,
+      "expected_label_rows": 400,
+      "base_expected_label_accuracy": 0.7275,
+      "intervention_expected_label_accuracy": 0.525,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.2,
+          "unexpected_change_rate": 0.8
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.585,
+          "unexpected_change_rate": 0.41500000000000004
+        }
+      }
+    },
+    "side_order_swapped": {
+      "expected_relation": "equivariant_flip",
+      "rows": 400,
+      "comparable_rows": 400,
+      "relation_success_rate": 0.735,
+      "relation_success_ci95": [
+        0.6896629392432349,
+        0.7758662824196457
+      ],
+      "unexpected_change_rate": 0.265,
+      "unexpected_change_ci95": [
+        0.22413371758035427,
+        0.31033706075676515
+      ],
+      "mean_probability_shift": 0.13519601027670433,
+      "mean_absolute_probability_shift": 0.6564095002079557,
+      "flip_0_to_1": 175,
+      "flip_1_to_0": 119,
+      "expected_label_rows": 400,
+      "base_expected_label_accuracy": 0.7275,
+      "intervention_expected_label_accuracy": 0.8225,
+      "by_base_label": {
+        "0": {
+          "rows": 200,
+          "relation_success_rate": 0.81,
+          "unexpected_change_rate": 0.18999999999999995
+        },
+        "1": {
+          "rows": 200,
+          "relation_success_rate": 0.66,
+          "unexpected_change_rate": 0.33999999999999997
+        }
+      }
+    }
+  }
+}

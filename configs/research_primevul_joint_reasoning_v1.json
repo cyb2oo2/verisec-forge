@@ -1,6 +1,6 @@
 {
   "name": "primevul_joint_reasoning_v1",
-  "status": "research_spec_not_yet_trained",
+  "status": "side_choice_baseline_trained_full_joint_model_pending",
   "objective": "Learn a joint pair-level secure patch model for side choice, evidence ranking, calibrated confidence, and insufficient-context abstention.",
   "input_dataset": "data/processed/secure_code_primevul_joint_reasoning_eval_v1.jsonl",
   "recommended_model_family": [
@@ -37,8 +37,14 @@
       "expected_calibration_error",
       "insufficient_context_precision"
     ],
-    "counterfactual": "reports/secure_code_primevul_counterfactual_interventions_v1.json",
+    "counterfactual": "reports/secure_code_counterfactual_shortcut_evaluation_v1.json",
     "human_annotation_gate": "docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md"
   },
-  "claim_boundary": "This spec defines the next learned joint-model experiment. Do not report it as a trained method until trained/evaluated under held-out pair groups and counterfactual interventions."
+  "side_choice_baseline": {
+    "report": "reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_report.json",
+    "held_out_pairs": 827,
+    "pair_orientation_accuracy": 0.8282950423216445,
+    "pair_coupled_decoder_reference": 0.8572
+  },
+  "claim_boundary": "The side-choice-only learned baseline is trained, but it remains below the existing pair-coupled decoder. Evidence, confidence, and abstention heads are still pending."
 }

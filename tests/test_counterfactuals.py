@@ -30,3 +30,5 @@ def test_counterfactual_evaluator_reports_unexpected_changes():
     report = evaluate_intervention_predictions(rows)
     assert report["by_intervention"]["metadata_removed"]["unexpected_change_rate"] == 0.5
     assert report["by_intervention"]["side_order_swapped"]["relation_success_rate"] == 1.0
+    assert report["by_intervention"]["metadata_removed"]["unexpected_change_ci95"][0] < 0.5
+    assert report["by_intervention"]["metadata_removed"]["flip_1_to_0"] == 1

@@ -25,11 +25,13 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 
 ## First Training Ladder
 
-1. Train a lightweight lexical/cross-feature baseline to verify target health.
-2. Train a 1.5B coder cross-encoder LoRA with side-choice loss only.
-3. Add evidence-ranking loss.
-4. Add confidence and insufficient-context losses only after human annotation provides cleaner targets.
-5. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
+1. Completed: train a 1.5B warm-start side-choice model with classification, pairwise margin, and complement losses.
+2. Completed: expand from `589` naturally complete pairs to `3,000` synthetic-complete pairs.
+3. Next: replace independent directional probabilities with an explicit learned pair-representation head.
+4. Add counterfactual consistency loss before adding evidence ranking.
+5. Add evidence-ranking loss only after side choice is stable.
+6. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
+7. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
 
 ## Success Criteria
 
@@ -40,4 +42,4 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 
 ## Claim Boundary
 
-Until trained and evaluated, this is a research plan and data protocol, not a performance result.
+The first side-choice-only learned baseline reaches `0.8283` orientation accuracy on `827` held-out pairs, improving over its `0.7074` zero-shot warm start but remaining below the existing pair-coupled decoder (`0.8572` five-split mean). This supports the learning direction but not a replacement claim.
