@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "method": "cached_explicit_pair_representation_head",
+  "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+  "seed": 42,
+  "train": {
+    "pairs": 3000,
+    "target_0": 1526,
+    "target_1": 1474
+  },
+  "selection": {
+    "fit_pairs": 2550,
+    "validation_pairs": 450,
+    "best_epoch": 25,
+    "best_validation_accuracy": 0.7822222709655762
+  },
+  "eval": {
+    "pairs": 827,
+    "target_0": 413,
+    "target_1": 414
+  },
+  "metrics": {
+    "pair_orientation_accuracy": 0.6856106519699097,
+    "group_all_correct": 0.6856106519699097
+  },
+  "claim_boundary": "Frozen-detector representation probe. Epoch selection uses a train-derived validation split; the held-out eval is scored once after selection."
+}

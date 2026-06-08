@@ -51,6 +51,8 @@ Current learned baseline:
 - `589`-pair joint training orientation accuracy `0.7606`
 - expanded `3,000`-pair joint training orientation accuracy `0.8283`
 - existing pair-coupled decoder remains stronger at five-split mean `0.8572`
+- frozen explicit pair-head probes reach only `0.6856` to `0.6941`
+- synthetic reverse is highly similar to real reverse (`0.9278` mean character similarity) but only `1.21%` exact
 
 ## Research Gate
 

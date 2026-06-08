@@ -1,0 +1,27 @@
+{
+  "name": "primevul_cached_pair_head_qwen15b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+  "train_dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/secure_code_primevul_cached_pair_head_qwen15b_v1",
+  "predictions_output": "outputs/secure_code_primevul_cached_pair_head_qwen15b_v1_predictions.jsonl",
+  "report_output": "reports/secure_code_primevul_cached_pair_head_qwen15b_v1_report.json",
+  "feature_cache": "outputs/secure_code_primevul_cached_pair_head_qwen15b_v1_features.npz",
+  "seed": 42,
+  "max_seq_length": 1024,
+  "feature_batch_pairs": 8,
+  "progress_every_pairs": 200,
+  "pair_head": {
+    "hidden_size": 512,
+    "dropout": 0.1
+  },
+  "training": {
+    "num_train_epochs": 40,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "batch_size": 128,
+    "logging_epochs": 5,
+    "validation_fraction": 0.15
+  }
+}

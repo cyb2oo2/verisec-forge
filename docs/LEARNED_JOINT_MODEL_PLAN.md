@@ -27,11 +27,13 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 
 1. Completed: train a 1.5B warm-start side-choice model with classification, pairwise margin, and complement losses.
 2. Completed: expand from `589` naturally complete pairs to `3,000` synthetic-complete pairs.
-3. Next: replace independent directional probabilities with an explicit learned pair-representation head.
-4. Add counterfactual consistency loss before adding evidence ranking.
-5. Add evidence-ranking loss only after side choice is stable.
-6. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
-7. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
+3. Completed negative ablation: frozen explicit pair heads reach only `0.6856` with hidden features and `0.6941` with detector scores.
+4. Completed diagnostic: synthetic reverse has `0.9278` mean character similarity to real reverse text but only `1.21%` exact matches.
+5. Next: supervise side choice with real bidirectional pairs and use synthetic reversal only for consistency regularization.
+6. Add counterfactual consistency loss before adding evidence ranking.
+7. Add evidence-ranking loss only after side choice is stable.
+8. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
+9. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
 
 ## Success Criteria
 
