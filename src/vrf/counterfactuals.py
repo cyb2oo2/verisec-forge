@@ -51,6 +51,26 @@ def normalize_identifiers(text: str) -> str:
     return IDENTIFIER_RE.sub(replace, text)
 
 
+def normalize_code_identifiers(text: str) -> str:
+    lines = text.splitlines()
+    in_diff = False
+    normalized = []
+    for line in lines:
+        if line.strip() == "Unified diff:" or line.startswith(("--- Side A", "+++ Side B")):
+            in_diff = True
+            normalized.append(line)
+            continue
+        if not in_diff or line.startswith(("--- ", "+++ ", "@@")):
+            normalized.append(line)
+            continue
+        prefix = ""
+        body = line
+        if line.startswith(("+", "-")):
+            prefix, body = line[0], line[1:]
+        normalized.append(prefix + normalize_identifiers(body))
+    return "\n".join(normalized)
+
+
 def normalize_formatting(text: str) -> str:
     lines = []
     for line in text.splitlines():
@@ -102,7 +122,7 @@ def build_interventions(row: dict[str, Any], counterpart: dict[str, Any]) -> lis
             **base,
             "intervention": "identifier_normalized",
             "expected_relation": "invariant",
-            "text": normalize_identifiers(text),
+            "text": normalize_code_identifiers(text),
         },
         {
             **base,

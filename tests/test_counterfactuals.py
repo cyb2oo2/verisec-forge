@@ -1,4 +1,9 @@
-from vrf.counterfactuals import build_interventions, evaluate_intervention_predictions, strip_metadata
+from vrf.counterfactuals import (
+    build_interventions,
+    evaluate_intervention_predictions,
+    normalize_code_identifiers,
+    strip_metadata,
+)
 
 
 def test_counterfactual_interventions_declare_expected_relations():
@@ -32,3 +37,20 @@ def test_counterfactual_evaluator_reports_unexpected_changes():
     assert report["by_intervention"]["side_order_swapped"]["relation_success_rate"] == 1.0
     assert report["by_intervention"]["metadata_removed"]["unexpected_change_ci95"][0] < 0.5
     assert report["by_intervention"]["metadata_removed"]["flip_1_to_0"] == 1
+
+
+def test_identifier_normalization_preserves_instruction_and_diff_structure():
+    text = (
+        "Task: compare two versions.\n"
+        "Predict which Side contains the vulnerability.\n\n"
+        "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-old_name(value)\n+new_name(value)"
+    )
+
+    normalized = normalize_code_identifiers(text)
+
+    assert "Task: compare two versions." in normalized
+    assert "Predict which Side" in normalized
+    assert "--- Side A\n+++ Side B\n@@ -1 +1 @@" in normalized
+    assert "old_name" not in normalized
+    assert "new_name" not in normalized
+    assert "-id_1(id_2)" in normalized

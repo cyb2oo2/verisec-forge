@@ -35,9 +35,11 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 8. Completed: five pair-key splits select the same temperature (`2.0`) and abstention margin (`0.075`).
 9. Completed: at `0.7896` mean held-out coverage, accepted accuracy reaches `0.8767` and abstention captures `0.4087` of errors.
 10. Next: add targeted nuisance consistency only for the interventions that remain weak.
-11. Add evidence-ranking loss only after side choice is stable.
-12. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
-13. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
+11. Completed pilot: 375-pair targeted adaptation reduces padding violation from `0.4250` to `0.1300` (`p<1.4e-23`) without a significant main-task change.
+12. Next: scale a protected objective that retains synthetic side-order supervision while emphasizing padding invariance.
+13. Add evidence-ranking loss only after side choice is stable.
+14. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
+15. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
 
 ## Success Criteria
 

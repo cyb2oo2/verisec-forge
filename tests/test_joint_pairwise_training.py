@@ -23,6 +23,7 @@ def test_pair_records_requires_both_orientations():
             "pair_key": "complete",
             "safe_candidate_text": "safe",
             "vulnerable_candidate_text": "vulnerable",
+            "pair_length": 10,
         }
     ]
 
@@ -38,3 +39,41 @@ def test_reverse_view_is_available_for_consistency_training():
     reversed_text = module.reverse_side_choice_text(text)
     assert "@@ -1 +1 @@" in reversed_text
     assert "+bad\n-good" in reversed_text
+
+
+def test_nuisance_selection_is_stable_and_supported():
+    module = _load_script()
+    interventions = ["identifier_normalized", "nonsecurity_padding"]
+
+    selected = module.select_nuisance_intervention("pair-a", interventions)
+
+    assert selected == module.select_nuisance_intervention("pair-a", interventions)
+    transformed = module.nuisance_transform(
+        "Task: keep this\n--- Side A\n+++ Side B\n-old_name\n+new_name",
+        "identifier_normalized",
+    )
+    assert "Task: keep this" in transformed
+    assert "old_name" not in transformed
+
+
+def test_deterministic_pair_subset_is_order_independent():
+    module = _load_script()
+    rows = [{"pair_key": key} for key in ["c", "a", "d", "b"]]
+
+    selected = module.deterministic_pair_subset(rows, 2)
+    selected_reversed = module.deterministic_pair_subset(list(reversed(rows)), 2)
+
+    assert selected == selected_reversed
+    assert len(selected) == 2
+
+
+def test_length_bucket_order_keeps_nearby_lengths_together():
+    module = _load_script()
+    rows = [{"pair_key": str(index), "pair_length": index} for index in range(16)]
+
+    ordered = module.length_bucket_order(rows, seed=42, bucket_size=4)
+
+    assert sorted(row["pair_key"] for row in ordered) == sorted(row["pair_key"] for row in rows)
+    for start in range(0, len(ordered), 4):
+        lengths = [row["pair_length"] for row in ordered[start : start + 4]]
+        assert max(lengths) - min(lengths) <= 3

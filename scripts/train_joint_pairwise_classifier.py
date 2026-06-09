@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
+import random
 import sys
 from pathlib import Path
 from typing import Any
@@ -15,6 +17,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from vrf.io_utils import read_jsonl, write_json
+from vrf.counterfactuals import add_nonsecurity_padding, normalize_code_identifiers
 from vrf.joint_reasoning import reverse_side_choice_text
 from vrf.training_common import optional_import_train_stack
 
@@ -28,10 +31,48 @@ def pair_records(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "pair_key": pair_key,
             "safe_candidate_text": sides[0]["text"],
             "vulnerable_candidate_text": sides[1]["text"],
+            "pair_length": max(len(sides[0]["text"]), len(sides[1]["text"])),
         }
         for pair_key, sides in sorted(grouped.items())
         if set(sides) == {0, 1}
     ]
+
+
+def nuisance_transform(text: str, intervention: str) -> str:
+    if intervention == "identifier_normalized":
+        return normalize_code_identifiers(text)
+    if intervention == "nonsecurity_padding":
+        return add_nonsecurity_padding(text)
+    raise ValueError(f"Unsupported nuisance intervention: {intervention}")
+
+
+def select_nuisance_intervention(pair_key: str, interventions: list[str]) -> str:
+    digest = hashlib.sha256(pair_key.encode("utf-8")).digest()
+    return interventions[int.from_bytes(digest[:4], "big") % len(interventions)]
+
+
+def deterministic_pair_subset(rows: list[dict[str, Any]], limit: int | None) -> list[dict[str, Any]]:
+    if not limit or limit >= len(rows):
+        return rows
+    return sorted(
+        rows,
+        key=lambda row: hashlib.sha256(str(row["pair_key"]).encode("utf-8")).hexdigest(),
+    )[:limit]
+
+
+def length_bucket_order(
+    rows: list[dict[str, Any]],
+    *,
+    seed: int,
+    bucket_size: int = 32,
+) -> list[dict[str, Any]]:
+    ordered = sorted(rows, key=lambda row: int(row["pair_length"]))
+    buckets = [ordered[start : start + bucket_size] for start in range(0, len(ordered), bucket_size)]
+    rng = random.Random(seed)
+    for bucket in buckets:
+        rng.shuffle(bucket)
+    rng.shuffle(buckets)
+    return [row for bucket in buckets for row in bucket]
 
 
 def main() -> int:
@@ -66,8 +107,10 @@ def main() -> int:
 
     train_pairs = pair_records(read_jsonl(ROOT / config["train_dataset"]))
     eval_pairs = pair_records(read_jsonl(ROOT / config["eval_dataset"]))
-    if args.max_train_pairs:
-        train_pairs = train_pairs[: args.max_train_pairs]
+    train_limit = args.max_train_pairs or config.get("max_train_pairs")
+    if train_limit:
+        train_pairs = deterministic_pair_subset(train_pairs, int(train_limit))
+    train_pairs = length_bucket_order(train_pairs, seed=seed)
     if args.max_eval_pairs:
         eval_pairs = eval_pairs[: args.max_eval_pairs]
     train_dataset = datasets.Dataset.from_list(train_pairs)
@@ -78,6 +121,8 @@ def main() -> int:
         def __call__(self, features: list[dict[str, Any]]) -> dict[str, Any]:
             texts = []
             consistency_weight = float(config["loss"].get("synthetic_consistency_weight", 0.0))
+            nuisance_weight = float(config["loss"].get("nuisance_consistency_weight", 0.0))
+            nuisance_interventions = list(config["loss"].get("nuisance_interventions", []))
             for feature in features:
                 texts.extend([feature["safe_candidate_text"], feature["vulnerable_candidate_text"]])
                 if consistency_weight:
@@ -85,6 +130,17 @@ def main() -> int:
                         [
                             reverse_side_choice_text(feature["safe_candidate_text"]),
                             reverse_side_choice_text(feature["vulnerable_candidate_text"]),
+                        ]
+                    )
+                elif nuisance_weight:
+                    intervention = select_nuisance_intervention(
+                        feature["pair_key"],
+                        nuisance_interventions,
+                    )
+                    texts.extend(
+                        [
+                            nuisance_transform(feature["safe_candidate_text"], intervention),
+                            nuisance_transform(feature["vulnerable_candidate_text"], intervention),
                         ]
                     )
             encoded = tokenizer(
@@ -99,11 +155,15 @@ def main() -> int:
             return encoded
 
     class PairwiseTrainer(transformers.Trainer):
+        def _get_train_sampler(self, train_dataset=None):
+            return torch.utils.data.SequentialSampler(train_dataset or self.train_dataset)
+
         def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
             labels = inputs.pop("pair_labels")
             outputs = model(**inputs)
             consistency_weight = float(config["loss"].get("synthetic_consistency_weight", 0.0))
-            orientations = 4 if consistency_weight else 2
+            nuisance_weight = float(config["loss"].get("nuisance_consistency_weight", 0.0))
+            orientations = 4 if consistency_weight or nuisance_weight else 2
             logits = outputs.logits.reshape(labels.shape[0], orientations, 2)
             real_logits = logits[:, :2]
             classification = torch.nn.functional.cross_entropy(real_logits.reshape(-1, 2), labels.reshape(-1))
@@ -123,6 +183,23 @@ def main() -> int:
                     + torch.nn.functional.mse_loss(all_probabilities[:, 3], all_probabilities[:, 0])
                 ) / 2
                 loss = loss + consistency_weight * consistency
+            elif nuisance_weight:
+                nuisance_logits = logits[:, 2:]
+                nuisance_probabilities = nuisance_logits.softmax(dim=-1)[:, :, 1]
+                nuisance_classification = torch.nn.functional.cross_entropy(
+                    nuisance_logits.reshape(-1, 2),
+                    labels.reshape(-1),
+                )
+                nuisance_consistency = torch.nn.functional.mse_loss(
+                    nuisance_probabilities,
+                    probabilities,
+                )
+                loss = (
+                    loss
+                    + float(config["loss"].get("nuisance_classification_weight", 0.5))
+                    * nuisance_classification
+                    + nuisance_weight * nuisance_consistency
+                )
             return (loss, outputs) if return_outputs else loss
 
     training = config["training"]
@@ -167,8 +244,9 @@ def main() -> int:
     trainer.model.eval()
     predictions = []
     batch_size = int(training["per_device_eval_batch_size"])
-    for start in range(0, len(eval_pairs), batch_size):
-        batch = eval_pairs[start : start + batch_size]
+    eval_pairs_by_length = sorted(eval_pairs, key=lambda row: int(row["pair_length"]))
+    for start in range(0, len(eval_pairs_by_length), batch_size):
+        batch = eval_pairs_by_length[start : start + batch_size]
         texts = []
         for row in batch:
             texts.extend([row["safe_candidate_text"], row["vulnerable_candidate_text"]])
@@ -197,8 +275,8 @@ def main() -> int:
                     "independent_both_correct": safe_score < 0.5 <= vulnerable_score,
                 }
             )
-        if start and start % 100 == 0:
-            print(f"evaluated {start}/{len(eval_pairs)} pairs", flush=True)
+        if start and (start // batch_size) % 10 == 0:
+            print(f"evaluated {start}/{len(eval_pairs_by_length)} pairs", flush=True)
 
     orientation = sum(row["correct_orientation"] for row in predictions) / len(predictions)
     independent = sum(row["independent_both_correct"] for row in predictions) / len(predictions)
@@ -210,6 +288,24 @@ def main() -> int:
         "checkpoint": load_checkpoint if args.skip_training else config["output_dir"],
         "seed": seed,
         "training_skipped": args.skip_training,
+        "protocol": {
+            "checkpoint_training_scope": config.get("checkpoint_training_scope", "full_configured_training"),
+            "train_pairs": len(train_pairs),
+            "eval_pairs": len(eval_pairs),
+            "max_seq_length": max_length,
+            "nuisance_interventions": list(config["loss"].get("nuisance_interventions", [])),
+            "nuisance_intervention_counts": {
+                intervention: sum(
+                    select_nuisance_intervention(
+                        row["pair_key"],
+                        list(config["loss"].get("nuisance_interventions", [])),
+                    )
+                    == intervention
+                    for row in train_pairs
+                )
+                for intervention in config["loss"].get("nuisance_interventions", [])
+            },
+        },
         "metrics": {
             "unique_pairs": len(predictions),
             "pair_orientation_accuracy": orientation,

@@ -90,3 +90,23 @@ Validation-selected selective calibration is now complete. The next training ste
 Raw report: `reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_report.json`
 
 Selective calibration: `reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md`
+
+## Targeted Nuisance Adaptation Pilot
+
+A `375`-pair pilot continues from the synthetic-supervised checkpoint and assigns each selected pair either a code-only identifier-normalization view or a non-security-padding view. The pilot uses direct augmented classification plus probability consistency, with length-bucketed training at 512 tokens.
+
+At the same 512-token evaluation cap, full-coverage orientation changes from `0.8174` to `0.8198`. This is not significant: `14` errors are repaired and `12` are introduced (`p=0.8450`).
+
+The counterfactual result is more informative:
+
+| Intervention | Baseline violation | Adapted violation | Relation-success delta | McNemar p |
+| --- | ---: | ---: | ---: | ---: |
+| Non-security padding | `0.4250` | `0.1300` | `+0.2950` | `1.33e-23` |
+| Identifier normalization | `0.1900` | `0.1625` | `+0.0275` | `0.0708` |
+| Format normalization | `0.1600` | `0.1350` | `+0.0250` | `0.1102` |
+| Metadata removal | `0.1525` | `0.1700` | `-0.0175` | `0.2478` |
+| Side-order swap | `0.2500` | `0.2725` | `-0.0225` | `0.1078` |
+
+The pilot establishes that padding sensitivity is trainable, but not that generic robustness has improved. The next scaled objective should retain synthetic side-order supervision as a protection loss, emphasize padding invariance, and treat identifier normalization as a lower-weight auxiliary target.
+
+Pilot report: `reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md`

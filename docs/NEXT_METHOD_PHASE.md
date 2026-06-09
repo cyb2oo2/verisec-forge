@@ -59,10 +59,13 @@ Current learned baseline:
 - five pair-key calibration splits consistently select temperature `2.0` and abstention margin `0.075`
 - selective accepted accuracy reaches `0.8767` at `0.7896` mean held-out coverage
 - abstention captures `0.4087` of held-out orientation errors; this is a review route, not a full-coverage gain
+- a 375-pair nuisance pilot cuts padding violation `0.4250 -> 0.1300` with paired `p<1.4e-23`
+- the same pilot does not significantly change main-task orientation (`+0.0024`, `p=0.8450`)
+- identifier improvement is suggestive but not significant (`+0.0275` relation success, `p=0.0708`)
 
 ## Research Gate
 
-The side-choice-only joint baseline and selective calibration layer are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The next gate is nuisance-targeted consistency evaluated against:
+The side-choice-only joint baseline, selective calibration layer, and targeted nuisance pilot are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The next gate is a protected nuisance objective that preserves side-order supervision while scaling the significant padding intervention.
 
 - independent-side detector
 - pair-coupled decoder
