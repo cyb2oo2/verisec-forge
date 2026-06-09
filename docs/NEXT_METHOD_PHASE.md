@@ -56,10 +56,13 @@ Current learned baseline:
 - real-only pairwise training reaches `0.7219`; synthetic consistency raises it to `0.7437`
 - the consistency gain is paired-significant but small (`+0.0218`, McNemar `p=0.0474`)
 - synthetic supervision remains stronger and more stable under the current counterfactual suite
+- five pair-key calibration splits consistently select temperature `2.0` and abstention margin `0.075`
+- selective accepted accuracy reaches `0.8767` at `0.7896` mean held-out coverage
+- abstention captures `0.4087` of held-out orientation errors; this is a review route, not a full-coverage gain
 
 ## Research Gate
 
-The side-choice-only joint baseline is now trained and evaluated, but it is not yet the strongest method. Do not claim that it replaces pair-coupled decoding. The next gate is an explicit pair-representation head evaluated against:
+The side-choice-only joint baseline and selective calibration layer are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The next gate is nuisance-targeted consistency evaluated against:
 
 - independent-side detector
 - pair-coupled decoder

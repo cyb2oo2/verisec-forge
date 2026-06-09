@@ -33,6 +33,25 @@ The consistency model repairs `46` real-only mistakes and introduces `28` new mi
 
 Counterfactual stress does not show a hidden robustness win for the consistency model. At the same 768-token inference cap, synthetic supervision has higher base accuracy (`0.8225` vs `0.7900`), lower mean invariant change (`0.2494` vs `0.2944`), and lower side-order violation (`0.2250` vs `0.3125`).
 
+## Validation-Selected Selective Calibration
+
+The stronger synthetic-supervised checkpoint was calibrated over five pair-key-disjoint calibration/evaluation splits. The direction rule remains unchanged: only temperature and a low-margin abstention route are selected.
+
+All five splits independently select temperature `2.0` and raw probability-gap margin `0.075`. On held-out pair groups:
+
+| Metric | Five-split mean |
+| --- | ---: |
+| Full-coverage orientation accuracy | `0.8352` |
+| Selective coverage | `0.7896` |
+| Accepted-pair accuracy | `0.8767` |
+| Errors captured by abstention | `0.4087` |
+| Raw / calibrated ECE | `0.1017` / `0.0780` |
+| Raw / calibrated NLL | `0.4629` / `0.4236` |
+
+Brier score is effectively unchanged (`0.1353` to `0.1354`), so this is not evidence of uniformly better probability calibration. It is evidence that pair margin is useful for a review/abstention operating point.
+
+A non-zero direction threshold is deliberately not tuned: the stored evaluation predictions are aligned by target class, so tuning a directional offset would leak gold ordering. The valid deployment-facing operation is to preserve the swap-equivariant direction comparison and route low-margin pairs for review.
+
 ## Explicit Pair-Head Ablation
 
 An explicit MLP pair head was also trained over frozen detector representations, using a train-derived validation split for epoch selection and scoring the held-out `827` pairs only once.
@@ -61,11 +80,13 @@ The reported `1.0` side-swap equivariance is enforced by the joint decision rule
 
 ## Next Method Step
 
-The next step should preserve the stronger synthetic-supervised checkpoint and test validation-selected pair calibration before adding more training objectives. It should add:
+Validation-selected selective calibration is now complete. The next training step should preserve the stronger synthetic-supervised checkpoint and add:
 
-1. validation-selected pair threshold/margin calibration over the learned checkpoint
-2. targeted consistency for non-security padding and identifier normalization rather than a uniform reverse-view loss
+1. targeted consistency for non-security padding and identifier normalization rather than a uniform reverse-view loss
+2. evaluation of the calibrated abstention route on external paired-patch sources
 3. evidence ranking only after side choice is stable
-4. insufficient-context abstention after cleaner annotation targets exist
+4. insufficient-context supervision after cleaner annotation targets exist
 
 Raw report: `reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_report.json`
+
+Selective calibration: `reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md`

@@ -32,11 +32,12 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 5. Completed: real-only supervision reaches `0.7219`; adding synthetic consistency reaches `0.7437`.
 6. Completed: paired McNemar confirms the small consistency gain (`+0.0218`, `p=0.0474`).
 7. Completed: counterfactual comparison favors synthetic supervision overall (`0.2494` vs `0.2944` mean invariant change).
-8. Next: calibrate the stronger synthetic-supervised checkpoint with held-out pair groups.
-9. Add targeted nuisance consistency only for the interventions that remain weak.
-10. Add evidence-ranking loss only after side choice is stable.
-11. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
-12. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
+8. Completed: five pair-key splits select the same temperature (`2.0`) and abstention margin (`0.075`).
+9. Completed: at `0.7896` mean held-out coverage, accepted accuracy reaches `0.8767` and abstention captures `0.4087` of errors.
+10. Next: add targeted nuisance consistency only for the interventions that remain weak.
+11. Add evidence-ranking loss only after side choice is stable.
+12. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
+13. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
 
 ## Success Criteria
 
@@ -47,4 +48,4 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 
 ## Claim Boundary
 
-The first side-choice-only learned baseline reaches `0.8283` orientation accuracy on `827` held-out pairs, improving over its `0.7074` zero-shot warm start but remaining below the existing pair-coupled decoder (`0.8572` five-split mean). This supports the learning direction but not a replacement claim.
+The first side-choice-only learned baseline reaches `0.8283` orientation accuracy on `827` held-out pairs, improving over its `0.7074` zero-shot warm start but remaining below the existing pair-coupled decoder (`0.8572` five-split mean). Selective calibration raises accepted-pair accuracy to `0.8767` at `0.7896` coverage, but this conditional metric is not a full-coverage replacement claim.
