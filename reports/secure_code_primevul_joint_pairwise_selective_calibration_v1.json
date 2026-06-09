@@ -1,0 +1,428 @@
+{
+  "status": "ok",
+  "method": "pair_key_heldout_selective_calibration",
+  "predictions": "outputs/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_predictions.jsonl",
+  "seeds_requested": [
+    7,
+    13,
+    42,
+    99,
+    123
+  ],
+  "calibration_fraction": 0.3,
+  "minimum_coverage": 0.8,
+  "candidate_margins": [
+    0.0,
+    0.01,
+    0.02,
+    0.03,
+    0.04,
+    0.05,
+    0.075,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "candidate_temperatures": [
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    2.0,
+    3.0,
+    4.0,
+    6.0,
+    8.0
+  ],
+  "summary": {
+    "baseline_accuracy": {
+      "mean": 0.8352331606217617,
+      "stdev": 0.007183638805901717,
+      "min": 0.8272884283246977,
+      "max": 0.844559585492228
+    },
+    "selective_coverage": {
+      "mean": 0.7896373056994819,
+      "stdev": 0.0065082707016983835,
+      "min": 0.7789291882556131,
+      "max": 0.7962003454231433
+    },
+    "selective_accuracy": {
+      "mean": 0.8766642217759009,
+      "stdev": 0.005639251945892135,
+      "min": 0.8708971553610503,
+      "max": 0.88470066518847
+    },
+    "selective_error_capture_rate": {
+      "mean": 0.40867284045891855,
+      "stdev": 0.021375839599023304,
+      "min": 0.3888888888888889,
+      "max": 0.44086021505376344
+    },
+    "raw_nll": {
+      "mean": 0.46289767156715117,
+      "stdev": 0.008308118616273119,
+      "min": 0.4502934630500103,
+      "max": 0.4734731903497511
+    },
+    "calibrated_nll": {
+      "mean": 0.423622653457596,
+      "stdev": 0.0034255061758336936,
+      "min": 0.4209894574713942,
+      "max": 0.4294602338699133
+    },
+    "raw_brier": {
+      "mean": 0.13532154057599535,
+      "stdev": 0.0018302041036648978,
+      "min": 0.13339195718941652,
+      "max": 0.1376271670097489
+    },
+    "calibrated_brier": {
+      "mean": 0.13538107418164969,
+      "stdev": 0.0013121402021585664,
+      "min": 0.1343818509072667,
+      "max": 0.1375226631438544
+    },
+    "raw_ece_10": {
+      "mean": 0.10166769204174356,
+      "stdev": 0.006035656086510083,
+      "min": 0.09122396756462109,
+      "max": 0.1063016570457905
+    },
+    "calibrated_ece_10": {
+      "mean": 0.07798135016971589,
+      "stdev": 0.011234975093109638,
+      "min": 0.06749972401487232,
+      "max": 0.0933753894619498
+    }
+  },
+  "seeds": [
+    {
+      "seed": 7,
+      "split": {
+        "calibration_pairs": 248,
+        "eval_pairs": 579
+      },
+      "selection": {
+        "minimum_calibration_coverage": 0.8,
+        "temperature": {
+          "temperature": 2.0,
+          "nll": 0.42094508730262553
+        },
+        "margin": 0.075,
+        "margin_calibration_metrics": {
+          "margin": 0.075,
+          "pairs": 248,
+          "accepted": 202,
+          "abstained": 46,
+          "coverage": 0.8145161290322581,
+          "accepted_accuracy": 0.8613861386138614,
+          "selective_risk": 0.13861386138613863,
+          "accepted_errors": 28,
+          "abstained_errors": 15,
+          "error_capture_rate": 0.3488372093023256
+        }
+      },
+      "eval": {
+        "baseline": {
+          "margin": 0.0,
+          "pairs": 579,
+          "accepted": 579,
+          "abstained": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.8290155440414507,
+          "selective_risk": 0.17098445595854922,
+          "accepted_errors": 99,
+          "abstained_errors": 0,
+          "error_capture_rate": 0.0
+        },
+        "selective": {
+          "margin": 0.075,
+          "pairs": 579,
+          "accepted": 458,
+          "abstained": 121,
+          "coverage": 0.7910189982728842,
+          "accepted_accuracy": 0.8733624454148472,
+          "selective_risk": 0.12663755458515283,
+          "accepted_errors": 58,
+          "abstained_errors": 41,
+          "error_capture_rate": 0.41414141414141414
+        },
+        "raw_calibration": {
+          "temperature": 1.0,
+          "nll": 0.4734731903497511,
+          "brier": 0.1376271670097489,
+          "ece_10": 0.10214556168827468
+        },
+        "temperature_calibrated": {
+          "temperature": 2.0,
+          "nll": 0.4294602338699133,
+          "brier": 0.1375226631438544,
+          "ece_10": 0.06749972401487232
+        }
+      }
+    },
+    {
+      "seed": 13,
+      "split": {
+        "calibration_pairs": 248,
+        "eval_pairs": 579
+      },
+      "selection": {
+        "minimum_calibration_coverage": 0.8,
+        "temperature": {
+          "temperature": 2.0,
+          "nll": 0.437561664967055
+        },
+        "margin": 0.075,
+        "margin_calibration_metrics": {
+          "margin": 0.075,
+          "pairs": 248,
+          "accepted": 201,
+          "abstained": 47,
+          "coverage": 0.8104838709677419,
+          "accepted_accuracy": 0.845771144278607,
+          "selective_risk": 0.15422885572139303,
+          "accepted_errors": 31,
+          "abstained_errors": 21,
+          "error_capture_rate": 0.40384615384615385
+        }
+      },
+      "eval": {
+        "baseline": {
+          "margin": 0.0,
+          "pairs": 579,
+          "accepted": 579,
+          "abstained": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.844559585492228,
+          "selective_risk": 0.15544041450777202,
+          "accepted_errors": 90,
+          "abstained_errors": 0,
+          "error_capture_rate": 0.0
+        },
+        "selective": {
+          "margin": 0.075,
+          "pairs": 579,
+          "accepted": 459,
+          "abstained": 120,
+          "coverage": 0.7927461139896373,
+          "accepted_accuracy": 0.8801742919389978,
+          "selective_risk": 0.11982570806100218,
+          "accepted_errors": 55,
+          "abstained_errors": 35,
+          "error_capture_rate": 0.3888888888888889
+        },
+        "raw_calibration": {
+          "temperature": 1.0,
+          "nll": 0.46255555451347335,
+          "brier": 0.13339195718941652,
+          "ece_10": 0.1063016570457905
+        },
+        "temperature_calibrated": {
+          "temperature": 2.0,
+          "nll": 0.4223429432640782,
+          "brier": 0.13471427945247952,
+          "ece_10": 0.08597511988219211
+        }
+      }
+    },
+    {
+      "seed": 42,
+      "split": {
+        "calibration_pairs": 248,
+        "eval_pairs": 579
+      },
+      "selection": {
+        "minimum_calibration_coverage": 0.8,
+        "temperature": {
+          "temperature": 2.0,
+          "nll": 0.43424436566813807
+        },
+        "margin": 0.075,
+        "margin_calibration_metrics": {
+          "margin": 0.075,
+          "pairs": 248,
+          "accepted": 199,
+          "abstained": 49,
+          "coverage": 0.8024193548387096,
+          "accepted_accuracy": 0.8592964824120602,
+          "selective_risk": 0.1407035175879397,
+          "accepted_errors": 28,
+          "abstained_errors": 19,
+          "error_capture_rate": 0.40425531914893614
+        }
+      },
+      "eval": {
+        "baseline": {
+          "margin": 0.0,
+          "pairs": 579,
+          "accepted": 579,
+          "abstained": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.8359240069084629,
+          "selective_risk": 0.16407599309153714,
+          "accepted_errors": 95,
+          "abstained_errors": 0,
+          "error_capture_rate": 0.0
+        },
+        "selective": {
+          "margin": 0.075,
+          "pairs": 579,
+          "accepted": 461,
+          "abstained": 118,
+          "coverage": 0.7962003454231433,
+          "accepted_accuracy": 0.8741865509761388,
+          "selective_risk": 0.12581344902386118,
+          "accepted_errors": 58,
+          "abstained_errors": 37,
+          "error_capture_rate": 0.3894736842105263
+        },
+        "raw_calibration": {
+          "temperature": 1.0,
+          "nll": 0.4651930892430641,
+          "brier": 0.13647623094572467,
+          "ece_10": 0.10373003070693415
+        },
+        "temperature_calibrated": {
+          "temperature": 2.0,
+          "nll": 0.42376382448364885,
+          "brier": 0.1357533289166425,
+          "ece_10": 0.07385984583271604
+        }
+      }
+    },
+    {
+      "seed": 99,
+      "split": {
+        "calibration_pairs": 248,
+        "eval_pairs": 579
+      },
+      "selection": {
+        "minimum_calibration_coverage": 0.8,
+        "temperature": {
+          "temperature": 2.0,
+          "nll": 0.44072161768465185
+        },
+        "margin": 0.075,
+        "margin_calibration_metrics": {
+          "margin": 0.075,
+          "pairs": 248,
+          "accepted": 209,
+          "abstained": 39,
+          "coverage": 0.842741935483871,
+          "accepted_accuracy": 0.8373205741626795,
+          "selective_risk": 0.16267942583732056,
+          "accepted_errors": 34,
+          "abstained_errors": 15,
+          "error_capture_rate": 0.30612244897959184
+        }
+      },
+      "eval": {
+        "baseline": {
+          "margin": 0.0,
+          "pairs": 579,
+          "accepted": 579,
+          "abstained": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.8393782383419689,
+          "selective_risk": 0.16062176165803108,
+          "accepted_errors": 93,
+          "abstained_errors": 0,
+          "error_capture_rate": 0.0
+        },
+        "selective": {
+          "margin": 0.075,
+          "pairs": 579,
+          "accepted": 451,
+          "abstained": 128,
+          "coverage": 0.7789291882556131,
+          "accepted_accuracy": 0.88470066518847,
+          "selective_risk": 0.11529933481152993,
+          "accepted_errors": 52,
+          "abstained_errors": 41,
+          "error_capture_rate": 0.44086021505376344
+        },
+        "raw_calibration": {
+          "temperature": 1.0,
+          "nll": 0.4502934630500103,
+          "brier": 0.1335932354739417,
+          "ece_10": 0.10493724320309739
+        },
+        "temperature_calibrated": {
+          "temperature": 2.0,
+          "nll": 0.4209894574713942,
+          "brier": 0.13453324848800532,
+          "ece_10": 0.0933753894619498
+        }
+      }
+    },
+    {
+      "seed": 123,
+      "split": {
+        "calibration_pairs": 248,
+        "eval_pairs": 579
+      },
+      "selection": {
+        "minimum_calibration_coverage": 0.8,
+        "temperature": {
+          "temperature": 2.0,
+          "nll": 0.4393970367521836
+        },
+        "margin": 0.075,
+        "margin_calibration_metrics": {
+          "margin": 0.075,
+          "pairs": 248,
+          "accepted": 203,
+          "abstained": 45,
+          "coverage": 0.8185483870967742,
+          "accepted_accuracy": 0.8669950738916257,
+          "selective_risk": 0.1330049261083744,
+          "accepted_errors": 27,
+          "abstained_errors": 15,
+          "error_capture_rate": 0.35714285714285715
+        }
+      },
+      "eval": {
+        "baseline": {
+          "margin": 0.0,
+          "pairs": 579,
+          "accepted": 579,
+          "abstained": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.8272884283246977,
+          "selective_risk": 0.17271157167530224,
+          "accepted_errors": 100,
+          "abstained_errors": 0,
+          "error_capture_rate": 0.0
+        },
+        "selective": {
+          "margin": 0.075,
+          "pairs": 579,
+          "accepted": 457,
+          "abstained": 122,
+          "coverage": 0.7892918825561313,
+          "accepted_accuracy": 0.8708971553610503,
+          "selective_risk": 0.12910284463894967,
+          "accepted_errors": 59,
+          "abstained_errors": 41,
+          "error_capture_rate": 0.41
+        },
+        "raw_calibration": {
+          "temperature": 1.0,
+          "nll": 0.46297306067945715,
+          "brier": 0.13551911226114505,
+          "ece_10": 0.09122396756462109
+        },
+        "temperature_calibrated": {
+          "temperature": 2.0,
+          "nll": 0.42155680819894537,
+          "brier": 0.1343818509072667,
+          "ece_10": 0.06919667165684915
+        }
+      }
+    }
+  ],
+  "claim_boundary": "Accepted accuracy is conditional on abstention. Direction thresholds remain fixed to preserve swap-equivariant pair decisions and avoid gold-order leakage."
+}

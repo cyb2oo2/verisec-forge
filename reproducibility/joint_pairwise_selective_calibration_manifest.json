@@ -1,0 +1,48 @@
+{
+  "name": "primevul_joint_pairwise_selective_calibration_v1",
+  "description": "CPU-only reproduction inputs and generated reports for held-out selective calibration of the learned PrimeVul joint pairwise checkpoint.",
+  "created_utc": "2026-06-09",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_joint_pairwise_selective_calibration.py"
+  ],
+  "artifacts": [
+    {
+      "role": "joint_pairwise_predictions",
+      "path": "outputs/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_predictions.jsonl",
+      "sha256": "b8d12dbfd86ea3d395b310a4b78dee74060001b89ed540768a095759ea529c39",
+      "bytes": 207704,
+      "rows": 827,
+      "note": "Held-out real-pair probabilities from the synthetic-supervised 1.5B joint pairwise checkpoint."
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "selective_calibration_json",
+      "path": "reports/secure_code_primevul_joint_pairwise_selective_calibration_v1.json",
+      "sha256": "a3a62348229e406e980ca88754a3b1551a0ffd9b87d7332ad548536735ef41de",
+      "bytes": 12381
+    },
+    {
+      "role": "selective_calibration_markdown",
+      "path": "reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md",
+      "sha256": "81495e0262739b6311eac782496f26c3dba5a3f96af8690ff185d570430b39a6",
+      "bytes": 2203
+    }
+  ],
+  "expected": {
+    "selected_temperature_all_splits": 2.0,
+    "selected_margin_all_splits": 0.075,
+    "mean_baseline_accuracy": 0.8352331606217617,
+    "mean_selective_coverage": 0.7896373056994819,
+    "mean_selective_accuracy": 0.8766642217759009,
+    "mean_error_capture_rate": 0.40867284045891855,
+    "mean_raw_ece_10": 0.10166769204174356,
+    "mean_calibrated_ece_10": 0.07798135016971589
+  },
+  "limitations": [
+    "The prediction JSONL is intentionally not committed because outputs is gitignored.",
+    "Accepted accuracy is conditional on abstaining from low-margin pairs and is not a full-coverage gain.",
+    "The manifest packages predictions rather than the 1.5B checkpoint, so it reproduces calibration and reporting but not model training."
+  ]
+}

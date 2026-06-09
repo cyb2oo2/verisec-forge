@@ -25,7 +25,7 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 
 ## Current Evidence
 
-- Tests: see the latest CI/local pytest run in the repository history.
+- Tests: run `.\.venv\Scripts\python.exe -m pytest -q`.
 - PrimeVul public bundle SHA256: `6cac8dc70f9113ee9a65c4b64ae40e99dd9bc1cf786ba348ad7e8a09f0432466`.
 - PrimeVul public bundle URL: `https://github.com/cyb2oo2/verisec-forge/releases/download/primevul-repro-bundle-v1/verisec_forge_primevul_repro_bundle.zip`.
 - External-generalization public bundle SHA256: `90dbaaf40665494b2b1fa62781c3e09d7ec59ed3cf3611e76b9b61a27ae3465c`.
@@ -43,7 +43,6 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 - Time-disjoint composite stress: `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`.
 - DeltaSecommits pair-diff dataset: `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`.
 - DeltaSecommits zero-shot transfer: `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`.
-- DeltaSecommits cross-source ablation: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`.
 - CVE-disjoint stress evaluation: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`.
 - AI adjudication summary: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`.
 - Patch review demo: `docs/PATCH_REVIEW_DEMO.md`.

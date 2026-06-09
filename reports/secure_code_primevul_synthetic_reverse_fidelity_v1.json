@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "scope": "synthetic_reverse_vs_real_reverse",
+  "pairs": 827,
+  "exact_matches": 10,
+  "exact_match_rate": 0.012091898428053204,
+  "mean_character_similarity": 0.9278273896306537,
+  "character_similarity_percentiles": {
+    "p10": 0.8178887993553586,
+    "p50": 0.9479392624728851,
+    "p90": 0.9968152866242038
+  },
+  "interpretation": "Synthetic reversal is a high-similarity augmentation but not an exact substitute for real bidirectional pairs. Treat it as a consistency view rather than equivalent gold supervision."
+}

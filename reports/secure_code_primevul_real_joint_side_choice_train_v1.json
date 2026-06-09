@@ -1,0 +1,16 @@
+{
+  "status": "ok",
+  "scope": "primevul_real_bidirectional_joint_side_choice_train",
+  "output": "data/processed/secure_code_primevul_real_joint_side_choice_train_v1.jsonl",
+  "input_rows": 9408,
+  "excluded_source_keys": 877,
+  "real_pair_instances": 3772,
+  "output_rows": 7544,
+  "label_counts": {
+    "0": 3772,
+    "1": 3772
+  },
+  "skipped_non_adjacent_pair": 0,
+  "skipped_metadata_mismatch": 19,
+  "skipped_excluded": 913
+}

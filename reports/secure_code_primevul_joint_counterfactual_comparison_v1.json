@@ -1,0 +1,39 @@
+{
+  "status": "ok",
+  "scope": "primevul_joint_counterfactual_comparison",
+  "synthetic_supervised": {
+    "mean_invariant_unexpected_change_rate": 0.249375,
+    "side_order_violation_rate": 0.22499999999999998,
+    "context_truncation_unexpected_change_rate": 0.15500000000000003,
+    "base_accuracy": 0.8225,
+    "by_intervention": {
+      "format_normalized": 0.17000000000000004,
+      "identifier_normalized": 0.21250000000000002,
+      "metadata_removed": 0.15000000000000002,
+      "nonsecurity_padding": 0.46499999999999997,
+      "side_order_swapped": 0.22499999999999998,
+      "context_truncated": 0.15500000000000003
+    }
+  },
+  "real_plus_consistency": {
+    "mean_invariant_unexpected_change_rate": 0.294375,
+    "side_order_violation_rate": 0.3125,
+    "context_truncation_unexpected_change_rate": 0.35750000000000004,
+    "base_accuracy": 0.79,
+    "by_intervention": {
+      "format_normalized": 0.22250000000000003,
+      "identifier_normalized": 0.265,
+      "metadata_removed": 0.11499999999999999,
+      "nonsecurity_padding": 0.575,
+      "side_order_swapped": 0.3125,
+      "context_truncated": 0.35750000000000004
+    }
+  },
+  "synthetic_minus_consistency": {
+    "mean_invariant_unexpected_change_rate": -0.044999999999999984,
+    "side_order_violation_rate": -0.08750000000000002,
+    "context_truncation_unexpected_change_rate": -0.2025,
+    "base_accuracy": 0.03249999999999997
+  },
+  "interpretation": "Synthetic reversal is not exact text-level gold, but direct synthetic supervision is stronger than the current weak consistency objective on both held-out accuracy and most counterfactual stability measures."
+}

@@ -1,0 +1,102 @@
+{
+  "name": "primevul_nuisance_pairwise_adaptation_pilot_v1",
+  "description": "Stored prediction inputs and generated reports for the 375-pair targeted nuisance-adaptation pilot.",
+  "created_utc": "2026-06-09",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/compare_nuisance_pairwise_adaptation.py"
+  ],
+  "artifacts": [
+    {
+      "role": "baseline_pair_predictions_512",
+      "path": "outputs/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_eval512_predictions.jsonl",
+      "sha256": "49ebdce7b900822dd560429f22798e422f2dc8bc357939e002460f14bedd8b69",
+      "bytes": 207736,
+      "rows": 827
+    },
+    {
+      "role": "adapted_pair_predictions_512",
+      "path": "outputs/secure_code_primevul_joint_pairwise_nuisance_qwen15b_lora_v1_predictions.jsonl",
+      "sha256": "6008d4066b6234276a0e407695d40ec7c1e0456670b69750f613e109cc1c3088",
+      "bytes": 207703,
+      "rows": 827
+    },
+    {
+      "role": "baseline_counterfactual_predictions",
+      "path": "outputs/secure_code_primevul_counterfactual_synthetic_joint_clean_identifier_v1.jsonl",
+      "sha256": "9c80c0778c7abd26c5a704eb217c2bee22eb4e15fccdcccc3f12d9ce951cf661",
+      "bytes": 1145227,
+      "rows": 2400
+    },
+    {
+      "role": "adapted_counterfactual_predictions",
+      "path": "outputs/secure_code_primevul_counterfactual_nuisance_joint_v1.jsonl",
+      "sha256": "cf562911fc2e8846a89cfe6657cc4adb605d49d96cb489aa6d34545c32b5e285",
+      "bytes": 1145480,
+      "rows": 2400
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "baseline_pair_report_512",
+      "path": "reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_eval512_report.json",
+      "sha256": "62127330c7597410ad4d3c2333b5fc42f909ca2ce8bcd644dde300a323ef961b",
+      "bytes": 905
+    },
+    {
+      "role": "adapted_pair_report_512",
+      "path": "reports/secure_code_primevul_joint_pairwise_nuisance_qwen15b_lora_v1_report.json",
+      "sha256": "f18eb9a379621b7548f585733e46f93925d49fb6bfb187a8f304f456beab1b99",
+      "bytes": 1128
+    },
+    {
+      "role": "baseline_counterfactual_report",
+      "path": "reports/secure_code_primevul_counterfactual_synthetic_joint_clean_identifier_v1.json",
+      "sha256": "cbecb030314bb30f09485a99f12e1cc40839a81738e61f4ea9467be2f0011c02",
+      "bytes": 6370
+    },
+    {
+      "role": "adapted_counterfactual_report",
+      "path": "reports/secure_code_primevul_counterfactual_nuisance_joint_v1.json",
+      "sha256": "a9099189b5af6d2100b069e114eb09755274f4bccedd906bd6b6d548336a51ad",
+      "bytes": 6341
+    },
+    {
+      "role": "baseline_counterfactual_markdown",
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_SYNTHETIC_JOINT_CLEAN_IDENTIFIER.md",
+      "sha256": "269d91331f0d4adacf269dc492ccb6686e0e1756f1d5f887b44979e626f23052",
+      "bytes": 1789
+    },
+    {
+      "role": "adapted_counterfactual_markdown",
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_NUISANCE_JOINT.md",
+      "sha256": "896a72bc0844069570be483a321b95ff1f0d9f0ab2e31cabd9ff2a92e96ae3e2",
+      "bytes": 1789
+    },
+    {
+      "role": "paired_comparison_json",
+      "path": "reports/secure_code_primevul_nuisance_pairwise_adaptation_pilot_v1.json",
+      "sha256": "77c2791067a8790dac199b4405055870389d8084d66672b4f0a8bcb61bbd9af4",
+      "bytes": 2431
+    },
+    {
+      "role": "paired_comparison_markdown",
+      "path": "reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md",
+      "sha256": "396cc23ce4ce7ff859f31583cd33c6c9228bf0a638fb8ee62300af9900ede5aa",
+      "bytes": 1338
+    }
+  ],
+  "expected": {
+    "main_task_accuracy_delta": 0.0024183796856106408,
+    "main_task_mcnemar_p": 0.8450189828872681,
+    "padding_relation_success_delta": 0.295,
+    "padding_mcnemar_p": 1.327994896408098e-23,
+    "identifier_relation_success_delta": 0.0275,
+    "identifier_mcnemar_p": 0.07075554598122835
+  },
+  "limitations": [
+    "This is a 375-pair pilot adaptation, not a full-scale training result.",
+    "The manifest reproduces report statistics from stored predictions, not GPU training.",
+    "Padding robustness improves strongly, but untargeted metadata and side-order relations regress slightly."
+  ]
+}

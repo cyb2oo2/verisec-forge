@@ -1,0 +1,29 @@
+{
+  "status": "ok",
+  "scope": "primevul_joint_reasoning_dataset",
+  "output": "data/processed/secure_code_primevul_joint_reasoning_eval_v1.jsonl",
+  "target_contract": {
+    "side_choice": "A/B vulnerable side classification",
+    "evidence_ranking": "rank hunk/window candidates for the chosen side",
+    "confidence": "calibrated confidence target when context target is available",
+    "insufficient_context": "abstention target when evidence/context is insufficient"
+  },
+  "summary": {
+    "records": 827,
+    "side_choice_counts": {
+      "A": 414,
+      "B": 413
+    },
+    "insufficient_context_target_counts": {
+      "False": 369,
+      "None": 253,
+      "True": 205
+    },
+    "avg_evidence_candidates_per_pair": 1.7134
+  },
+  "limitations": [
+    "Evidence targets are pseudo-localization labels until human annotation is merged.",
+    "Insufficient-context targets are only weak labels unless supplied by the human annotation protocol.",
+    "This is a data contract for a learned joint model; it is not itself a trained model result."
+  ]
+}

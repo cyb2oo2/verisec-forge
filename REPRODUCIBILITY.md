@@ -124,12 +124,57 @@ This closes the previous gap where external-generalization reports existed but t
   --restore
 ```
 
+## Learned Pairwise Selective Calibration
+
+The learned joint checkpoint's held-out confidence and abstention analysis is CPU-only once its 827-pair prediction artifact is available:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\analyze_joint_pairwise_selective_calibration.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\joint_pairwise_selective_calibration_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+Expected key outputs:
+
+- all five calibration splits select temperature `2.0`
+- all five splits select probability-gap margin `0.075`
+- mean selective coverage: `0.7896`
+- mean accepted-pair accuracy: `0.8767`
+- mean error capture rate: `0.4087`
+- mean ECE: `0.1017 -> 0.0780`
+
+This reproduces the calibration/reporting layer from stored predictions, not the original 1.5B GPU training run. Accepted accuracy is conditional on abstention and must not be compared to full-coverage accuracy without reporting coverage.
+
+## Targeted Nuisance Adaptation Pilot
+
+The 375-pair padding/identifier adaptation pilot is reproducible from its stored baseline and adapted predictions:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\compare_nuisance_pairwise_adaptation.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\nuisance_pairwise_adaptation_pilot_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+Expected key outputs:
+
+- same-cap main-task orientation: `0.8174 -> 0.8198`, McNemar `p=0.8450`
+- padding relation success: `0.5750 -> 0.8700`, McNemar `p<1.4e-23`
+- identifier relation success: `0.8100 -> 0.8375`, McNemar `p=0.0708`
+
+This is a pilot-scale causal-intervention result. It establishes that the measured padding shortcut is trainable, not that the adapted checkpoint has universally better robustness.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:
 
 - `reproducibility/primevul_calibrated_router_manifest.json`
 - `reproducibility/external_generalization_manifest.json`
+- `reproducibility/joint_pairwise_selective_calibration_manifest.json`
+- `reproducibility/nuisance_pairwise_adaptation_pilot_manifest.json`
 
 The manifest records:
 

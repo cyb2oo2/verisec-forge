@@ -1,0 +1,50 @@
+{
+  "name": "primevul_joint_reasoning_v1",
+  "status": "side_choice_baseline_trained_full_joint_model_pending",
+  "objective": "Learn a joint pair-level secure patch model for side choice, evidence ranking, calibrated confidence, and insufficient-context abstention.",
+  "input_dataset": "data/processed/secure_code_primevul_joint_reasoning_eval_v1.jsonl",
+  "recommended_model_family": [
+    "Qwen2.5-Coder-1.5B cross-encoder LoRA",
+    "Qwen2.5-Coder-3B cross-encoder LoRA if VRAM allows",
+    "lightweight lexical baseline for ablation"
+  ],
+  "losses": {
+    "side_choice": {
+      "type": "binary_cross_entropy",
+      "weight": 1.0
+    },
+    "evidence_ranking": {
+      "type": "pairwise_or_listwise_ranking",
+      "weight": 0.5
+    },
+    "confidence": {
+      "type": "brier_or_calibration_loss",
+      "weight": 0.25,
+      "mask": "loss_mask.confidence"
+    },
+    "insufficient_context": {
+      "type": "binary_cross_entropy",
+      "weight": 0.5,
+      "mask": "loss_mask.insufficient_context"
+    }
+  },
+  "evaluation": {
+    "primary": [
+      "side_choice_balanced_accuracy",
+      "group_all_correct",
+      "evidence_top1",
+      "evidence_top3",
+      "expected_calibration_error",
+      "insufficient_context_precision"
+    ],
+    "counterfactual": "reports/secure_code_counterfactual_shortcut_evaluation_v1.json",
+    "human_annotation_gate": "docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md"
+  },
+  "side_choice_baseline": {
+    "report": "reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_report.json",
+    "held_out_pairs": 827,
+    "pair_orientation_accuracy": 0.8282950423216445,
+    "pair_coupled_decoder_reference": 0.8572
+  },
+  "claim_boundary": "The side-choice-only learned baseline is trained, but it remains below the existing pair-coupled decoder. Evidence, confidence, and abstention heads are still pending."
+}

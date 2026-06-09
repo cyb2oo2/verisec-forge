@@ -1,35 +1,50 @@
 {
   "sections": [
     {
-      "title": "Project Entry Points",
-      "description": "Start here for the main narrative and current system-level conclusions.",
+      "title": "Application Entry Points",
+      "description": "Reviewer-facing narrative and reproducibility entry points.",
       "entries": [
         { "label": "README", "path": "README.md", "required": true },
-        { "label": "Technical Report", "path": "reports/TECHNICAL_REPORT.md", "required": true },
-        { "label": "Research Summary", "path": "reports/SECURE_CODE_RESEARCH_SUMMARY.md", "required": true },
-        { "label": "Visual Diagnostics", "path": "reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md", "required": true }
+        { "label": "Application Packet", "path": "docs/APPLICATION_PACKET.md", "required": true },
+        { "label": "Application Focus", "path": "docs/APPLICATION_FOCUS.md", "required": true },
+        { "label": "Project Story", "path": "PROJECT_STORY.md", "required": true },
+        { "label": "Reproducibility Guide", "path": "REPRODUCIBILITY.md", "required": true }
       ]
     },
     {
-      "title": "CodeXGLUE Mainline",
-      "description": "Primary detector-auditor benchmark line and operating-point analysis.",
+      "title": "PrimeVul Paired-Diff Mainline",
+      "description": "Shortcut controls, pair-coupled decoding, and statistical support.",
       "entries": [
-        { "label": "Classifier Calibration", "path": "reports/CODEXGLUE_CLASSIFIER_CALIBRATION.md", "required": true },
-        { "label": "Hybrid Operating Points", "path": "reports/CODEXGLUE_HYBRID_OPERATING_POINTS.md", "required": true },
-        { "label": "Classifier Threshold Sweep (eval1000)", "path": "reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_eval1000.json", "required": true },
-        { "label": "Classifier Threshold Sweep (holdout2000)", "path": "reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_holdout2000.json", "required": true },
-        { "label": "Hybrid Summary (eval1000)", "path": "reports/codexglue_hybrid_thresholds/secure_code_codexglue_hybrid_threshold_summary.json", "required": true },
-        { "label": "Hybrid Summary (holdout2000)", "path": "reports/codexglue_hybrid_thresholds_holdout2000/secure_code_codexglue_hybrid_threshold_summary.json", "required": true }
+        { "label": "Final Submission Statistics", "path": "reports/FINAL_SUBMISSION_STATISTICS.md", "required": true },
+        { "label": "Progressive Controls", "path": "reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md", "required": true },
+        { "label": "Main Results", "path": "reports/PRIMEVUL_MAIN_RESULTS.md", "required": true },
+        { "label": "Pair-Coupled Router", "path": "reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md", "required": true },
+        { "label": "Pair-Coupled Multi-Split Balanced", "path": "reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md", "required": true },
+        { "label": "Pair-Coupled Significance", "path": "reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md", "required": true }
       ]
     },
     {
-      "title": "PrimeVul Mainline",
-      "description": "Original secure-code structured-auditor branch and its larger held-out evaluation.",
+      "title": "External Generalization And Routing",
+      "description": "Disjoint PrimeVul stress tests, external datasets, and bounded source-aware routing.",
       "entries": [
-        { "label": "PrimeVul Comparison", "path": "reports/training_comparison.md", "required": true },
-        { "label": "Best SFT holdout1000 report", "path": "reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout1000_report.json", "required": true },
-        { "label": "Best SFT holdout2000 report", "path": "reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout2000_report.json", "required": true },
-        { "label": "PrimeVul Diagnostics", "path": "reports/SECURE_CODE_DIAGNOSTICS.md", "required": true }
+        { "label": "CVE-Disjoint Eval", "path": "reports/PRIMEVUL_CVE_DISJOINT_EVAL.md", "required": true },
+        { "label": "Project-Disjoint Stress Eval", "path": "reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md", "required": true },
+        { "label": "Time-Disjoint Comparison", "path": "reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md", "required": true },
+        { "label": "DeltaSecommits Expert Eval", "path": "reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md", "required": true },
+        { "label": "PatchEval Multi-Seed Adapter", "path": "reports/PATCHEVAL_ADAPTER_MULTISEED.md", "required": true },
+        { "label": "Three-Source Adapter Mixture", "path": "reports/THREE_SOURCE_ADAPTER_MIXTURE.md", "required": true },
+        { "label": "Learned Router Claim Boundary", "path": "reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md", "required": true }
+      ]
+    },
+    {
+      "title": "Evidence-Coupled Audit",
+      "description": "Evidence localization and side-inversion diagnostics retained as bounded audit evidence.",
+      "entries": [
+        { "label": "Pair Evidence Localization", "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md", "required": true },
+        { "label": "Predicted-Side Hunk Scorer", "path": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md", "required": true },
+        { "label": "Side-Inversion Gate Summary", "path": "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md", "required": true },
+        { "label": "Manual Adjudication Status Dashboard", "path": "reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md", "required": true },
+        { "label": "AI Adjudication Summary", "path": "reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md", "required": true }
       ]
     }
   ]

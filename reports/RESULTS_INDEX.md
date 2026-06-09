@@ -1,360 +1,53 @@
 # Results Index
 
-This index collects the most important reports, diagnostics, and benchmark summaries in the repository.
+This index collects the application-facing reports and reproducibility entry points retained after pruning.
 
-## Project Entry Points
+## Application Entry Points
 
-Start here for the main narrative and current system-level conclusions.
+Reviewer-facing narrative and reproducibility entry points.
 
 - `README`: `README.md`
-- `Project Story`: `PROJECT_STORY.md`
-- `Next Phase Roadmap`: `docs/NEXT_PHASE_ROADMAP.md`
-- `Application One-Pager`: `APPLICATION_ONE_PAGER.md`
-- `Technical Report`: `reports/TECHNICAL_REPORT.md`
-- `Research Summary`: `reports/SECURE_CODE_RESEARCH_SUMMARY.md`
-- `Visual Diagnostics`: `reports/SECURE_CODE_VISUAL_DIAGNOSTICS.md`
-- `Reproducibility Guide`: `REPRODUCIBILITY.md`
-- `Artifact Bundle Workflow`: `reproducibility/ARTIFACT_BUNDLE.md`
-- `Artifact Release Metadata`: `reproducibility/release_artifacts.json`
-- `Artifact Release Checklist`: `reproducibility/RELEASE_CHECKLIST.md`
-- `GitHub Release Notes Draft`: `reproducibility/GITHUB_RELEASE_NOTES.md`
-- `External Generalization Manifest`: `reproducibility/external_generalization_manifest.json`
-- `External Generalization Release Notes`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES.md`
-- `External Generalization Release Notes v2`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V2.md`
-- `External Generalization Release Notes v3`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V3.md`
-- `External Generalization Release Notes v4`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V4.md`
-- `External Generalization Release Notes v5`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V5.md`
-- `External Generalization Release Notes v6`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V6.md`
-- `External Generalization Release Notes v7`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V7.md`
-- `External Generalization Release Notes v8`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V8.md`
-- `External Generalization Release Notes v9`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V9.md`
-- `External Generalization Release Notes v10`: `reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES_V10.md`
-- `Data Lineage`: `reports/DATA_LINEAGE.md`
-- `Patch Review Demo`: `docs/PATCH_REVIEW_DEMO.md`
-- `Patch Review Walkthrough`: `docs/PATCH_REVIEW_WALKTHROUGH.md`
-- `Patch Review Walkthrough JSON`: `reports/PATCH_REVIEW_WALKTHROUGH.json`
 - `Application Packet`: `docs/APPLICATION_PACKET.md`
-- `Patch Review Demo UI Screenshot`: `reports/assets/patch_review_demo_ui.png`
-- `Patch Review Demo UI Preview`: `reports/assets/patch_review_demo_ui.svg`
+- `Application Focus`: `docs/APPLICATION_FOCUS.md`
+- `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
+- `Human Patch-Pair Annotation Protocol`: `docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md`
+- `Counterfactual Shortcut Protocol`: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
+- `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
+- `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`
+- `Counterfactual Intervention Summary`: `reports/secure_code_primevul_counterfactual_interventions_v1.json`
+- `Joint Reasoning Dataset Summary`: `reports/secure_code_primevul_joint_reasoning_dataset_v1.json`
+- `Project Story`: `PROJECT_STORY.md`
+- `Reproducibility Guide`: `REPRODUCIBILITY.md`
 
-## CodeXGLUE Mainline
+## PrimeVul Paired-Diff Mainline
 
-Primary detector-auditor benchmark line and operating-point analysis.
+Shortcut controls, pair-coupled decoding, and statistical support.
 
-- `Classifier Calibration`: `reports/CODEXGLUE_CLASSIFIER_CALIBRATION.md`
-- `Hybrid Operating Points`: `reports/CODEXGLUE_HYBRID_OPERATING_POINTS.md`
-- `Detector + Scorer Operating Points`: `reports/CODEXGLUE_DETECTOR_SCORER_OPERATING_POINTS.md`
-- `Detector + Scorer Failure Breakdown`: `reports/secure_code_codexglue_detector_scorer_full_v1_best_accuracy_failure_breakdown.json`
-- `Classifier Threshold Sweep (eval1000)`: `reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_eval1000.json`
-- `Classifier Threshold Sweep (holdout2000)`: `reports/secure_code_codexglue_cls_qwen15bcoder_lora_6000_v1_threshold_sweep_holdout2000.json`
-- `Hybrid Summary (eval1000)`: `reports/codexglue_hybrid_thresholds/secure_code_codexglue_hybrid_threshold_summary.json`
-- `Hybrid Summary (holdout2000)`: `reports/codexglue_hybrid_thresholds_holdout2000/secure_code_codexglue_hybrid_threshold_summary.json`
-
-## PrimeVul Mainline
-
-PrimeVul secure-code experiments, including the artifact-sensitive same-source detector, paired split diagnostics, and the current paired diff reasoning mainline.
-
-- `PrimeVul Comparison`: `reports/training_comparison.md`
-- `Best SFT holdout1000 report`: `reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout1000_report.json`
-- `Best SFT holdout2000 report`: `reports/secure_code_primevul_sft_qwen05b_balanced_safe_none_only_v1_holdout2000_report.json`
-- `Detector + Confirmer Operating Points`: `reports/PRIMEVUL_DETECTOR_CONFIRMER_OPERATING_POINTS.md`
-- `Detector + Scorer Operating Points`: `reports/PRIMEVUL_DETECTOR_SCORER_OPERATING_POINTS.md`
-- `Support Scorer Ablations`: `reports/PRIMEVUL_SUPPORT_SCORER_ABLATIONS.md`
-- `Shortcut Diagnostics`: `reports/PRIMEVUL_SHORTCUT_DIAGNOSTICS.md`
-- `Generated Main Results`: `reports/PRIMEVUL_MAIN_RESULTS.md`
-- `Generated Main Results JSON`: `reports/PRIMEVUL_MAIN_RESULTS.json`
-- `Generated Main Results Chart`: `reports/assets/primevul_main_results.svg`
-- `Progressive Controls Table`: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
-- `Progressive Controls JSON`: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.json`
-- `Progressive Controls Chart`: `reports/assets/primevul_progressive_controls.svg`
 - `Final Submission Statistics`: `reports/FINAL_SUBMISSION_STATISTICS.md`
-- `Final Submission Statistics JSON`: `reports/FINAL_SUBMISSION_STATISTICS.json`
-- `Pair-Coupled Significance Chart`: `reports/assets/primevul_pair_coupled_significance.svg`
-- `Paired Diff Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_FAILURE_ANALYSIS.md`
-- `Paired Diff Failure Analysis JSON`: `reports/secure_code_primevul_pair_diff_only_failure_analysis.json`
-- `Paired Diff Edge-Focus Plan`: `reports/PRIMEVUL_DIFF_EDGE_FOCUS_PLAN.md`
-- `Paired Diff Bucket Slice Summary`: `reports/secure_code_primevul_pair_diff_bucket_slices_summary.json`
-- `Paired Diff Edge-Focus Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_report.json`
-- `Paired Diff Edge-Focus Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval1800_dedup_threshold_sweep.json`
-- `Paired Diff Edge-Focus Seed7 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_report.json`
-- `Paired Diff Edge-Focus Seed7 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed7_v1_eval1800_dedup_threshold_sweep.json`
-- `Paired Diff Edge-Focus Seed99 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_report.json`
-- `Paired Diff Edge-Focus Seed99 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_seed99_v1_eval1800_dedup_threshold_sweep.json`
-- `Paired Diff Edge-Focus Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_EDGE_FOCUS_FAILURE_ANALYSIS.md`
-- `Paired Diff Edge-Focus Small-Diff Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_00_02_threshold_sweep.json`
-- `Paired Diff Edge-Focus Large-Diff Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_26plus_threshold_sweep.json`
-- `Paired Diff No-Metadata Train Summary`: `reports/secure_code_primevul_pair_diff_no_metadata_train_balanced_3000_summary.json`
-- `Paired Diff No-Metadata Eval Summary`: `reports/secure_code_primevul_pair_diff_no_metadata_eval_balanced_1800_summary.json`
-- `Paired Diff No-Metadata Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_report.json`
-- `Paired Diff No-Metadata Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json`
-- `Paired Diff No-Metadata Failure Analysis`: `reports/PRIMEVUL_PAIR_DIFF_NO_METADATA_FAILURE_ANALYSIS.md`
-- `Paired Diff Localization Plan`: `reports/PRIMEVUL_DIFF_LOCALIZATION_PLAN.md`
-- `Paired Diff Localized Train Summary`: `reports/secure_code_primevul_pair_diff_localized_train_balanced_3000_summary.json`
-- `Paired Diff Localized Eval Summary`: `reports/secure_code_primevul_pair_diff_localized_eval_balanced_1792_dedup_summary.json`
-- `Paired Diff 26+ Localized Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_localized_h3_c1800_summary.json`
-- `Paired Diff Contrastive Train Summary`: `reports/secure_code_primevul_pair_diff_contrastive_train_balanced_3000_summary.json`
-- `Paired Diff Contrastive Eval Summary`: `reports/secure_code_primevul_pair_diff_contrastive_eval_balanced_1792_dedup_summary.json`
-- `Paired Diff 26+ Contrastive Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_contrastive_h3_c2200_summary.json`
-- `Paired Diff 26+ Error Window Analysis`: `reports/PRIMEVUL_26PLUS_ERROR_WINDOWS.md`
-- `Paired Diff 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_edge_focus_26plus_error_windows.json`
-- `Paired Diff Direction-Aware Window Experiment`: `reports/PRIMEVUL_DIRECTION_AWARE_WINDOWS.md`
-- `Paired Diff Direction-Aware Train Summary`: `reports/secure_code_primevul_pair_diff_directional_train_balanced_3000_summary.json`
-- `Paired Diff Direction-Aware Eval Summary`: `reports/secure_code_primevul_pair_diff_directional_eval_balanced_1792_dedup_summary.json`
-- `Paired Diff 26+ Direction-Aware Bucket Summary`: `reports/secure_code_primevul_pair_diff_bucket_26plus_directional_h3_c2400_summary.json`
-- `Paired Diff Edge-Focus 26+ Direction-Aware Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_edge_focus_3000_v1_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
-- `Paired Diff Direction-Aware Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_report.json`
-- `Paired Diff Direction-Aware Detector Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_threshold_sweep.json`
-- `Paired Diff Direction-Aware 26+ Bucket Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval_bucket_26plus_directional_h3_c2400_report.json`
-- `Paired Diff Direction-Aware 26+ Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
-- `Paired Diff Direction-Aware 26+ Error Window Analysis`: `reports/PRIMEVUL_DIRECTION_AWARE_26PLUS_ERROR_WINDOWS.md`
-- `Paired Diff Direction-Aware 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_directional_26plus_error_windows.json`
-- `Paired Diff Direction-Aware Recall-Recovery Train Summary`: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3249_summary.json`
-- `Paired Diff Direction-Aware Recall-Recovery Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_report.json`
-- `Paired Diff Direction-Aware Recall-Recovery Detector Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval1792_dedup_threshold_sweep.json`
-- `Paired Diff Direction-Aware Recall-Recovery 26+ Bucket Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval_bucket_26plus_directional_h3_c2400_report.json`
-- `Paired Diff Direction-Aware Recall-Recovery 26+ Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3249_v1_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
-- `Paired Diff Direction-Aware Recall-Recovery 26+ Error Window Analysis`: `reports/PRIMEVUL_DIRECTION_AWARE_RECALL_RECOVERY_26PLUS_ERROR_WINDOWS.md`
-- `Paired Diff Direction-Aware Recall-Recovery 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_26plus_error_windows.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 Train Summary`: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_train_3113_summary.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval1792_dedup_report.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 Detector Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval1792_dedup_threshold_sweep.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 26+ Bucket Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval_bucket_26plus_directional_h3_c2400_report.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 26+ Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_recall_recovery_3113_v2_eval_bucket_26plus_directional_h3_c2400_threshold_sweep.json`
-- `Paired Diff Direction-Aware Recall-Recovery v2 26+ Error Window Analysis`: `reports/PRIMEVUL_DIRECTION_AWARE_RECALL_RECOVERY_V2_26PLUS_ERROR_WINDOWS.md`
-- `Paired Diff Direction-Aware Recall-Recovery v2 26+ Error Window Analysis JSON`: `reports/secure_code_primevul_pair_diff_directional_recall_recovery_v2_26plus_error_windows.json`
-- `Paired Diff Direction-Aware Bucket Router Report`: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER.md`
-- `Paired Diff Direction-Aware Bucket Router JSON`: `reports/secure_code_primevul_directional_bucket_router_v1_report.json`
-- `Paired Diff Direction-Aware Bucket Router Recall Report`: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_RECALL.md`
-- `Paired Diff Direction-Aware Bucket Router Recall JSON`: `reports/secure_code_primevul_directional_bucket_router_v1_recall_report.json`
-- `Paired Diff Direction-Aware Bucket Router Calibrated Report`: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_CALIBRATED.md`
-- `Paired Diff Direction-Aware Bucket Router Calibrated JSON`: `reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json`
-- `Paired Diff Direction-Aware Bucket Router Statistics`: `reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_STATISTICS.md`
-- `Paired Diff Direction-Aware Bucket Router Statistics JSON`: `reports/secure_code_primevul_directional_bucket_router_statistics_v1.json`
-- `Paired Diff Pair-Coupled Router`: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
-- `Paired Diff Pair-Coupled Router JSON`: `reports/secure_code_primevul_pair_coupled_router_v1_report.json`
-- `Paired Diff Pair-Coupled Router Statistics`: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER_STATISTICS.md`
-- `Paired Diff Pair-Coupled Router Statistics JSON`: `reports/secure_code_primevul_pair_coupled_router_statistics_v1.json`
-- `Paired Diff Pair-Coupled Multi-Split Balanced Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
-- `Paired Diff Pair-Coupled Multi-Split Balanced JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_balanced_v1.json`
-- `Paired Diff Pair-Coupled Significance Report`: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`
-- `Paired Diff Pair-Coupled Significance JSON`: `reports/secure_code_primevul_pair_coupled_significance_v1.json`
-- `Paired Diff Pair-Coupled Multi-Split Group Report`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT.md`
-- `Paired Diff Pair-Coupled Multi-Split Group JSON`: `reports/secure_code_primevul_pair_coupled_multisplit_v1.json`
-- `Paired Diff CVE-Disjoint Eval`: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`
-- `Paired Diff CVE-Disjoint Eval JSON`: `reports/secure_code_primevul_cve_disjoint_eval_v1.json`
-- `Paired Diff Disjoint Stress Eval`: `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`
-- `Paired Diff Disjoint Stress Eval JSON`: `reports/secure_code_primevul_disjoint_stress_eval_v1.json`
-- `Paired Diff Time-Disjoint Split`: `reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md`
-- `Paired Diff Time-Disjoint Split JSON`: `reports/secure_code_primevul_time_disjoint_pair_diff_split_v1.json`
-- `Paired Diff Time-Disjoint Transfer`: `reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md`
-- `Paired Diff Time-Disjoint Transfer JSON`: `reports/secure_code_primevul_time_disjoint_transfer_v1.json`
-- `Paired Diff Time-Disjoint Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_time_eval_ge2021_threshold_sweep.json`
-- `Paired Diff Time-Disjoint Direct-Train`: `reports/PRIMEVUL_TIME_DISJOINT_DIRECT_TRAIN.md`
-- `Paired Diff Time-Disjoint Direct-Train JSON`: `reports/secure_code_primevul_time_disjoint_direct_train_v1.json`
-- `Paired Diff Time-Disjoint Direct-Train Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_time_le2020_v1_eval_ge2021_threshold_sweep.json`
-- `Paired Diff Time-Disjoint Transfer vs Direct Comparison`: `reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md`
-- `Paired Diff Time-Disjoint Transfer vs Direct Comparison JSON`: `reports/secure_code_primevul_time_disjoint_comparison_v1.json`
-- `Paired Diff Time-Disjoint Composite Stress`: `reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md`
-- `Paired Diff Time-Disjoint Composite Stress JSON`: `reports/secure_code_primevul_time_disjoint_composite_stress_v1.json`
-- `DeltaSecommits Pair-Diff Dataset`: `reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md`
-- `DeltaSecommits Pair-Diff Dataset JSON`: `reports/secure_code_deltasecommits_pair_diff_dataset_v1.json`
-- `DeltaSecommits Zero-Shot PrimeVul Checkpoint`: `reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
-- `DeltaSecommits Zero-Shot PrimeVul Checkpoint JSON`: `reports/secure_code_deltasecommits_zero_shot_primevul_time_checkpoint_v1.json`
-- `DeltaSecommits Zero-Shot Threshold Sweep`: `reports/secure_code_deltasecommits_primevul_time_checkpoint_zero_shot_threshold_sweep.json`
-- `DeltaSecommits Eval Zero-Shot PrimeVul Checkpoint`: `reports/DELTASECCOMMITS_EVAL_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md`
-- `DeltaSecommits Delta-Only Pair-Diff Eval`: `reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md`
-- `DeltaSecommits Delta-Only Threshold Sweep`: `reports/secure_code_deltasecommits_cls_qwen15bcoder_lora_pair_diff_cpp_v1_threshold_sweep.json`
-- `DeltaSecommits Mixed-Source Pair-Diff Eval`: `reports/DELTASECCOMMITS_MIXED_PRIMEVUL_TIME_DELTA_PAIR_DIFF_EVAL.md`
-- `DeltaSecommits Mixed-Source Threshold Sweep`: `reports/secure_code_mixed_primevul_time_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_threshold_sweep.json`
-- `DeltaSecommits Matched Mixed-Source Pair-Diff Eval`: `reports/DELTASECCOMMITS_MATCHED_MIXED_PRIMEVUL_TIME_SHORT_DELTA_PAIR_DIFF_EVAL.md`
-- `DeltaSecommits Matched Mixed-Source Threshold Sweep`: `reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_delta_threshold_sweep.json`
-- `DeltaSecommits Matched Mixed-Source Train Summary`: `reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_pair_diff_train_summary_v1.json`
-- `PrimeVul Time-Disjoint Matched Mixed-Source Eval`: `reports/PRIMEVUL_TIME_DISJOINT_MATCHED_MIXED_PRIMEVUL_SHORT_DELTA.md`
-- `PrimeVul Time-Disjoint Matched Mixed-Source JSON`: `reports/secure_code_primevul_time_disjoint_matched_mixed_primevul_short_delta_v1.json`
-- `Cross-Source Domain Calibration`: `reports/CROSS_SOURCE_DOMAIN_CALIBRATION.md`
-- `Cross-Source Domain Calibration JSON`: `reports/secure_code_cross_source_domain_calibration_v1.json`
-- `Source-Aware Expert Mixture`: `reports/SOURCE_AWARE_EXPERT_MIXTURE.md`
-- `Source-Aware Expert Mixture JSON`: `reports/secure_code_source_aware_expert_mixture_v1.json`
+- `Progressive Controls`: `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md`
+- `Main Results`: `reports/PRIMEVUL_MAIN_RESULTS.md`
+- `Pair-Coupled Router`: `reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md`
+- `Pair-Coupled Multi-Split Balanced`: `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`
+- `Pair-Coupled Significance`: `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md`
+
+## External Generalization And Routing
+
+Disjoint PrimeVul stress tests, external datasets, and bounded source-aware routing.
+
+- `CVE-Disjoint Eval`: `reports/PRIMEVUL_CVE_DISJOINT_EVAL.md`
+- `Project-Disjoint Stress Eval`: `reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md`
+- `Time-Disjoint Comparison`: `reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md`
+- `DeltaSecommits Expert Eval`: `reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md`
+- `PatchEval Multi-Seed Adapter`: `reports/PATCHEVAL_ADAPTER_MULTISEED.md`
 - `Three-Source Adapter Mixture`: `reports/THREE_SOURCE_ADAPTER_MIXTURE.md`
-- `Three-Source Adapter Mixture JSON`: `reports/secure_code_three_source_adapter_mixture_v1.json`
-- `PatchEval Pair-Diff Dataset`: `reports/PATCHEVAL_PAIR_DIFF_DATASET.md`
-- `PatchEval Pair-Diff Dataset JSON`: `reports/secure_code_patcheval_pair_diff_dataset_v1.json`
-- `PatchEval Zero-Shot Matched Mixed-Source Eval`: `reports/PATCHEVAL_ZERO_SHOT_MATCHED_MIXED_PRIMEVUL_SHORT_DELTA.md`
-- `PatchEval Zero-Shot Matched Mixed-Source JSON`: `reports/secure_code_patcheval_zero_shot_matched_mixed_primevul_short_delta_v1.json`
-- `PatchEval Matched Mixed-Source Threshold Sweep`: `reports/secure_code_matched_mixed_primevul_time_short_deltasecommits_cls_qwen15bcoder_lora_pair_diff_v1_patcheval_threshold_sweep.json`
-- `PatchEval Adapter Multi-Seed Eval`: `reports/PATCHEVAL_ADAPTER_MULTISEED.md`
-- `PatchEval Adapter Multi-Seed JSON`: `reports/secure_code_patcheval_adapter_multiseed_v1.json`
-- `PatchEval Cross-Source Specialization`: `reports/PATCHEVAL_CROSS_SOURCE_SPECIALIZATION.md`
-- `PatchEval Cross-Source Specialization JSON`: `reports/secure_code_patcheval_cross_source_specialization_v1.json`
-- `DeltaSecommits Expert On PrimeVul-Time Report`: `reports/secure_code_deltasecommits_adapter_primevul_time_eval_report.json`
-- `DeltaSecommits Expert On PatchEval Report`: `reports/secure_code_deltasecommits_adapter_patcheval_eval_report.json`
-- `PrimeVul-Time Expert On PatchEval Report`: `reports/secure_code_primevul_time_adapter_patcheval_eval_report.json`
-- `Non-Oracle Source Router`: `reports/NON_ORACLE_SOURCE_ROUTER.md`
-- `Non-Oracle Source Router JSON`: `reports/secure_code_non_oracle_source_router_v1.json`
-- `Content Source Router`: `reports/CONTENT_SOURCE_ROUTER.md`
-- `Content Source Router JSON`: `reports/secure_code_content_source_router_v1.json`
-- `Learned Content Source Router`: `reports/LEARNED_CONTENT_SOURCE_ROUTER.md`
-- `Learned Content Source Router JSON`: `reports/secure_code_learned_content_source_router_v1.json`
-- `Learned Content-Routed System`: `reports/LEARNED_CONTENT_ROUTED_SYSTEM.md`
-- `Learned Content-Routed System JSON`: `reports/secure_code_learned_content_routed_system_v1.json`
-- `Learned Content-Routed System Statistics`: `reports/LEARNED_CONTENT_ROUTED_SYSTEM_STATISTICS.md`
-- `Learned Content-Routed System Statistics JSON`: `reports/secure_code_learned_content_routed_system_statistics_v1.json`
-- `Learned Content Router Leave-One-Source Stress`: `reports/LEARNED_CONTENT_ROUTER_LEAVE_ONE_SOURCE.md`
-- `Learned Content Router Leave-One-Source Stress JSON`: `reports/secure_code_learned_content_router_leave_one_source_v1.json`
-- `Learned Content Router Feature Ablation`: `reports/LEARNED_CONTENT_ROUTER_FEATURE_ABLATION.md`
-- `Learned Content Router Feature Ablation JSON`: `reports/secure_code_learned_content_router_feature_ablation_v1.json`
-- `Learned Content Router Stability Summary`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md`
-- `Learned Content Router Stability Char`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_CHAR.md`
-- `Learned Content Router Stability Char JSON`: `reports/secure_code_learned_content_router_stability_char_v1.json`
-- `Learned Content Router Stability Token`: `reports/LEARNED_CONTENT_ROUTER_STABILITY_TOKEN.md`
-- `Learned Content Router Stability Token JSON`: `reports/secure_code_learned_content_router_stability_token_v1.json`
-- `Learned Content Router Stability`: `reports/LEARNED_CONTENT_ROUTER_STABILITY.md`
-- `Learned Content Router Stability JSON`: `reports/secure_code_learned_content_router_stability_v1.json`
-- `Learned Content Router Stability Figure`: `reports/assets/learned_content_router_stability.svg`
 - `Learned Router Claim Boundary`: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
-- `Learned Router Claim Boundary JSON`: `reports/secure_code_learned_router_claim_boundary_v1.json`
-- `Learned Router Claim Boundary Figure`: `reports/assets/learned_router_claim_boundary.svg`
-- `DeltaSecommits Cross-Source Ablation`: `reports/DELTASECCOMMITS_CROSS_SOURCE_ABLATION.md`
-- `DeltaSecommits Cross-Source Ablation JSON`: `reports/secure_code_deltasecommits_cross_source_ablation_v1.json`
-- `Paired Diff Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
-- `Paired Diff Pair Evidence Localization JSON`: `reports/secure_code_primevul_pair_evidence_localization_v1.json`
-- `Manual Evidence Audit Guide`: `docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md`
-- `Manual Evidence Audit Set Report`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`
-- `Manual Evidence Review Packet`: `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_PACKET.md`
-- `Manual Evidence Audit Set Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_summary.json`
-- `Manual Evidence Audit Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_ANALYSIS.md`
-- `Manual Evidence Annotation Apply Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_apply_summary.json`
-- `Manual Evidence Batch Progress`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_PROGRESS.md`
-- `Manual Evidence Batch Summary`: `reports/secure_code_primevul_manual_evidence_audit_v1_batch_summary.json`
-- `Manual Evidence Pilot Findings`: `reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS.md`
-- `Manual Evidence Pilot Findings JSON`: `reports/secure_code_primevul_manual_evidence_pilot_findings_v1.json`
-- `Manual Evidence Review Queues`: `reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES.md`
-- `Manual Evidence High-Quality Disagreement Queue`: `data/processed/secure_code_primevul_manual_evidence_high_quality_disagreements_v1.jsonl`
-- `Manual Evidence Insufficient-Context Queue`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl`
-- `Manual Evidence Adjudication Workflow`: `reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_WORKFLOW.md`
-- `Manual Evidence Adjudication Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_ADJUDICATION_ANALYSIS.md`
-- `Manual Evidence Adjudication Analysis JSON`: `reports/secure_code_primevul_manual_evidence_adjudication_analysis_v1.json`
-- `Manual Evidence Adjudication Apply Summary`: `reports/secure_code_primevul_manual_evidence_adjudication_apply_summary_v1.json`
-- `Manual Evidence Adjudication Template Summary`: `reports/secure_code_primevul_manual_evidence_adjudication_template_v1.json`
-- `Manual Evidence Adjudication Template CSV`: `data/processed/secure_code_primevul_manual_evidence_adjudication_template_v1.csv`
-- `Manual Evidence High-Quality Adjudication Workflow`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md`
-- `Manual Evidence High-Quality Adjudication Brief`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md`
-- `Manual Evidence High-Quality Adjudication Brief JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_brief_v1.json`
-- `Manual Evidence Insufficient-Context Review Brief`: `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md`
-- `Manual Evidence Insufficient-Context Review Brief JSON`: `reports/secure_code_primevul_manual_evidence_insufficient_context_brief_v1.json`
-- `Manual Evidence Insufficient-Context AI Adjudication CSV`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv`
-- `Manual Evidence Insufficient-Context AI Adjudicated JSONL`: `data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudicated_v1.jsonl`
-- `Manual Evidence Insufficient-Context AI Adjudication Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md`
-- `Manual Evidence Insufficient-Context AI Adjudication Analysis JSON`: `reports/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_analysis_v1.json`
-- `Manual Evidence Adjudication Status Dashboard`: `reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md`
-- `Manual Evidence Adjudication Status Dashboard JSON`: `reports/secure_code_primevul_manual_adjudication_status_dashboard_v1.json`
-- `PrimeVul AI Adjudication Summary`: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`
-- `PrimeVul AI Adjudication Summary JSON`: `reports/secure_code_primevul_ai_adjudication_summary_v1.json`
-- `PrimeVul AI Adjudication Summary CSV`: `reports/secure_code_primevul_ai_adjudication_summary_v1.csv`
-- `Manual Evidence High-Quality Adjudication Template Summary`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.json`
-- `Manual Evidence High-Quality Adjudication Template CSV`: `data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv`
-- `Manual Evidence High-Quality AI-Filled Adjudicated JSONL`: `data/processed/secure_code_primevul_manual_evidence_high_quality_adjudicated_v1.jsonl`
-- `Manual Evidence High-Quality Adjudication Analysis`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_ANALYSIS.md`
-- `Manual Evidence High-Quality Adjudication Analysis JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_adjudication_analysis_v1.json`
-- `Manual Evidence High-Quality Adjudication Packet`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
-- `Manual Evidence High-Quality Draft Adjudications`: `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_DRAFT_ADJUDICATIONS.md`
-- `Manual Evidence High-Quality Draft Adjudications JSON`: `reports/secure_code_primevul_manual_evidence_high_quality_codex_draft_adjudications_v1.json`
-- `Manual Evidence High-Quality Draft Adjudications JSONL`: `data/processed/secure_code_primevul_manual_evidence_high_quality_codex_draft_adjudications_v1.jsonl`
-- `Manual Evidence Audit Loop`: `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_LOOP.md`
-- `Manual Evidence Audit Loop JSON`: `reports/secure_code_primevul_manual_evidence_audit_loop_summary_v1.json`
-- `Manual Evidence Audit Loop Chart`: `reports/assets/primevul_manual_evidence_audit_loop.svg`
-- `Paired Diff Hunk Pseudo-Label Train Summary`: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_TRAIN.md`
-- `Paired Diff Hunk Pseudo-Label Eval Summary`: `reports/PRIMEVUL_HUNK_PSEUDO_LABEL_EVAL.md`
-- `Paired Diff Hunk Linear Scorer`: `reports/PRIMEVUL_HUNK_LINEAR_SCORER.md`
-- `Paired Diff Hunk Linear Scorer JSON`: `reports/secure_code_primevul_hunk_linear_scorer_v1.json`
-- `Paired Diff Candidate Recall Eval`: `reports/PRIMEVUL_CANDIDATE_RECALL.md`
-- `Paired Diff Candidate Recall Eval JSON`: `reports/secure_code_primevul_candidate_recall_eval_v1.json`
-- `Paired Diff Candidate Recall Train`: `reports/PRIMEVUL_CANDIDATE_RECALL_TRAIN.md`
-- `Paired Diff Candidate Recall Train JSON`: `reports/secure_code_primevul_candidate_recall_train_v1.json`
-- `Paired Diff Hunk+Window Linear Scorer`: `reports/PRIMEVUL_HUNK_PLUS_WINDOW_LINEAR_SCORER.md`
-- `Paired Diff Hunk+Window Linear Scorer JSON`: `reports/secure_code_primevul_hunk_plus_window_linear_scorer_v1.json`
-- `Paired Diff Predicted-Side Hunk Scorer`: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`
-- `Paired Diff Predicted-Side Hunk Scorer JSON`: `reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json`
-- `Paired Diff Predicted-Side Failure Taxonomy`: `reports/PRIMEVUL_PREDICTED_SIDE_FAILURE_TAXONOMY.md`
-- `Paired Diff Predicted-Side Failure Taxonomy JSON`: `reports/secure_code_primevul_predicted_side_failure_taxonomy_v1.json`
-- `Paired Diff Confident Side-Inversion Set`: `reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md`
-- `Paired Diff Confident Side-Inversion Set JSON`: `reports/secure_code_primevul_confident_side_inversions_gap50_v1.json`
-- `Paired Diff Pair-Side Correction Gate`: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_GATE.md`
-- `Paired Diff Pair-Side Correction Gate JSON`: `reports/secure_code_primevul_pair_side_correction_gate_v1.json`
-- `Paired Diff Pair-Side Correction Multi-Split`: `reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md`
-- `Paired Diff Pair-Side Correction Multi-Split JSON`: `reports/secure_code_primevul_pair_side_correction_multisplit_v1.json`
-- `Paired Diff Contrastive Side-Correction`: `reports/PRIMEVUL_CONTRASTIVE_SIDE_CORRECTION.md`
-- `Paired Diff Contrastive Side-Correction JSON`: `reports/secure_code_primevul_contrastive_side_correction_v1.json`
-- `Paired Diff Paired-Window Contrastive Dataset`: `reports/PRIMEVUL_PAIRED_WINDOW_CONTRASTIVE_DATASET.md`
-- `Paired Diff Paired-Window Contrastive Dataset JSON`: `reports/secure_code_primevul_paired_window_contrastive_eval_v1.json`
-- `Paired Diff Paired-Window Side Model`: `reports/PRIMEVUL_PAIRED_WINDOW_SIDE_MODEL.md`
-- `Paired Diff Paired-Window Side Model JSON`: `reports/secure_code_primevul_paired_window_side_model_v1.json`
-- `Paired Diff Side-Inversion Review Queue`: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE.md`
-- `Paired Diff Side-Inversion Review Queue JSON`: `reports/secure_code_primevul_side_inversion_review_queue_top5_v1.json`
-- `Paired Diff Side-Inversion Verifier Dataset`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET.md`
-- `Paired Diff Side-Inversion Verifier Dataset JSON`: `reports/secure_code_primevul_side_inversion_verifier_top5_v1.json`
-- `Paired Diff Side-Inversion Verifier Baselines`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_BASELINES.md`
-- `Paired Diff Side-Inversion Verifier Baselines JSON`: `reports/secure_code_primevul_side_inversion_verifier_baselines_top5_v1.json`
-- `Paired Diff Side-Inversion Gate Summary`: `reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md`
-- `Paired Diff Side-Inversion Gate Summary JSON`: `reports/secure_code_primevul_side_inversion_gate_summary_v1.json`
-- `Paired Diff Side-Inversion Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE.md`
-- `Paired Diff Side-Inversion Safe Flip Gate JSON`: `reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_v1.json`
-- `Paired Diff Side-Inversion Strict Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_TOP5_STRICT.md`
-- `Paired Diff Side-Inversion Rank-Holdout Review Queue`: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK6_10.md`
-- `Paired Diff Side-Inversion Rank-Holdout Verifier Dataset`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_RANK6_10.md`
-- `Paired Diff Side-Inversion Rank-Holdout Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10.md`
-- `Paired Diff Side-Inversion Rank-Holdout Strict Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_RANK6_10_STRICT.md`
-- `Paired Diff Side-Inversion Fresh-Seed Review Queue`: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_FRESH_SEEDS_TOP5.md`
-- `Paired Diff Side-Inversion Fresh-Seed Verifier Dataset`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_FRESH_SEEDS_TOP5.md`
-- `Paired Diff Side-Inversion Fresh-Seed Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_FRESH_SEEDS_TOP5.md`
-- `Paired Diff Side-Inversion Fresh-Seed Strict Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_FRESH_SEEDS_TOP5_STRICT.md`
-- `Paired Diff Side-Inversion Project-Holdout Review Queue`: `reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_PROJECT_HOLDOUT_TOP5.md`
-- `Paired Diff Side-Inversion Project-Holdout Verifier Dataset`: `reports/PRIMEVUL_SIDE_INVERSION_VERIFIER_DATASET_PROJECT_HOLDOUT_TOP5.md`
-- `Paired Diff Side-Inversion Project-Holdout Strict Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_STRICT.md`
-- `Paired Diff Side-Inversion Project-Holdout Evidence-Conditioned Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_EVIDENCE_CONDITIONED.md`
-- `Paired Diff Side-Inversion Project-Holdout Conservative Safe Flip Gate`: `reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_CONSERVATIVE.md`
-- `Paired Diff Side-Inversion Project-Holdout Strict Gate Failure Analysis`: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_STRICT_GATE_FAILURE_ANALYSIS.md`
-- `Paired Diff Side-Inversion Project-Holdout Evidence-Conditioned Gate Failure Analysis`: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_EVIDENCE_CONDITIONED_GATE_FAILURE_ANALYSIS.md`
-- `Paired Diff Side-Inversion Project-Holdout Conservative Gate Failure Analysis`: `reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_CONSERVATIVE_GATE_FAILURE_ANALYSIS.md`
-- `Original Diff Checkpoint on Localized Eval`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_report.json`
-- `Original Diff Checkpoint on Localized Eval Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1792_localized_threshold_sweep.json`
-- `Localized Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_report.json`
-- `Localized Diff Detector Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval1792_dedup_threshold_sweep.json`
-- `Contrastive Window Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_contrastive_3000_v1_eval1792_dedup_report.json`
-- `Contrastive Window Detector Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_contrastive_3000_v1_eval1792_dedup_threshold_sweep.json`
-- `Diff-Only Detector 26+ Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval_bucket_26plus_threshold_sweep.json`
-- `Diff-Only Detector 26+ Localized Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval_bucket_26plus_localized_h3_c1800_threshold_sweep.json`
-- `Localized Diff Detector 26+ Localized Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval_bucket_26plus_localized_h3_c1800_threshold_sweep.json`
-- `Diff-Only Detector 26+ Contrastive Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval_bucket_26plus_contrastive_h3_c2200_threshold_sweep.json`
-- `Localized Diff Detector 26+ Contrastive Bucket Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_localized_3000_v1_eval_bucket_26plus_contrastive_h3_c2200_report.json`
-- `Contrastive Window Detector 26+ Contrastive Bucket Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_contrastive_3000_v1_eval_bucket_26plus_contrastive_h3_c2200_threshold_sweep.json`
-- `Paired Eval Shortcut Report`: `reports/secure_code_primevul_paired_eval_balanced_1800_shortcut_diagnostics.json`
-- `Paired Eval Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_report.json`
-- `Paired Eval Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json`
-- `Paired-Trained Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_paired_presence_3000_v1_paired1800_report.json`
-- `Paired-Trained Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_paired_presence_3000_v1_paired1800_threshold_sweep.json`
-- `Pair-Context Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_context_3000_v1_eval1800_report.json`
-- `Pair-Context Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_context_3000_v1_eval1800_threshold_sweep.json`
-- `Diff-Only Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_report.json`
-- `Diff-Only Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_threshold_sweep.json`
-- `Diff-Only Train/Eval Overlap Report`: `reports/secure_code_primevul_pair_diff_only_train_eval_overlap_report.json`
-- `Diff-Only Dedup Eval Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_dedup_report.json`
-- `Diff-Only Dedup Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_v1_eval1800_dedup_threshold_sweep.json`
-- `Diff-Only Seed7 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_report.json`
-- `Diff-Only Seed7 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed7_v1_eval1792_threshold_sweep.json`
-- `Diff-Only Seed99 Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed99_v1_eval1792_report.json`
-- `Diff-Only Seed99 Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_only_3000_seed99_v1_eval1792_threshold_sweep.json`
-- `Candidate-Only Control Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_only_3000_v1_eval1800_report.json`
-- `Candidate-Only Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_only_3000_v1_eval1800_threshold_sweep.json`
-- `Candidate+Diff Detector Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_plus_diff_3000_v1_eval1800_report.json`
-- `Candidate+Diff Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_candidate_plus_diff_3000_v1_eval1800_threshold_sweep.json`
-- `Metadata-Only Control Train Summary`: `reports/secure_code_primevul_pair_metadata_only_train_balanced_3000_summary.json`
-- `Metadata-Only Control Eval Summary`: `reports/secure_code_primevul_pair_metadata_only_eval_balanced_1800_summary.json`
-- `Metadata-Only Control Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_metadata_only_3000_v1_eval1800_report.json`
-- `Metadata-Only Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_metadata_only_3000_v1_eval1800_threshold_sweep.json`
-- `Counterpart-Only Control Train Summary`: `reports/secure_code_primevul_pair_counterpart_only_train_balanced_3000_summary.json`
-- `Counterpart-Only Control Eval Summary`: `reports/secure_code_primevul_pair_counterpart_only_eval_balanced_1800_summary.json`
-- `Counterpart-Only Control Report`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_counterpart_only_3000_v1_eval1800_report.json`
-- `Counterpart-Only Threshold Sweep`: `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_counterpart_only_3000_v1_eval1800_threshold_sweep.json`
-- `Project-Disjoint Feasibility Summary`: `reports/secure_code_primevul_project_disjoint_eval_balanced_1000_summary.json`
-- `PrimeVul Diagnostics`: `reports/SECURE_CODE_DIAGNOSTICS.md`
+
+## Evidence-Coupled Audit
+
+Evidence localization and side-inversion diagnostics retained as bounded audit evidence.
+
+- `Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
+- `Predicted-Side Hunk Scorer`: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`
+- `Side-Inversion Gate Summary`: `reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md`
+- `Manual Adjudication Status Dashboard`: `reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md`
+- `AI Adjudication Summary`: `reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md`

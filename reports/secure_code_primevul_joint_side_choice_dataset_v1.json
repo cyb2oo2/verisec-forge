@@ -1,0 +1,29 @@
+{
+  "status": "ok",
+  "scope": "primevul_joint_side_choice_dataset_v1",
+  "train": {
+    "examples": 6000,
+    "unique_pairs": 3000,
+    "label_counts": {
+      "0": 3000,
+      "1": 3000
+    },
+    "examples_per_pair": 2.0,
+    "synthetic_reverse_pairs": 3000
+  },
+  "eval": {
+    "examples": 1654,
+    "unique_pairs": 827,
+    "label_counts": {
+      "0": 827,
+      "1": 827
+    },
+    "examples_per_pair": 2.0,
+    "skipped_non_pair_groups": 50,
+    "skipped_non_complementary_pairs": 0
+  },
+  "pair_key_overlap": 0,
+  "representation": "metadata-free Side A to Side B unified diff",
+  "reverse_orientation_included": true,
+  "train_pair_construction": "each observed training direction plus a synthetic reversed diff"
+}

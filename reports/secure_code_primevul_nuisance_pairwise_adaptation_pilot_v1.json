@@ -1,0 +1,77 @@
+{
+  "status": "ok",
+  "method": "targeted_nuisance_pairwise_adaptation_pilot",
+  "orientation": {
+    "pairs": 827,
+    "baseline_accuracy": 0.8174123337363967,
+    "adapted_accuracy": 0.8198307134220073,
+    "accuracy_delta": 0.0024183796856106408,
+    "repaired": 14,
+    "introduced": 12,
+    "discordant": 26,
+    "exact_mcnemar_p": 0.8450189828872681
+  },
+  "interventions": {
+    "context_truncated": {
+      "rows": 400,
+      "baseline_success_rate": 0.8175,
+      "adapted_success_rate": 0.8275,
+      "success_rate_delta": 0.01,
+      "repaired_violations": 14,
+      "introduced_violations": 10,
+      "discordant": 24,
+      "exact_mcnemar_p": 0.5412561893463135
+    },
+    "format_normalized": {
+      "rows": 400,
+      "baseline_success_rate": 0.84,
+      "adapted_success_rate": 0.865,
+      "success_rate_delta": 0.025,
+      "repaired_violations": 21,
+      "introduced_violations": 11,
+      "discordant": 32,
+      "exact_mcnemar_p": 0.11018416518345475
+    },
+    "identifier_normalized": {
+      "rows": 400,
+      "baseline_success_rate": 0.81,
+      "adapted_success_rate": 0.8375,
+      "success_rate_delta": 0.0275,
+      "repaired_violations": 21,
+      "introduced_violations": 10,
+      "discordant": 31,
+      "exact_mcnemar_p": 0.07075554598122835
+    },
+    "metadata_removed": {
+      "rows": 400,
+      "baseline_success_rate": 0.8475,
+      "adapted_success_rate": 0.83,
+      "success_rate_delta": -0.0175,
+      "repaired_violations": 10,
+      "introduced_violations": 17,
+      "discordant": 27,
+      "exact_mcnemar_p": 0.24778856337070465
+    },
+    "nonsecurity_padding": {
+      "rows": 400,
+      "baseline_success_rate": 0.575,
+      "adapted_success_rate": 0.87,
+      "success_rate_delta": 0.295,
+      "repaired_violations": 136,
+      "introduced_violations": 18,
+      "discordant": 154,
+      "exact_mcnemar_p": 1.327994896408098e-23
+    },
+    "side_order_swapped": {
+      "rows": 400,
+      "baseline_success_rate": 0.75,
+      "adapted_success_rate": 0.7275,
+      "success_rate_delta": -0.0225,
+      "repaired_violations": 8,
+      "introduced_violations": 17,
+      "discordant": 25,
+      "exact_mcnemar_p": 0.10775214433670044
+    }
+  },
+  "claim_boundary": "This is a 375-pair pilot. Counterfactual gains do not establish external robustness or replace the full-coverage pair-coupled result."
+}

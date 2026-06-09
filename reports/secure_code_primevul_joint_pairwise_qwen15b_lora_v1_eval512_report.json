@@ -1,0 +1,24 @@
+{
+  "status": "ok",
+  "method": "learned_pairwise_joint_side_choice",
+  "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "checkpoint": "checkpoints\\cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "seed": 42,
+  "training_skipped": true,
+  "protocol": {
+    "train_pairs": 375,
+    "eval_pairs": 827,
+    "max_seq_length": 512,
+    "nuisance_interventions": [],
+    "nuisance_intervention_counts": {}
+  },
+  "metrics": {
+    "unique_pairs": 827,
+    "pair_orientation_accuracy": 0.8174123337363967,
+    "joint_group_all_correct": 0.8174123337363967,
+    "joint_side_swap_equivariance": 1.0,
+    "independent_threshold_group_all_correct": 0.5864570737605804
+  },
+  "claim_boundary": "The 1.0 equivariance is enforced by pairwise joint decoding, not learned standalone invariance."
+}
