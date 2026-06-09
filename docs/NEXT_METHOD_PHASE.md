@@ -20,12 +20,14 @@ Measure causal sensitivity to nuisance changes rather than only correlational sh
 
 Protocol: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
 
-Current local materialization:
+Reviewer-facing v2 materialization:
 
-- `200` pair groups
-- `400` base rows
-- `2400` intervention rows
-- six intervention families with invariant, equivariant, or abstention-sensitive expectations
+- `600` pair groups across PrimeVul, DeltaSecommits, and PatchEval
+- `600` base rows and `4,200` intervention rows
+- seeded stratified sampling rather than sorted-first selection
+- one canonical renderer for the base and true side-order swap
+- standardized intervention metadata and token accounting
+- invariant, equivariant, and context-pressure results reported separately
 
 Completed detector stress result:
 
@@ -35,7 +37,12 @@ Completed detector stress result:
 - identifier normalization changes `30.75%`
 - side-order swap violates the expected equivariant relation on `26.50%`
 
-These results make shortcut sensitivity an observed intervention effect rather than only a correlational concern.
+These v1 results remain useful diagnostics, but regex identifier normalization
+and generic formatting normalization are not treated as validated
+semantics-preserving transformations. V2 exposes the padding confound directly:
+end padding introduces zero new critical-hunk truncations, while the same
+numbered comments placed before the diff introduce truncation in `36/600`
+pairs. The next model run must therefore report the no-truncation subset.
 
 ## 3. Learned Joint Secure Patch Model
 
@@ -65,7 +72,7 @@ Current learned baseline:
 
 ## Research Gate
 
-The side-choice-only joint baseline, selective calibration layer, and targeted nuisance pilot are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The next gate is a protected nuisance objective that preserves side-order supervision while scaling the significant padding intervention.
+The side-choice-only joint baseline, selective calibration layer, and targeted nuisance pilot are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The immediate gate is to freeze the v2 measurement instrument, run the existing models under identical inference settings, and only then design parser-aware transformations or further nuisance adaptation.
 
 - independent-side detector
 - pair-coupled decoder

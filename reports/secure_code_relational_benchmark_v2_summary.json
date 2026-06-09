@@ -1,0 +1,128 @@
+{
+  "status": "ok",
+  "benchmark": "pairwise_secure_patch_orientation_v2",
+  "pairs": 600,
+  "rows": 4800,
+  "intervention_rows": 4200,
+  "sampling": {
+    "mode": "balanced",
+    "seed": 42,
+    "max_pairs_per_source": 200,
+    "stratify_by": [
+      "language",
+      "cwe",
+      "diff_bucket",
+      "token_bucket",
+      "project",
+      "year"
+    ]
+  },
+  "tokenizer": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "max_length": 512,
+  "source_summaries": {
+    "primevul": {
+      "input": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "eligible_pairs": 827,
+      "selected_pairs": 200,
+      "skipped_groups": 50
+    },
+    "deltasecommits": {
+      "input": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl",
+      "eligible_pairs": 327,
+      "selected_pairs": 200,
+      "skipped_groups": 0
+    },
+    "patcheval": {
+      "input": "data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+      "eligible_pairs": 269,
+      "selected_pairs": 200,
+      "skipped_groups": 0
+    }
+  },
+  "datasets": {
+    "primevul": 200,
+    "deltasecommits": 200,
+    "patcheval": 200
+  },
+  "languages": {
+    "unknown": 200,
+    "c": 173,
+    "cpp": 27,
+    "python": 94,
+    "javascript": 43,
+    "go": 63
+  },
+  "diff_buckets": {
+    "26+": 34,
+    "03-05": 107,
+    "06-10": 86,
+    "00-02": 317,
+    "11-25": 56
+  },
+  "token_buckets": {
+    "1025+": 21,
+    "<=256": 267,
+    "513-1024": 82,
+    "257-512": 230
+  },
+  "transformation_templates": {
+    "metadata_removed_v1": 600,
+    "length_only_end_numbered_comments_v1": 600,
+    "position_before_diff_numbered_comments_v1": 600,
+    "canonical_renderer_swap_v1": 600,
+    "budget_25pct_before_diff_v1": 600,
+    "budget_50pct_before_diff_v1": 600,
+    "budget_75pct_before_diff_v1": 600
+  },
+  "validation_tiers": {
+    "1": 4200
+  },
+  "no_critical_hunk_truncation_rows": 3315,
+  "critical_hunk_truncation_rows": 885,
+  "transformation_introduced_critical_truncation_rows": 225,
+  "truncation_by_template": {
+    "budget_25pct_before_diff_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 30,
+      "no_critical_hunk_truncation": 473
+    },
+    "budget_50pct_before_diff_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 65,
+      "no_critical_hunk_truncation": 438
+    },
+    "budget_75pct_before_diff_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 94,
+      "no_critical_hunk_truncation": 409
+    },
+    "canonical_renderer_swap_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 0,
+      "no_critical_hunk_truncation": 503
+    },
+    "length_only_end_numbered_comments_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 0,
+      "no_critical_hunk_truncation": 503
+    },
+    "metadata_removed_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 0,
+      "no_critical_hunk_truncation": 522
+    },
+    "position_before_diff_numbered_comments_v1": {
+      "rows": 600,
+      "base_critical_hunk_truncated": 97,
+      "transformation_introduced_critical_truncation": 36,
+      "no_critical_hunk_truncation": 467
+    }
+  },
+  "claim_boundary": "V2 includes prompt-level metadata, padding/context-pressure, and canonical side-order transformations. Regex identifier renaming and generic formatting are excluded from the validated set until parser-aware implementations exist."
+}
