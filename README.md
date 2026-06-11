@@ -95,11 +95,12 @@ Materialize accounting for the exact model runtime before inference:
   --output data\processed\<model>-veripatch-rr-runtime.jsonl
 ```
 
-VeriPatch-RR v0.1 contains representative and marginal-balanced stress suites
-over PrimeVul, DeltaSecommits, and PatchEval. It renders side swaps through one
-canonical path, tracks changed-line occurrences by exact character/token
-offset, and computes truncation with each model's own tokenizer, context
-length, truncation side, and special-token policy.
+VeriPatch-RR v0.1 contains a within-source representative,
+source-macro-balanced primary suite and a separate marginal-balanced stress
+suite over PrimeVul, DeltaSecommits, and PatchEval. It renders side swaps
+through one canonical path, tracks changed-line occurrences through exact fast
+tokenizer offsets, and computes truncation with each model's own tokenizer,
+context length, truncation side, and special-token policy.
 
 Validate local reproducibility inputs:
 

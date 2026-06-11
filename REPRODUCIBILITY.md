@@ -199,6 +199,8 @@ After inference produces one prediction per runtime row, evaluate with:
 The committed Qwen runtime summary verifies the accounting layer only. It
 contains no predictions and makes no robustness claim. Raw benchmark and
 runtime JSONL files remain gitignored because they are generated artifacts.
+Runtime materialization requires a fast tokenizer with native offset mapping;
+slow-tokenizer approximations fail closed.
 
 ## Required Artifacts
 

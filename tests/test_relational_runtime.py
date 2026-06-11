@@ -6,6 +6,8 @@ from vrf.relational_runtime import (
 
 
 class CharacterTokenizer:
+    is_fast = True
+
     def encode(self, text, add_special_tokens=True):
         prefix = [9001] if add_special_tokens else []
         return prefix + [ord(char) for char in text]
@@ -130,9 +132,33 @@ def test_runtime_materialization_records_model_specific_configuration():
     )
 
     assert rows[0]["runtime_accounting"]["model_id"] == "model-x"
+    assert (
+        rows[0]["runtime_accounting"]["offset_mapping_quality"]
+        == "exact_fast_tokenizer"
+    )
     assert rows[1]["runtime_accounting"]["achieved_budget_ratio"] > 0
     assert rows[1]["runtime_accounting"]["transformation_tokens_total"] > 0
     assert (
         rows[1]["runtime_accounting"]["transformation_tokens_visible"]
         <= rows[1]["runtime_accounting"]["transformation_tokens_total"]
     )
+
+
+def test_slow_tokenizer_is_rejected_for_exact_visibility():
+    tokenizer = CharacterTokenizer()
+    tokenizer.is_fast = False
+
+    try:
+        runtime_accounting(
+            "-old\n+new\n",
+            tokenizer=tokenizer,
+            model_id="demo",
+            tokenizer_id="slow",
+            max_length=20,
+            truncation_side="right",
+            add_special_tokens=False,
+        )
+    except ValueError as error:
+        assert "fast tokenizer" in str(error)
+    else:
+        raise AssertionError("slow tokenizer must not enter exact accounting")

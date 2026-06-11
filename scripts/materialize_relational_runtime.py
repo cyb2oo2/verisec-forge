@@ -80,6 +80,7 @@ def summarize_runtime_rows(rows, args) -> dict:
         "max_length": args.max_length,
         "truncation_side": args.truncation_side,
         "add_special_tokens": not args.no_special_tokens,
+        "offset_mapping_quality": "exact_fast_tokenizer",
         "rows": len(rows),
         "critical_hunk_truncated_rows": sum(
             row["critical_hunk_truncated"] for row in accountings

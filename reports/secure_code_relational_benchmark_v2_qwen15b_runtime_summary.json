@@ -6,6 +6,7 @@
   "max_length": 512,
   "truncation_side": "right",
   "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
   "rows": 9600,
   "critical_hunk_truncated_rows": 2644,
   "transformation_introduced_critical_truncation_rows": 773,

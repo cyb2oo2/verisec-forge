@@ -212,12 +212,189 @@ def _confidence(row: dict[str, Any]) -> float | None:
     return max(probability_a, 1.0 - probability_a)
 
 
+def _scope_summary(
+    base_rows: list[dict[str, Any]],
+    interventions: list[dict[str, Any]],
+    *,
+    bootstrap_iterations: int,
+    bootstrap_seed: int,
+) -> dict[str, Any]:
+    relation_rows = [
+        row
+        for row in interventions
+        if row["expected_relation"] in {"invariant", "equivariant_swap"}
+    ]
+    invariant_rows = [
+        row for row in relation_rows if row["expected_relation"] == "invariant"
+    ]
+    equivariant_rows = [
+        row
+        for row in relation_rows
+        if row["expected_relation"] == "equivariant_swap"
+    ]
+    context_rows = [
+        row
+        for row in interventions
+        if row["expected_relation"] == "context_pressure"
+    ]
+    base_visible_rows = [
+        row for row in relation_rows if not row["base_critical_hunk_truncated"]
+    ]
+    clean_rows = [
+        row
+        for row in relation_rows
+        if not row["base_critical_hunk_truncated"]
+        and not row["critical_hunk_truncated"]
+    ]
+    templates = {}
+    for template in sorted(
+        {row["transformation_template"] for row in interventions}
+    ):
+        template_rows = [
+            row
+            for row in interventions
+            if row["transformation_template"] == template
+        ]
+        if template_rows[0]["expected_relation"] == "context_pressure":
+            metrics = context_pressure_metrics(template_rows)
+        else:
+            metrics = relation_metrics(template_rows)
+        templates[template] = {
+            "rows": len(template_rows),
+            **metrics,
+            "unexpected_a_to_b": sum(
+                row["base_prediction"] == "A"
+                and row["transformed_prediction"] == "B"
+                and not row["relation_success"]
+                for row in template_rows
+            ),
+            "unexpected_b_to_a": sum(
+                row["base_prediction"] == "B"
+                and row["transformed_prediction"] == "A"
+                and not row["relation_success"]
+                for row in template_rows
+            ),
+        }
+    bootstrap = {}
+    for metric_index, metric in enumerate(
+        (
+            "transformed_accuracy",
+            "end_to_end_relation_accuracy",
+            "robust_accuracy",
+        )
+    ):
+        bootstrap[metric] = pair_cluster_bootstrap(
+            relation_rows,
+            metric=metric,
+            iterations=bootstrap_iterations,
+            seed=bootstrap_seed + metric_index,
+        )
+    base_accuracy = (
+        sum(
+            protocol_valid(normalize_label(row["predicted_riskier_side"]))
+            and normalize_label(row["predicted_riskier_side"])
+            == normalize_label(row["gold_riskier_side"])
+            for row in base_rows
+        )
+        / len(base_rows)
+        if base_rows
+        else None
+    )
+    return {
+        "base_rows": len(base_rows),
+        "intervention_rows": len(interventions),
+        "pair_groups": len(
+            {
+                row.get(
+                    "cluster_id",
+                    f"{row['dataset']}::{row['pair_key']}",
+                )
+                for row in interventions
+            }
+        ),
+        "base_accuracy": base_accuracy,
+        "base_protocol_pass_rate": (
+            sum(
+                protocol_valid(
+                    normalize_label(row["predicted_riskier_side"])
+                )
+                for row in base_rows
+            )
+            / len(base_rows)
+            if base_rows
+            else None
+        ),
+        "relation_tests": relation_metrics(relation_rows),
+        "invariant_only": {
+            "rows": len(invariant_rows),
+            **relation_metrics(invariant_rows),
+        },
+        "equivariant_only": {
+            "rows": len(equivariant_rows),
+            **relation_metrics(equivariant_rows),
+        },
+        "base_critical_visible": {
+            "rows": len(base_visible_rows),
+            **relation_metrics(base_visible_rows),
+        },
+        "clean_no_truncation": {
+            "rows": len(clean_rows),
+            **relation_metrics(clean_rows),
+        },
+        "context_pressure_only": {
+            "rows": len(context_rows),
+            **context_pressure_metrics(context_rows),
+        },
+        "transformation_introduced_truncation_rows": sum(
+            row["transformation_introduced_critical_truncation"]
+            for row in interventions
+        ),
+        "prediction_counts": dict(
+            Counter(row["transformed_prediction"] for row in interventions)
+        ),
+        "by_template": templates,
+        "pair_cluster_bootstrap": bootstrap,
+    }
+
+
+def _source_macro(dataset_summaries: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    metrics = (
+        "transformed_accuracy",
+        "end_to_end_relation_accuracy",
+        "robust_accuracy",
+    )
+    output = {}
+    for metric in metrics:
+        values = [
+            summary["relation_tests"][metric]
+            for summary in dataset_summaries.values()
+            if summary["relation_tests"][metric] is not None
+        ]
+        output[metric] = sum(values) / len(values) if values else None
+    output["datasets"] = len(dataset_summaries)
+    output["weighting"] = "equal_weight_per_dataset"
+    return output
+
+
 def evaluate_relational_predictions(
     rows: list[dict[str, Any]],
     *,
     bootstrap_iterations: int = 2000,
     bootstrap_seed: int = 42,
 ) -> dict[str, Any]:
+    invalid_offset_rows = [
+        str(row["id"])
+        for row in rows
+        if (row.get("runtime_accounting") or {}).get(
+            "offset_mapping_quality"
+        )
+        != "exact_fast_tokenizer"
+    ]
+    if invalid_offset_rows:
+        raise ValueError(
+            "exact_fast_tokenizer runtime accounting is required; "
+            f"first={invalid_offset_rows[0]}"
+        )
     base_rows = {
         str(row["base_id"]): row
         for row in rows
@@ -330,87 +507,71 @@ def evaluate_relational_predictions(
             }
         )
 
-    relation_rows = [
-        row
-        for row in interventions
-        if row["expected_relation"] in {"invariant", "equivariant_swap"}
-    ]
-    invariant_rows = [
-        row for row in relation_rows if row["expected_relation"] == "invariant"
-    ]
-    equivariant_rows = [
-        row
-        for row in relation_rows
-        if row["expected_relation"] == "equivariant_swap"
-    ]
-    context_rows = [
-        row
-        for row in interventions
-        if row["expected_relation"] == "context_pressure"
-    ]
-    base_visible_rows = [
-        row for row in relation_rows if not row["base_critical_hunk_truncated"]
-    ]
-    clean_rows = [
-        row
-        for row in relation_rows
-        if not row["base_critical_hunk_truncated"]
-        and not row["critical_hunk_truncated"]
-    ]
-    templates = {}
-    for template in sorted(
-        {row["transformation_template"] for row in interventions}
-    ):
-        template_rows = [
+    suites = sorted(
+        {
+            str(row.get("sampling_suite") or "unspecified")
+            for row in base_rows.values()
+        }
+    )
+    datasets = sorted({str(row["dataset"]) for row in base_rows.values()})
+    by_sampling_suite = {}
+    by_sampling_suite_and_dataset = {}
+    for suite_index, suite in enumerate(suites):
+        suite_bases = [
+            row
+            for row in base_rows.values()
+            if str(row.get("sampling_suite") or "unspecified") == suite
+        ]
+        suite_interventions = [
             row
             for row in interventions
-            if row["transformation_template"] == template
+            if str(row.get("sampling_suite") or "unspecified") == suite
         ]
-        if template_rows[0]["expected_relation"] == "context_pressure":
-            metrics = context_pressure_metrics(template_rows)
-        else:
-            metrics = relation_metrics(template_rows)
-        templates[template] = {
-            "rows": len(template_rows),
-            **metrics,
-            "unexpected_a_to_b": sum(
-                row["base_prediction"] == "A"
-                and row["transformed_prediction"] == "B"
-                and not row["relation_success"]
-                for row in template_rows
-            ),
-            "unexpected_b_to_a": sum(
-                row["base_prediction"] == "B"
-                and row["transformed_prediction"] == "A"
-                and not row["relation_success"]
-                for row in template_rows
-            ),
+        by_sampling_suite[suite] = _scope_summary(
+            suite_bases,
+            suite_interventions,
+            bootstrap_iterations=bootstrap_iterations,
+            bootstrap_seed=bootstrap_seed + suite_index * 100,
+        )
+        dataset_summaries = {}
+        for dataset_index, dataset in enumerate(datasets):
+            dataset_bases = [
+                row for row in suite_bases if row["dataset"] == dataset
+            ]
+            dataset_interventions = [
+                row
+                for row in suite_interventions
+                if row["dataset"] == dataset
+            ]
+            if not dataset_bases:
+                continue
+            dataset_summaries[dataset] = _scope_summary(
+                dataset_bases,
+                dataset_interventions,
+                bootstrap_iterations=bootstrap_iterations,
+                bootstrap_seed=(
+                    bootstrap_seed
+                    + suite_index * 100
+                    + dataset_index * 10
+                ),
+            )
+        by_sampling_suite_and_dataset[suite] = dataset_summaries
+        by_sampling_suite[suite]["source_macro"] = _source_macro(
+            dataset_summaries
+        )
+    by_dataset = {
+        dataset: {
+            suite: by_sampling_suite_and_dataset[suite][dataset]
+            for suite in suites
+            if dataset in by_sampling_suite_and_dataset[suite]
         }
-
-    bootstrap = {}
-    for metric_index, metric in enumerate(
-        (
-            "transformed_accuracy",
-            "end_to_end_relation_accuracy",
-            "robust_accuracy",
-        )
-    ):
-        bootstrap[metric] = pair_cluster_bootstrap(
-            relation_rows,
-            metric=metric,
-            iterations=bootstrap_iterations,
-            seed=bootstrap_seed + metric_index,
-        )
-    base_accuracy = (
-        sum(
-            protocol_valid(normalize_label(row["predicted_riskier_side"]))
-            and normalize_label(row["predicted_riskier_side"])
-            == normalize_label(row["gold_riskier_side"])
-            for row in base_rows.values()
-        )
-        / len(base_rows)
-        if base_rows
-        else None
+        for dataset in datasets
+    }
+    representative_key = (
+        "representative" if "representative" in by_sampling_suite else None
+    )
+    stress_key = (
+        "balanced_stress" if "balanced_stress" in by_sampling_suite else None
     )
     return {
         "status": "ok",
@@ -426,52 +587,26 @@ def evaluate_relational_predictions(
             }
         ),
         "cluster_key": "dataset::pair_key",
-        "base_accuracy": base_accuracy,
-        "base_protocol_pass_rate": (
-            sum(
-                protocol_valid(
-                    normalize_label(row["predicted_riskier_side"])
-                )
-                for row in base_rows.values()
-            )
-            / len(base_rows)
-            if base_rows
+        "headline_suite": representative_key,
+        "stress_suite": stress_key,
+        "headline": (
+            by_sampling_suite[representative_key]
+            if representative_key is not None
             else None
         ),
-        "relation_tests": relation_metrics(relation_rows),
-        "invariant_only": {
-            "rows": len(invariant_rows),
-            **relation_metrics(invariant_rows),
-        },
-        "equivariant_only": {
-            "rows": len(equivariant_rows),
-            **relation_metrics(equivariant_rows),
-        },
-        "base_critical_visible": {
-            "rows": len(base_visible_rows),
-            **relation_metrics(base_visible_rows),
-        },
-        "clean_no_truncation": {
-            "rows": len(clean_rows),
-            **relation_metrics(clean_rows),
-        },
-        "context_pressure_only": {
-            "rows": len(context_rows),
-            **context_pressure_metrics(context_rows),
-        },
-        "transformation_introduced_truncation_rows": sum(
-            row["transformation_introduced_critical_truncation"]
-            for row in interventions
+        "stress": (
+            by_sampling_suite[stress_key]
+            if stress_key is not None
+            else None
         ),
-        "prediction_counts": dict(
-            Counter(row["transformed_prediction"] for row in interventions)
-        ),
-        "by_template": templates,
-        "pair_cluster_bootstrap": bootstrap,
+        "by_sampling_suite": by_sampling_suite,
+        "by_dataset": by_dataset,
+        "by_sampling_suite_and_dataset": by_sampling_suite_and_dataset,
+        "aggregate_metrics_omitted": True,
         "claim_boundary": (
-            "Only invariant and equivariant transformations contribute to robust "
-            "accuracy. Context-pressure rows report decision change, abstention, "
-            "confidence drop, forced-decision error, and evidence visibility. "
-            "Appropriate-abstention accuracy requires an external context-sufficiency label."
+            "The source-macro-balanced representative suite is the primary result; "
+            "balanced-stress is reported independently. Overlapping pairs across suites "
+            "are never mixed into a headline point estimate. Only invariant and "
+            "equivariant transformations contribute to robust accuracy."
         ),
     }

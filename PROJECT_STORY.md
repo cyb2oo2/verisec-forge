@@ -43,11 +43,12 @@ Primary evidence:
 The project includes CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks. These support the main claim while preventing overreach: source-aware expert routing helps, but the learned router is a closed-world source selector, not open-set expert discovery.
 
 VeriPatch-RR v0.1 strengthens the measurement layer before further model
-scaling. It separates representative and balanced-stress sampling, stores
+scaling. It separates a within-source representative,
+source-macro-balanced primary suite from balanced stress, stores
 tokenizer-neutral intervention contracts, and recomputes evidence visibility
-with each model's actual tokenizer and truncation policy. Context pressure is
-reported as abstention/confidence behavior rather than being mislabeled as a
-clean invariance test.
+with each model's exact fast-tokenizer offsets and truncation policy. Context
+pressure is reported as abstention/confidence behavior rather than being
+mislabeled as a clean invariance test.
 
 Primary evidence:
 

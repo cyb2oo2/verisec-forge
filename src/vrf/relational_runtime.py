@@ -14,6 +14,11 @@ def _encode(tokenizer: Any, text: str, *, add_special_tokens: bool) -> list[int]
 def _offsets(
     tokenizer: Any, text: str, *, add_special_tokens: bool
 ) -> tuple[list[int], list[tuple[int, int]]]:
+    if not getattr(tokenizer, "is_fast", False):
+        raise ValueError(
+            "Exact visibility accounting requires a fast tokenizer with "
+            "offset mapping."
+        )
     try:
         encoded = tokenizer(
             text,
@@ -24,15 +29,10 @@ def _offsets(
         return list(encoded["input_ids"]), [
             tuple(offset) for offset in encoded["offset_mapping"]
         ]
-    except (TypeError, NotImplementedError, KeyError):
-        ids = _encode(tokenizer, text, add_special_tokens=add_special_tokens)
-        offsets = []
-        previous = 0
-        for index in range(len(ids)):
-            prefix = tokenizer.decode(ids[: index + 1], skip_special_tokens=True)
-            offsets.append((previous, len(prefix)))
-            previous = len(prefix)
-        return ids, offsets
+    except (TypeError, NotImplementedError, KeyError) as error:
+        raise ValueError(
+            "Fast tokenizer did not provide an exact offset_mapping."
+        ) from error
 
 
 def materialize_context_pressure(
@@ -198,6 +198,7 @@ def runtime_accounting(
         "max_length": max_length,
         "truncation_side": truncation_side,
         "add_special_tokens": add_special_tokens,
+        "offset_mapping_quality": "exact_fast_tokenizer",
         "token_count": len(token_ids),
         "visible_token_start": visible_start,
         "visible_token_end": visible_end,

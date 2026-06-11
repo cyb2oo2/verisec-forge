@@ -43,7 +43,8 @@ The benchmark reports:
 
 The default build creates two suites:
 
-- representative: seeded random sampling from the source distribution
+- representative: seeded random sampling within each source, with sources
+  macro-balanced in the combined primary suite
 - balanced-stress: marginal balancing over diff and character-length buckets,
   with project and CWE concentration caps
 
@@ -66,6 +67,9 @@ Before inference, materialize the exact runtime:
 Runtime accounting records tokenizer identity, special-token policy, token
 counts, exact changed-line token spans, critical line/token visibility,
 transformation-token visibility, and achieved context-pressure ratio.
+Exact visibility accounting requires a fast tokenizer with native offset
+mapping. Slow-tokenizer decode approximations are rejected rather than allowed
+into the no-truncation analysis.
 
 After model inference, produce one prediction row per benchmark `id` with:
 
@@ -91,3 +95,9 @@ outputs are invalid. Reports distinguish protocol pass rate, relation accuracy
 conditional on valid output, and end-to-end relation accuracy. Appropriate
 abstention accuracy is intentionally absent until an independent
 context-sufficiency label exists.
+
+Headline metrics are computed only on the source-macro-balanced representative
+suite. Balanced-stress results are reported independently. The evaluator also
+emits `by_sampling_suite`, `by_dataset`, and
+`by_sampling_suite_and_dataset`; it intentionally omits a mixed-suite
+aggregate point estimate because the suites can share source pairs.

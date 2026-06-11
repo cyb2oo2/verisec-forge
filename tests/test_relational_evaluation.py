@@ -20,6 +20,7 @@ def benchmark_row(
     truncated=False,
     dataset="demo",
     pair_key="pair-1",
+    sampling_suite="representative",
 ):
     return {
         "id": row_id,
@@ -27,6 +28,7 @@ def benchmark_row(
         "pair_key": pair_key,
         "cluster_id": f"{dataset}::{pair_key}",
         "dataset": dataset,
+        "sampling_suite": sampling_suite,
         "transformation_family": "base" if relation == "identity" else "test",
         "transformation_template": row_id,
         "expected_relation": relation,
@@ -36,6 +38,7 @@ def benchmark_row(
         "runtime_accounting": {
             "critical_hunk_truncated": truncated,
             "base_critical_hunk_truncated": False,
+            "offset_mapping_quality": "exact_fast_tokenizer",
         },
     }
 
@@ -80,10 +83,11 @@ def test_relational_metrics_separate_relation_and_context_pressure():
         rows, bootstrap_iterations=20, bootstrap_seed=7
     )
 
-    assert report["relation_tests"]["robust_accuracy"] == 1.0
-    assert report["context_pressure_only"]["abstention_rate"] == 1.0
-    assert "robust_accuracy" not in report["context_pressure_only"]
-    assert report["context_pressure_only"]["evidence_truncated_rows"] == 1
+    headline = report["headline"]
+    assert headline["relation_tests"]["robust_accuracy"] == 1.0
+    assert headline["context_pressure_only"]["abstention_rate"] == 1.0
+    assert "robust_accuracy" not in headline["context_pressure_only"]
+    assert headline["context_pressure_only"]["evidence_truncated_rows"] == 1
     json.dumps(report, allow_nan=False)
 
 
@@ -110,9 +114,58 @@ def test_invalid_to_invalid_never_counts_as_relation_success():
         rows, bootstrap_iterations=0
     )
 
-    assert report["base_protocol_pass_rate"] == 0.0
+    assert report["headline"]["base_protocol_pass_rate"] == 0.0
     assert (
-        report["invariant_only"]["end_to_end_relation_accuracy"] == 0.0
+        report["headline"]["invariant_only"][
+            "end_to_end_relation_accuracy"
+        ]
+        == 0.0
+    )
+
+
+def test_overlapping_pair_is_not_mixed_across_sampling_suites():
+    rows = []
+    for suite, prediction in (
+        ("representative", "A"),
+        ("balanced_stress", "B"),
+    ):
+        base_id = f"{suite}::base"
+        rows.extend(
+            [
+                benchmark_row(
+                    base_id,
+                    base_id=base_id,
+                    relation="identity",
+                    gold="A",
+                    prediction=prediction,
+                    probability_a=0.9 if prediction == "A" else 0.1,
+                    pair_key="overlap",
+                    sampling_suite=suite,
+                ),
+                benchmark_row(
+                    f"{suite}::invariant",
+                    base_id=base_id,
+                    relation="invariant",
+                    gold="A",
+                    prediction=prediction,
+                    probability_a=0.9 if prediction == "A" else 0.1,
+                    pair_key="overlap",
+                    sampling_suite=suite,
+                ),
+            ]
+        )
+    report = evaluate_relational_predictions(rows, bootstrap_iterations=10)
+
+    assert report["aggregate_metrics_omitted"] is True
+    assert "relation_tests" not in report
+    assert report["headline_suite"] == "representative"
+    assert report["headline"]["base_accuracy"] == 1.0
+    assert report["stress"]["base_accuracy"] == 0.0
+    assert (
+        report["by_sampling_suite_and_dataset"]["representative"]["demo"][
+            "base_accuracy"
+        ]
+        == 1.0
     )
 
 
@@ -122,6 +175,23 @@ def test_join_predictions_requires_runtime_accounting():
         join_predictions(
             benchmark, [{"id": "a", "prediction": "A"}]
         )
+
+
+def test_evaluator_rejects_approximate_offset_accounting():
+    row = benchmark_row(
+        "base",
+        base_id="base",
+        relation="identity",
+        gold="A",
+        prediction="A",
+        probability_a=0.9,
+    )
+    row["runtime_accounting"][
+        "offset_mapping_quality"
+    ] = "approximate_decode_fallback"
+
+    with pytest.raises(ValueError, match="exact_fast_tokenizer"):
+        evaluate_relational_predictions([row], bootstrap_iterations=0)
 
 
 def test_pair_cluster_bootstrap_scopes_pair_key_by_dataset():
