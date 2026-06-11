@@ -202,6 +202,19 @@ runtime JSONL files remain gitignored because they are generated artifacts.
 Runtime materialization requires a fast tokenizer with native offset mapping;
 slow-tokenizer approximations fail closed.
 
+The first frozen Qwen 1.5B smoke evaluation can be validated from stored local
+runtime rows and predictions:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\veripatch_rr_qwen15b_smoke_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+This manifest reproduces evaluation and statistics, not the five-minute GPU
+inference run. The raw artifacts are not yet part of the public release bundle.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:

@@ -1,0 +1,61 @@
+{
+  "name": "veripatch_rr_qwen15b_smoke_v0.1",
+  "description": "Model-specific runtime rows, predictions, and evaluation outputs for the first frozen VeriPatch-RR v0.1 smoke run.",
+  "created_utc": "2026-06-12",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/evaluate_relational_benchmark_v2.py",
+    "--benchmark",
+    "data/processed/secure_code_relational_benchmark_v2_qwen15b_runtime.jsonl",
+    "--predictions",
+    "outputs/secure_code_veripatch_rr_qwen15b_smoke_predictions.jsonl",
+    "--output",
+    "reports/secure_code_veripatch_rr_qwen15b_smoke_evaluation.json",
+    "--bootstrap-iterations",
+    "2000",
+    "--bootstrap-seed",
+    "42"
+  ],
+  "artifacts": [
+    {
+      "role": "qwen15b_runtime_benchmark",
+      "path": "data/processed/secure_code_relational_benchmark_v2_qwen15b_runtime.jsonl",
+      "sha256": "1d4841d62cdce920fd5449e1b44bde3799cb948e7a7e029b4e1227ea053a1a96",
+      "bytes": 80321681,
+      "rows": 9600
+    },
+    {
+      "role": "qwen15b_predictions",
+      "path": "outputs/secure_code_veripatch_rr_qwen15b_smoke_predictions.jsonl",
+      "sha256": "f286b38c519511187c5dd1630567bc2bafd60342dff843359a5f9fed918e66ba",
+      "bytes": 3157719,
+      "rows": 9600
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "evaluation_json",
+      "path": "reports/secure_code_veripatch_rr_qwen15b_smoke_evaluation.json",
+      "sha256": "618a982075fb32cf1a6566c374f68a57f3b7b09557c7a6391e6a72dceb43e56d",
+      "bytes": 144024
+    },
+    {
+      "role": "evaluation_markdown",
+      "path": "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
+      "sha256": "9701029e184d2f55c8f7a945ea4a7af78bdd086f7084ad2c93e2b425f2468b86",
+      "bytes": 2894
+    }
+  ],
+  "expected": {
+    "prediction_coverage": 1.0,
+    "representative_base_accuracy": 0.6533333333333333,
+    "representative_robust_accuracy": 0.48833333333333334,
+    "representative_side_swap_equivariance": 0.495,
+    "balanced_stress_robust_accuracy": 0.4675
+  },
+  "limitations": [
+    "This is one PrimeVul-trained Qwen 1.5B checkpoint, not a cross-model conclusion.",
+    "The manifest reproduces evaluation from stored runtime rows and predictions, not GPU inference.",
+    "The raw runtime and prediction artifacts remain gitignored and are not yet in the public release bundle."
+  ]
+}
