@@ -42,6 +42,13 @@ Primary evidence:
 
 The project includes CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks. These support the main claim while preventing overreach: source-aware expert routing helps, but the learned router is a closed-world source selector, not open-set expert discovery.
 
+VeriPatch-RR v0.1 strengthens the measurement layer before further model
+scaling. It separates representative and balanced-stress sampling, stores
+tokenizer-neutral intervention contracts, and recomputes evidence visibility
+with each model's actual tokenizer and truncation policy. Context pressure is
+reported as abstention/confidence behavior rather than being mislabeled as a
+clean invariance test.
+
 Primary evidence:
 
 - [CVE-Disjoint Eval](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md)
@@ -50,6 +57,7 @@ Primary evidence:
 - [DeltaSecommits Expert Eval](reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md)
 - [PatchEval Multi-Seed Adapter](reports/PATCHEVAL_ADAPTER_MULTISEED.md)
 - [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md)
+- [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md)
 
 ### 4. Evidence Is Coupled To The Side Decision
 

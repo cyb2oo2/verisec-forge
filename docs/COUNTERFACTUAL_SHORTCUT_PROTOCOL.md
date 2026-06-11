@@ -4,7 +4,7 @@
 
 Does a secure patch model change its decision when nuisance features change but patch security semantics should remain stable?
 
-## V2 Measurement Contract
+## VeriPatch-RR v0.1 Measurement Contract
 
 | Intervention | Expected relation |
 | --- | --- |
@@ -19,6 +19,11 @@ transformed text, family, template, expected relation, validation tier,
 validation basis, changed regions, and token accounting. Regex identifier
 renaming and generic formatting normalization are excluded from the validated
 v2 set until parser-aware implementations exist.
+
+The benchmark JSONL is tokenizer-neutral. It stores complete prompt text,
+exact changed-line occurrences and character spans, transformation metadata,
+and runtime transformation instructions. Token counts and visibility are
+materialized separately for each model.
 
 The benchmark reports:
 
@@ -36,9 +41,31 @@ The benchmark reports:
 .\.venv\Scripts\python.exe scripts\build_relational_benchmark_v2.py
 ```
 
-The default build samples `200` pairs from each of PrimeVul, DeltaSecommits,
-and PatchEval using seed `42`, stratified by language, CWE, diff size, token
-length, project, and year.
+The default build creates two suites:
+
+- representative: seeded random sampling from the source distribution
+- balanced-stress: marginal balancing over diff and character-length buckets,
+  with project and CWE concentration caps
+
+Both suites sample `200` pairs from each of PrimeVul, DeltaSecommits, and
+PatchEval with seed `42`. The report includes target and achieved marginals,
+unavailable target buckets, maximum concentration, and effective project/CWE
+counts.
+
+Before inference, materialize the exact runtime:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\materialize_relational_runtime.py `
+  --model-id <model-id> `
+  --tokenizer <tokenizer-id-or-path> `
+  --max-length <model-input-limit> `
+  --truncation-side right `
+  --output data\processed\<model>-veripatch-rr-runtime.jsonl
+```
+
+Runtime accounting records tokenizer identity, special-token policy, token
+counts, exact changed-line token spans, critical line/token visibility,
+transformation-token visibility, and achieved context-pressure ratio.
 
 After model inference, produce one prediction row per benchmark `id` with:
 
@@ -58,3 +85,9 @@ invariant transformation is causal evidence of nuisance sensitivity; a low
 rate only protects the tested transformation family. Context-pressure rows can
 change the evidence visible to a truncated model and therefore must not be
 collapsed into the clean invariance headline.
+
+Invalid outputs never satisfy a relation, even when both base and transformed
+outputs are invalid. Reports distinguish protocol pass rate, relation accuracy
+conditional on valid output, and end-to-end relation accuracy. Appropriate
+abstention accuracy is intentionally absent until an independent
+context-sufficiency label exists.

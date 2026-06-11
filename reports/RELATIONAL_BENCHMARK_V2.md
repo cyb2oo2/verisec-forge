@@ -1,63 +1,72 @@
-# Relational Benchmark V2
+# VeriPatch-RR v0.1
 
 ## Purpose
 
-This benchmark replaces the earlier sorted-first counterfactual pilot with a
-reviewer-facing paired measurement protocol. It tests whether secure patch
-predictions obey expected relations under controlled prompt transformations,
-while recording when token truncation changes the evidence available to the
-model.
+VeriPatch-RR is a tokenizer-neutral relational robustness benchmark for secure
+patch reasoning. It tests whether vulnerable/fixed side decisions obey
+invariant and equivariant contracts, while separating clean relation failures
+from model-specific token-budget pressure.
 
-## Materialized Benchmark
+## Frozen Benchmark
 
 | Item | Value |
 | --- | ---: |
-| Pair groups | 600 |
-| Sources | PrimeVul 200, DeltaSecommits 200, PatchEval 200 |
-| Base rows | 600 |
-| Intervention rows | 4,200 |
-| Sampling | seeded stratified, seed 42 |
-| Maximum model length | 512 tokens |
+| Sampling suites | representative + balanced-stress |
+| Pair rows | 1,200 |
+| Unique source pairs | 890 |
+| Sources | PrimeVul, DeltaSecommits, PatchEval |
+| Base rows | 1,200 |
+| Intervention rows | 8,400 |
+| Total rows | 9,600 |
 
-Sampling is stratified by language, CWE, diff-size bucket, token-length
-bucket, project, and year. Canonical side order is deterministic and does not
-depend on input row order.
+The benchmark stores complete text, exact changed-line occurrences and
+character offsets, transformation contracts, and runtime transformation
+instructions. It does not store tokenizer-specific visibility claims.
 
-## Transformation Tiers
+## Sampling
 
-Validated v2 transformations include metadata removal, neutral end padding,
-neutral pre-diff padding, canonical side-order swap, and controlled 25/50/75%
-context-budget pressure. Regex identifier renaming and generic formatting
-normalization are excluded until parser-aware implementations can validate
-syntax and changed-region fidelity.
+The representative suite is seeded random sampling from each source. The
+balanced-stress suite greedily targets equal diff and character-length
+marginals while capping project and CWE concentration.
 
-## Truncation Diagnostic
+For PrimeVul, balanced stress reaches exactly `40` pairs in each of the five
+diff buckets and lowers maximum project concentration from `0.155` to `0.015`.
+Impossible targets are exposed rather than hidden: DeltaSecommits contains only
+the `00-02` changed-line bucket in the current source artifact.
 
-| Template | New critical-hunk truncations |
-| --- | ---: |
-| Metadata removal | 0 / 600 |
-| End padding | 0 / 600 |
-| Canonical side swap | 0 / 600 |
-| Pre-diff numbered padding | 36 / 600 |
-| 25% context pressure | 30 / 600 |
-| 50% context pressure | 65 / 600 |
-| 75% context pressure | 94 / 600 |
+## Runtime Contract
 
-This changes the interpretation of the v1 padding result. Sensitivity to
-pre-diff padding can combine nuisance sensitivity with a loss of visible
-security evidence. V2 therefore reports clean no-truncation invariance and
-context-pressure degradation separately.
+Every model must materialize its own accounting with:
 
-## Evaluation
+- model and tokenizer identity
+- maximum length and left/right truncation policy
+- special-token policy
+- base and transformed token counts
+- exact changed-line token offsets
+- critical lines/tokens total and visible
+- first and last critical token
+- transformation tokens total and visible
+- target and achieved context-pressure ratio
 
-`scripts/evaluate_relational_benchmark_v2.py` reports relation violation,
-transformed and robust accuracy, probability relation error, directional
-bias, no-truncation results, per-template metrics, and pair-key cluster
-bootstrap intervals.
+A full Qwen 1.5B tokenizer accounting smoke test materialized all `9,600` rows
+at length `512`. It found `2,644` rows with incomplete critical-hunk visibility
+and `773` rows where the transformation introduced that truncation. This is an
+accounting result, not a model robustness result.
+
+## Evaluation Contract
+
+Invariant and side-swap rows report protocol pass rate, conditional relation
+accuracy, end-to-end relation accuracy, probability consistency, robust
+accuracy, and pair-cluster bootstrap intervals using `dataset::pair_key`.
+
+Context-pressure rows do not contribute to robust accuracy. They report
+decision change, abstention, confidence drop, forced-decision error, and
+evidence-visible versus evidence-truncated subsets. Appropriate-abstention
+accuracy remains undefined until independent context-sufficiency labels exist.
 
 ## Claim Boundary
 
-V2 is a controlled relational robustness benchmark, not proof of semantic
-invariance under every code transformation. The next valid step is a frozen
-cross-model evaluation on this instrument, followed by parser-aware
-identifier and formatting interventions.
+Regex identifier renaming and generic formatting normalization remain v1
+diagnostic pilots. They are not validated semantics-preserving interventions.
+The next valid experiment is frozen cross-model inference on VeriPatch-RR v0.1,
+not further benchmark tuning.

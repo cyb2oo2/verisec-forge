@@ -167,6 +167,39 @@ Expected key outputs:
 
 This is a pilot-scale causal-intervention result. It establishes that the measured padding shortcut is trainable, not that the adapted checkpoint has universally better robustness.
 
+## VeriPatch-RR v0.1
+
+Build the tokenizer-neutral relational benchmark from the three materialized
+paired sources:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_relational_benchmark_v2.py
+```
+
+Then materialize token visibility for the exact model runtime:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\materialize_relational_runtime.py `
+  --model-id <model-id> `
+  --tokenizer <tokenizer-id-or-local-path> `
+  --max-length <input-limit> `
+  --truncation-side right `
+  --output data\processed\<model>-veripatch-rr-runtime.jsonl `
+  --summary-output reports\<model>-veripatch-rr-runtime-summary.json
+```
+
+After inference produces one prediction per runtime row, evaluate with:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\evaluate_relational_benchmark_v2.py `
+  --benchmark data\processed\<model>-veripatch-rr-runtime.jsonl `
+  --predictions outputs\<model>-veripatch-rr-predictions.jsonl
+```
+
+The committed Qwen runtime summary verifies the accounting layer only. It
+contains no predictions and makes no robustness claim. Raw benchmark and
+runtime JSONL files remain gitignored because they are generated artifacts.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:
