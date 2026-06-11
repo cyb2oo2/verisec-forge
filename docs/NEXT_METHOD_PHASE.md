@@ -22,11 +22,12 @@ Protocol: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
 
 Reviewer-facing v2 materialization:
 
-- `600` pair groups across PrimeVul, DeltaSecommits, and PatchEval
-- `600` base rows and `4,200` intervention rows
-- seeded stratified sampling rather than sorted-first selection
+- `600` representative and `600` balanced-stress pair rows across three sources
+- `1,200` base rows and `8,400` intervention rows
+- tokenizer-neutral benchmark plus model-specific runtime accounting
+- seeded representative sampling and explicit marginal stress quotas
 - one canonical renderer for the base and true side-order swap
-- standardized intervention metadata and token accounting
+- occurrence-aware changed-line spans and runtime token visibility
 - invariant, equivariant, and context-pressure results reported separately
 
 Completed detector stress result:
@@ -42,7 +43,9 @@ and generic formatting normalization are not treated as validated
 semantics-preserving transformations. V2 exposes the padding confound directly:
 end padding introduces zero new critical-hunk truncations, while the same
 numbered comments placed before the diff introduce truncation in `36/600`
-pairs. The next model run must therefore report the no-truncation subset.
+pairs under the earlier Qwen/512 accounting. VeriPatch-RR v0.1 now requires
+each model run to recompute this split with its own tokenizer and truncation
+policy.
 
 ## 3. Learned Joint Secure Patch Model
 
@@ -72,7 +75,7 @@ Current learned baseline:
 
 ## Research Gate
 
-The side-choice-only joint baseline, selective calibration layer, and targeted nuisance pilot are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The immediate gate is to freeze the v2 measurement instrument, run the existing models under identical inference settings, and only then design parser-aware transformations or further nuisance adaptation.
+The side-choice-only joint baseline, selective calibration layer, and targeted nuisance pilot are now evaluated, but the learned model is not yet the strongest full-coverage method. Do not claim that selective accuracy replaces pair-coupled decoding. The immediate gate is to validate the frozen VeriPatch-RR v0.1 runtime contract on the existing 1.5B model, then run the same representative/stress protocol across model families.
 
 - independent-side detector
 - pair-coupled decoder

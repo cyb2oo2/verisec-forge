@@ -16,11 +16,12 @@ from vrf.relational_evaluation import evaluate_relational_predictions, join_pred
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Evaluate paired relational benchmark v2 predictions."
+        description="Evaluate VeriPatch-RR v0.1 runtime-materialized predictions."
     )
     parser.add_argument(
         "--benchmark",
-        default="data/processed/secure_code_relational_benchmark_v2.jsonl",
+        required=True,
+        help="Model-specific runtime benchmark produced by materialize_relational_runtime.py.",
     )
     parser.add_argument("--predictions", required=True)
     parser.add_argument(

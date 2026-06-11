@@ -18,8 +18,10 @@ from vrf.relational_benchmark import (
     build_interventions,
     pair_metadata,
     render_pair,
-    sample_pairs,
-    token_accounting,
+    sample_balanced_stress,
+    sample_representative,
+    sampling_diagnostics,
+    structural_accounting,
 )
 
 
@@ -51,36 +53,20 @@ def load_pairs(name: str, path: Path):
     return pairs, skipped
 
 
-def tokenizer_encoder(checkpoint: str):
-    from transformers import AutoTokenizer
-
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint, local_files_only=True)
-
-    class Encoder:
-        def __call__(self, text: str) -> list[int]:
-            return tokenizer.encode(text, add_special_tokens=False)
-
-        @staticmethod
-        def truncate_text(text: str, max_length: int) -> str:
-            token_ids = tokenizer.encode(text, add_special_tokens=False)
-            return tokenizer.decode(token_ids[:max_length], skip_special_tokens=True)
-
-    return Encoder()
-
-
-def build_rows(pairs, *, encode, max_length: int, seed: int) -> list[dict[str, Any]]:
+def build_rows(pairs, *, seed: int, suite: str) -> list[dict[str, Any]]:
     rows = []
     for pair in pairs:
-        metadata = pair_metadata(pair, encode=encode)
-        base_id = f"{pair.dataset}::{pair.pair_key}::base"
+        metadata = pair_metadata(pair)
+        base_id = f"{suite}::{pair.dataset}::{pair.pair_key}::base"
         base_text = render_pair(pair)
         rows.append(
             {
                 "id": base_id,
                 "base_id": base_id,
                 **metadata,
+                "sampling_suite": suite,
                 "transformation_family": "base",
-                "transformation_template": "canonical_pair_renderer_v1",
+                "transformation_template": "canonical_pair_renderer_v2",
                 "expected_relation": "identity",
                 "validation_tier": 1,
                 "validation": {
@@ -88,18 +74,14 @@ def build_rows(pairs, *, encode, max_length: int, seed: int) -> list[dict[str, A
                     "semantic_basis": "canonical vulnerable/fixed pair",
                 },
                 "changed_regions": [],
+                "runtime_transform": {},
                 "text": base_text,
-                "token_accounting": token_accounting(
-                    base_text,
-                    base_text,
-                    encode=encode,
-                    max_length=max_length,
-                ),
-                "generator_version": "relational_benchmark_v2",
+                "structural_accounting": structural_accounting(base_text),
+                "benchmark_version": "VeriPatch-RR-v0.1",
                 "seed": seed,
             }
         )
-        for intervention in build_interventions(pair, encode=encode, max_length=max_length):
+        for intervention in build_interventions(pair):
             transformed_gold = metadata["gold_riskier_side"]
             if intervention.expected_relation == "equivariant_swap":
                 transformed_gold = "B" if transformed_gold == "A" else "A"
@@ -110,102 +92,95 @@ def build_rows(pairs, *, encode, max_length: int, seed: int) -> list[dict[str, A
                     **metadata,
                     "base_gold_riskier_side": metadata["gold_riskier_side"],
                     "gold_riskier_side": transformed_gold,
+                    "sampling_suite": suite,
                     "transformation_family": intervention.family,
                     "transformation_template": intervention.template,
                     "expected_relation": intervention.expected_relation,
                     "validation_tier": intervention.validation_tier,
                     "validation": intervention.validation,
                     "changed_regions": intervention.changed_regions,
+                    "runtime_transform": intervention.runtime_transform,
                     "text": intervention.text,
-                    "token_accounting": intervention.token_accounting,
-                    "generator_version": "relational_benchmark_v2",
+                    "structural_accounting": intervention.structural_accounting,
+                    "benchmark_version": "VeriPatch-RR-v0.1",
                     "seed": seed,
                 }
             )
     return rows
 
 
-def summarize(rows: list[dict[str, Any]], source_summaries: dict[str, Any], args) -> dict[str, Any]:
-    base_rows = [row for row in rows if row["transformation_family"] == "base"]
-    intervention_rows = [row for row in rows if row["transformation_family"] != "base"]
-    no_truncation = [
-        row
-        for row in intervention_rows
-        if not row["token_accounting"].get("critical_hunk_truncated")
+def summarize(
+    rows: list[dict[str, Any]], source_summaries: dict[str, Any], args
+) -> dict[str, Any]:
+    base_rows = [
+        row for row in rows if row["transformation_family"] == "base"
     ]
-    introduced_truncation = [
-        row
-        for row in intervention_rows
-        if row["token_accounting"].get("transformation_introduced_critical_truncation")
+    intervention_rows = [
+        row for row in rows if row["transformation_family"] != "base"
     ]
-    truncation_by_template = {}
-    for template in sorted({row["transformation_template"] for row in intervention_rows}):
-        template_rows = [row for row in intervention_rows if row["transformation_template"] == template]
-        truncation_by_template[template] = {
-            "rows": len(template_rows),
-            "base_critical_hunk_truncated": sum(
-                bool(row["token_accounting"].get("base_critical_hunk_truncated"))
-                for row in template_rows
+    suite_summaries = {}
+    for suite in sorted({row["sampling_suite"] for row in base_rows}):
+        suite_rows = [row for row in base_rows if row["sampling_suite"] == suite]
+        suite_summaries[suite] = {
+            "pairs": len(suite_rows),
+            "datasets": dict(Counter(row["dataset"] for row in suite_rows)),
+            "diff_buckets": dict(
+                Counter(row["diff_bucket"] for row in suite_rows)
             ),
-            "transformation_introduced_critical_truncation": sum(
-                bool(row["token_accounting"].get("transformation_introduced_critical_truncation"))
-                for row in template_rows
+            "character_buckets": dict(
+                Counter(row["character_bucket"] for row in suite_rows)
             ),
-            "no_critical_hunk_truncation": sum(
-                not bool(row["token_accounting"].get("critical_hunk_truncated"))
-                for row in template_rows
-            ),
+            "maximum_project_concentration": max(
+                Counter(
+                    (row["dataset"], row["project"]) for row in suite_rows
+                ).values(),
+                default=0,
+            )
+            / max(1, len(suite_rows)),
         }
     return {
         "status": "ok",
-        "benchmark": "pairwise_secure_patch_orientation_v2",
+        "benchmark": "VeriPatch-RR-v0.1",
         "pairs": len(base_rows),
+        "unique_source_pairs": len(
+            {(row["dataset"], row["pair_key"]) for row in base_rows}
+        ),
         "rows": len(rows),
         "intervention_rows": len(intervention_rows),
         "sampling": {
-            "mode": args.sampling,
             "seed": args.seed,
-            "max_pairs_per_source": args.max_pairs_per_source,
-            "stratify_by": args.stratify_by.split(","),
+            "pairs_per_source_per_suite": args.pairs_per_source,
+            "suites": ["representative", "balanced_stress"],
+            "balance_dimensions": ["diff_bucket", "character_bucket"],
+            "caps": ["project", "cwe"],
         },
-        "tokenizer": args.tokenizer,
-        "max_length": args.max_length,
+        "tokenizer_neutral": True,
+        "runtime_accounting_required": True,
         "source_summaries": source_summaries,
-        "datasets": dict(Counter(row["dataset"] for row in base_rows)),
-        "languages": dict(Counter(row["language"] for row in base_rows)),
-        "diff_buckets": dict(Counter(row["diff_bucket"] for row in base_rows)),
-        "token_buckets": dict(Counter(row["token_bucket"] for row in base_rows)),
+        "suite_summaries": suite_summaries,
         "transformation_templates": dict(
-            Counter(row["transformation_template"] for row in intervention_rows)
+            Counter(
+                row["transformation_template"] for row in intervention_rows
+            )
         ),
-        "validation_tiers": dict(Counter(str(row["validation_tier"]) for row in intervention_rows)),
-        "no_critical_hunk_truncation_rows": len(no_truncation),
-        "critical_hunk_truncation_rows": len(intervention_rows) - len(no_truncation),
-        "transformation_introduced_critical_truncation_rows": len(introduced_truncation),
-        "truncation_by_template": truncation_by_template,
+        "validation_tiers": dict(
+            Counter(str(row["validation_tier"]) for row in intervention_rows)
+        ),
         "claim_boundary": (
-            "V2 includes prompt-level metadata, padding/context-pressure, and canonical side-order "
-            "transformations. Regex identifier renaming and generic formatting are excluded from the "
-            "validated set until parser-aware implementations exist."
+            "VeriPatch-RR v0.1 stores tokenizer-neutral text, structural spans, "
+            "and transformation contracts. Token visibility, exact context-pressure "
+            "ratios, and truncation subsets must be materialized per model runtime."
         ),
     }
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the semantics-auditable relational benchmark v2.")
+    parser = argparse.ArgumentParser(
+        description="Build tokenizer-neutral VeriPatch-RR v0.1."
+    )
     parser.add_argument("--source", action="append", default=[])
-    parser.add_argument("--sampling", choices=["representative", "balanced", "stress"], default="balanced")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--max-pairs-per-source", type=int, default=200)
-    parser.add_argument(
-        "--stratify-by",
-        default="language,cwe,diff_bucket,token_bucket,project,year",
-    )
-    parser.add_argument(
-        "--tokenizer",
-        default="checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
-    )
-    parser.add_argument("--max-length", type=int, default=512)
+    parser.add_argument("--pairs-per-source", type=int, default=200)
     parser.add_argument(
         "--output",
         default="data/processed/secure_code_relational_benchmark_v2.jsonl",
@@ -216,26 +191,47 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    encode = tokenizer_encoder(args.tokenizer)
     all_rows = []
     source_summaries = {}
     for source_value in args.source or DEFAULT_SOURCES:
         name, path = parse_source(source_value)
         pairs, skipped = load_pairs(name, path)
-        selected = sample_pairs(
-            pairs,
-            limit=args.max_pairs_per_source,
-            seed=args.seed,
-            mode=args.sampling,
-            encode=encode,
-            stratify_by=[part.strip() for part in args.stratify_by.split(",") if part.strip()],
+        representative = sample_representative(
+            pairs, limit=args.pairs_per_source, seed=args.seed
         )
-        all_rows.extend(build_rows(selected, encode=encode, max_length=args.max_length, seed=args.seed))
+        balanced = sample_balanced_stress(
+            pairs, limit=args.pairs_per_source, seed=args.seed
+        )
+        all_rows.extend(
+            build_rows(representative, seed=args.seed, suite="representative")
+        )
+        all_rows.extend(
+            build_rows(balanced, seed=args.seed, suite="balanced_stress")
+        )
         source_summaries[name] = {
             "input": str(path.relative_to(ROOT)).replace("\\", "/"),
             "eligible_pairs": len(pairs),
-            "selected_pairs": len(selected),
             "skipped_groups": skipped,
+            "representative": sampling_diagnostics(
+                representative, suite="representative"
+            ),
+            "balanced_stress": sampling_diagnostics(
+                balanced,
+                suite="balanced_stress",
+                target_diff_buckets=[
+                    "00-02",
+                    "03-05",
+                    "06-10",
+                    "11-25",
+                    "26+",
+                ],
+                target_character_buckets=[
+                    "<=1k",
+                    "1k-4k",
+                    "4k-16k",
+                    "16k+",
+                ],
+            ),
         }
     write_jsonl(ROOT / args.output, all_rows)
     summary = summarize(all_rows, source_summaries, args)

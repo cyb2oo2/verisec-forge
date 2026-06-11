@@ -32,7 +32,7 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 | A larger frozen pair head does not solve the gap | hidden/score probes `0.6856` / `0.6941`; synthetic reverse exact match `1.21%` | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
 | Real-pair consistency helps, but synthetic supervision remains stronger | real-only `0.7219`; consistency `0.7437`; synthetic-supervised `0.8283` | [Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
 | The synthetic-supervised model is also more stable in current stress tests | mean invariant change `0.2494` vs `0.2944` | [Joint Counterfactual Comparison](reports/PRIMEVUL_JOINT_COUNTERFACTUAL_COMPARISON.md) |
-| Counterfactual interventions expose causal shortcut sensitivity | v1 padding flip rate `0.6075`; v2 separates length, position, and token-budget truncation | [Relational Benchmark V2](reports/RELATIONAL_BENCHMARK_V2.md) |
+| Counterfactual interventions expose causal shortcut sensitivity | VeriPatch-RR v0.1 is tokenizer-neutral and separates relation tests from context pressure | [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md) |
 | Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
 | Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
 | Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
@@ -79,15 +79,28 @@ Run tests:
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-Build the reviewer-facing relational benchmark:
+Build the reviewer-facing tokenizer-neutral benchmark:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\build_relational_benchmark_v2.py
 ```
 
-The v2 builder uses seeded stratified sampling over PrimeVul, DeltaSecommits,
-and PatchEval, renders side swaps through one canonical prompt path, and records
-token and critical-hunk truncation diagnostics for every intervention.
+Materialize accounting for the exact model runtime before inference:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\materialize_relational_runtime.py `
+  --model-id <model-id> `
+  --tokenizer <tokenizer-id-or-path> `
+  --max-length 512 `
+  --output data\processed\<model>-veripatch-rr-runtime.jsonl
+```
+
+VeriPatch-RR v0.1 contains a within-source representative,
+source-macro-balanced primary suite and a separate marginal-balanced stress
+suite over PrimeVul, DeltaSecommits, and PatchEval. It renders side swaps
+through one canonical path, tracks changed-line occurrences through exact fast
+tokenizer offsets, and computes truncation with each model's own tokenizer,
+context length, truncation side, and special-token policy.
 
 Validate local reproducibility inputs:
 

@@ -12,6 +12,8 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
 - `Human Patch-Pair Annotation Protocol`: `docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md`
 - `Counterfactual Shortcut Protocol`: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
+- `VeriPatch-RR v0.1`: `reports/RELATIONAL_BENCHMARK_V2.md`
+- `VeriPatch-RR Qwen Runtime Accounting`: `reports/secure_code_relational_benchmark_v2_qwen15b_runtime_summary.json`
 - `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
 - `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`
 - `Counterfactual Intervention Summary`: `reports/secure_code_primevul_counterfactual_interventions_v1.json`

@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import difflib
 import hashlib
+import math
 import random
 import re
+from collections import Counter
 from dataclasses import asdict, dataclass
-from typing import Any, Callable, Iterable
+from typing import Any, Iterable
 
 
 @dataclass(frozen=True)
@@ -41,7 +43,8 @@ class InterventionResult:
     validation_tier: int
     validation: dict[str, Any]
     changed_regions: list[str]
-    token_accounting: dict[str, Any]
+    runtime_transform: dict[str, Any]
+    structural_accounting: dict[str, Any]
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -77,13 +80,15 @@ def extract_year(row: dict[str, Any]) -> int | None:
     return None
 
 
-def build_canonical_pair(pair_key: str, rows: list[dict[str, Any]], *, dataset: str) -> CanonicalPair:
+def build_canonical_pair(
+    pair_key: str, rows: list[dict[str, Any]], *, dataset: str
+) -> CanonicalPair:
     if len(rows) != 2:
         raise ValueError("canonical pair requires exactly two rows")
     if {bool(row.get("has_vulnerability")) for row in rows} != {False, True}:
         raise ValueError("canonical pair requires one vulnerable and one secure side")
     ordered = sorted(rows, key=lambda row: str(row["id"]))
-    if stable_int(pair_key) % 2:
+    if stable_int(f"{dataset}::{pair_key}") % 2:
         ordered.reverse()
     first = ordered[0]
     return CanonicalPair(
@@ -91,7 +96,9 @@ def build_canonical_pair(pair_key: str, rows: list[dict[str, Any]], *, dataset: 
         pair_key=pair_key,
         project=str(first.get("project") or "unknown"),
         language=normalize_language(first),
-        cwe=str(first.get("cwe") or first.get("vulnerability_type") or "unknown").lower(),
+        cwe=str(
+            first.get("cwe") or first.get("vulnerability_type") or "unknown"
+        ).lower(),
         cve=str(first.get("cve") or first.get("vulnerability_id") or "unknown"),
         year=extract_year(first),
         side_a=CanonicalSide(
@@ -133,7 +140,9 @@ def unified_diff(pair: CanonicalPair) -> str:
     ).rstrip()
 
 
-def render_pair(pair: CanonicalPair, *, include_metadata: bool = True, prefix: str = "") -> str:
+def render_pair(
+    pair: CanonicalPair, *, include_metadata: bool = True, prefix: str = ""
+) -> str:
     metadata = ""
     if include_metadata:
         metadata = (
@@ -153,108 +162,81 @@ def render_pair(pair: CanonicalPair, *, include_metadata: bool = True, prefix: s
     )
 
 
+def changed_line_occurrences(text: str) -> list[dict[str, Any]]:
+    occurrences = []
+    cursor = 0
+    for line_index, line_with_end in enumerate(text.splitlines(keepends=True)):
+        line = line_with_end.rstrip("\r\n")
+        if (
+            line.startswith(("+", "-"))
+            and not line.startswith(("+++", "---"))
+            and line[1:].strip()
+        ):
+            occurrences.append(
+                {
+                    "occurrence": len(occurrences),
+                    "line_index": line_index,
+                    "text": line,
+                    "char_start": cursor,
+                    "char_end": cursor + len(line),
+                }
+            )
+        cursor += len(line_with_end)
+    return occurrences
+
+
 def changed_line_contents(text: str) -> list[str]:
-    return [
-        line[1:].strip()
-        for line in text.splitlines()
-        if line.startswith(("+", "-"))
-        and not line.startswith(("+++", "---"))
-        and line[1:].strip()
-    ]
+    return [row["text"][1:].strip() for row in changed_line_occurrences(text)]
 
 
-def changed_lines_raw(text: str) -> list[str]:
-    return [
-        line
-        for line in text.splitlines()
-        if line.startswith(("+", "-"))
-        and not line.startswith(("+++", "---"))
-        and line[1:].strip()
-    ]
-
-
-def contains_subsequence(values: list[int], target: list[int]) -> bool:
-    if not target:
-        return True
-    return any(values[index : index + len(target)] == target for index in range(len(values) - len(target) + 1))
-
-
-def token_accounting(
-    original_text: str,
-    transformed_text: str,
-    *,
-    encode: Callable[[str], list[int]],
-    max_length: int,
-) -> dict[str, Any]:
-    original_ids = encode(original_text)
-    transformed_ids = encode(transformed_text)
-    retained = transformed_ids[:max_length]
-    truncate_text = getattr(encode, "truncate_text", None)
-    original_critical_lines = changed_lines_raw(original_text)
-    original_retained = original_ids[:max_length]
-    if truncate_text:
-        original_visible = normalize_for_retention_check(truncate_text(original_text, max_length))
-        original_retained_count = sum(
-            normalize_for_retention_check(line) in original_visible
-            for line in original_critical_lines
-        )
-    else:
-        original_retained_count = sum(
-            contains_subsequence(original_retained, encode(line))
-            for line in original_critical_lines
-        )
-    critical_lines = changed_lines_raw(transformed_text)
-    if truncate_text:
-        transformed_visible = normalize_for_retention_check(truncate_text(transformed_text, max_length))
-        retained_count = sum(
-            normalize_for_retention_check(line) in transformed_visible
-            for line in critical_lines
-        )
-    else:
-        retained_count = sum(contains_subsequence(retained, encode(line)) for line in critical_lines)
-    original_truncated = original_retained_count < len(original_critical_lines)
-    transformed_truncated = retained_count < len(critical_lines)
+def structural_accounting(text: str) -> dict[str, Any]:
+    occurrences = changed_line_occurrences(text)
     return {
-        "original_token_count": len(original_ids),
-        "transformed_token_count": len(transformed_ids),
-        "token_delta": len(transformed_ids) - len(original_ids),
-        "max_length": max_length,
-        "truncated_tokens": max(0, len(transformed_ids) - max_length),
-        "critical_changed_lines": len(critical_lines),
-        "critical_changed_lines_retained": retained_count,
-        "base_critical_hunk_truncated": original_truncated,
-        "critical_hunk_truncated": transformed_truncated,
-        "transformation_introduced_critical_truncation": transformed_truncated and not original_truncated,
+        "character_count": len(text),
+        "line_count": len(text.splitlines()),
+        "critical_changed_lines": len(occurrences),
+        "critical_line_occurrences": occurrences,
     }
-
-
-def normalize_for_retention_check(text: str) -> str:
-    return " ".join(text.split())
 
 
 def neutral_padding(lines: int, *, template: str) -> str:
     if template == "numbered_comments":
-        return "\n".join(f"// non-security context line {index + 1}" for index in range(lines)) + "\n\n"
+        return (
+            "\n".join(
+                f"// non-security context line {index + 1}" for index in range(lines)
+            )
+            + "\n\n"
+        )
     if template == "blank_comment_block":
-        return "/*\n" + "\n".join(" * neutral context" for _ in range(lines)) + "\n */\n\n"
+        return (
+            "/*\n"
+            + "\n".join(
+                f" * neutral context line {index + 1}" for index in range(lines)
+            )
+            + "\n */\n\n"
+        )
     raise ValueError(f"unsupported padding template: {template}")
 
 
-def build_interventions(
-    pair: CanonicalPair,
-    *,
-    encode: Callable[[str], list[int]],
-    max_length: int,
-) -> list[InterventionResult]:
+def insert_before_diff(base_text: str, content: str) -> str:
+    marker = "Unified diff from Side A to Side B:\n"
+    if marker not in base_text:
+        raise ValueError("canonical diff marker missing")
+    return base_text.replace(marker, f"{content}{marker}", 1)
+
+
+def build_interventions(pair: CanonicalPair) -> list[InterventionResult]:
     base_text = render_pair(pair)
     padding = neutral_padding(12, template="numbered_comments")
-    before_diff = render_pair(pair, prefix=f"Non-security context:\n{padding}")
+    before_diff = insert_before_diff(
+        base_text, f"Non-security context:\n{padding}"
+    )
     end_padding = f"{base_text.rstrip()}\n\nNon-security context:\n{padding}"
     results = [
         InterventionResult(
             text=render_pair(pair, include_metadata=False),
             family="metadata",
-            template="metadata_removed_v1",
+            template="metadata_removed_v2",
             expected_relation="invariant",
             validation_tier=1,
             validation={
@@ -262,12 +244,13 @@ def build_interventions(
                 "semantic_basis": "metadata-only removal; code and diff unchanged",
             },
             changed_regions=["metadata"],
-            token_accounting={},
+            runtime_transform={},
+            structural_accounting={},
         ),
         InterventionResult(
             text=end_padding,
             family="padding",
-            template="length_only_end_numbered_comments_v1",
+            template="length_only_end_numbered_comments_v2",
             expected_relation="invariant",
             validation_tier=1,
             validation={
@@ -275,12 +258,13 @@ def build_interventions(
                 "semantic_basis": "neutral text appended after the complete diff",
             },
             changed_regions=["prompt_suffix"],
-            token_accounting={},
+            runtime_transform={},
+            structural_accounting={},
         ),
         InterventionResult(
             text=before_diff,
             family="padding",
-            template="position_before_diff_numbered_comments_v1",
+            template="position_before_diff_numbered_comments_v2",
             expected_relation="invariant",
             validation_tier=1,
             validation={
@@ -288,12 +272,13 @@ def build_interventions(
                 "semantic_basis": "neutral text inserted before the unchanged diff",
             },
             changed_regions=["pre_diff_context"],
-            token_accounting={},
+            runtime_transform={},
+            structural_accounting={},
         ),
         InterventionResult(
             text=render_pair(swap_pair(pair)),
             family="side_order",
-            template="canonical_renderer_swap_v1",
+            template="canonical_renderer_swap_v2",
             expected_relation="equivariant_swap",
             validation_tier=1,
             validation={
@@ -301,63 +286,54 @@ def build_interventions(
                 "semantic_basis": "same canonical pair rendered with A/B order reversed",
             },
             changed_regions=["side_order", "diff_direction"],
-            token_accounting={},
+            runtime_transform={},
+            structural_accounting={},
         ),
     ]
-    base_tokens = max(1, len(encode(base_text)))
     for ratio in (0.25, 0.50, 0.75):
-        target_lines = max(1, round(base_tokens * ratio / 6))
-        pressure = neutral_padding(target_lines, template="blank_comment_block")
         results.append(
             InterventionResult(
-                text=render_pair(pair, prefix=f"Additional context-pressure block:\n{pressure}"),
+                text=base_text,
                 family="context_pressure",
-                template=f"budget_{int(ratio * 100)}pct_before_diff_v1",
+                template=f"budget_{int(ratio * 100)}pct_before_diff_v2",
                 expected_relation="context_pressure",
                 validation_tier=1,
                 validation={
                     "structural_valid": True,
-                    "semantic_basis": "controlled token-budget pressure before unchanged diff",
+                    "semantic_basis": (
+                        "runtime tokenizer generates controlled token-budget "
+                        "pressure before the unchanged diff"
+                    ),
                     "target_budget_ratio": ratio,
                 },
                 changed_regions=["pre_diff_context"],
-                token_accounting={},
+                runtime_transform={
+                    "operation": "insert_token_budget_padding_before_diff",
+                    "target_budget_ratio": ratio,
+                    "padding_template": "blank_comment_block",
+                },
+                structural_accounting={},
             )
         )
     return [
         InterventionResult(
             **{
                 **asdict(result),
-                "token_accounting": token_accounting(
-                    base_text,
-                    result.text,
-                    encode=encode,
-                    max_length=max_length,
-                ),
+                "structural_accounting": structural_accounting(result.text),
             }
         )
         for result in results
     ]
 
 
-def pair_metadata(pair: CanonicalPair, *, encode: Callable[[str], list[int]]) -> dict[str, Any]:
-    diff = unified_diff(pair)
-    changed_lines = len(changed_line_contents(diff))
-    token_count = len(encode(render_pair(pair)))
-    return {
-        "dataset": pair.dataset,
-        "pair_key": pair.pair_key,
-        "project": pair.project,
-        "language": pair.language,
-        "cwe": pair.cwe,
-        "cve": pair.cve,
-        "year": pair.year,
-        "changed_lines": changed_lines,
-        "diff_bucket": diff_bucket(changed_lines),
-        "token_count": token_count,
-        "token_bucket": token_bucket(token_count),
-        "gold_riskier_side": pair.gold_riskier_side,
-    }
+def char_bucket(character_count: int) -> str:
+    if character_count <= 1000:
+        return "<=1k"
+    if character_count <= 4000:
+        return "1k-4k"
+    if character_count <= 16000:
+        return "4k-16k"
+    return "16k+"
 
 
 def diff_bucket(changed_lines: int) -> str:
@@ -372,14 +348,147 @@ def diff_bucket(changed_lines: int) -> str:
     return "26+"
 
 
-def token_bucket(token_count: int) -> str:
-    if token_count <= 256:
-        return "<=256"
-    if token_count <= 512:
-        return "257-512"
-    if token_count <= 1024:
-        return "513-1024"
-    return "1025+"
+def pair_metadata(pair: CanonicalPair) -> dict[str, Any]:
+    diff = unified_diff(pair)
+    changed_lines = len(changed_line_contents(diff))
+    character_count = len(render_pair(pair))
+    return {
+        "dataset": pair.dataset,
+        "pair_key": pair.pair_key,
+        "cluster_id": f"{pair.dataset}::{pair.pair_key}",
+        "project": pair.project,
+        "language": pair.language,
+        "cwe": pair.cwe,
+        "cve": pair.cve,
+        "year": pair.year,
+        "changed_lines": changed_lines,
+        "diff_bucket": diff_bucket(changed_lines),
+        "character_count": character_count,
+        "character_bucket": char_bucket(character_count),
+        "gold_riskier_side": pair.gold_riskier_side,
+    }
+
+
+def _effective_categories(values: Iterable[str]) -> float:
+    counts = Counter(values)
+    total = sum(counts.values())
+    if not total:
+        return 0.0
+    return 1.0 / sum((count / total) ** 2 for count in counts.values())
+
+
+def sampling_diagnostics(
+    selected: list[CanonicalPair],
+    *,
+    suite: str,
+    target_diff_buckets: list[str] | None = None,
+    target_character_buckets: list[str] | None = None,
+) -> dict[str, Any]:
+    metadata = [pair_metadata(pair) for pair in selected]
+    projects = Counter(row["project"] for row in metadata)
+    cwes = Counter(row["cwe"] for row in metadata)
+    achieved_diff = Counter(row["diff_bucket"] for row in metadata)
+    achieved_char = Counter(row["character_bucket"] for row in metadata)
+    total = max(1, len(metadata))
+    return {
+        "suite": suite,
+        "pairs": len(metadata),
+        "target_marginals": {
+            "diff_bucket": target_diff_buckets or "source_distribution",
+            "character_bucket": target_character_buckets or "source_distribution",
+        },
+        "achieved_marginals": {
+            "diff_bucket": dict(achieved_diff),
+            "character_bucket": dict(achieved_char),
+            "language": dict(Counter(row["language"] for row in metadata)),
+        },
+        "unavailable_target_buckets": {
+            "diff_bucket": [
+                bucket
+                for bucket in target_diff_buckets or []
+                if achieved_diff[bucket] == 0
+            ],
+            "character_bucket": [
+                bucket
+                for bucket in target_character_buckets or []
+                if achieved_char[bucket] == 0
+            ],
+        },
+        "maximum_project_concentration": max(projects.values(), default=0) / total,
+        "maximum_cwe_concentration": max(cwes.values(), default=0) / total,
+        "effective_projects": _effective_categories(projects.elements()),
+        "effective_cwes": _effective_categories(cwes.elements()),
+    }
+
+
+def sample_representative(
+    pairs: list[CanonicalPair], *, limit: int, seed: int
+) -> list[CanonicalPair]:
+    values = sorted(pairs, key=lambda pair: pair.pair_key)
+    random.Random(seed).shuffle(values)
+    return values[:limit]
+
+
+def sample_balanced_stress(
+    pairs: list[CanonicalPair],
+    *,
+    limit: int,
+    seed: int,
+    project_cap: int | None = None,
+    cwe_cap: int | None = None,
+) -> list[CanonicalPair]:
+    if limit >= len(pairs):
+        return sorted(pairs, key=lambda pair: pair.pair_key)
+    metadata = {pair.pair_key: pair_metadata(pair) for pair in pairs}
+    diff_values = ["00-02", "03-05", "06-10", "11-25", "26+"]
+    char_values = ["<=1k", "1k-4k", "4k-16k", "16k+"]
+    target_diff = math.ceil(limit / len(diff_values))
+    target_char = math.ceil(limit / len(char_values))
+    project_cap = project_cap or max(2, math.ceil(limit * 0.05))
+    cwe_cap = cwe_cap or max(2, math.ceil(limit * 0.10))
+    rng = random.Random(seed)
+    candidates = sorted(pairs, key=lambda pair: pair.pair_key)
+    rng.shuffle(candidates)
+    selected = []
+    diff_counts: Counter[str] = Counter()
+    char_counts: Counter[str] = Counter()
+    project_counts: Counter[str] = Counter()
+    cwe_counts: Counter[str] = Counter()
+
+    while candidates and len(selected) < limit:
+        best_index = None
+        best_score = None
+        for index, pair in enumerate(candidates):
+            row = metadata[pair.pair_key]
+            if project_counts[row["project"]] >= project_cap:
+                continue
+            if cwe_counts[row["cwe"]] >= cwe_cap:
+                continue
+            diff_deficit = max(0, target_diff - diff_counts[row["diff_bucket"]])
+            char_deficit = max(
+                0, target_char - char_counts[row["character_bucket"]]
+            )
+            score = (
+                diff_deficit + char_deficit,
+                -project_counts[row["project"]],
+                -cwe_counts[row["cwe"]],
+                stable_int(f"{seed}::{pair.dataset}::{pair.pair_key}"),
+            )
+            if best_score is None or score > best_score:
+                best_index = index
+                best_score = score
+        if best_index is None:
+            project_cap += 1
+            cwe_cap += 1
+            continue
+        pair = candidates.pop(best_index)
+        row = metadata[pair.pair_key]
+        selected.append(pair)
+        diff_counts[row["diff_bucket"]] += 1
+        char_counts[row["character_bucket"]] += 1
+        project_counts[row["project"]] += 1
+        cwe_counts[row["cwe"]] += 1
+    return selected
 
 
 def sample_pairs(
@@ -388,59 +497,12 @@ def sample_pairs(
     limit: int,
     seed: int,
     mode: str,
-    encode: Callable[[str], list[int]],
-    stratify_by: Iterable[str],
+    encode: Any = None,
+    stratify_by: Iterable[str] = (),
 ) -> list[CanonicalPair]:
-    if limit >= len(pairs):
-        return sorted(pairs, key=lambda pair: pair.pair_key)
-    metadata = {pair.pair_key: pair_metadata(pair, encode=encode) for pair in pairs}
-    rng = random.Random(seed)
+    del encode, stratify_by
     if mode == "representative":
-        selected = list(pairs)
-        rng.shuffle(selected)
-        return selected[:limit]
-    if mode == "stress":
-        ordered = sorted(
-            pairs,
-            key=lambda pair: (
-                metadata[pair.pair_key]["token_count"],
-                metadata[pair.pair_key]["changed_lines"],
-                pair.pair_key,
-            ),
-        )
-        selected = []
-        left, right = 0, len(ordered) - 1
-        while len(selected) < limit:
-            selected.append(ordered[right])
-            right -= 1
-            if len(selected) < limit:
-                selected.append(ordered[left])
-                left += 1
-        return selected
-    if mode != "balanced":
-        raise ValueError(f"unsupported sampling mode: {mode}")
-
-    fields = list(stratify_by)
-    strata: dict[tuple[str, ...], list[CanonicalPair]] = {}
-    for pair in pairs:
-        row = metadata[pair.pair_key]
-        key = tuple(str(row.get(field, "unknown")) for field in fields)
-        strata.setdefault(key, []).append(pair)
-    for key in sorted(strata):
-        values = strata[key]
-        values.sort(key=lambda pair: pair.pair_key)
-        rng.shuffle(values)
-    keys = sorted(strata)
-    rng.shuffle(keys)
-    selected = []
-    while len(selected) < limit and keys:
-        next_keys = []
-        for key in keys:
-            if strata[key]:
-                selected.append(strata[key].pop())
-                if len(selected) >= limit:
-                    break
-            if strata[key]:
-                next_keys.append(key)
-        keys = next_keys
-    return selected
+        return sample_representative(pairs, limit=limit, seed=seed)
+    if mode in {"balanced", "balanced_stress", "stress"}:
+        return sample_balanced_stress(pairs, limit=limit, seed=seed)
+    raise ValueError(f"unsupported sampling mode: {mode}")
