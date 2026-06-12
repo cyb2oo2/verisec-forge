@@ -1,0 +1,71 @@
+{
+  "name": "qwen_relational_mechanism_audit_v1",
+  "description": "Model-specific 512/1024 runtime rows, predictions, and reports for the Qwen relational mechanism audit.",
+  "created_utc": "2026-06-12",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_qwen_mechanism_audit.py"
+  ],
+  "artifacts": [
+    {
+      "role": "runtime_512",
+      "path": "data/processed/secure_code_qwen_mechanism_audit_v1_runtime512.jsonl",
+      "sha256": "0029d01e27ef41ff59f13f41786100f8d78c1ad6d89768a4db27cfdbe693cf58",
+      "bytes": 51443838,
+      "rows": 8000
+    },
+    {
+      "role": "runtime_1024",
+      "path": "data/processed/secure_code_qwen_mechanism_audit_v1_runtime1024.jsonl",
+      "sha256": "ada4c2a93c337d1a72d7d10d05f657ac54e74a6b503f750954daf0845b57c34a",
+      "bytes": 51431434,
+      "rows": 8000
+    },
+    {
+      "role": "predictions_512",
+      "path": "outputs/secure_code_qwen_mechanism_audit_v1_predictions_512.jsonl",
+      "sha256": "6064a6ed60dcc188594301280f4e58d58572aa224759835066fe0daa49fd372d",
+      "bytes": 2691978,
+      "rows": 8000
+    },
+    {
+      "role": "predictions_1024",
+      "path": "outputs/secure_code_qwen_mechanism_audit_v1_predictions_1024.jsonl",
+      "sha256": "8ec1352f9451b1814fb3aaec9b56da88214c3cb56e9833bb1338ba5396301546",
+      "bytes": 2691770,
+      "rows": 8000
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "mechanism_audit_json",
+      "path": "reports/secure_code_qwen_mechanism_audit_v1.json",
+      "sha256": "0e7f962f03ec62c62d8f59d47d79b9f45196bac7b483daffae4a40243beab0a7",
+      "bytes": 87678
+    },
+    {
+      "role": "mechanism_audit_markdown",
+      "path": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
+      "sha256": "44d34c54b3b2f9b395df3b136cf7b68c0264ebbb44481b90d9cadd614f86eeb0",
+      "bytes": 4555
+    }
+  ],
+  "expected": {
+    "canonical_accuracy_512": 0.655,
+    "canonical_accuracy_1024": 0.66,
+    "side_swap_equivariance_512": 0.496667,
+    "side_swap_equivariance_1024": 0.485,
+    "post_diff_relation_1024": 0.426667,
+    "restored_ending_relation_1024": 0.905,
+    "delta_raw_accuracy_1024": 0.47,
+    "delta_separator_expanded_accuracy_1024": 0.75,
+    "delta_separator_expanded_swap_1024": 0.525,
+    "delta_separator_expanded_post_diff_1024": 0.08
+  },
+  "limitations": [
+    "This audit covers one PrimeVul-trained Qwen2.5-Coder-1.5B sequence classifier.",
+    "The binary checkpoint does not support abstention; context-pressure results are forced decisions.",
+    "The manifest reproduces analysis from stored runtime rows and predictions, not GPU inference.",
+    "The runtime and prediction artifacts remain gitignored until included in a public artifact bundle."
+  ]
+}

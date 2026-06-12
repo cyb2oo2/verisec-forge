@@ -15,3 +15,4 @@ def test_prediction_probability_maps_classifier_label_one_to_side_b():
     assert predicted_b["probability_a"] == pytest.approx(0.2)
     assert predicted_a["predicted_riskier_side"] == "A"
     assert predicted_a["probability_a"] == pytest.approx(0.8)
+    assert predicted_a["supports_abstention"] is False

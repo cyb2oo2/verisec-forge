@@ -24,6 +24,7 @@ def prediction_from_probability(
         "probability_b": probability_b,
         "confidence": max(probability_a, probability_b),
         "model_id": model_id,
+        "supports_abstention": False,
     }
 
 

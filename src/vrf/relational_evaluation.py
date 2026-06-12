@@ -81,6 +81,9 @@ def relation_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def context_pressure_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    supports_abstention = all(
+        bool(row.get("supports_abstention")) for row in rows
+    )
     forced_rows = [
         row for row in rows if row["transformed_prediction"] in FORCED_LABELS
     ]
@@ -92,7 +95,12 @@ def context_pressure_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     ]
     return {
         "decision_change_rate": _mean(rows, "decision_changed"),
-        "abstention_rate": _mean(rows, "transformed_abstained"),
+        "supports_abstention": supports_abstention,
+        "abstention_rate": (
+            _mean(rows, "transformed_abstained")
+            if supports_abstention
+            else None
+        ),
         "base_protocol_pass_rate": _mean(rows, "base_protocol_valid"),
         "transformed_protocol_pass_rate": _mean(
             rows, "transformed_protocol_valid"
@@ -111,11 +119,15 @@ def context_pressure_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "truncated_decision_change_rate": _mean(
             truncated_rows, "decision_changed"
         ),
-        "visible_abstention_rate": _mean(
-            visible_rows, "transformed_abstained"
+        "visible_abstention_rate": (
+            _mean(visible_rows, "transformed_abstained")
+            if supports_abstention
+            else None
         ),
-        "truncated_abstention_rate": _mean(
-            truncated_rows, "transformed_abstained"
+        "truncated_abstention_rate": (
+            _mean(truncated_rows, "transformed_abstained")
+            if supports_abstention
+            else None
         ),
     }
 
@@ -197,6 +209,9 @@ def join_predictions(
                 ),
                 "probability_a": prediction.get("probability_a"),
                 "confidence": prediction.get("confidence"),
+                "supports_abstention": bool(
+                    prediction.get("supports_abstention", False)
+                ),
                 "runtime_accounting": runtime,
             }
         )
@@ -492,6 +507,9 @@ def evaluate_relational_predictions(
                     if base_confidence is not None
                     and transformed_confidence is not None
                     else None
+                ),
+                "supports_abstention": bool(
+                    row.get("supports_abstention")
                 ),
                 "critical_hunk_truncated": bool(
                     accounting.get("critical_hunk_truncated")

@@ -1,0 +1,38 @@
+{
+  "status": "ok",
+  "pairs": 600,
+  "rows": 8000,
+  "datasets": {
+    "deltasecommits": 200,
+    "patcheval": 200,
+    "primevul": 200
+  },
+  "families": {
+    "baseline": 600,
+    "delta_representation": 1400,
+    "padding_position": 4200,
+    "prompt_contract": 1200,
+    "side_order": 600
+  },
+  "variants": {
+    "canonical": 600,
+    "canonical_no_metadata": 600,
+    "delta_clang_format": 200,
+    "delta_clang_format_post_diff": 200,
+    "delta_clang_format_side_swap": 200,
+    "delta_raw": 200,
+    "delta_separator_expanded": 200,
+    "delta_separator_expanded_post_diff": 200,
+    "delta_separator_expanded_side_swap": 200,
+    "padding_after_instructions": 600,
+    "padding_mid_diff": 600,
+    "padding_post_diff": 600,
+    "padding_post_diff_end_patch": 600,
+    "padding_post_diff_restored_ending": 600,
+    "padding_pre_diff": 600,
+    "padding_prompt_prefix": 600,
+    "side_swap": 600,
+    "training_prompt": 600
+  },
+  "clang_format": "D:\\code\\start\\.venv\\Scripts\\clang-format.exe"
+}
