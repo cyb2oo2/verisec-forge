@@ -121,13 +121,18 @@ def render_markdown(report: dict) -> str:
             "",
             "## Prompt Contract",
             "",
-            "| length | variant | accuracy | relation to canonical | clean relation |",
+            "| length | variant | accuracy | relation | clean relation |",
             "| ---: | --- | ---: | ---: | ---: |",
         ]
     )
     for length in ("512", "1024"):
         variants = report["lengths"][length]["variants"]
-        for name in ("canonical", "canonical_no_metadata", "training_prompt"):
+        for name in (
+            "canonical",
+            "canonical_no_metadata",
+            "training_prompt",
+            "training_prompt_side_swap",
+        ):
             row = variants[name]
             lines.append(
                 f"| {length} | `{name}` | {pct(row['accuracy'])} | "

@@ -10,44 +10,44 @@
     {
       "role": "runtime_512",
       "path": "data/processed/secure_code_qwen_mechanism_audit_v1_runtime512.jsonl",
-      "sha256": "788d44415fce39151cfd4f65b14322e4abc897857984d2b0b343a0d2dfac6561",
-      "bytes": 51833438,
-      "rows": 8000
+      "sha256": "813a19cc653f6be0882e28febcfa2ab66607ffd4d803f3e12af0f9a15aa84b42",
+      "bytes": 54834772,
+      "rows": 8600
     },
     {
       "role": "runtime_1024",
       "path": "data/processed/secure_code_qwen_mechanism_audit_v1_runtime1024.jsonl",
-      "sha256": "39ad4038be74968f2911f9aff7a260930b476b58ba515da4d7a8e826c3924f33",
-      "bytes": 51821034,
-      "rows": 8000
+      "sha256": "4095fd02b385dd45d46b378c250ec37f61af2cd10f60c82f4495990021b7d024",
+      "bytes": 54822226,
+      "rows": 8600
     },
     {
       "role": "predictions_512",
       "path": "outputs/secure_code_qwen_mechanism_audit_v1_predictions_512.jsonl",
-      "sha256": "e808056cc734edec2b1558942685bd2ca97e6fc12b2f03fa7003cb88ff08cdac",
-      "bytes": 2702178,
-      "rows": 8000
+      "sha256": "37764bace48d0888685ba0f41307d73faaf6a2fa945e0316c747e9ba6f3838a1",
+      "bytes": 2907903,
+      "rows": 8600
     },
     {
       "role": "predictions_1024",
       "path": "outputs/secure_code_qwen_mechanism_audit_v1_predictions_1024.jsonl",
-      "sha256": "68425893b74735c4ef7cab5a4e3a753d7df3b4df5fa1fc2d2938023a36a26882",
-      "bytes": 2701970,
-      "rows": 8000
+      "sha256": "71037cab76b26380de0c86ab0dc1608237032a5d9ef29c575f6c685252c2bc78",
+      "bytes": 2907663,
+      "rows": 8600
     }
   ],
   "generated_artifacts": [
     {
       "role": "mechanism_audit_json",
       "path": "reports/secure_code_qwen_mechanism_audit_v1.json",
-      "sha256": "baa70f2bb192ed47d4b41528895c253cae4dcb1c87b4f6d176b435d039000cd8",
-      "bytes": 87832
+      "sha256": "f327dd5f2b6829a859456ec2d1215cc9ae07a95566483b19a41dbd21cdc25dc1",
+      "bytes": 93202
     },
     {
       "role": "mechanism_audit_markdown",
       "path": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
-      "sha256": "154ee5b0eac967e98c68d2aba4a07f61804144a9c19d3cbfa07df3b5a77465af",
-      "bytes": 4886
+      "sha256": "c23190376a542ca6fa8db2834fa5bec42372efa00cf075619d48390d4d48e1ad",
+      "bytes": 5006
     }
   ],
   "expected": {
@@ -55,6 +55,8 @@
     "canonical_accuracy_1024": 0.66,
     "side_swap_equivariance_512": 0.496667,
     "side_swap_equivariance_1024": 0.485,
+    "training_contract_swap_equivariance_512": 0.46,
+    "training_contract_swap_equivariance_1024": 0.451667,
     "post_diff_relation_1024": 0.426667,
     "terminal_phrase_relation_1024": 0.905,
     "delta_raw_accuracy_1024": 0.47,

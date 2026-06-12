@@ -63,12 +63,15 @@ failure modes for this checkpoint.
 
 A first cross-architecture control makes the mechanism claim more precise.
 CodeBERT, trained on the same 6,000 bidirectional side-choice rows, also stays
-near chance on side-swap equivariance (`0.5017`) but reaches `0.9417`
+near chance on exact-training-contract side-swap equivariance (`0.5300`;
+Qwen `0.4600`) but reaches `0.9417`
 post-diff relation accuracy, compared with Qwen's `0.5650`. This suggests that
 relational inconsistency is not Qwen-specific, while the severe terminal
 representation dependence is associated with the decoder-style terminal-token
 readout in the current comparison. Different pretraining and initialization
-still prevent a strict causal architecture claim.
+still prevent a strict causal architecture claim. The paired endpoint gap is
+`+0.3767`, with bootstrap 95% CI `[0.3317, 0.4200]`, and remains positive in
+jointly clean, both-canonical-correct, and confidence-matched subsets.
 
 Primary evidence:
 

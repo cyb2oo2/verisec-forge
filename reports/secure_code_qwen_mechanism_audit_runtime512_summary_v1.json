@@ -7,13 +7,13 @@
   "truncation_side": "right",
   "add_special_tokens": true,
   "offset_mapping_quality": "exact_fast_tokenizer",
-  "rows": 8000,
-  "critical_hunk_truncated_rows": 1625,
+  "rows": 8600,
+  "critical_hunk_truncated_rows": 1709,
   "transformation_introduced_critical_truncation_rows": 201,
   "by_sampling_suite": {
     "representative": {
-      "rows": 8000,
-      "critical_hunk_truncated_rows": 1625,
+      "rows": 8600,
+      "critical_hunk_truncated_rows": 1709,
       "transformation_introduced_critical_truncation_rows": 201
     }
   },
@@ -142,6 +142,13 @@
       "critical_hunk_truncated_rows": 84,
       "transformation_introduced_critical_truncation_rows": 0,
       "mean_critical_line_visibility_ratio": 0.8937316066312426,
+      "achieved_budget_ratio": null
+    },
+    "training_prompt_side_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 84,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8937856426361759,
       "achieved_budget_ratio": null
     }
   },

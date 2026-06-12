@@ -130,12 +130,26 @@ def main() -> int:
             # for the training-contract prompt comparison.
             pair = None
         if pair is not None:
+            training_text = training_prompt(pair)
+            training_swap_text = training_prompt(swap_pair(pair))
             rows.append(
                 audit_row(
                     base,
                     variant="training_prompt",
                     family="prompt_contract",
-                    text=training_prompt(pair),
+                    text=training_text,
+                )
+            )
+            rows.append(
+                audit_row(
+                    base,
+                    variant="training_prompt_side_swap",
+                    family="prompt_contract",
+                    text=training_swap_text,
+                    expected_relation="equivariant_swap",
+                    gold_side=(
+                        "B" if base["gold_riskier_side"] == "A" else "A"
+                    ),
                 )
             )
             for variant, transform in (
@@ -240,16 +254,38 @@ def main() -> int:
             diff = base["text"].split(
                 "Unified diff from Side A to Side B:\n", 1
             )[1]
+            training_text = (
+                "Task: compare two versions of the same code change.\n"
+                "The unified diff transforms Side A into Side B.\n"
+                "Predict which side contains the security vulnerability.\n\n"
+                f"{diff}"
+            )
+            swap_diff = swap["text"].split(
+                "Unified diff from Side A to Side B:\n", 1
+            )[1]
+            training_swap_text = (
+                "Task: compare two versions of the same code change.\n"
+                "The unified diff transforms Side A into Side B.\n"
+                "Predict which side contains the security vulnerability.\n\n"
+                f"{swap_diff}"
+            )
             rows.append(
                 audit_row(
                     base,
                     variant="training_prompt",
                     family="prompt_contract",
-                    text=(
-                        "Task: compare two versions of the same code change.\n"
-                        "The unified diff transforms Side A into Side B.\n"
-                        "Predict which side contains the security vulnerability.\n\n"
-                        f"{diff}"
+                    text=training_text,
+                )
+            )
+            rows.append(
+                audit_row(
+                    base,
+                    variant="training_prompt_side_swap",
+                    family="prompt_contract",
+                    text=training_swap_text,
+                    expected_relation="equivariant_swap",
+                    gold_side=(
+                        "B" if base["gold_riskier_side"] == "A" else "A"
                     ),
                 )
             )

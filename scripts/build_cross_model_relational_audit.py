@@ -20,12 +20,14 @@ PRIMARY_VARIANTS = (
     "padding_pre_diff",
     "padding_post_diff",
     "padding_post_diff_terminal_phrase",
+    "training_prompt",
+    "training_prompt_side_swap",
 )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Build the six-variant cross-model relational audit."
+        description="Build the eight-variant cross-model relational audit."
     )
     parser.add_argument(
         "--input",
@@ -69,6 +71,10 @@ def main() -> int:
             "padding_post_diff_terminal_phrase": (
                 "decision-consistency recovery from a terminal "
                 "task-completion phrase"
+            ),
+            "training_prompt": "exact training-contract canonical rendering",
+            "training_prompt_side_swap": (
+                "exact training-contract side-swap equivariance"
             ),
         },
         "excluded_stress": [

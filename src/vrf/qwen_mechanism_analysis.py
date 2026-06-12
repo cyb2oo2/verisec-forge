@@ -58,10 +58,20 @@ def analyze_length(
         for row in rows
         if row["audit_variant"] == "canonical"
     }
+    training_prompt = {
+        (str(row["dataset"]), str(row["pair_key"])): row
+        for row in rows
+        if row["audit_variant"] == "training_prompt"
+    }
     variants = {}
     for variant in sorted({str(row["audit_variant"]) for row in rows}):
         variant_rows = [row for row in rows if row["audit_variant"] == variant]
-        variants[variant] = _variant_metrics(variant_rows, canonical)
+        reference = (
+            training_prompt
+            if variant == "training_prompt_side_swap"
+            else canonical
+        )
+        variants[variant] = _variant_metrics(variant_rows, reference)
 
     return {
         "max_length": max_length,
@@ -80,7 +90,11 @@ def analyze_length(
                         if row["dataset"] == dataset
                         and row["audit_variant"] == variant
                     ],
-                    canonical,
+                    (
+                        training_prompt
+                        if variant == "training_prompt_side_swap"
+                        else canonical
+                    ),
                 )
                 for variant in sorted(
                     {

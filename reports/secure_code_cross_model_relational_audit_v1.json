@@ -8,13 +8,19 @@
         "readout_type": "qwen_sequence_classification_score",
         "pooling_mechanism": "terminal_non_padding_token",
         "tokenizer": "Qwen2.5-Coder tokenizer",
-        "training_objective": "binary_side_choice_cross_entropy",
+        "training_objective": "paired binary classification + vulnerable-score margin + complementary-probability regularization",
+        "loss_weights": {
+          "classification": 1.0,
+          "margin": 0.5,
+          "complement": 0.1
+        },
         "supports_abstention": false
       },
-      "rows": 3600,
+      "rows": 4800,
       "pairs": 600,
       "canonical_accuracy": 0.655,
       "side_swap_equivariance": 0.496667,
+      "training_contract_swap_equivariance": 0.46,
       "metadata_removed_relation": 0.863333,
       "pre_diff_relation": 0.778333,
       "post_diff_relation": 0.565,
@@ -23,7 +29,9 @@
       "post_diff_b_to_a": 1,
       "clean_post_diff_relation": 0.472727,
       "robust_accuracy": 0.19333333333333333,
-      "clean_robust_accuracy": 0.18,
+      "clean_pair_coverage": 0.745,
+      "clean_robust_accuracy_conditional": 0.24161073825503357,
+      "clean_and_robust_coverage": 0.18,
       "canonical_critical_hunk_truncated": 105
     },
     "codebert_encoder_classifier": {
@@ -35,10 +43,11 @@
         "training_objective": "binary_side_choice_cross_entropy",
         "supports_abstention": false
       },
-      "rows": 3600,
+      "rows": 4800,
       "pairs": 600,
       "canonical_accuracy": 0.676667,
       "side_swap_equivariance": 0.501667,
+      "training_contract_swap_equivariance": 0.53,
       "metadata_removed_relation": 0.931667,
       "pre_diff_relation": 0.918333,
       "post_diff_relation": 0.941667,
@@ -47,9 +56,166 @@
       "post_diff_b_to_a": 0,
       "clean_post_diff_relation": 0.917062,
       "robust_accuracy": 0.38666666666666666,
-      "clean_robust_accuracy": 0.2866666666666667,
+      "clean_pair_coverage": 0.58,
+      "clean_robust_accuracy_conditional": 0.4942528735632184,
+      "clean_and_robust_coverage": 0.2866666666666667,
       "canonical_critical_hunk_truncated": 178
     }
   },
-  "claim_boundary": "CodeBERT uses the same 6,000 bidirectional side-choice rows and one epoch, but Qwen additionally inherits an earlier pair-diff initialization. This is an architecture stress comparison, not a controlled pretraining or capacity comparison."
+  "paired_statistics": {
+    "bootstrap_iterations": 2000,
+    "bootstrap_seed": 42,
+    "subsets": {
+      "all_pairs": {
+        "pairs": 600,
+        "qwen_post_diff_relation": 0.565,
+        "codebert_post_diff_relation": 0.9416666666666667,
+        "qwen_training_contract_swap": 0.46,
+        "codebert_training_contract_swap": 0.53,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.37666666666666665,
+          "ci95": [
+            0.33166666666666667,
+            0.42
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.335,
+          "ci95": [
+            0.29333333333333333,
+            0.375
+          ]
+        }
+      },
+      "jointly_clean": {
+        "pairs": 348,
+        "qwen_post_diff_relation": 0.5086206896551724,
+        "codebert_post_diff_relation": 0.8994252873563219,
+        "qwen_training_contract_swap": 0.5488505747126436,
+        "codebert_training_contract_swap": 0.632183908045977,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.39080459770114945,
+          "ci95": [
+            0.32471264367816094,
+            0.4511494252873563
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.3735632183908046,
+          "ci95": [
+            0.3132183908045977,
+            0.43103448275862066
+          ]
+        }
+      },
+      "both_canonical_correct": {
+        "pairs": 269,
+        "qwen_post_diff_relation": 0.6468401486988847,
+        "codebert_post_diff_relation": 0.966542750929368,
+        "qwen_training_contract_swap": 0.7695167286245354,
+        "codebert_training_contract_swap": 0.8401486988847584,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.31970260223048325,
+          "ci95": [
+            0.26394052044609667,
+            0.3754646840148699
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.2862453531598513,
+          "ci95": [
+            0.23048327137546468,
+            0.3420074349442379
+          ]
+        }
+      },
+      "canonical_confidence_gap_le_0_05": {
+        "pairs": 148,
+        "qwen_post_diff_relation": 0.668918918918919,
+        "codebert_post_diff_relation": 0.9594594594594594,
+        "qwen_training_contract_swap": 0.7905405405405406,
+        "codebert_training_contract_swap": 0.8243243243243243,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.2905405405405405,
+          "ci95": [
+            0.20945945945945946,
+            0.3716216216216216
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.2635135135135135,
+          "ci95": [
+            0.1891891891891892,
+            0.33783783783783783
+          ]
+        }
+      }
+    },
+    "by_dataset": {
+      "deltasecommits": {
+        "pairs": 200,
+        "qwen_post_diff_relation": 0.405,
+        "codebert_post_diff_relation": 1.0,
+        "qwen_training_contract_swap": 0.125,
+        "codebert_training_contract_swap": 0.06,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.595,
+          "ci95": [
+            0.53,
+            0.665
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.53,
+          "ci95": [
+            0.465,
+            0.605
+          ]
+        }
+      },
+      "patcheval": {
+        "pairs": 200,
+        "qwen_post_diff_relation": 0.615,
+        "codebert_post_diff_relation": 0.905,
+        "qwen_training_contract_swap": 0.645,
+        "codebert_training_contract_swap": 0.775,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.29,
+          "ci95": [
+            0.205,
+            0.37
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.245,
+          "ci95": [
+            0.17,
+            0.325
+          ]
+        }
+      },
+      "primevul": {
+        "pairs": 200,
+        "qwen_post_diff_relation": 0.675,
+        "codebert_post_diff_relation": 0.92,
+        "qwen_training_contract_swap": 0.61,
+        "codebert_training_contract_swap": 0.755,
+        "endpoint_gap_codebert_minus_qwen": {
+          "estimate": 0.245,
+          "ci95": [
+            0.17,
+            0.315
+          ]
+        },
+        "terminal_recovery_interaction": {
+          "estimate": 0.23,
+          "ci95": [
+            0.165,
+            0.29
+          ]
+        }
+      }
+    }
+  },
+  "claim_boundary": "CodeBERT uses the same 6,000 bidirectional side-choice rows and one epoch, but Qwen additionally inherits an earlier pair-diff initialization and uses margin plus complementary-probability regularization. This is an architecture stress comparison, not a controlled architecture-only, objective, pretraining, or capacity comparison."
 }

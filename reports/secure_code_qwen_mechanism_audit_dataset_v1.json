@@ -1,7 +1,7 @@
 {
   "status": "ok",
   "pairs": 600,
-  "rows": 8000,
+  "rows": 8600,
   "datasets": {
     "deltasecommits": 200,
     "patcheval": 200,
@@ -11,7 +11,7 @@
     "baseline": 600,
     "delta_representation": 1400,
     "padding_position": 4200,
-    "prompt_contract": 1200,
+    "prompt_contract": 1800,
     "side_order": 600
   },
   "variants": {
@@ -32,7 +32,8 @@
     "padding_pre_diff": 600,
     "padding_prompt_prefix": 600,
     "side_swap": 600,
-    "training_prompt": 600
+    "training_prompt": 600,
+    "training_prompt_side_swap": 600
   },
   "clang_format": "D:\\code\\start\\.venv\\Scripts\\clang-format.exe",
   "clang_format_status": {

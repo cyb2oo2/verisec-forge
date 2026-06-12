@@ -26,30 +26,30 @@
     {
       "role": "codebert_runtime_512",
       "path": "data/processed/secure_code_cross_model_relational_audit_codebert_v1_runtime512.jsonl",
-      "sha256": "0090eb6a11a64f9a34370c7c19ee4da6f7ea95547e5ff24542622751277d02b9",
-      "bytes": 19046809,
-      "rows": 3600
+      "sha256": "e570d5677bc3dae6f540870386bbc1808002f5bb6c406dd46a55314dc0d6d060",
+      "bytes": 25040210,
+      "rows": 4800
     },
     {
       "role": "codebert_predictions",
       "path": "outputs/secure_code_cross_model_relational_audit_codebert_v1_predictions.jsonl",
-      "sha256": "ca91cc2bc12605590484431cba45832fb9f575bd7fb616eac94b850b04576e40",
-      "bytes": 1202923,
-      "rows": 3600
+      "sha256": "8e5a2e16fa4294c4856371305f5bd6022bd1a2b23e5c81b02cec1e981a959dd7",
+      "bytes": 1606898,
+      "rows": 4800
     }
   ],
   "generated_artifacts": [
     {
       "role": "cross_model_report_json",
       "path": "reports/secure_code_cross_model_relational_audit_v1.json",
-      "sha256": "07697bc97cb2657dcdfa7a60b69155420a7d4d8675b8ed781f2e6b0ec9b97492",
-      "bytes": 2241
+      "sha256": "7d414081b878a989bf7caf28a5c53a6427def6dfd842b34b3572b46d29e1ad50",
+      "bytes": 7406
     },
     {
       "role": "cross_model_report_markdown",
       "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
-      "sha256": "0bcb63e21210a92e388bfb6390736ddba0e4541392d756438d7dcacba732486d",
-      "bytes": 1653
+      "sha256": "f14ce9c8a490371e6b1b9af4c0dc0e3eee9760fb71fc9a1afd44631fb01fe956",
+      "bytes": 2826
     },
     {
       "role": "codebert_training_report",
@@ -67,16 +67,30 @@
   "expected": {
     "qwen_canonical_accuracy": 0.655,
     "qwen_side_swap_equivariance": 0.496667,
+    "qwen_training_contract_swap_equivariance": 0.46,
     "qwen_post_diff_relation": 0.565,
+    "qwen_clean_pair_coverage": 0.745,
+    "qwen_clean_robust_accuracy_conditional": 0.241611,
+    "qwen_clean_and_robust_coverage": 0.18,
     "codebert_canonical_accuracy": 0.676667,
     "codebert_side_swap_equivariance": 0.501667,
+    "codebert_training_contract_swap_equivariance": 0.53,
     "codebert_post_diff_relation": 0.941667,
+    "codebert_clean_pair_coverage": 0.58,
+    "codebert_clean_robust_accuracy_conditional": 0.494253,
+    "codebert_clean_and_robust_coverage": 0.286667,
+    "endpoint_gap_codebert_minus_qwen": 0.376667,
+    "endpoint_gap_ci_low": 0.331667,
+    "endpoint_gap_ci_high": 0.42,
+    "terminal_recovery_interaction": 0.335,
+    "terminal_recovery_interaction_ci_low": 0.293333,
+    "terminal_recovery_interaction_ci_high": 0.375,
     "batch_shape_224_side": "A",
     "batch_shape_232_side": "B"
   },
   "limitations": [
-    "Qwen inherits an earlier pair-diff initialization; CodeBERT starts from the public base encoder.",
-    "The comparison controls the side-choice rows and audit pairs, not model capacity, tokenizer, or pretraining.",
+    "Qwen inherits an earlier pair-diff initialization and uses classification, margin, and complementary-probability losses; CodeBERT starts from the public base encoder and uses cross-entropy.",
+    "The comparison controls the side-choice rows and audit pairs, not objective, model capacity, tokenizer, pretraining, or initialization.",
     "The manifest reproduces analysis from stored predictions, not GPU training.",
     "The CodeBERT checkpoint and public base model remain gitignored local artifacts."
   ]

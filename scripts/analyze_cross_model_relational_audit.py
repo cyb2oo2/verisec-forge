@@ -10,7 +10,10 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from vrf.cross_model_relational_analysis import summarize_model
+from vrf.cross_model_relational_analysis import (
+    compare_paired_models,
+    summarize_model,
+)
 from vrf.io_utils import read_jsonl, write_json
 from vrf.qwen_mechanism_analysis import join_predictions
 
@@ -51,6 +54,8 @@ def main() -> int:
         "--markdown-output",
         default="reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
     )
+    parser.add_argument("--bootstrap-iterations", type=int, default=2000)
+    parser.add_argument("--bootstrap-seed", type=int, default=42)
     args = parser.parse_args()
 
     audit_ids = {str(row["id"]) for row in read_jsonl(ROOT / args.audit)}
@@ -76,7 +81,15 @@ def main() -> int:
                 "readout_type": "qwen_sequence_classification_score",
                 "pooling_mechanism": "terminal_non_padding_token",
                 "tokenizer": "Qwen2.5-Coder tokenizer",
-                "training_objective": "binary_side_choice_cross_entropy",
+                "training_objective": (
+                    "paired binary classification + vulnerable-score margin "
+                    "+ complementary-probability regularization"
+                ),
+                "loss_weights": {
+                    "classification": 1.0,
+                    "margin": 0.5,
+                    "complement": 0.1,
+                },
                 "supports_abstention": False,
             },
         ),
@@ -93,48 +106,116 @@ def main() -> int:
             },
         ),
     }
+    paired_statistics = compare_paired_models(
+        models["qwen15b_decoder_classifier"]["pair_records"],
+        models["codebert_encoder_classifier"]["pair_records"],
+        iterations=args.bootstrap_iterations,
+        seed=args.bootstrap_seed,
+    )
+    public_models = {
+        name: {
+            key: value
+            for key, value in row.items()
+            if key != "pair_records"
+        }
+        for name, row in models.items()
+    }
+    claim_boundary = (
+        "CodeBERT uses the same 6,000 bidirectional side-choice rows and "
+        "one epoch, but Qwen additionally inherits an earlier pair-diff "
+        "initialization and uses margin plus complementary-probability "
+        "regularization. This is an architecture stress comparison, not "
+        "a controlled architecture-only, objective, pretraining, or "
+        "capacity comparison."
+    )
     payload = {
         "status": "ok",
         "scope": "first_cross_architecture_relational_audit",
-        "models": models,
-        "claim_boundary": (
-            "CodeBERT uses the same 6,000 bidirectional side-choice rows and "
-            "one epoch, but Qwen additionally inherits an earlier pair-diff "
-            "initialization. This is an architecture stress comparison, not "
-            "a controlled pretraining or capacity comparison."
-        ),
+        "models": public_models,
+        "paired_statistics": paired_statistics,
+        "claim_boundary": claim_boundary,
     }
     write_json(ROOT / args.json_output, payload)
 
     lines = [
         "# Cross-Model Relational Audit",
         "",
-        "This is the first compact architecture comparison on 600 fixed pairs and six variants per pair.",
+        "This is the first compact architecture comparison on 600 fixed pairs and eight variants per pair.",
         "",
-        "| model | canonical | swap equivariance | post-diff relation | terminal phrase relation | A->B / B->A | robust | clean robust | canonical truncated |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| model | canonical | swap | training-contract swap | post-diff | terminal phrase | robust | clean coverage | clean robust conditional | clean+robust coverage |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for name, row in models.items():
+    for name, row in public_models.items():
         lines.append(
             f"| `{name}` | {pct(row['canonical_accuracy'])} | "
             f"{pct(row['side_swap_equivariance'])} | "
+            f"{pct(row['training_contract_swap_equivariance'])} | "
             f"{pct(row['post_diff_relation'])} | "
             f"{pct(row['terminal_phrase_relation'])} | "
-            f"{row['post_diff_a_to_b']} / {row['post_diff_b_to_a']} | "
             f"{pct(row['robust_accuracy'])} | "
-            f"{pct(row['clean_robust_accuracy'])} | "
-            f"{row['canonical_critical_hunk_truncated']} |"
+            f"{pct(row['clean_pair_coverage'])} | "
+            f"{pct(row['clean_robust_accuracy_conditional'])} | "
+            f"{pct(row['clean_and_robust_coverage'])} |"
+        )
+    all_stats = paired_statistics["subsets"]["all_pairs"]
+    endpoint = all_stats["endpoint_gap_codebert_minus_qwen"]
+    interaction = all_stats["terminal_recovery_interaction"]
+    lines.extend(
+        [
+            "",
+            "## Paired Statistics",
+            "",
+            (
+                f"- Endpoint gap, CodeBERT minus Qwen: `{endpoint['estimate']:.4f}` "
+                f"(pair bootstrap 95% CI "
+                f"`[{endpoint['ci95'][0]:.4f}, {endpoint['ci95'][1]:.4f}]`)."
+            ),
+            (
+                f"- Terminal-recovery interaction: `{interaction['estimate']:.4f}` "
+                f"(pair bootstrap 95% CI "
+                f"`[{interaction['ci95'][0]:.4f}, {interaction['ci95'][1]:.4f}]`)."
+            ),
+            "",
+            "| subset | pairs | endpoint gap | 95% CI | recovery interaction | 95% CI |",
+            "| --- | ---: | ---: | --- | ---: | --- |",
+        ]
+    )
+    for name, stats in paired_statistics["subsets"].items():
+        gap = stats["endpoint_gap_codebert_minus_qwen"]
+        recovery = stats["terminal_recovery_interaction"]
+        lines.append(
+            f"| `{name}` | {stats['pairs']} | {gap['estimate']:.4f} | "
+            f"[{gap['ci95'][0]:.4f}, {gap['ci95'][1]:.4f}] | "
+            f"{recovery['estimate']:.4f} | "
+            f"[{recovery['ci95'][0]:.4f}, {recovery['ci95'][1]:.4f}] |"
+        )
+    lines.extend(
+        [
+            "",
+            "## By Dataset",
+            "",
+            "| dataset | pairs | endpoint gap | 95% CI | recovery interaction |",
+            "| --- | ---: | ---: | --- | ---: |",
+        ]
+    )
+    for name, stats in paired_statistics["by_dataset"].items():
+        gap = stats["endpoint_gap_codebert_minus_qwen"]
+        recovery = stats["terminal_recovery_interaction"]
+        lines.append(
+            f"| `{name}` | {stats['pairs']} | {gap['estimate']:.4f} | "
+            f"[{gap['ci95'][0]:.4f}, {gap['ci95'][1]:.4f}] | "
+            f"{recovery['estimate']:.4f} |"
         )
     lines.extend(
         [
             "",
             "## Findings",
             "",
-            "- **Relational inconsistency crosses architectures.** Both classifiers remain near chance on side-swap equivariance despite above-chance canonical accuracy.",
+            "- **Relational inconsistency crosses architectures.** Both classifiers remain near chance on canonical and exact-training-contract side-swap equivariance despite above-chance pointwise accuracy.",
             "- **Severe endpoint collapse does not cross this first architecture control.** CodeBERT preserves `94.17%` of canonical decisions under post-diff padding, versus Qwen's `56.50%`.",
             "- **Base capability does not explain the endpoint gap.** CodeBERT canonical accuracy is `67.67%`, close to Qwen's `65.50%`.",
             "- **The readout hypothesis is strengthened but not proven.** The result is consistent with terminal-token decoder readout sensitivity, but pretraining, tokenizer, capacity, and initialization also differ.",
-            "- The models do not have identical pretraining, capacity, tokenizer, or initialization; conclusions must remain architecture-stress observations.",
+            "- The models do not have identical objectives, pretraining, capacity, tokenizer, or initialization; conclusions must remain architecture-stress observations.",
             "",
             "## Claim Boundary",
             "",
@@ -145,7 +226,16 @@ def main() -> int:
     (ROOT / args.markdown_output).write_text(
         "\n".join(lines), encoding="utf-8"
     )
-    print(json.dumps(models, indent=2))
+    print(
+        json.dumps(
+            {
+                "models": public_models,
+                "paired_statistics": paired_statistics,
+                "claim_boundary": claim_boundary,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
