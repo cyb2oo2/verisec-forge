@@ -14,7 +14,7 @@ The checkpoint does not support abstention. All results below measure forced bin
 ## Findings
 
 1. **Longer context does not repair relational inconsistency.** Canonical accuracy changes only from 65.50% to 66.00%, while side-swap equivariance changes from 49.67% to 48.50%.
-2. **The suffix failure is endpoint-sensitive rather than a truncation artifact.** At 1024, post-diff padding has 42.67% relation accuracy with zero transformation-introduced critical-hunk truncations. Restoring a natural ending raises it to 90.50%, whereas a novel `[END_PATCH]` marker reaches only 67.00%.
+2. **The suffix failure is endpoint-sensitive rather than a truncation artifact.** At 1024, post-diff padding has 42.67% relation accuracy with zero transformation-introduced critical-hunk truncations. Adding a terminal task-completion phrase raises it to 90.50%, whereas a novel `[END_PATCH]` marker reaches only 67.00%.
 3. **Prompt distribution shift is secondary.** At 1024, no-metadata and training-contract prompts preserve 90.83% and 89.33% of canonical decisions.
 4. **Delta has both representation and relational failures.** At 1024, separator expansion raises forced-decision accuracy from 47.00% to 75.00%, but its side-swap equivariance is only 52.50% and post-diff relation accuracy is 8.00%.
 
@@ -25,16 +25,16 @@ The checkpoint does not support abstention. All results below measure forced bin
 | 512 | `padding_prompt_prefix` | 82.33% | 91.05% | 80 | 26 | 48 |
 | 512 | `padding_after_instructions` | 81.17% | 89.49% | 88 | 25 | 48 |
 | 512 | `padding_pre_diff` | 77.83% | 85.46% | 107 | 26 | 48 |
-| 512 | `padding_mid_diff` | 75.17% | 80.98% | 123 | 26 | 48 |
+| 512 | `padding_mid_diff_malformed_stress` | 75.17% | 80.98% | 123 | 26 | 48 |
 | 512 | `padding_post_diff` | 56.50% | 47.27% | 260 | 1 | 0 |
-| 512 | `padding_post_diff_restored_ending` | 90.33% | 88.28% | 44 | 14 | 0 |
+| 512 | `padding_post_diff_terminal_phrase` | 90.33% | 88.28% | 44 | 14 | 0 |
 | 512 | `padding_post_diff_end_patch` | 70.83% | 64.65% | 173 | 2 | 0 |
 | 1024 | `padding_prompt_prefix` | 89.33% | 90.48% | 58 | 6 | 5 |
 | 1024 | `padding_after_instructions` | 88.50% | 89.77% | 64 | 5 | 5 |
 | 1024 | `padding_pre_diff` | 86.00% | 87.13% | 79 | 5 | 5 |
-| 1024 | `padding_mid_diff` | 82.50% | 83.42% | 99 | 6 | 5 |
+| 1024 | `padding_mid_diff_malformed_stress` | 82.50% | 83.42% | 99 | 6 | 5 |
 | 1024 | `padding_post_diff` | 42.67% | 39.86% | 343 | 1 | 0 |
-| 1024 | `padding_post_diff_restored_ending` | 90.50% | 90.03% | 37 | 20 | 0 |
+| 1024 | `padding_post_diff_terminal_phrase` | 90.50% | 90.03% | 37 | 20 | 0 |
 | 1024 | `padding_post_diff_end_patch` | 67.00% | 65.38% | 193 | 5 | 0 |
 
 ## Prompt Contract
@@ -63,5 +63,7 @@ The checkpoint does not support abstention. All results below measure forced bin
 
 - `512` and `1024` are sensitivity settings for the same checkpoint, not separate trained models.
 - Relation metrics are also reported on the clean subset where the canonical and transformed critical hunks are both fully visible.
-- DeltaSecommits should be described as a combined source and representation shift unless normalization clearly restores behavior.
+- DeltaSecommits is a combined source and representation shift; the interventions recover ordinary accuracy but are not validated semantics-preserving normalization.
+- The mid-diff intervention is a malformed-diff formatting stress, not a semantics-preserving invariance test.
+- Delta separator expansion and formatter fallback are representation interventions, not validated semantics-preserving normalization.
 - Suffix effects are mechanism evidence only if they persist without transformation-introduced truncation; they do not by themselves identify a specific pooling implementation.

@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "pairs": 600,
+  "rows": 3600,
+  "variants": {
+    "canonical": 600,
+    "side_swap": 600,
+    "canonical_no_metadata": 600,
+    "padding_pre_diff": 600,
+    "padding_post_diff": 600,
+    "padding_post_diff_terminal_phrase": 600
+  },
+  "protocol": {
+    "canonical": "base forced-decision accuracy",
+    "side_swap": "side-order equivariance",
+    "canonical_no_metadata": "metadata-removal relation",
+    "padding_pre_diff": "prompt-level pre-diff nuisance",
+    "padding_post_diff": "terminal representation sensitivity",
+    "padding_post_diff_terminal_phrase": "decision-consistency recovery from a terminal task-completion phrase"
+  },
+  "excluded_stress": [
+    "padding_mid_diff_malformed_stress",
+    "Delta representation-specific variants"
+  ]
+}

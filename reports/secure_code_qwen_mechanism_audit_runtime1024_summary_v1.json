@@ -88,7 +88,7 @@
       "mean_critical_line_visibility_ratio": 0.9595300093514955,
       "achieved_budget_ratio": null
     },
-    "padding_mid_diff": {
+    "padding_mid_diff_malformed_stress": {
       "rows": 600,
       "critical_hunk_truncated_rows": 33,
       "transformation_introduced_critical_truncation_rows": 5,
@@ -109,7 +109,7 @@
       "mean_critical_line_visibility_ratio": 0.9662515023261523,
       "achieved_budget_ratio": null
     },
-    "padding_post_diff_restored_ending": {
+    "padding_post_diff_terminal_phrase": {
       "rows": 600,
       "critical_hunk_truncated_rows": 28,
       "transformation_introduced_critical_truncation_rows": 0,

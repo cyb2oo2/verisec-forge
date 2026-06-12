@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,14 @@ from vrf.relational_benchmark import (
 NEUTRAL_PADDING = "\n".join(
     f"// non-security context line {index + 1}" for index in range(12)
 )
+
+
+@dataclass(frozen=True)
+class FormatResult:
+    code: str
+    success: bool
+    fallback_used: bool
+    stderr: str
 
 
 def insert_after_instructions(text: str, content: str) -> str:
@@ -67,9 +76,11 @@ def padding_variants(base_text: str) -> dict[str, str]:
             base_text, NEUTRAL_PADDING
         ),
         "padding_pre_diff": insert_before_diff(base_text, NEUTRAL_PADDING),
-        "padding_mid_diff": insert_mid_diff(base_text, NEUTRAL_PADDING),
+        "padding_mid_diff_malformed_stress": insert_mid_diff(
+            base_text, NEUTRAL_PADDING
+        ),
         "padding_post_diff": suffix,
-        "padding_post_diff_restored_ending": (
+        "padding_post_diff_terminal_phrase": (
             f"{suffix}\nUnified diff complete.\n"
         ),
         "padding_post_diff_end_patch": f"{suffix}\n[END_PATCH]\n",
@@ -82,17 +93,35 @@ def expand_c_like_separators(code: str) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
-def clang_format_code(code: str, *, executable: Path) -> str:
-    result = subprocess.run(
-        [str(executable), "--style=LLVM", "--assume-filename=input.cc"],
-        input=code,
-        text=True,
-        capture_output=True,
-        check=False,
-    )
+def clang_format_code(code: str, *, executable: Path) -> FormatResult:
+    try:
+        result = subprocess.run(
+            [str(executable), "--style=LLVM", "--assume-filename=input.cc"],
+            input=code,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except OSError as exc:
+        return FormatResult(
+            code=expand_c_like_separators(code),
+            success=False,
+            fallback_used=True,
+            stderr=str(exc),
+        )
     if result.returncode != 0 or not result.stdout.strip():
-        return expand_c_like_separators(code)
-    return result.stdout
+        return FormatResult(
+            code=expand_c_like_separators(code),
+            success=False,
+            fallback_used=True,
+            stderr=result.stderr.strip(),
+        )
+    return FormatResult(
+        code=result.stdout,
+        success=True,
+        fallback_used=False,
+        stderr=result.stderr.strip(),
+    )
 
 
 def transform_pair_code(
@@ -120,6 +149,33 @@ def transform_pair_code(
     )
 
 
+def replace_pair_code(
+    pair: CanonicalPair,
+    *,
+    side_a_code: str,
+    side_b_code: str,
+) -> CanonicalPair:
+    return CanonicalPair(
+        dataset=pair.dataset,
+        pair_key=pair.pair_key,
+        project=pair.project,
+        language=pair.language,
+        cwe=pair.cwe,
+        cve=pair.cve,
+        year=pair.year,
+        side_a=CanonicalSide(
+            id=pair.side_a.id,
+            code=side_a_code,
+            vulnerable=pair.side_a.vulnerable,
+        ),
+        side_b=CanonicalSide(
+            id=pair.side_b.id,
+            code=side_b_code,
+            vulnerable=pair.side_b.vulnerable,
+        ),
+    )
+
+
 def audit_row(
     base: dict[str, Any],
     *,
@@ -128,6 +184,7 @@ def audit_row(
     text: str,
     expected_relation: str = "invariant",
     gold_side: str | None = None,
+    audit_metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "id": f"audit::{base['dataset']}::{base['pair_key']}::{variant}",
@@ -143,5 +200,6 @@ def audit_row(
         "expected_relation": expected_relation,
         "gold_riskier_side": gold_side or base["gold_riskier_side"],
         "runtime_transform": {},
+        "audit_metadata": audit_metadata or {},
         "text": text,
     }

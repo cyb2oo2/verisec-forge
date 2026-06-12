@@ -12,6 +12,7 @@ src/*.egg-info/
 artifacts/
 outputs/
 checkpoints/
+models/
 .DS_Store
 .tmp_test_runs/
 pytest-cache-files-*/

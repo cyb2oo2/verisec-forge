@@ -16,6 +16,7 @@ from vrf.qwen_mechanism_audit import (
     clang_format_code,
     expand_c_like_separators,
     padding_variants,
+    replace_pair_code,
     training_prompt,
     transform_pair_code,
 )
@@ -140,12 +141,6 @@ def main() -> int:
             for variant, transform in (
                 ("delta_raw", lambda value: value),
                 ("delta_separator_expanded", expand_c_like_separators),
-                (
-                    "delta_clang_format",
-                    lambda value: clang_format_code(
-                        value, executable=formatter
-                    ),
-                ),
             ):
                 transformed = transform_pair_code(pair, transform)
                 rows.append(
@@ -181,6 +176,64 @@ def main() -> int:
                         ],
                     )
                 )
+            formatted_a = clang_format_code(
+                pair.side_a.code, executable=formatter
+            )
+            formatted_b = clang_format_code(
+                pair.side_b.code, executable=formatter
+            )
+            transformed = replace_pair_code(
+                pair,
+                side_a_code=formatted_a.code,
+                side_b_code=formatted_b.code,
+            )
+            format_metadata = {
+                "normalization_contract": (
+                    "clang-format when successful; regex separator fallback "
+                    "otherwise; not validated semantics-preserving"
+                ),
+                "side_a_clang_format_success": formatted_a.success,
+                "side_a_fallback_used": formatted_a.fallback_used,
+                "side_b_clang_format_success": formatted_b.success,
+                "side_b_fallback_used": formatted_b.fallback_used,
+                "both_sides_clang_format_success": (
+                    formatted_a.success and formatted_b.success
+                ),
+            }
+            transformed_text = render_pair(transformed)
+            rows.append(
+                audit_row(
+                    base,
+                    variant="delta_clang_format",
+                    family="delta_representation",
+                    text=transformed_text,
+                    audit_metadata=format_metadata,
+                )
+            )
+            rows.append(
+                audit_row(
+                    base,
+                    variant="delta_clang_format_side_swap",
+                    family="delta_representation",
+                    text=render_pair(swap_pair(transformed)),
+                    expected_relation="equivariant_swap",
+                    gold_side=(
+                        "B" if base["gold_riskier_side"] == "A" else "A"
+                    ),
+                    audit_metadata=format_metadata,
+                )
+            )
+            rows.append(
+                audit_row(
+                    base,
+                    variant="delta_clang_format_post_diff",
+                    family="delta_representation",
+                    text=padding_variants(transformed_text)[
+                        "padding_post_diff"
+                    ],
+                    audit_metadata=format_metadata,
+                )
+            )
         else:
             # Reconstruct the training-style instruction while retaining the
             # canonical diff body for non-Delta sources.
@@ -219,6 +272,23 @@ def main() -> int:
             for variant in sorted({row["audit_variant"] for row in rows})
         },
         "clang_format": str(formatter),
+        "clang_format_status": {
+            "both_sides_success_pairs": sum(
+                row.get("audit_metadata", {}).get(
+                    "both_sides_clang_format_success", False
+                )
+                for row in rows
+                if row["audit_variant"] == "delta_clang_format"
+            ),
+            "fallback_pairs": sum(
+                not row.get("audit_metadata", {}).get(
+                    "both_sides_clang_format_success", False
+                )
+                for row in rows
+                if row["audit_variant"] == "delta_clang_format"
+            ),
+            "parse_validation_available": False,
+        },
     }
     write_json(ROOT / args.summary_output, summary)
     print(json.dumps(summary, indent=2))
