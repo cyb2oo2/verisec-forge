@@ -1,0 +1,149 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_qwen_mechanism_audit_v1.jsonl",
+  "model_id": "qwen15b-mechanism-512",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "max_length": 512,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 8000,
+  "critical_hunk_truncated_rows": 1625,
+  "transformation_introduced_critical_truncation_rows": 201,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 8000,
+      "critical_hunk_truncated_rows": 1625,
+      "transformation_introduced_critical_truncation_rows": 201
+    }
+  },
+  "by_template": {
+    "canonical": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 105,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8688430259553864,
+      "achieved_budget_ratio": null
+    },
+    "canonical_no_metadata": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 88,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8905340443286959,
+      "achieved_budget_ratio": null
+    },
+    "delta_clang_format": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 52,
+      "transformation_introduced_critical_truncation_rows": 3,
+      "mean_critical_line_visibility_ratio": 0.8986599339417554,
+      "achieved_budget_ratio": null
+    },
+    "delta_clang_format_post_diff": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 52,
+      "transformation_introduced_critical_truncation_rows": 3,
+      "mean_critical_line_visibility_ratio": 0.8986599339417554,
+      "achieved_budget_ratio": null
+    },
+    "delta_clang_format_side_swap": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 52,
+      "transformation_introduced_critical_truncation_rows": 3,
+      "mean_critical_line_visibility_ratio": 0.8933741865060355,
+      "achieved_budget_ratio": null
+    },
+    "delta_raw": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 64,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.68,
+      "achieved_budget_ratio": null
+    },
+    "delta_separator_expanded": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 32,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9263877952552636,
+      "achieved_budget_ratio": null
+    },
+    "delta_separator_expanded_post_diff": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 32,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9263877952552636,
+      "achieved_budget_ratio": null
+    },
+    "delta_separator_expanded_side_swap": {
+      "rows": 200,
+      "critical_hunk_truncated_rows": 32,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9251290851895808,
+      "achieved_budget_ratio": null
+    },
+    "padding_after_instructions": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 153,
+      "transformation_introduced_critical_truncation_rows": 48,
+      "mean_critical_line_visibility_ratio": 0.8057546818606875,
+      "achieved_budget_ratio": null
+    },
+    "padding_mid_diff": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 153,
+      "transformation_introduced_critical_truncation_rows": 48,
+      "mean_critical_line_visibility_ratio": 0.8060324596384654,
+      "achieved_budget_ratio": null
+    },
+    "padding_post_diff": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 105,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8688430259553864,
+      "achieved_budget_ratio": null
+    },
+    "padding_post_diff_end_patch": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 105,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8688430259553864,
+      "achieved_budget_ratio": null
+    },
+    "padding_post_diff_restored_ending": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 105,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8688430259553864,
+      "achieved_budget_ratio": null
+    },
+    "padding_pre_diff": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 153,
+      "transformation_introduced_critical_truncation_rows": 48,
+      "mean_critical_line_visibility_ratio": 0.8057546818606875,
+      "achieved_budget_ratio": null
+    },
+    "padding_prompt_prefix": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 153,
+      "transformation_introduced_critical_truncation_rows": 48,
+      "mean_critical_line_visibility_ratio": 0.8057546818606875,
+      "achieved_budget_ratio": null
+    },
+    "side_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 105,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8691286493530147,
+      "achieved_budget_ratio": null
+    },
+    "training_prompt": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 84,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8937316066312426,
+      "achieved_budget_ratio": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}

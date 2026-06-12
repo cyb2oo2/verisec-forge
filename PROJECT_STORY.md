@@ -50,6 +50,16 @@ with each model's exact fast-tokenizer offsets and truncation policy. Context
 pressure is reported as abstention/confidence behavior rather than being
 mislabeled as a clean invariance test.
 
+The first frozen Qwen 1.5B mechanism audit then separates three hypotheses.
+Moving from `512` to `1024` tokens leaves side-swap equivariance near chance
+(`0.4967 -> 0.4850`), so truncation is not the main explanation. Neutral
+post-diff padding remains strongly directional at `1024` (`0.4267` relation
+accuracy), while restoring a natural ending raises relation accuracy to
+`0.9050`. Delta separator expansion restores ordinary accuracy
+(`0.4700 -> 0.7500`) but not relational robustness. The bounded conclusion is
+that representation mismatch and relational inconsistency are distinct
+failure modes for this checkpoint.
+
 Primary evidence:
 
 - [CVE-Disjoint Eval](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md)
@@ -59,6 +69,7 @@ Primary evidence:
 - [PatchEval Multi-Seed Adapter](reports/PATCHEVAL_ADAPTER_MULTISEED.md)
 - [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md)
 - [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md)
+- [Qwen Relational Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md)
 
 ### 4. Evidence Is Coupled To The Side Decision
 

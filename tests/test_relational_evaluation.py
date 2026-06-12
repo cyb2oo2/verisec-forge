@@ -85,7 +85,8 @@ def test_relational_metrics_separate_relation_and_context_pressure():
 
     headline = report["headline"]
     assert headline["relation_tests"]["robust_accuracy"] == 1.0
-    assert headline["context_pressure_only"]["abstention_rate"] == 1.0
+    assert headline["context_pressure_only"]["abstention_rate"] is None
+    assert headline["context_pressure_only"]["supports_abstention"] is False
     assert "robust_accuracy" not in headline["context_pressure_only"]
     assert headline["context_pressure_only"]["evidence_truncated_rows"] == 1
     json.dumps(report, allow_nan=False)
