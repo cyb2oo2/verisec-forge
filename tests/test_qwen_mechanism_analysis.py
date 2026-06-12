@@ -49,6 +49,26 @@ def test_analysis_separates_accuracy_and_relation():
     assert report["supports_abstention"] is False
 
 
+def test_training_contract_swap_uses_training_prompt_as_reference():
+    rows = [
+        row("base", "canonical", "A", "A"),
+        row("train", "training_prompt", "A", "B"),
+        row(
+            "train-swap",
+            "training_prompt_side_swap",
+            "B",
+            "A",
+            relation="equivariant_swap",
+        ),
+    ]
+    report = analyze_length(rows, max_length=512)
+
+    assert (
+        report["variants"]["training_prompt_side_swap"]["relation_accuracy"]
+        == 1.0
+    )
+
+
 def test_compare_lengths_counts_repairs_and_regressions():
     short = [
         row("base", "canonical", "A", "B"),

@@ -35,7 +35,7 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 | Counterfactual interventions expose causal shortcut sensitivity | VeriPatch-RR v0.1 is tokenizer-neutral and separates relation tests from context pressure | [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md) |
 | Frozen-instrument smoke exposes relational failure | Qwen 1.5B representative base `0.6533`, robust `0.4883`, side-swap `0.4950` | [VeriPatch-RR Qwen Smoke](reports/VERIPATCH_RR_QWEN15B_SMOKE.md) |
 | Mechanism audit separates context, endpoint, and representation effects | 1024 swap `0.4850`; suffix relation `0.4267` -> terminal phrase `0.9050`; Delta raw `0.4700` -> expanded `0.7500` | [Qwen Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md) |
-| First cross-architecture control separates two failure modes | Qwen/CodeBERT swap `0.4967/0.5017`; post-diff relation `0.5650/0.9417` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
+| Cross-architecture controls separate two failure modes | exact-contract swap `0.4600/0.5300`; endpoint gap `+0.3767`, paired 95% CI `[0.3317, 0.4200]` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
 | Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
 | Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
 | Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
@@ -116,10 +116,13 @@ relational consistency.
 
 The first encoder control sharpens that conclusion. A CodeBERT classifier
 trained on the same 6,000 bidirectional side-choice rows remains near chance
-on side-swap equivariance (`0.5017`), but preserves `0.9417` of canonical
+on exact-training-contract side-swap equivariance (`0.5300`, versus Qwen
+`0.4600`), but preserves `0.9417` of canonical
 decisions under post-diff padding. Relational inconsistency therefore appears
 broader than one architecture, while the severe terminal endpoint effect is
-not reproduced by this first-token encoder readout.
+not reproduced by this first-token encoder readout. The paired endpoint gap is
+`+0.3767` with bootstrap 95% CI `[0.3317, 0.4200]`, and remains positive on
+jointly clean, both-canonical-correct, and confidence-matched subsets.
 
 Validate local reproducibility inputs:
 

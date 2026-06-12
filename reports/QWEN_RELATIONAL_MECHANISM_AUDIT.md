@@ -39,14 +39,16 @@ The checkpoint does not support abstention. All results below measure forced bin
 
 ## Prompt Contract
 
-| length | variant | accuracy | relation to canonical | clean relation |
+| length | variant | accuracy | relation | clean relation |
 | ---: | --- | ---: | ---: | ---: |
 | 512 | `canonical` | 65.50% | 100.00% | 100.00% |
 | 512 | `canonical_no_metadata` | 64.50% | 86.33% | 92.32% |
 | 512 | `training_prompt` | 63.50% | 86.33% | 91.31% |
+| 512 | `training_prompt_side_swap` | 66.50% | 46.00% | 47.29% |
 | 1024 | `canonical` | 66.00% | 100.00% | 100.00% |
 | 1024 | `canonical_no_metadata` | 66.17% | 90.83% | 93.01% |
 | 1024 | `training_prompt` | 63.67% | 89.33% | 90.56% |
+| 1024 | `training_prompt_side_swap` | 67.50% | 45.17% | 44.77% |
 
 ## Delta Representation
 

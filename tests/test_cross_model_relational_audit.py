@@ -11,9 +11,10 @@ def load_script():
     return module
 
 
-def test_cross_model_protocol_has_six_high_information_variants():
+def test_cross_model_protocol_has_eight_high_information_variants():
     module = load_script()
 
-    assert len(module.PRIMARY_VARIANTS) == 6
+    assert len(module.PRIMARY_VARIANTS) == 8
     assert "padding_mid_diff_malformed_stress" not in module.PRIMARY_VARIANTS
     assert "padding_post_diff_terminal_phrase" in module.PRIMARY_VARIANTS
+    assert "training_prompt_side_swap" in module.PRIMARY_VARIANTS
