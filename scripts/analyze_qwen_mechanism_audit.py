@@ -63,8 +63,8 @@ def render_markdown(report: dict) -> str:
                 "2. **The suffix failure is endpoint-sensitive rather than a truncation artifact.** "
                 f"At 1024, post-diff padding has {pct(v1024['padding_post_diff']['relation_accuracy'])} "
                 "relation accuracy with zero transformation-introduced critical-hunk truncations. "
-                f"Restoring a natural ending raises it to "
-                f"{pct(v1024['padding_post_diff_restored_ending']['relation_accuracy'])}, "
+                f"Adding a terminal task-completion phrase raises it to "
+                f"{pct(v1024['padding_post_diff_terminal_phrase']['relation_accuracy'])}, "
                 f"whereas a novel `[END_PATCH]` marker reaches only "
                 f"{pct(v1024['padding_post_diff_end_patch']['relation_accuracy'])}."
             ),
@@ -100,9 +100,9 @@ def render_markdown(report: dict) -> str:
         "padding_prompt_prefix",
         "padding_after_instructions",
         "padding_pre_diff",
-        "padding_mid_diff",
+        "padding_mid_diff_malformed_stress",
         "padding_post_diff",
-        "padding_post_diff_restored_ending",
+        "padding_post_diff_terminal_phrase",
         "padding_post_diff_end_patch",
     ]
     for length in ("512", "1024"):
@@ -172,7 +172,9 @@ def render_markdown(report: dict) -> str:
             "",
             "- `512` and `1024` are sensitivity settings for the same checkpoint, not separate trained models.",
             "- Relation metrics are also reported on the clean subset where the canonical and transformed critical hunks are both fully visible.",
-            "- DeltaSecommits should be described as a combined source and representation shift unless normalization clearly restores behavior.",
+            "- DeltaSecommits is a combined source and representation shift; the interventions recover ordinary accuracy but are not validated semantics-preserving normalization.",
+            "- The mid-diff intervention is a malformed-diff formatting stress, not a semantics-preserving invariance test.",
+            "- Delta separator expansion and formatter fallback are representation interventions, not validated semantics-preserving normalization.",
             "- Suffix effects are mechanism evidence only if they persist without transformation-introduced truncation; they do not by themselves identify a specific pooling implementation.",
             "",
         ]
@@ -234,7 +236,7 @@ def main() -> int:
     report["findings"] = {
         "longer_context_repairs_relational_failure": False,
         "suffix_failure_persists_without_new_truncation": True,
-        "natural_ending_restores_more_than_novel_marker": True,
+        "terminal_phrase_restores_more_than_novel_marker": True,
         "prompt_contract_is_primary_failure": False,
         "delta_representation_recovery": True,
         "delta_relational_recovery": False,

@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "scope": "first_cross_architecture_relational_audit",
+  "models": {
+    "qwen15b_decoder_classifier": {
+      "metadata": {
+        "family": "decoder_sequence_classifier",
+        "readout_type": "qwen_sequence_classification_score",
+        "pooling_mechanism": "terminal_non_padding_token",
+        "tokenizer": "Qwen2.5-Coder tokenizer",
+        "training_objective": "binary_side_choice_cross_entropy",
+        "supports_abstention": false
+      },
+      "rows": 3600,
+      "pairs": 600,
+      "canonical_accuracy": 0.655,
+      "side_swap_equivariance": 0.496667,
+      "metadata_removed_relation": 0.863333,
+      "pre_diff_relation": 0.778333,
+      "post_diff_relation": 0.565,
+      "terminal_phrase_relation": 0.903333,
+      "post_diff_a_to_b": 260,
+      "post_diff_b_to_a": 1,
+      "clean_post_diff_relation": 0.472727,
+      "robust_accuracy": 0.19333333333333333,
+      "clean_robust_accuracy": 0.18,
+      "canonical_critical_hunk_truncated": 105
+    },
+    "codebert_encoder_classifier": {
+      "metadata": {
+        "family": "encoder_sequence_classifier",
+        "readout_type": "roberta_cls_classification_head",
+        "pooling_mechanism": "first_token_cls_representation",
+        "tokenizer": "CodeBERT RoBERTa tokenizer",
+        "training_objective": "binary_side_choice_cross_entropy",
+        "supports_abstention": false
+      },
+      "rows": 3600,
+      "pairs": 600,
+      "canonical_accuracy": 0.676667,
+      "side_swap_equivariance": 0.501667,
+      "metadata_removed_relation": 0.931667,
+      "pre_diff_relation": 0.918333,
+      "post_diff_relation": 0.941667,
+      "terminal_phrase_relation": 0.945,
+      "post_diff_a_to_b": 35,
+      "post_diff_b_to_a": 0,
+      "clean_post_diff_relation": 0.917062,
+      "robust_accuracy": 0.38666666666666666,
+      "clean_robust_accuracy": 0.2866666666666667,
+      "canonical_critical_hunk_truncated": 178
+    }
+  },
+  "claim_boundary": "CodeBERT uses the same 6,000 bidirectional side-choice rows and one epoch, but Qwen additionally inherits an earlier pair-diff initialization. This is an architecture stress comparison, not a controlled pretraining or capacity comparison."
+}

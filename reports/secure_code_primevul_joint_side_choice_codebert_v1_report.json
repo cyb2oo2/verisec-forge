@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "model_family": "encoder_sequence_classifier",
+  "model": "microsoft/codebert-base",
+  "readout_type": "roberta_cls_classification_head",
+  "pooling_mechanism": "first_token_cls_representation",
+  "training_objective": "binary_side_choice_cross_entropy",
+  "supports_abstention": false,
+  "seed": 42,
+  "max_seq_length": 512,
+  "training_examples": 6000,
+  "training_metrics": {
+    "train_runtime": 76.4221,
+    "train_samples_per_second": 78.511,
+    "train_steps_per_second": 4.907,
+    "total_flos": 1543705450679040.0,
+    "train_loss": 1.0325775960286458,
+    "epoch": 1.0
+  },
+  "checkpoint": "checkpoints/cls_secure_code_primevul_joint_side_choice_codebert_v1",
+  "claim_boundary": "Architecture control trained on the same 6,000 bidirectional PrimeVul side-choice rows. It does not share Qwen's earlier pair-diff initialization."
+}

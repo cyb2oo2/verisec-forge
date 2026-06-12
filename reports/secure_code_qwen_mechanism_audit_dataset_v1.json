@@ -25,14 +25,19 @@
     "delta_separator_expanded_post_diff": 200,
     "delta_separator_expanded_side_swap": 200,
     "padding_after_instructions": 600,
-    "padding_mid_diff": 600,
+    "padding_mid_diff_malformed_stress": 600,
     "padding_post_diff": 600,
     "padding_post_diff_end_patch": 600,
-    "padding_post_diff_restored_ending": 600,
+    "padding_post_diff_terminal_phrase": 600,
     "padding_pre_diff": 600,
     "padding_prompt_prefix": 600,
     "side_swap": 600,
     "training_prompt": 600
   },
-  "clang_format": "D:\\code\\start\\.venv\\Scripts\\clang-format.exe"
+  "clang_format": "D:\\code\\start\\.venv\\Scripts\\clang-format.exe",
+  "clang_format_status": {
+    "both_sides_success_pairs": 200,
+    "fallback_pairs": 0,
+    "parse_validation_available": false
+  }
 }

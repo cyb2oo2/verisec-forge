@@ -1,0 +1,65 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_cross_model_relational_audit_v1.jsonl",
+  "model_id": "codebert-side-choice-v1",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_side_choice_codebert_v1",
+  "max_length": 512,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 3600,
+  "critical_hunk_truncated_rows": 1129,
+  "transformation_introduced_critical_truncation_rows": 74,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 3600,
+      "critical_hunk_truncated_rows": 1129,
+      "transformation_introduced_critical_truncation_rows": 74
+    }
+  },
+  "by_template": {
+    "canonical": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 178,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.7637933481663304,
+      "achieved_budget_ratio": null
+    },
+    "canonical_no_metadata": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 165,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.7834269381608462,
+      "achieved_budget_ratio": null
+    },
+    "padding_post_diff": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 178,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.7637933481663304,
+      "achieved_budget_ratio": null
+    },
+    "padding_post_diff_terminal_phrase": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 178,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.7637933481663304,
+      "achieved_budget_ratio": null
+    },
+    "padding_pre_diff": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 252,
+      "transformation_introduced_critical_truncation_rows": 74,
+      "mean_critical_line_visibility_ratio": 0.6651454572324815,
+      "achieved_budget_ratio": null
+    },
+    "side_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 178,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.7639850795292138,
+      "achieved_budget_ratio": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}

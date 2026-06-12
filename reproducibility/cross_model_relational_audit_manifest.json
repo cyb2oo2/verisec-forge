@@ -1,0 +1,83 @@
+{
+  "name": "cross_model_relational_audit_v1",
+  "description": "CodeBERT runtime, predictions, training metadata, and comparison reports for the first Qwen-versus-encoder relational audit.",
+  "created_utc": "2026-06-12",
+  "model_download": [
+    ".venv/Scripts/hf.exe",
+    "download",
+    "microsoft/codebert-base",
+    "config.json",
+    "tokenizer_config.json",
+    "vocab.json",
+    "merges.txt",
+    "pytorch_model.bin",
+    "--local-dir",
+    "models/microsoft-codebert-base"
+  ],
+  "training_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/train_encoder_side_choice_classifier.py"
+  ],
+  "analysis_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_cross_model_relational_audit.py"
+  ],
+  "artifacts": [
+    {
+      "role": "codebert_runtime_512",
+      "path": "data/processed/secure_code_cross_model_relational_audit_codebert_v1_runtime512.jsonl",
+      "sha256": "0090eb6a11a64f9a34370c7c19ee4da6f7ea95547e5ff24542622751277d02b9",
+      "bytes": 19046809,
+      "rows": 3600
+    },
+    {
+      "role": "codebert_predictions",
+      "path": "outputs/secure_code_cross_model_relational_audit_codebert_v1_predictions.jsonl",
+      "sha256": "ca91cc2bc12605590484431cba45832fb9f575bd7fb616eac94b850b04576e40",
+      "bytes": 1202923,
+      "rows": 3600
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "cross_model_report_json",
+      "path": "reports/secure_code_cross_model_relational_audit_v1.json",
+      "sha256": "07697bc97cb2657dcdfa7a60b69155420a7d4d8675b8ed781f2e6b0ec9b97492",
+      "bytes": 2241
+    },
+    {
+      "role": "cross_model_report_markdown",
+      "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
+      "sha256": "0bcb63e21210a92e388bfb6390736ddba0e4541392d756438d7dcacba732486d",
+      "bytes": 1653
+    },
+    {
+      "role": "codebert_training_report",
+      "path": "reports/secure_code_primevul_joint_side_choice_codebert_v1_report.json",
+      "sha256": "87ad2083e59b3accc7ef4c030f44210bceed4bea4b702b04f11e322014be1876",
+      "bytes": 883
+    },
+    {
+      "role": "qwen_batch_shape_report",
+      "path": "reports/secure_code_qwen_batch_shape_stability_v1.json",
+      "sha256": "e3fdfa67ebf4d34819507c68fb93148d97cfdbc5828d205115f487c675a500f1",
+      "bytes": 1805
+    }
+  ],
+  "expected": {
+    "qwen_canonical_accuracy": 0.655,
+    "qwen_side_swap_equivariance": 0.496667,
+    "qwen_post_diff_relation": 0.565,
+    "codebert_canonical_accuracy": 0.676667,
+    "codebert_side_swap_equivariance": 0.501667,
+    "codebert_post_diff_relation": 0.941667,
+    "batch_shape_224_side": "A",
+    "batch_shape_232_side": "B"
+  },
+  "limitations": [
+    "Qwen inherits an earlier pair-diff initialization; CodeBERT starts from the public base encoder.",
+    "The comparison controls the side-choice rows and audit pairs, not model capacity, tokenizer, or pretraining.",
+    "The manifest reproduces analysis from stored predictions, not GPU training.",
+    "The CodeBERT checkpoint and public base model remain gitignored local artifacts."
+  ]
+}
