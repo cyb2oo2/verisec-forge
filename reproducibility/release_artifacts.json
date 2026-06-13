@@ -31,6 +31,19 @@
         "reproducibility/external_generalization_manifest.json"
       ],
       "build_command": ".\\.venv\\Scripts\\python.exe scripts\\build_reproducibility_bundle.py --manifest reproducibility\\external_generalization_manifest.json --include-generated --output artifacts\\verisec_forge_external_generalization_bundle_v10.zip"
+    },
+    {
+      "name": "readout_confirmatory_inputs",
+      "filename": "verisec_forge_readout_confirmatory_bundle_v1.zip",
+      "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/readout-confirmatory-bundle-v1/verisec_forge_readout_confirmatory_bundle_v1.zip",
+      "sha256": "44959778b2c83ca26ccad993ce4ef7d8ca0bd2a50ca7c445e22c99b392d2c00f",
+      "bytes": 741139,
+      "artifact_count": 18,
+      "duplicate_artifact_paths": [],
+      "source_manifests": [
+        "reproducibility/readout_confirmatory_manifest.json"
+      ],
+      "build_command": ".\\.venv\\Scripts\\python.exe scripts\\build_reproducibility_bundle.py --manifest reproducibility\\readout_confirmatory_manifest.json --include-generated --output artifacts\\verisec_forge_readout_confirmatory_bundle_v1.zip"
     }
   ]
 }

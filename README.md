@@ -158,6 +158,7 @@ Validate local reproducibility inputs:
 .\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py --check-only
 .\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\external_generalization_manifest.json --check-only --include-generated
 .\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\readout_confirmatory_manifest.json --check-only --include-generated
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py --bundle-name readout_confirmatory_inputs --restore
 ```
 
 Run the local patch-review UI:
