@@ -234,6 +234,9 @@ def materialize_runtime_rows(
         text = str(row["text"])
         pressure = {}
         transform = row.get("runtime_transform") or {}
+        transformation_char_spans = list(
+            transform.get("transformation_char_spans") or []
+        )
         if transform.get("operation") == "insert_token_budget_padding_before_diff":
             base = bases[str(row["base_id"])]
             text, pressure = materialize_context_pressure(
@@ -251,7 +254,8 @@ def materialize_runtime_rows(
             truncation_side=truncation_side,
             add_special_tokens=add_special_tokens,
             transformation_char_spans=pressure.get(
-                "transformation_char_spans"
+                "transformation_char_spans",
+                transformation_char_spans,
             ),
         )
         if row["expected_relation"] == "identity":

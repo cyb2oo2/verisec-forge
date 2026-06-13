@@ -29,6 +29,11 @@ def summarize_runtime_rows(rows, args) -> dict:
             for row in template_accounting
             if row.get("achieved_budget_ratio") is not None
         ]
+        transformed = [
+            row
+            for row in template_accounting
+            if row.get("transformation_tokens_total", 0) > 0
+        ]
         by_template[template] = {
             "rows": len(template_rows),
             "critical_hunk_truncated_rows": sum(
@@ -53,6 +58,32 @@ def summarize_runtime_rows(rows, args) -> dict:
                     "max": max(achieved),
                 }
                 if achieved
+                else None
+            ),
+            "transformation_visibility": (
+                {
+                    "rows_with_transformation": len(transformed),
+                    "rows_with_any_visible_transformation": sum(
+                        row["transformation_tokens_visible"] > 0
+                        for row in transformed
+                    ),
+                    "rows_with_fully_visible_transformation": sum(
+                        row["transformation_tokens_visible"]
+                        == row["transformation_tokens_total"]
+                        for row in transformed
+                    ),
+                    "mean_tokens_total": sum(
+                        row["transformation_tokens_total"]
+                        for row in transformed
+                    )
+                    / len(transformed),
+                    "mean_tokens_visible": sum(
+                        row["transformation_tokens_visible"]
+                        for row in transformed
+                    )
+                    / len(transformed),
+                }
+                if transformed
                 else None
             ),
         }

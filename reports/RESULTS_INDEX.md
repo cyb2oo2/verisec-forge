@@ -19,6 +19,8 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Same-Backbone Readout Ablation`: `reports/READOUT_ABLATION.md`
 - `Readout Ablation Protocol`: `docs/READOUT_ABLATION_PROTOCOL.md`
+- `Independent Readout Confirmation`: `reports/READOUT_CONFIRMATORY.md`
+- `Readout Confirmation Protocol`: `docs/READOUT_CONFIRMATORY_PROTOCOL.md`
 - `Qwen Batch-Shape Stability Audit`: `reports/secure_code_qwen_batch_shape_stability_v1.json`
 - `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
 - `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`

@@ -37,6 +37,7 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 | Mechanism audit separates context, endpoint, and representation effects | 1024 swap `0.4850`; suffix relation `0.4267` -> terminal phrase `0.9050`; Delta raw `0.4700` -> expanded `0.7500` | [Qwen Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md) |
 | Cross-architecture controls separate two failure modes | exact-contract swap `0.4600/0.5300`; endpoint gap `+0.3767`, paired 95% CI `[0.3317, 0.4200]` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
 | Same-backbone readout ablation isolates endpoint robustness | mean post-diff `0.8983`; changed-hunk `0.9983`; no readout passes the preregistered canonical-delta rule | [Readout Ablation](reports/READOUT_ABLATION.md) |
+| Independent confirmation replicates the mechanism, not non-inferiority | suffix delta `+0.3095` mean / `+0.4903` changed-hunk; both canonical non-inferiority CIs fail | [Readout Confirmation](reports/READOUT_CONFIRMATORY.md) |
 | Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
 | Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
 | Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
@@ -138,12 +139,25 @@ token cannot see the later diff. No candidate meets the fixed
 `|canonical delta| <= 0.02` success rule, so this remains a discovery-stage
 mechanism result rather than a promoted model improvement.
 
+An independent confirmation freezes PR #8 as discovery and evaluates 180 new
+pair IDs, three unseen suffix templates, and seeds `7` and `123`. Mean pooling
+improves visible-suffix consistency by `+0.3095` with 95% CI
+`[+0.2348, +0.3799]`; changed-hunk pooling improves it by `+0.4903` with
+95% CI `[+0.4448, +0.5357]`. Both effects are positive in both seeds, with
+zero changed-hunk fallback. Neither candidate passes the preregistered
+canonical non-inferiority criterion: pooled canonical deltas are `-0.0139`
+and `-0.0250`, with lower confidence bounds below `-0.02`. The replicated
+claim is therefore causal endpoint-robustness control, not a promoted
+accuracy-preserving classifier. Side-swap equivariance remains near its
+marginal-conditioned independence baseline.
+
 Validate local reproducibility inputs:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\reproduce_primevul_calibrated_router.py --check-only
 .\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py --check-only
 .\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\external_generalization_manifest.json --check-only --include-generated
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\readout_confirmatory_manifest.json --check-only --include-generated
 ```
 
 Run the local patch-review UI:
