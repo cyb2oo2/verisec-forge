@@ -91,6 +91,11 @@ def main() -> int:
                 readout_type=args.readout,
                 max_length=args.max_length,
             )
+            fallback_flags = (
+                (inputs["pooling_mask"].sum(dim=1) == 0).tolist()
+                if args.readout == "changed_hunk"
+                else [False] * len(batch)
+            )
             inputs = {
                 key: value.to("cuda", non_blocking=True)
                 for key, value in inputs.items()
@@ -101,7 +106,12 @@ def main() -> int:
                     logits.float(),
                     dim=-1,
                 ).cpu()
-            for row, probs in zip(batch, probabilities, strict=True):
+            for row, probs, fallback in zip(
+                batch,
+                probabilities,
+                fallback_flags,
+                strict=True,
+            ):
                 probability_a = float(probs[0])
                 probability_b = float(probs[1])
                 handle.write(
@@ -121,6 +131,7 @@ def main() -> int:
                             ),
                             "model_id": args.checkpoint,
                             "readout_type": args.readout,
+                            "pooling_fallback": bool(fallback),
                             "supports_abstention": False,
                         }
                     )

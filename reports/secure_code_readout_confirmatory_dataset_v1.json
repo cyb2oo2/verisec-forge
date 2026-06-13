@@ -1,0 +1,41 @@
+{
+  "status": "ok",
+  "benchmark": "VeriPatch-RR-readout-confirm-v1",
+  "selection_seed": 20260613,
+  "pairs": 180,
+  "rows": 900,
+  "datasets": {
+    "primevul": 60,
+    "deltasecommits": 60,
+    "patcheval": 60
+  },
+  "variants": {
+    "canonical": 180,
+    "side_swap": 180,
+    "confirm_suffix_short_v1": 180,
+    "confirm_suffix_medium_v1": 180,
+    "confirm_suffix_long_v1": 180
+  },
+  "discovery_pair_overlap": 0,
+  "eligibility": {
+    "primevul": {
+      "eligible_total": 827,
+      "discovery_excluded": 200,
+      "remaining_unseen": 627,
+      "selected": 60
+    },
+    "deltasecommits": {
+      "eligible_total": 327,
+      "discovery_excluded": 200,
+      "remaining_unseen": 127,
+      "selected": 60
+    },
+    "patcheval": {
+      "eligible_total": 269,
+      "discovery_excluded": 200,
+      "remaining_unseen": 69,
+      "selected": 60
+    }
+  },
+  "claim_boundary": "Pair IDs and suffix templates are independent of the PR #8 discovery instrument."
+}

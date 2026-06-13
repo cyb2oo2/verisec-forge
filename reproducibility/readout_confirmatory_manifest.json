@@ -1,0 +1,189 @@
+{
+  "name": "independent_readout_confirmatory_v1",
+  "description": "Independent new-pair, new-suffix, two-seed confirmation of terminal, mean, and changed-hunk Qwen readouts.",
+  "created_utc": "2026-06-13",
+  "analysis_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_readout_confirmatory.py"
+  ],
+  "validation_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/build_reproducibility_bundle.py",
+    "--manifest",
+    "reproducibility/readout_confirmatory_manifest.json",
+    "--check-only",
+    "--include-generated"
+  ],
+  "artifacts": [
+    {
+      "role": "confirmatory_benchmark",
+      "path": "data/processed/secure_code_readout_confirmatory_v1.jsonl",
+      "sha256": "3b24a32955c27b73362109d420ac9857ab5f3225b48406aeac10eeea69404607",
+      "bytes": 4610349,
+      "rows": 900
+    },
+    {
+      "role": "confirmatory_runtime_512",
+      "path": "data/processed/secure_code_readout_confirmatory_v1_runtime512.jsonl",
+      "sha256": "35c6fe1287ce7644a37b8d10ac7f92e22bfc95d1a6851b74136f5e9ea327343f",
+      "bytes": 7240705,
+      "rows": 900
+    },
+    {
+      "role": "terminal_seed7_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_terminal_seed7_predictions.jsonl",
+      "sha256": "06953ed9c9668c87af54bb67ddffa382572d71eb48403be551b187989b174cb5",
+      "bytes": 360625,
+      "rows": 900
+    },
+    {
+      "role": "terminal_seed123_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_terminal_seed123_predictions.jsonl",
+      "sha256": "90990b6063e93066cee04d74facc25acee5cee6b6a75097577df32db05ecbdad",
+      "bytes": 362485,
+      "rows": 900
+    },
+    {
+      "role": "mean_seed7_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_mean_seed7_predictions.jsonl",
+      "sha256": "aa738c2acb693003b6f9c58bacd8c575ad3eedd4d9b5f812f17ad5fe9db29a86",
+      "bytes": 352647,
+      "rows": 900
+    },
+    {
+      "role": "mean_seed123_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_mean_seed123_predictions.jsonl",
+      "sha256": "a22de31ef8446534a5fb40b8f56bcb100c33bba2b690b170e63558c70b63cddf",
+      "bytes": 354585,
+      "rows": 900
+    },
+    {
+      "role": "changed_hunk_seed7_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_changed_hunk_seed7_predictions.jsonl",
+      "sha256": "0859f9ceeb457bf725a905ac100ef4be522ed6b628a547a07391697b3a60c112",
+      "bytes": 367307,
+      "rows": 900
+    },
+    {
+      "role": "changed_hunk_seed123_predictions",
+      "path": "outputs/secure_code_readout_confirmatory_changed_hunk_seed123_predictions.jsonl",
+      "sha256": "e7a2373254eb3e4135ad955349b5208ea4634f92a98ef0dee0c3f6ad68a6e474",
+      "bytes": 369135,
+      "rows": 900
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "dataset_summary",
+      "path": "reports/secure_code_readout_confirmatory_dataset_v1.json",
+      "sha256": "1c5d995f5a4ff8f586d16c4805ddb3e6eac31e3f8cb0adec06c8d9a29480abda",
+      "bytes": 1011
+    },
+    {
+      "role": "runtime_summary",
+      "path": "reports/secure_code_readout_confirmatory_runtime512_summary_v1.json",
+      "sha256": "91dccb00cc116bd53092e06a2b4086d0e5d27eab6947502f0011d5fce21081f0",
+      "bytes": 3151
+    },
+    {
+      "role": "confirmatory_report_json",
+      "path": "reports/secure_code_readout_confirmatory_v1.json",
+      "sha256": "744a72ccef15359577633aaa71e6c93288dc8ea1c8bf27e858f590989467956e",
+      "bytes": 14493
+    },
+    {
+      "role": "confirmatory_report_markdown",
+      "path": "reports/READOUT_CONFIRMATORY.md",
+      "sha256": "b158a6aa0cc88c3eb989679dea5ce836fa609feff5c58985888e5159cc0c98c3",
+      "bytes": 2811
+    },
+    {
+      "role": "terminal_seed7_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_terminal_seed7_training_report.json",
+      "sha256": "826b411d0b3dd2208b7c06402ac7622ef1b86897712f86e021468277de688e13",
+      "bytes": 890
+    },
+    {
+      "role": "terminal_seed123_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_terminal_seed123_training_report.json",
+      "sha256": "44910c2c5c537dccf3c46a7d3692820b16a8888aaf0492018a5b67dd086e0a70",
+      "bytes": 894
+    },
+    {
+      "role": "mean_seed7_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_mean_seed7_training_report.json",
+      "sha256": "5f9a0a94fc1409d5012e800d5cf3fcb554c975bae8dc41629b88c997f13eca9f",
+      "bytes": 881
+    },
+    {
+      "role": "mean_seed123_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_mean_seed123_training_report.json",
+      "sha256": "b37187f7296c0548e84ba6e77ef01768ada5ceff5d316a5c0e4f01efb28d1714",
+      "bytes": 886
+    },
+    {
+      "role": "changed_hunk_seed7_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_changed_hunk_seed7_training_report.json",
+      "sha256": "911d78f698beb5f40cb6145e959bbf959a0237127e07bec30949bc8410bb153a",
+      "bytes": 898
+    },
+    {
+      "role": "changed_hunk_seed123_training_report",
+      "path": "reports/secure_code_readout_confirmatory_qwen15b_changed_hunk_seed123_training_report.json",
+      "sha256": "20a290c6cb6aec6177660c7b8252566f32c2b9abcc2b959c00aa0d0bea35974e",
+      "bytes": 901
+    }
+  ],
+  "expected": {
+    "mean": {
+      "canonical_accuracy_delta": {
+        "estimate": -0.013888888888888888,
+        "ci95": [
+          -0.07777777777777778,
+          0.05
+        ]
+      },
+      "macro_suffix_consistency_delta": {
+        "estimate": 0.30952380952380953,
+        "ci95": [
+          0.23484848484848486,
+          0.3798701298701299
+        ]
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": true,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": true,
+        "confirmed": false
+      }
+    },
+    "changed_hunk": {
+      "canonical_accuracy_delta": {
+        "estimate": -0.025,
+        "ci95": [
+          -0.1,
+          0.05277777777777778
+        ]
+      },
+      "macro_suffix_consistency_delta": {
+        "estimate": 0.4902597402597403,
+        "ci95": [
+          0.4448051948051948,
+          0.5357142857142857
+        ]
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": true,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": true,
+        "confirmed": false
+      }
+    }
+  },
+  "limitations": [
+    "The manifest reproduces analysis from stored predictions, not GPU training.",
+    "Model checkpoints are local and are not included in Git or this manifest.",
+    "This confirms readout-conditioned training behavior; a frozen-backbone pooling control remains future work.",
+    "Endpoint robustness and side-order equivariance are separate capabilities."
+  ]
+}

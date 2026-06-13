@@ -87,6 +87,19 @@ the subsequent diff. None of the readouts satisfies the preregistered
 canonical-delta tolerance, which keeps this as mechanism evidence rather than
 a promoted performance claim.
 
+The independent confirmation preserves that boundary. It excludes all PR #8
+discovery pair IDs and suffix templates, then retrains terminal, mean, and
+changed-hunk readouts with seeds `7` and `123`. On 180 new pairs, mean and
+changed-hunk improve visible-suffix consistency over terminal by `+0.3095`
+and `+0.4903`; pair-bootstrap 95% CIs are `[+0.2348, +0.3799]` and
+`[+0.4448, +0.5357]`, and both seed-wise effects are positive. However,
+canonical non-inferiority is not established: the pooled deltas are `-0.0139`
+and `-0.0250`, with confidence bounds extending below the preregistered
+`-0.02` margin. This upgrades the readout finding from discovery to a
+replicated mechanism result, but it deliberately does not promote either
+candidate as an accuracy-preserving classifier. Side-order consistency
+remains unresolved.
+
 Primary evidence:
 
 - [CVE-Disjoint Eval](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md)
@@ -99,6 +112,7 @@ Primary evidence:
 - [Qwen Relational Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md)
 - [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md)
 - [Same-Backbone Readout Ablation](reports/READOUT_ABLATION.md)
+- [Independent Readout Confirmation](reports/READOUT_CONFIRMATORY.md)
 
 ### 4. Evidence Is Coupled To The Side Decision
 
@@ -135,4 +149,10 @@ This shows research taste: the project does not merely add another model or prom
 
 ## Next Research Step
 
-The natural PhD continuation is a contrastive patch model that jointly learns side choice, evidence ranking, and confidence under independently adjudicated evidence spans. The current repository sets up that question with paired controls, stress-tested routing, and a measurable decision-to-evidence failure mode.
+The immediate mechanism control is a frozen-backbone experiment that trains
+only matched readout heads over terminal, mean, and changed-hunk
+representations. This separates pooling at inference from representation
+changes induced by readout-conditioned fine-tuning. The broader PhD
+continuation remains a contrastive patch model that jointly learns side
+choice, evidence ranking, and confidence under independently adjudicated
+evidence spans.

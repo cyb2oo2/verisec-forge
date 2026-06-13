@@ -1,0 +1,419 @@
+{
+  "status": "ok",
+  "scope": "independent_same_backbone_readout_confirmation",
+  "protocol": "docs/READOUT_CONFIRMATORY_PROTOCOL.md",
+  "discovery_boundary": "PR #8 pairs, suffix templates, and seed 42 are excluded.",
+  "seeds": [
+    7,
+    123
+  ],
+  "uncertainty_scope": {
+    "bootstrap_unit": "held_out_pair",
+    "seed_aggregation": "average_over_seeds_7_and_123",
+    "interpretation": "Pair-cluster bootstrap intervals quantify variation across held-out pairs after averaging seeds 7 and 123. They are conditional on these selected training seeds and do not estimate seed-population uncertainty.",
+    "seed_stability_check": "Seed-wise effects are reported separately, and the confirmatory rule requires positive suffix deltas in both seeds."
+  },
+  "readouts": {
+    "terminal": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6722222222222223,
+        "side_swap_equivariance": 0.4444444444444444,
+        "side_swap_independence_baseline": 0.5009876543209877,
+        "side_swap_equivariance_residual": -0.056543209876543266,
+        "both_directions_correct": 0.37222222222222223,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.5444444444444444,
+          "confirm_suffix_medium_v1": 0.6,
+          "confirm_suffix_long_v1": 0.5944444444444444
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.4675324675324675,
+          "confirm_suffix_medium_v1": 0.5324675324675324,
+          "confirm_suffix_long_v1": 0.525974025974026
+        },
+        "raw_macro_suffix_consistency": 0.5796296296296296,
+        "macro_suffix_consistency": 0.5086580086580086,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.7,
+        "side_swap_equivariance": 0.5111111111111111,
+        "side_swap_independence_baseline": 0.4935185185185185,
+        "side_swap_equivariance_residual": 0.01759259259259255,
+        "both_directions_correct": 0.43333333333333335,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.5055555555555555,
+          "confirm_suffix_medium_v1": 0.5944444444444444,
+          "confirm_suffix_long_v1": 0.6444444444444445
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.42207792207792205,
+          "confirm_suffix_medium_v1": 0.525974025974026,
+          "confirm_suffix_long_v1": 0.5844155844155844
+        },
+        "raw_macro_suffix_consistency": 0.5814814814814815,
+        "macro_suffix_consistency": 0.5108225108225108,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    },
+    "mean": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6666666666666666,
+        "side_swap_equivariance": 0.45555555555555555,
+        "side_swap_independence_baseline": 0.4957407407407407,
+        "side_swap_equivariance_residual": -0.04018518518518516,
+        "both_directions_correct": 0.38333333333333336,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8833333333333333,
+          "confirm_suffix_medium_v1": 0.7388888888888889,
+          "confirm_suffix_long_v1": 0.9
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8636363636363636,
+          "confirm_suffix_medium_v1": 0.6948051948051948,
+          "confirm_suffix_long_v1": 0.8831168831168831
+        },
+        "raw_macro_suffix_consistency": 0.8407407407407408,
+        "macro_suffix_consistency": 0.8138528138528138,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6777777777777778,
+        "side_swap_equivariance": 0.4666666666666667,
+        "side_swap_independence_baseline": 0.48919753086419754,
+        "side_swap_equivariance_residual": -0.022530864197530864,
+        "both_directions_correct": 0.39444444444444443,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8833333333333333,
+          "confirm_suffix_medium_v1": 0.7611111111111111,
+          "confirm_suffix_long_v1": 0.9055555555555556
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8636363636363636,
+          "confirm_suffix_medium_v1": 0.7207792207792207,
+          "confirm_suffix_long_v1": 0.8896103896103896
+        },
+        "raw_macro_suffix_consistency": 0.85,
+        "macro_suffix_consistency": 0.8246753246753247,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    },
+    "changed_hunk": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6666666666666666,
+        "side_swap_equivariance": 0.4777777777777778,
+        "side_swap_independence_baseline": 0.499320987654321,
+        "side_swap_equivariance_residual": -0.02154320987654318,
+        "both_directions_correct": 0.4166666666666667,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 1.0
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 1.0
+        },
+        "raw_macro_suffix_consistency": 1.0,
+        "macro_suffix_consistency": 1.0,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6555555555555556,
+        "side_swap_equivariance": 0.4777777777777778,
+        "side_swap_independence_baseline": 0.499320987654321,
+        "side_swap_equivariance_residual": -0.02154320987654318,
+        "both_directions_correct": 0.4111111111111111,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 1.0
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 1.0
+        },
+        "raw_macro_suffix_consistency": 1.0,
+        "macro_suffix_consistency": 1.0,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    }
+  },
+  "paired_comparisons_vs_terminal": {
+    "mean": {
+      "seeds": [
+        7,
+        123
+      ],
+      "per_seed": {
+        "7": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": -0.005555555555555556,
+            "ci95": [
+              -0.07777777777777778,
+              0.06111111111111111
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.30519480519480524,
+            "ci95": [
+              0.23160173160173161,
+              0.380952380952381
+            ]
+          }
+        },
+        "123": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": -0.022222222222222223,
+            "ci95": [
+              -0.08888888888888889,
+              0.03888888888888889
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.3138528138528139,
+            "ci95": [
+              0.23809523809523814,
+              0.38528138528138534
+            ]
+          }
+        }
+      },
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": -0.013888888888888888,
+          "ci95": [
+            -0.07777777777777778,
+            0.05
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.30952380952380953,
+          "ci95": [
+            0.23484848484848486,
+            0.3798701298701299
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 43,
+          "canonical_accuracy_delta": {
+            "estimate": 0.0,
+            "ci95": [
+              -0.11666666666666667,
+              0.125
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.4496124031007752,
+            "ci95": [
+              0.3449612403100775,
+              0.5542635658914729
+            ]
+          }
+        },
+        "patcheval": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 55,
+          "canonical_accuracy_delta": {
+            "estimate": -0.025,
+            "ci95": [
+              -0.13333333333333333,
+              0.075
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.4090909090909091,
+            "ci95": [
+              0.3181818181818182,
+              0.5
+            ]
+          }
+        },
+        "primevul": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 56,
+          "canonical_accuracy_delta": {
+            "estimate": -0.016666666666666666,
+            "ci95": [
+              -0.11666666666666667,
+              0.08333333333333333
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.10416666666666669,
+            "ci95": [
+              -0.04166666666666666,
+              0.24702380952380953
+            ]
+          }
+        }
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": true,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": true,
+        "confirmed": false
+      }
+    },
+    "changed_hunk": {
+      "seeds": [
+        7,
+        123
+      ],
+      "per_seed": {
+        "7": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": -0.005555555555555556,
+            "ci95": [
+              -0.08333333333333333,
+              0.07222222222222222
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.49134199134199136,
+            "ci95": [
+              0.44372294372294374,
+              0.5411255411255411
+            ]
+          }
+        },
+        "123": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": -0.044444444444444446,
+            "ci95": [
+              -0.12222222222222222,
+              0.03333333333333333
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.4891774891774892,
+            "ci95": [
+              0.44372294372294374,
+              0.5346320346320347
+            ]
+          }
+        }
+      },
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": -0.025,
+          "ci95": [
+            -0.1,
+            0.05277777777777778
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.4902597402597403,
+          "ci95": [
+            0.4448051948051948,
+            0.5357142857142857
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 43,
+          "canonical_accuracy_delta": {
+            "estimate": -0.06666666666666667,
+            "ci95": [
+              -0.24166666666666667,
+              0.10833333333333334
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.5426356589147288,
+            "ci95": [
+              0.4534883720930233,
+              0.6317829457364341
+            ]
+          }
+        },
+        "patcheval": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 55,
+          "canonical_accuracy_delta": {
+            "estimate": -0.03333333333333333,
+            "ci95": [
+              -0.13333333333333333,
+              0.06666666666666667
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.5242424242424243,
+            "ci95": [
+              0.45151515151515154,
+              0.596969696969697
+            ]
+          }
+        },
+        "primevul": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 56,
+          "canonical_accuracy_delta": {
+            "estimate": 0.025,
+            "ci95": [
+              -0.075,
+              0.13333333333333333
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.4166666666666667,
+            "ci95": [
+              0.34226190476190477,
+              0.49404761904761907
+            ]
+          }
+        }
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": true,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": true,
+        "confirmed": false
+      }
+    }
+  },
+  "claim_boundary": "This confirms readout-conditioned training behavior on new pair IDs and unseen suffixes. It does not isolate frozen-backbone pooling, and side-swap consistency is a separate endpoint."
+}

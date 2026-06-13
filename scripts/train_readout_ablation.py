@@ -95,6 +95,8 @@ def main() -> int:
         default="configs/research_primevul_readout_ablation_qwen15b_v1.json",
     )
     parser.add_argument("--readout", choices=READOUT_TYPES, required=True)
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--run-tag", default="")
     parser.add_argument("--max-train-pairs", type=int)
     parser.add_argument("--max-eval-examples", type=int)
     args = parser.parse_args()
@@ -106,7 +108,7 @@ def main() -> int:
     transformers = stack["transformers"]
     from peft import AutoPeftModelForSequenceClassification
 
-    seed = int(config["seed"])
+    seed = int(args.seed if args.seed is not None else config["seed"])
     transformers.set_seed(seed)
     init_checkpoint = ROOT / config["init_checkpoint"]
     tokenizer = transformers.AutoTokenizer.from_pretrained(
@@ -193,9 +195,14 @@ def main() -> int:
             )
             return (loss, outputs) if return_outputs else loss
 
-    run_name = config["name_template"].format(readout=args.readout)
+    format_values = {
+        "readout": args.readout,
+        "seed": seed,
+        "run_tag": args.run_tag,
+    }
+    run_name = config["name_template"].format(**format_values)
     output_dir = ROOT / config["output_dir_template"].format(
-        readout=args.readout
+        **format_values
     )
     output_dir.mkdir(parents=True, exist_ok=True)
     training = config["training"]
@@ -300,12 +307,12 @@ def main() -> int:
     }
     write_json(
         ROOT / config["report_output_template"].format(
-            readout=args.readout
+            **format_values
         ),
         report,
     )
     predictions_path = ROOT / config["predictions_output_template"].format(
-        readout=args.readout
+        **format_values
     )
     predictions_path.parent.mkdir(parents=True, exist_ok=True)
     with predictions_path.open("w", encoding="utf-8") as handle:

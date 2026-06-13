@@ -144,6 +144,47 @@ def test_runtime_materialization_records_model_specific_configuration():
     )
 
 
+def test_runtime_materialization_tracks_explicit_transformation_span():
+    base = {
+        "id": "demo::base",
+        "base_id": "demo::base",
+        "pair_key": "same",
+        "cluster_id": "source::same",
+        "dataset": "source",
+        "expected_relation": "identity",
+        "gold_riskier_side": "A",
+        "text": "-old\n+new\n",
+        "runtime_transform": {},
+    }
+    suffix = {
+        **base,
+        "id": "demo::suffix",
+        "expected_relation": "invariant",
+        "text": "-old\n+new\nneutral\n",
+        "runtime_transform": {
+            "transformation_char_spans": [
+                {"char_start": 10, "char_end": 18}
+            ]
+        },
+    }
+    rows = materialize_runtime_rows(
+        [base, suffix],
+        tokenizer=CharacterTokenizer(),
+        model_id="model-x",
+        tokenizer_id="character",
+        max_length=128,
+        truncation_side="right",
+        add_special_tokens=False,
+    )
+
+    accounting = rows[1]["runtime_accounting"]
+    assert accounting["transformation_tokens_total"] > 0
+    assert (
+        accounting["transformation_tokens_visible"]
+        == accounting["transformation_tokens_total"]
+    )
+
+
 def test_slow_tokenizer_is_rejected_for_exact_visibility():
     tokenizer = CharacterTokenizer()
     tokenizer.is_fast = False

@@ -215,6 +215,34 @@ runtime rows and predictions:
 This manifest reproduces evaluation and statistics, not the five-minute GPU
 inference run. The raw artifacts are not yet part of the public release bundle.
 
+## Independent Readout Confirmation
+
+The post-discovery readout study is reproducible from a public bundle
+containing 180 independent pair IDs, model-specific runtime accounting, six
+prediction files, six training reports, and the final analysis:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py `
+  --bundle-name readout_confirmatory_inputs `
+  --restore
+.\.venv\Scripts\python.exe scripts\analyze_readout_confirmatory.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\readout_confirmatory_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+Expected confirmatory findings:
+
+- mean visible-suffix delta: `+0.3095`, 95% CI `[+0.2348, +0.3799]`
+- changed-hunk visible-suffix delta: `+0.4903`, 95% CI `[+0.4448, +0.5357]`
+- both candidates have positive suffix deltas in seeds `7` and `123`
+- neither candidate passes the canonical non-inferiority confidence bound
+- changed-hunk pooling fallback rate: `0`
+
+This bundle reproduces the analysis from stored predictions. It does not
+include model checkpoints or replace the original GPU training runs.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:
