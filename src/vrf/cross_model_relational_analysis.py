@@ -69,10 +69,40 @@ def summarize_model(
                 "pair_key": str(canonical["pair_key"]),
                 "canonical_correct": correct,
                 "canonical_confidence": float(canonical["confidence"]),
+                "canonical_prediction": canonical_prediction,
+                "canonical_gold": str(canonical["gold_riskier_side"]),
+                "side_swap_prediction": str(
+                    group["side_swap"]["predicted_riskier_side"]
+                ),
+                "side_swap_gold": str(
+                    group["side_swap"]["gold_riskier_side"]
+                ),
                 "side_swap_relation": (
                     group["side_swap"]["predicted_riskier_side"]
                     != canonical_prediction
                 ),
+                "training_prompt_prediction": str(
+                    group["training_prompt"]["predicted_riskier_side"]
+                )
+                if "training_prompt" in group
+                else None,
+                "training_prompt_gold": str(
+                    group["training_prompt"]["gold_riskier_side"]
+                )
+                if "training_prompt" in group
+                else None,
+                "training_prompt_side_swap_prediction": str(
+                    group["training_prompt_side_swap"][
+                        "predicted_riskier_side"
+                    ]
+                )
+                if "training_prompt_side_swap" in group
+                else None,
+                "training_prompt_side_swap_gold": str(
+                    group["training_prompt_side_swap"]["gold_riskier_side"]
+                )
+                if "training_prompt_side_swap" in group
+                else None,
                 "training_contract_swap_relation": (
                     group["training_prompt_side_swap"][
                         "predicted_riskier_side"
@@ -98,15 +128,47 @@ def summarize_model(
 
     post = variants["padding_post_diff"]
     terminal = variants["padding_post_diff_terminal_phrase"]
+    canonical_swap = _swap_diagnostics(
+        pair_records,
+        base_prediction_key="canonical_prediction",
+        base_gold_key="canonical_gold",
+        swap_prediction_key="side_swap_prediction",
+        swap_gold_key="side_swap_gold",
+    )
+    training_contract_swap = _swap_diagnostics(
+        pair_records,
+        base_prediction_key="training_prompt_prediction",
+        base_gold_key="training_prompt_gold",
+        swap_prediction_key="training_prompt_side_swap_prediction",
+        swap_gold_key="training_prompt_side_swap_gold",
+    )
     return {
         "metadata": model_metadata,
         "rows": len(rows),
         "pairs": complete,
         "canonical_accuracy": variants["canonical"]["accuracy"],
         "side_swap_equivariance": variants["side_swap"]["relation_accuracy"],
+        "side_swap_independence_baseline": canonical_swap[
+            "marginal_conditioned_independence_baseline"
+        ],
+        "side_swap_minus_independence_baseline": canonical_swap[
+            "observed_minus_baseline"
+        ],
+        "side_swap_both_directions_correct": canonical_swap[
+            "both_directions_correct"
+        ],
         "training_contract_swap_equivariance": _boolean_mean(
             row["training_contract_swap_relation"] for row in pair_records
         ),
+        "training_contract_swap_independence_baseline": training_contract_swap[
+            "marginal_conditioned_independence_baseline"
+        ],
+        "training_contract_swap_minus_independence_baseline": training_contract_swap[
+            "observed_minus_baseline"
+        ],
+        "training_contract_swap_both_directions_correct": training_contract_swap[
+            "both_directions_correct"
+        ],
         "metadata_removed_relation": variants["canonical_no_metadata"][
             "relation_accuracy"
         ],
@@ -270,6 +332,58 @@ def _paired_subset_summary(
 def _boolean_mean(values) -> float:
     values = list(values)
     return sum(bool(value) for value in values) / len(values)
+
+
+def _swap_diagnostics(
+    rows: list[dict[str, Any]],
+    *,
+    base_prediction_key: str,
+    base_gold_key: str,
+    swap_prediction_key: str,
+    swap_gold_key: str,
+) -> dict[str, float]:
+    complete = [
+        row
+        for row in rows
+        if all(
+            row.get(key) is not None
+            for key in (
+                base_prediction_key,
+                base_gold_key,
+                swap_prediction_key,
+                swap_gold_key,
+            )
+        )
+    ]
+    if not complete:
+        return {
+            "observed_equivariance": 0.0,
+            "marginal_conditioned_independence_baseline": 0.0,
+            "observed_minus_baseline": 0.0,
+            "both_directions_correct": 0.0,
+        }
+    base_b = _boolean_mean(
+        row[base_prediction_key] == "B" for row in complete
+    )
+    swap_b = _boolean_mean(
+        row[swap_prediction_key] == "B" for row in complete
+    )
+    observed = _boolean_mean(
+        row[base_prediction_key] != row[swap_prediction_key]
+        for row in complete
+    )
+    baseline = base_b * (1.0 - swap_b) + (1.0 - base_b) * swap_b
+    both_correct = _boolean_mean(
+        row[base_prediction_key] == row[base_gold_key]
+        and row[swap_prediction_key] == row[swap_gold_key]
+        for row in complete
+    )
+    return {
+        "observed_equivariance": observed,
+        "marginal_conditioned_independence_baseline": baseline,
+        "observed_minus_baseline": observed - baseline,
+        "both_directions_correct": both_correct,
+    }
 
 
 def _percentile_interval(values: list[float]) -> list[float]:

@@ -42,14 +42,14 @@
     {
       "role": "cross_model_report_json",
       "path": "reports/secure_code_cross_model_relational_audit_v1.json",
-      "sha256": "7d414081b878a989bf7caf28a5c53a6427def6dfd842b34b3572b46d29e1ad50",
-      "bytes": 7406
+      "sha256": "bb711b18103bade2381a397b2f0a5e4bc92c0ae19bd6e5f1bb5120a9f3008b70",
+      "bytes": 8242
     },
     {
       "role": "cross_model_report_markdown",
       "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
-      "sha256": "f14ce9c8a490371e6b1b9af4c0dc0e3eee9760fb71fc9a1afd44631fb01fe956",
-      "bytes": 2826
+      "sha256": "a2da20434a072cc9a4ba0c99d1c023d57589b4126cbbc18947832f7182cbf5d9",
+      "bytes": 3430
     },
     {
       "role": "codebert_training_report",

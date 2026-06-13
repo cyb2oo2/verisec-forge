@@ -11,6 +11,7 @@ src/*.egg-info/
 *.csv
 artifacts/
 outputs/
+logs/
 checkpoints/
 models/
 .DS_Store

@@ -17,6 +17,8 @@ Reviewer-facing narrative and reproducibility entry points.
 - `VeriPatch-RR Qwen 1.5B Smoke`: `reports/VERIPATCH_RR_QWEN15B_SMOKE.md`
 - `Qwen Relational Mechanism Audit`: `reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
+- `Same-Backbone Readout Ablation`: `reports/READOUT_ABLATION.md`
+- `Readout Ablation Protocol`: `docs/READOUT_ABLATION_PROTOCOL.md`
 - `Qwen Batch-Shape Stability Audit`: `reports/secure_code_qwen_batch_shape_stability_v1.json`
 - `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
 - `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`

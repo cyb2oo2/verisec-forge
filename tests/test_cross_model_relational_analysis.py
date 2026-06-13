@@ -46,6 +46,11 @@ def test_robust_accuracy_requires_correct_base_and_all_relations():
     assert report["clean_pair_coverage"] == 1.0
     assert report["clean_robust_accuracy_conditional"] == 1.0
     assert report["clean_and_robust_coverage"] == 1.0
+    assert report["side_swap_independence_baseline"] == 1.0
+    assert report["side_swap_minus_independence_baseline"] == 0.0
+    assert report["side_swap_both_directions_correct"] == 1.0
+    assert report["training_contract_swap_independence_baseline"] == 1.0
+    assert report["training_contract_swap_both_directions_correct"] == 1.0
 
 
 def test_paired_comparison_reports_endpoint_and_interaction_deltas():
