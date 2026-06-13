@@ -62,9 +62,9 @@ that representation mismatch and relational inconsistency are distinct
 failure modes for this checkpoint.
 
 A first cross-architecture control makes the mechanism claim more precise.
-CodeBERT, trained on the same 6,000 bidirectional side-choice rows, also stays
-near chance on exact-training-contract side-swap equivariance (`0.5300`;
-Qwen `0.4600`) but reaches `0.9417`
+CodeBERT, trained on the same 6,000 bidirectional side-choice rows, reaches
+`0.5300` exact-training-contract side-swap equivariance (Qwen `0.4600`) and
+`0.9417`
 post-diff relation accuracy, compared with Qwen's `0.5650`. This suggests that
 relational inconsistency is not Qwen-specific, while the severe terminal
 representation dependence is associated with the decoder-style terminal-token
@@ -72,6 +72,20 @@ readout in the current comparison. Different pretraining and initialization
 still prevent a strict causal architecture claim. The paired endpoint gap is
 `+0.3767`, with bootstrap 95% CI `[0.3317, 0.4200]`, and remains positive in
 jointly clean, both-canonical-correct, and confidence-matched subsets.
+The marginal-conditioned analysis further separates the models: Qwen is close
+to independent side decisions, while CodeBERT has a modest positive
+equivariance residual but still low both-directions-correct performance.
+
+The next experiment makes the readout hypothesis causal within one Qwen
+backbone. With initialization, data order, LoRA targets, loss, seed, and steps
+fixed, mean pooling raises post-diff consistency from `0.5533` to `0.8983`,
+and changed-hunk pooling reaches `0.9983`. Changed-hunk swap equivariance
+remains `0.5017` against a `0.5002` marginal-conditioned baseline, so removing
+terminal endpoint sensitivity does not repair side-order reasoning.
+First-token pooling collapses because causal decoder token zero cannot observe
+the subsequent diff. None of the readouts satisfies the preregistered
+canonical-delta tolerance, which keeps this as mechanism evidence rather than
+a promoted performance claim.
 
 Primary evidence:
 
@@ -84,6 +98,7 @@ Primary evidence:
 - [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md)
 - [Qwen Relational Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md)
 - [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md)
+- [Same-Backbone Readout Ablation](reports/READOUT_ABLATION.md)
 
 ### 4. Evidence Is Coupled To The Side Decision
 

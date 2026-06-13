@@ -163,6 +163,34 @@ def main() -> int:
     lines.extend(
         [
             "",
+            "## Swap Diagnostics",
+            "",
+            "| model | rendering | observed equivariance | independence baseline | observed - baseline | both directions correct |",
+            "| --- | --- | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for name, row in public_models.items():
+        lines.extend(
+            [
+                (
+                    f"| `{name}` | canonical | "
+                    f"{pct(row['side_swap_equivariance'])} | "
+                    f"{pct(row['side_swap_independence_baseline'])} | "
+                    f"{row['side_swap_minus_independence_baseline']:+.4f} | "
+                    f"{pct(row['side_swap_both_directions_correct'])} |"
+                ),
+                (
+                    f"| `{name}` | exact training contract | "
+                    f"{pct(row['training_contract_swap_equivariance'])} | "
+                    f"{pct(row['training_contract_swap_independence_baseline'])} | "
+                    f"{row['training_contract_swap_minus_independence_baseline']:+.4f} | "
+                    f"{pct(row['training_contract_swap_both_directions_correct'])} |"
+                ),
+            ]
+        )
+    lines.extend(
+        [
+            "",
             "## Paired Statistics",
             "",
             (
@@ -211,7 +239,7 @@ def main() -> int:
             "",
             "## Findings",
             "",
-            "- **Relational inconsistency crosses architectures.** Both classifiers remain near chance on canonical and exact-training-contract side-swap equivariance despite above-chance pointwise accuracy.",
+            "- **Relational inconsistency crosses architectures.** Both classifiers remain close to their marginal-conditioned independent-decision baselines on canonical and exact-training-contract side-swap equivariance despite above-chance pointwise accuracy.",
             "- **Severe endpoint collapse does not cross this first architecture control.** CodeBERT preserves `94.17%` of canonical decisions under post-diff padding, versus Qwen's `56.50%`.",
             "- **Base capability does not explain the endpoint gap.** CodeBERT canonical accuracy is `67.67%`, close to Qwen's `65.50%`.",
             "- **The readout hypothesis is strengthened but not proven.** The result is consistent with terminal-token decoder readout sensitivity, but pretraining, tokenizer, capacity, and initialization also differ.",

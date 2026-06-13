@@ -1,0 +1,807 @@
+{
+  "status": "ok",
+  "scope": "same_backbone_qwen_readout_ablation",
+  "control": "terminal",
+  "models": {
+    "terminal": {
+      "metadata": {
+        "family": "qwen_decoder_sequence_classifier",
+        "readout_type": "terminal",
+        "training_contract": "same_backbone_readout_ablation_v1"
+      },
+      "rows": 8600,
+      "pairs": 600,
+      "canonical_accuracy": 0.661667,
+      "side_swap_equivariance": 0.51,
+      "side_swap_independence_baseline": 0.48611666666666664,
+      "side_swap_minus_independence_baseline": 0.023883333333333367,
+      "side_swap_both_directions_correct": 0.41833333333333333,
+      "training_contract_swap_equivariance": 0.47833333333333333,
+      "training_contract_swap_independence_baseline": 0.4918,
+      "training_contract_swap_minus_independence_baseline": -0.013466666666666682,
+      "training_contract_swap_both_directions_correct": 0.39166666666666666,
+      "metadata_removed_relation": 0.856667,
+      "pre_diff_relation": 0.78,
+      "post_diff_relation": 0.553333,
+      "terminal_phrase_relation": 0.885,
+      "post_diff_a_to_b": 267,
+      "post_diff_b_to_a": 1,
+      "clean_post_diff_relation": 0.458586,
+      "robust_accuracy": 0.20166666666666666,
+      "clean_pair_coverage": 0.745,
+      "clean_robust_accuracy_conditional": 0.2483221476510067,
+      "clean_and_robust_coverage": 0.185,
+      "canonical_critical_hunk_truncated": 105,
+      "runtime_accounting_compatible": true
+    },
+    "first_token": {
+      "metadata": {
+        "family": "qwen_decoder_sequence_classifier",
+        "readout_type": "first_token",
+        "training_contract": "same_backbone_readout_ablation_v1"
+      },
+      "rows": 8600,
+      "pairs": 600,
+      "canonical_accuracy": 0.473333,
+      "side_swap_equivariance": 0.001667,
+      "side_swap_independence_baseline": 0.3422666666666667,
+      "side_swap_minus_independence_baseline": -0.34060000000000007,
+      "side_swap_both_directions_correct": 0.0,
+      "training_contract_swap_equivariance": 0.008333333333333333,
+      "training_contract_swap_independence_baseline": 0.3673888888888889,
+      "training_contract_swap_minus_independence_baseline": -0.3590555555555555,
+      "training_contract_swap_both_directions_correct": 0.005,
+      "metadata_removed_relation": 0.62,
+      "pre_diff_relation": 0.621667,
+      "post_diff_relation": 0.623333,
+      "terminal_phrase_relation": 0.625,
+      "post_diff_a_to_b": 94,
+      "post_diff_b_to_a": 132,
+      "clean_post_diff_relation": 0.543434,
+      "robust_accuracy": 0.0,
+      "clean_pair_coverage": 0.745,
+      "clean_robust_accuracy_conditional": 0.0,
+      "clean_and_robust_coverage": 0.0,
+      "canonical_critical_hunk_truncated": 105,
+      "runtime_accounting_compatible": true
+    },
+    "mean": {
+      "metadata": {
+        "family": "qwen_decoder_sequence_classifier",
+        "readout_type": "mean",
+        "training_contract": "same_backbone_readout_ablation_v1"
+      },
+      "rows": 8600,
+      "pairs": 600,
+      "canonical_accuracy": 0.69,
+      "side_swap_equivariance": 0.543333,
+      "side_swap_independence_baseline": 0.4813333333333334,
+      "side_swap_minus_independence_baseline": 0.061999999999999944,
+      "side_swap_both_directions_correct": 0.455,
+      "training_contract_swap_equivariance": 0.53,
+      "training_contract_swap_independence_baseline": 0.4464888888888889,
+      "training_contract_swap_minus_independence_baseline": 0.08351111111111115,
+      "training_contract_swap_both_directions_correct": 0.44333333333333336,
+      "metadata_removed_relation": 0.926667,
+      "pre_diff_relation": 0.928333,
+      "post_diff_relation": 0.898333,
+      "terminal_phrase_relation": 0.896667,
+      "post_diff_a_to_b": 1,
+      "post_diff_b_to_a": 60,
+      "clean_post_diff_relation": 0.876768,
+      "robust_accuracy": 0.39166666666666666,
+      "clean_pair_coverage": 0.745,
+      "clean_robust_accuracy_conditional": 0.4429530201342282,
+      "clean_and_robust_coverage": 0.33,
+      "canonical_critical_hunk_truncated": 105,
+      "runtime_accounting_compatible": true
+    },
+    "changed_hunk": {
+      "metadata": {
+        "family": "qwen_decoder_sequence_classifier",
+        "readout_type": "changed_hunk",
+        "training_contract": "same_backbone_readout_ablation_v1"
+      },
+      "rows": 8600,
+      "pairs": 600,
+      "canonical_accuracy": 0.698333,
+      "side_swap_equivariance": 0.501667,
+      "side_swap_independence_baseline": 0.5002444444444445,
+      "side_swap_minus_independence_baseline": 0.0014222222222222136,
+      "side_swap_both_directions_correct": 0.42,
+      "training_contract_swap_equivariance": 0.47333333333333333,
+      "training_contract_swap_independence_baseline": 0.4869111111111111,
+      "training_contract_swap_minus_independence_baseline": -0.013577777777777744,
+      "training_contract_swap_both_directions_correct": 0.4083333333333333,
+      "metadata_removed_relation": 0.906667,
+      "pre_diff_relation": 0.963333,
+      "post_diff_relation": 0.998333,
+      "terminal_phrase_relation": 0.998333,
+      "post_diff_a_to_b": 0,
+      "post_diff_b_to_a": 1,
+      "clean_post_diff_relation": 0.99798,
+      "robust_accuracy": 0.37666666666666665,
+      "clean_pair_coverage": 0.745,
+      "clean_robust_accuracy_conditional": 0.4317673378076063,
+      "clean_and_robust_coverage": 0.32166666666666666,
+      "canonical_critical_hunk_truncated": 105,
+      "runtime_accounting_compatible": true
+    },
+    "fixed_terminal_anchor": {
+      "metadata": {
+        "family": "qwen_decoder_sequence_classifier",
+        "readout_type": "fixed_terminal_anchor",
+        "training_contract": "same_backbone_readout_ablation_v1"
+      },
+      "rows": 8600,
+      "pairs": 600,
+      "canonical_accuracy": 0.628333,
+      "side_swap_equivariance": 0.363333,
+      "side_swap_independence_baseline": 0.3201388888888889,
+      "side_swap_minus_independence_baseline": 0.043194444444444424,
+      "side_swap_both_directions_correct": 0.32,
+      "training_contract_swap_equivariance": 0.55,
+      "training_contract_swap_independence_baseline": 0.44449444444444447,
+      "training_contract_swap_minus_independence_baseline": 0.10550555555555557,
+      "training_contract_swap_both_directions_correct": 0.4583333333333333,
+      "metadata_removed_relation": 0.853333,
+      "pre_diff_relation": 0.906667,
+      "post_diff_relation": 0.881667,
+      "terminal_phrase_relation": 0.88,
+      "post_diff_a_to_b": 71,
+      "post_diff_b_to_a": 0,
+      "clean_post_diff_relation": 0.856566,
+      "robust_accuracy": 0.23166666666666666,
+      "clean_pair_coverage": null,
+      "clean_robust_accuracy_conditional": null,
+      "clean_and_robust_coverage": null,
+      "canonical_critical_hunk_truncated": 105,
+      "runtime_accounting_compatible": false
+    }
+  },
+  "paired_comparisons": {
+    "first_token": {
+      "all_pairs": {
+        "pairs": 600,
+        "canonical_accuracy_delta": {
+          "estimate": -0.18833333333333332,
+          "ci95": [
+            -0.24166666666666667,
+            -0.13833333333333334
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.07,
+          "ci95": [
+            0.02,
+            0.12333333333333334
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": -0.5083333333333333,
+          "ci95": [
+            -0.5466666666666666,
+            -0.4683333333333333
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": -0.20166666666666666,
+          "ci95": [
+            -0.23166666666666666,
+            -0.17
+          ]
+        }
+      },
+      "jointly_clean": {
+        "pairs": 447,
+        "canonical_accuracy_delta": {
+          "estimate": -0.24384787472035793,
+          "ci95": [
+            -0.29977628635346754,
+            -0.18568232662192394
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.06711409395973154,
+          "ci95": [
+            0.0022371364653243847,
+            0.1319910514541387
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": -0.5704697986577181,
+          "ci95": [
+            -0.6152125279642058,
+            -0.5234899328859061
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": -0.2483221476510067,
+          "ci95": [
+            -0.28859060402684567,
+            -0.2080536912751678
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.025,
+            "ci95": [
+              -0.095,
+              0.045
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.35,
+            "ci95": [
+              0.285,
+              0.42
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.145,
+            "ci95": [
+              -0.2,
+              -0.1
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": -0.02,
+            "ci95": [
+              -0.04,
+              -0.005
+            ]
+          }
+        },
+        "patcheval": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.23,
+            "ci95": [
+              -0.315,
+              -0.14
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": -0.085,
+            "ci95": [
+              -0.175,
+              0.005
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.715,
+            "ci95": [
+              -0.775,
+              -0.65
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": -0.295,
+            "ci95": [
+              -0.355,
+              -0.235
+            ]
+          }
+        },
+        "primevul": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.31,
+            "ci95": [
+              -0.405,
+              -0.21
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": -0.055,
+            "ci95": [
+              -0.145,
+              0.035
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.665,
+            "ci95": [
+              -0.73,
+              -0.6
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": -0.29,
+            "ci95": [
+              -0.355,
+              -0.225
+            ]
+          }
+        }
+      }
+    },
+    "mean": {
+      "all_pairs": {
+        "pairs": 600,
+        "canonical_accuracy_delta": {
+          "estimate": 0.028333333333333332,
+          "ci95": [
+            -0.01,
+            0.065
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.345,
+          "ci95": [
+            0.3016666666666667,
+            0.3883333333333333
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": 0.03333333333333333,
+          "ci95": [
+            -0.006666666666666667,
+            0.07333333333333333
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": 0.19,
+          "ci95": [
+            0.15666666666666668,
+            0.22666666666666666
+          ]
+        }
+      },
+      "jointly_clean": {
+        "pairs": 447,
+        "canonical_accuracy_delta": {
+          "estimate": 0.0044742729306487695,
+          "ci95": [
+            -0.035794183445190156,
+            0.042505592841163314
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.43400447427293065,
+          "ci95": [
+            0.3825503355704698,
+            0.4899328859060403
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": 0.011185682326621925,
+          "ci95": [
+            -0.029082774049217,
+            0.05145413870246085
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": 0.19463087248322147,
+          "ci95": [
+            0.15212527964205816,
+            0.2371364653243848
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.08,
+            "ci95": [
+              0.005,
+              0.155
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.505,
+            "ci95": [
+              0.43,
+              0.575
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": 0.04,
+            "ci95": [
+              -0.035,
+              0.115
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.06,
+            "ci95": [
+              0.02,
+              0.105
+            ]
+          }
+        },
+        "patcheval": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.02,
+            "ci95": [
+              -0.045,
+              0.085
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.315,
+            "ci95": [
+              0.24,
+              0.39
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.045,
+            "ci95": [
+              -0.115,
+              0.02
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.18,
+            "ci95": [
+              0.11,
+              0.25
+            ]
+          }
+        },
+        "primevul": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.015,
+            "ci95": [
+              -0.08,
+              0.045
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.215,
+            "ci95": [
+              0.135,
+              0.3
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": 0.105,
+            "ci95": [
+              0.04,
+              0.17
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.33,
+            "ci95": [
+              0.265,
+              0.395
+            ]
+          }
+        }
+      }
+    },
+    "changed_hunk": {
+      "all_pairs": {
+        "pairs": 600,
+        "canonical_accuracy_delta": {
+          "estimate": 0.03666666666666667,
+          "ci95": [
+            -0.008333333333333333,
+            0.08166666666666667
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.445,
+          "ci95": [
+            0.405,
+            0.485
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": -0.008333333333333333,
+          "ci95": [
+            -0.04833333333333333,
+            0.03166666666666667
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": 0.175,
+          "ci95": [
+            0.14,
+            0.20833333333333334
+          ]
+        }
+      },
+      "jointly_clean": {
+        "pairs": 447,
+        "canonical_accuracy_delta": {
+          "estimate": 0.020134228187919462,
+          "ci95": [
+            -0.026845637583892617,
+            0.06711409395973154
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.5682326621923938,
+          "ci95": [
+            0.5212527964205816,
+            0.6152125279642058
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": -0.035794183445190156,
+          "ci95": [
+            -0.07606263982102908,
+            0.0044742729306487695
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": 0.18344519015659955,
+          "ci95": [
+            0.14317673378076062,
+            0.22371364653243847
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.1,
+            "ci95": [
+              0.005,
+              0.195
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.595,
+            "ci95": [
+              0.525,
+              0.66
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.02,
+            "ci95": [
+              -0.09,
+              0.04
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.005,
+            "ci95": [
+              -0.025,
+              0.035
+            ]
+          }
+        },
+        "patcheval": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.01,
+            "ci95": [
+              -0.05,
+              0.075
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.39,
+            "ci95": [
+              0.32,
+              0.46
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.08,
+            "ci95": [
+              -0.15,
+              -0.01
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.2,
+            "ci95": [
+              0.13,
+              0.27
+            ]
+          }
+        },
+        "primevul": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.0,
+            "ci95": [
+              -0.06,
+              0.06
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.35,
+            "ci95": [
+              0.285,
+              0.42
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": 0.075,
+            "ci95": [
+              0.005,
+              0.145
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.32,
+            "ci95": [
+              0.255,
+              0.395
+            ]
+          }
+        }
+      }
+    },
+    "fixed_terminal_anchor": {
+      "all_pairs": {
+        "pairs": 600,
+        "canonical_accuracy_delta": {
+          "estimate": -0.03333333333333333,
+          "ci95": [
+            -0.08333333333333333,
+            0.015
+          ]
+        },
+        "post_diff_relation_delta": {
+          "estimate": 0.3283333333333333,
+          "ci95": [
+            0.28833333333333333,
+            0.37
+          ]
+        },
+        "side_swap_relation_delta": {
+          "estimate": -0.14666666666666667,
+          "ci95": [
+            -0.18333333333333332,
+            -0.11
+          ]
+        },
+        "robust_success_delta": {
+          "estimate": 0.03,
+          "ci95": [
+            0.0016666666666666668,
+            0.056666666666666664
+          ]
+        }
+      },
+      "jointly_clean": {
+        "status": "not_comparable",
+        "reason": "The reserved terminal anchor changes the effective truncation budget; the original runtime visibility accounting is invalid."
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": 0.035,
+            "ci95": [
+              -0.085,
+              0.16
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.51,
+            "ci95": [
+              0.43,
+              0.585
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.09,
+            "ci95": [
+              -0.15,
+              -0.03
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": -0.01,
+            "ci95": [
+              -0.035,
+              0.015
+            ]
+          }
+        },
+        "patcheval": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.045,
+            "ci95": [
+              -0.115,
+              0.02
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.275,
+            "ci95": [
+              0.21,
+              0.345
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.185,
+            "ci95": [
+              -0.25,
+              -0.125
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.065,
+            "ci95": [
+              0.005,
+              0.13
+            ]
+          }
+        },
+        "primevul": {
+          "pairs": 200,
+          "canonical_accuracy_delta": {
+            "estimate": -0.09,
+            "ci95": [
+              -0.15,
+              -0.03
+            ]
+          },
+          "post_diff_relation_delta": {
+            "estimate": 0.2,
+            "ci95": [
+              0.145,
+              0.26
+            ]
+          },
+          "side_swap_relation_delta": {
+            "estimate": -0.165,
+            "ci95": [
+              -0.225,
+              -0.1
+            ]
+          },
+          "robust_success_delta": {
+            "estimate": 0.035,
+            "ci95": [
+              -0.015,
+              0.085
+            ]
+          }
+        }
+      }
+    }
+  },
+  "success_rule": {
+    "post_diff_ci_excludes_zero": true,
+    "max_absolute_canonical_accuracy_delta": 0.02
+  },
+  "decisions": {
+    "first_token": {
+      "meets_success_rule": false,
+      "canonical_delta_within_tolerance": false,
+      "post_diff_ci_excludes_zero": true
+    },
+    "mean": {
+      "meets_success_rule": false,
+      "canonical_delta_within_tolerance": false,
+      "post_diff_ci_excludes_zero": true
+    },
+    "changed_hunk": {
+      "meets_success_rule": false,
+      "canonical_delta_within_tolerance": false,
+      "post_diff_ci_excludes_zero": true
+    },
+    "fixed_terminal_anchor": {
+      "meets_success_rule": false,
+      "canonical_delta_within_tolerance": false,
+      "post_diff_ci_excludes_zero": true
+    }
+  },
+  "findings": {
+    "mean_removes_most_endpoint_sensitivity": true,
+    "changed_hunk_nearly_eliminates_endpoint_sensitivity": true,
+    "first_token_is_invalid_for_causal_decoder_readout": true,
+    "fixed_anchor_trades_endpoint_stability_for_canonical_accuracy": true,
+    "no_readout_meets_preregistered_success_rule": true,
+    "side_swap_failure_remains_separate": true
+  }
+}

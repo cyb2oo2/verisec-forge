@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "name": "primevul_readout_ablation_qwen15b_changed_hunk_v1",
+  "readout_type": "changed_hunk",
+  "seed": 42,
+  "train_pairs": 3000,
+  "eval_examples": 1654,
+  "canonical_accuracy": 0.7853688029020556,
+  "pair_metrics": {
+    "unique_pairs": 827,
+    "pair_orientation_accuracy": 0.8270858524788391,
+    "independent_both_correct": 0.6481257557436517
+  },
+  "training_contract": {
+    "init_checkpoint": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+    "loss": {
+      "margin": 0.5,
+      "margin_weight": 0.5,
+      "complement_weight": 0.1
+    },
+    "max_seq_length": 1024,
+    "training": {
+      "num_train_epochs": 1,
+      "learning_rate": 2e-05,
+      "per_device_train_batch_size": 1,
+      "per_device_eval_batch_size": 4,
+      "gradient_accumulation_steps": 8,
+      "logging_steps": 10
+    }
+  }
+}

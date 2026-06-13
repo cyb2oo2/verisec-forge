@@ -1,0 +1,129 @@
+{
+  "name": "same_backbone_readout_ablation_v1",
+  "description": "Fixed 600-pair audit predictions and reports for the Qwen2.5-Coder-1.5B same-backbone readout ablation.",
+  "created_utc": "2026-06-13",
+  "analysis_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_readout_ablation.py"
+  ],
+  "training_commands": [
+    ".venv/Scripts/python.exe scripts/train_readout_ablation.py --readout terminal",
+    ".venv/Scripts/python.exe scripts/train_readout_ablation.py --readout first_token",
+    ".venv/Scripts/python.exe scripts/train_readout_ablation.py --readout mean",
+    ".venv/Scripts/python.exe scripts/train_readout_ablation.py --readout changed_hunk",
+    ".venv/Scripts/python.exe scripts/train_readout_ablation.py --readout fixed_terminal_anchor"
+  ],
+  "prediction_command_template": ".venv/Scripts/python.exe scripts/predict_readout_ablation.py --checkpoint checkpoints/cls_secure_code_primevul_readout_ablation_qwen15b_{readout}_v1 --readout {readout} --output outputs/secure_code_readout_ablation_{readout}_audit_v1_predictions.jsonl",
+  "artifacts": [
+    {
+      "role": "audit_runtime_512",
+      "path": "data/processed/secure_code_qwen_mechanism_audit_v1_runtime512.jsonl",
+      "sha256": "813a19cc653f6be0882e28febcfa2ab66607ffd4d803f3e12af0f9a15aa84b42",
+      "bytes": 54834772,
+      "rows": 8600
+    },
+    {
+      "role": "terminal_predictions",
+      "path": "outputs/secure_code_readout_ablation_terminal_audit_v1_predictions.jsonl",
+      "sha256": "aa0518723d8147a636f980e499839b62e8f70417624dcf6fc3c0452fbf4fcbb4",
+      "bytes": 3209265,
+      "rows": 8600
+    },
+    {
+      "role": "first_token_predictions",
+      "path": "outputs/secure_code_readout_ablation_first_token_audit_v1_predictions.jsonl",
+      "sha256": "ead0436beccafc1c761ac4cee5ee287883de50683f0fe40c1dc846b1c78e625a",
+      "bytes": 3216244,
+      "rows": 8600
+    },
+    {
+      "role": "mean_predictions",
+      "path": "outputs/secure_code_readout_ablation_mean_audit_v1_predictions.jsonl",
+      "sha256": "d753c82bf552e0f65072574e0c2f698acf5d91d9abbc5561cae30632e64573fa",
+      "bytes": 3135484,
+      "rows": 8600
+    },
+    {
+      "role": "changed_hunk_predictions",
+      "path": "outputs/secure_code_readout_ablation_changed_hunk_audit_v1_predictions.jsonl",
+      "sha256": "609de12ba29f88d591680b8fe54d6df92a5787577c05e319d0533da429f98f02",
+      "bytes": 3274655,
+      "rows": 8600
+    },
+    {
+      "role": "fixed_terminal_anchor_predictions",
+      "path": "outputs/secure_code_readout_ablation_fixed_terminal_anchor_audit_v1_predictions.jsonl",
+      "sha256": "64a7e7f9438384447f3ddc338fa60320c27138e2d45e2e16d69b7ee4a56d753c",
+      "bytes": 3428280,
+      "rows": 8600
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "ablation_report_json",
+      "path": "reports/secure_code_readout_ablation_v1.json",
+      "sha256": "5c80fe771b8c4a2a261dec2a49c1e89c4e91362195e408f2dde657977ebd2801",
+      "bytes": 23020
+    },
+    {
+      "role": "ablation_report_markdown",
+      "path": "reports/READOUT_ABLATION.md",
+      "sha256": "3cc088f6512db6382e1fee28bbea55abd5e0047dff95410b2db09bedf60834bb",
+      "bytes": 2464
+    },
+    {
+      "role": "terminal_training_report",
+      "path": "reports/secure_code_primevul_readout_ablation_qwen15b_terminal_v1_report.json",
+      "sha256": "6980c3ada183d22e73f57bb48e7abf903af3d4f11195d86219fb0362ce67b7d5",
+      "bytes": 884
+    },
+    {
+      "role": "first_token_training_report",
+      "path": "reports/secure_code_primevul_readout_ablation_qwen15b_first_token_v1_report.json",
+      "sha256": "7d84e70e83067d31363eb37dac061f82fb033c7166800b28d8c22d2d723bc09d",
+      "bytes": 851
+    },
+    {
+      "role": "mean_training_report",
+      "path": "reports/secure_code_primevul_readout_ablation_qwen15b_mean_v1_report.json",
+      "sha256": "e7aa0510b7953ac1bee84e161a3a6330ab4d738f325340c68126375278a94656",
+      "bytes": 881
+    },
+    {
+      "role": "changed_hunk_training_report",
+      "path": "reports/secure_code_primevul_readout_ablation_qwen15b_changed_hunk_v1_report.json",
+      "sha256": "bca58211691752dd0a078cba4ee59774a22e475b46ce2e92a3229d42c1c384d9",
+      "bytes": 898
+    },
+    {
+      "role": "fixed_terminal_anchor_training_report",
+      "path": "reports/secure_code_primevul_readout_ablation_qwen15b_fixed_terminal_anchor_v1_report.json",
+      "sha256": "8dd0e425d884233a23572b5effa8a8f0bb271ac82c1b3d96f795b6145538e255",
+      "bytes": 916
+    }
+  ],
+  "expected": {
+    "terminal_canonical_accuracy": 0.661667,
+    "terminal_post_diff_relation": 0.553333,
+    "mean_canonical_accuracy": 0.69,
+    "mean_post_diff_relation": 0.898333,
+    "mean_post_diff_delta": 0.345,
+    "mean_post_diff_delta_ci_low": 0.301667,
+    "mean_post_diff_delta_ci_high": 0.388333,
+    "changed_hunk_canonical_accuracy": 0.698333,
+    "changed_hunk_post_diff_relation": 0.998333,
+    "changed_hunk_post_diff_delta": 0.445,
+    "changed_hunk_post_diff_delta_ci_low": 0.405,
+    "changed_hunk_post_diff_delta_ci_high": 0.485,
+    "changed_hunk_side_swap_equivariance": 0.501667,
+    "changed_hunk_side_swap_independence_baseline": 0.5002,
+    "no_readout_meets_preregistered_success_rule": true
+  },
+  "limitations": [
+    "Seed 42 is a discovery experiment; no readout is promoted to multi-seed confirmation because none meets the preregistered success rule.",
+    "The fixed-terminal-anchor readout changes the truncation budget, so its original-runtime clean-subset metrics are not comparable.",
+    "This is a same-backbone readout intervention within one Qwen checkpoint family, not broad cross-model generalization.",
+    "The manifest reproduces analysis from stored predictions, not GPU training.",
+    "Local LoRA checkpoints are not included in this manifest or Git; rebuilding predictions requires the configured initialization checkpoint and GPU training commands."
+  ]
+}
