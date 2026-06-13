@@ -36,8 +36,8 @@
       "name": "readout_confirmatory_inputs",
       "filename": "verisec_forge_readout_confirmatory_bundle_v1.zip",
       "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/readout-confirmatory-bundle-v1/verisec_forge_readout_confirmatory_bundle_v1.zip",
-      "sha256": "44959778b2c83ca26ccad993ce4ef7d8ca0bd2a50ca7c445e22c99b392d2c00f",
-      "bytes": 741139,
+      "sha256": "763758b9dd9866b161b6eb73920b05b8c750a952cde0d6f109f088060dd52ce2",
+      "bytes": 741496,
       "artifact_count": 18,
       "duplicate_artifact_paths": [],
       "source_manifests": [

@@ -93,6 +93,21 @@ def main() -> int:
             "PR #8 pairs, suffix templates, and seed 42 are excluded."
         ),
         "seeds": [7, 123],
+        "uncertainty_scope": {
+            "bootstrap_unit": "held_out_pair",
+            "seed_aggregation": "average_over_seeds_7_and_123",
+            "interpretation": (
+                "Pair-cluster bootstrap intervals quantify variation across "
+                "held-out pairs after averaging seeds 7 and 123. They are "
+                "conditional on these selected training seeds and do not "
+                "estimate seed-population uncertainty."
+            ),
+            "seed_stability_check": (
+                "Seed-wise effects are reported separately, and the "
+                "confirmatory rule requires positive suffix deltas in both "
+                "seeds."
+            ),
+        },
         "readouts": summaries,
         "paired_comparisons_vs_terminal": comparisons,
         "claim_boundary": (
@@ -171,6 +186,11 @@ def main() -> int:
             "Canonical non-inferiority uses all 180 pairs. The suffix endpoint "
             "uses only pairs where the intervention is visible after "
             "tokenization and truncation.",
+            "",
+            "Bootstrap intervals quantify variation across held-out pairs "
+            "after averaging seeds 7 and 123. They are conditional on these "
+            "two selected training seeds, not estimates of seed-population "
+            "uncertainty; seed-wise effects are reported separately.",
             "",
             "## Interpretation",
             "",

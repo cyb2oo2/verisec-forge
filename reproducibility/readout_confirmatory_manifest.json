@@ -88,14 +88,14 @@
     {
       "role": "confirmatory_report_json",
       "path": "reports/secure_code_readout_confirmatory_v1.json",
-      "sha256": "40f3eb122d8ebe8cb3b10f0af72d6a75ca8c2d791e06c02a0f68806cd1ff6134",
-      "bytes": 13981
+      "sha256": "744a72ccef15359577633aaa71e6c93288dc8ea1c8bf27e858f590989467956e",
+      "bytes": 14493
     },
     {
       "role": "confirmatory_report_markdown",
       "path": "reports/READOUT_CONFIRMATORY.md",
-      "sha256": "193236a2315d6785adbf3c14a6391e58470baf2ba1e1940575d5749c55f61cc3",
-      "bytes": 2566
+      "sha256": "b158a6aa0cc88c3eb989679dea5ce836fa609feff5c58985888e5159cc0c98c3",
+      "bytes": 2811
     },
     {
       "role": "terminal_seed7_training_report",

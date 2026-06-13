@@ -33,6 +33,8 @@ PR #8 is frozen as discovery. This study uses 180 new pair IDs, three unseen suf
 
 Canonical non-inferiority uses all 180 pairs. The suffix endpoint uses only pairs where the intervention is visible after tokenization and truncation.
 
+Bootstrap intervals quantify variation across held-out pairs after averaging seeds 7 and 123. They are conditional on these two selected training seeds, not estimates of seed-population uncertainty; seed-wise effects are reported separately.
+
 ## Interpretation
 
 - Neither candidate meets all preregistered confirmation checks.

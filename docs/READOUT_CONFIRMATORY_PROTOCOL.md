@@ -78,6 +78,15 @@ A candidate is confirmed only if:
 This is a new post-discovery non-inferiority protocol. It does not retroactively
 change the symmetric equivalence rule used in PR #8.
 
+## Statistical Scope
+
+Pooled bootstrap intervals resample held-out pair clusters after averaging
+the results from training seeds `7` and `123`. They quantify pair-level
+uncertainty conditional on these two selected seeds; they do not estimate the
+variance induced by drawing arbitrary training seeds from a seed population.
+Seed-wise effects are therefore reported separately, and the confirmation
+rule additionally requires a positive suffix delta in both seeds.
+
 ## Claim Boundary
 
 The study confirms or rejects two preselected readout-conditioned training
