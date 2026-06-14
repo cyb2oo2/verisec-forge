@@ -243,6 +243,33 @@ Expected confirmatory findings:
 This bundle reproduces the analysis from stored predictions. It does not
 include model checkpoints or replace the original GPU training runs.
 
+## Frozen-Backbone Readout Control
+
+This control can be reproduced from cached frozen representations without
+loading the 1.5B backbone:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\train_frozen_readout_heads.py
+.\.venv\Scripts\python.exe scripts\analyze_frozen_readout_control.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\frozen_backbone_readout_control_manifest.json `
+  --check-only `
+  --include-generated
+```
+
+The feature-cache reports record:
+
+- base model `Qwen/Qwen2.5-Coder-1.5B-Instruct`;
+- exact revision `2e1fd397ee46e1388853d2af2c993145b0f1098a`;
+- frozen adapter SHA256;
+- tokenizer, context limits, GPU, and library versions;
+- cache SHA256, dimensions, dtype, and fallback rows.
+
+Expected finding: mean pooling does not retain a significant direct suffix
+gain after freezing the representation, while changed-hunk pooling does.
+Neither candidate establishes canonical non-inferiority or repairs side-order
+reasoning.
+
 ## Required Artifacts
 
 The exact local artifacts are listed in:

@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "method": "matched_linear_head_over_frozen_backbone",
+  "frozen_checkpoint": "checkpoints/cls_secure_code_readout_confirmatory_qwen15b_terminal_seed7_v1",
+  "adapter_sha256": "bf0a9849cfa52d3c594757eb1d09ca3f817a811b7a431956ee60ae581acba648",
+  "base_model_revision": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+  "base_model_id": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "readout": "mean",
+  "seed": 7,
+  "hidden_size": 1536,
+  "initial_head_sha256": "e3382d68fb6db51bab6b41b432e22a5d43569694d820d8bad2b77b5bc1042907",
+  "final_head_sha256": "d699880603ffd2ad7174fb7d491fbae1f87c3896c4fb9941e7c4444e0dd23164",
+  "train_pairs": 3000,
+  "confirm_rows": 900,
+  "training": {
+    "epochs": 12,
+    "steps": 564,
+    "loss_history": [
+      0.7931399485270182,
+      0.6795350917180379,
+      0.6561665126482645,
+      0.6413199501037598,
+      0.6327366739908854,
+      0.626229085445404,
+      0.6219676556587219,
+      0.6175559171040853,
+      0.6121625178654989,
+      0.611218465646108,
+      0.6054338552157084,
+      0.6029137342770894
+    ]
+  },
+  "contract": {
+    "head": "Linear(hidden_size, 2)",
+    "loss": {
+      "margin": 0.5,
+      "margin_weight": 0.5,
+      "complement_weight": 0.1
+    },
+    "optimizer": "AdamW",
+    "num_train_epochs": 12,
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "pair_batch_size": 64,
+    "logging_epochs": 2
+  },
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.11.0+cu130"
+  },
+  "claim_boundary": "Only the matched linear head is trained. The backbone and LoRA representation are frozen and shared."
+}

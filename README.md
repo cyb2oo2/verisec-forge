@@ -38,6 +38,7 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 | Cross-architecture controls separate two failure modes | exact-contract swap `0.4600/0.5300`; endpoint gap `+0.3767`, paired 95% CI `[0.3317, 0.4200]` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
 | Same-backbone readout ablation isolates endpoint robustness | mean post-diff `0.8983`; changed-hunk `0.9983`; no readout passes the preregistered canonical-delta rule | [Readout Ablation](reports/READOUT_ABLATION.md) |
 | Independent confirmation replicates the mechanism, not non-inferiority | suffix delta `+0.3095` mean / `+0.4903` changed-hunk; both canonical non-inferiority CIs fail | [Readout Confirmation](reports/READOUT_CONFIRMATORY.md) |
+| Frozen-backbone control separates direct pooling from training effects | mean delta `+0.0260` (CI crosses 0); changed-hunk `+0.1970` (`95% CI [+0.1418, +0.2554]`) | [Frozen-Backbone Readout Control](reports/FROZEN_BACKBONE_READOUT_CONTROL.md) |
 | Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
 | Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
 | Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
@@ -150,6 +151,15 @@ and `-0.0250`, with lower confidence bounds below `-0.02`. The replicated
 claim is therefore causal endpoint-robustness control, not a promoted
 accuracy-preserving classifier. Side-swap equivariance remains near its
 marginal-conditioned independence baseline.
+
+A frozen-backbone matched-head control then holds the terminal-trained
+Qwen+LoRA hidden states fixed. Mean pooling no longer has a stable suffix
+advantage (`+0.0260`, 95% CI `[-0.0281, +0.0823]`), while changed-hunk
+pooling retains a direct gain of `+0.1970` with 95% CI
+`[+0.1418, +0.2554]`. This separates two mechanisms: mean pooling primarily
+changes the fine-tuning trajectory, whereas changed-hunk pooling also
+structurally excludes endpoint tokens. Canonical non-inferiority remains
+unestablished, and side-order reasoning remains unresolved.
 
 Validate local reproducibility inputs:
 

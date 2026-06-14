@@ -1,0 +1,29 @@
+{
+  "name": "frozen_backbone_readout_control_qwen15b_v1",
+  "frozen_checkpoint": "checkpoints/cls_secure_code_readout_confirmatory_qwen15b_terminal_seed7_v1",
+  "train_dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+  "confirm_dataset": "data/processed/secure_code_readout_confirmatory_v1_runtime512.jsonl",
+  "train_cache": "outputs/frozen_readout_control_train_features_v1.pt",
+  "confirm_cache": "outputs/frozen_readout_control_confirm_features_v1.pt",
+  "train_cache_report": "reports/secure_code_frozen_readout_control_train_cache_v1.json",
+  "confirm_cache_report": "reports/secure_code_frozen_readout_control_confirm_cache_v1.json",
+  "predictions_template": "outputs/secure_code_frozen_readout_control_{readout}_seed{seed}_predictions.jsonl",
+  "head_template": "checkpoints/frozen_readout_control_{readout}_seed{seed}_v1/head.pt",
+  "training_report_template": "reports/secure_code_frozen_readout_control_{readout}_seed{seed}_training_report.json",
+  "train_max_length": 1024,
+  "confirm_max_length": 512,
+  "feature_batch_size": 4,
+  "seeds": [7, 123],
+  "loss": {
+    "margin": 0.5,
+    "margin_weight": 0.5,
+    "complement_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 12,
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "pair_batch_size": 64,
+    "logging_epochs": 2
+  }
+}

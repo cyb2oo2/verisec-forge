@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "split": "confirm",
+  "output": "outputs\\frozen_readout_control_confirm_features_v1.pt",
+  "output_sha256": "d7f160732460fb06c71ad6d9f42e5a98850b698b5971f3552e61c489d9d6fe64",
+  "output_bytes": 8471419,
+  "rows": 900,
+  "hidden_size": 1536,
+  "feature_dtype": "float16",
+  "readouts": [
+    "terminal",
+    "mean",
+    "changed_hunk"
+  ],
+  "fallback_rows": 0,
+  "frozen_checkpoint": "checkpoints/cls_secure_code_readout_confirmatory_qwen15b_terminal_seed7_v1",
+  "adapter_sha256": "bf0a9849cfa52d3c594757eb1d09ca3f817a811b7a431956ee60ae581acba648",
+  "base_model_revision": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+  "base_model_id": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "tokenizer": "checkpoints/cls_secure_code_readout_confirmatory_qwen15b_terminal_seed7_v1",
+  "max_length": 512,
+  "batch_size": 4,
+  "elapsed_seconds": 36.82324409997091,
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4070 Ti",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.4.0",
+    "peft": "0.18.1"
+  },
+  "claim_boundary": "The cache contains frozen hidden representations and metadata, not model predictions or a robustness conclusion."
+}
