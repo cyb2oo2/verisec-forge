@@ -249,6 +249,9 @@ This control can be reproduced from cached frozen representations without
 loading the 1.5B backbone:
 
 ```powershell
+.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py `
+  --bundle-name frozen_backbone_readout_control_inputs `
+  --restore
 .\.venv\Scripts\python.exe scripts\train_frozen_readout_heads.py
 .\.venv\Scripts\python.exe scripts\analyze_frozen_readout_control.py
 .\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
