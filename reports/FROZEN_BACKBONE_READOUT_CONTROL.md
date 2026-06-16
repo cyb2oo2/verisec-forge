@@ -47,6 +47,7 @@ Pairs are retained when canonical confidence margins differ by at most `0.05`.
 - Mean pooling does not show a stable direct effect once the representation is frozen; its confirmed training-conditioned gain is therefore consistent with altered gradient flow or learned representations.
 - Changed-hunk pooling retains a significant direct suffix gain, supporting structural exclusion of endpoint tokens.
 - Confidence-matched results are diagnostic only because coverage is below 10%.
+- Seeds `7` and `123` vary only linear-head initialization and training order; all results are conditional on the single terminal-seed7 frozen Qwen backbone and LoRA representation.
 - Canonical non-inferiority is not established, and side-swap reasoning remains unresolved.
 
 This isolates pooling over one frozen terminal-trained Qwen representation. It does not establish model-family generality or solve side-order reasoning.

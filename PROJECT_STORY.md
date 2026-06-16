@@ -109,7 +109,9 @@ suffix delta shrinks to `+0.0260` with 95% CI
 `[+0.1418, +0.2554]` and positive source-wise effects. The evidence therefore
 supports a training-mediated mean effect and a direct structural
 changed-hunk effect. The confidence-matched diagnostic has below-10%
-coverage, so it is not used as primary evidence.
+coverage, so it is not used as primary evidence. Here, seeds `7` and `123`
+are linear-head seeds only; the frozen Qwen+LoRA backbone is the single
+terminal-seed7 representation.
 
 Primary evidence:
 

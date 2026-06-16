@@ -159,7 +159,9 @@ pooling retains a direct gain of `+0.1970` with 95% CI
 `[+0.1418, +0.2554]`. This separates two mechanisms: mean pooling primarily
 changes the fine-tuning trajectory, whereas changed-hunk pooling also
 structurally excludes endpoint tokens. Canonical non-inferiority remains
-unestablished, and side-order reasoning remains unresolved.
+unestablished, and side-order reasoning remains unresolved. The seeds in this
+frozen-backbone control vary only the matched linear heads; all results are
+conditional on one terminal-seed7 frozen Qwen+LoRA representation.
 
 Validate local reproducibility inputs:
 

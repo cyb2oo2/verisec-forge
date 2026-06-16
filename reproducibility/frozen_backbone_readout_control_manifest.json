@@ -118,14 +118,14 @@
     {
       "role": "control_report_json",
       "path": "reports/secure_code_frozen_backbone_readout_control_v1.json",
-      "sha256": "ebf65dd88a687b09d3a24b08d8eb06107367b22e2870a0fae5dd5447e4e5a545",
-      "bytes": 16562
+      "sha256": "35097f176377977a2de69696f0118fed339bb028ce6679b47c3a5735b7c2febd",
+      "bytes": 16758
     },
     {
       "role": "control_report_markdown",
       "path": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
-      "sha256": "a90eab2791b9eb283f46b10a3fb26a11647a9cd5dd5a641425d09773b0b40aed",
-      "bytes": 2832
+      "sha256": "8e1a9cfc11334d8f39619e0acd7b3ba3e0bc364ec28009116f7505485bedbc5c",
+      "bytes": 3015
     },
     {
       "role": "terminal_seed7_training_report",

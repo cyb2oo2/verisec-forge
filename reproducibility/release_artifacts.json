@@ -49,8 +49,8 @@
       "name": "frozen_backbone_readout_control_inputs",
       "filename": "verisec_forge_frozen_backbone_readout_control_v1.zip",
       "url": "https://github.com/cyb2oo2/verisec-forge/releases/download/frozen-backbone-readout-control-v1/verisec_forge_frozen_backbone_readout_control_v1.zip",
-      "sha256": "2201872ebb17e0901fd230df8e56ee5dd7f1ae7783eb94f90f498c1ca9861702",
-      "bytes": 56169287,
+      "sha256": "fd31abaa8788754e8149dcf5463a801cbeeaa5a235673dd64d07e9fcba2ba109",
+      "bytes": 56169435,
       "artifact_count": 24,
       "duplicate_artifact_paths": [],
       "source_manifests": [

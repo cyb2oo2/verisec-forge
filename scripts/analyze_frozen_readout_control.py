@@ -144,6 +144,11 @@ def main() -> int:
             "Pair-cluster bootstrap uncertainty conditional on head-training "
             "seeds 7 and 123."
         ),
+        "seed_scope": (
+            "Seeds 7 and 123 vary only linear-head initialization and "
+            "training order; all results are conditional on the single "
+            "terminal-seed7 frozen Qwen backbone and LoRA representation."
+        ),
         "claim_boundary": (
             "This isolates pooling over one frozen terminal-trained Qwen "
             "representation. It does not establish model-family generality "
@@ -248,6 +253,9 @@ def main() -> int:
             "supporting structural exclusion of endpoint tokens.",
             "- Confidence-matched results are diagnostic only because coverage "
             "is below 10%.",
+            "- Seeds `7` and `123` vary only linear-head initialization and "
+            "training order; all results are conditional on the single "
+            "terminal-seed7 frozen Qwen backbone and LoRA representation.",
             "- Canonical non-inferiority is not established, and side-swap "
             "reasoning remains unresolved.",
             "",

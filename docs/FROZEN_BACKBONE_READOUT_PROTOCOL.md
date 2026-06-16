@@ -34,6 +34,11 @@ Seeds `7` and `123` are fixed before confirmatory evaluation. The independent
 180-pair readout-confirmation set is never used for optimization, epoch
 selection, or hyperparameter selection.
 
+Seeds `7` and `123` vary only the matched linear-head initialization and
+training order. All results are conditional on the single terminal-seed7 frozen
+Qwen backbone and LoRA representation; they are not independent
+backbone-training seeds.
+
 ## Endpoints
 
 The terminal head is the control. Mean and changed-hunk are compared on:
@@ -60,4 +65,5 @@ This experiment does not attempt to solve side-order reasoning.
 The experiment freezes one terminal-trained Qwen checkpoint. It isolates
 readout over that representation but does not establish broad model-family
 generality. Pair-bootstrap intervals remain conditional on the two selected
-head-training seeds.
+head-training seeds, which vary only the matched linear heads and training
+order over the single terminal-seed7 frozen Qwen+LoRA representation.
