@@ -21,6 +21,9 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Readout Ablation Protocol`: `docs/READOUT_ABLATION_PROTOCOL.md`
 - `Independent Readout Confirmation`: `reports/READOUT_CONFIRMATORY.md`
 - `Readout Confirmation Protocol`: `docs/READOUT_CONFIRMATORY_PROTOCOL.md`
+- `Frozen-Backbone Readout Control`: `reports/FROZEN_BACKBONE_READOUT_CONTROL.md`
+- `Frozen-Backbone Readout Protocol`: `docs/FROZEN_BACKBONE_READOUT_PROTOCOL.md`
+- `Paper 1 Draft Outline`: `docs/PAPER1_DRAFT_OUTLINE.md`
 - `Qwen Batch-Shape Stability Audit`: `reports/secure_code_qwen_batch_shape_stability_v1.json`
 - `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
 - `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`

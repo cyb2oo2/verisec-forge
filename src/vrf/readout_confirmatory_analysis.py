@@ -26,6 +26,10 @@ def summarize_confirmatory_rows(
             continue
         canonical = group["canonical"]
         canonical_prediction = str(canonical["predicted_riskier_side"])
+        canonical_margin = abs(
+            float(canonical["probability_a"])
+            - float(canonical["probability_b"])
+        )
         suffix_relations = {
             name: (
                 str(group[name]["predicted_riskier_side"])
@@ -49,6 +53,7 @@ def summarize_confirmatory_rows(
                 "canonical_correct": canonical_prediction
                 == str(canonical["gold_riskier_side"]),
                 "canonical_prediction": canonical_prediction,
+                "canonical_margin": canonical_margin,
                 "side_swap_prediction": str(
                     group["side_swap"]["predicted_riskier_side"]
                 ),

@@ -1,0 +1,222 @@
+{
+  "name": "frozen_backbone_readout_control_v1",
+  "description": "Frozen Qwen+LoRA hidden representations, matched linear heads, predictions, and reports for the direct readout mechanism control.",
+  "created_utc": "2026-06-14",
+  "analysis_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/analyze_frozen_readout_control.py"
+  ],
+  "training_command": [
+    ".venv/Scripts/python.exe",
+    "scripts/train_frozen_readout_heads.py"
+  ],
+  "artifacts": [
+    {
+      "role": "train_feature_cache",
+      "path": "outputs/frozen_readout_control_train_features_v1.pt",
+      "sha256": "d6ebcd5bbec7c5c825ac4580ee4b7324031c11708c1c7e834821b2353826c81f",
+      "bytes": 56512487
+    },
+    {
+      "role": "confirm_feature_cache",
+      "path": "outputs/frozen_readout_control_confirm_features_v1.pt",
+      "sha256": "d7f160732460fb06c71ad6d9f42e5a98850b698b5971f3552e61c489d9d6fe64",
+      "bytes": 8471419
+    },
+    {
+      "role": "terminal_seed7_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_terminal_seed7_predictions.jsonl",
+      "sha256": "77d81bdd2f444459bb365fba8ac91489da28aa657566851a30f851207c6c8d22",
+      "bytes": 329284,
+      "rows": 900
+    },
+    {
+      "role": "terminal_seed7_head",
+      "path": "checkpoints/frozen_readout_control_terminal_seed7_v1/head.pt",
+      "sha256": "300a96c650d0fe741862d21c48041e504bddfa3968a55f1dac2ded9d7cb7a0fe",
+      "bytes": 14093
+    },
+    {
+      "role": "terminal_seed123_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_terminal_seed123_predictions.jsonl",
+      "sha256": "718b53ce67eb9dd306a0f6358f10a29c0165e7ef445c10f2d89cce96f9572605",
+      "bytes": 329027,
+      "rows": 900
+    },
+    {
+      "role": "terminal_seed123_head",
+      "path": "checkpoints/frozen_readout_control_terminal_seed123_v1/head.pt",
+      "sha256": "397248d4941d8256a5e4429a00ab015c3ab2ed3e9b9d74f88145319cb3aa8000",
+      "bytes": 14093
+    },
+    {
+      "role": "mean_seed7_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_mean_seed7_predictions.jsonl",
+      "sha256": "4ddeace927bf661eb042c22915d1b441a441de01af6dd75e0d7f0dc3dde0ff15",
+      "bytes": 321382,
+      "rows": 900
+    },
+    {
+      "role": "mean_seed7_head",
+      "path": "checkpoints/frozen_readout_control_mean_seed7_v1/head.pt",
+      "sha256": "b6516b7a159a7f36d5c36c72ca74d86172892db6bfd8a1d287dc107233192eec",
+      "bytes": 14093
+    },
+    {
+      "role": "mean_seed123_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_mean_seed123_predictions.jsonl",
+      "sha256": "c5c3721bf2374ef7e69f1f2653914817d5fe76d09fccc80adf7501235bec0647",
+      "bytes": 321378,
+      "rows": 900
+    },
+    {
+      "role": "mean_seed123_head",
+      "path": "checkpoints/frozen_readout_control_mean_seed123_v1/head.pt",
+      "sha256": "4111553cf1883796b7f835362546208cbb852b00d5781f931594d94b1ef6b9c3",
+      "bytes": 14093
+    },
+    {
+      "role": "changed_hunk_seed7_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_changed_hunk_seed7_predictions.jsonl",
+      "sha256": "700b7af8313bc3f022533536e7fba9300100d6c972e8a37fcd481b92379bb7de",
+      "bytes": 335812,
+      "rows": 900
+    },
+    {
+      "role": "changed_hunk_seed7_head",
+      "path": "checkpoints/frozen_readout_control_changed_hunk_seed7_v1/head.pt",
+      "sha256": "4f35f4279bd9e5832f781274a24144b752b0eb9b7afeb5cc8ce76befd698a82b",
+      "bytes": 14093
+    },
+    {
+      "role": "changed_hunk_seed123_predictions",
+      "path": "outputs/secure_code_frozen_readout_control_changed_hunk_seed123_predictions.jsonl",
+      "sha256": "a664d7d95c4584e627d5d2f763c101b605ba51d449e7f6c4af8a6f12f893300f",
+      "bytes": 335828,
+      "rows": 900
+    },
+    {
+      "role": "changed_hunk_seed123_head",
+      "path": "checkpoints/frozen_readout_control_changed_hunk_seed123_v1/head.pt",
+      "sha256": "ba41762d06df547ea9ba9a508644548d5a3f7d7bbcbf64e5393b56bb7ccbf1b3",
+      "bytes": 14093
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "train_cache_report",
+      "path": "reports/secure_code_frozen_readout_control_train_cache_v1.json",
+      "sha256": "22b45a854004be6bf46f413d0eb8d2a8ed236043ea6b4f697a6c7bc87e452060",
+      "bytes": 1180
+    },
+    {
+      "role": "confirm_cache_report",
+      "path": "reports/secure_code_frozen_readout_control_confirm_cache_v1.json",
+      "sha256": "5d2467730b57b1fbc76155a62be8bcd5ff005ffc971f30749fce8d6a372c2ed1",
+      "bytes": 1180
+    },
+    {
+      "role": "control_report_json",
+      "path": "reports/secure_code_frozen_backbone_readout_control_v1.json",
+      "sha256": "35097f176377977a2de69696f0118fed339bb028ce6679b47c3a5735b7c2febd",
+      "bytes": 16758
+    },
+    {
+      "role": "control_report_markdown",
+      "path": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
+      "sha256": "8e1a9cfc11334d8f39619e0acd7b3ba3e0bc364ec28009116f7505485bedbc5c",
+      "bytes": 3015
+    },
+    {
+      "role": "terminal_seed7_training_report",
+      "path": "reports/secure_code_frozen_readout_control_terminal_seed7_training_report.json",
+      "sha256": "bfd8d705f8aef84caa3d31bd3023b9964e469a35446ff5d987bd51bf0cc64b34",
+      "bytes": 1663
+    },
+    {
+      "role": "terminal_seed123_training_report",
+      "path": "reports/secure_code_frozen_readout_control_terminal_seed123_training_report.json",
+      "sha256": "4d45ba0a519be84c65f707195a90c201e58649119a666b0e531524b9f2c753b3",
+      "bytes": 1663
+    },
+    {
+      "role": "mean_seed7_training_report",
+      "path": "reports/secure_code_frozen_readout_control_mean_seed7_training_report.json",
+      "sha256": "ce3d40397f4fb706f5ae26682a71eee463ebada01bd68f69123bf8fd4d8ffbac",
+      "bytes": 1657
+    },
+    {
+      "role": "mean_seed123_training_report",
+      "path": "reports/secure_code_frozen_readout_control_mean_seed123_training_report.json",
+      "sha256": "fd0e423ec74a631d1a9f501d55745e3818af9f3ffcd3b3bdf18d52f570c5b8cd",
+      "bytes": 1660
+    },
+    {
+      "role": "changed_hunk_seed7_training_report",
+      "path": "reports/secure_code_frozen_readout_control_changed_hunk_seed7_training_report.json",
+      "sha256": "1fcaea2e00be0adfd8e6298cff8af825e267a7b7cd31e0445cfc5ffef49dd9bf",
+      "bytes": 1667
+    },
+    {
+      "role": "changed_hunk_seed123_training_report",
+      "path": "reports/secure_code_frozen_readout_control_changed_hunk_seed123_training_report.json",
+      "sha256": "80f7bb2945b3e0387c9f711e044d30de058ffbbc25caa92f8af9a5cba68341ef",
+      "bytes": 1668
+    }
+  ],
+  "expected": {
+    "mean": {
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": 0.016666666666666666,
+          "ci95": [
+            -0.041666666666666664,
+            0.075
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.025974025974025965,
+          "ci95": [
+            -0.02813852813852815,
+            0.08225108225108224
+          ]
+        }
+      },
+      "mechanism_decision": {
+        "direct_pooling_effect_supported": false,
+        "canonical_noninferiority_established": false
+      }
+    },
+    "changed_hunk": {
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": 0.041666666666666664,
+          "ci95": [
+            -0.03333333333333333,
+            0.11944444444444445
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.196969696969697,
+          "ci95": [
+            0.14177489177489178,
+            0.2554112554112554
+          ]
+        }
+      },
+      "mechanism_decision": {
+        "direct_pooling_effect_supported": true,
+        "canonical_noninferiority_established": false
+      }
+    }
+  },
+  "limitations": [
+    "The bundle reproduces matched-head training and analysis from cached frozen representations.",
+    "The 1.5B backbone checkpoint is not included; regenerating feature caches requires the recorded base revision and LoRA adapter.",
+    "The control isolates pooling over one terminal-trained Qwen representation and does not establish broad model-family generality."
+  ]
+}

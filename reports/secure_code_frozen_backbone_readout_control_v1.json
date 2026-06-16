@@ -1,0 +1,489 @@
+{
+  "status": "ok",
+  "scope": "frozen_backbone_matched_linear_readout_control",
+  "protocol": "docs/FROZEN_BACKBONE_READOUT_PROTOCOL.md",
+  "frozen_checkpoint": "checkpoints/cls_secure_code_readout_confirmatory_qwen15b_terminal_seed7_v1",
+  "adapter_sha256": "bf0a9849cfa52d3c594757eb1d09ca3f817a811b7a431956ee60ae581acba648",
+  "head_integrity": {
+    "7": {
+      "matched_initial_head": true,
+      "initial_head_sha256": "e3382d68fb6db51bab6b41b432e22a5d43569694d820d8bad2b77b5bc1042907"
+    },
+    "123": {
+      "matched_initial_head": true,
+      "initial_head_sha256": "0b69bec75979aca8fe276015a5675969bc92da408422ee7c55ed45f7acddf90a"
+    }
+  },
+  "readouts": {
+    "terminal": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.65,
+        "side_swap_equivariance": 0.45555555555555555,
+        "side_swap_independence_baseline": 0.3977777777777778,
+        "side_swap_equivariance_residual": 0.05777777777777776,
+        "both_directions_correct": 0.38333333333333336,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8333333333333334,
+          "confirm_suffix_medium_v1": 0.8111111111111111,
+          "confirm_suffix_long_v1": 0.8222222222222222
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8051948051948052,
+          "confirm_suffix_medium_v1": 0.7792207792207793,
+          "confirm_suffix_long_v1": 0.7922077922077922
+        },
+        "raw_macro_suffix_consistency": 0.8222222222222222,
+        "macro_suffix_consistency": 0.7922077922077922,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6388888888888888,
+        "side_swap_equivariance": 0.46111111111111114,
+        "side_swap_independence_baseline": 0.40629629629629627,
+        "side_swap_equivariance_residual": 0.05481481481481487,
+        "both_directions_correct": 0.4,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.9,
+          "confirm_suffix_medium_v1": 0.7944444444444444,
+          "confirm_suffix_long_v1": 0.8111111111111111
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8831168831168831,
+          "confirm_suffix_medium_v1": 0.7597402597402597,
+          "confirm_suffix_long_v1": 0.7792207792207793
+        },
+        "raw_macro_suffix_consistency": 0.8351851851851851,
+        "macro_suffix_consistency": 0.8073593073593074,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    },
+    "mean": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6388888888888888,
+        "side_swap_equivariance": 0.3,
+        "side_swap_independence_baseline": 0.3340740740740741,
+        "side_swap_equivariance_residual": -0.03407407407407409,
+        "both_directions_correct": 0.2722222222222222,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.9444444444444444,
+          "confirm_suffix_medium_v1": 0.9111111111111111,
+          "confirm_suffix_long_v1": 0.8611111111111112
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.935064935064935,
+          "confirm_suffix_medium_v1": 0.8961038961038961,
+          "confirm_suffix_long_v1": 0.8376623376623377
+        },
+        "raw_macro_suffix_consistency": 0.9055555555555556,
+        "macro_suffix_consistency": 0.8896103896103896,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6833333333333333,
+        "side_swap_equivariance": 0.46111111111111114,
+        "side_swap_independence_baseline": 0.4791358024691358,
+        "side_swap_equivariance_residual": -0.018024691358024647,
+        "both_directions_correct": 0.3888888888888889,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8666666666666667,
+          "confirm_suffix_medium_v1": 0.8055555555555556,
+          "confirm_suffix_long_v1": 0.7166666666666667
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 0.8441558441558441,
+          "confirm_suffix_medium_v1": 0.7727272727272727,
+          "confirm_suffix_long_v1": 0.6688311688311688
+        },
+        "raw_macro_suffix_consistency": 0.7962962962962963,
+        "macro_suffix_consistency": 0.7619047619047619,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    },
+    "changed_hunk": {
+      "7": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6833333333333333,
+        "side_swap_equivariance": 0.5166666666666667,
+        "side_swap_independence_baseline": 0.5022222222222222,
+        "side_swap_equivariance_residual": 0.014444444444444482,
+        "both_directions_correct": 0.45,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 0.9944444444444445
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 1.0,
+          "confirm_suffix_long_v1": 0.9935064935064936
+        },
+        "raw_macro_suffix_consistency": 0.9981481481481481,
+        "macro_suffix_consistency": 0.9978354978354979,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      },
+      "123": {
+        "pairs": 180,
+        "canonical_accuracy": 0.6888888888888889,
+        "side_swap_equivariance": 0.5055555555555555,
+        "side_swap_independence_baseline": 0.49938271604938267,
+        "side_swap_equivariance_residual": 0.006172839506172867,
+        "both_directions_correct": 0.4444444444444444,
+        "raw_suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 0.9944444444444445,
+          "confirm_suffix_long_v1": 0.9944444444444445
+        },
+        "suffix_consistency": {
+          "confirm_suffix_short_v1": 1.0,
+          "confirm_suffix_medium_v1": 0.9935064935064936,
+          "confirm_suffix_long_v1": 0.9935064935064936
+        },
+        "raw_macro_suffix_consistency": 0.9962962962962963,
+        "macro_suffix_consistency": 0.9956709956709957,
+        "suffix_visible_pair_coverage": 0.8555555555555555,
+        "all_suffix_visible_pair_coverage": 0.8555555555555555,
+        "hunk_clean_pair_coverage": 0.8611111111111112,
+        "pooling_fallback_rate": 0.0
+      }
+    }
+  },
+  "comparisons_vs_terminal": {
+    "mean": {
+      "seeds": [
+        7,
+        123
+      ],
+      "per_seed": {
+        "7": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": -0.011111111111111112,
+            "ci95": [
+              -0.07777777777777778,
+              0.05
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.0974025974025974,
+            "ci95": [
+              0.041125541125541114,
+              0.15584415584415584
+            ]
+          }
+        },
+        "123": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": 0.044444444444444446,
+            "ci95": [
+              -0.027777777777777776,
+              0.11666666666666667
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": -0.04545454545454547,
+            "ci95": [
+              -0.10606060606060608,
+              0.019480519480519466
+            ]
+          }
+        }
+      },
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": 0.016666666666666666,
+          "ci95": [
+            -0.041666666666666664,
+            0.075
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.025974025974025965,
+          "ci95": [
+            -0.02813852813852815,
+            0.08225108225108224
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 43,
+          "canonical_accuracy_delta": {
+            "estimate": 0.08333333333333333,
+            "ci95": [
+              -0.016666666666666666,
+              0.18333333333333332
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": -0.1124031007751938,
+            "ci95": [
+              -0.17054263565891473,
+              -0.062015503875969
+            ]
+          }
+        },
+        "patcheval": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 55,
+          "canonical_accuracy_delta": {
+            "estimate": -0.008333333333333333,
+            "ci95": [
+              -0.125,
+              0.1
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.12424242424242424,
+            "ci95": [
+              0.027272727272727264,
+              0.22727272727272727
+            ]
+          }
+        },
+        "primevul": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 56,
+          "canonical_accuracy_delta": {
+            "estimate": -0.025,
+            "ci95": [
+              -0.11666666666666667,
+              0.058333333333333334
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.035714285714285705,
+            "ci95": [
+              -0.06250000000000001,
+              0.13988095238095238
+            ]
+          }
+        }
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": false,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": false,
+        "confirmed": false
+      },
+      "margin_matched_by_seed": {
+        "7": {
+          "pairs": 8,
+          "coverage": 0.044444444444444446,
+          "tolerance": 0.05,
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.04166666666666666,
+            "ci95": [
+              -0.16666666666666669,
+              0.3333333333333333
+            ]
+          }
+        },
+        "123": {
+          "pairs": 6,
+          "coverage": 0.03333333333333333,
+          "tolerance": 0.05,
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.1111111111111111,
+            "ci95": [
+              -0.22222222222222227,
+              0.4444444444444445
+            ]
+          }
+        }
+      },
+      "mechanism_decision": {
+        "direct_pooling_effect_supported": false,
+        "canonical_noninferiority_established": false
+      }
+    },
+    "changed_hunk": {
+      "seeds": [
+        7,
+        123
+      ],
+      "per_seed": {
+        "7": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": 0.03333333333333333,
+            "ci95": [
+              -0.044444444444444446,
+              0.1111111111111111
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.20562770562770563,
+            "ci95": [
+              0.14502164502164502,
+              0.2683982683982684
+            ]
+          }
+        },
+        "123": {
+          "canonical_pairs": 180,
+          "suffix_visible_pairs": 154,
+          "canonical_accuracy_delta": {
+            "estimate": 0.05,
+            "ci95": [
+              -0.03333333333333333,
+              0.13333333333333333
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.18831168831168832,
+            "ci95": [
+              0.13636363636363638,
+              0.2445887445887446
+            ]
+          }
+        }
+      },
+      "pooled_pair_cluster": {
+        "canonical_pairs": 180,
+        "suffix_visible_pairs": 154,
+        "canonical_accuracy_delta": {
+          "estimate": 0.041666666666666664,
+          "ci95": [
+            -0.03333333333333333,
+            0.11944444444444445
+          ]
+        },
+        "macro_suffix_consistency_delta": {
+          "estimate": 0.196969696969697,
+          "ci95": [
+            0.14177489177489178,
+            0.2554112554112554
+          ]
+        }
+      },
+      "by_dataset": {
+        "deltasecommits": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 43,
+          "canonical_accuracy_delta": {
+            "estimate": 0.0,
+            "ci95": [
+              -0.175,
+              0.16666666666666666
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.019379844961240313,
+            "ci95": [
+              0.0038759689922480624,
+              0.03875968992248063
+            ]
+          }
+        },
+        "patcheval": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 55,
+          "canonical_accuracy_delta": {
+            "estimate": 0.1,
+            "ci95": [
+              0.0,
+              0.2
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.2787878787878788,
+            "ci95": [
+              0.17272727272727273,
+              0.3878787878787879
+            ]
+          }
+        },
+        "primevul": {
+          "canonical_pairs": 60,
+          "suffix_visible_pairs": 56,
+          "canonical_accuracy_delta": {
+            "estimate": 0.025,
+            "ci95": [
+              -0.09166666666666666,
+              0.14166666666666666
+            ]
+          },
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.25297619047619047,
+            "ci95": [
+              0.15476190476190477,
+              0.3601190476190476
+            ]
+          }
+        }
+      },
+      "success_rule": {
+        "macro_suffix_ci_lower_gt_zero": true,
+        "canonical_noninferiority_ci_lower_gte_minus_0_02": false,
+        "all_seed_suffix_deltas_positive": true,
+        "confirmed": false
+      },
+      "margin_matched_by_seed": {
+        "7": {
+          "pairs": 16,
+          "coverage": 0.08888888888888889,
+          "tolerance": 0.05,
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.4375,
+            "ci95": [
+              0.1875,
+              0.6875
+            ]
+          }
+        },
+        "123": {
+          "pairs": 15,
+          "coverage": 0.08333333333333333,
+          "tolerance": 0.05,
+          "macro_suffix_consistency_delta": {
+            "estimate": 0.3777777777777778,
+            "ci95": [
+              0.17777777777777778,
+              0.6
+            ]
+          }
+        }
+      },
+      "mechanism_decision": {
+        "direct_pooling_effect_supported": true,
+        "canonical_noninferiority_established": false
+      }
+    }
+  },
+  "findings": {
+    "mean_direct_pooling_effect_supported": false,
+    "changed_hunk_direct_pooling_effect_supported": true,
+    "canonical_noninferiority_established": false,
+    "side_order_reasoning_resolved": false,
+    "margin_matched_is_low_coverage_diagnostic": true
+  },
+  "uncertainty_scope": "Pair-cluster bootstrap uncertainty conditional on head-training seeds 7 and 123.",
+  "seed_scope": "Seeds 7 and 123 vary only linear-head initialization and training order; all results are conditional on the single terminal-seed7 frozen Qwen backbone and LoRA representation.",
+  "claim_boundary": "This isolates pooling over one frozen terminal-trained Qwen representation. It does not establish model-family generality or solve side-order reasoning."
+}

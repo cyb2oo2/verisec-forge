@@ -100,6 +100,19 @@ replicated mechanism result, but it deliberately does not promote either
 candidate as an accuracy-preserving classifier. Side-order consistency
 remains unresolved.
 
+The frozen-backbone control further purifies the mechanism claim. It freezes
+one terminal-trained Qwen+LoRA representation, caches terminal, mean, and
+changed-hunk vectors from identical hidden states, and trains matched linear
+heads with identical initialization and optimization. Mean pooling's pooled
+suffix delta shrinks to `+0.0260` with 95% CI
+`[-0.0281, +0.0823]`. Changed-hunk pooling retains `+0.1970` with 95% CI
+`[+0.1418, +0.2554]` and positive source-wise effects. The evidence therefore
+supports a training-mediated mean effect and a direct structural
+changed-hunk effect. The confidence-matched diagnostic has below-10%
+coverage, so it is not used as primary evidence. Here, seeds `7` and `123`
+are linear-head seeds only; the frozen Qwen+LoRA backbone is the single
+terminal-seed7 representation.
+
 Primary evidence:
 
 - [CVE-Disjoint Eval](reports/PRIMEVUL_CVE_DISJOINT_EVAL.md)
@@ -113,6 +126,7 @@ Primary evidence:
 - [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md)
 - [Same-Backbone Readout Ablation](reports/READOUT_ABLATION.md)
 - [Independent Readout Confirmation](reports/READOUT_CONFIRMATORY.md)
+- [Frozen-Backbone Readout Control](reports/FROZEN_BACKBONE_READOUT_CONTROL.md)
 
 ### 4. Evidence Is Coupled To The Side Decision
 
@@ -149,10 +163,8 @@ This shows research taste: the project does not merely add another model or prom
 
 ## Next Research Step
 
-The immediate mechanism control is a frozen-backbone experiment that trains
-only matched readout heads over terminal, mean, and changed-hunk
-representations. This separates pooling at inference from representation
-changes induced by readout-conditioned fine-tuning. The broader PhD
-continuation remains a contrastive patch model that jointly learns side
-choice, evidence ranking, and confidence under independently adjudicated
-evidence spans.
+The immediate Paper 1 continuation is minimal cross-model replication and
+paper/release packaging, without expanding the benchmark or adding more
+Qwen-only audits. Side-order relational learning is a separate Paper 2 line:
+an antisymmetric pair model should jointly improve swap residual and
+both-directions-correct without sacrificing canonical or endpoint behavior.
