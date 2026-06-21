@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="VeriPatch-RR benchmark design">
+  <rect width="960" height="540" fill="#edf4f2"/>
+  <text x="58" y="66" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#17342d">VeriPatch-RR: Relational Patch Evaluation</text>
+  <text x="58" y="106" font-family="Arial, sans-serif" font-size="18" fill="#526760">A tokenizer-neutral instrument materialized per model runtime.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="70" y="155" width="180" height="105" rx="18" fill="#ffffff" stroke="#17342d" stroke-width="2"/>
+    <text x="105" y="198" font-size="20" font-weight="700" fill="#17342d">Canonical</text>
+    <text x="105" y="228" font-size="15" fill="#526760">baseline pair</text>
+    <rect x="285" y="155" width="180" height="105" rx="18" fill="#ffffff" stroke="#17342d" stroke-width="2"/>
+    <text x="325" y="198" font-size="20" font-weight="700" fill="#17342d">Side Swap</text>
+    <text x="320" y="228" font-size="15" fill="#526760">A/B relation flip</text>
+    <rect x="500" y="155" width="180" height="105" rx="18" fill="#ffffff" stroke="#17342d" stroke-width="2"/>
+    <text x="552" y="198" font-size="20" font-weight="700" fill="#17342d">Suffix</text>
+    <text x="532" y="228" font-size="15" fill="#526760">endpoint stress</text>
+    <rect x="715" y="155" width="180" height="105" rx="18" fill="#ffffff" stroke="#17342d" stroke-width="2"/>
+    <text x="760" y="198" font-size="20" font-weight="700" fill="#17342d">Runtime</text>
+    <text x="748" y="228" font-size="15" fill="#526760">visibility check</text>
+    <path d="M160 280 L160 345 L805 345 L805 280" fill="none" stroke="#2b6f62" stroke-width="4"/>
+    <rect x="240" y="365" width="480" height="95" rx="22" fill="#17342d"/>
+    <text x="300" y="410" font-size="24" font-weight="700" fill="#ffffff">Metrics</text>
+    <text x="300" y="440" font-size="16" fill="#d7ebe5">equivariance | robust accuracy | both-directions-correct | context pressure</text>
+  </g>
+</svg>
