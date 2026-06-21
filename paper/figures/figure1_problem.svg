@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Pointwise accuracy is not relational consistency">
+  <rect width="960" height="540" fill="#f7f3ea"/>
+  <text x="60" y="70" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#1e2a24">Pointwise Accuracy Is Not Relational Reasoning</text>
+  <text x="60" y="112" font-family="Arial, sans-serif" font-size="18" fill="#4f5b55">A secure-patch model can classify examples while failing the pair relation.</text>
+  <rect x="70" y="165" width="330" height="210" rx="24" fill="#ffffff" stroke="#22382f" stroke-width="3"/>
+  <text x="105" y="215" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#22382f">Pointwise Test</text>
+  <text x="105" y="262" font-family="Arial, sans-serif" font-size="18" fill="#22382f">A looks vulnerable</text>
+  <text x="105" y="300" font-family="Arial, sans-serif" font-size="18" fill="#22382f">B looks fixed</text>
+  <text x="105" y="342" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#1b6b4a">High accuracy can pass</text>
+  <path d="M425 270 L535 270" stroke="#a55233" stroke-width="5" marker-end="url(#arrow)"/>
+  <text x="445" y="248" font-family="Arial, sans-serif" font-size="16" fill="#a55233">not enough</text>
+  <rect x="560" y="165" width="330" height="210" rx="24" fill="#ffffff" stroke="#a55233" stroke-width="3"/>
+  <text x="595" y="215" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#a55233">Relational Test</text>
+  <text x="595" y="262" font-family="Arial, sans-serif" font-size="18" fill="#22382f">A/B order changes</text>
+  <text x="595" y="300" font-family="Arial, sans-serif" font-size="18" fill="#22382f">Riskier side must flip</text>
+  <text x="595" y="342" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#a55233">Many models fail</text>
+  <text x="120" y="448" font-family="Arial, sans-serif" font-size="22" fill="#22382f">Core claim:</text>
+  <text x="250" y="448" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#22382f">accuracy(A) + accuracy(B) does not imply relation(A, B)</text>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a55233"/>
+    </marker>
+  </defs>
+</svg>

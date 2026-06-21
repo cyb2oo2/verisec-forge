@@ -2,7 +2,7 @@
 
 **Shortcut-aware secure patch reasoning with paired-diff evaluation, pair-coupled decoding, and evidence-coupled audit.**
 
-VeriSec Forge is now pruned as a PhD-application research artifact. The repository is not trying to be a general secure-coding assistant or a catalog of every experiment run along the way. It presents one focused research story:
+VeriSec Forge is now pruned as a paper-facing research artifact. The repository is not trying to be a general secure-coding assistant or a catalog of every experiment run along the way. It presents one focused research story:
 
 > Can secure-code models be evaluated and improved under paired vulnerable/fixed patch conditions, without letting shortcut artifacts, output-format noise, or unsupported rationales masquerade as security reasoning?
 
@@ -47,6 +47,10 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 
 Start with:
 
+- [Paper 1 Abstract Draft](paper/abstract.md)
+- [Paper 1 Outline](paper/outline.md)
+- [Paper 1 Main Claims](paper/main_claims.md)
+- [Paper 1 Main Results Table](paper/tables/main_results.md)
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
 - [Next Method Phase](docs/NEXT_METHOD_PHASE.md)
@@ -65,23 +69,28 @@ Then inspect the artifact-backed demo:
 - `src/vrf/`: core library code for datasets, evaluation, routing, reporting, serving, and reproducibility helpers.
 - `scripts/`: curated reproduction and report-building scripts for the retained research story.
 - `reports/`: pruned result set; intermediate sweeps and obsolete branches were removed.
+- `paper/`: paper-facing abstract, outline, claim hierarchy, tables, and editable SVG figures.
 - `reproducibility/`: manifests and release metadata for local artifact validation and bundle packaging.
 - `configs/`: only the patch-review demo config, the report index config, and the application summary config.
 - `tests/`: focused tests for the retained core and application-facing scripts.
 
 ## Quick Verification
 
-Install:
+Linux/macOS:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+python -m pytest -q
+```
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -e .[dev]
-```
-
-Run tests:
-
-```powershell
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 

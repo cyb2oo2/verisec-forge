@@ -1,5 +1,10 @@
 # Paper 1 Draft Outline
 
+Canonical paper-facing files now live under [`paper/`](../paper/README.md).
+This document is retained as the earlier outline snapshot; use
+[`paper/outline.md`](../paper/outline.md) and
+[`paper/main_claims.md`](../paper/main_claims.md) for PR #11 onward.
+
 ## Working Title
 
 **When Secure Patch Models Change Their Mind: Relational Evaluation and

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Readout mechanism decomposition">
+  <rect width="960" height="540" fill="#fbf7ef"/>
+  <text x="58" y="66" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#2f211b">Mechanism Decomposition</text>
+  <text x="58" y="106" font-family="Arial, sans-serif" font-size="18" fill="#67564e">Endpoint robustness and side-order reasoning separate under readout controls.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="80" y="165" width="220" height="210" rx="22" fill="#ffffff" stroke="#6d3b24" stroke-width="2"/>
+    <text x="120" y="215" font-size="24" font-weight="700" fill="#6d3b24">Terminal</text>
+    <text x="115" y="260" font-size="17" fill="#2f211b">endpoint sensitive</text>
+    <text x="115" y="300" font-size="17" fill="#2f211b">suffix changes decision</text>
+    <text x="115" y="342" font-size="18" font-weight="700" fill="#a55233">control baseline</text>
+    <rect x="370" y="165" width="220" height="210" rx="22" fill="#ffffff" stroke="#356851" stroke-width="2"/>
+    <text x="425" y="215" font-size="24" font-weight="700" fill="#356851">Mean</text>
+    <text x="405" y="260" font-size="17" fill="#2f211b">training-mediated</text>
+    <text x="405" y="300" font-size="17" fill="#2f211b">frozen delta shrinks</text>
+    <text x="405" y="342" font-size="18" font-weight="700" fill="#356851">+0.0260</text>
+    <rect x="660" y="165" width="220" height="210" rx="22" fill="#ffffff" stroke="#1d4d71" stroke-width="2"/>
+    <text x="705" y="215" font-size="24" font-weight="700" fill="#1d4d71">Changed-Hunk</text>
+    <text x="695" y="260" font-size="17" fill="#2f211b">structural exclusion</text>
+    <text x="695" y="300" font-size="17" fill="#2f211b">direct frozen gain</text>
+    <text x="695" y="342" font-size="18" font-weight="700" fill="#1d4d71">+0.1970</text>
+    <text x="164" y="445" font-size="22" fill="#2f211b">Endpoint robustness can improve</text>
+    <text x="488" y="445" font-size="22" font-weight="700" fill="#a55233">without</text>
+    <text x="575" y="445" font-size="22" fill="#2f211b">solving side-order reasoning.</text>
+  </g>
+</svg>

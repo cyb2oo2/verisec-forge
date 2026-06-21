@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Discovery to confirmation to frozen control">
+  <rect width="960" height="540" fill="#f1f1f6"/>
+  <text x="58" y="66" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#20243a">From Discovery to Mechanism Control</text>
+  <text x="58" y="106" font-family="Arial, sans-serif" font-size="18" fill="#555b73">The readout line is now complete enough to freeze.</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="70" y="175" width="230" height="175" rx="24" fill="#ffffff" stroke="#373b63" stroke-width="2"/>
+    <text x="108" y="220" font-size="24" font-weight="700" fill="#373b63">Discovery</text>
+    <text x="108" y="260" font-size="16" fill="#20243a">same-backbone ablation</text>
+    <text x="108" y="292" font-size="16" fill="#20243a">mean and hunk improve suffix</text>
+    <text x="108" y="324" font-size="16" font-weight="700" fill="#7c3e5a">not non-inferior</text>
+    <path d="M320 262 L405 262" stroke="#7c3e5a" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="430" y="175" width="230" height="175" rx="24" fill="#ffffff" stroke="#373b63" stroke-width="2"/>
+    <text x="468" y="220" font-size="24" font-weight="700" fill="#373b63">Confirmation</text>
+    <text x="468" y="260" font-size="16" fill="#20243a">new pairs/templates/seeds</text>
+    <text x="468" y="292" font-size="16" fill="#20243a">mechanism replicates</text>
+    <text x="468" y="324" font-size="16" font-weight="700" fill="#7c3e5a">still not promoted</text>
+    <path d="M680 262 L765 262" stroke="#7c3e5a" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="790" y="175" width="120" height="175" rx="24" fill="#ffffff" stroke="#373b63" stroke-width="2"/>
+    <text x="812" y="220" font-size="24" font-weight="700" fill="#373b63">Frozen</text>
+    <text x="812" y="260" font-size="16" fill="#20243a">fixed</text>
+    <text x="812" y="282" font-size="16" fill="#20243a">Qwen</text>
+    <text x="812" y="304" font-size="16" fill="#20243a">state</text>
+    <text x="812" y="332" font-size="16" font-weight="700" fill="#7c3e5a">split effect</text>
+    <text x="110" y="435" font-size="22" fill="#20243a">Conclusion: freeze readout line; move to broad replication and side-order models.</text>
+  </g>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3e5a"/>
+    </marker>
+  </defs>
+</svg>
