@@ -5,7 +5,7 @@
 | Same-source detector | Can a standard split look strong? | `0.9524` accuracy | High headline score is artifact-sensitive. |
 | Paired negative controls | Do shortcuts explain pair success? | metadata `0.5022`, candidate `0.5078`, counterpart `0.5156` BA | Controls are near chance, protecting diff-based claims. |
 | Diff-only paired detector | Is there real paired-diff signal? | three-seed mean BA `0.8287` | Paired diff reasoning is the credible mainline. |
-| Pair-coupled decoding | Does task-structured decoding help? | five-split BA `0.8572`; delta `+0.0348` | Pair structure improves consistency. |
+| Pair-coupled decoding | Does task-structured decoding help? | five-split BA `0.8572`; delta `+0.0348` | Task-structured decoding improves held-out pair decision performance. |
 | Qwen side swap | Does pointwise competence imply side-order reasoning? | exact-contract swap `0.4600` | Near independence baseline. |
 | CodeBERT side swap | Is failure Qwen-only? | exact-contract swap `0.5300` | Incomplete relational signal persists. |
 | Endpoint gap | Is terminal collapse architecture dependent? | CodeBERT minus Qwen `+0.3767`, CI `[0.3317, 0.4200]` | Severe endpoint collapse is not reproduced by the encoder control. |

@@ -4,7 +4,7 @@
 
 VeriSec Forge is now pruned as a paper-facing research artifact. The repository is not trying to be a general secure-coding assistant or a catalog of every experiment run along the way. It presents one focused research story:
 
-> Can secure-code models be evaluated and improved under paired vulnerable/fixed patch conditions, without letting shortcut artifacts, output-format noise, or unsupported rationales masquerade as security reasoning?
+> Can secure-code models be stress-tested under paired vulnerable/fixed patch conditions, without letting shortcut artifacts, output-format noise, or unsupported rationales masquerade as security reasoning?
 
 The project is aimed at the standard of top security/ML systems groups: clear problem framing, falsifiable controls, reproducible artifacts, and honest claim boundaries.
 
