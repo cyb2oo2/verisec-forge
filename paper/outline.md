@@ -56,12 +56,16 @@ Compare:
 
 - Qwen decoder classifier;
 - CodeBERT encoder classifier;
+- non-Qwen decoder classifier replication slot;
+- generative instruction judge replication slot;
 - exact-training-contract prompt swap;
 - marginal-conditioned independence baselines;
 - endpoint gap and terminal phrase interaction.
 
 Main message: side-order inconsistency appears in both architectures, while
-severe terminal endpoint collapse is architecture dependent.
+severe terminal endpoint collapse is architecture dependent. The PR #12
+replication slots broaden this from two trained classifiers toward a minimal
+model-family matrix without adding new readout variants.
 
 ## 6. Readout Mechanism
 

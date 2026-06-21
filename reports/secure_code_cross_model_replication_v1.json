@@ -1,0 +1,20 @@
+{
+  "status": "pending_predictions",
+  "scope": "minimal_broad_model_replication",
+  "models": [
+    {
+      "status": "pending",
+      "model_key": "non_qwen_decoder_classifier",
+      "model_type": "decoder_sequence_classifier",
+      "interpretation": "Pending prediction artifact; this slot tests whether endpoint sensitivity is Qwen-specific."
+    },
+    {
+      "status": "pending",
+      "model_key": "generative_instruction_judge",
+      "model_type": "generative_instruction_judge",
+      "interpretation": "Pending prediction artifact; this slot tests whether side-order failure appears without a classification head."
+    }
+  ],
+  "completed_models": 0,
+  "claim_boundary": "This report is a model-family replication layer. It does not introduce new readout ablations, routers, calibration sweeps, or side-order architectures. Results answer whether relational failures appear across model mechanisms under the fixed VeriPatch-RR protocol."
+}
