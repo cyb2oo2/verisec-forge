@@ -68,6 +68,7 @@ def summarize_replication_model(
         "suffix_robust_accuracy": headline["suffix_robust_accuracy"],
         "invalid_output_rate": protocol["invalid_output_rate"],
         "insufficient_context_rate": abstention["insufficient_context_rate"],
+        "prediction_distribution": abstention["prediction_counts"],
         "runtime_visibility": runtime,
         "evaluation": evaluation,
     }
@@ -128,17 +129,52 @@ def markdown_report(report: dict[str, Any]) -> str:
             f"{_pct(model['insufficient_context_rate'])} | "
             f"{model.get('interpretation', '')} |"
         )
+    distribution_rows = [
+        model
+        for model in report["models"]
+        if model.get("prediction_distribution")
+    ]
+    if distribution_rows:
+        lines.extend(
+            [
+                "",
+                "## Prediction Distribution",
+                "",
+                "| model | distribution | interpretation |",
+                "| --- | --- | --- |",
+            ]
+        )
+        for model in distribution_rows:
+            distribution = ", ".join(
+                f"{label}={count}"
+                for label, count in sorted(
+                    model.get("prediction_distribution", {}).items()
+                )
+            )
+            lines.append(
+                f"| `{model['model_key']}` | {distribution} | "
+                "Used to diagnose label/side inertia before interpreting "
+                "suffix consistency. |"
+            )
+    status_note = (
+        "- `ok` means both required PR #12 model slots have prediction artifacts."
+        if report.get("status") == "ok"
+        else "- `partial_predictions` means at least one required model slot has been evaluated, while at least one remains pending."
+    )
     lines.extend(
         [
             "",
             "## Current Interpretation",
             "",
-            "- `partial_predictions` means at least one required model slot has been evaluated, while at least one remains pending.",
+            status_note,
+            "- Low canonical accuracy should be treated as a competency limitation before making broad model-family claims.",
+            "- Runtime visibility is model-tokenizer specific; higher critical-hunk truncation weakens direct comparability with models that see more of the changed hunk.",
             "- Generative judge rows use strict output parsing. Invalid outputs are not repaired or manually relabeled.",
             "- Strict suffix consistency counts `INVALID` and `INSUFFICIENT_CONTEXT` as failures; forced-only suffix consistency is a secondary diagnostic over rows where both base and suffix outputs are forced A/B labels.",
             "- If invalid output rate exceeds 20%, the row should be interpreted as a protocol-following limitation as well as a relational result.",
             "- The current completed generative slot uses `Qwen/Qwen2.5-0.5B-Instruct`; it broadens the mechanism beyond classification heads, but it is not a non-Qwen-family replication.",
             "- A low side-swap residual together with low both-directions-correct indicates that the judge is not reliably flipping its decision under A/B side swaps.",
+            "- The generative judge is strongly side-biased; therefore its suffix consistency should be interpreted as decision stability, not evidence of correct patch reasoning.",
             "",
             "## Required Model Slots",
             "",

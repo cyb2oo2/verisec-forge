@@ -48,11 +48,23 @@ def main() -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--progress-every", type=int, default=25)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--num-labels",
+        type=int,
+        help=(
+            "Optional base-model label count for PEFT checkpoints whose "
+            "base config does not preserve the downstream classification head."
+        ),
+    )
     args = parser.parse_args()
 
     import torch
-    from peft import AutoPeftModelForSequenceClassification
-    from transformers import AutoTokenizer
+    from peft import (
+        AutoPeftModelForSequenceClassification,
+        PeftConfig,
+        PeftModelForSequenceClassification,
+    )
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required for VeriPatch-RR inference")
@@ -96,12 +108,30 @@ def main() -> int:
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    model = AutoPeftModelForSequenceClassification.from_pretrained(
-        args.checkpoint,
-        local_files_only=True,
-        dtype=torch.bfloat16,
-        is_trainable=False,
-    )
+    if args.num_labels:
+        peft_config = PeftConfig.from_pretrained(
+            args.checkpoint,
+            local_files_only=True,
+        )
+        base_model = AutoModelForSequenceClassification.from_pretrained(
+            peft_config.base_model_name_or_path,
+            num_labels=args.num_labels,
+            local_files_only=True,
+            dtype=torch.bfloat16,
+        )
+        model = PeftModelForSequenceClassification.from_pretrained(
+            base_model,
+            args.checkpoint,
+            local_files_only=True,
+            is_trainable=False,
+        )
+    else:
+        model = AutoPeftModelForSequenceClassification.from_pretrained(
+            args.checkpoint,
+            local_files_only=True,
+            dtype=torch.bfloat16,
+            is_trainable=False,
+        )
     model.config.pad_token_id = tokenizer.pad_token_id
     model.to(torch.device("cuda"))
     model.eval()

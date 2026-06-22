@@ -85,6 +85,13 @@ def test_replication_summary_computes_swap_residual_and_suffix():
     assert summary["both_directions_correct"] == 1.0
     assert summary["suffix_consistency"] == 1.0
     assert summary["invalid_output_rate"] == 0.0
+    assert summary["prediction_distribution"] == {"A": 2, "B": 1}
+
+    report = build_replication_report([summary])
+    markdown = markdown_report(report)
+    assert report["status"] == "ok"
+    assert "Prediction Distribution" in markdown
+    assert "`ok` means both required PR #12 model slots" in markdown
 
 
 def test_generative_judge_parser_is_strict():

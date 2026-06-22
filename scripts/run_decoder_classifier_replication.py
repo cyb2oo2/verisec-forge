@@ -21,6 +21,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--num-labels", type=int)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
@@ -44,6 +45,8 @@ def main() -> int:
     ]
     if args.limit is not None:
         command.extend(["--limit", str(args.limit)])
+    if args.num_labels is not None:
+        command.extend(["--num-labels", str(args.num_labels)])
     if args.resume:
         command.append("--resume")
     return subprocess.call(command, cwd=ROOT)
