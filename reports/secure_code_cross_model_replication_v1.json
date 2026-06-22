@@ -1,5 +1,5 @@
 {
-  "status": "pending_predictions",
+  "status": "partial_predictions",
   "scope": "minimal_broad_model_replication",
   "models": [
     {
@@ -9,12 +9,1171 @@
       "interpretation": "Pending prediction artifact; this slot tests whether endpoint sensitivity is Qwen-specific."
     },
     {
-      "status": "pending",
       "model_key": "generative_instruction_judge",
       "model_type": "generative_instruction_judge",
-      "interpretation": "Pending prediction artifact; this slot tests whether side-order failure appears without a classification head."
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "tokenizer_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "supports_abstention": true,
+      "rows": 1800,
+      "headline_suite": "representative",
+      "canonical_accuracy": 0.4666666666666667,
+      "side_swap_equivariance": 0.008333333333333333,
+      "side_swap_independence_baseline": 0.037599999999999995,
+      "side_swap_residual": -0.029266666666666663,
+      "both_directions_correct": 0.005,
+      "suffix_consistency": 0.8383333333333334,
+      "forced_only_suffix_consistency": 0.8886925795053003,
+      "forced_only_suffix_rows": 566,
+      "suffix_robust_accuracy": 0.4116666666666667,
+      "invalid_output_rate": 0.05,
+      "insufficient_context_rate": 0.0,
+      "runtime_visibility": {
+        "rows": 1800,
+        "critical_hunk_truncated_rate": 0.04666666666666667,
+        "transformation_introduced_critical_truncation_rate": 0.0,
+        "offset_mapping_quality": [
+          "exact_fast_tokenizer"
+        ]
+      },
+      "evaluation": {
+        "status": "ok",
+        "base_rows": 600,
+        "intervention_rows": 1200,
+        "pair_groups": 600,
+        "cluster_key": "dataset::pair_key",
+        "headline_suite": "representative",
+        "stress_suite": null,
+        "headline": {
+          "base_rows": 600,
+          "intervention_rows": 1200,
+          "pair_groups": 600,
+          "base_accuracy": 0.4666666666666667,
+          "base_protocol_pass_rate": 0.9533333333333334,
+          "relation_tests": {
+            "transformed_accuracy": 0.4775,
+            "base_protocol_pass_rate": 0.9533333333333334,
+            "transformed_protocol_pass_rate": 0.9483333333333334,
+            "end_to_end_relation_accuracy": 0.42333333333333334,
+            "relation_accuracy_conditional_valid": 0.44639718804920914,
+            "relation_violation_rate": 0.5766666666666667,
+            "robust_accuracy": 0.20833333333333334,
+            "mean_probability_relation_error": null
+          },
+          "invariant_only": {
+            "rows": 600,
+            "transformed_accuracy": 0.4666666666666667,
+            "base_protocol_pass_rate": 0.9533333333333334,
+            "transformed_protocol_pass_rate": 0.9433333333333334,
+            "end_to_end_relation_accuracy": 0.8383333333333334,
+            "relation_accuracy_conditional_valid": 0.8886925795053003,
+            "relation_violation_rate": 0.16166666666666663,
+            "robust_accuracy": 0.4116666666666667,
+            "mean_probability_relation_error": null
+          },
+          "equivariant_only": {
+            "rows": 600,
+            "transformed_accuracy": 0.48833333333333334,
+            "base_protocol_pass_rate": 0.9533333333333334,
+            "transformed_protocol_pass_rate": 0.9533333333333334,
+            "end_to_end_relation_accuracy": 0.008333333333333333,
+            "relation_accuracy_conditional_valid": 0.008741258741258742,
+            "relation_violation_rate": 0.9916666666666667,
+            "robust_accuracy": 0.005,
+            "mean_probability_relation_error": null
+          },
+          "base_critical_visible": {
+            "rows": 1144,
+            "transformed_accuracy": 0.5008741258741258,
+            "base_protocol_pass_rate": 1.0,
+            "transformed_protocol_pass_rate": 0.9947552447552448,
+            "end_to_end_relation_accuracy": 0.44405594405594406,
+            "relation_accuracy_conditional_valid": 0.44639718804920914,
+            "relation_violation_rate": 0.5559440559440559,
+            "robust_accuracy": 0.21853146853146854,
+            "mean_probability_relation_error": null
+          },
+          "clean_no_truncation": {
+            "rows": 1144,
+            "transformed_accuracy": 0.5008741258741258,
+            "base_protocol_pass_rate": 1.0,
+            "transformed_protocol_pass_rate": 0.9947552447552448,
+            "end_to_end_relation_accuracy": 0.44405594405594406,
+            "relation_accuracy_conditional_valid": 0.44639718804920914,
+            "relation_violation_rate": 0.5559440559440559,
+            "robust_accuracy": 0.21853146853146854,
+            "mean_probability_relation_error": null
+          },
+          "context_pressure_only": {
+            "rows": 0,
+            "decision_change_rate": null,
+            "supports_abstention": true,
+            "abstention_rate": null,
+            "base_protocol_pass_rate": null,
+            "transformed_protocol_pass_rate": null,
+            "mean_confidence_drop": null,
+            "forced_decision_error_rate": null,
+            "evidence_visible_rows": 0,
+            "evidence_truncated_rows": 0,
+            "visible_decision_change_rate": null,
+            "truncated_decision_change_rate": null,
+            "visible_abstention_rate": null,
+            "truncated_abstention_rate": null
+          },
+          "transformation_introduced_truncation_rows": 0,
+          "prediction_counts": {
+            "A": 1059,
+            "B": 79,
+            "INVALID": 62
+          },
+          "by_template": {
+            "canonical_renderer_swap_v2": {
+              "rows": 600,
+              "transformed_accuracy": 0.48833333333333334,
+              "base_protocol_pass_rate": 0.9533333333333334,
+              "transformed_protocol_pass_rate": 0.9533333333333334,
+              "end_to_end_relation_accuracy": 0.008333333333333333,
+              "relation_accuracy_conditional_valid": 0.008741258741258742,
+              "relation_violation_rate": 0.9916666666666667,
+              "robust_accuracy": 0.005,
+              "mean_probability_relation_error": null,
+              "unexpected_a_to_b": 0,
+              "unexpected_b_to_a": 0
+            },
+            "length_only_end_numbered_comments_v2": {
+              "rows": 600,
+              "transformed_accuracy": 0.4666666666666667,
+              "base_protocol_pass_rate": 0.9533333333333334,
+              "transformed_protocol_pass_rate": 0.9433333333333334,
+              "end_to_end_relation_accuracy": 0.8383333333333334,
+              "relation_accuracy_conditional_valid": 0.8886925795053003,
+              "relation_violation_rate": 0.16166666666666663,
+              "robust_accuracy": 0.4116666666666667,
+              "mean_probability_relation_error": null,
+              "unexpected_a_to_b": 61,
+              "unexpected_b_to_a": 2
+            }
+          },
+          "pair_cluster_bootstrap": {
+            "transformed_accuracy": {
+              "observed": 0.4775,
+              "ci95_low": 0.46166666666666667,
+              "ci95_high": 0.4925,
+              "iterations": 1000,
+              "pair_groups": 600,
+              "cluster_key": "dataset::pair_key"
+            },
+            "end_to_end_relation_accuracy": {
+              "observed": 0.42333333333333334,
+              "ci95_low": 0.41,
+              "ci95_high": 0.4375,
+              "iterations": 1000,
+              "pair_groups": 600,
+              "cluster_key": "dataset::pair_key"
+            },
+            "robust_accuracy": {
+              "observed": 0.20833333333333334,
+              "ci95_low": 0.18833333333333332,
+              "ci95_high": 0.22916666666666666,
+              "iterations": 1000,
+              "pair_groups": 600,
+              "cluster_key": "dataset::pair_key"
+            }
+          },
+          "source_macro": {
+            "transformed_accuracy": 0.47750000000000004,
+            "end_to_end_relation_accuracy": 0.42333333333333334,
+            "robust_accuracy": 0.20833333333333334,
+            "datasets": 3,
+            "weighting": "equal_weight_per_dataset"
+          }
+        },
+        "stress": null,
+        "by_sampling_suite": {
+          "representative": {
+            "base_rows": 600,
+            "intervention_rows": 1200,
+            "pair_groups": 600,
+            "base_accuracy": 0.4666666666666667,
+            "base_protocol_pass_rate": 0.9533333333333334,
+            "relation_tests": {
+              "transformed_accuracy": 0.4775,
+              "base_protocol_pass_rate": 0.9533333333333334,
+              "transformed_protocol_pass_rate": 0.9483333333333334,
+              "end_to_end_relation_accuracy": 0.42333333333333334,
+              "relation_accuracy_conditional_valid": 0.44639718804920914,
+              "relation_violation_rate": 0.5766666666666667,
+              "robust_accuracy": 0.20833333333333334,
+              "mean_probability_relation_error": null
+            },
+            "invariant_only": {
+              "rows": 600,
+              "transformed_accuracy": 0.4666666666666667,
+              "base_protocol_pass_rate": 0.9533333333333334,
+              "transformed_protocol_pass_rate": 0.9433333333333334,
+              "end_to_end_relation_accuracy": 0.8383333333333334,
+              "relation_accuracy_conditional_valid": 0.8886925795053003,
+              "relation_violation_rate": 0.16166666666666663,
+              "robust_accuracy": 0.4116666666666667,
+              "mean_probability_relation_error": null
+            },
+            "equivariant_only": {
+              "rows": 600,
+              "transformed_accuracy": 0.48833333333333334,
+              "base_protocol_pass_rate": 0.9533333333333334,
+              "transformed_protocol_pass_rate": 0.9533333333333334,
+              "end_to_end_relation_accuracy": 0.008333333333333333,
+              "relation_accuracy_conditional_valid": 0.008741258741258742,
+              "relation_violation_rate": 0.9916666666666667,
+              "robust_accuracy": 0.005,
+              "mean_probability_relation_error": null
+            },
+            "base_critical_visible": {
+              "rows": 1144,
+              "transformed_accuracy": 0.5008741258741258,
+              "base_protocol_pass_rate": 1.0,
+              "transformed_protocol_pass_rate": 0.9947552447552448,
+              "end_to_end_relation_accuracy": 0.44405594405594406,
+              "relation_accuracy_conditional_valid": 0.44639718804920914,
+              "relation_violation_rate": 0.5559440559440559,
+              "robust_accuracy": 0.21853146853146854,
+              "mean_probability_relation_error": null
+            },
+            "clean_no_truncation": {
+              "rows": 1144,
+              "transformed_accuracy": 0.5008741258741258,
+              "base_protocol_pass_rate": 1.0,
+              "transformed_protocol_pass_rate": 0.9947552447552448,
+              "end_to_end_relation_accuracy": 0.44405594405594406,
+              "relation_accuracy_conditional_valid": 0.44639718804920914,
+              "relation_violation_rate": 0.5559440559440559,
+              "robust_accuracy": 0.21853146853146854,
+              "mean_probability_relation_error": null
+            },
+            "context_pressure_only": {
+              "rows": 0,
+              "decision_change_rate": null,
+              "supports_abstention": true,
+              "abstention_rate": null,
+              "base_protocol_pass_rate": null,
+              "transformed_protocol_pass_rate": null,
+              "mean_confidence_drop": null,
+              "forced_decision_error_rate": null,
+              "evidence_visible_rows": 0,
+              "evidence_truncated_rows": 0,
+              "visible_decision_change_rate": null,
+              "truncated_decision_change_rate": null,
+              "visible_abstention_rate": null,
+              "truncated_abstention_rate": null
+            },
+            "transformation_introduced_truncation_rows": 0,
+            "prediction_counts": {
+              "A": 1059,
+              "B": 79,
+              "INVALID": 62
+            },
+            "by_template": {
+              "canonical_renderer_swap_v2": {
+                "rows": 600,
+                "transformed_accuracy": 0.48833333333333334,
+                "base_protocol_pass_rate": 0.9533333333333334,
+                "transformed_protocol_pass_rate": 0.9533333333333334,
+                "end_to_end_relation_accuracy": 0.008333333333333333,
+                "relation_accuracy_conditional_valid": 0.008741258741258742,
+                "relation_violation_rate": 0.9916666666666667,
+                "robust_accuracy": 0.005,
+                "mean_probability_relation_error": null,
+                "unexpected_a_to_b": 0,
+                "unexpected_b_to_a": 0
+              },
+              "length_only_end_numbered_comments_v2": {
+                "rows": 600,
+                "transformed_accuracy": 0.4666666666666667,
+                "base_protocol_pass_rate": 0.9533333333333334,
+                "transformed_protocol_pass_rate": 0.9433333333333334,
+                "end_to_end_relation_accuracy": 0.8383333333333334,
+                "relation_accuracy_conditional_valid": 0.8886925795053003,
+                "relation_violation_rate": 0.16166666666666663,
+                "robust_accuracy": 0.4116666666666667,
+                "mean_probability_relation_error": null,
+                "unexpected_a_to_b": 61,
+                "unexpected_b_to_a": 2
+              }
+            },
+            "pair_cluster_bootstrap": {
+              "transformed_accuracy": {
+                "observed": 0.4775,
+                "ci95_low": 0.46166666666666667,
+                "ci95_high": 0.4925,
+                "iterations": 1000,
+                "pair_groups": 600,
+                "cluster_key": "dataset::pair_key"
+              },
+              "end_to_end_relation_accuracy": {
+                "observed": 0.42333333333333334,
+                "ci95_low": 0.41,
+                "ci95_high": 0.4375,
+                "iterations": 1000,
+                "pair_groups": 600,
+                "cluster_key": "dataset::pair_key"
+              },
+              "robust_accuracy": {
+                "observed": 0.20833333333333334,
+                "ci95_low": 0.18833333333333332,
+                "ci95_high": 0.22916666666666666,
+                "iterations": 1000,
+                "pair_groups": 600,
+                "cluster_key": "dataset::pair_key"
+              }
+            },
+            "source_macro": {
+              "transformed_accuracy": 0.47750000000000004,
+              "end_to_end_relation_accuracy": 0.42333333333333334,
+              "robust_accuracy": 0.20833333333333334,
+              "datasets": 3,
+              "weighting": "equal_weight_per_dataset"
+            }
+          }
+        },
+        "by_dataset": {
+          "deltasecommits": {
+            "representative": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.44,
+              "base_protocol_pass_rate": 0.915,
+              "relation_tests": {
+                "transformed_accuracy": 0.4525,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.905,
+                "end_to_end_relation_accuracy": 0.4475,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5525,
+                "robust_accuracy": 0.215,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.43,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.895,
+                "end_to_end_relation_accuracy": 0.885,
+                "relation_accuracy_conditional_valid": 0.9888268156424581,
+                "relation_violation_rate": 0.11499999999999999,
+                "robust_accuracy": 0.425,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.475,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.915,
+                "end_to_end_relation_accuracy": 0.01,
+                "relation_accuracy_conditional_valid": 0.01092896174863388,
+                "relation_violation_rate": 0.99,
+                "robust_accuracy": 0.005,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 366,
+                "transformed_accuracy": 0.49453551912568305,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9890710382513661,
+                "end_to_end_relation_accuracy": 0.4890710382513661,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5109289617486339,
+                "robust_accuracy": 0.23497267759562843,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 366,
+                "transformed_accuracy": 0.49453551912568305,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9890710382513661,
+                "end_to_end_relation_accuracy": 0.4890710382513661,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5109289617486339,
+                "robust_accuracy": 0.23497267759562843,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 356,
+                "INVALID": 38,
+                "B": 6
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.475,
+                  "base_protocol_pass_rate": 0.915,
+                  "transformed_protocol_pass_rate": 0.915,
+                  "end_to_end_relation_accuracy": 0.01,
+                  "relation_accuracy_conditional_valid": 0.01092896174863388,
+                  "relation_violation_rate": 0.99,
+                  "robust_accuracy": 0.005,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.43,
+                  "base_protocol_pass_rate": 0.915,
+                  "transformed_protocol_pass_rate": 0.895,
+                  "end_to_end_relation_accuracy": 0.885,
+                  "relation_accuracy_conditional_valid": 0.9888268156424581,
+                  "relation_violation_rate": 0.11499999999999999,
+                  "robust_accuracy": 0.425,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 1,
+                  "unexpected_b_to_a": 1
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.4525,
+                  "ci95_low": 0.43,
+                  "ci95_high": 0.47,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.4475,
+                  "ci95_low": 0.425,
+                  "ci95_high": 0.47,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.215,
+                  "ci95_low": 0.1825,
+                  "ci95_high": 0.25,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            }
+          },
+          "patcheval": {
+            "representative": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.505,
+              "base_protocol_pass_rate": 0.995,
+              "relation_tests": {
+                "transformed_accuracy": 0.5,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.99,
+                "end_to_end_relation_accuracy": 0.4475,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.5525,
+                "robust_accuracy": 0.23,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.515,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.985,
+                "end_to_end_relation_accuracy": 0.89,
+                "relation_accuracy_conditional_valid": 0.9035532994923858,
+                "relation_violation_rate": 0.10999999999999999,
+                "robust_accuracy": 0.46,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.485,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.995,
+                "end_to_end_relation_accuracy": 0.005,
+                "relation_accuracy_conditional_valid": 0.005025125628140704,
+                "relation_violation_rate": 0.995,
+                "robust_accuracy": 0.0,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 398,
+                "transformed_accuracy": 0.5025125628140703,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9949748743718593,
+                "end_to_end_relation_accuracy": 0.44974874371859297,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.550251256281407,
+                "robust_accuracy": 0.23115577889447236,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 398,
+                "transformed_accuracy": 0.5025125628140703,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9949748743718593,
+                "end_to_end_relation_accuracy": 0.44974874371859297,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.550251256281407,
+                "robust_accuracy": 0.23115577889447236,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 371,
+                "B": 25,
+                "INVALID": 4
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.485,
+                  "base_protocol_pass_rate": 0.995,
+                  "transformed_protocol_pass_rate": 0.995,
+                  "end_to_end_relation_accuracy": 0.005,
+                  "relation_accuracy_conditional_valid": 0.005025125628140704,
+                  "relation_violation_rate": 0.995,
+                  "robust_accuracy": 0.0,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.515,
+                  "base_protocol_pass_rate": 0.995,
+                  "transformed_protocol_pass_rate": 0.985,
+                  "end_to_end_relation_accuracy": 0.89,
+                  "relation_accuracy_conditional_valid": 0.9035532994923858,
+                  "relation_violation_rate": 0.10999999999999999,
+                  "robust_accuracy": 0.46,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 19,
+                  "unexpected_b_to_a": 0
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.5,
+                  "ci95_low": 0.48,
+                  "ci95_high": 0.52,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.4475,
+                  "ci95_low": 0.425,
+                  "ci95_high": 0.4675,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.23,
+                  "ci95_low": 0.19743750000000002,
+                  "ci95_high": 0.265,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            }
+          },
+          "primevul": {
+            "representative": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.455,
+              "base_protocol_pass_rate": 0.95,
+              "relation_tests": {
+                "transformed_accuracy": 0.48,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.375,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.625,
+                "robust_accuracy": 0.18,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.455,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.74,
+                "relation_accuracy_conditional_valid": 0.7789473684210526,
+                "relation_violation_rate": 0.26,
+                "robust_accuracy": 0.35,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.505,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.01,
+                "relation_accuracy_conditional_valid": 0.010526315789473684,
+                "relation_violation_rate": 0.99,
+                "robust_accuracy": 0.01,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 380,
+                "transformed_accuracy": 0.5052631578947369,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 1.0,
+                "end_to_end_relation_accuracy": 0.39473684210526316,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.6052631578947368,
+                "robust_accuracy": 0.18947368421052632,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 380,
+                "transformed_accuracy": 0.5052631578947369,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 1.0,
+                "end_to_end_relation_accuracy": 0.39473684210526316,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.6052631578947368,
+                "robust_accuracy": 0.18947368421052632,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 332,
+                "B": 48,
+                "INVALID": 20
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.505,
+                  "base_protocol_pass_rate": 0.95,
+                  "transformed_protocol_pass_rate": 0.95,
+                  "end_to_end_relation_accuracy": 0.01,
+                  "relation_accuracy_conditional_valid": 0.010526315789473684,
+                  "relation_violation_rate": 0.99,
+                  "robust_accuracy": 0.01,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.455,
+                  "base_protocol_pass_rate": 0.95,
+                  "transformed_protocol_pass_rate": 0.95,
+                  "end_to_end_relation_accuracy": 0.74,
+                  "relation_accuracy_conditional_valid": 0.7789473684210526,
+                  "relation_violation_rate": 0.26,
+                  "robust_accuracy": 0.35,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 41,
+                  "unexpected_b_to_a": 1
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.48,
+                  "ci95_low": 0.4425,
+                  "ci95_high": 0.515,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.375,
+                  "ci95_low": 0.345,
+                  "ci95_high": 0.4025,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.18,
+                  "ci95_low": 0.1475,
+                  "ci95_high": 0.21006249999999993,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            }
+          }
+        },
+        "by_sampling_suite_and_dataset": {
+          "representative": {
+            "deltasecommits": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.44,
+              "base_protocol_pass_rate": 0.915,
+              "relation_tests": {
+                "transformed_accuracy": 0.4525,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.905,
+                "end_to_end_relation_accuracy": 0.4475,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5525,
+                "robust_accuracy": 0.215,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.43,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.895,
+                "end_to_end_relation_accuracy": 0.885,
+                "relation_accuracy_conditional_valid": 0.9888268156424581,
+                "relation_violation_rate": 0.11499999999999999,
+                "robust_accuracy": 0.425,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.475,
+                "base_protocol_pass_rate": 0.915,
+                "transformed_protocol_pass_rate": 0.915,
+                "end_to_end_relation_accuracy": 0.01,
+                "relation_accuracy_conditional_valid": 0.01092896174863388,
+                "relation_violation_rate": 0.99,
+                "robust_accuracy": 0.005,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 366,
+                "transformed_accuracy": 0.49453551912568305,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9890710382513661,
+                "end_to_end_relation_accuracy": 0.4890710382513661,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5109289617486339,
+                "robust_accuracy": 0.23497267759562843,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 366,
+                "transformed_accuracy": 0.49453551912568305,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9890710382513661,
+                "end_to_end_relation_accuracy": 0.4890710382513661,
+                "relation_accuracy_conditional_valid": 0.494475138121547,
+                "relation_violation_rate": 0.5109289617486339,
+                "robust_accuracy": 0.23497267759562843,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 356,
+                "INVALID": 38,
+                "B": 6
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.475,
+                  "base_protocol_pass_rate": 0.915,
+                  "transformed_protocol_pass_rate": 0.915,
+                  "end_to_end_relation_accuracy": 0.01,
+                  "relation_accuracy_conditional_valid": 0.01092896174863388,
+                  "relation_violation_rate": 0.99,
+                  "robust_accuracy": 0.005,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.43,
+                  "base_protocol_pass_rate": 0.915,
+                  "transformed_protocol_pass_rate": 0.895,
+                  "end_to_end_relation_accuracy": 0.885,
+                  "relation_accuracy_conditional_valid": 0.9888268156424581,
+                  "relation_violation_rate": 0.11499999999999999,
+                  "robust_accuracy": 0.425,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 1,
+                  "unexpected_b_to_a": 1
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.4525,
+                  "ci95_low": 0.43,
+                  "ci95_high": 0.47,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.4475,
+                  "ci95_low": 0.425,
+                  "ci95_high": 0.47,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.215,
+                  "ci95_low": 0.1825,
+                  "ci95_high": 0.25,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            },
+            "patcheval": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.505,
+              "base_protocol_pass_rate": 0.995,
+              "relation_tests": {
+                "transformed_accuracy": 0.5,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.99,
+                "end_to_end_relation_accuracy": 0.4475,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.5525,
+                "robust_accuracy": 0.23,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.515,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.985,
+                "end_to_end_relation_accuracy": 0.89,
+                "relation_accuracy_conditional_valid": 0.9035532994923858,
+                "relation_violation_rate": 0.10999999999999999,
+                "robust_accuracy": 0.46,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.485,
+                "base_protocol_pass_rate": 0.995,
+                "transformed_protocol_pass_rate": 0.995,
+                "end_to_end_relation_accuracy": 0.005,
+                "relation_accuracy_conditional_valid": 0.005025125628140704,
+                "relation_violation_rate": 0.995,
+                "robust_accuracy": 0.0,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 398,
+                "transformed_accuracy": 0.5025125628140703,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9949748743718593,
+                "end_to_end_relation_accuracy": 0.44974874371859297,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.550251256281407,
+                "robust_accuracy": 0.23115577889447236,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 398,
+                "transformed_accuracy": 0.5025125628140703,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 0.9949748743718593,
+                "end_to_end_relation_accuracy": 0.44974874371859297,
+                "relation_accuracy_conditional_valid": 0.45202020202020204,
+                "relation_violation_rate": 0.550251256281407,
+                "robust_accuracy": 0.23115577889447236,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 371,
+                "B": 25,
+                "INVALID": 4
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.485,
+                  "base_protocol_pass_rate": 0.995,
+                  "transformed_protocol_pass_rate": 0.995,
+                  "end_to_end_relation_accuracy": 0.005,
+                  "relation_accuracy_conditional_valid": 0.005025125628140704,
+                  "relation_violation_rate": 0.995,
+                  "robust_accuracy": 0.0,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.515,
+                  "base_protocol_pass_rate": 0.995,
+                  "transformed_protocol_pass_rate": 0.985,
+                  "end_to_end_relation_accuracy": 0.89,
+                  "relation_accuracy_conditional_valid": 0.9035532994923858,
+                  "relation_violation_rate": 0.10999999999999999,
+                  "robust_accuracy": 0.46,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 19,
+                  "unexpected_b_to_a": 0
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.5,
+                  "ci95_low": 0.48,
+                  "ci95_high": 0.52,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.4475,
+                  "ci95_low": 0.425,
+                  "ci95_high": 0.4675,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.23,
+                  "ci95_low": 0.19743750000000002,
+                  "ci95_high": 0.265,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            },
+            "primevul": {
+              "base_rows": 200,
+              "intervention_rows": 400,
+              "pair_groups": 200,
+              "base_accuracy": 0.455,
+              "base_protocol_pass_rate": 0.95,
+              "relation_tests": {
+                "transformed_accuracy": 0.48,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.375,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.625,
+                "robust_accuracy": 0.18,
+                "mean_probability_relation_error": null
+              },
+              "invariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.455,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.74,
+                "relation_accuracy_conditional_valid": 0.7789473684210526,
+                "relation_violation_rate": 0.26,
+                "robust_accuracy": 0.35,
+                "mean_probability_relation_error": null
+              },
+              "equivariant_only": {
+                "rows": 200,
+                "transformed_accuracy": 0.505,
+                "base_protocol_pass_rate": 0.95,
+                "transformed_protocol_pass_rate": 0.95,
+                "end_to_end_relation_accuracy": 0.01,
+                "relation_accuracy_conditional_valid": 0.010526315789473684,
+                "relation_violation_rate": 0.99,
+                "robust_accuracy": 0.01,
+                "mean_probability_relation_error": null
+              },
+              "base_critical_visible": {
+                "rows": 380,
+                "transformed_accuracy": 0.5052631578947369,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 1.0,
+                "end_to_end_relation_accuracy": 0.39473684210526316,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.6052631578947368,
+                "robust_accuracy": 0.18947368421052632,
+                "mean_probability_relation_error": null
+              },
+              "clean_no_truncation": {
+                "rows": 380,
+                "transformed_accuracy": 0.5052631578947369,
+                "base_protocol_pass_rate": 1.0,
+                "transformed_protocol_pass_rate": 1.0,
+                "end_to_end_relation_accuracy": 0.39473684210526316,
+                "relation_accuracy_conditional_valid": 0.39473684210526316,
+                "relation_violation_rate": 0.6052631578947368,
+                "robust_accuracy": 0.18947368421052632,
+                "mean_probability_relation_error": null
+              },
+              "context_pressure_only": {
+                "rows": 0,
+                "decision_change_rate": null,
+                "supports_abstention": true,
+                "abstention_rate": null,
+                "base_protocol_pass_rate": null,
+                "transformed_protocol_pass_rate": null,
+                "mean_confidence_drop": null,
+                "forced_decision_error_rate": null,
+                "evidence_visible_rows": 0,
+                "evidence_truncated_rows": 0,
+                "visible_decision_change_rate": null,
+                "truncated_decision_change_rate": null,
+                "visible_abstention_rate": null,
+                "truncated_abstention_rate": null
+              },
+              "transformation_introduced_truncation_rows": 0,
+              "prediction_counts": {
+                "A": 332,
+                "B": 48,
+                "INVALID": 20
+              },
+              "by_template": {
+                "canonical_renderer_swap_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.505,
+                  "base_protocol_pass_rate": 0.95,
+                  "transformed_protocol_pass_rate": 0.95,
+                  "end_to_end_relation_accuracy": 0.01,
+                  "relation_accuracy_conditional_valid": 0.010526315789473684,
+                  "relation_violation_rate": 0.99,
+                  "robust_accuracy": 0.01,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 0,
+                  "unexpected_b_to_a": 0
+                },
+                "length_only_end_numbered_comments_v2": {
+                  "rows": 200,
+                  "transformed_accuracy": 0.455,
+                  "base_protocol_pass_rate": 0.95,
+                  "transformed_protocol_pass_rate": 0.95,
+                  "end_to_end_relation_accuracy": 0.74,
+                  "relation_accuracy_conditional_valid": 0.7789473684210526,
+                  "relation_violation_rate": 0.26,
+                  "robust_accuracy": 0.35,
+                  "mean_probability_relation_error": null,
+                  "unexpected_a_to_b": 41,
+                  "unexpected_b_to_a": 1
+                }
+              },
+              "pair_cluster_bootstrap": {
+                "transformed_accuracy": {
+                  "observed": 0.48,
+                  "ci95_low": 0.4425,
+                  "ci95_high": 0.515,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "end_to_end_relation_accuracy": {
+                  "observed": 0.375,
+                  "ci95_low": 0.345,
+                  "ci95_high": 0.4025,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                },
+                "robust_accuracy": {
+                  "observed": 0.18,
+                  "ci95_low": 0.1475,
+                  "ci95_high": 0.21006249999999993,
+                  "iterations": 1000,
+                  "pair_groups": 200,
+                  "cluster_key": "dataset::pair_key"
+                }
+              }
+            }
+          }
+        },
+        "aggregate_metrics_omitted": true,
+        "claim_boundary": "The source-macro-balanced representative suite is the primary result; balanced-stress is reported independently. Overlapping pairs across suites are never mixed into a headline point estimate. Only invariant and equivariant transformations contribute to robust accuracy."
+      },
+      "interpretation": "Generative judge measured with strict A/B/INSUFFICIENT_CONTEXT outputs."
     }
   ],
-  "completed_models": 0,
+  "completed_models": 1,
   "claim_boundary": "This report is a model-family replication layer. It does not introduce new readout ablations, routers, calibration sweeps, or side-order architectures. Results answer whether relational failures appear across model mechanisms under the fixed VeriPatch-RR protocol."
 }

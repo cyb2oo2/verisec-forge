@@ -61,6 +61,10 @@ def summarize_replication_model(
         "side_swap_residual": headline["side_swap_residual"],
         "both_directions_correct": headline["both_directions_correct"],
         "suffix_consistency": headline["suffix_consistency"],
+        "forced_only_suffix_consistency": headline[
+            "forced_only_suffix_consistency"
+        ],
+        "forced_only_suffix_rows": headline["forced_only_suffix_rows"],
         "suffix_robust_accuracy": headline["suffix_robust_accuracy"],
         "invalid_output_rate": protocol["invalid_output_rate"],
         "insufficient_context_rate": abstention["insufficient_context_rate"],
@@ -76,7 +80,13 @@ def build_replication_report(
 ) -> dict[str, Any]:
     completed = [model for model in models if model.get("status", "ok") == "ok"]
     return {
-        "status": "ok" if completed else "pending_predictions",
+        "status": (
+            "ok"
+            if len(completed) == len(models)
+            else "partial_predictions"
+            if completed
+            else "pending_predictions"
+        ),
         "scope": scope,
         "models": models,
         "completed_models": len(completed),
@@ -97,13 +107,13 @@ def markdown_report(report: dict[str, Any]) -> str:
         "PR #12 asks whether VeriPatch-RR failures generalize across model mechanisms.",
         "It intentionally avoids new Qwen readout variants, routers, calibration, or side-order architectures.",
         "",
-        "| model | type | canonical | swap residual | both correct | suffix consistency | invalid | insufficient context | interpretation |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+        "| model | type | canonical | swap residual | both correct | strict suffix | forced-only suffix | invalid | insufficient context | interpretation |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
     for model in report["models"]:
         if model.get("status") == "pending":
             lines.append(
-                f"| `{model['model_key']}` | {model['model_type']} | n/a | n/a | n/a | n/a | n/a | n/a | {model['interpretation']} |"
+                f"| `{model['model_key']}` | {model['model_type']} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | {model['interpretation']} |"
             )
             continue
         lines.append(
@@ -112,12 +122,23 @@ def markdown_report(report: dict[str, Any]) -> str:
             f"{_signed(model['side_swap_residual'])} | "
             f"{_pct(model['both_directions_correct'])} | "
             f"{_pct(model['suffix_consistency'])} | "
+            f"{_pct(model['forced_only_suffix_consistency'])} "
+            f"({model['forced_only_suffix_rows']}) | "
             f"{_pct(model['invalid_output_rate'])} | "
             f"{_pct(model['insufficient_context_rate'])} | "
             f"{model.get('interpretation', '')} |"
         )
     lines.extend(
         [
+            "",
+            "## Current Interpretation",
+            "",
+            "- `partial_predictions` means at least one required model slot has been evaluated, while at least one remains pending.",
+            "- Generative judge rows use strict output parsing. Invalid outputs are not repaired or manually relabeled.",
+            "- Strict suffix consistency counts `INVALID` and `INSUFFICIENT_CONTEXT` as failures; forced-only suffix consistency is a secondary diagnostic over rows where both base and suffix outputs are forced A/B labels.",
+            "- If invalid output rate exceeds 20%, the row should be interpreted as a protocol-following limitation as well as a relational result.",
+            "- The current completed generative slot uses `Qwen/Qwen2.5-0.5B-Instruct`; it broadens the mechanism beyond classification heads, but it is not a non-Qwen-family replication.",
+            "- A low side-swap residual together with low both-directions-correct indicates that the judge is not reliably flipping its decision under A/B side swaps.",
             "",
             "## Required Model Slots",
             "",
@@ -198,6 +219,7 @@ def _headline_relational_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     )
     side_swap = _mean(side_swap_success)
     suffix_success = []
+    forced_suffix_success = []
     suffix_robust = []
     for row in suffix_rows:
         base_prediction = base_predictions.get(str(row["base_id"]))
@@ -208,6 +230,8 @@ def _headline_relational_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             and base_prediction == transformed
         )
         suffix_success.append(success)
+        if _is_forced(base_prediction) and _is_forced(transformed):
+            forced_suffix_success.append(base_prediction == transformed)
         suffix_robust.append(
             success
             and base_prediction
@@ -223,6 +247,8 @@ def _headline_relational_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "both_directions_correct": _mean(side_swap_both_correct),
         "suffix_consistency": _mean(suffix_success),
+        "forced_only_suffix_consistency": _mean(forced_suffix_success),
+        "forced_only_suffix_rows": len(forced_suffix_success),
         "suffix_robust_accuracy": _mean(suffix_robust),
     }
 

@@ -89,7 +89,7 @@ def test_replication_summary_computes_swap_residual_and_suffix():
 
 def test_generative_judge_parser_is_strict():
     assert parse_label("A_RISKIER") == "A_RISKIER"
-    assert parse_label("final: B_RISKIER") == "B_RISKIER"
+    assert parse_label("final: B_RISKIER") == "INVALID"
     assert parse_label("A_RISKIER B_RISKIER") == "INVALID"
     assert parse_label("side A") == "INVALID"
 
@@ -101,7 +101,7 @@ def test_generative_judge_parser_is_strict():
     )
     assert rows[0]["predicted_riskier_side"] == "INSUFFICIENT_CONTEXT"
     assert rows[0]["supports_abstention"] is True
-    assert rows[1]["predicted_riskier_side"] == "A_RISKIER"
+    assert rows[1]["predicted_riskier_side"] == "INVALID"
 
 
 def test_pending_report_keeps_model_slots_visible():
