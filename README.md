@@ -55,6 +55,7 @@ Start with:
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
 - [Next Method Phase](docs/NEXT_METHOD_PHASE.md)
+- [VeriPatch-RR External Adapter](docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md)
 - [Relational Benchmark V2 Protocol](docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md)
 - [Project Story](PROJECT_STORY.md)
 - [Results Index](reports/RESULTS_INDEX.md)
