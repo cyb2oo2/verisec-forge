@@ -1,0 +1,36 @@
+{
+  "name": "veripatch_rr_external_adapter_smoke_30",
+  "description": "Checked-in external adapter smoke artifacts for fresh-clone CI validation.",
+  "created_utc": "2026-06-23",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/build_veripatch_external_smoke.py"
+  ],
+  "artifacts": [
+    {
+      "role": "external_adapter_smoke_benchmark",
+      "path": "examples/veripatch_rr_smoke_30.jsonl",
+      "sha256": "5abcc3d95896743a6f94e34588c2f18c34563c001d76e5a2696f5257c76c385c",
+      "bytes": 486973,
+      "rows": 90
+    },
+    {
+      "role": "external_adapter_prediction_template",
+      "path": "examples/veripatch_rr_smoke_30_predictions_template.jsonl",
+      "sha256": "4ffb43c11f5cee0d42914fd99c497d459080c406564eed1349273e0b09a616b2",
+      "bytes": 140067,
+      "rows": 90
+    },
+    {
+      "role": "external_adapter_smoke_summary",
+      "path": "examples/veripatch_rr_smoke_30_summary.json",
+      "sha256": "3ac3d693ece774161783644201fe3a755df888e2702c739e18fbe7558eadac23",
+      "bytes": 769
+    }
+  ],
+  "limitations": [
+    "This is a 30-pair / 90-row adapter sanity check, not a benchmark result.",
+    "The checked-in smoke artifact uses distilgpt2 runtime accounting and is not tokenizer-neutral.",
+    "Full model claims still require model-specific runtime materialization and retained VeriPatch-RR reports."
+  ]
+}

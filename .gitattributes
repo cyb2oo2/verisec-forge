@@ -1,0 +1,4 @@
+examples/veripatch_rr_smoke_30.jsonl text eol=lf
+examples/veripatch_rr_smoke_30_predictions_template.jsonl text eol=lf
+examples/veripatch_rr_smoke_30_summary.json text eol=lf
+reproducibility/veripatch_external_smoke_manifest.json text eol=lf

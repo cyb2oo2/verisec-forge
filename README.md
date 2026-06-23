@@ -56,6 +56,7 @@ Start with:
 - [Application Focus](docs/APPLICATION_FOCUS.md)
 - [Next Method Phase](docs/NEXT_METHOD_PHASE.md)
 - [VeriPatch-RR External Adapter](docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md)
+- [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
 - [Relational Benchmark V2 Protocol](docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md)
 - [Project Story](PROJECT_STORY.md)
 - [Results Index](reports/RESULTS_INDEX.md)
@@ -77,6 +78,12 @@ Then inspect the artifact-backed demo:
 - `tests/`: focused tests for the retained core and application-facing scripts.
 
 ## Quick Verification
+
+CI runs a focused fresh-clone smoke path for the external adapter, paper result
+anchors, reproducibility helpers, and the checked-in external smoke manifest.
+See [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md) for the exact boundary:
+CI does not train models, run GPU inference, or turn the external smoke artifact
+into a benchmark result.
 
 Linux/macOS:
 
