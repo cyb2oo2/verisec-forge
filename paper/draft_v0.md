@@ -2,33 +2,17 @@
 
 ## Abstract
 
-Secure-code models are commonly evaluated with pointwise vulnerability or patch
-labels, but high pointwise accuracy can hide failures in relational reasoning.
-We study this gap with VeriPatch-RR, a paired vulnerable/fixed patch benchmark
-that tests whether model decisions remain consistent under side swaps, suffix
-perturbations, context pressure, and model-specific runtime visibility
-constraints.
-
-Across a Qwen decoder classifier and a CodeBERT encoder classifier, we find
-that pointwise competence does not imply side-order consistency. Both models
-remain close to marginal-conditioned independent-decision baselines under side
-swaps, even when evaluated with each model's own training contract. However,
-severe terminal-context collapse is architecture dependent: Qwen is strongly
-affected by post-diff endpoint text, while the CodeBERT first-token encoder
-control is not. A minimal broad-replication layer further extends the audit to
-a non-Qwen decoder classifier and a generative no-classification-head judge.
-These additional models show severe relational stress failures, but their low
-canonical accuracy limits broad universal claims.
-
-We then isolate the Qwen readout mechanism. Same-backbone readout ablations and
-an independent confirmation set show that endpoint robustness can be controlled
-by readout-conditioned training, but this does not solve side-order reasoning.
-A frozen-backbone matched-head control further separates mechanisms: mean
-pooling's suffix benefit largely disappears when the terminal-trained Qwen+LoRA
-representation is held fixed, while changed-hunk pooling retains a direct
-suffix-consistency gain. These results support a bounded claim: endpoint
-robustness is controllable, but secure patch relational reasoning remains a
-distinct unresolved capability.
+Secure-code models are usually evaluated pointwise, but patch review is
+relational: a model should identify which side of a vulnerable/fixed pair is
+riskier and preserve that relation under side swaps and irrelevant context
+changes. We introduce VeriPatch-RR, a tokenizer-aware relational evaluation
+instrument that measures side-order equivariance, endpoint robustness,
+both-directions-correct behavior, and runtime evidence visibility. Across
+decoder, encoder, and generative settings, we find that pointwise competence
+does not imply relational consistency; endpoint robustness is readout
+controllable in Qwen, but side-order reasoning remains unresolved. These
+results argue that secure-patch evaluation should report relational consistency
+rather than relying on pointwise accuracy alone.
 
 ## 1. Introduction
 
@@ -49,38 +33,98 @@ riskier side should also swap. A model that fails this test is not merely
 making an ordinary classification error; it is failing a structural property
 of the task.
 
-We introduce VeriPatch-RR, a tokenizer-neutral relational robustness benchmark
-for secure patch reasoning. VeriPatch-RR renders paired vulnerable/fixed
-patches under controlled transformations, materializes runtime visibility for
-each model tokenizer, and reports side-order, endpoint, context-pressure, and
-critical-hunk visibility metrics separately. The benchmark is designed not to
-produce a single leaderboard number, but to expose which part of a model's
-behavior is reliable.
+We ask: when a secure-code model is given two sides of the same patch, does it
+represent the relation between them, or does it behave like an independent
+pointwise classifier applied twice?
 
-Our results support three claims. First, ordinary high scores can be
-artifact-sensitive: same-source PrimeVul detection reaches `0.9524` accuracy,
-but paired controls reveal why that number should not be treated as semantic
-patch understanding. Second, pointwise competence and relational consistency
-are separable: Qwen and CodeBERT both show incomplete side-order reasoning,
-while terminal endpoint collapse is much stronger in Qwen than in the encoder
-control. Third, readout design can control endpoint sensitivity, but it does
-not automatically produce side-order reasoning.
+[Figure 1 about here: pointwise accuracy vs relational consistency.]
 
-The intended contribution is therefore not a new vulnerability scanner. It is
-a measurement and mechanism study: VeriPatch-RR shows how secure-patch models
-can fail under relation-preserving transformations, and why evaluation should
+This paper makes four contributions.
+
+1. We introduce VeriPatch-RR, a tokenizer-aware relational evaluation
+   instrument for paired secure-patch examples.
+2. We show that pointwise competence does not imply side-order consistency
+   across a Qwen decoder classifier and a CodeBERT encoder classifier.
+3. We show that endpoint robustness is readout-controllable in Qwen, but
+   separable from side-order reasoning.
+4. We provide a bounded model-family stress replication with a non-Qwen decoder
+   classifier and a generative no-classification-head judge, while explicitly
+   limiting broad universal claims because both added slots have low canonical
+   accuracy.
+
+The intended contribution is not a new vulnerability scanner. It is a
+measurement and mechanism study: VeriPatch-RR shows how secure-patch models can
+fail under relation-preserving transformations, and why evaluation should
 measure those failures directly.
 
-## 2. Problem Formulation
+## 2. Related Work and Positioning
 
-We consider a paired patch example with two rendered sides, Side A and Side B.
-Exactly one side is riskier under the benchmark label. A model outputs a
-decision in `{A, B}`, or in some settings an abstention such as
+### 2.1 Secure-Code Vulnerability and Patch Benchmarks
+
+[RELATED WORK: PrimeVul, vulnerability detection datasets, security patch
+classification, vulnerable/fixed pair construction.]
+
+Existing secure-code benchmarks provide the labels and paired artifacts needed
+for this study, but most pointwise protocols do not directly ask whether a
+model preserves the relation between two sides of the same patch.
+
+### 2.2 Code Model Evaluation Beyond Pointwise Accuracy
+
+[RELATED WORK: code LLM evaluation, commit-level reasoning, patch correctness,
+program repair evaluation, secure coding assistants.]
+
+VeriPatch-RR is positioned as an evaluation instrument for relational patch
+behavior rather than a single-task model benchmark. It asks whether decisions
+remain structurally consistent under transformations whose expected relation is
+known before evaluation.
+
+### 2.3 Robustness, Counterfactual, and Consistency Evaluation
+
+[RELATED WORK: invariance, equivariance, counterfactual data augmentation,
+consistency tests, shortcut and artifact diagnosis.]
+
+This paper borrows the language of invariance and equivariance but applies it
+to secure patch review. Suffix perturbations are identity tests, side swaps are
+equivariance tests, and context-pressure transformations are interpreted only
+with model-specific visibility accounting.
+
+### 2.4 Evidence Localization and Explanation Faithfulness
+
+[RELATED WORK: rationale extraction, evidence localization, explanation
+faithfulness, security audit reports.]
+
+Evidence-coupled diagnostics motivate the broader project, but this paper does
+not claim that evidence localization is solved. Explanation quality is treated
+as a downstream audit problem rather than a prerequisite for the relational
+measurement instrument.
+
+### 2.5 Positioning
+
+This paper differs from standard vulnerability detection work by treating
+vulnerable/fixed patch review as a relational task. It separates side-order
+equivariance from endpoint robustness and runtime visibility, then uses that
+separation to distinguish model-family stress failures from readout-specific
+mechanisms.
+
+## 3. Problem Formulation
+
+We consider a paired patch input `x = (A, B)`, where `A` and `B` are two
+rendered sides of a vulnerable/fixed pair. The gold label `y` belongs to
+`{A, B}` and identifies the riskier side. A model `f` outputs either a forced
+decision in `{A, B}` or, in some settings, an abstention such as
 `INSUFFICIENT_CONTEXT`.
+
+Let `T_swap(x) = (B, A)` be the side-swap transformation, and let
+`T_swap(y)` be the corresponding swapped gold label. A side-order consistent
+model should satisfy:
+
+```text
+f(T_swap(x)) = T_swap(f(x))
+```
 
 Pointwise accuracy measures whether the model selects the gold riskier side
 for a single rendering. This is the conventional metric, but it does not test
-whether the model understands the relation between the two sides.
+whether the model represents the relation between the two sides.
 
 Side-order equivariance measures whether the model flips its decision when the
 two sides are swapped. If a canonical rendering has gold label `A`, the swapped
@@ -106,13 +150,16 @@ model's tokenizer, context length, truncation side, and special-token policy.
 This is necessary because a transformation can change tokenization and
 therefore hide the evidence a model would need.
 
-## 3. VeriPatch-RR
+## 4. VeriPatch-RR
 
-VeriPatch-RR is a paired vulnerable/fixed patch benchmark built from
-PrimeVul, DeltaSecommits, and PatchEval. It contains a representative suite and
-a separate balanced-stress suite. The representative suite is the primary
+VeriPatch-RR is a paired vulnerable/fixed patch benchmark built from PrimeVul,
+DeltaSecommits, and PatchEval. It contains a representative suite and a
+separate balanced-stress suite. The representative suite is the primary
 paper-facing result; selected reports use a representative-core filtered
 runtime containing canonical, side-swap, and suffix rows.
+
+[Figure 2 about here: VeriPatch-RR transformations, runtime visibility, and
+metric families.]
 
 Each example is rendered as a comparison between Side A and Side B. The main
 transformations are:
@@ -123,6 +170,11 @@ transformations are:
 - context-pressure variants that place irrelevant text before or after the
   diff;
 - metadata and nuisance interventions used for shortcut diagnosis.
+
+We treat transformations as relation tests only when their expected relation is
+specified before evaluation: identity for suffix perturbations, equivariant
+swap for side swaps, and visibility-qualified comparisons for context-pressure
+transformations.
 
 Before inference, VeriPatch-RR materializes model-specific runtime accounting.
 This step records token counts, truncation, changed-line visibility, and
@@ -137,62 +189,72 @@ baselines, residuals, and both-directions-correct. For endpoint perturbations,
 it reports suffix consistency and suffix robust accuracy. This separation is
 important because a model can be stable and wrong.
 
-## 4. Benchmark Diagnosis
+## 5. Benchmark Diagnosis
 
-The project began with a standard vulnerability-detection line, where a
-same-source PrimeVul detector reached `0.9524` accuracy. That result looked
-strong, but it was not a trustworthy headline. Subsequent paired controls
-showed that same-source scores can be artifact-sensitive: project, length,
-source distribution, and paired construction choices can create shortcuts that
-do not reflect semantic patch understanding.
+A standard same-source vulnerability detector can appear strong while leaving
+the relational question unanswered. In our initial PrimeVul same-source
+setting, a detector reached `0.9524` accuracy
+[RESULT: primevul-progressive-controls]. That score is useful as a diagnostic,
+but it is not sufficient evidence of secure patch understanding.
 
-The key diagnostic was to move from standalone vulnerability detection to
-paired vulnerable/fixed reasoning. Negative controls protected this move:
-metadata-only balanced accuracy was `0.5022`, candidate-only was `0.5078`, and
-counterpart-only was `0.5156`. These near-chance controls make the diff-based
-signal more credible.
+[Table 1 about here: main results table.]
+
+Paired controls reveal why. Metadata-only balanced accuracy was `0.5022`,
+candidate-only was `0.5078`, and counterpart-only was `0.5156`
+[RESULT: primevul-progressive-controls]. These near-chance controls protect the
+claim that the diff-based paired task contains real relational signal rather
+than only project, length, or source artifacts.
 
 A diff-only paired detector achieved a three-seed mean balanced accuracy of
-`0.8287`. Pair-coupled decoding further improved the strongest system layer to
-five-split balanced accuracy `0.8572`, with mean pair-minus-bucket delta
-`+0.0348`. This is a useful task-structured system result, but it is not the
-central claim of this paper. The central claim is that paired evaluation
-changes what we can see: it exposes relation failures that pointwise scores
-hide.
+`0.8287` [RESULT: primevul-main-results]. Pair-coupled decoding further
+improved the strongest system layer to five-split balanced accuracy `0.8572`,
+with mean pair-minus-bucket delta `+0.0348`
+[RESULT: pair-coupled-significance]. This is a useful task-structured system
+result, but it is not the central claim of this paper. The central claim is
+that paired evaluation changes what we can see: it exposes relation failures
+that pointwise scores hide.
 
-## 5. Cross-Model Relational Audit
+## 6. Cross-Model Relational Audit
 
 We next ask whether relational failures are specific to the original Qwen
-decoder classifier. The first cross-architecture audit compares a Qwen decoder
-classifier with a CodeBERT encoder classifier under the fixed VeriPatch-RR
-protocol.
+decoder classifier. We separate this section into a stronger
+competency-controlled architecture comparison and a weaker but useful
+low-canonical stress replication.
 
-Under exact-training-contract side swaps, Qwen reaches `0.4600` and CodeBERT
-reaches `0.5300`. Both are incomplete, and both must be interpreted against
-their marginal-conditioned independence baselines rather than against a naive
-`0.5` chance line. The result shows that side-order inconsistency is not simply
-a prompt wording artifact.
+### 6.1 Competency-Controlled Architecture Comparison
+
+The first cross-architecture audit compares a Qwen decoder classifier with a
+CodeBERT encoder classifier under the fixed VeriPatch-RR protocol. Under
+exact-training-contract side swaps, Qwen reaches `0.4600` and CodeBERT reaches
+`0.5300` [RESULT: cross-model-relational-audit]. Both are incomplete, and both
+must be interpreted against their marginal-conditioned independence baselines
+rather than against a naive `0.5` chance line. The result shows that side-order
+inconsistency is not simply a prompt wording artifact.
 
 Endpoint behavior differs sharply. CodeBERT preserves post-diff decisions at
 `0.9417`, while Qwen falls to `0.5650`, producing an endpoint gap of `+0.3767`
-with paired bootstrap 95% CI `[0.3317, 0.4200]`. The gap remains positive on
-jointly clean, both-canonical-correct, and confidence-near-matched subsets.
-This decomposes two failure modes: side-order relational inconsistency appears
-in both architectures, while severe terminal endpoint collapse is architecture
+with paired bootstrap 95% CI `[0.3317, 0.4200]`
+[RESULT: cross-model-relational-audit]. The gap remains positive on jointly
+clean, both-canonical-correct, and confidence-near-matched subsets. This
+decomposes two failure modes: side-order relational inconsistency appears in
+both architectures, while severe terminal endpoint collapse is architecture
 dependent.
+
+### 6.2 Low-Canonical Stress Replication
 
 PR #12 adds minimal broad replication without turning the study into a model
 zoo. The added non-Qwen decoder classifier uses distilgpt2 with a LoRA
 sequence-classification head. It reaches canonical accuracy `55.83%`, side-swap
 equivariance `9.83%`, marginal-conditioned independence baseline `43.93%`, and
-side-swap residual `-0.3410`; both-directions-correct is `6.67%`. This is
-stress evidence, not a strong-model result, because canonical accuracy is low.
+side-swap residual `-0.3410`; both-directions-correct is `6.67%`
+[RESULT: cross-model-replication]. This is stress evidence, not a strong-model
+result, because canonical accuracy is low.
 
-The generative instruction judge uses strict outputs
-`A_RISKIER`, `B_RISKIER`, or `INSUFFICIENT_CONTEXT`. It reaches canonical
-accuracy `46.67%`, both-directions-correct `0.50%`, and invalid output rate
-`5.00%`. Its prediction distribution is strongly A-biased
-(`A=1620`, `B=90`, `INVALID=90`), so its suffix consistency should be
+The generative instruction judge uses strict outputs `A_RISKIER`, `B_RISKIER`,
+or `INSUFFICIENT_CONTEXT`. It reaches canonical accuracy `46.67%`,
+both-directions-correct `0.50%`, and invalid output rate `5.00%`
+[RESULT: cross-model-replication]. Its prediction distribution is strongly
+A-biased (`A=1620`, `B=90`, `INVALID=90`), so its suffix consistency should be
 interpreted as decision stability rather than correct relational reasoning.
 
 Together, these results support a bounded generality claim: side-order
@@ -202,7 +264,7 @@ encoder classifier, a non-Qwen decoder classifier, and a generative
 no-classification-head judge. The evidence does not prove that all strong
 secure-code models fail.
 
-## 6. Readout Mechanism
+## 7. Readout Mechanism
 
 Having separated side-order failure from endpoint collapse, we study whether
 Qwen's terminal endpoint sensitivity is caused by readout design. The
@@ -211,45 +273,70 @@ classification. Variants include terminal non-padding token readout,
 first-token readout, mean pooling, changed-hunk pooling, and fixed terminal
 anchor pooling.
 
+[Figure 3 about here: endpoint mechanism decomposition across terminal, mean,
+and changed-hunk readouts.]
+
+### 7.1 Discovery: Readout-Conditioned Endpoint Robustness
+
 Mean pooling raises post-diff consistency from `0.5533` to `0.8983`.
-Changed-hunk pooling reaches `0.9983`. However, neither variant establishes
-canonical non-inferiority under the preregistered success rule. The mechanism
-result is therefore not that these are better classifiers, but that endpoint
-robustness is causally controllable by readout-conditioned training.
+Changed-hunk pooling reaches `0.9983` [RESULT: readout-ablation]. However,
+neither variant establishes canonical non-inferiority under the preregistered
+success rule. The mechanism result is therefore not that these are better
+classifiers, but that endpoint robustness is causally controllable by
+readout-conditioned training.
 
-An independent confirmation freezes the discovery setting and evaluates 180
-new pair IDs, three unseen suffix templates, and seeds `7` and `123`. Mean
-pooling improves visible-suffix consistency by `+0.3095` with 95% CI
+### 7.2 Confirmation: New Pairs, Templates, and Seeds
+
+An independent confirmation freezes the discovery setting and evaluates 180 new
+pair IDs, three unseen suffix templates, and seeds `7` and `123`. Mean pooling
+improves visible-suffix consistency by `+0.3095` with 95% CI
 `[+0.2348, +0.3799]`. Changed-hunk pooling improves it by `+0.4903` with 95%
-CI `[+0.4448, +0.5357]`. Both effects are positive across the two seeds, and
-changed-hunk fallback is zero. Yet both fail the canonical non-inferiority
-criterion, so the confirmed claim remains mechanism control rather than
-promoted model improvement.
+CI `[+0.4448, +0.5357]` [RESULT: readout-confirmation]. Both effects are
+positive across the two seeds, and changed-hunk fallback is zero. Yet both fail
+the canonical non-inferiority criterion, so the confirmed claim remains
+mechanism control rather than promoted model improvement.
 
-Finally, a frozen-backbone matched-head control separates representation effects
-from pooling effects. Mean pooling's direct suffix benefit shrinks to `+0.0260`
+[Figure 4 about here: discovery -> independent confirmation ->
+frozen-backbone control.]
+
+### 7.3 Frozen Representation Control: Direct vs Training-Mediated Effects
+
+A frozen-backbone matched-head control separates representation effects from
+pooling effects. Mean pooling's direct suffix benefit shrinks to `+0.0260`
 with a CI crossing zero. Changed-hunk pooling retains a direct gain of
-`+0.1970`, with 95% CI `[+0.1418, +0.2554]`. This suggests that mean pooling's
-benefit is mainly training mediated, while changed-hunk pooling has a more
-direct structural effect over the fixed representation.
+`+0.1970`, with 95% CI `[+0.1418, +0.2554]`
+[RESULT: frozen-backbone-control]. This suggests that mean pooling's benefit
+is mainly training mediated, while changed-hunk pooling has a more direct
+structural effect over the fixed representation.
 
-Most importantly, endpoint robustness does not solve side-order reasoning.
-Changed-hunk pooling can nearly eliminate suffix instability while leaving
-side-swap behavior near a marginal-conditioned independence baseline. This is
+### 7.4 Separation From Side-Order Reasoning
+
+Endpoint robustness does not solve side-order reasoning. Changed-hunk pooling
+can nearly eliminate suffix instability while leaving side-swap behavior near a
+marginal-conditioned independence baseline [RESULT: readout-ablation]. This is
 the core mechanism conclusion: endpoint robustness and relational reasoning are
 different capabilities.
 
-## 7. Limitations
+## 8. Limitations
 
 This work is a measurement study, not a deployed vulnerability scanner. The
 artifact should not be used as an automated security review system without
 human oversight.
+
+The benchmark relies on existing vulnerable/fixed labels and does not yet
+replace them with independent human adjudication. Label validity and
+explanation validity are separate limitations: a pair can have the correct
+side label while still lacking a human-verified minimal evidence span.
 
 The broad model-family claim is intentionally limited. The strongest
 competency-controlled comparison is between the Qwen decoder classifier and the
 CodeBERT encoder classifier. The PR #12 distilgpt2 and generative-judge slots
 broaden mechanism coverage, but both have low canonical accuracy and should be
 treated as stress evidence rather than strong-model universal failure proof.
+
+The generative judge is evaluated under a strict fixed-output protocol. This
+avoids prompt search and manual repair, but it may understate models that
+require more interactive or chain-of-thought-style prompting.
 
 Readout variants are mechanism evidence, not promoted classifiers. None of the
 readout candidates satisfies the preregistered canonical non-inferiority rule.
@@ -266,7 +353,7 @@ Evidence localization remains diagnostic unless independently human
 adjudicated. The current evidence-coupled audit loop is useful for failure
 analysis, but it is not yet a gold explanation benchmark.
 
-## 8. Discussion
+## 9. Discussion
 
 The main lesson is that secure-patch evaluation should measure relational
 consistency, not only pointwise correctness. A model that classifies the
@@ -292,3 +379,30 @@ secure-code models for patch review, include relation-preserving
 transformations. If a model cannot preserve the relation between vulnerable and
 fixed sides, then pointwise accuracy alone is not enough evidence of secure
 patch understanding.
+
+## Appendix Placeholders
+
+### A. Artifact Manifest
+
+[APPENDIX PLACEHOLDER: reproducibility bundle contents, report paths, and public
+artifact hashes.]
+
+### B. Bootstrap and Significance Protocol
+
+[APPENDIX PLACEHOLDER: pair-cluster bootstrap, McNemar tests, split seeds, and
+selection rules.]
+
+### C. Runtime Visibility Schema
+
+[APPENDIX PLACEHOLDER: tokenizer-specific accounting fields, critical-hunk
+visibility, truncation flags, and transformation visibility.]
+
+### D. Prompt and Output Contracts
+
+[APPENDIX PLACEHOLDER: exact-training-contract prompts, generative judge fixed
+output protocol, and invalid-output handling.]
+
+### E. Result Anchor Map
+
+[APPENDIX PLACEHOLDER: map `[RESULT: ...]` anchors to reports, figures, and
+future bibliography or appendix references.]
