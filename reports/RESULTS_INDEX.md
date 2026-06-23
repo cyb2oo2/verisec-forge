@@ -11,6 +11,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Application Focus`: `docs/APPLICATION_FOCUS.md`
 - `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
 - `VeriPatch-RR External Adapter`: `docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md`
+- `CI Testing Strategy`: `docs/CI_TESTING_STRATEGY.md`
 - `Human Patch-Pair Annotation Protocol`: `docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md`
 - `Counterfactual Shortcut Protocol`: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
 - `VeriPatch-RR v0.1`: `reports/RELATIONAL_BENCHMARK_V2.md`
