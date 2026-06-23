@@ -9,6 +9,7 @@
 | Qwen side swap | Does pointwise competence imply side-order reasoning? | exact-contract swap `0.4600` | Near independence baseline. |
 | CodeBERT side swap | Is failure Qwen-only? | exact-contract swap `0.5300` | Incomplete relational signal persists. |
 | Endpoint gap | Is terminal collapse architecture dependent? | CodeBERT minus Qwen `+0.3767`, CI `[0.3317, 0.4200]` | Severe endpoint collapse is not reproduced by the encoder control. |
+| Minimal broad replication | Do failures extend beyond original Qwen/CodeBERT classifiers? | distilgpt2 residual `-0.3410`; generative judge both-correct `0.50%` | Failure appears across additional mechanisms, but low canonical accuracy limits broad model-family claims. |
 | Readout discovery | Can readout control endpoint sensitivity? | mean `0.8983`, changed-hunk `0.9983` post-diff consistency | Endpoint robustness is controllable. |
 | Independent confirmation | Does the readout mechanism replicate? | suffix delta `+0.3095` mean / `+0.4903` changed-hunk | Mechanism replicates on new pairs/templates/seeds. |
 | Frozen-backbone control | Is pooling itself causal over a fixed representation? | mean `+0.0260`; changed-hunk `+0.1970` | Mean is mainly training mediated; changed-hunk has direct structural effect. |

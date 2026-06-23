@@ -18,7 +18,9 @@ It intentionally avoids new Qwen readout variants, routers, calibration, or side
 ## Current Interpretation
 
 - `ok` means both required PR #12 model slots have prediction artifacts.
+- This report uses the representative suite with a representative-core filtered runtime containing canonical, side-swap, and suffix rows.
 - Low canonical accuracy should be treated as a competency limitation before making broad model-family claims.
+- Because both new PR #12 slots have low canonical accuracy, this is stress evidence for relational failure modes, not competency-controlled evidence that strong models universally fail.
 - Runtime visibility is model-tokenizer specific; higher critical-hunk truncation weakens direct comparability with models that see more of the changed hunk.
 - Generative judge rows use strict output parsing. Invalid outputs are not repaired or manually relabeled.
 - Strict suffix consistency counts `INVALID` and `INSUFFICIENT_CONTEXT` as failures; forced-only suffix consistency is a secondary diagnostic over rows where both base and suffix outputs are forced A/B labels.
@@ -34,4 +36,4 @@ It intentionally avoids new Qwen readout variants, routers, calibration, or side
 
 ## Claim Boundary
 
-This report is a model-family replication layer. It does not introduce new readout ablations, routers, calibration sweeps, or side-order architectures. Results answer whether relational failures appear across model mechanisms under the fixed VeriPatch-RR protocol.
+This report is a model-family replication layer. It does not introduce new readout ablations, routers, calibration sweeps, or side-order architectures. Results answer whether relational failures appear across model mechanisms under the fixed VeriPatch-RR representative suite / representative-core filtered-runtime protocol. Because the new PR #12 slots have low canonical accuracy, they are treated as stress evidence for relational failure modes, not as competency-controlled evidence that strong models universally fail.
