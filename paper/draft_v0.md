@@ -404,5 +404,7 @@ output protocol, and invalid-output handling.]
 
 ### E. Result Anchor Map
 
-[APPENDIX PLACEHOLDER: map `[RESULT: ...]` anchors to reports, figures, and
-future bibliography or appendix references.]
+The Markdown draft uses `[RESULT: ...]` anchors as an internal citation bridge.
+The complete mapping from result anchors to repository reports, supporting
+artifacts, and future paper tables is maintained in
+[`result_anchor_map.md`](result_anchor_map.md).
