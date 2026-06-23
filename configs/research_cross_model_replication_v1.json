@@ -1,0 +1,44 @@
+{
+  "name": "cross_model_replication_v1",
+  "scope": "minimal_broad_model_replication",
+  "benchmark": "data/processed/secure_code_relational_benchmark_v2.jsonl",
+  "fixed_protocol": "VeriPatch-RR v0.1 representative/stress suites",
+  "required_model_slots": [
+    {
+      "model_key": "non_qwen_decoder_classifier",
+      "model_type": "decoder_sequence_classifier",
+      "purpose": "Test whether endpoint sensitivity is Qwen-specific or broader among decoder classifiers.",
+      "constraints": [
+        "not Qwen family",
+        "same VeriPatch-RR runtime materialization",
+        "no new readout ablation",
+        "no calibration or router sweep"
+      ]
+    },
+    {
+      "model_key": "generative_instruction_judge",
+      "model_type": "generative_instruction_judge",
+      "purpose": "Test whether side-order inconsistency appears without a classification head.",
+      "allowed_outputs": [
+        "A_RISKIER",
+        "B_RISKIER",
+        "INSUFFICIENT_CONTEXT"
+      ],
+      "constraints": [
+        "zero-shot or fixed few-shot only",
+        "no fine-tuning",
+        "no prompt search"
+      ]
+    }
+  ],
+  "metrics": [
+    "canonical_accuracy",
+    "side_swap_residual",
+    "post_diff_or_suffix_consistency",
+    "both_directions_correct",
+    "invalid_output_rate",
+    "insufficient_context_rate",
+    "runtime_visibility"
+  ],
+  "claim_boundary": "This stage broadens model-family evidence. It is not a model-improvement, readout-ablation, calibration, routing, evidence-loss, or side-order-architecture experiment."
+}
