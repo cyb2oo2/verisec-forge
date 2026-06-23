@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "source": "data/processed/secure_code_veripatch_rr_distilgpt2_runtime1024_representative_core_v1.jsonl",
+  "benchmark": "examples/veripatch_rr_smoke_30.jsonl",
+  "prediction_template": "examples/veripatch_rr_smoke_30_predictions_template.jsonl",
+  "pairs": 30,
+  "rows": 90,
+  "templates": [
+    "canonical_pair_renderer_v2",
+    "canonical_renderer_swap_v2",
+    "length_only_end_numbered_comments_v2"
+  ],
+  "claim_boundary": "This smoke artifact is a small external-adapter sanity check. Full-scale model claims require model-specific runtime materialization and the retained VeriPatch-RR reports."
+}
