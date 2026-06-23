@@ -28,7 +28,9 @@ the relation between the two sides of a patch pair.
 - The strongest claim is about relational evaluation and mechanism
   decomposition, not about a promoted high-accuracy model.
 - The broad model-family claim is intentionally limited: current evidence
-  covers a Qwen decoder classifier and a CodeBERT encoder classifier.
+  covers a Qwen decoder classifier, a CodeBERT encoder classifier, a
+  low-canonical non-Qwen decoder classifier, and a low-canonical generative
+  instruction judge.
 - Canonical non-inferiority is not established for readout variants.
 - Side-order reasoning remains unresolved and is the intended Paper 2
   direction.

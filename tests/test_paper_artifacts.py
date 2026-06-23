@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -10,6 +11,8 @@ def test_paper_draft_packet_exists() -> None:
         "paper/abstract.md",
         "paper/outline.md",
         "paper/main_claims.md",
+        "paper/draft_v0.md",
+        "paper/result_anchor_map.md",
         "paper/tables/main_results.md",
         "paper/figures/figure1_problem.svg",
         "paper/figures/figure2_veripatch_rr.svg",
@@ -37,3 +40,23 @@ def test_paper_figures_are_svg_documents() -> None:
         text = path.read_text(encoding="utf-8")
         assert text.startswith("<svg"), path.name
         assert "</svg>" in text, path.name
+
+
+def test_paper_result_anchors_have_report_map() -> None:
+    draft = (ROOT / "paper/draft_v0.md").read_text(encoding="utf-8")
+    anchor_map = (ROOT / "paper/result_anchor_map.md").read_text(
+        encoding="utf-8"
+    )
+    pattern = re.compile(r"\[RESULT: [a-z0-9-]+\]")
+
+    draft_anchors = set(pattern.findall(draft))
+    mapped_anchors = set(pattern.findall(anchor_map))
+
+    assert draft_anchors, "paper/draft_v0.md should cite result anchors"
+    assert draft_anchors == mapped_anchors
+
+    for anchor in mapped_anchors:
+        line = next(
+            line for line in anchor_map.splitlines() if anchor in line
+        )
+        assert "reports/" in line or "docs/" in line, anchor
