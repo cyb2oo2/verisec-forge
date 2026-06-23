@@ -10,5 +10,5 @@
     "canonical_renderer_swap_v2",
     "length_only_end_numbered_comments_v2"
   ],
-  "claim_boundary": "This smoke artifact is a small external-adapter sanity check. Full-scale model claims require model-specific runtime materialization and the retained VeriPatch-RR reports."
+  "claim_boundary": "This smoke artifact is a small external-adapter sanity check using distilgpt2 runtime accounting. It is not tokenizer-neutral and must not be used for full claims about another model's runtime visibility. Full-scale model claims require model-specific runtime materialization and the retained VeriPatch-RR reports."
 }

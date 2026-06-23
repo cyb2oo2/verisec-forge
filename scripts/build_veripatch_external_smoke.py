@@ -66,9 +66,12 @@ def main() -> int:
         "rows": len(rows),
         "templates": sorted({str(row["transformation_template"]) for row in rows}),
         "claim_boundary": (
-            "This smoke artifact is a small external-adapter sanity check. "
-            "Full-scale model claims require model-specific runtime "
-            "materialization and the retained VeriPatch-RR reports."
+            "This smoke artifact is a small external-adapter sanity check "
+            "using distilgpt2 runtime accounting. It is not tokenizer-neutral "
+            "and must not be used for full claims about another model's "
+            "runtime visibility. Full-scale model claims require "
+            "model-specific runtime materialization and the retained "
+            "VeriPatch-RR reports."
         ),
     }
     write_json(ROOT / args.summary_output, summary)

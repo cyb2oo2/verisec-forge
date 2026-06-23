@@ -95,7 +95,10 @@ def evaluate_external_predictions(
     report["external_adapter"] = {
         "status": "ok",
         "validation": validation,
-        "prediction_contract": "one row per benchmark id with predicted_riskier_side in A/B/INSUFFICIENT_CONTEXT",
+        "prediction_contract": (
+            "one row per benchmark id with predicted_riskier_side in "
+            "A, B, A_RISKIER, B_RISKIER, or INSUFFICIENT_CONTEXT"
+        ),
     }
     report["claim_boundary"] = external_claim_boundary()
     return report
@@ -106,5 +109,6 @@ def external_claim_boundary() -> str:
         "The external adapter evaluates supplied predictions against a fixed "
         "VeriPatch-RR benchmark artifact. It does not run a model, does not "
         "repair invalid outputs, and does not replace model-specific runtime "
-        "materialization for full-scale claims."
+        "materialization for full-scale claims. The checked-in smoke artifact "
+        "uses distilgpt2 runtime accounting only as an adapter sanity check."
     )

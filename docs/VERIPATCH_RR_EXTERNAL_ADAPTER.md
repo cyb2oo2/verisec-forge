@@ -24,6 +24,10 @@ Optional fields:
 Invalid labels are rejected by the external adapter. They are not repaired or
 manually relabeled.
 
+If your model cannot abstain, set `supports_abstention=false` or omit the
+field. The generated template sets it to `true` because the external contract
+allows `INSUFFICIENT_CONTEXT`.
+
 ## Smoke Quickstart
 
 Create or refresh the 30-pair smoke artifact:
@@ -48,6 +52,9 @@ def predict(text: str) -> str:
     return "A"  # or "B" or "INSUFFICIENT_CONTEXT"
 ```
 
+The generated template is intentionally invalid until predictions are filled.
+Running evaluation on an unfilled template will fail schema validation.
+
 Evaluate:
 
 ```powershell
@@ -63,3 +70,7 @@ The bundled smoke set is a small sanity check for external integration. It is
 not a benchmark result and should not be used to claim model quality. Full
 VeriPatch-RR claims require model-specific runtime materialization and the
 retained benchmark reports.
+
+The checked-in smoke artifact uses distilgpt2 runtime accounting only as a
+small adapter sanity check. It is not tokenizer-neutral and must not be used
+for full claims about another model's runtime visibility.
