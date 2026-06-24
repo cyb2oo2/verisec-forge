@@ -61,42 +61,37 @@ measure those failures directly.
 
 ### 2.1 Secure-Code Vulnerability and Patch Benchmarks
 
-[RELATED WORK: PrimeVul, vulnerability detection datasets, security patch
-classification, vulnerable/fixed pair construction.]
-
-Existing secure-code benchmarks provide the labels and paired artifacts needed
-for this study, but most pointwise protocols do not directly ask whether a
-model preserves the relation between two sides of the same patch.
+Prior vulnerability and code benchmarks provide the data foundation for
+secure-code evaluation, including vulnerability-focused datasets such as
+PrimeVul and DiverseVul and broader code intelligence benchmarks such as
+CodeXGLUE [RELATED: primevul; diversevul; codexglue]. VeriPatch-RR differs by
+treating vulnerable/fixed patch review as a relational task rather than only a
+pointwise vulnerability label.
 
 ### 2.2 Code Model Evaluation Beyond Pointwise Accuracy
 
-[RELATED WORK: code LLM evaluation, commit-level reasoning, patch correctness,
-program repair evaluation, secure coding assistants.]
-
-VeriPatch-RR is positioned as an evaluation instrument for relational patch
-behavior rather than a single-task model benchmark. It asks whether decisions
-remain structurally consistent under transformations whose expected relation is
-known before evaluation.
+Pretrained code models such as CodeBERT and benchmark suites such as
+CodeXGLUE have shaped how code understanding systems are evaluated
+[RELATED: codebert; codexglue]. This paper does not propose a new general code
+model benchmark; it asks whether secure-patch decisions remain structurally
+consistent under transformations whose expected relation is known before
+evaluation.
 
 ### 2.3 Robustness, Counterfactual, and Consistency Evaluation
 
-[RELATED WORK: invariance, equivariance, counterfactual data augmentation,
-consistency tests, shortcut and artifact diagnosis.]
-
-This paper borrows the language of invariance and equivariance but applies it
-to secure patch review. Suffix perturbations are identity tests, side swaps are
-equivariance tests, and context-pressure transformations are interpreted only
-with model-specific visibility accounting.
+VeriPatch-RR is closest in spirit to behavioral and counterfactual evaluation:
+transformations are useful only when the expected relation is specified before
+evaluation [RELATED: checklist; counterfactual-augmentation]. Unlike generic
+robustness tests, VeriPatch-RR separates identity tests, side-swap
+equivariance, and visibility-qualified context pressure.
 
 ### 2.4 Evidence Localization and Explanation Faithfulness
 
-[RELATED WORK: rationale extraction, evidence localization, explanation
-faithfulness, security audit reports.]
-
-Evidence-coupled diagnostics motivate the broader project, but this paper does
-not claim that evidence localization is solved. Explanation quality is treated
-as a downstream audit problem rather than a prerequisite for the relational
-measurement instrument.
+Evidence localization in this project is treated as an audit diagnostic rather
+than a solved explanation task. This is consistent with broader work on
+rationale evaluation and explanation faithfulness, where human-aligned
+rationales and faithful causal explanations are distinct requirements
+[RELATED: eraser; attention-not-explanation; attention-not-not-explanation].
 
 ### 2.5 Positioning
 
