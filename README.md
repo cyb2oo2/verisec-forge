@@ -10,6 +10,20 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 
 ![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
 
+## Reviewer Fast Path
+
+For a quick technical review, start with:
+
+- [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
+- [Paper v0 Draft](paper/draft_v0.md)
+- [Main Results Table](paper/tables/main_results.md)
+- [Result Anchor Map](paper/result_anchor_map.md)
+- [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
+
+The project is a measurement and mechanism study. It is not a deployed
+vulnerability scanner, and the 30-pair external smoke artifact is not a
+model-quality benchmark.
+
 ## Core Contributions
 
 1. **Shortcut-aware benchmark diagnosis.** Same-source PrimeVul detection reaches high headline accuracy, but paired vulnerable/fixed controls expose artifact-sensitive behavior. Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
@@ -49,6 +63,7 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 Start with:
 
 - [Paper 1 Abstract Draft](paper/abstract.md)
+- [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
 - [Paper 1 Outline](paper/outline.md)
 - [Paper 1 Main Claims](paper/main_claims.md)
 - [Paper 1 Main Results Table](paper/tables/main_results.md)
