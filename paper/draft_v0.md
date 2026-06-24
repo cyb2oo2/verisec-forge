@@ -37,7 +37,13 @@ We ask: when a secure-code model is given two sides of the same patch, does it
 represent the relation between them, or does it behave like an independent
 pointwise classifier applied twice?
 
-[Figure 1 about here: pointwise accuracy vs relational consistency.]
+![Figure 1. Pointwise accuracy vs relational consistency.](figures/figure1_problem.svg)
+
+**Figure 1.** Pointwise accuracy can look strong while leaving the paired
+vulnerable/fixed relation untested. VeriPatch-RR evaluates whether decisions
+preserve known relations under side swaps and suffix perturbations. This
+motivates relational evaluation; it does not by itself claim a new
+vulnerability detector.
 
 This paper makes four contributions.
 
@@ -153,8 +159,13 @@ separate balanced-stress suite. The representative suite is the primary
 paper-facing result; selected reports use a representative-core filtered
 runtime containing canonical, side-swap, and suffix rows.
 
-[Figure 2 about here: VeriPatch-RR transformations, runtime visibility, and
-metric families.]
+![Figure 2. VeriPatch-RR transformations and metric families.](figures/figure2_veripatch_rr.svg)
+
+**Figure 2.** VeriPatch-RR separates canonical accuracy, side-swap
+equivariance, suffix consistency, both-directions-correct behavior, and
+runtime visibility. Transformations are interpreted only when their expected
+relation is specified before evaluation. Context-pressure results remain
+visibility-qualified and model-tokenizer specific.
 
 Each example is rendered as a comparison between Side A and Side B. The main
 transformations are:
@@ -192,7 +203,12 @@ setting, a detector reached `0.9524` accuracy
 [RESULT: primevul-progressive-controls]. That score is useful as a diagnostic,
 but it is not sufficient evidence of secure patch understanding.
 
-[Table 1 about here: main results table.]
+[Table 1: Main Results Summary](tables/main_results.md)
+
+**Table 1.** Main paper-facing results and their claim boundaries. The table
+separates task-structured decision performance, relational failures, readout
+mechanism evidence, and frozen-backbone controls. Readout rows are mechanism
+evidence and do not establish canonical non-inferiority.
 
 Paired controls reveal why. Metadata-only balanced accuracy was `0.5022`,
 candidate-only was `0.5078`, and counterpart-only was `0.5156`
@@ -268,8 +284,13 @@ classification. Variants include terminal non-padding token readout,
 first-token readout, mean pooling, changed-hunk pooling, and fixed terminal
 anchor pooling.
 
-[Figure 3 about here: endpoint mechanism decomposition across terminal, mean,
-and changed-hunk readouts.]
+![Figure 3. Endpoint mechanism decomposition across readouts.](figures/figure3_mechanism_decomposition.svg)
+
+**Figure 3.** Same-backbone readout ablations show that endpoint robustness can
+be controlled by readout-conditioned training. Mean and changed-hunk pooling
+improve suffix consistency, but no readout variant is promoted as an
+accuracy-preserving better classifier. This figure supports mechanism control,
+not model improvement.
 
 ### 7.1 Discovery: Readout-Conditioned Endpoint Robustness
 
@@ -291,8 +312,13 @@ positive across the two seeds, and changed-hunk fallback is zero. Yet both fail
 the canonical non-inferiority criterion, so the confirmed claim remains
 mechanism control rather than promoted model improvement.
 
-[Figure 4 about here: discovery -> independent confirmation ->
-frozen-backbone control.]
+![Figure 4. Discovery, confirmation, and frozen-backbone control.](figures/figure4_discovery_confirmation.svg)
+
+**Figure 4.** Independent confirmation and frozen-backbone controls separate
+training-mediated and direct pooling effects. Mean pooling's benefit is mainly
+training-mediated, while changed-hunk pooling retains a direct structural
+effect under one fixed Qwen+LoRA representation. These results do not solve
+side-order reasoning.
 
 ### 7.3 Frozen Representation Control: Direct vs Training-Mediated Effects
 
