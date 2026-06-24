@@ -13,6 +13,7 @@ def test_paper_draft_packet_exists() -> None:
         "paper/main_claims.md",
         "paper/draft_v0.md",
         "paper/result_anchor_map.md",
+        "paper/references.md",
         "paper/tables/main_results.md",
         "paper/figures/figure1_problem.svg",
         "paper/figures/figure2_veripatch_rr.svg",
@@ -60,3 +61,24 @@ def test_paper_result_anchors_have_report_map() -> None:
             line for line in anchor_map.splitlines() if anchor in line
         )
         assert "reports/" in line or "docs/" in line, anchor
+
+
+def test_paper_related_anchors_have_references() -> None:
+    draft = (ROOT / "paper/draft_v0.md").read_text(encoding="utf-8")
+    references = (ROOT / "paper/references.md").read_text(encoding="utf-8")
+    anchor_pattern = re.compile(r"\[RELATED: ([a-z0-9-; ]+)\]")
+
+    draft_anchors = {
+        anchor.strip()
+        for group in anchor_pattern.findall(draft)
+        for anchor in group.split(";")
+    }
+    reference_anchors = {
+        anchor.strip()
+        for group in anchor_pattern.findall(references)
+        for anchor in group.split(";")
+    }
+
+    assert draft_anchors, "paper/draft_v0.md should cite related-work anchors"
+    assert draft_anchors <= reference_anchors
+    assert "[RELATED WORK:" not in draft
