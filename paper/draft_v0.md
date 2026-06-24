@@ -5,24 +5,27 @@
 Secure-code models are usually evaluated pointwise, but patch review is
 relational: a model should identify which side of a vulnerable/fixed pair is
 riskier and preserve that relation under side swaps and irrelevant context
-changes. We introduce VeriPatch-RR, a tokenizer-aware relational evaluation
-instrument that measures side-order equivariance, endpoint robustness,
-both-directions-correct behavior, and runtime evidence visibility. Across
-decoder, encoder, and generative settings, we find that pointwise competence
-does not imply relational consistency; endpoint robustness is readout
-controllable in Qwen, but side-order reasoning remains unresolved. These
-results argue that secure-patch evaluation should report relational consistency
-rather than relying on pointwise accuracy alone.
+changes. Existing vulnerability benchmarks provide useful labels, but they do
+not directly test this paired relation. We introduce VeriPatch-RR, a
+tokenizer-aware relational evaluation instrument that measures side-order
+equivariance, endpoint robustness, both-directions-correct behavior, and
+runtime evidence visibility. Across decoder, encoder, and generative settings,
+we find that pointwise competence does not imply relational consistency. We
+also show that endpoint robustness is readout-controllable in Qwen, while
+side-order reasoning remains unresolved. The result is a bounded measurement
+claim: secure-patch evaluation should report relational consistency alongside
+pointwise accuracy.
 
 ## 1. Introduction
 
 Security patch review is inherently comparative. A reviewer often asks which
 side of a vulnerable/fixed pair carries the risk, what code evidence supports
 that decision, and whether the answer would remain stable if the vulnerable and
-fixed sides were presented in the opposite order. Standard secure-code model
-benchmarks rarely test this relation directly. They usually ask whether a
-single function, commit, or snippet is vulnerable. That pointwise framing is
-useful, but it can overstate what a model has learned.
+fixed sides were presented in the opposite order. Yet many secure-code model
+evaluations reduce this setting to a pointwise question: is a single function,
+commit, or snippet vulnerable? That framing is useful for measuring detection
+accuracy, but it does not test whether the model understands the relation
+between two sides of the same patch.
 
 This paper studies the gap between pointwise secure-code accuracy and
 relational patch understanding. The central observation is simple: a model can
@@ -31,7 +34,8 @@ independent classifiers when the sides of a patch pair are swapped. If Side A
 is vulnerable in the canonical rendering, then after an exact A/B swap the
 riskier side should also swap. A model that fails this test is not merely
 making an ordinary classification error; it is failing a structural property
-of the task.
+of the task. This gap motivates VeriPatch-RR: an evaluation instrument that
+attaches expected relations to paired transformations before model inference.
 
 We ask: when a secure-code model is given two sides of the same patch, does it
 represent the relation between them, or does it behave like an independent
@@ -45,18 +49,19 @@ preserve known relations under side swaps and suffix perturbations. This
 motivates relational evaluation; it does not by itself claim a new
 vulnerability detector.
 
-This paper makes four contributions.
+This paper makes four bounded contributions.
 
 1. We introduce VeriPatch-RR, a tokenizer-aware relational evaluation
    instrument for paired secure-patch examples.
 2. We show that pointwise competence does not imply side-order consistency
    across a Qwen decoder classifier and a CodeBERT encoder classifier.
-3. We show that endpoint robustness is readout-controllable in Qwen, but
-   separable from side-order reasoning.
-4. We provide a bounded model-family stress replication with a non-Qwen decoder
-   classifier and a generative no-classification-head judge, while explicitly
-   limiting broad universal claims because both added slots have low canonical
-   accuracy.
+3. We decompose endpoint sensitivity from side-order reasoning, showing that
+   endpoint robustness is readout-controllable in Qwen without promoting a
+   better classifier.
+4. We release a bounded model-family stress replication with a non-Qwen
+   decoder classifier and a generative no-classification-head judge, while
+   explicitly limiting broad universal claims because both added slots have low
+   canonical accuracy.
 
 The intended contribution is not a new vulnerability scanner. It is a
 measurement and mechanism study: VeriPatch-RR shows how secure-patch models can
@@ -106,6 +111,11 @@ vulnerable/fixed patch review as a relational task. It separates side-order
 equivariance from endpoint robustness and runtime visibility, then uses that
 separation to distinguish model-family stress failures from readout-specific
 mechanisms.
+
+Across these lines of work, the missing piece is not another source of
+vulnerable-code labels. It is a way to ask, before evaluation, which relation a
+paired patch decision should preserve. The next section makes that relation
+explicit.
 
 ## 3. Problem Formulation
 
@@ -198,8 +208,8 @@ important because a model can be stable and wrong.
 ## 5. Benchmark Diagnosis
 
 A standard same-source vulnerability detector can appear strong while leaving
-the relational question unanswered. In our initial PrimeVul same-source
-setting, a detector reached `0.9524` accuracy
+the relational question unanswered. In the PrimeVul same-source setting used
+for shortcut diagnosis, a detector reached `0.9524` accuracy
 [RESULT: primevul-progressive-controls]. That score is useful as a diagnostic,
 but it is not sufficient evidence of secure patch understanding.
 
@@ -228,9 +238,11 @@ that pointwise scores hide.
 ## 6. Cross-Model Relational Audit
 
 We next ask whether relational failures are specific to the original Qwen
-decoder classifier. We separate this section into a stronger
-competency-controlled architecture comparison and a weaker but useful
-low-canonical stress replication.
+decoder classifier. The evidence has two tiers. The stronger tier is a
+competency-controlled architecture comparison between Qwen and CodeBERT under
+the same relational protocol. The weaker tier is a deliberately bounded
+low-canonical stress replication that checks whether the failure mode appears
+outside the original model family without turning the paper into a model zoo.
 
 ### 6.1 Competency-Controlled Architecture Comparison
 
@@ -253,11 +265,11 @@ dependent.
 
 ### 6.2 Low-Canonical Stress Replication
 
-PR #12 adds minimal broad replication without turning the study into a model
-zoo. The added non-Qwen decoder classifier uses distilgpt2 with a LoRA
-sequence-classification head. It reaches canonical accuracy `55.83%`, side-swap
-equivariance `9.83%`, marginal-conditioned independence baseline `43.93%`, and
-side-swap residual `-0.3410`; both-directions-correct is `6.67%`
+The low-canonical replication adds breadth, not a stronger headline. The added
+non-Qwen decoder classifier uses distilgpt2 with a LoRA sequence-classification
+head. It reaches canonical accuracy `55.83%`, side-swap equivariance `9.83%`,
+marginal-conditioned independence baseline `43.93%`, and side-swap residual
+`-0.3410`; both-directions-correct is `6.67%`
 [RESULT: cross-model-replication]. This is stress evidence, not a strong-model
 result, because canonical accuracy is low.
 
@@ -269,11 +281,11 @@ A-biased (`A=1620`, `B=90`, `INVALID=90`), so its suffix consistency should be
 interpreted as decision stability rather than correct relational reasoning.
 
 Together, these results support a bounded generality claim: side-order
-relational failure is not confined to the original Qwen classifier. VeriPatch-RR
-exposes similar stress failures across multiple mechanisms, including an
-encoder classifier, a non-Qwen decoder classifier, and a generative
-no-classification-head judge. The evidence does not prove that all strong
-secure-code models fail.
+relational failure is not confined to the original Qwen classifier. The
+competency-controlled comparison carries the main cross-architecture evidence;
+the low-canonical slots add stress coverage across a non-Qwen decoder
+classifier and a generative no-classification-head judge. The evidence does not
+prove that all strong secure-code models fail.
 
 ## 7. Readout Mechanism
 
@@ -395,10 +407,10 @@ antisymmetry of paired patch decisions, for example through joint A/B scoring,
 swap-consistency losses, structured pair decoders, or objectives that optimize
 both-directions-correct behavior.
 
-The paper's practical recommendation is modest but important: when evaluating
-secure-code models for patch review, include relation-preserving
-transformations. If a model cannot preserve the relation between vulnerable and
-fixed sides, then pointwise accuracy alone is not enough evidence of secure
+The paper's practical recommendation is modest but important: secure-code
+evaluation for patch review should report relational consistency alongside
+pointwise accuracy. If a model cannot preserve the relation between vulnerable
+and fixed sides, then a high pointwise score is incomplete evidence of secure
 patch understanding.
 
 ## Appendix Placeholders
