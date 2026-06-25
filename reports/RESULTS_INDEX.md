@@ -9,6 +9,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `README`: `README.md`
 - `Reviewer Checklist`: `docs/REVIEWER_CHECKLIST.md`
 - `Preprint Readiness Checklist`: `docs/PREPRINT_READINESS_CHECKLIST.md`
+- `External Feedback Packet`: `docs/EXTERNAL_FEEDBACK_PACKET.md`
 - `Application Packet`: `docs/APPLICATION_PACKET.md`
 - `Application Focus`: `docs/APPLICATION_FOCUS.md`
 - `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
