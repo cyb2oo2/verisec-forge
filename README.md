@@ -35,6 +35,7 @@ For a quick technical review, start with:
 - [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
 - [Paper v0 Draft](paper/draft_v0.md)
 - [Main Results Table](paper/tables/main_results.md)
+- [Project Atlas](docs/PROJECT_ATLAS.md)
 - [Result Anchor Map](paper/result_anchor_map.md)
 - [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
 
