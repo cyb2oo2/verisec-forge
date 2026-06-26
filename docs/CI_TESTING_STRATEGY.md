@@ -38,7 +38,7 @@ Run the same focused smoke path from a fresh clone:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e .[dev]
+.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
 .\.venv\Scripts\python.exe -m pytest -q `
   tests\test_veripatch_external_adapter.py `
   tests\test_ci_smoke_contract.py `
@@ -55,3 +55,7 @@ The full local regression suite remains:
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
 ```
+
+The full suite assumes the local research environment has optional dependencies
+for training, dataset-building, and demo tests. The fresh-clone contract is the
+focused smoke path above.
