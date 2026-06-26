@@ -40,6 +40,21 @@ Useful suggestions should point to a specific section or claim boundary:
 - failure cases where the current evidence hierarchy is unclear;
 - security-review concerns not covered by the current draft.
 
+## Where To Send Feedback
+
+For lightweight comments, email the maintainer directly or open a GitHub issue
+using the preferred feedback format below.
+
+For prediction submissions, open an issue and attach:
+
+- the model name;
+- the command used;
+- the prediction file;
+- the generated evaluation report.
+
+Please do not open PRs that change claims or result interpretation without
+first opening an issue.
+
 ## What Not To Submit
 
 - New unsupported benchmark claims.

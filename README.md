@@ -10,6 +10,24 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 
 ![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
 
+## For External Reviewers
+
+Status: research artifact draft seeking external feedback. This is not yet a
+formal preprint or benchmark release.
+
+If you only have 5-10 minutes, start here:
+
+1. [One-page research summary](docs/ONE_PAGE_RESEARCH_SUMMARY.md)
+2. [External feedback packet](docs/EXTERNAL_FEEDBACK_PACKET.md)
+3. [Main results table](paper/tables/main_results.md)
+4. [Paper v0 draft](paper/draft_v0.md)
+
+The feedback needed most is about claim strength:
+
+- Is the main thesis correctly bounded?
+- Is the evidence hierarchy clear?
+- Are the limitations strong enough?
+
 ## Reviewer Fast Path
 
 For a quick technical review, start with:

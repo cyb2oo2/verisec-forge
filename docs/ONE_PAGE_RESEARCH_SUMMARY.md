@@ -1,11 +1,16 @@
 # One-Page Research Summary
 
+Status: research artifact draft seeking external feedback. This is not yet a
+formal preprint or benchmark release.
+
 ## Problem
 
-Secure-code models are often evaluated with pointwise vulnerability labels, but
-patch review is relational. A reviewer asks which side of a vulnerable/fixed
-pair is riskier, whether the answer flips under an A/B side swap, and whether
-the evidence remains visible under the model's tokenizer and context window.
+Security patch review is not only about detecting vulnerable code; it is about
+comparing a vulnerable side against a fixed side and preserving that relation
+under presentation changes. Current pointwise evaluations can miss this failure
+mode. A reviewer asks which side of a vulnerable/fixed pair is riskier, whether
+the answer flips under an A/B side swap, and whether the evidence remains
+visible under the model's tokenizer and context window.
 
 ## Core Thesis
 
