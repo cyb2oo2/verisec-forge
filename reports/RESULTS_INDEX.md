@@ -11,7 +11,6 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Preprint Readiness Checklist`: `docs/PREPRINT_READINESS_CHECKLIST.md`
 - `External Feedback Packet`: `docs/EXTERNAL_FEEDBACK_PACKET.md`
 - `One-Page Research Summary`: `docs/ONE_PAGE_RESEARCH_SUMMARY.md`
-- `Professor Feedback Email Draft`: `docs/PROFESSOR_FEEDBACK_EMAIL_DRAFT.md`
 - `External Participation Guide`: `docs/EXTERNAL_PARTICIPATION_GUIDE.md`
 - `Application Packet`: `docs/APPLICATION_PACKET.md`
 - `Application Focus`: `docs/APPLICATION_FOCUS.md`
