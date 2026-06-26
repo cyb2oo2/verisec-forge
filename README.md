@@ -124,7 +124,15 @@ Linux/macOS:
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev]"
-python -m pytest -q
+python -m pytest -q \
+  tests/test_veripatch_external_adapter.py \
+  tests/test_ci_smoke_contract.py \
+  tests/test_paper_artifacts.py \
+  tests/test_report_index.py \
+  tests/test_reproducibility_bundle.py
+python scripts/build_reproducibility_bundle.py \
+  --manifest reproducibility/veripatch_external_smoke_manifest.json \
+  --check-only
 ```
 
 Windows PowerShell:
@@ -132,9 +140,21 @@ Windows PowerShell:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -e .[dev]
-.\.venv\Scripts\python.exe -m pytest -q
+python -m pip install -e ".[dev]"
+.\.venv\Scripts\python.exe -m pytest -q `
+  tests\test_veripatch_external_adapter.py `
+  tests\test_ci_smoke_contract.py `
+  tests\test_paper_artifacts.py `
+  tests\test_report_index.py `
+  tests\test_reproducibility_bundle.py
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\veripatch_external_smoke_manifest.json `
+  --check-only
 ```
+
+The full local regression suite is broader than the fresh-clone smoke path and
+requires optional research dependencies used by training, dataset-building, and
+demo tests. CI intentionally tracks the focused smoke path above.
 
 Build the reviewer-facing tokenizer-neutral benchmark:
 
