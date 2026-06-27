@@ -28,6 +28,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Qwen Relational Mechanism Audit`: `reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
+- `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`
 - `Same-Backbone Readout Ablation`: `reports/READOUT_ABLATION.md`
 - `Readout Ablation Protocol`: `docs/READOUT_ABLATION_PROTOCOL.md`
 - `Independent Readout Confirmation`: `reports/READOUT_CONFIRMATORY.md`

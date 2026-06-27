@@ -1,0 +1,60 @@
+{
+  "baseline": {
+    "base_accuracy": 0.6533333333333333,
+    "relation_success": 0.6958333333333333,
+    "relation_violation_rate": 0.3041666666666667,
+    "robust_accuracy": 0.48833333333333334,
+    "swap_consistency": 0.495
+  },
+  "claim_boundary": "This stress validation checks whether relation-consistent decoding behaves like structure projection rather than arbitrary metric reshaping. It is still a post-hoc control report, not a model quality claim or benchmark leaderboard.",
+  "decoded": {
+    "base_accuracy": 0.6566666666666666,
+    "relation_success": 1.0,
+    "relation_violation_rate": 0.0,
+    "robust_accuracy": 0.6566666666666666,
+    "swap_consistency": 1.0
+  },
+  "decoder_summary": {
+    "claim_boundary": "The relation-consistent decoder is a structural test-time projection operator. It is not a new model, not a benchmark result, and not evidence of improved reasoning without separate stress controls.",
+    "input_rows": 9600,
+    "label_changes": 1431,
+    "mean_probability_shift": 0.2261241499647799,
+    "projected_rows": 6000,
+    "skipped_reasons": {
+      "unsupported_relation:context_pressure": 3600
+    },
+    "skipped_rows": 3600,
+    "status": "ok"
+  },
+  "randomized_decoder_summary": {
+    "claim_boundary": "The relation-consistent decoder is a structural test-time projection operator. It is not a new model, not a benchmark result, and not evidence of improved reasoning without separate stress controls.",
+    "input_rows": 9600,
+    "label_changes": 1745,
+    "mean_probability_shift": 0.2707505655943431,
+    "projected_rows": 6000,
+    "skipped_reasons": {
+      "unsupported_relation:context_pressure": 3600
+    },
+    "skipped_rows": 3600,
+    "status": "ok"
+  },
+  "randomized_pair_control": {
+    "base_accuracy": 0.5316666666666666,
+    "relation_success": 0.5966666666666667,
+    "relation_violation_rate": 0.4033333333333333,
+    "robust_accuracy": 0.39,
+    "swap_consistency": 0.5966666666666667
+  },
+  "status": "ok",
+  "stress_metrics": {
+    "identity_distortion_rate": 0.0875,
+    "invalid_or_abstention_preservation": {
+      "abstention_skips": 0,
+      "invalid_label_skips": 0
+    },
+    "projected_row_coverage": 0.625,
+    "randomized_pair_control_gap": 0.4033333333333333,
+    "relation_success_delta": 0.3041666666666667,
+    "swap_consistency_gain": 0.505
+  }
+}
