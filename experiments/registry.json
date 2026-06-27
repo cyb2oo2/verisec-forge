@@ -110,6 +110,21 @@
       "reproducibility": "report-backed"
     },
     {
+      "id": "decoder_stress_validation",
+      "title": "Decoder Stress Validation",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/DECODER_STRESS_VALIDATION.md",
+      "supporting_artifacts": [
+        "reports/decoder_stress_validation_v1.json",
+        "src/vrf/relation_consistent_decoder.py",
+        "src/vrf/decoder_stress_validation.py"
+      ],
+      "claim": "relation-consistent decoding can enforce declared relation structure on retained predictions under randomized-pair and identity-distortion controls",
+      "boundary": "post-hoc structural control; not a model reasoning improvement claim or benchmark leaderboard result",
+      "reproducibility": "report-backed"
+    },
+    {
       "id": "external_generalization_routing",
       "title": "External Generalization And Routing",
       "layer": "model_evidence",
