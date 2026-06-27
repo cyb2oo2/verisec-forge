@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this research artifact, please cite it using the metadata below."
+title: "VeriSec Forge: Relation-Preserving Secure Patch Reasoning"
+version: "0.1.0"
+type: software
+authors:
+  - name: "VeriSec Forge contributors"
+repository-code: "https://github.com/cyb2oo2/verisec-forge"
+url: "https://github.com/cyb2oo2/verisec-forge"
+abstract: >
+  VeriSec Forge is a research artifact for studying relation-preserving
+  behavior in secure patch reasoning. It includes VeriPatch-RR relational
+  benchmark artifacts, retained smoke and audit reports, decoder controls,
+  and external-adapter reproducibility paths. It is not a deployed
+  vulnerability scanner, leaderboard, or generic model-quality benchmark.
+keywords:
+  - secure patch reasoning
+  - relational evaluation
+  - vulnerability detection
+  - paired-diff evaluation
+  - research artifact
+license: Apache-2.0
