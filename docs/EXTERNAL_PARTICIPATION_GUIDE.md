@@ -51,6 +51,8 @@ For prediction submissions, open an issue and attach:
 - the command used;
 - the prediction file;
 - the generated evaluation report.
+- a filled external model report card using
+  `reports/templates/external_model_report_card.md`.
 
 Please do not open PRs that change claims or result interpretation without
 first opening an issue.

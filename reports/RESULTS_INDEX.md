@@ -12,6 +12,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `External Feedback Packet`: `docs/EXTERNAL_FEEDBACK_PACKET.md`
 - `One-Page Research Summary`: `docs/ONE_PAGE_RESEARCH_SUMMARY.md`
 - `External Participation Guide`: `docs/EXTERNAL_PARTICIPATION_GUIDE.md`
+- `External Model Report Card`: `docs/EXTERNAL_MODEL_REPORT_CARD.md`
 - `Project Atlas`: `docs/PROJECT_ATLAS.md`
 - `Experiment Matrix`: `reports/EXPERIMENT_MATRIX.md`
 - `Application Packet`: `docs/APPLICATION_PACKET.md`
