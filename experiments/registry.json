@@ -125,6 +125,21 @@
       "reproducibility": "report-backed"
     },
     {
+      "id": "decoder_failure_case_audit",
+      "title": "Decoder Failure Case Audit",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/DECODER_FAILURE_CASE_AUDIT.md",
+      "supporting_artifacts": [
+        "reports/decoder_failure_case_audit_v1.json",
+        "src/vrf/decoder_failure_audit.py",
+        "scripts/audit_decoder_failure_cases.py"
+      ],
+      "claim": "identity-distortion audit explains when relation-consistent decoding reshapes canonical predictions",
+      "boundary": "post-hoc failure audit using gold labels only for consequence analysis; not a decoder improvement or model reasoning claim",
+      "reproducibility": "report-backed"
+    },
+    {
       "id": "external_generalization_routing",
       "title": "External Generalization And Routing",
       "layer": "model_evidence",

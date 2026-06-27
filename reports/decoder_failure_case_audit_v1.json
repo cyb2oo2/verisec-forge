@@ -1,0 +1,1696 @@
+{
+  "case_selection": {
+    "max_cases": 50,
+    "ordering": "correct_to_wrong first, then larger identity margin, larger cross-view probability range, and stable row id"
+  },
+  "claim_boundary": "This audit explains where the relation-consistent decoder reshapes identity predictions. Gold labels are used only after the fact to audit consequences of identity flips, not by the decoder. The audit does not change the decoder, benchmark, model, or result claims.",
+  "decoder_summary": {
+    "claim_boundary": "The relation-consistent decoder is a structural test-time projection operator. It is not a new model, not a benchmark result, and not evidence of improved reasoning without separate stress controls.",
+    "input_rows": 9600,
+    "label_changes": 1431,
+    "mean_probability_shift": 0.2261241499647799,
+    "projected_rows": 6000,
+    "skipped_reasons": {
+      "unsupported_relation:context_pressure": 3600
+    },
+    "skipped_rows": 3600,
+    "status": "ok"
+  },
+  "distorted_identity_cases": [
+    {
+      "base_id": "balanced_stress::primevul::squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.004792273044586182,
+      "canonical_projection_margin": 0.07755831852555273,
+      "cross_view_probability_range": 0.9905981421470642,
+      "cve": "CVE-2021-46784",
+      "cwe": "cwe-400",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5775583185255527,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::primevul::squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784::base",
+      "identity_margin": 0.4952077269554138,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784",
+      "project": "squid",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9953904151916504,
+        "equivariant_swap_projected_values": [
+          0.9953904151916504
+        ],
+        "identity": 0.004792273044586182,
+        "invariant_mean": 0.629202968130509,
+        "invariant_values": [
+          0.9559813477098942,
+          0.004792273044586182,
+          0.9268352836370468
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::furnace|0eb02422d5161767e9983bdaa5c429762d3477ce|CVE-2022-1289::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.016785502433776855,
+      "canonical_projection_margin": 0.004426580481231235,
+      "cross_view_probability_range": 0.9745031138882041,
+      "cve": "CVE-2022-1289",
+      "cwe": "cwe-703",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5044265804812312,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::primevul::furnace|0eb02422d5161767e9983bdaa5c429762d3477ce|CVE-2022-1289::base",
+      "identity_margin": 0.48321449756622314,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "furnace|0eb02422d5161767e9983bdaa5c429762d3477ce|CVE-2022-1289",
+      "project": "furnace",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.5782099962234497,
+        "equivariant_swap_projected_values": [
+          0.5782099962234497
+        ],
+        "identity": 0.016785502433776855,
+        "invariant_mean": 0.6423791345829765,
+        "invariant_values": [
+          0.9190632849931717,
+          0.016785502433776855,
+          0.991288616321981
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-1499::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.9627432338893414,
+      "canonical_projection_margin": 0.03167146518826486,
+      "cross_view_probability_range": 0.9446604400873184,
+      "cve": "CVE-2017-9141",
+      "cwe": "cwe-20",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.46832853481173514,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-1499::base",
+      "identity_margin": 0.46274323388934135,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1499",
+      "project": "https://github.com/ImageMagick/ImageMagick",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.03405220806598663,
+        "equivariant_swap_projected_values": [
+          0.03405220806598663
+        ],
+        "identity": 0.9627432338893414,
+        "invariant_mean": 0.4482824107011159,
+        "invariant_values": [
+          0.978712648153305,
+          0.3073580265045166,
+          0.05877655744552612
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-775::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.9579122737050056,
+      "canonical_projection_margin": 0.034559682849794604,
+      "cross_view_probability_range": 0.955893259961158,
+      "cve": "CVE-2013-7018",
+      "cwe": "cwe-119",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4654403171502054,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-775::base",
+      "identity_margin": 0.45791227370500565,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-775",
+      "project": "https://github.com/FFmpeg/FFmpeg",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.0020190137438476086,
+        "equivariant_swap_projected_values": [
+          0.0020190137438476086
+        ],
+        "identity": 0.9579122737050056,
+        "invariant_mean": 0.4557567661007245,
+        "invariant_values": [
+          0.39793843030929565,
+          0.9579122737050056,
+          0.011419594287872314
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-1483::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.9531879685819149,
+      "canonical_projection_margin": 0.08015228286385534,
+      "cross_view_probability_range": 0.9525366686284542,
+      "cve": "CVE-2017-8064",
+      "cwe": "cwe-119",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.41984771713614466,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-1483::base",
+      "identity_margin": 0.4531879685819149,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1483",
+      "project": "https://github.com/torvalds/linux",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.02740250527858734,
+        "equivariant_swap_projected_values": [
+          0.02740250527858734
+        ],
+        "identity": 0.9531879685819149,
+        "invariant_mean": 0.37288270394007367,
+        "invariant_values": [
+          0.9518632292747498,
+          0.1661335825920105,
+          0.0006512999534606934
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-760::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.945007398724556,
+      "canonical_projection_margin": 0.010094154998660065,
+      "cross_view_probability_range": 0.9164419863373041,
+      "cve": "CVE-2013-6376",
+      "cwe": "cwe-189",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.48990584500133993,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-760::base",
+      "identity_margin": 0.44500739872455597,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-760",
+      "project": "https://github.com/torvalds/linux",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.06413866579532623,
+        "equivariant_swap_projected_values": [
+          0.06413866579532623
+        ],
+        "identity": 0.945007398724556,
+        "invariant_mean": 0.48012772016227245,
+        "invariant_values": [
+          0.9805806521326303,
+          0.07211214303970337,
+          0.38769036531448364
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-1154::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.06477171182632446,
+      "canonical_projection_margin": 0.001307677850127198,
+      "cross_view_probability_range": 0.9351672530174255,
+      "cve": "CVE-2016-6515",
+      "cwe": "cwe-20",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5013076778501272,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::deltasecommits::deltasecommits-1154::base",
+      "identity_margin": 0.43522828817367554,
+      "likely_driver": "swap_view_overrides_identity",
+      "pair_key": "deltasecommits-1154",
+      "project": "https://github.com/openssh/openssh-portable",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.99993896484375,
+        "equivariant_swap_projected_values": [
+          0.99993896484375
+        ],
+        "identity": 0.06477171182632446,
+        "invariant_mean": 0.48060923752685386,
+        "invariant_values": [
+          0.9800530653446913,
+          0.06477171182632446,
+          0.3970029354095459
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-1154::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.06477171182632446,
+      "canonical_projection_margin": 0.0014428377151489702,
+      "cross_view_probability_range": 0.9351672530174255,
+      "cve": "CVE-2016-6515",
+      "cwe": "cwe-20",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.501442837715149,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::deltasecommits::deltasecommits-1154::base",
+      "identity_margin": 0.43522828817367554,
+      "likely_driver": "swap_view_overrides_identity",
+      "pair_key": "deltasecommits-1154",
+      "project": "https://github.com/openssh/openssh-portable",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.99993896484375,
+        "equivariant_swap_projected_values": [
+          0.99993896484375
+        ],
+        "identity": 0.06477171182632446,
+        "invariant_mean": 0.4808345039685567,
+        "invariant_values": [
+          0.9807288646697998,
+          0.06477171182632446,
+          0.3970029354095459
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-1498::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.07159119844436646,
+      "canonical_projection_margin": 0.01626596227288246,
+      "cross_view_probability_range": 0.8700629658997059,
+      "cve": "CVE-2017-9051",
+      "cwe": "cwe-476",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5162659622728825,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::deltasecommits::deltasecommits-1498::base",
+      "identity_margin": 0.42840880155563354,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1498",
+      "project": "https://github.com/libav/libav",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.7138307690620422,
+        "equivariant_swap_projected_values": [
+          0.7138307690620422
+        ],
+        "identity": 0.07159119844436646,
+        "invariant_mean": 0.5986359479526678,
+        "invariant_values": [
+          0.9416541643440723,
+          0.07159119844436646,
+          0.7826624810695648
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-1498::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.07159119844436646,
+      "canonical_projection_margin": 0.01626596227288246,
+      "cross_view_probability_range": 0.8700629658997059,
+      "cve": "CVE-2017-9051",
+      "cwe": "cwe-476",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5162659622728825,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::deltasecommits::deltasecommits-1498::base",
+      "identity_margin": 0.42840880155563354,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1498",
+      "project": "https://github.com/libav/libav",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.7138307690620422,
+        "equivariant_swap_projected_values": [
+          0.7138307690620422
+        ],
+        "identity": 0.07159119844436646,
+        "invariant_mean": 0.5986359479526678,
+        "invariant_values": [
+          0.9416541643440723,
+          0.07159119844436646,
+          0.7826624810695648
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-1182::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8940517231822014,
+      "canonical_projection_margin": 0.07177901677787302,
+      "cross_view_probability_range": 0.9017540644854307,
+      "cve": "CVE-2016-7539",
+      "cwe": "cwe-399",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.428220983222127,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-1182::base",
+      "identity_margin": 0.3940517231822014,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1182",
+      "project": "https://github.com/ImageMagick/ImageMagick",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.030329259112477303,
+        "equivariant_swap_projected_values": [
+          0.030329259112477303
+        ],
+        "identity": 0.8940517231822014,
+        "invariant_mean": 0.4055746446053187,
+        "invariant_values": [
+          0.932083323597908,
+          0.18242555856704712,
+          0.10221505165100098
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-1182::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8940517231822014,
+      "canonical_projection_margin": 0.07177901677787302,
+      "cross_view_probability_range": 0.9017540644854307,
+      "cve": "CVE-2016-7539",
+      "cwe": "cwe-399",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.428220983222127,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-1182::base",
+      "identity_margin": 0.3940517231822014,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-1182",
+      "project": "https://github.com/ImageMagick/ImageMagick",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.030329259112477303,
+        "equivariant_swap_projected_values": [
+          0.030329259112477303
+        ],
+        "identity": 0.8940517231822014,
+        "invariant_mean": 0.4055746446053187,
+        "invariant_values": [
+          0.932083323597908,
+          0.18242555856704712,
+          0.10221505165100098
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-80-1::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8759993016719818,
+      "canonical_projection_margin": 0.10166937112808228,
+      "cross_view_probability_range": 0.873980313539505,
+      "cve": "CVE-2022-4724",
+      "cwe": "cwe-284",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.3983306288719177,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-80-1::base",
+      "identity_margin": 0.3759993016719818,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-80-1",
+      "project": "https://github.com/ikus060/rdiffweb",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.1525365114212036,
+        "equivariant_swap_projected_values": [
+          0.1525365114212036
+        ],
+        "identity": 0.8759993016719818,
+        "invariant_mean": 0.3210391104221344,
+        "invariant_values": [
+          0.08509904146194458,
+          0.8759993016719818,
+          0.0020189881324768066
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-80-1::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8759993016719818,
+      "canonical_projection_margin": 0.10166937112808228,
+      "cross_view_probability_range": 0.873980313539505,
+      "cve": "CVE-2022-4724",
+      "cwe": "cwe-284",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.3983306288719177,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-80-1::base",
+      "identity_margin": 0.3759993016719818,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-80-1",
+      "project": "https://github.com/ikus060/rdiffweb",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.1525365114212036,
+        "equivariant_swap_projected_values": [
+          0.1525365114212036
+        ],
+        "identity": 0.8759993016719818,
+        "invariant_mean": 0.3210391104221344,
+        "invariant_values": [
+          0.08509904146194458,
+          0.8759993016719818,
+          0.0020189881324768066
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-147-3::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8577681183815002,
+      "canonical_projection_margin": 0.01791011095046996,
+      "cross_view_probability_range": 0.8351388573646545,
+      "cve": "CVE-2019-10152",
+      "cwe": "cwe-22",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.48208988904953004,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-147-3::base",
+      "identity_margin": 0.35776811838150024,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-147-3",
+      "project": "https://github.com/containers/libpod",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.16837778687477112,
+        "equivariant_swap_projected_values": [
+          0.16837778687477112
+        ],
+        "identity": 0.8577681183815002,
+        "invariant_mean": 0.4614345133304596,
+        "invariant_values": [
+          0.022629261016845703,
+          0.8577681183815002,
+          0.5039061605930328
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-2010::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8392075598239899,
+      "canonical_projection_margin": 0.0018257737159729226,
+      "cross_view_probability_range": 0.8127286285161972,
+      "cve": "CVE-2020-11088",
+      "cwe": "cwe-125",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4981742262840271,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-2010::base",
+      "identity_margin": 0.33920755982398987,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-2010",
+      "project": "https://github.com/FreeRDP/FreeRDP",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.17300857603549957,
+        "equivariant_swap_projected_values": [
+          0.17300857603549957
+        ],
+        "identity": 0.8392075598239899,
+        "invariant_mean": 0.49288499852021533,
+        "invariant_values": [
+          0.8665283173322678,
+          0.05379968881607056,
+          0.5583269894123077
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-2010::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8392075598239899,
+      "canonical_projection_margin": 0.0018257737159729226,
+      "cross_view_probability_range": 0.8127286285161972,
+      "cve": "CVE-2020-11088",
+      "cwe": "cwe-125",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4981742262840271,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-2010::base",
+      "identity_margin": 0.33920755982398987,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-2010",
+      "project": "https://github.com/FreeRDP/FreeRDP",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.17300857603549957,
+        "equivariant_swap_projected_values": [
+          0.17300857603549957
+        ],
+        "identity": 0.8392075598239899,
+        "invariant_mean": 0.49288499852021533,
+        "invariant_values": [
+          0.8665283173322678,
+          0.05379968881607056,
+          0.5583269894123077
+        ]
+      }
+    },
+    {
+      "base_id": "representative::primevul::linux-2.6|f2455eb176ac87081bbfc9a44b21c7cd2bc1967e|CVE-2008-3525::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.16398024559020996,
+      "canonical_projection_margin": 0.06893002636497836,
+      "cross_view_probability_range": 0.8353100839885883,
+      "cve": "CVE-2008-3525",
+      "cwe": "cwe-264",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5689300263649784,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::primevul::linux-2.6|f2455eb176ac87081bbfc9a44b21c7cd2bc1967e|CVE-2008-3525::base",
+      "identity_margin": 0.33601975440979004,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "linux-2.6|f2455eb176ac87081bbfc9a44b21c7cd2bc1967e|CVE-2008-3525",
+      "project": "linux-2.6",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.8757869601249695,
+        "equivariant_swap_projected_values": [
+          0.8757869601249695
+        ],
+        "identity": 0.16398024559020996,
+        "invariant_mean": 0.6016276420365708,
+        "invariant_values": [
+          0.4148988723754883,
+          0.390693724155426,
+          0.9992903295787983
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-578-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8019358217716217,
+      "canonical_projection_margin": 0.09184948503971102,
+      "cross_view_probability_range": 0.7928102314472198,
+      "cve": "CVE-2022-4860",
+      "cwe": "cwe-89",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.408150514960289,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-578-0::base",
+      "identity_margin": 0.3019358217716217,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-578-0",
+      "project": "https://github.com/kbase/metrics",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.13028542697429657,
+        "equivariant_swap_projected_values": [
+          0.13028542697429657
+        ],
+        "identity": 0.8019358217716217,
+        "invariant_mean": 0.3695104420185089,
+        "invariant_values": [
+          0.009125590324401855,
+          0.8019358217716217,
+          0.2974699139595032
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-578-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.8019358217716217,
+      "canonical_projection_margin": 0.09184948503971102,
+      "cross_view_probability_range": 0.7928102314472198,
+      "cve": "CVE-2022-4860",
+      "cwe": "cwe-89",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.408150514960289,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-578-0::base",
+      "identity_margin": 0.3019358217716217,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-578-0",
+      "project": "https://github.com/kbase/metrics",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.13028542697429657,
+        "equivariant_swap_projected_values": [
+          0.13028542697429657
+        ],
+        "identity": 0.8019358217716217,
+        "invariant_mean": 0.3695104420185089,
+        "invariant_values": [
+          0.009125590324401855,
+          0.8019358217716217,
+          0.2974699139595032
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-668-0::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.2628418207168579,
+      "canonical_projection_margin": 0.14374736249446873,
+      "cross_view_probability_range": 0.7335223704576492,
+      "cve": "CVE-2024-45436",
+      "cwe": "cwe-22",
+      "dataset": "patcheval",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.6437473624944687,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::patcheval::patcheval-668-0::base",
+      "identity_margin": 0.2371581792831421,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-668-0",
+      "project": "https://github.com/ollama/ollama",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.914691686630249,
+        "equivariant_swap_projected_values": [
+          0.914691686630249
+        ],
+        "identity": 0.2628418207168579,
+        "invariant_mean": 0.6804011017084122,
+        "invariant_values": [
+          0.9963641911745071,
+          0.2628418207168579,
+          0.7819972932338715
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-668-0::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.2628418207168579,
+      "canonical_projection_margin": 0.14374736249446873,
+      "cross_view_probability_range": 0.7335223704576492,
+      "cve": "CVE-2024-45436",
+      "cwe": "cwe-22",
+      "dataset": "patcheval",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.6437473624944687,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::patcheval::patcheval-668-0::base",
+      "identity_margin": 0.2371581792831421,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-668-0",
+      "project": "https://github.com/ollama/ollama",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.914691686630249,
+        "equivariant_swap_projected_values": [
+          0.914691686630249
+        ],
+        "identity": 0.2628418207168579,
+        "invariant_mean": 0.6804011017084122,
+        "invariant_values": [
+          0.9963641911745071,
+          0.2628418207168579,
+          0.7819972932338715
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::mod_auth_openidc|ce37080c6aea30aabae8b4a9b4eea7808445cc8e|CVE-2019-14857::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6903503835201263,
+      "canonical_projection_margin": 0.011254420876502969,
+      "cross_view_probability_range": 0.7818055003881454,
+      "cve": "CVE-2019-14857",
+      "cwe": "cwe-601",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.48874557912349703,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::primevul::mod_auth_openidc|ce37080c6aea30aabae8b4a9b4eea7808445cc8e|CVE-2019-14857::base",
+      "identity_margin": 0.19035038352012634,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "mod_auth_openidc|ce37080c6aea30aabae8b4a9b4eea7808445cc8e|CVE-2019-14857",
+      "project": "mod_auth_openidc",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.4527778923511505,
+        "equivariant_swap_projected_values": [
+          0.4527778923511505
+        ],
+        "identity": 0.6903503835201263,
+        "invariant_mean": 0.4335332065820694,
+        "invariant_values": [
+          0.850592777132988,
+          0.06878727674484253,
+          0.3812195658683777
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-573-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6872103214263916,
+      "canonical_projection_margin": 0.0036614060401916615,
+      "cross_view_probability_range": 0.7155114114284515,
+      "cve": "CVE-2022-29526",
+      "cwe": "cwe-269",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.49633859395980834,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-573-0::base",
+      "identity_margin": 0.1872103214263916,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-573-0",
+      "project": "https://github.com/golang/go",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.4330221712589264,
+        "equivariant_swap_projected_values": [
+          0.4330221712589264
+        ],
+        "identity": 0.6872103214263916,
+        "invariant_mean": 0.4538201590379079,
+        "invariant_values": [
+          0.8250265419483185,
+          0.10951513051986694,
+          0.42691880464553833
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-573-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6829967796802521,
+      "canonical_projection_margin": 0.007749217748641957,
+      "cross_view_probability_range": 0.7155114114284515,
+      "cve": "CVE-2022-29526",
+      "cwe": "cwe-269",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.49225078225135804,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-573-0::base",
+      "identity_margin": 0.18299677968025208,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-573-0",
+      "project": "https://github.com/golang/go",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.41679665446281433,
+        "equivariant_swap_projected_values": [
+          0.41679665446281433
+        ],
+        "identity": 0.6829967796802521,
+        "invariant_mean": 0.4538201590379079,
+        "invariant_values": [
+          0.8250265419483185,
+          0.10951513051986694,
+          0.42691880464553833
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-2328::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.33111971616744995,
+      "canonical_projection_margin": 0.10764530375599857,
+      "cross_view_probability_range": 0.6684497594833374,
+      "cve": "CVE-2021-40818",
+      "cwe": "cwe-120",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.6076453037559986,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::deltasecommits::deltasecommits-2328::base",
+      "identity_margin": 0.16888028383255005,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-2328",
+      "project": "https://github.com/babelouest/glewlwyd",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9995694756507874,
+        "equivariant_swap_projected_values": [
+          0.9995694756507874
+        ],
+        "identity": 0.33111971616744995,
+        "invariant_mean": 0.5691791089872519,
+        "invariant_values": [
+          0.40686196088790894,
+          0.33111971616744995,
+          0.9695556499063969
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-2328::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.33111971616744995,
+      "canonical_projection_margin": 0.10764530375599857,
+      "cross_view_probability_range": 0.6684497594833374,
+      "cve": "CVE-2021-40818",
+      "cwe": "cwe-120",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.6076453037559986,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::deltasecommits::deltasecommits-2328::base",
+      "identity_margin": 0.16888028383255005,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-2328",
+      "project": "https://github.com/babelouest/glewlwyd",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9995694756507874,
+        "equivariant_swap_projected_values": [
+          0.9995694756507874
+        ],
+        "identity": 0.33111971616744995,
+        "invariant_mean": 0.5691791089872519,
+        "invariant_values": [
+          0.40686196088790894,
+          0.33111971616744995,
+          0.9695556499063969
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::libssh2|dedcbd106f8e52d5586b0205bc7677e4c9868f9c|CVE-2019-17498::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.36840569972991943,
+      "canonical_projection_margin": 0.17118278443813328,
+      "cross_view_probability_range": 0.6315635442733765,
+      "cve": "CVE-2019-17498",
+      "cwe": "cwe-703",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.6711827844381333,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "balanced_stress::primevul::libssh2|dedcbd106f8e52d5586b0205bc7677e4c9868f9c|CVE-2019-17498::base",
+      "identity_margin": 0.13159430027008057,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "libssh2|dedcbd106f8e52d5586b0205bc7677e4c9868f9c|CVE-2019-17498",
+      "project": "libssh2",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9999692440032959,
+        "equivariant_swap_projected_values": [
+          0.9999692440032959
+        ],
+        "identity": 0.36840569972991943,
+        "invariant_mean": 0.6625129928191503,
+        "invariant_values": [
+          0.7399865090847015,
+          0.36840569972991943,
+          0.8791467696428299
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-458-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6304574608802795,
+      "canonical_projection_margin": 0.008142918348312378,
+      "cross_view_probability_range": 0.6727291941642761,
+      "cve": "CVE-2023-40587",
+      "cwe": "cwe-22",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4918570816516876,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-458-0::base",
+      "identity_margin": 0.13045746088027954,
+      "likely_driver": "swap_view_overrides_identity",
+      "pair_key": "patcheval-458-0",
+      "project": "https://github.com/Pylons/pyramid",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.3268083333969116,
+        "equivariant_swap_projected_values": [
+          0.3268083333969116
+        ],
+        "identity": 0.6304574608802795,
+        "invariant_mean": 0.5006732046604156,
+        "invariant_values": [
+          0.8261514902114868,
+          0.1534222960472107,
+          0.5224458277225494
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::spice|a4a16ac42d2f19a17e36556546aa94d5cd83745f|CVE-2019-3813::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6261241734027863,
+      "canonical_projection_margin": 0.08404414653778075,
+      "cross_view_probability_range": 0.6820768117904663,
+      "cve": "CVE-2019-3813",
+      "cwe": "cwe-193",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.41595585346221925,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::primevul::spice|a4a16ac42d2f19a17e36556546aa94d5cd83745f|CVE-2019-3813::base",
+      "identity_margin": 0.12612417340278625,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "spice|a4a16ac42d2f19a17e36556546aa94d5cd83745f|CVE-2019-3813",
+      "project": "spice",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.351311057806015,
+        "equivariant_swap_projected_values": [
+          0.351311057806015
+        ],
+        "identity": 0.6261241734027863,
+        "invariant_mean": 0.3674480120340983,
+        "invariant_values": [
+          0.7244805693626404,
+          0.04240375757217407,
+          0.33545970916748047
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-559::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.6187804341316223,
+      "canonical_projection_margin": 0.0021407216787338035,
+      "cross_view_probability_range": 0.755341187119484,
+      "cve": "CVE-2011-2906",
+      "cwe": "cwe-400",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4978592783212662,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-559::base",
+      "identity_margin": 0.11878043413162231,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-559",
+      "project": "https://github.com/torvalds/linux",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.3757064640522003,
+        "equivariant_swap_projected_values": [
+          0.3757064640522003
+        ],
+        "identity": 0.6187804341316223,
+        "invariant_mean": 0.49826983114083606,
+        "invariant_values": [
+          0.8517062813043594,
+          0.09636509418487549,
+          0.5467381179332733
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-81-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5900707542896271,
+      "canonical_projection_margin": 0.0030716776847839466,
+      "cross_view_probability_range": 0.47749409079551697,
+      "cve": "CVE-2024-27298",
+      "cwe": "cwe-89",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.49692832231521605,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-81-0::base",
+      "identity_margin": 0.09007075428962708,
+      "likely_driver": "invariant_view_overrides_identity",
+      "pair_key": "patcheval-81-0",
+      "project": "https://github.com/parse-community/parse-server",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.5539125204086304,
+        "equivariant_swap_projected_values": [
+          0.5539125204086304
+        ],
+        "identity": 0.5900707542896271,
+        "invariant_mean": 0.4468861122926076,
+        "invariant_values": [
+          0.7620700895786285,
+          0.2845759987831116,
+          0.29401224851608276
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-81-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5900707542896271,
+      "canonical_projection_margin": 0.0030716776847839466,
+      "cross_view_probability_range": 0.47749409079551697,
+      "cve": "CVE-2024-27298",
+      "cwe": "cwe-89",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.49692832231521605,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-81-0::base",
+      "identity_margin": 0.09007075428962708,
+      "likely_driver": "invariant_view_overrides_identity",
+      "pair_key": "patcheval-81-0",
+      "project": "https://github.com/parse-community/parse-server",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.5539125204086304,
+        "equivariant_swap_projected_values": [
+          0.5539125204086304
+        ],
+        "identity": 0.5900707542896271,
+        "invariant_mean": 0.4468861122926076,
+        "invariant_values": [
+          0.7620700895786285,
+          0.2845759987831116,
+          0.29401224851608276
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::deltasecommits::deltasecommits-234::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5860491096973419,
+      "canonical_projection_margin": 0.10832888036966326,
+      "cross_view_probability_range": 0.4700883999466896,
+      "cve": "GHSA-c94w-c95p-phf8",
+      "cwe": "cwe-190",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.39167111963033674,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::deltasecommits::deltasecommits-234::base",
+      "identity_margin": 0.08604910969734192,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-234",
+      "project": "https://github.com/tensorflow/tensorflow",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.11596070975065231,
+        "equivariant_swap_projected_values": [
+          0.11596070975065231
+        ],
+        "identity": 0.5860491096973419,
+        "invariant_mean": 0.4187819262345632,
+        "invariant_values": [
+          0.5544704496860504,
+          0.3086068630218506,
+          0.3932684659957886
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-234::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5860491096973419,
+      "canonical_projection_margin": 0.10832888036966326,
+      "cross_view_probability_range": 0.4700883999466896,
+      "cve": "GHSA-c94w-c95p-phf8",
+      "cwe": "cwe-190",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.39167111963033674,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-234::base",
+      "identity_margin": 0.08604910969734192,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "deltasecommits-234",
+      "project": "https://github.com/tensorflow/tensorflow",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.11596070975065231,
+        "equivariant_swap_projected_values": [
+          0.11596070975065231
+        ],
+        "identity": 0.5860491096973419,
+        "invariant_mean": 0.4187819262345632,
+        "invariant_values": [
+          0.5544704496860504,
+          0.3086068630218506,
+          0.3932684659957886
+        ]
+      }
+    },
+    {
+      "base_id": "representative::primevul::gnutls|b495740f2ff66550ca9395b3fda3ea32c3acb185|CVE-2012-1573::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.42039138078689575,
+      "canonical_projection_margin": 0.07352231144905086,
+      "cross_view_probability_range": 0.6144080758094788,
+      "cve": "CVE-2012-1573",
+      "cwe": "cwe-310",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5735223114490509,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::primevul::gnutls|b495740f2ff66550ca9395b3fda3ea32c3acb185|CVE-2012-1573::base",
+      "identity_margin": 0.07960861921310425,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "gnutls|b495740f2ff66550ca9395b3fda3ea32c3acb185|CVE-2012-1573",
+      "project": "gnutls",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9425067901611328,
+        "equivariant_swap_projected_values": [
+          0.9425067901611328
+        ],
+        "identity": 0.42039138078689575,
+        "invariant_mean": 0.501571128765742,
+        "invariant_values": [
+          0.7617157995700836,
+          0.4148988723754883,
+          0.32809871435165405
+        ]
+      }
+    },
+    {
+      "base_id": "representative::primevul::pcre2|d4fa336fbcc388f89095b184ba6d99422cfc676c|CVE-2022-1586::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5664982497692108,
+      "canonical_projection_margin": 0.041541126370430004,
+      "cross_view_probability_range": 0.7535848170518875,
+      "cve": "CVE-2022-1586",
+      "cwe": "cwe-125",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.45845887362957,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::primevul::pcre2|d4fa336fbcc388f89095b184ba6d99422cfc676c|CVE-2022-1586::base",
+      "identity_margin": 0.06649824976921082,
+      "likely_driver": "invariant_view_overrides_identity",
+      "pair_key": "pcre2|d4fa336fbcc388f89095b184ba6d99422cfc676c|CVE-2022-1586",
+      "project": "pcre2",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.6638869047164917,
+        "equivariant_swap_projected_values": [
+          0.6638869047164917
+        ],
+        "identity": 0.5664982497692108,
+        "invariant_mean": 0.3539697378873825,
+        "invariant_values": [
+          0.8031737953424454,
+          0.04958897829055786,
+          0.2091464400291443
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-58-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5578452944755554,
+      "canonical_projection_margin": 0.17928909361362455,
+      "cross_view_probability_range": 0.5441110134124756,
+      "cve": "CVE-2024-8374",
+      "cwe": "cwe-94",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.32071090638637545,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-58-0::base",
+      "identity_margin": 0.05784529447555542,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-58-0",
+      "project": "https://github.com/Ultimaker/Cura",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.22815649211406708,
+        "equivariant_swap_projected_values": [
+          0.22815649211406708
+        ],
+        "identity": 0.5578452944755554,
+        "invariant_mean": 0.2725175817807515,
+        "invariant_values": [
+          0.6147987842559814,
+          0.07068777084350586,
+          0.13206619024276733
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-58-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5578452944755554,
+      "canonical_projection_margin": 0.17928909361362455,
+      "cross_view_probability_range": 0.5441110134124756,
+      "cve": "CVE-2024-8374",
+      "cwe": "cwe-94",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.32071090638637545,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-58-0::base",
+      "identity_margin": 0.05784529447555542,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-58-0",
+      "project": "https://github.com/Ultimaker/Cura",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.22815649211406708,
+        "equivariant_swap_projected_values": [
+          0.22815649211406708
+        ],
+        "identity": 0.5578452944755554,
+        "invariant_mean": 0.2725175817807515,
+        "invariant_values": [
+          0.6147987842559814,
+          0.07068777084350586,
+          0.13206619024276733
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::rizin|aa6917772d2f32e5a7daab25a46c72df0b5ea406|CVE-2021-43814::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5572731792926788,
+      "canonical_projection_margin": 0.23484092354774477,
+      "cross_view_probability_range": 0.5394927561283112,
+      "cve": "CVE-2021-43814",
+      "cwe": "cwe-787",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.2651590764522552,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::primevul::rizin|aa6917772d2f32e5a7daab25a46c72df0b5ea406|CVE-2021-43814::base",
+      "identity_margin": 0.05727317929267883,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "rizin|aa6917772d2f32e5a7daab25a46c72df0b5ea406|CVE-2021-43814",
+      "project": "rizin",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.11136195063591003,
+        "equivariant_swap_projected_values": [
+          0.11136195063591003
+        ],
+        "identity": 0.5572731792926788,
+        "invariant_mean": 0.21905341744422913,
+        "invariant_values": [
+          0.08210664987564087,
+          0.5572731792926788,
+          0.017780423164367676
+        ]
+      }
+    },
+    {
+      "base_id": "representative::deltasecommits::deltasecommits-612::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5568816065788269,
+      "canonical_projection_margin": 0.08651171922683715,
+      "cross_view_probability_range": 0.8252456188201904,
+      "cve": "CVE-2012-2390",
+      "cwe": "cwe-399",
+      "dataset": "deltasecommits",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.41348828077316285,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::deltasecommits::deltasecommits-612::base",
+      "identity_margin": 0.056881606578826904,
+      "likely_driver": "invariant_view_overrides_identity",
+      "pair_key": "deltasecommits-612",
+      "project": "https://github.com/torvalds/linux",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.85500568151474,
+        "equivariant_swap_projected_values": [
+          0.85500568151474
+        ],
+        "identity": 0.5568816065788269,
+        "invariant_mean": 0.21851803859074911,
+        "invariant_values": [
+          0.06891244649887085,
+          0.5568816065788269,
+          0.02976006269454956
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-133-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5559174418449402,
+      "canonical_projection_margin": 0.17853309810161588,
+      "cross_view_probability_range": 0.6104729622602463,
+      "cve": "CVE-2024-22419",
+      "cwe": "cwe-787",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.3214669018983841,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-133-0::base",
+      "identity_margin": 0.055917441844940186,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-133-0",
+      "project": "https://github.com/vyperlang/vyper",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.019870713353157043,
+        "equivariant_swap_projected_values": [
+          0.019870713353157043
+        ],
+        "identity": 0.5559174418449402,
+        "invariant_mean": 0.34384878476460773,
+        "invariant_values": [
+          0.6303436756134033,
+          0.08694171905517578,
+          0.31426095962524414
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-133-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5559174418449402,
+      "canonical_projection_margin": 0.17357599437236787,
+      "cross_view_probability_range": 0.6104729622602463,
+      "cve": "CVE-2024-22419",
+      "cwe": "cwe-787",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.32642400562763213,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-133-0::base",
+      "identity_margin": 0.055917441844940186,
+      "likely_driver": "multi_view_majority_overrides_identity",
+      "pair_key": "patcheval-133-0",
+      "project": "https://github.com/vyperlang/vyper",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.019870713353157043,
+        "equivariant_swap_projected_values": [
+          0.019870713353157043
+        ],
+        "identity": 0.5559174418449402,
+        "invariant_mean": 0.3521106243133545,
+        "invariant_values": [
+          0.6303436756134033,
+          0.09009301662445068,
+          0.3358951807022095
+        ]
+      }
+    },
+    {
+      "base_id": "representative::primevul::httpd|7e09dd714fc62c08c5b0319ed7b9702594faf49b|CVE-2021-26691::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5496406257152557,
+      "canonical_projection_margin": 0.033401694893836986,
+      "cross_view_probability_range": 0.7458107620477676,
+      "cve": "CVE-2021-26691",
+      "cwe": "cwe-787",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.466598305106163,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::primevul::httpd|7e09dd714fc62c08c5b0319ed7b9702594faf49b|CVE-2021-26691::base",
+      "identity_margin": 0.04964062571525574,
+      "likely_driver": "ambiguous_near_threshold_projection",
+      "pair_key": "httpd|7e09dd714fc62c08c5b0319ed7b9702594faf49b|CVE-2021-26691",
+      "project": "httpd",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.4431183934211731,
+        "equivariant_swap_projected_values": [
+          0.4431183934211731
+        ],
+        "identity": 0.5496406257152557,
+        "invariant_mean": 0.4467441687981288,
+        "invariant_values": [
+          0.8233283907175064,
+          0.07751762866973877,
+          0.4393864870071411
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::nagioscore|b1a92a3b52d292ccb601e77a0b29cb1e67ac9d76|CVE-2018-13441::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5448013842105865,
+      "canonical_projection_margin": 0.07627029418945314,
+      "cross_view_probability_range": 0.7715689539909363,
+      "cve": "CVE-2018-13441",
+      "cwe": "cwe-476",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.42372970581054686,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::primevul::nagioscore|b1a92a3b52d292ccb601e77a0b29cb1e67ac9d76|CVE-2018-13441::base",
+      "identity_margin": 0.04480138421058655,
+      "likely_driver": "low_identity_margin",
+      "pair_key": "nagioscore|b1a92a3b52d292ccb601e77a0b29cb1e67ac9d76|CVE-2018-13441",
+      "project": "nagioscore",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.45519861578941345,
+        "equivariant_swap_projected_values": [
+          0.45519861578941345
+        ],
+        "identity": 0.5448013842105865,
+        "invariant_mean": 0.3728828430175781,
+        "invariant_values": [
+          0.804405927658081,
+          0.032836973667144775,
+          0.28140562772750854
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::primevul::ImageMagick6|dc070da861a015d3c97488fdcca6063b44d47a7b|CVE-2022-32547::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5423785448074341,
+      "canonical_projection_margin": 0.0065177619457245095,
+      "cross_view_probability_range": 0.7934591770172119,
+      "cve": "CVE-2022-32547",
+      "cwe": "cwe-704",
+      "dataset": "primevul",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.4934822380542755,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::primevul::ImageMagick6|dc070da861a015d3c97488fdcca6063b44d47a7b|CVE-2022-32547::base",
+      "identity_margin": 0.04237854480743408,
+      "likely_driver": "ambiguous_near_threshold_projection",
+      "pair_key": "ImageMagick6|dc070da861a015d3c97488fdcca6063b44d47a7b|CVE-2022-32547",
+      "project": "ImageMagick6",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9927672147750854,
+        "equivariant_swap_projected_values": [
+          0.9927672147750854
+        ],
+        "identity": 0.5423785448074341,
+        "invariant_mean": 0.3107551435629527,
+        "invariant_values": [
+          0.5156199038028717,
+          0.19930803775787354,
+          0.2173374891281128
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-633-1::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5367985665798187,
+      "canonical_projection_margin": 0.019901883602142345,
+      "cross_view_probability_range": 0.8681720495223999,
+      "cve": "CVE-2021-4260",
+      "cwe": "cwe-601",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.48009811639785765,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-633-1::base",
+      "identity_margin": 0.036798566579818726,
+      "likely_driver": "ambiguous_near_threshold_projection",
+      "pair_key": "patcheval-633-1",
+      "project": "https://github.com/mannyvergel/oils-js",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.987375020980835,
+        "equivariant_swap_projected_values": [
+          0.987375020980835
+        ],
+        "identity": 0.5367985665798187,
+        "invariant_mean": 0.29210566480954486,
+        "invariant_values": [
+          0.5973730385303497,
+          0.15974098443984985,
+          0.11920297145843506
+        ]
+      }
+    },
+    {
+      "base_id": "balanced_stress::patcheval::patcheval-880-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5196431875228882,
+      "canonical_projection_margin": 0.12575473785400393,
+      "cross_view_probability_range": 0.49857252836227417,
+      "cve": "CVE-2023-39523",
+      "cwe": "cwe-77",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.37424526214599607,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "balanced_stress::patcheval::patcheval-880-0::base",
+      "identity_margin": 0.019643187522888184,
+      "likely_driver": "low_identity_margin",
+      "pair_key": "patcheval-880-0",
+      "project": "https://github.com/nexB/scancode.io",
+      "sampling_suite": "balanced_stress",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.4241734743118286,
+        "equivariant_swap_projected_values": [
+          0.4241734743118286
+        ],
+        "identity": 0.5196431875228882,
+        "invariant_mean": 0.3091365496317546,
+        "invariant_values": [
+          0.5959629416465759,
+          0.09739041328430176,
+          0.234056293964386
+        ]
+      }
+    },
+    {
+      "base_id": "representative::patcheval::patcheval-880-0::base",
+      "baseline_prediction": "A",
+      "baseline_probability_a": 0.5196431875228882,
+      "canonical_projection_margin": 0.12575473785400393,
+      "cross_view_probability_range": 0.49857252836227417,
+      "cve": "CVE-2023-39523",
+      "cwe": "cwe-77",
+      "dataset": "patcheval",
+      "decoded_prediction": "B",
+      "decoded_probability_a": 0.37424526214599607,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "A",
+      "id": "representative::patcheval::patcheval-880-0::base",
+      "identity_margin": 0.019643187522888184,
+      "likely_driver": "low_identity_margin",
+      "pair_key": "patcheval-880-0",
+      "project": "https://github.com/nexB/scancode.io",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.4241734743118286,
+        "equivariant_swap_projected_values": [
+          0.4241734743118286
+        ],
+        "identity": 0.5196431875228882,
+        "invariant_mean": 0.3091365496317546,
+        "invariant_values": [
+          0.5959629416465759,
+          0.09739041328430176,
+          0.234056293964386
+        ]
+      }
+    },
+    {
+      "base_id": "representative::primevul::linux|99e3a236dd43d06c65af0a2ef9cb44306aef6e02|CVE-2020-12659::base",
+      "baseline_prediction": "B",
+      "baseline_probability_a": 0.4970703721046448,
+      "canonical_projection_margin": 0.003975826501846358,
+      "cross_view_probability_range": 0.8429356813430786,
+      "cve": "CVE-2020-12659",
+      "cwe": "cwe-416",
+      "dataset": "primevul",
+      "decoded_prediction": "A",
+      "decoded_probability_a": 0.5039758265018464,
+      "flip_outcome": "correct_to_wrong",
+      "gold_riskier_side": "B",
+      "id": "representative::primevul::linux|99e3a236dd43d06c65af0a2ef9cb44306aef6e02|CVE-2020-12659::base",
+      "identity_margin": 0.0029296278953552246,
+      "likely_driver": "ambiguous_near_threshold_projection",
+      "pair_key": "linux|99e3a236dd43d06c65af0a2ef9cb44306aef6e02|CVE-2020-12659",
+      "project": "linux",
+      "sampling_suite": "representative",
+      "view_contributors": {
+        "equivariant_swap_projected_mean": 0.9895108342170715,
+        "equivariant_swap_projected_values": [
+          0.9895108342170715
+        ],
+        "identity": 0.4970703721046448,
+        "invariant_mean": 0.34443264206250507,
+        "invariant_values": [
+          0.6509111821651459,
+          0.23581159114837646,
+          0.14657515287399292
+        ]
+      }
+    }
+  ],
+  "inputs": {
+    "benchmark_rows": 9600,
+    "prediction_rows": 9600
+  },
+  "status": "ok",
+  "summary": {
+    "distorted_identity_rows": 105,
+    "driver_counts": {
+      "ambiguous_near_threshold_projection": 4,
+      "invariant_view_overrides_identity": 8,
+      "low_identity_margin": 18,
+      "multi_view_majority_overrides_identity": 67,
+      "swap_view_overrides_identity": 8
+    },
+    "flip_outcome_counts": {
+      "correct_to_correct_unchanged": 721,
+      "correct_to_wrong": 50,
+      "wrong_to_correct": 55,
+      "wrong_to_wrong_unchanged": 374
+    },
+    "flips_away_from_gold": 50,
+    "flips_toward_gold": 55,
+    "identity_distortion_rate": 0.0875,
+    "identity_rows": 1200
+  }
+}
