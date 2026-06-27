@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "description": "Machine-readable registry for retained VeriSec Forge / VeriPatch-RR artifacts. This registry maps existing reports to bounded claims; it does not introduce new results.",
+  "layer_order": [
+    "measurement",
+    "model_evidence",
+    "mechanism",
+    "reproducibility"
+  ],
+  "reproducibility_levels": [
+    "report-backed",
+    "manifest-backed",
+    "ci-smoke",
+    "protocol-backed"
+  ],
+  "experiments": [
+    {
+      "id": "primevul_shortcut_controls",
+      "title": "PrimeVul Shortcut Controls",
+      "layer": "measurement",
+      "status": "retained",
+      "primary_report": "reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md",
+      "supporting_artifacts": [
+        "reports/PRIMEVUL_MAIN_RESULTS.md"
+      ],
+      "claim": "same-source vulnerability detection success is artifact-sensitive and needs paired controls",
+      "boundary": "benchmark diagnosis, not a deployed vulnerability detector or universal benchmark indictment",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "veripatch_rr_v01",
+      "title": "VeriPatch-RR v0.1",
+      "layer": "measurement",
+      "status": "retained",
+      "primary_report": "reports/RELATIONAL_BENCHMARK_V2.md",
+      "supporting_artifacts": [
+        "docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md",
+        "reports/secure_code_relational_benchmark_v2_qwen15b_runtime_summary.json"
+      ],
+      "claim": "paired vulnerable/fixed transformations can evaluate relational consistency separately from pointwise accuracy",
+      "boundary": "measurement instrument; runtime visibility remains model-tokenizer specific",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "pair_coupled_decoding",
+      "title": "Pair-Coupled Decoding Mainline",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md",
+      "supporting_artifacts": [
+        "reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md",
+        "reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md"
+      ],
+      "claim": "task-structured pair-coupled decoding is the strongest retained PrimeVul paired-diff layer",
+      "boundary": "closed retained split evidence, not open-set expert discovery",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "learned_joint_pairwise_baseline",
+      "title": "Learned Joint Pairwise Baseline",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/LEARNED_JOINT_PAIRWISE_BASELINE.md",
+      "supporting_artifacts": [
+        "reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md",
+        "reports/PRIMEVUL_JOINT_COUNTERFACTUAL_COMPARISON.md"
+      ],
+      "claim": "learned joint side choice is useful but not stronger than the retained pair-coupled reference",
+      "boundary": "promising baseline and stress evidence, not the final relational solution",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "qwen_veripatch_smoke",
+      "title": "Qwen VeriPatch-RR Smoke",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
+      "supporting_artifacts": [
+        "reports/secure_code_relational_benchmark_v2_qwen15b_runtime_summary.json"
+      ],
+      "claim": "a frozen Qwen instrumented smoke run exposes relational failure under VeriPatch-RR",
+      "boundary": "model-specific smoke evidence, not a broad model-quality benchmark",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "cross_model_relational_audit",
+      "title": "Cross-Model Relational Audit",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
+      "supporting_artifacts": [
+        "reports/secure_code_cross_model_relational_audit_v1.json",
+        "reports/secure_code_cross_model_relational_audit_codebert_v1_runtime512_summary.json"
+      ],
+      "claim": "cross-architecture controls separate side-order inconsistency from endpoint sensitivity",
+      "boundary": "competency-controlled architecture comparison, not architecture-only causal proof",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "cross_model_replication",
+      "title": "Cross-Model Replication",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/CROSS_MODEL_REPLICATION.md",
+      "supporting_artifacts": [
+        "reports/secure_code_cross_model_replication_v1.json"
+      ],
+      "claim": "distilgpt2 and generative-judge slots broaden stress coverage of relational failure modes",
+      "boundary": "low-canonical stress evidence, not universal strong-model failure proof",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "external_generalization_routing",
+      "title": "External Generalization And Routing",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md",
+      "supporting_artifacts": [
+        "reports/PRIMEVUL_CVE_DISJOINT_EVAL.md",
+        "reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md",
+        "reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md",
+        "reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md",
+        "reports/PATCHEVAL_ADAPTER_MULTISEED.md"
+      ],
+      "claim": "source-aware paired-diff experts and closed-world routing improve retained robustness checks",
+      "boundary": "bounded closed-world routing evidence, not open-set expert discovery",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "evidence_coupled_audit",
+      "title": "Evidence-Coupled Audit",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md",
+      "supporting_artifacts": [
+        "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md",
+        "reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md",
+        "reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md"
+      ],
+      "claim": "evidence localization quality depends strongly on correct side choice",
+      "boundary": "decision-coupled diagnostic, not a solved explanation or human security review task",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "qwen_mechanism_audit",
+      "title": "Qwen Relational Mechanism Audit",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
+      "supporting_artifacts": [
+        "reports/secure_code_qwen_batch_shape_stability_v1.json"
+      ],
+      "claim": "context cap, terminal-context sensitivity, and representation effects are separable failure modes",
+      "boundary": "mechanism audit for a retained setup, not a general repair of side-order reasoning",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "readout_ablation",
+      "title": "Same-Backbone Readout Ablation",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/READOUT_ABLATION.md",
+      "supporting_artifacts": [
+        "docs/READOUT_ABLATION_PROTOCOL.md"
+      ],
+      "claim": "readout-conditioned training can control endpoint robustness",
+      "boundary": "mechanism evidence; no readout variant is promoted as a better classifier",
+      "reproducibility": "protocol-backed"
+    },
+    {
+      "id": "readout_confirmation",
+      "title": "Independent Readout Confirmation",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/READOUT_CONFIRMATORY.md",
+      "supporting_artifacts": [
+        "docs/READOUT_CONFIRMATORY_PROTOCOL.md"
+      ],
+      "claim": "independent confirmation replicates the readout mechanism pattern",
+      "boundary": "mechanism confirmation, not canonical non-inferiority",
+      "reproducibility": "protocol-backed"
+    },
+    {
+      "id": "frozen_backbone_readout_control",
+      "title": "Frozen-Backbone Readout Control",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
+      "supporting_artifacts": [
+        "docs/FROZEN_BACKBONE_READOUT_PROTOCOL.md",
+        "reports/secure_code_frozen_backbone_readout_control_v1.json"
+      ],
+      "claim": "frozen-backbone controls separate direct pooling effects from training-mediated effects",
+      "boundary": "one fixed Qwen+LoRA representation; does not solve side-order reasoning",
+      "reproducibility": "protocol-backed"
+    },
+    {
+      "id": "external_adapter_smoke",
+      "title": "VeriPatch-RR External Adapter Smoke",
+      "layer": "reproducibility",
+      "status": "retained",
+      "primary_report": "docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md",
+      "supporting_artifacts": [
+        "examples/veripatch_rr_smoke_30.jsonl",
+        "examples/veripatch_rr_smoke_30_predictions_template.jsonl",
+        "examples/veripatch_rr_smoke_30_summary.json"
+      ],
+      "claim": "external users can submit fixed-contract predictions and reproduce relational metrics on a smoke artifact",
+      "boundary": "30-pair / 90-row adapter sanity check; not a model-quality benchmark",
+      "reproducibility": "manifest-backed"
+    },
+    {
+      "id": "ci_fresh_clone_smoke",
+      "title": "CI Fresh-Clone Smoke Gate",
+      "layer": "reproducibility",
+      "status": "retained",
+      "primary_report": "docs/CI_TESTING_STRATEGY.md",
+      "supporting_artifacts": [
+        ".github/workflows/ci.yml",
+        "reproducibility/veripatch_external_smoke_manifest.json"
+      ],
+      "claim": "focused fresh-clone checks validate packaging, adapter plumbing, paper anchors, report index, and retained manifests",
+      "boundary": "CI smoke gate; does not train models, run GPU inference, or validate model quality",
+      "reproducibility": "ci-smoke"
+    }
+  ]
+}
