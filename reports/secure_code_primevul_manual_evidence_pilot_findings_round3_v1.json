@@ -1,0 +1,229 @@
+{
+  "rows": 14,
+  "completed_annotations": 14,
+  "completion_rate": 1.0,
+  "annotator_counts": {
+    "codex_pilot_round3": 14
+  },
+  "agreement_counts": {
+    "match": 5,
+    "mismatch": 9
+  },
+  "agreement_rate": 0.3571,
+  "evidence_quality_counts": {
+    "0": 1,
+    "1": 8,
+    "2": 4,
+    "3": 1
+  },
+  "label_issue_counts": {
+    "insufficient_context": 9,
+    "none": 5
+  },
+  "by_source_pool": {
+    "rank16_20_v1": {
+      "match": 5,
+      "mismatch": 9
+    }
+  },
+  "issue_by_agreement": {
+    "match": {
+      "none": 5
+    },
+    "mismatch": {
+      "insufficient_context": 9
+    }
+  },
+  "quality_by_agreement": {
+    "match": {
+      "2": 4,
+      "3": 1
+    },
+    "mismatch": {
+      "0": 1,
+      "1": 8
+    }
+  },
+  "high_quality_disagreement_count": 0,
+  "high_quality_disagreements": [],
+  "insufficient_context_count": 9,
+  "insufficient_context_cases": [
+    {
+      "audit_id": "manual_evidence_audit::7::16::hermes__fe52854cdf6725c2eaa9e125995da76e6ceb27da__CVE-2020-1911",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 0,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "selfHandle vs propObj variable swap in a HostObject vmcast call; plausible UAF/lifetime relevance but no visible risk/safety signal and direction_unclear labels.",
+      "queue_type": "insufficient_context",
+      "priority": 3,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "hermes|fe52854cdf6725c2eaa9e125995da76e6ceb27da|CVE-2020-1911",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::16::tensorflow__e952a89b7026b98fe8cbe626514a93ed68b7c510__CVE-2022-23567",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "TensorShape construction reordering; too thin to judge direction without seeing how lhs_dims/lhs_shape are used downstream.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "tensorflow|e952a89b7026b98fe8cbe626514a93ed68b7c510|CVE-2022-23567",
+      "changed_line_bucket": "03-05",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::99::17::slurm__07309deb45c33e735e191faf9dd31cca1054a15c__CVE-2020-27746",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "x11_delete_xauth being restructured into x11_set_xauth with add/remove xauth_argv changes; the actual security issue (xauth cookie handling) is not visible in this 2-line preview despite this being flagged as a true inversion candidate.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "slurm|07309deb45c33e735e191faf9dd31cca1054a15c|CVE-2020-27746",
+      "changed_line_bucket": "06-10",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": true,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::18::tensorflow__4c0ee937c0f61c4fc5f5d32d9bb4c67428012a60__CVE-2021-29584",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Presence/absence of an overflow-prevention comment alongside SparseTensor::Create reordering; too thin to judge without the surrounding shape-construction logic.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "tensorflow|4c0ee937c0f61c4fc5f5d32d9bb4c67428012a60|CVE-2021-29584",
+      "changed_line_bucket": "11-25",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::123::19::frr__6d58272b4cf96f0daa846210dd2104877900f921__CVE-2022-37032",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "hdr-struct vs cap-struct bounds-check rewrite with conflicting direction labels across the two windows of the same side (removes_protection+removes_risk on A1, adds_protection+introduces_risk on A2); cannot resolve direction confidently from this preview.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "frr|6d58272b4cf96f0daa846210dd2104877900f921|CVE-2022-37032",
+      "changed_line_bucket": "26+",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::19::linux__aa9f7d5172fac9bf1f09e678c35e287a40a7b7dd__CVE-2020-11565",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Visible change is a comment truncation only (not executable code) in this preview; the risk_support=2 label likely reflects surrounding code not shown here.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "linux|aa9f7d5172fac9bf1f09e678c35e287a40a7b7dd|CVE-2020-11565",
+      "changed_line_bucket": "06-10",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::99::19::linux__d563131ef23cbc756026f839a82598c8445bc45f__CVE-2019-19071",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Single dev_kfree_skb(skb) call present on one side, absent on the other; the window's own label (candidate_removes_risk for the side missing the call) reads as the opposite direction from gold A. Flagging rather than asserting given the conflict and lack of surrounding function context.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "linux|d563131ef23cbc756026f839a82598c8445bc45f|CVE-2019-19071",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::7::20::MilkyTracker__7afd55c42ad80d01a339197a2d8b5461d214edaf__CVE-2020-15569",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "mixer null-check/delete restructuring; direction_unclear and too thin to judge lifetime safety from this preview.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "MilkyTracker|7afd55c42ad80d01a339197a2d8b5461d214edaf|CVE-2020-15569",
+      "changed_line_bucket": "06-10",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::20::openssl__cb22d2ae5a5b6069dbf66dbcce07223ac15a16de__CVE-2015-1793",
+      "source_pool": "rank16_20_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "num vs j loop-variable substitution in certificate chain validation (the well-known alternative-chains CVE pattern); near-identical detector probabilities (0.574/0.543) and direction_unclear labels -- not confident enough to assert a side without deeper review of the surrounding loop.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "openssl|cb22d2ae5a5b6069dbf66dbcce07223ac15a16de|CVE-2015-1793",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    }
+  ],
+  "interpretation": [
+    "This is a codex_pilot audit, not independent human gold.",
+    "The hard side-inversion queue is evidence-noisy: pilot/gold agreement is close to balanced rather than near-certain.",
+    "High-quality pilot disagreements are the most valuable adjudication targets because the visible evidence conflicts with the stored vulnerable side.",
+    "Insufficient-context cases indicate where hunk windows are too narrow for reliable evidence localization."
+  ]
+}
