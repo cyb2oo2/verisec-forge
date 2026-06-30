@@ -1,0 +1,358 @@
+{
+  "status": "ok",
+  "scope": "high_quality_disagreement_adjudication_brief",
+  "is_final_adjudication": false,
+  "rows": 6,
+  "missing_audit_ids": [],
+  "gold_pilot_conflicts": 6,
+  "model_pilot_conflicts": 4,
+  "cases": [
+    {
+      "case_index": 1,
+      "audit_id": "manual_evidence_audit::211::2::squid__780c4ea1b4c9d2fb41f6962aa6ed73ae57f74b2b__CVE-2021-46784",
+      "pair_key": "squid|780c4ea1b4c9d2fb41f6962aa6ed73ae57f74b2b|CVE-2021-46784",
+      "project": "squid",
+      "cve": "CVE-2021-46784",
+      "changed_line_bucket": "26+",
+      "priority": 1,
+      "source_pool": "fresh_seeds_top5_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "B",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "B",
+      "pilot_evidence_quality": 3,
+      "selected_window_ids": [
+        "B3"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "B3",
+          "header": "@@ -216,34 +214,34 @@                         break;",
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ],
+          "risk_support": 10,
+          "safety_support": 1,
+          "removed_preview": [
+            "                    memset(tmpbuf, '\\0', TEMP_BUF_SIZE);",
+            "",
+            "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+            "                                     icon_url, escaped_selector, rfc1738_escape_part(host),"
+          ],
+          "added_preview": [
+            "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+            "                                           icon_url, escaped_selector, rfc1738_escape_part(host),",
+            "                                           *port ? \":\" : \"\", port, html_quote(name));",
+            "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\","
+          ]
+        }
+      ],
+      "pilot_note": "Side B removes bounded snprintf buffer handling and reintroduces appendf formatting",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.32082128524780273,
+        "B": 0.2845759987831116
+      },
+      "decision_questions": [
+        "Does the selected evidence support side B over stored gold side A?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    },
+    {
+      "case_index": 2,
+      "audit_id": "manual_evidence_audit::401::3::cyrus-imapd__621f9e41465b521399f691c241181300fab55995__CVE-2021-32056",
+      "pair_key": "cyrus-imapd|621f9e41465b521399f691c241181300fab55995|CVE-2021-32056",
+      "project": "cyrus-imapd",
+      "cve": "CVE-2021-32056",
+      "changed_line_bucket": "11-25",
+      "priority": 2,
+      "source_pool": "fresh_seeds_top5_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "B",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "B",
+      "pilot_evidence_quality": 2,
+      "selected_window_ids": [
+        "B1"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "B1",
+          "header": "@@ -25,24 +25,24 @@ ",
+          "direction_labels": [
+            "direction_unclear"
+          ],
+          "risk_support": 0,
+          "safety_support": 0,
+          "removed_preview": [
+            "        struct annotate_metadata oldmdata;",
+            "        r = read_old_value(d, key, keylen, &oldval, &oldmdata);",
+            "        if (r) goto out;",
+            ""
+          ],
+          "added_preview": [
+            "    struct annotate_metadata oldmdata;",
+            "    r = read_old_value(d, key, keylen, &oldval, &oldmdata);",
+            "    if (r) goto out;",
+            ""
+          ]
+        }
+      ],
+      "pilot_note": "Side B appears to move metadata read outside mailbox guard",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.3106943964958191,
+        "B": 0.19314739108085632
+      },
+      "decision_questions": [
+        "Does the selected evidence support side B over stored gold side A?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    },
+    {
+      "case_index": 3,
+      "audit_id": "manual_evidence_audit::503::3::gnutls__d223040e498bd50a4b9e0aa493e78587ae1ed653__CVE-2008-1948",
+      "pair_key": "gnutls|d223040e498bd50a4b9e0aa493e78587ae1ed653|CVE-2008-1948",
+      "project": "gnutls",
+      "cve": "CVE-2008-1948",
+      "changed_line_bucket": "11-25",
+      "priority": 1,
+      "source_pool": "fresh_seeds_top5_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "A",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "A",
+      "pilot_evidence_quality": 3,
+      "selected_window_ids": [
+        "A1"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "A1",
+          "header": "@@ -34,15 +34,6 @@     {",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 11,
+          "safety_support": 0,
+          "removed_preview": [
+            "    }",
+            "",
+            "  if (ciphertext.size < (unsigned) blocksize + hash_size)",
+            "    {"
+          ],
+          "added_preview": []
+        }
+      ],
+      "pilot_note": "Side A removes short-record ciphertext length check",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.9437636137008667,
+        "B": 0.14511536061763763
+      },
+      "decision_questions": [
+        "Does the selected evidence support side A over stored gold side B?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    },
+    {
+      "case_index": 4,
+      "audit_id": "manual_evidence_audit::13::2::squid__5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9__CVE-2021-46784",
+      "pair_key": "squid|5e2ea2b13bd98f53e29964ca26bb0d602a8a12b9|CVE-2021-46784",
+      "project": "squid",
+      "cve": "CVE-2021-46784",
+      "changed_line_bucket": "26+",
+      "priority": 1,
+      "source_pool": "project_holdout_top5_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "A",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "A",
+      "pilot_evidence_quality": 3,
+      "selected_window_ids": [
+        "A3"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "A3",
+          "header": "@@ -221,37 +219,34 @@                         break;",
+          "direction_labels": [
+            "candidate_removes_protection",
+            "candidate_removes_risk"
+          ],
+          "risk_support": 13,
+          "safety_support": 1,
+          "removed_preview": [
+            "                    memset(tmpbuf, '\\0', TEMP_BUF_SIZE);",
+            "",
+            "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+            "                            snprintf(tmpbuf, TEMP_BUF_SIZE, \"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\","
+          ],
+          "added_preview": [
+            "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s@%s%s%s/\\\">%s</A>\\n\",",
+            "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"telnet://%s%s%s/\\\">%s</A>\\n\",",
+            "                        outbuf.appendf(\"\\t%s\\n\", html_quote(name));",
+            "                            outbuf.appendf(\"<IMG border=\\\"0\\\" SRC=\\\"%s\\\"> <A HREF=\\\"http://%s/%s\\\">%s</A>\\n\","
+          ]
+        }
+      ],
+      "pilot_note": "Side A removes bounded snprintf temporary buffer handling and reintroduces appendf formatting",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.5544704794883728,
+        "B": 0.36296921968460083
+      },
+      "decision_questions": [
+        "Does the selected evidence support side A over stored gold side B?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    },
+    {
+      "case_index": 5,
+      "audit_id": "manual_evidence_audit::13::4::linux-2.6__8a0a9bd4db63bc45e3017bedeafbd88d0eb84d02__CVE-2009-3238",
+      "pair_key": "linux-2.6|8a0a9bd4db63bc45e3017bedeafbd88d0eb84d02|CVE-2009-3238",
+      "project": "linux-2.6",
+      "cve": "CVE-2009-3238",
+      "changed_line_bucket": "11-25",
+      "priority": 2,
+      "source_pool": "project_holdout_top5_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "B",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "B",
+      "pilot_evidence_quality": 2,
+      "selected_window_ids": [
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "B1",
+          "header": "@@ -1,10 +1,14 @@ unsigned int get_random_int(void)",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 2,
+          "safety_support": 0,
+          "removed_preview": [
+            "\t/*",
+            "\t * Use IP's RNG. It suits our purpose perfectly: it re-keys itself",
+            "\t * every second, from the entropy pool (and thus creates a limited",
+            "\t * drain on it), and uses halfMD4Transform within the second. We"
+          ],
+          "added_preview": [
+            "\tstruct keydata *keyptr;",
+            "\t__u32 *hash = get_cpu_var(get_random_int_hash);",
+            "\tint ret;",
+            ""
+          ]
+        },
+        {
+          "window_id": "B2",
+          "header": "@@ -1,10 +1,14 @@ unsigned int get_random_int(void) [changed-window 2]",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 1,
+          "safety_support": 0,
+          "removed_preview": [
+            "\t * Use IP's RNG. It suits our purpose perfectly: it re-keys itself",
+            "\t * every second, from the entropy pool (and thus creates a limited"
+          ],
+          "added_preview": []
+        },
+        {
+          "window_id": "B3",
+          "header": "@@ -1,10 +1,14 @@ unsigned int get_random_int(void) [changed-window 3]",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 1,
+          "safety_support": 0,
+          "removed_preview": [
+            "\t * every second, from the entropy pool (and thus creates a limited",
+            "\t * drain on it), and uses halfMD4Transform within the second. We"
+          ],
+          "added_preview": []
+        }
+      ],
+      "pilot_note": "Side B removes replacement RNG path and restores custom key hash based random generation",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.7879312038421631,
+        "B": 0.12002561241388321
+      },
+      "decision_questions": [
+        "Does the selected evidence support side B over stored gold side A?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    },
+    {
+      "case_index": 6,
+      "audit_id": "manual_evidence_audit::42::8::linux__6cd1ed50efd88261298577cd92a14f2768eddeeb__CVE-2020-36558",
+      "pair_key": "linux|6cd1ed50efd88261298577cd92a14f2768eddeeb|CVE-2020-36558",
+      "project": "linux",
+      "cve": "CVE-2020-36558",
+      "changed_line_bucket": "11-25",
+      "priority": 2,
+      "source_pool": "rank6_10_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "B",
+      "model_vulnerable_side": "A",
+      "pilot_evidence_side": "B",
+      "pilot_evidence_quality": 2,
+      "selected_window_ids": [
+        "B2",
+        "B3"
+      ],
+      "selected_windows": [
+        {
+          "window_id": "B2",
+          "header": "@@ -544,15 +544,20 @@ \t\t\treturn -EINVAL; [changed-window 7]",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 2,
+          "safety_support": 0,
+          "removed_preview": [
+            "\t\t\tvc_cons[i].d->vc_resize_user = 1;",
+            "\t\t\tvc_resize(vc_cons[i].d, v.v_cols, v.v_rows);"
+          ],
+          "added_preview": []
+        },
+        {
+          "window_id": "B3",
+          "header": "@@ -544,15 +544,20 @@ \t\t\treturn -EINVAL; [changed-window 6]",
+          "direction_labels": [
+            "candidate_removes_protection"
+          ],
+          "risk_support": 1,
+          "safety_support": 0,
+          "removed_preview": [
+            "\t\t\t\tvc_cons[i].d->vc_font.height = v.v_clin;",
+            "\t\t\tvc_cons[i].d->vc_resize_user = 1;"
+          ],
+          "added_preview": []
+        }
+      ],
+      "pilot_note": "Side B removes resize_user and font resize handling around console resize",
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "side_probabilities": {
+        "A": 0.9664104580879211,
+        "B": 0.060086652636528015
+      },
+      "decision_questions": [
+        "Does the selected evidence support side B over stored gold side A?",
+        "Is the visible evidence span sufficient, or does this case require wider context?",
+        "Should the final label be confirmed_gold, corrected_side, ambiguous, insufficient_context, or not_security_relevant?"
+      ]
+    }
+  ]
+}

@@ -2,8 +2,8 @@
   "status": "ok",
   "scope": "primevul_ai_adjudication_summary",
   "rows": 20,
-  "ai_filled_rows": 20,
-  "human_confirmed_rows": 0,
+  "ai_filled_rows": 0,
+  "human_confirmed_rows": 20,
   "is_final_human_gold": false,
   "label_status_counts": {
     "confirmed_gold": 3,

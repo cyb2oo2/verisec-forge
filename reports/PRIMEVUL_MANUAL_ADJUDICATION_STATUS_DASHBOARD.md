@@ -7,17 +7,17 @@ It is not a final adjudication artifact; it tracks what is ready, blocked, or st
 
 - Total rows: `20`
 - Completed rows: `20`
-- Human-confirmed rows: `0`
+- Human-confirmed rows: `20`
 - Overall completion rate: `1.0`
 - Final adjudication: `false`
-- Research gate: AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation.
+- Research gate: Both review queues are human-confirmed. These 20 rows may be described as reviewer-confirmed evidence labels.
 
 ## Track Status
 
 | Track | Rows | Completed | Completion | Status | Blocked By | Next Action |
 | --- | ---: | ---: | ---: | --- | --- | --- |
-| `high_quality_disagreement` | 6 | 6 | 1.0 | `ai_adjudicated_needs_human_confirmation` | human reviewer confirmation is still missing | Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed. |
-| `insufficient_context` | 14 | 14 | 1.0 | `ai_adjudicated_needs_human_confirmation` | human reviewer confirmation is still missing | Request human confirmation or revision of the AI-filled insufficient-context pass. |
+| `high_quality_disagreement` | 6 | 6 | 1.0 | `complete` |  | Human-confirmed. Treat labels as reviewer-confirmed. |
+| `insufficient_context` | 14 | 14 | 1.0 | `complete` |  | Human-confirmed. Treat labels as reviewer-confirmed. |
 
 ## high_quality_disagreement
 
@@ -27,7 +27,7 @@ It is not a final adjudication artifact; it tracks what is ready, blocked, or st
   - `data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv`
   - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md`
   - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md`
-  - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md`
+  - `reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_ANALYSIS.md`
 
 Diagnostics:
 
@@ -35,9 +35,9 @@ Diagnostics:
 - `model_pilot_conflicts`: `4`
 - `label_status_counts`: `corrected_side: 5, insufficient_context: 1`
 - `evidence_span_sufficiency_counts`: `no: 1, partial: 2, yes: 3`
-- `reviewer_counts`: `codex_ai_adjudication_v1: 6`
-- `ai_completed`: `6`
-- `human_confirmed_completed`: `0`
+- `reviewer_counts`: `cyb2oo2_human_confirmation_v1: 6`
+- `ai_completed`: `0`
+- `human_confirmed_completed`: `6`
 - `apply_errors`: `[]`
 - `skipped_blank`: `0`
 
@@ -58,12 +58,12 @@ Diagnostics:
 - `source_pool_counts`: `fresh_seeds_top5_v1: 6, project_holdout_top5_v1: 2, rank6_10_v1: 4, top5_v1: 2`
 - `label_status_counts`: `confirmed_gold: 3, corrected_side: 1, insufficient_context: 10`
 - `evidence_span_sufficiency_counts`: `no: 6, partial: 8`
-- `reviewer_counts`: `codex_ai_adjudication_v1: 14`
-- `ai_completed`: `14`
-- `human_confirmed_completed`: `0`
+- `reviewer_counts`: `cyb2oo2_human_confirmation_v1: 14`
+- `ai_completed`: `0`
+- `human_confirmed_completed`: `14`
 - `apply_errors`: `[]`
 - `skipped_blank`: `0`
 
 ## Next Step
 
-Both review queues now have AI-filled adjudication passes. The next gate is human confirmation or revision; only then should any row be described as reviewer-confirmed.
+Both review queues are human-confirmed. These 20 rows are the project's first reviewer-confirmed evidence labels; treat them as such in any downstream report or claim.

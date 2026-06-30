@@ -91,17 +91,19 @@ def build_dashboard(
             "blocked_by": "independent reviewer fields are blank"
             if high_quality_completed == 0
             else "human reviewer confirmation is still missing"
-            if high_quality_ai_completed == high_quality_completed
+            if high_quality_ai_completed == high_quality_completed and high_quality_completed
             else "",
             "primary_artifacts": [
                 "data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv",
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md",
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md",
-                "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md",
+                "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_ANALYSIS.md",
             ],
             "next_action": "Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed."
             if high_quality_ai_completed == high_quality_completed and high_quality_completed
-            else "Fill the focused CSV, rerun apply with --dry-run, then apply without --dry-run.",
+            else "Fill the focused CSV, rerun apply with --dry-run, then apply without --dry-run."
+            if high_quality_human_completed == 0
+            else "Human-confirmed. Treat labels as reviewer-confirmed.",
             "diagnostics": {
                 "gold_pilot_conflicts": high_quality_brief.get("gold_pilot_conflicts", 0),
                 "model_pilot_conflicts": high_quality_brief.get("model_pilot_conflicts", 0),
@@ -127,18 +129,24 @@ def build_dashboard(
             else 0.0,
             "status": "ai_adjudicated_needs_human_confirmation"
             if insufficient_ai_completed == insufficient_completed and insufficient_completed
-            else "review_packet_ready",
+            else "review_packet_ready"
+            if insufficient_completed == 0
+            else _track_status(insufficient_rows, insufficient_completed, dry_run=insufficient_dry_run),
             "dry_run": insufficient_dry_run,
-            "blocked_by": "human reviewer confirmation is still missing"
-            if insufficient_completed
-            else "requires wider-context inspection before final side labels",
+            "blocked_by": "requires wider-context inspection before final side labels"
+            if insufficient_completed == 0
+            else "human reviewer confirmation is still missing"
+            if insufficient_ai_completed == insufficient_completed and insufficient_completed
+            else "",
             "primary_artifacts": [
                 "data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl",
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md",
                 "data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv",
                 "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md",
             ],
-            "next_action": "Request human confirmation or revision of the AI-filled insufficient-context pass.",
+            "next_action": "Request human confirmation or revision of the AI-filled insufficient-context pass."
+            if insufficient_completed == 0 or insufficient_human_completed == 0
+            else "Human-confirmed. Treat labels as reviewer-confirmed.",
             "diagnostics": {
                 "bucket_counts": insufficient_context_brief.get("bucket_counts", {}),
                 "evidence_side_counts": insufficient_context_brief.get("evidence_side_counts", {}),
@@ -168,7 +176,9 @@ def build_dashboard(
         "human_confirmed_completed": human_completed,
         "overall_completion_rate": round(total_completed / total_rows, 4) if total_rows else 0.0,
         "tracks": tracks,
-        "next_research_gate": "AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation.",
+        "next_research_gate": "Both review queues are human-confirmed. These 20 rows may be described as reviewer-confirmed evidence labels."
+        if total_rows and human_completed == total_completed and total_completed == total_rows
+        else "AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation.",
     }
 
 
@@ -231,12 +241,19 @@ def render_report(payload: dict[str, Any]) -> str:
             else:
                 rendered = f"`{value}`"
             lines.append(f"- `{key}`: {rendered}")
+    next_step = (
+        "Both review queues are human-confirmed. These 20 rows are the project's first "
+        "reviewer-confirmed evidence labels; treat them as such in any downstream report or claim."
+        if payload["total_rows"] and payload["human_confirmed_completed"] == payload["total_rows"]
+        else "Both review queues now have AI-filled adjudication passes. The next gate is human "
+        "confirmation or revision; only then should any row be described as reviewer-confirmed."
+    )
     lines.extend(
         [
             "",
             "## Next Step",
             "",
-            "Both review queues now have AI-filled adjudication passes. The next gate is human confirmation or revision; only then should any row be described as reviewer-confirmed.",
+            next_step,
             "",
         ]
     )

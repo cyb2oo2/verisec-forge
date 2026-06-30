@@ -93,11 +93,15 @@ def _mapping_lines(mapping: dict[str, Any]) -> list[str]:
 
 
 def render_report(payload: dict[str, Any], table_rows: list[dict[str, Any]]) -> str:
+    fully_human_confirmed = payload["rows"] > 0 and payload["human_confirmed_rows"] == payload["rows"]
     lines = [
         "# PrimeVul AI Adjudication Summary",
         "",
-        "This report consolidates the AI-filled adjudication pass over the high-quality disagreement and insufficient-context queues.",
-        "It is an AI audit draft, not independent human gold.",
+        "This report consolidates the adjudication pass over the high-quality disagreement and insufficient-context queues.",
+        "Once every row carries a non-AI reviewer, it reports human-confirmed labels for "
+        "this 20-row set; it is still not project-wide independent human gold."
+        if fully_human_confirmed
+        else "It is an AI audit draft, not independent human gold.",
         "",
         "## Summary",
         "",
@@ -142,7 +146,9 @@ def render_report(payload: dict[str, Any], table_rows: list[dict[str, Any]]) -> 
             "",
             "## Interpretation",
             "",
-            "The AI pass resolves some high-signal conflicts, but the project should still report these rows as AI-filled adjudication rather than independent reviewer-confirmed labels.",
+            "All 20 rows now carry a non-AI reviewer; the project may report these as reviewer-confirmed labels for this 20-row set, not as AI-filled adjudication."
+            if fully_human_confirmed
+            else "The AI pass resolves some high-signal conflicts, but the project should still report these rows as AI-filled adjudication rather than independent reviewer-confirmed labels.",
             "The large remaining `insufficient_context` count is useful: it shows that evidence-window localization often needs wider code context before a trustworthy final side label can be assigned.",
             "",
         ]
