@@ -63,6 +63,19 @@ def test_paper_result_anchors_have_report_map() -> None:
         assert "reports/" in line or "docs/" in line, anchor
 
 
+def test_paper_result_anchor_map_artifacts_exist_on_disk() -> None:
+    anchor_map = (ROOT / "paper/result_anchor_map.md").read_text(
+        encoding="utf-8"
+    )
+    pattern = re.compile(r"`((?:reports|docs|reproducibility)/[A-Za-z0-9_./]+\.(?:md|json))`")
+
+    referenced_paths = set(pattern.findall(anchor_map))
+    assert referenced_paths, "result_anchor_map.md should reference artifact paths"
+
+    for relative_path in referenced_paths:
+        assert (ROOT / relative_path).exists(), relative_path
+
+
 def test_paper_related_anchors_have_references() -> None:
     draft = (ROOT / "paper/draft_v0.md").read_text(encoding="utf-8")
     references = (ROOT / "paper/references.md").read_text(encoding="utf-8")
