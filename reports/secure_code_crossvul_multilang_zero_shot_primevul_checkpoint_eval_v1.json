@@ -1,0 +1,82 @@
+{
+  "status": "ok",
+  "scope": "crossvul_zero_shot_primevul_checkpoint",
+  "protocol": {
+    "source_dataset": "crossvul (data/raw/crossvul_train_raw.jsonl, c/cpp only)",
+    "checkpoint": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+    "threshold": 0.5,
+    "pair_coupling_margin": 0.02,
+    "target_training": "none; CrossVul was never used in training, development, or model selection for this checkpoint"
+  },
+  "split": {
+    "rows": 7560,
+    "unique_pair_count": 3780,
+    "label_counts": {
+      "safe": 3780,
+      "vulnerable": 3780
+    },
+    "changed_line_buckets": {
+      "00-02": 2148,
+      "03-05": 1496,
+      "06-10": 1347,
+      "11-25": 1398,
+      "26+": 1171
+    }
+  },
+  "default_threshold": {
+    "overall": {
+      "num_examples": 7560,
+      "presence_accuracy": 0.7589,
+      "label_accuracy": 0.7589,
+      "vulnerable_recall": 0.7672,
+      "safe_specificity": 0.7505,
+      "precision": 0.7546,
+      "f1": 0.7609,
+      "balanced_accuracy": 0.7589,
+      "tp": 2900,
+      "tn": 2837,
+      "fp": 943,
+      "fn": 880
+    },
+    "group_metrics": {
+      "unique_pair_count": 3780,
+      "mixed_label_pair_count": 3780,
+      "group_all_correct": 2344,
+      "group_all_correct_rate": 0.6201,
+      "orientation_eligible_pair_count": 3780,
+      "orientation_correct": 3067,
+      "orientation_accuracy": 0.8114
+    }
+  },
+  "pair_coupled": {
+    "overall": {
+      "num_examples": 7560,
+      "presence_accuracy": 0.8132,
+      "label_accuracy": 0.8132,
+      "vulnerable_recall": 0.8175,
+      "safe_specificity": 0.809,
+      "precision": 0.8106,
+      "f1": 0.814,
+      "balanced_accuracy": 0.8132,
+      "tp": 3090,
+      "tn": 3058,
+      "fp": 722,
+      "fn": 690
+    },
+    "group_metrics": {
+      "unique_pair_count": 3780,
+      "mixed_label_pair_count": 3780,
+      "group_all_correct": 2987,
+      "group_all_correct_rate": 0.7902,
+      "orientation_eligible_pair_count": 3780,
+      "orientation_correct": 3067,
+      "orientation_accuracy": 0.8114
+    },
+    "coupling_counts": {
+      "groups": 3780,
+      "eligible_groups": 3780,
+      "coupled_groups": 3606,
+      "unchanged_groups": 174
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "status": "ok",
+  "scope": "crossvul_pair_diff_dataset",
+  "source": {
+    "raw_path": "data/raw/crossvul_train_raw.jsonl",
+    "license": "see data/raw/README.md upstream source notes",
+    "languages": [
+      "java",
+      "javascript",
+      "php",
+      "python"
+    ],
+    "input_examples": 3780,
+    "selected_pairs": 3780,
+    "selected_pair_rows": 7560
+  },
+  "labels": {
+    "rows": 7560,
+    "safe": 3780,
+    "vulnerable": 3780,
+    "pair_keys": 3780
+  },
+  "language_counts": {
+    "java": 978,
+    "javascript": 1320,
+    "php": 4278,
+    "python": 984
+  },
+  "changed_line_buckets": {
+    "00-02": 2148,
+    "03-05": 1496,
+    "06-10": 1347,
+    "11-25": 1398,
+    "26+": 1171
+  },
+  "pair_text_length": {
+    "p50": 899,
+    "p90": 2970,
+    "max": 39284
+  }
+}
