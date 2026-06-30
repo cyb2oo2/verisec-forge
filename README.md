@@ -28,6 +28,13 @@ The feedback needed most is about claim strength:
 - Is the evidence hierarchy clear?
 - Are the limitations strong enough?
 
+## Citation and Release Metadata
+
+For citation metadata, see [CITATION.cff](CITATION.cff). For the bounded v0.1
+research-artifact release scope, see
+[v0.1 release notes](docs/RELEASE_V0_1_NOTES.md) and the
+[release checklist](docs/RELEASE_CHECKLIST.md).
+
 ## Reviewer Fast Path
 
 For a quick technical review, start with:
