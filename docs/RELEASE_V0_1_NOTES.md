@@ -64,3 +64,10 @@ reasoning.
 
 Before creating a GitHub release or Zenodo DOI, complete
 [`docs/RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
+
+## Draft Release Body
+
+A draft of the GitHub release body text, plus DOI archive notes for a future
+Zenodo entry, is staged in
+[`docs/RELEASE_V0_1_BODY.md`](RELEASE_V0_1_BODY.md). Staging this draft does
+not create a release, tag, or DOI.

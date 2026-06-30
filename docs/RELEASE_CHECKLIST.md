@@ -9,6 +9,8 @@ experiments, claims, benchmark artifacts, outreach operations, or paper text.
 - [x] Add `CITATION.cff`.
 - [x] Add v0.1 release notes.
 - [x] Link release metadata from `README.md`.
+- [x] Stage draft release body and DOI archive notes
+  (`docs/RELEASE_V0_1_BODY.md`).
 - [ ] Decide final release tag name, likely `v0.1.0`.
 - [ ] Confirm repository license metadata is suitable for release.
 - [ ] Decide whether to archive with Zenodo after GitHub release creation.

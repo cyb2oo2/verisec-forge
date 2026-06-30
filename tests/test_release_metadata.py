@@ -5,6 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CITATION = ROOT / "CITATION.cff"
 RELEASE_NOTES = ROOT / "docs" / "RELEASE_V0_1_NOTES.md"
 RELEASE_CHECKLIST = ROOT / "docs" / "RELEASE_CHECKLIST.md"
+RELEASE_BODY = ROOT / "docs" / "RELEASE_V0_1_BODY.md"
 README = ROOT / "README.md"
 
 
@@ -12,6 +13,7 @@ def test_release_metadata_files_exist() -> None:
     assert CITATION.exists()
     assert RELEASE_NOTES.exists()
     assert RELEASE_CHECKLIST.exists()
+    assert RELEASE_BODY.exists()
 
 
 def test_citation_title_is_relation_preserving_not_benchmark_framed() -> None:
@@ -52,6 +54,30 @@ def test_release_notes_keep_artifact_boundary() -> None:
     lower_notes = notes.lower()
     for phrase in forbidden:
         assert phrase not in lower_notes
+
+
+def test_release_body_is_draft_only_and_keeps_boundary() -> None:
+    body = RELEASE_BODY.read_text(encoding="utf-8")
+
+    required = [
+        "It is staged here for review and is not published as a release.",
+        "Not a deployed vulnerability scanner.",
+        "Not a leaderboard.",
+        "Not a model-quality benchmark release.",
+        "Not evidence that decoding improves model reasoning.",
+        "do not initiate archival, request a DOI, or create a Zenodo entry",
+    ]
+    for phrase in required:
+        assert phrase in body
+
+    forbidden = [
+        "state-of-the-art",
+        "new field",
+        "solves secure patch reasoning",
+    ]
+    lower_body = body.lower()
+    for phrase in forbidden:
+        assert phrase not in lower_body
 
 
 def test_readme_links_release_metadata() -> None:
