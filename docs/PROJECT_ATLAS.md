@@ -57,6 +57,10 @@ endpoint sensitivity.
   pattern without promoting a better classifier.
 - `reports/FROZEN_BACKBONE_READOUT_CONTROL.md` separates training-mediated and
   direct pooling effects under a fixed representation.
+- `reports/QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md` directly crosses
+  the endpoint-collapse fix with side-swap equivariance and finds a ~14x
+  smaller effect on the latter, confirming the two failure modes are largely
+  separable rather than the same mechanism.
 
 Boundary: this layer supports mechanism evidence. It does not solve side-order
 reasoning and does not promote readout variants as accuracy-preserving better
