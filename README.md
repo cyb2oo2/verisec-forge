@@ -53,6 +53,8 @@ model-quality benchmark.
 
 4. **Bounded external generalization.** CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks support a narrow claim: source-aware paired-diff experts and learned closed-world routing improve robustness, but this is not open-set expert discovery.
 
+5. **Relation-consistent decoder as a structural control, not a reasoning claim.** A test-time decoder enforces declared identity/invariant/side-swap relations over existing predictions, eliminating relation violations on the retained Qwen smoke artifact (`0.3042 -> 0.0000`) while leaving an `0.0875` identity distortion rate. This is a post-hoc structural control, not evidence that the underlying model has learned stronger secure-patch reasoning.
+
 ## Headline Evidence
 
 | Claim | Main Result | Where To Read |
@@ -76,6 +78,8 @@ model-quality benchmark.
 | Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
 | Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
 | Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
+| Relation-consistent decoding removes measured relation violations as a structural control | violation rate `0.3042 -> 0.0000`; randomized-pair control degrades to `0.4033`, confirming the effect needs real pairing structure | [Decoder Stress Validation](reports/DECODER_STRESS_VALIDATION.md) |
+| Decoding still distorts some identity predictions even as it removes violations | identity distortion rate `0.0875`; flips toward gold `55` vs away from gold `50`, a roughly even split | [Decoder Failure Case Audit](reports/DECODER_FAILURE_CASE_AUDIT.md) |
 
 ## Reading Order
 
@@ -92,6 +96,7 @@ Start with:
 - [VeriPatch-RR External Adapter](docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md)
 - [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
 - [Relational Benchmark V2 Protocol](docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md)
+- [External Model Report Card](docs/EXTERNAL_MODEL_REPORT_CARD.md)
 - [Project Story](PROJECT_STORY.md)
 - [Results Index](reports/RESULTS_INDEX.md)
 - [Reproducibility Guide](REPRODUCIBILITY.md)
