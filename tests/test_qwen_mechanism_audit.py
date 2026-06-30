@@ -5,6 +5,7 @@ from vrf.qwen_mechanism_audit import (
     padding_variants,
 )
 from scripts.build_qwen_mechanism_side_swap_terminal_phrase_audit import build_interaction_rows
+from scripts.build_qwen_mechanism_label_only_swap_audit import build_rows, label_only_swap
 
 
 def test_padding_variants_use_identical_neutral_content():
@@ -91,3 +92,46 @@ def test_build_interaction_rows_crosses_swap_and_terminal_phrase():
     assert "Unified diff complete." in combined_text  # terminal phrase applied
     assert by_variant["side_swap_padding_post_diff_terminal_phrase"]["gold_riskier_side"] == "B"
     assert by_variant["side_swap_padding_post_diff_terminal_phrase"]["expected_relation"] == "equivariant_swap"
+
+
+def test_label_only_swap_relabels_headers_but_preserves_diff_body():
+    text = (
+        "Task: compare two related code states and choose the riskier side.\n"
+        "Output one label: A_RISKIER, B_RISKIER, or INSUFFICIENT_CONTEXT.\n\n"
+        "Unified diff from Side A to Side B:\n"
+        "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-old\n+new\n"
+    )
+
+    swapped = label_only_swap(text)
+
+    assert "Unified diff from Side B to Side A:" in swapped
+    assert "--- Side B" in swapped
+    assert "+++ Side A" in swapped
+    # The diff hunk body (the actual -/+ content lines) must be untouched --
+    # this is what makes the swap a pure relabeling, not a content change.
+    assert "@@ -1 +1 @@\n-old\n+new\n" in swapped
+    # The fixed output vocabulary must not be corrupted by the substitution.
+    assert "A_RISKIER, B_RISKIER" in swapped
+
+
+def test_build_rows_flips_gold_for_label_only_swap():
+    base = {
+        "id": "audit::primevul::p1::canonical",
+        "dataset": "primevul",
+        "pair_key": "p1",
+        "cluster_id": "c1",
+        "gold_riskier_side": "A",
+        "text": (
+            "Unified diff from Side A to Side B:\n"
+            "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-old\n+new\n"
+        ),
+    }
+
+    rows = build_rows([base])
+
+    by_variant = {row["audit_variant"]: row for row in rows}
+    assert by_variant["canonical"]["expected_relation"] == "identity"
+    assert by_variant["canonical"]["gold_riskier_side"] == "A"
+    assert by_variant["label_only_swap"]["gold_riskier_side"] == "B"
+    assert by_variant["label_only_swap"]["expected_relation"] == "equivariant_swap"
+    assert "@@ -1 +1 @@\n-old\n+new\n" in by_variant["label_only_swap"]["text"]

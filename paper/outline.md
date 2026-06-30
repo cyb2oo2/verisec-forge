@@ -90,7 +90,14 @@ chi-square test, n=600), while the same comparison under a non-swap padding
 intervention shows strong positive correlation (`phi = 0.80`, `p < 0.0001`).
 The failure under swap is closer to content-blindness specific to the swap
 than to confused-but-content-aware reasoning, consistent with
-position-specific rather than content-symmetric processing.
+position-specific rather than content-symmetric processing. Decomposed
+further (`reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md`): swapping
+only the "Side A"/"Side B" text labels, holding diff hunk polarity fixed,
+leaves the prediction almost unchanged (`phi = 0.91`, accuracy collapses to
+`0.3483` -- nearly `1 - 0.66`, consistent with the prediction staying frozen
+while gold flips underneath it). This rules out the prose text labels as the
+driver and points to diff hunk polarity (structural content order) as the
+more likely locus, narrowing but not yet completing the explanation.
 
 ## 7. Limitations
 
