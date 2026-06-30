@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "scope": "qwen_label_only_swap_vs_structural_swap",
+  "checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "length": 1024,
+  "base_pairs": 600,
+  "results": {
+    "canonical": {
+      "n": 600,
+      "accuracy": 0.66
+    },
+    "label_only_swap": {
+      "n": 600,
+      "accuracy": 0.3483333333333333,
+      "independence_vs_canonical": {
+        "chi2": 501.2898131087128,
+        "phi": 0.9140476037099242,
+        "p_value": 4.9811969413704176e-111
+      }
+    },
+    "side_swap_reference": {
+      "note": "From reports/secure_code_qwen_side_swap_positional_independence_v1.json, same checkpoint/length/600 pairs.",
+      "independence_vs_canonical": {
+        "chi2": 0.34164120781552093,
+        "phi": -0.023862146027251414,
+        "p_value": 0.5588834141720695
+      }
+    }
+  },
+  "claim_boundary": "Establishes that text-label relabeling alone does not explain the side-swap failure -- does not yet directly confirm hunk-polarity sensitivity, since no condition flips polarity while holding labels fixed (the complementary experiment). Consistent with, but does not prove, a hunk-polarity-driven mechanism. One checkpoint, one length, 600 pairs, observational/correlational only."
+}

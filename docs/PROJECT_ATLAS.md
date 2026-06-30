@@ -67,6 +67,11 @@ endpoint sensitivity.
   independent (`phi = -0.024`, `p = 0.56`), while the same test under a
   non-swap intervention shows strong correlation (`phi = 0.80`), pointing to
   position-specific rather than content-symmetric processing.
+- `reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md` decomposes the swap
+  into text-label and diff-hunk-polarity components: relabeling alone
+  (polarity fixed) leaves the prediction almost unchanged (`phi = 0.91`),
+  ruling out the prose labels as the driver and pointing to diff hunk
+  polarity as the more likely locus.
 
 Boundary: this layer supports mechanism evidence. It does not solve side-order
 reasoning and does not promote readout variants as accuracy-preserving better

@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "scope": "qwen_side_swap_positional_independence",
+  "baseline_variant": "canonical",
+  "results": {
+    "label_only_swap": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.655,
+      "chi2": 501.2898131087128,
+      "phi": 0.9140476037099242,
+      "p_value": 4.9811969413704176e-111
+    }
+  }
+}

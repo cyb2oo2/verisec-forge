@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "scope": "qwen_mechanism_label_only_swap_audit",
+  "base_pairs": 600,
+  "rows": 1200,
+  "variants": [
+    "canonical",
+    "label_only_swap"
+  ]
+}
