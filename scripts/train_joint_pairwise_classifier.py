@@ -132,7 +132,7 @@ def main() -> int:
                             reverse_side_choice_text(feature["vulnerable_candidate_text"]),
                         ]
                     )
-                elif nuisance_weight:
+                if nuisance_weight:
                     intervention = select_nuisance_intervention(
                         feature["pair_key"],
                         nuisance_interventions,
@@ -163,7 +163,7 @@ def main() -> int:
             outputs = model(**inputs)
             consistency_weight = float(config["loss"].get("synthetic_consistency_weight", 0.0))
             nuisance_weight = float(config["loss"].get("nuisance_consistency_weight", 0.0))
-            orientations = 4 if consistency_weight or nuisance_weight else 2
+            orientations = 2 + (2 if consistency_weight else 0) + (2 if nuisance_weight else 0)
             logits = outputs.logits.reshape(labels.shape[0], orientations, 2)
             real_logits = logits[:, :2]
             classification = torch.nn.functional.cross_entropy(real_logits.reshape(-1, 2), labels.reshape(-1))
@@ -176,15 +176,20 @@ def main() -> int:
                 + float(config["loss"]["margin_weight"]) * margin
                 + float(config["loss"]["complement_weight"]) * complement
             )
+            # Both extras are applied together (a "protected" objective) rather than
+            # mutually exclusive, so padding-invariance adaptation cannot trade off
+            # against the synthetic side-order consistency signal.
+            offset = 2
             if consistency_weight:
                 all_probabilities = logits.softmax(dim=-1)[:, :, 1]
                 consistency = (
-                    torch.nn.functional.mse_loss(all_probabilities[:, 2], all_probabilities[:, 1])
-                    + torch.nn.functional.mse_loss(all_probabilities[:, 3], all_probabilities[:, 0])
+                    torch.nn.functional.mse_loss(all_probabilities[:, offset], all_probabilities[:, 1])
+                    + torch.nn.functional.mse_loss(all_probabilities[:, offset + 1], all_probabilities[:, 0])
                 ) / 2
                 loss = loss + consistency_weight * consistency
-            elif nuisance_weight:
-                nuisance_logits = logits[:, 2:]
+                offset += 2
+            if nuisance_weight:
+                nuisance_logits = logits[:, offset : offset + 2]
                 nuisance_probabilities = nuisance_logits.softmax(dim=-1)[:, :, 1]
                 nuisance_classification = torch.nn.functional.cross_entropy(
                     nuisance_logits.reshape(-1, 2),
@@ -200,6 +205,7 @@ def main() -> int:
                     * nuisance_classification
                     + nuisance_weight * nuisance_consistency
                 )
+                offset += 2
             return (loss, outputs) if return_outputs else loss
 
     training = config["training"]

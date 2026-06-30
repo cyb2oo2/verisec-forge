@@ -36,7 +36,7 @@ The output records are pair-level examples with `side_a`, `side_b`, evidence can
 9. Completed: at `0.7896` mean held-out coverage, accepted accuracy reaches `0.8767` and abstention captures `0.4087` of errors.
 10. Next: add targeted nuisance consistency only for the interventions that remain weak.
 11. Completed pilot: 375-pair targeted adaptation reduces padding violation from `0.4250` to `0.1300` (`p<1.4e-23`) without a significant main-task change.
-12. Next: scale a protected objective that retains synthetic side-order supervision while emphasizing padding invariance.
+12. Attempted and failed at 1,500-pair scale: combining synthetic side-order consistency with nuisance-padding consistency in one objective raised joint-format accuracy (`0.8174` -> `0.8380`, `p=0.006`) but collapsed independent single-text calibration to exact chance (`0.50`, vs `0.79`-`0.80` for the baseline and the nuisance-only pilot) and regressed every counterfactual intervention, including the targeted `nonsecurity_padding` case. See `reports/PRIMEVUL_PROTECTED_NUISANCE_PAIRWISE_ADAPTATION.md`. Next attempt should isolate `synthetic_consistency_weight` alone at the same scale before recombining, and consider an explicit standalone single-text calibration term.
 13. Add evidence-ranking loss only after side choice is stable.
 14. Add confidence and insufficient-context losses only after cleaner annotation targets exist.
 15. Evaluate on held-out pair groups, external sources, and counterfactual interventions.
