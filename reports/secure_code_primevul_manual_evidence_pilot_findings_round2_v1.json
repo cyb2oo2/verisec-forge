@@ -1,0 +1,254 @@
+{
+  "rows": 19,
+  "completed_annotations": 19,
+  "completion_rate": 1.0,
+  "annotator_counts": {
+    "codex_pilot_round2": 19
+  },
+  "agreement_counts": {
+    "match": 9,
+    "mismatch": 10
+  },
+  "agreement_rate": 0.4737,
+  "evidence_quality_counts": {
+    "0": 2,
+    "1": 8,
+    "2": 7,
+    "3": 2
+  },
+  "label_issue_counts": {
+    "insufficient_context": 9,
+    "none": 10
+  },
+  "by_source_pool": {
+    "rank11_15_v1": {
+      "match": 9,
+      "mismatch": 10
+    }
+  },
+  "issue_by_agreement": {
+    "match": {
+      "none": 9
+    },
+    "mismatch": {
+      "insufficient_context": 9,
+      "none": 1
+    }
+  },
+  "quality_by_agreement": {
+    "match": {
+      "1": 1,
+      "2": 7,
+      "3": 1
+    },
+    "mismatch": {
+      "0": 2,
+      "1": 7,
+      "3": 1
+    }
+  },
+  "high_quality_disagreement_count": 1,
+  "high_quality_disagreements": [
+    {
+      "audit_id": "manual_evidence_audit::123::14::FFmpeg__27a99e2c7d450fef15594671eef4465c8a166bd7__CVE-2020-35964",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "B",
+      "evidence_side": "A",
+      "evidence_quality": 3,
+      "label_issue": "none",
+      "selected_window_ids": [
+        "A2"
+      ],
+      "notes": "Side A's candidate text adds an explicit bounds check ('if (delta > data_len[j]) return AVERROR_INVALIDDATA', direction label candidate_adds_protection, safety_support 5) replacing an av_assert0 that is compiled out in release builds. This reads as side A being the fixed/safer side, contradicting stored gold side A as vulnerable.",
+      "queue_type": "high_quality_disagreement",
+      "priority": 1,
+      "reason": "visible evidence conflicts with stored gold vulnerable side",
+      "pair_key": "FFmpeg|27a99e2c7d450fef15594671eef4465c8a166bd7|CVE-2020-35964",
+      "changed_line_bucket": "11-25",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "adjudicate_gold_vs_pilot_direction"
+    }
+  ],
+  "insufficient_context_count": 9,
+  "insufficient_context_cases": [
+    {
+      "audit_id": "manual_evidence_audit::42::11::linux__d0d62baa7f505bd4c59cd169692ff07ec49dde37__CVE-2021-38205",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Format specifier %p vs %08lX change for a pointer log message; plausible info-leak direction exists but visible windows show no risk/safety support and direction_unclear labels.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "linux|d0d62baa7f505bd4c59cd169692ff07ec49dde37|CVE-2021-38205",
+      "changed_line_bucket": "03-05",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": true,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::7::11::mutt__9347b5c01dc52682cb6be11539d9b7ebceae4416__CVE-2018-14349",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 0,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Single-character pointer offset change (s+2 vs s+3) with near-identical detector probabilities; cannot judge correctness without surrounding buffer-length context.",
+      "queue_type": "insufficient_context",
+      "priority": 3,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "mutt|9347b5c01dc52682cb6be11539d9b7ebceae4416|CVE-2018-14349",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::12::linux__89c2b3b74918200e46699338d7bcc19b1ea12110__CVE-2022-1508",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Single iov_iter_reexpand() call present/absent vs a comment; too little surrounding context to tell whether this is a leak fix or removes needed cleanup.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "linux|89c2b3b74918200e46699338d7bcc19b1ea12110|CVE-2022-1508",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::7::12::minetest__b5956bde259faa240a81060ff4e598e25ad52dae__CVE-2022-24300",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Metadata::setString()+TOOLCAP_KEY path vs manual clean_name/clean_var+sanitize_string path; cannot tell which validation approach is safer without seeing the called functions.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "minetest|b5956bde259faa240a81060ff4e598e25ad52dae|CVE-2022-24300",
+      "changed_line_bucket": "06-10",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::42::13::linux__1680939e9ecf7764fba8689cfb3429c2fe2bb23c__CVE-2022-34494",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Explicit kfree(vch) vs a comment claiming it is freed elsewhere; could be a leak fix or a double-free risk depending on the other free path, not visible here.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "linux|1680939e9ecf7764fba8689cfb3429c2fe2bb23c|CVE-2022-34494",
+      "changed_line_bucket": "00-02",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::13::13::nDPI__8e7b1ea7a136cc4e4aa9880072ec2d69900a825e__CVE-2020-15473",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Packet offset bounds-check line appears in a removed_preview but is labeled candidate_adds_protection; window-label conflict, cannot resolve direction confidently from the 2-line preview.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "nDPI|8e7b1ea7a136cc4e4aa9880072ec2d69900a825e|CVE-2020-15473",
+      "changed_line_bucket": "26+",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::7::13::samba__eb50fb8f3bf670bd7d1cf8fd4368ef4a73083696__CVE-2014-0178",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "A length-calculation term is added on one side and removed on the other; naive read (smaller computed length implies undersized buffer implies vulnerable) would point to side A, which conflicts with gold B. Flagging rather than asserting either side given the conflict.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "samba|eb50fb8f3bf670bd7d1cf8fd4368ef4a73083696|CVE-2014-0178",
+      "changed_line_bucket": "03-05",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": true,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::99::15::libvirt__524de6cc35d3b222f0e940bb0fd027f5482572c5__CVE-2020-14301",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "A",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 1,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "Passing xmlformatflags vs a hardcoded 0 to virDomainDiskSourceFormat; cannot judge security relevance without knowing what the flag controls.",
+      "queue_type": "insufficient_context",
+      "priority": 2,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "libvirt|524de6cc35d3b222f0e940bb0fd027f5482572c5|CVE-2020-14301",
+      "changed_line_bucket": "03-05",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": false,
+      "review_action": "inspect_wider_context_before_direction_label"
+    },
+    {
+      "audit_id": "manual_evidence_audit::13::15::patch__3fcd042d26d70856e826a42b5f93dc4854d80bf0__CVE-2019-13638",
+      "source_pool": "rank11_15_v1",
+      "gold_vulnerable_side": "B",
+      "pilot_vulnerable_side": "unclear",
+      "evidence_side": "unclear",
+      "evidence_quality": 0,
+      "label_issue": "insufficient_context",
+      "selected_window_ids": [],
+      "notes": "The sprintf call text is identical in both previews (risk/safety labels differ but the visible 2-line window shows no textual difference); the real change is outside the visible preview.",
+      "queue_type": "insufficient_context",
+      "priority": 3,
+      "reason": "hunk/window evidence is too narrow for a reliable side decision",
+      "pair_key": "patch|3fcd042d26d70856e826a42b5f93dc4854d80bf0|CVE-2019-13638",
+      "changed_line_bucket": "06-10",
+      "model_vulnerable_side": "A",
+      "is_true_inversion_candidate": true,
+      "review_action": "inspect_wider_context_before_direction_label"
+    }
+  ],
+  "interpretation": [
+    "This is a codex_pilot audit, not independent human gold.",
+    "The hard side-inversion queue is evidence-noisy: pilot/gold agreement is close to balanced rather than near-certain.",
+    "High-quality pilot disagreements are the most valuable adjudication targets because the visible evidence conflicts with the stored vulnerable side.",
+    "Insufficient-context cases indicate where hunk windows are too narrow for reliable evidence localization."
+  ]
+}

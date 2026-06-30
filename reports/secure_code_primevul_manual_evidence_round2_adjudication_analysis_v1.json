@@ -1,0 +1,25 @@
+{
+  "rows": 10,
+  "completed_adjudications": 10,
+  "completion_rate": 1.0,
+  "invalid_adjudications": 0,
+  "label_status_counts": {
+    "corrected_side": 1,
+    "insufficient_context": 9
+  },
+  "evidence_span_sufficiency_counts": {
+    "no": 9,
+    "yes": 1
+  },
+  "reviewer_counts": {
+    "cyb2oo2_human_confirmation_v1": 10
+  },
+  "by_queue_type": {
+    "high_quality_disagreement": {
+      "corrected_side": 1
+    },
+    "insufficient_context": {
+      "insufficient_context": 9
+    }
+  }
+}
