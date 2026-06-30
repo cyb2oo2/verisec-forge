@@ -22,8 +22,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input", action="append", dest="inputs", default=None)
     parser.add_argument(
         "--exclude-from",
-        default="data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl",
-        help="Round-1 audit JSONL whose audit_ids should be excluded from the new sample.",
+        action="append",
+        dest="exclude_from",
+        default=None,
+        help="Prior-round audit JSONL(s) whose audit_ids/pair_keys should be excluded from the new "
+        "sample. Repeat to exclude multiple prior rounds. Defaults to round 1 only.",
     )
     parser.add_argument("--output", default="data/processed/secure_code_primevul_manual_evidence_audit_round2_v1.jsonl")
     parser.add_argument("--summary-output", default="reports/secure_code_primevul_manual_evidence_audit_round2_v1_summary.json")
@@ -105,7 +108,10 @@ def exclude_round1_candidates(
 def main() -> int:
     args = parse_args()
     inputs = args.inputs or DEFAULT_REVIEW_QUEUE_PATHS
-    excluded_rows = read_jsonl(ROOT / args.exclude_from)
+    exclude_from = args.exclude_from or ["data/processed/secure_code_primevul_manual_evidence_audit_v1.jsonl"]
+    excluded_rows: list[dict[str, Any]] = []
+    for path in exclude_from:
+        excluded_rows.extend(read_jsonl(ROOT / path))
     excluded_ids = {str(row["audit_id"]) for row in excluded_rows}
     excluded_pair_keys = {str(row["pair_key"]) for row in excluded_rows}
 
