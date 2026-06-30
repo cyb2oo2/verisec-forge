@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A reproducible research stack for secure code reasoning, post-training, and auto-benchmarking."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [{ name = "VeriSec Forge" }]
 dependencies = [
   "fastapi>=0.115.0",

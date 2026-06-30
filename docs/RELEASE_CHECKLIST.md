@@ -12,28 +12,40 @@ experiments, claims, benchmark artifacts, outreach operations, or paper text.
 - [x] Stage draft release body and DOI archive notes
   (`docs/RELEASE_V0_1_BODY.md`).
 - [ ] Decide final release tag name, likely `v0.1.0`.
-- [ ] Confirm repository license metadata is suitable for release.
+- [x] Confirm repository license metadata is suitable for release. Fixed a
+  mismatch: `pyproject.toml` declared `license = "MIT"` while `LICENSE` and
+  `CITATION.cff` both say Apache-2.0; `pyproject.toml` now reads
+  `Apache-2.0` to match.
 - [ ] Decide whether to archive with Zenodo after GitHub release creation.
 
 ## Artifact Boundary
 
-- [ ] Confirm the release notes still say this is not a deployed vulnerability
-  scanner.
-- [ ] Confirm the release notes still say this is not a leaderboard.
-- [ ] Confirm the release notes still say this is not a model-quality benchmark
-  release.
-- [ ] Confirm the release notes still say this is not evidence that decoding
-  improves model reasoning.
-- [ ] Confirm external smoke artifacts remain framed as adapter sanity checks.
+- [x] Confirm the release notes still say this is not a deployed vulnerability
+  scanner. Verified by `tests/test_release_metadata.py`.
+- [x] Confirm the release notes still say this is not a leaderboard. Verified
+  by `tests/test_release_metadata.py`.
+- [x] Confirm the release notes still say this is not a model-quality benchmark
+  release. Verified by `tests/test_release_metadata.py`.
+- [x] Confirm the release notes still say this is not evidence that decoding
+  improves model reasoning. Verified by `tests/test_release_metadata.py`.
+- [x] Confirm external smoke artifacts remain framed as adapter sanity checks.
+  See `docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md` Claim Boundary section.
 
 ## Reproducibility
 
-- [ ] Confirm CI passes on `main`.
-- [ ] Confirm focused fresh-clone smoke instructions work.
-- [ ] Confirm external adapter smoke instructions work.
-- [ ] Confirm experiment registry and experiment matrix are in sync.
-- [ ] Confirm retained JSON reports referenced by `reports/RESULTS_INDEX.md`
-  exist.
+- [x] Confirm CI passes on `main`. Latest run on `main` (PR #33, PR #34
+  merges) is green on `ubuntu-latest` and `windows-latest`.
+- [x] Confirm focused fresh-clone smoke instructions work. Ran the
+  `docs/CI_TESTING_STRATEGY.md` local-equivalent pytest selection plus
+  `scripts/build_reproducibility_bundle.py --check-only`; all pass.
+- [x] Confirm external adapter smoke instructions work. The
+  `veripatch_external_smoke_manifest.json` bundle check reports `status: ok`
+  for every tracked artifact.
+- [x] Confirm experiment registry and experiment matrix are in sync. Every
+  `reports/*.md` / `reports/*.json` path referenced from
+  `docs/PROJECT_ATLAS.md` and `reports/EXPERIMENT_MATRIX.md` exists on disk.
+- [x] Confirm retained JSON reports referenced by `reports/RESULTS_INDEX.md`
+  exist. All 34 referenced paths verified present.
 
 ## Release Action
 
