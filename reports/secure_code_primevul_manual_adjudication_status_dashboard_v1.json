@@ -4,7 +4,7 @@
   "is_final_adjudication": false,
   "total_rows": 20,
   "total_completed": 20,
-  "human_confirmed_completed": 0,
+  "human_confirmed_completed": 20,
   "overall_completion_rate": 1.0,
   "tracks": [
     {
@@ -13,16 +13,16 @@
       "rows": 6,
       "completed": 6,
       "completion_rate": 1.0,
-      "status": "ai_adjudicated_needs_human_confirmation",
+      "status": "complete",
       "dry_run": false,
-      "blocked_by": "human reviewer confirmation is still missing",
+      "blocked_by": "",
       "primary_artifacts": [
         "data/processed/secure_code_primevul_manual_evidence_high_quality_adjudication_template_v1.csv",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md",
-        "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_PACKET.md"
+        "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_ANALYSIS.md"
       ],
-      "next_action": "Request human confirmation or revision of the AI-filled CSV before treating labels as reviewer-confirmed.",
+      "next_action": "Human-confirmed. Treat labels as reviewer-confirmed.",
       "diagnostics": {
         "gold_pilot_conflicts": 6,
         "model_pilot_conflicts": 4,
@@ -36,10 +36,10 @@
           "yes": 3
         },
         "reviewer_counts": {
-          "codex_ai_adjudication_v1": 6
+          "cyb2oo2_human_confirmation_v1": 6
         },
-        "ai_completed": 6,
-        "human_confirmed_completed": 0,
+        "ai_completed": 0,
+        "human_confirmed_completed": 6,
         "apply_errors": [],
         "skipped_blank": 0
       }
@@ -50,16 +50,16 @@
       "rows": 14,
       "completed": 14,
       "completion_rate": 1.0,
-      "status": "ai_adjudicated_needs_human_confirmation",
+      "status": "complete",
       "dry_run": false,
-      "blocked_by": "human reviewer confirmation is still missing",
+      "blocked_by": "",
       "primary_artifacts": [
         "data/processed/secure_code_primevul_manual_evidence_insufficient_context_v1.jsonl",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md",
         "data/processed/secure_code_primevul_manual_evidence_insufficient_context_ai_adjudication_v1.csv",
         "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md"
       ],
-      "next_action": "Request human confirmation or revision of the AI-filled insufficient-context pass.",
+      "next_action": "Human-confirmed. Treat labels as reviewer-confirmed.",
       "diagnostics": {
         "bucket_counts": {
           "00-02": 2,
@@ -88,14 +88,14 @@
           "partial": 8
         },
         "reviewer_counts": {
-          "codex_ai_adjudication_v1": 14
+          "cyb2oo2_human_confirmation_v1": 14
         },
-        "ai_completed": 14,
-        "human_confirmed_completed": 0,
+        "ai_completed": 0,
+        "human_confirmed_completed": 14,
         "apply_errors": [],
         "skipped_blank": 0
       }
     }
   ],
-  "next_research_gate": "AI-filled adjudications are complete for both review queues, but reviewer-confirmed labels begin only after non-AI human confirmation."
+  "next_research_gate": "Both review queues are human-confirmed. These 20 rows may be described as reviewer-confirmed evidence labels."
 }

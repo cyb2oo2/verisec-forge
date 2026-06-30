@@ -690,6 +690,37 @@ def test_manual_adjudication_dashboard_separates_ai_from_human_confirmation() ->
     assert payload["tracks"][0]["diagnostics"]["human_confirmed_completed"] == 0
 
 
+def test_manual_adjudication_dashboard_reports_complete_after_human_confirmation() -> None:
+    payload = build_manual_adjudication_dashboard(
+        {"rows": 6},
+        {"updated": 6, "skipped_blank": 0, "dry_run": False, "errors": []},
+        {
+            "label_status_counts": {"corrected_side": 5, "insufficient_context": 1},
+            "evidence_span_sufficiency_counts": {"yes": 3, "partial": 2, "no": 1},
+            "reviewer_counts": {"human_confirmation_v1": 6},
+        },
+        {"rows": 6, "gold_pilot_conflicts": 6, "model_pilot_conflicts": 4},
+        {"rows": 14, "bucket_counts": {"26+": 4}, "evidence_side_counts": {"both": 8}},
+        {"updated": 14, "skipped_blank": 0, "dry_run": False, "errors": []},
+        {"reviewer_counts": {"human_confirmation_v1": 14}},
+    )
+
+    assert payload["total_rows"] == 20
+    assert payload["total_completed"] == 20
+    assert payload["human_confirmed_completed"] == 20
+    assert payload["tracks"][0]["status"] == "complete"
+    assert payload["tracks"][1]["status"] == "complete"
+    assert payload["tracks"][0]["diagnostics"]["ai_completed"] == 0
+    assert payload["tracks"][1]["diagnostics"]["ai_completed"] == 0
+    assert payload["tracks"][0]["diagnostics"]["human_confirmed_completed"] == 6
+    assert payload["tracks"][1]["diagnostics"]["human_confirmed_completed"] == 14
+    assert "human-confirmed" in payload["next_research_gate"].lower()
+
+    report = render_manual_adjudication_dashboard_report(payload)
+    assert "reviewer-confirmed" in report.lower()
+    assert "still missing" not in report.lower()
+
+
 def test_ai_insufficient_context_adjudication_rows_are_non_final() -> None:
     queue_row = {
         "audit_id": "manual_evidence_audit::7::4::mruby__3cf291f72224715942beaf8553e42ba8891ab3c6__CVE-2022-1212",
@@ -762,6 +793,34 @@ def test_ai_adjudication_summary_report_lists_corrected_cases() -> None:
 
     assert "AI audit draft" in report
     assert "Corrected-Side Cases" in report
+
+
+def test_ai_adjudication_summary_report_reflects_full_human_confirmation() -> None:
+    rows = [
+        {
+            "audit_id": "a1",
+            "queue_type": "high_quality_disagreement",
+            "pair_key": "demo|commit|CVE-0000-0001",
+            "changed_line_bucket": "26+",
+            "adjudication": {
+                "final_vulnerable_side": "B",
+                "label_status": "corrected_side",
+                "evidence_span_sufficient": "yes",
+                "final_evidence_window_ids": ["B1"],
+                "reviewer": "human_confirmation_v1",
+                "rationale": "selected evidence supports side B",
+            },
+        }
+    ]
+
+    table_rows, payload = build_ai_adjudication_summary(rows)
+    report = render_ai_adjudication_summary_report(payload, table_rows)
+
+    assert payload["ai_filled_rows"] == 0
+    assert payload["human_confirmed_rows"] == 1
+    assert "AI audit draft" not in report
+    assert "human-confirmed" in report.lower()
+    assert "reviewer-confirmed" in report.lower()
     assert "selected evidence supports side B" in report
 
 

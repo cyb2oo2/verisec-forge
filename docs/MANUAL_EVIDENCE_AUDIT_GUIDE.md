@@ -21,8 +21,14 @@ The audit asks whether hunk/window evidence supports the vulnerable/fixed side d
 
 - Pseudo-label localization is useful for triage.
 - AI-filled adjudication is useful for workflow rehearsal and prioritization.
-- Neither should be described as independent human-gold evidence supervision.
-- The next publishable evidence milestone is a small non-AI adjudication pass over the highest-value disagreement and insufficient-context rows.
+- The 20 `high_quality_disagreement` and `insufficient_context` rows now carry a
+  non-AI human-confirmed verdict (see the dashboard's `reviewer_counts`). These
+  20 rows may be described as reviewer-confirmed evidence labels; the rest of
+  the evidence-localization pipeline (pseudo-labels, AI-filled rows outside
+  this set) should still not be described as independent human-gold
+  supervision.
+- The next evidence milestone is widening the human-confirmed set beyond
+  these 20 highest-value rows, not re-running the same rows again.
 
 ## Regeneration Boundary
 

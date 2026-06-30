@@ -45,7 +45,7 @@ These artifacts are important for credibility and communication, but they should
    The project now has PrimeVul time-disjoint, project/CVE/commit/file-hash stress, DeltaSecommits, and PatchEval coverage. The remaining gap is no longer "no external validation"; it is whether the source-aware routing and paired-diff claims remain stable under larger external queues, broader languages, and open-set source shift.
 
 2. Independent evidence adjudication.
-   The `codex_pilot`, `codex_draft`, and AI-filled adjudication artifacts are triage signals. The next evidence milestone is a small non-AI confirmation pass over the highest-value disagreement and insufficient-context rows.
+   The `codex_pilot` and `codex_draft` artifacts remain triage signals. The first non-AI confirmation pass is now complete: all 20 `high_quality_disagreement` and `insufficient_context` rows carry a human-confirmed verdict (`reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md`). The next evidence milestone is widening human confirmation beyond this initial 20-row set, not re-running it.
 
 3. Statistical packaging.
    Pair-coupled gains and learned routed-system gains now have reviewer-facing statistics, but the final paper/application package should keep confidence intervals, split variance, and significance tests in one compact table instead of scattering them across reports.
