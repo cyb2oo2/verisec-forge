@@ -1,0 +1,85 @@
+{
+  "status": "ok",
+  "method": "targeted_nuisance_pairwise_adaptation_pilot",
+  "orientation": {
+    "pairs": 827,
+    "baseline_accuracy": 0.8174123337363967,
+    "adapted_accuracy": 0.837968561064087,
+    "accuracy_delta": 0.020556227327690448,
+    "repaired": 26,
+    "introduced": 9,
+    "discordant": 35,
+    "exact_mcnemar_p": 0.0059881205670535564
+  },
+  "interventions": {
+    "context_truncated": {
+      "rows": 400,
+      "baseline_success_rate": 0.8175,
+      "adapted_success_rate": 0.535,
+      "success_rate_delta": -0.2825,
+      "repaired_violations": 36,
+      "introduced_violations": 149,
+      "discordant": 185,
+      "exact_mcnemar_p": 1.5561729868184172e-17
+    },
+    "format_normalized": {
+      "rows": 400,
+      "baseline_success_rate": 0.84,
+      "adapted_success_rate": 0.5025,
+      "success_rate_delta": -0.3375,
+      "repaired_violations": 38,
+      "introduced_violations": 173,
+      "discordant": 211,
+      "exact_mcnemar_p": 8.96706458220808e-22
+    },
+    "identifier_normalized": {
+      "rows": 400,
+      "baseline_success_rate": 0.81,
+      "adapted_success_rate": 0.51,
+      "success_rate_delta": -0.3,
+      "repaired_violations": 47,
+      "introduced_violations": 167,
+      "discordant": 214,
+      "exact_mcnemar_p": 5.829220638442113e-17
+    },
+    "metadata_removed": {
+      "rows": 400,
+      "baseline_success_rate": 0.8475,
+      "adapted_success_rate": 0.49,
+      "success_rate_delta": -0.3575,
+      "repaired_violations": 30,
+      "introduced_violations": 173,
+      "discordant": 203,
+      "exact_mcnemar_p": 1.2454622456855328e-25
+    },
+    "nonsecurity_padding": {
+      "rows": 400,
+      "baseline_success_rate": 0.575,
+      "adapted_success_rate": 0.48,
+      "success_rate_delta": -0.095,
+      "repaired_violations": 78,
+      "introduced_violations": 116,
+      "discordant": 194,
+      "exact_mcnemar_p": 0.007734510260501273
+    },
+    "side_order_swapped": {
+      "rows": 400,
+      "baseline_success_rate": 0.75,
+      "adapted_success_rate": 0.5125,
+      "success_rate_delta": -0.2375,
+      "repaired_violations": 56,
+      "introduced_violations": 151,
+      "discordant": 207,
+      "exact_mcnemar_p": 2.8867189806965665e-11
+    }
+  },
+  "diagnosis": {
+    "recomputed_base_accuracy_independent_single_text_format": {
+      "synthetic_supervised_baseline_no_consistency_no_nuisance": 0.80,
+      "nuisance_only_375_pair_pilot": 0.79,
+      "protected_objective_1500_pair_combined": 0.50
+    },
+    "interpretation": "The protected objective's joint-format accuracy gain (+0.0206, p=0.006) coincides with collapse to exact chance (0.50) on independent single-text classification, while both the baseline and the nuisance-only pilot remain near 0.80 in that same format. The combined consistency+nuisance objective at this scale appears to optimize relative within-batch probability relationships at the cost of standalone single-text calibration."
+  },
+  "claim_boundary": "This is a 1,500-pair scale-up of the 375-pair targeted nuisance pilot, combining synthetic side-order consistency with nuisance-padding consistency in one objective. It is not a successful scale-up: every counterfactual intervention collapsed, including the nonsecurity_padding intervention this objective targeted. It does not establish that combined objectives are unworkable in general, only that this configuration (loss weights, scale, seed) is not. See PRIMEVUL_PROTECTED_NUISANCE_PAIRWISE_ADAPTATION.md for the isolating diagnosis and recommended next step."
+}
