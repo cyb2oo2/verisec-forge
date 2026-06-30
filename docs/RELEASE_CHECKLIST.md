@@ -11,12 +11,13 @@ experiments, claims, benchmark artifacts, outreach operations, or paper text.
 - [x] Link release metadata from `README.md`.
 - [x] Stage draft release body and DOI archive notes
   (`docs/RELEASE_V0_1_BODY.md`).
-- [ ] Decide final release tag name, likely `v0.1.0`.
+- [x] Decide final release tag name: `v0.1.0`.
 - [x] Confirm repository license metadata is suitable for release. Fixed a
   mismatch: `pyproject.toml` declared `license = "MIT"` while `LICENSE` and
   `CITATION.cff` both say Apache-2.0; `pyproject.toml` now reads
   `Apache-2.0` to match.
 - [ ] Decide whether to archive with Zenodo after GitHub release creation.
+  Deferred: not part of the `v0.1.0` release action.
 
 ## Artifact Boundary
 
@@ -49,8 +50,10 @@ experiments, claims, benchmark artifacts, outreach operations, or paper text.
 
 ## Release Action
 
-- [ ] Create a GitHub release from the chosen tag.
-- [ ] Attach or reference the bounded artifact surface only.
-- [ ] Do not add leaderboard language to the release body.
-- [ ] Do not claim the release is a formal preprint.
+- [x] Create a GitHub release from the chosen tag (`v0.1.0`).
+- [x] Attach or reference the bounded artifact surface only. The release body
+  reuses `docs/RELEASE_V0_1_BODY.md` verbatim.
+- [x] Do not add leaderboard language to the release body.
+- [x] Do not claim the release is a formal preprint.
 - [ ] If creating a DOI, confirm citation metadata after DOI assignment.
+  N/A until Zenodo archival is decided.
