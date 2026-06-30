@@ -1,0 +1,23 @@
+{
+  "output_path": "data/processed/secure_code_primevul_manual_evidence_audit_round2_v1.jsonl",
+  "rows": 0,
+  "total_candidates": 100,
+  "unique_pair_keys": 0,
+  "pool_counts": {},
+  "gold_vulnerable_side_counts": {},
+  "true_inversion_candidate_counts": {},
+  "annotation_schema": {
+    "human_vulnerable_side": "A|B|unclear",
+    "evidence_side": "A|B|both|none|unclear",
+    "evidence_quality": "0|1|2|3",
+    "selected_window_ids": "list[str]",
+    "label_issue": "none|ambiguous|wrong_label|insufficient_context",
+    "notes": "free text",
+    "annotator": "free text",
+    "reviewed_at": "ISO-8601 timestamp"
+  },
+  "excluded_round1_rows": 42,
+  "excluded_round1_pair_keys": 42,
+  "unique_pair_keys_in_source_queues": 42,
+  "requested_sample_size": 20
+}
