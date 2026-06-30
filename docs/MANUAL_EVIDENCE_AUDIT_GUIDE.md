@@ -27,8 +27,14 @@ The audit asks whether hunk/window evidence supports the vulnerable/fixed side d
   the evidence-localization pipeline (pseudo-labels, AI-filled rows outside
   this set) should still not be described as independent human-gold
   supervision.
-- The next evidence milestone is widening the human-confirmed set beyond
-  these 20 highest-value rows, not re-running the same rows again.
+- Widening the human-confirmed set beyond these 20 rows is blocked on the
+  current side-inversion candidate source, not on review effort: the four
+  review queues (`scripts/build_manual_evidence_audit_set_round2.py`
+  confirms this) contain only 42 unique `pair_key` values in total, and
+  round 1's audit set already covers all of them. The next evidence
+  milestone is a new upstream side-inversion candidate generation run
+  (different rank range, gap threshold, or seed family), not resampling
+  these existing queue files.
 
 ## Regeneration Boundary
 
