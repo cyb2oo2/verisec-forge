@@ -61,6 +61,12 @@ endpoint sensitivity.
   the endpoint-collapse fix with side-swap equivariance and finds a ~14x
   smaller effect on the latter, confirming the two failure modes are largely
   separable rather than the same mechanism.
+- `reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md` tests whether the
+  side-swap failure is content-aware-but-mislabeled or content-blind:
+  canonical and swapped predictions for the same pair are statistically
+  independent (`phi = -0.024`, `p = 0.56`), while the same test under a
+  non-swap intervention shows strong correlation (`phi = 0.80`), pointing to
+  position-specific rather than content-symmetric processing.
 
 Boundary: this layer supports mechanism evidence. It does not solve side-order
 reasoning and does not promote readout variants as accuracy-preserving better

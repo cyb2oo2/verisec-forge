@@ -83,6 +83,14 @@ the terminal-phrase fix that repairs endpoint-collapse invariance by `+0.48`
 (42.67% to 90.50%) only moves side-swap equivariance by `+0.03` (48.83% to
 52.17%, `p=0.012`, n=600) -- a ~14x smaller effect, evidence the two failure
 modes are largely separable rather than the same underlying mechanism.
+Sharpened further (`reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md`):
+canonical and side-swapped predictions for the same pair are statistically
+indistinguishable from independent draws (`phi = -0.024`, `p = 0.56`,
+chi-square test, n=600), while the same comparison under a non-swap padding
+intervention shows strong positive correlation (`phi = 0.80`, `p < 0.0001`).
+The failure under swap is closer to content-blindness specific to the swap
+than to confused-but-content-aware reasoning, consistent with
+position-specific rather than content-symmetric processing.
 
 ## 7. Limitations
 

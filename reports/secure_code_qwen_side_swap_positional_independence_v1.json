@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "scope": "qwen_side_swap_positional_independence",
+  "baseline_variant": "canonical",
+  "results": {
+    "padding_post_diff_terminal_phrase": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.585,
+      "chi2": 380.9691076611833,
+      "phi": 0.7968365659083667,
+      "p_value": 7.65547208840548e-85
+    },
+    "side_swap": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.6016666666666667,
+      "chi2": 0.34164120781552093,
+      "phi": -0.023862146027251414,
+      "p_value": 0.5588834141720695
+    },
+    "side_swap_padding_post_diff_terminal_phrase": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.585,
+      "chi2": 4.36524091985518,
+      "phi": -0.08529596434235306,
+      "p_value": 0.036679296260573445
+    }
+  }
+}
