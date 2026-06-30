@@ -1,30 +1,52 @@
 # PrimeVul Manual Evidence Audit Set (Round 2)
 
-This is the second-round manual evidence-span audit target, sampled from the same four
-side-inversion review queues as round 1, excluding every `audit_id` *and* every `pair_key`
-already used in `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md` -- the same review queue row
-can appear multiple times across the four pools at different ranks/seeds, so deduplicating by
-`audit_id` alone is not sufficient.
+This report has two parts. The first attempt sampled from the same four
+side-inversion review queues as round 1, excluding every `audit_id` and
+`pair_key` already used in `reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET.md`.
+That attempt found the source exhausted: the four queues contain only `42`
+unique pair keys in total, all already covered by round 1's audit set.
+
+The second attempt used a genuinely new source: a rank-11-15 slice of the
+same underlying 592-pair scored pool
+(`data/processed/secure_code_primevul_paired_window_contrastive_eval_v1.jsonl`),
+generated with `scripts/build_primevul_side_inversion_review_queue.py
+--rank-start 11 --top-k 5` (mirroring how the original `rank6_10` pool was
+generated, one rank window further out). This produced real new candidates.
+Excluding by `pair_key` against round 1 (not just `audit_id` -- the same
+pair can be re-selected at a different rank by a different per-seed
+train/eval split) found:
 
 ## Summary
 
-- Round-1 rows excluded: `42`
-- Round-1 pair keys excluded: `42`
-- Unique pair keys across all four source queues: `42`
-- Total candidate rows before exclusion and pair-key deduplication: `100`
-- Materialized round-2 rows: `0`
-- Unique pair keys: `0`
+- New rank-11-15 queue: `25` rows / `24` unique pair keys
+  (`reports/secure_code_primevul_side_inversion_review_queue_rank11_15_v1.json`)
+- Overlap with round 1 (excluded): `5` pair keys
+- Round-1 pair keys excluded (from the original four queues): `42`
+- Materialized round-2 audit rows: `19`, zero overlap with round 1
 - Output dataset: `data/processed/secure_code_primevul_manual_evidence_audit_round2_v1.jsonl`
 
-**This source is exhausted: `0` new pair keys remain.** The four review queues contain only `42` unique pair keys in total, and round 1's audit set already covers all of them. Widening the human-confirmed evidence set further requires a new upstream side-inversion candidate generation run (a different rank range, gap threshold, or seed family), not resampling these existing queue files.
+These 19 rows received an AI pilot annotation pass (`codex_pilot_round2`)
+and were classified into review queues; see
+`reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS_ROUND2.md` for the
+classification and `reports/PRIMEVUL_MANUAL_EVIDENCE_ROUND2_SUMMARY.md` for
+the human-confirmed adjudication results.
 
 ## Pool Counts
 
+- `rank11_15_v1`: `19`
 
 ## Annotation Contract
 
 Same as round 1: `human_vulnerable_side`, `evidence_side`, `evidence_quality`,
-`selected_window_ids`, `label_issue`, `notes`. This audit set ships with `annotation: null`
-for every row; it requires an AI pilot pass (matching round 1's `codex_pilot` convention)
-before `scripts/build_manual_evidence_pilot_findings.py` can classify rows into the
-high-quality-disagreement and insufficient-context queues for human confirmation.
+`selected_window_ids`, `label_issue`, `notes`.
+
+## Headroom for Future Rounds
+
+The 592-pair scored pool still has `550` pairs that were unused before this
+round, and round 2 used `19` of them. Further rounds remain possible from
+the same pool (e.g. rank 16-20), but yield will likely keep declining: the
+underlying classifier's own precision at identifying true side inversions
+drops from the original top-10 pools to `0.16` at rank-11-15
+(`reports/secure_code_primevul_side_inversion_review_queue_rank11_15_v1.json`),
+and `9` of round 2's `10` queued rows were `insufficient_context`
+deferrals rather than corrections.

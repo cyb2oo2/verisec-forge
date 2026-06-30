@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "rows": 10,
+  "adjudication_rows": 10,
+  "updated": 10,
+  "skipped_blank": 0,
+  "completion_rate": 1.0,
+  "has_blank_adjudications": false,
+  "errors": [],
+  "dry_run": false
+}
