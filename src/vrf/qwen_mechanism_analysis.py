@@ -225,6 +225,52 @@ def _metrics(
     }
 
 
+def prediction_independence(
+    predictions_a: dict[str, str],
+    predictions_b: dict[str, str],
+) -> dict[str, Any]:
+    """2x2 chi-square test of independence + phi coefficient between two
+    sets of A/B predictions keyed by the same identifier (e.g. pair_key).
+
+    Used to distinguish "content-aware but mislabeled" failures (predictions
+    correlate strongly, just with the wrong sign/side) from "content-blind"
+    failures (predictions are statistically independent of each other,
+    consistent with falling back to a positional/marginal prior).
+    """
+    import math
+
+    keys = sorted(set(predictions_a) & set(predictions_b))
+    n = len(keys)
+    aa = sum(1 for k in keys if predictions_a[k] == "A" and predictions_b[k] == "A")
+    ab = sum(1 for k in keys if predictions_a[k] == "A" and predictions_b[k] == "B")
+    ba = sum(1 for k in keys if predictions_a[k] == "B" and predictions_b[k] == "A")
+    bb = sum(1 for k in keys if predictions_a[k] == "B" and predictions_b[k] == "B")
+    row_a, row_b = aa + ab, ba + bb
+    col_a, col_b = aa + ba, ab + bb
+    if n == 0 or row_a == 0 or row_b == 0 or col_a == 0 or col_b == 0:
+        return {
+            "n": n,
+            "a_rate_first": _ratio(row_a, n),
+            "a_rate_second": _ratio(col_a, n),
+            "chi2": None,
+            "phi": None,
+            "p_value": None,
+        }
+    expected = [row_a * col_a / n, row_a * col_b / n, row_b * col_a / n, row_b * col_b / n]
+    observed = [aa, ab, ba, bb]
+    chi2 = sum((o - e) ** 2 / e for o, e in zip(observed, expected, strict=True))
+    phi = (aa * bb - ab * ba) / math.sqrt(row_a * row_b * col_a * col_b)
+    p_value = math.erfc(math.sqrt(chi2 / 2))
+    return {
+        "n": n,
+        "a_rate_first": row_a / n,
+        "a_rate_second": col_a / n,
+        "chi2": chi2,
+        "phi": phi,
+        "p_value": p_value,
+    }
+
+
 def _fully_visible(row: dict[str, Any]) -> bool:
     return not bool(row["runtime_accounting"]["critical_hunk_truncated"])
 

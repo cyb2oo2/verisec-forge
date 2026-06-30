@@ -4,6 +4,7 @@ from vrf.qwen_mechanism_analysis import (
     changed_line_count,
     compare_lengths,
     join_predictions,
+    prediction_independence,
 )
 
 
@@ -90,3 +91,48 @@ def test_changed_line_accounting_ignores_file_headers():
     )
     assert changed_line_count(text) == 2
     assert changed_line_bucket(2) == "00-02"
+
+
+def test_prediction_independence_detects_perfect_correlation():
+    baseline = {"p1": "A", "p2": "A", "p3": "B", "p4": "B"}
+    matched = {"p1": "A", "p2": "A", "p3": "B", "p4": "B"}
+
+    result = prediction_independence(baseline, matched)
+
+    assert result["n"] == 4
+    assert result["phi"] == 1.0
+    assert result["p_value"] < 0.05
+
+
+def test_prediction_independence_detects_perfect_anticorrelation():
+    baseline = {"p1": "A", "p2": "A", "p3": "B", "p4": "B"}
+    flipped = {"p1": "B", "p2": "B", "p3": "A", "p4": "A"}
+
+    result = prediction_independence(baseline, flipped)
+
+    assert result["phi"] == -1.0
+    assert result["p_value"] < 0.05
+
+
+def test_prediction_independence_detects_no_correlation():
+    # Balanced, evenly distributed across all four quadrants -> independent.
+    baseline = {"p1": "A", "p2": "A", "p3": "B", "p4": "B"}
+    independent = {"p1": "A", "p2": "B", "p3": "A", "p4": "B"}
+
+    result = prediction_independence(baseline, independent)
+
+    assert result["phi"] == 0.0
+    assert result["p_value"] == 1.0
+
+
+def test_prediction_independence_handles_degenerate_single_class():
+    # If one side never reaches "first", the chi-square test is undefined.
+    baseline = {"p1": "A", "p2": "A"}
+    other = {"p1": "A", "p2": "B"}
+
+    result = prediction_independence(baseline, other)
+
+    assert result["n"] == 2
+    assert result["chi2"] is None
+    assert result["phi"] is None
+    assert result["p_value"] is None

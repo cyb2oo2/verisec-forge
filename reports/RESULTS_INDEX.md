@@ -27,6 +27,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `VeriPatch-RR Qwen 1.5B Smoke`: `reports/VERIPATCH_RR_QWEN15B_SMOKE.md`
 - `Qwen Relational Mechanism Audit`: `reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md`
 - `Qwen Side-Swap x Terminal-Phrase Interaction`: `reports/QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md`
+- `Qwen Side-Swap Positional Independence`: `reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
 - `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`
