@@ -77,7 +77,12 @@ Report three levels:
 - frozen-backbone matched-head control.
 
 Main message: endpoint robustness can be controlled, but side-order reasoning
-does not follow from endpoint robustness.
+does not follow from endpoint robustness. Directly confirmed by crossing the
+two interventions (`reports/QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md`):
+the terminal-phrase fix that repairs endpoint-collapse invariance by `+0.48`
+(42.67% to 90.50%) only moves side-swap equivariance by `+0.03` (48.83% to
+52.17%, `p=0.012`, n=600) -- a ~14x smaller effect, evidence the two failure
+modes are largely separable rather than the same underlying mechanism.
 
 ## 7. Limitations
 

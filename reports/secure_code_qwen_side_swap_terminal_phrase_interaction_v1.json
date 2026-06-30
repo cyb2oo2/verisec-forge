@@ -1,0 +1,40 @@
+{
+  "status": "ok",
+  "scope": "qwen_side_swap_terminal_phrase_interaction",
+  "checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "length": 1024,
+  "base_pairs": 600,
+  "results": {
+    "canonical": {
+      "n": 600,
+      "canonical_label_accuracy": 0.66
+    },
+    "side_swap": {
+      "n": 600,
+      "canonical_label_accuracy": 0.665,
+      "equivariance": 0.4883
+    },
+    "padding_post_diff_terminal_phrase": {
+      "n": 600,
+      "canonical_label_accuracy": 0.6517,
+      "invariance": 0.9017
+    },
+    "side_swap_padding_post_diff_terminal_phrase": {
+      "n": 600,
+      "canonical_label_accuracy": 0.6783,
+      "equivariance": 0.5217
+    }
+  },
+  "interaction": {
+    "side_swap_equivariance_alone": 0.4883,
+    "side_swap_equivariance_with_terminal_phrase": 0.5217,
+    "delta": 0.0333,
+    "mcnemar_repaired": 39,
+    "mcnemar_introduced": 19,
+    "mcnemar_discordant": 58,
+    "mcnemar_p": 0.011928139715763175,
+    "comparison_terminal_phrase_invariance_delta": 0.4783,
+    "effect_size_ratio_invariance_to_equivariance": 14.36
+  },
+  "claim_boundary": "One checkpoint, one length setting (1024), one specific pair of interventions crossed. Does not test other endpoint-repair mechanisms or propose/test an architectural side-order fix. Evidence that side-order reasoning and endpoint sensitivity are largely separable failure modes with only a small, statistically significant but practically negligible shared component."
+}

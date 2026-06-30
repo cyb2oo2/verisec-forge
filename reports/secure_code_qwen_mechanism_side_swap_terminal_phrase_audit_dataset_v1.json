@@ -1,0 +1,17 @@
+{
+  "status": "ok",
+  "scope": "qwen_mechanism_side_swap_terminal_phrase_audit",
+  "base_pairs": 600,
+  "rows": 2400,
+  "variants": [
+    "canonical",
+    "padding_post_diff_terminal_phrase",
+    "side_swap",
+    "side_swap_padding_post_diff_terminal_phrase"
+  ],
+  "datasets": [
+    "deltasecommits",
+    "patcheval",
+    "primevul"
+  ]
+}

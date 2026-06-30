@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_qwen_mechanism_side_swap_terminal_phrase_audit_v1.jsonl",
+  "model_id": "qwen15b-mechanism-1024",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "max_length": 1024,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 2400,
+  "critical_hunk_truncated_rows": 112,
+  "transformation_introduced_critical_truncation_rows": 0,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 2400,
+      "critical_hunk_truncated_rows": 112,
+      "transformation_introduced_critical_truncation_rows": 0
+    }
+  },
+  "by_template": {
+    "canonical": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 28,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9662515023261523,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "padding_post_diff_terminal_phrase": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 28,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9662515023261523,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 28,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9664111198565511,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap_padding_post_diff_terminal_phrase": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 28,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9664111198565511,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}
