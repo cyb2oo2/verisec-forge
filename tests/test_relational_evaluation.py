@@ -220,3 +220,60 @@ def test_pair_cluster_bootstrap_scopes_pair_key_by_dataset():
 
     assert report["pair_groups"] == 2
     assert report["cluster_key"] == "dataset::pair_key"
+
+
+def test_marginal_conditioned_violation_baseline_invariant_all_a():
+    from vrf.relational_evaluation import marginal_conditioned_violation_baseline
+
+    # All predictions A on an invariant relation: independent floor = 0 violation
+    # (p=q=1 -> agree=1 -> success=1).
+    rows = [
+        {
+            "expected_relation": "invariant",
+            "base_prediction": "A",
+            "transformed_prediction": "A",
+            "base_protocol_valid": True,
+            "transformed_protocol_valid": True,
+        }
+        for _ in range(10)
+    ]
+    result = marginal_conditioned_violation_baseline(rows)
+    assert result["n"] == 10
+    assert result["baseline_violation_rate"] == pytest.approx(0.0)
+
+
+def test_marginal_conditioned_violation_baseline_balanced_invariant():
+    from vrf.relational_evaluation import marginal_conditioned_violation_baseline
+
+    # Balanced marginals (p=q=0.5) on invariant: agree=0.5 -> baseline
+    # violation = 0.5, the chance floor a swap-collapsed model sits at.
+    rows = []
+    for i in range(4):
+        rows.append(
+            {
+                "expected_relation": "invariant",
+                "base_prediction": "A" if i % 2 == 0 else "B",
+                "transformed_prediction": "A" if i < 2 else "B",
+                "base_protocol_valid": True,
+                "transformed_protocol_valid": True,
+            }
+        )
+    result = marginal_conditioned_violation_baseline(rows)
+    assert result["base_a_rate"] == pytest.approx(0.5)
+    assert result["transformed_a_rate"] == pytest.approx(0.5)
+    assert result["baseline_violation_rate"] == pytest.approx(0.5)
+
+
+def test_marginal_conditioned_violation_baseline_ignores_invalid():
+    from vrf.relational_evaluation import marginal_conditioned_violation_baseline
+
+    rows = [
+        {
+            "expected_relation": "invariant",
+            "base_prediction": "A",
+            "transformed_prediction": "A",
+            "base_protocol_valid": False,
+            "transformed_protocol_valid": True,
+        }
+    ]
+    assert marginal_conditioned_violation_baseline(rows)["n"] == 0

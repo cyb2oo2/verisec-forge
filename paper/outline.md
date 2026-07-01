@@ -123,6 +123,9 @@ while the model does not reduce to that crude heuristic (~56% row agreement).
 
 State explicitly:
 
+- evidence tiers and the relational-metric reporting contract are defined in
+  `docs/EVIDENCE_HIERARCHY.md`; violation rate is only citable raw single-pass,
+  with a pair-cluster bootstrap CI, against its marginal-conditioned baseline;
 - broad model-family generality is still limited;
 - readout variants are mechanism evidence, not promoted classifiers;
 - bootstrap intervals are conditional on selected experiment designs;
