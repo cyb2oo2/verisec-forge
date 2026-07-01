@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "scope": "repair_criteria_evaluation",
+  "label": "pre_repair_baseline",
+  "audit": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
+  "predictions": "outputs/secure_code_qwen_mechanism_polarity_only_swap_audit_v1_predictions_1024.jsonl",
+  "metrics": {
+    "canonical_accuracy": 0.66,
+    "polarity_only_accuracy": 0.345,
+    "side_swap_accuracy": 0.665,
+    "polarity_flip_rate": 0.5083333333333333,
+    "polarity_probability_gap": 0.4277251267066458,
+    "relation_violation_rate": 0.51,
+    "marginal_conditioned_violation_baseline": 0.5,
+    "canonical_model_a_rate": 0.6133333333333333,
+    "relation_rows": 1200
+  },
+  "criteria_passed": {
+    "canonical_non_inferiority": null,
+    "polarity_invariance": false,
+    "violation_below_baseline": false,
+    "no_degeneracy": false
+  },
+  "all_applicable_passed": false
+}
