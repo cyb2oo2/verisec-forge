@@ -80,6 +80,51 @@ def relation_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def marginal_conditioned_violation_baseline(
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Violation rate expected from a marginal-matched independent predictor.
+
+    ``relation_violation_rate`` is only interpretable against the floor a
+    predictor would hit *by chance* while reproducing the model's own base and
+    transformed A-rates. For an ``invariant`` relation, an independent predictor
+    with base A-rate ``p`` and transformed A-rate ``q`` succeeds with
+    ``p*q + (1-p)*(1-q)``; for ``equivariant_swap`` (success = flipped answer)
+    it succeeds with ``p*(1-q) + (1-p)*q``. The baseline violation rate is one
+    minus that. A model whose observed violation rate sits at this baseline is
+    statistically indistinguishable from two independent classifiers -- exactly
+    the side-swap failure signature -- so relational claims should report the
+    observed rate next to this number, not in isolation.
+    """
+    scored = [
+        row
+        for row in rows
+        if row["expected_relation"] in {"invariant", "equivariant_swap"}
+        and row["base_protocol_valid"]
+        and row["transformed_protocol_valid"]
+    ]
+    if not scored:
+        return {"baseline_violation_rate": None, "n": 0, "base_a_rate": None,
+                "transformed_a_rate": None}
+    n = len(scored)
+    base_a = sum(row["base_prediction"] == "A" for row in scored) / n
+    trans_a = sum(row["transformed_prediction"] == "A" for row in scored) / n
+    invariant_share = sum(
+        row["expected_relation"] == "invariant" for row in scored
+    ) / n
+    agree = base_a * trans_a + (1 - base_a) * (1 - trans_a)
+    disagree = 1.0 - agree
+    # Per-relation success under independence; mix by the relation composition.
+    success = invariant_share * agree + (1 - invariant_share) * disagree
+    return {
+        "baseline_violation_rate": 1.0 - success,
+        "n": n,
+        "base_a_rate": base_a,
+        "transformed_a_rate": trans_a,
+        "invariant_share": invariant_share,
+    }
+
+
 def context_pressure_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     supports_abstention = all(
         bool(row.get("supports_abstention")) for row in rows
