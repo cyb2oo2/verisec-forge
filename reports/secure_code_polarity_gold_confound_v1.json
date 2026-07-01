@@ -1,0 +1,126 @@
+{
+  "status": "ok",
+  "scope": "polarity_gold_confound",
+  "train": {
+    "dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+    "orientation_balance": {
+      "rows": 6000,
+      "orientation_counts": {
+        "observed": 3000,
+        "synthetic_reverse": 3000
+      },
+      "labeled_rows": 6000,
+      "frac_vulnerable_side_a": 0.5,
+      "source_pairs": 2269,
+      "source_pairs_multi_orientation": 2269
+    },
+    "polarity_gold_correlation": {
+      "contingency": {
+        "net_added": {
+          "A": 1991,
+          "B": 337
+        },
+        "net_removed": {
+          "A": 337,
+          "B": 1991
+        },
+        "balanced": {
+          "A": 672,
+          "B": 672
+        }
+      },
+      "p_gold_a_given_net_added": 0.8552405498281787,
+      "p_gold_a_given_net_removed": 0.14475945017182132,
+      "shortcut_decided_rows": 4656,
+      "shortcut_accuracy": 0.8552405498281787
+    }
+  },
+  "eval": {
+    "benchmark": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
+    "predictions": "outputs/secure_code_qwen_mechanism_polarity_only_swap_audit_v1_predictions_1024.jsonl",
+    "by_variant": {
+      "canonical": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 117,
+              "B": 26
+            },
+            "net_removed": {
+              "A": 123,
+              "B": 241
+            },
+            "balanced": {
+              "A": 50,
+              "B": 43
+            }
+          },
+          "p_gold_a_given_net_added": 0.8181818181818182,
+          "p_gold_a_given_net_removed": 0.33791208791208793,
+          "shortcut_decided_rows": 507,
+          "shortcut_accuracy": 0.7061143984220908
+        },
+        "model_vs_shortcut": {
+          "n": 507,
+          "agreement": 0.5621301775147929,
+          "model_a_rate": 0.6646942800788954
+        }
+      },
+      "polarity_only_swap": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 24,
+              "B": 132
+            },
+            "net_removed": {
+              "A": 216,
+              "B": 134
+            },
+            "balanced": {
+              "A": 50,
+              "B": 44
+            }
+          },
+          "p_gold_a_given_net_added": 0.15384615384615385,
+          "p_gold_a_given_net_removed": 0.6171428571428571,
+          "shortcut_decided_rows": 506,
+          "shortcut_accuracy": 0.31225296442687744
+        },
+        "model_vs_shortcut": {
+          "n": 506,
+          "agreement": 0.5770750988142292,
+          "model_a_rate": 0.6798418972332015
+        }
+      },
+      "side_swap": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 132,
+              "B": 24
+            },
+            "net_removed": {
+              "A": 134,
+              "B": 216
+            },
+            "balanced": {
+              "A": 44,
+              "B": 50
+            }
+          },
+          "p_gold_a_given_net_added": 0.8461538461538461,
+          "p_gold_a_given_net_removed": 0.38285714285714284,
+          "shortcut_decided_rows": 506,
+          "shortcut_accuracy": 0.6877470355731226
+        },
+        "model_vs_shortcut": {
+          "n": 506,
+          "agreement": 0.5810276679841897,
+          "model_a_rate": 0.6600790513833992
+        }
+      }
+    }
+  },
+  "claim_boundary": "Rendering orientation is de-confounded from gold in both training (balanced forward/reverse, vulnerable side ~50/50, every pair in both orientations) and the eval benchmark (Side A/B assigned independently of vulnerability). Net changed-line polarity remains predictive of gold because real fixes are additive, so it is a task-illegitimate-but-predictive feature under the candidate-identity task -- a spurious correlation, not a non-predictive quirk. The model's polarity sensitivity is real but does not reduce to the crude net-polarity line-count heuristic (~56% row-level agreement)."
+}

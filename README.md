@@ -81,6 +81,7 @@ model-quality benchmark.
 | Side-swap failure is closer to content-blindness than mislabeling | canonical-vs-swapped predictions are statistically independent (`phi=-0.024`, `p=0.56`); canonical-vs-padding-only predictions correlate strongly (`phi=0.80`, `p<0.0001`) | [Side-Swap Positional Independence](reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md) |
 | Text-label relabeling alone does not explain the side-swap failure | relabeling with diff polarity held fixed leaves prediction almost unchanged (`phi=0.91`); accuracy collapses to `0.3483` (~`1-0.66`) as gold flips under frozen predictions | [Label-Only Swap vs. Structural Swap](reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
 | Diff hunk polarity, not text labels, drives the side-swap failure | flipping polarity with labels and gold held fixed moves the prediction to near-independence (`phi=-0.094`) and collapses accuracy `0.66`->`0.3450` (gold unchanged); `polarity_only_swap` and `side_swap` predictions agree (`phi=+0.892`), confirming the words are inert | [Polarity-Only Swap vs. Structural Swap](reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
+| Polarity is a nuisance variable under the candidate-identity task, and augmentation alone will not fix it | rendering orientation is de-confounded from gold in training (`3000/3000` forward/reverse, vuln side `0.50`, all pairs both orientations) and eval; net-polarity remains a spurious-but-predictive feature (`0.855` train / `0.706` canonical, inverts to `0.312` under flip); model does not reduce to that heuristic (`~0.56` row agreement) | [Polarity/Gold Confound](reports/POLARITY_GOLD_CONFOUND.md), [Task Formulation](docs/TASK_FORMULATION.md) |
 | Cross-architecture controls separate two failure modes | exact-contract swap `0.4600/0.5300`; endpoint gap `+0.3767`, paired 95% CI `[0.3317, 0.4200]` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
 | Cross-model replication broadens failure evidence | distilgpt2 swap residual `-0.3410`; generative judge both-correct `0.50%`; low-canonical stress evidence, not universal failure proof | [Cross-Model Replication](reports/CROSS_MODEL_REPLICATION.md) |
 | Same-backbone readout ablation isolates endpoint robustness | mean post-diff `0.8983`; changed-hunk `0.9983`; no readout passes the preregistered canonical-delta rule | [Readout Ablation](reports/READOUT_ABLATION.md) |
@@ -103,6 +104,7 @@ Start with:
 - [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
 - [Paper 1 Outline](paper/outline.md)
 - [Paper 1 Main Claims](paper/main_claims.md)
+- [Task Formulation and the Status of Diff Polarity](docs/TASK_FORMULATION.md)
 - [Paper 1 Main Results Table](paper/tables/main_results.md)
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)

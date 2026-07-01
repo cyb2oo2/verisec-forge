@@ -30,6 +30,8 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Qwen Side-Swap Positional Independence`: `reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md`
 - `Qwen Label-Only Swap vs. Structural Swap`: `reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md`
 - `Qwen Polarity-Only Swap vs. Structural Swap`: `reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md`
+- `Task Formulation and the Status of Diff Polarity`: `docs/TASK_FORMULATION.md`
+- `Polarity/Gold Confound Measurement`: `reports/POLARITY_GOLD_CONFOUND.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
 - `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`
