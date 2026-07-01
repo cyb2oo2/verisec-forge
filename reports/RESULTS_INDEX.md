@@ -36,6 +36,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Repair Objective Design`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
 - `Repair Experiment Preregistration`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
 - `Repair Criteria Pre-Repair Baseline`: `reports/secure_code_repair_criteria_pre_repair_baseline_v1.json`
+- `Repair Result: One Antisymmetric-Head Run`: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
 - `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`

@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "scope": "repair_criteria_evaluation",
+  "label": "repaired_antisymmetric_independent_inference",
+  "audit": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
+  "predictions": "outputs/secure_code_repair_antisymmetric_polarity_audit_predictions_1024.jsonl",
+  "metrics": {
+    "canonical_accuracy": 0.6616666666666666,
+    "polarity_only_accuracy": 0.345,
+    "side_swap_accuracy": 0.6666666666666666,
+    "polarity_flip_rate": 0.4866666666666667,
+    "polarity_probability_gap": 0.42328005115618,
+    "relation_violation_rate": 0.48916666666666664,
+    "marginal_conditioned_violation_baseline": 0.5,
+    "canonical_model_a_rate": 0.6683333333333333,
+    "relation_rows": 1200
+  },
+  "criteria_passed": {
+    "canonical_non_inferiority": true,
+    "polarity_invariance": false,
+    "violation_below_baseline": true,
+    "no_degeneracy": false
+  },
+  "all_applicable_passed": false
+}
