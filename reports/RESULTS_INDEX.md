@@ -33,6 +33,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Task Formulation and the Status of Diff Polarity`: `docs/TASK_FORMULATION.md`
 - `Polarity/Gold Confound Measurement`: `reports/POLARITY_GOLD_CONFOUND.md`
 - `Evidence Hierarchy`: `docs/EVIDENCE_HIERARCHY.md`
+- `Repair Objective Design`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
 - `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`

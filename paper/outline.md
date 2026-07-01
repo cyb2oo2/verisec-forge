@@ -142,4 +142,12 @@ The paper should end by shifting the field's evaluation question:
 
 The next method question is not another readout tweak. It is whether model
 architectures or objectives can enforce side-order structure, such as
-antisymmetric pair scoring.
+antisymmetric pair scoring. `docs/REPAIR_OBJECTIVE_DESIGN.md` specifies that
+repair: a weight-shared joint encoder with an antisymmetric readout
+(`s(A,B) = -s(B,A)` by construction, so side-swap equivariance is exact rather
+than penalized) plus an explicit polarity-invariance term, since antisymmetry
+does not fix polarity. It fixes the baselines (augmentation -- already in the
+training data -- TTA null, independent-scoring and unconstrained-head ablations)
+and the preregistered success criteria (raw single-pass, canonical
+non-inferiority, violation rate below its marginal-conditioned baseline, and
+transfer to held-out nuisance transforms and an external source).
