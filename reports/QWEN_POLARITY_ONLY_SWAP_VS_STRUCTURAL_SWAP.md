@@ -112,3 +112,18 @@ clean inversion -- `phi = -0.094` is decorrelation, not `-1`, consistent with
 the content-blindness characterization from the independence report rather than
 a deterministic sign flip. One checkpoint, one length, 600 pairs,
 observational/correlational only.
+
+This result is valid only under the **candidate-identity** task formulation
+(which candidate is riskier), where diff polarity is a presentation variable.
+Under a directional-patch task ("does this patch fix or introduce?") polarity is
+semantic and sensitivity to it would not be a failure. See
+`docs/TASK_FORMULATION.md` for the formulation boundary and
+`reports/POLARITY_GOLD_CONFOUND.md` for the two facts that justify treating
+polarity as nuisance: (1) rendering orientation is de-confounded from gold in
+both training (balanced `3000/3000` forward/reverse, every pair in both
+orientations -- so naive both-orientation augmentation is already present and
+did not fix this) and eval; (2) net changed-line polarity is nonetheless a
+spurious-but-predictive feature (`0.706` canonical shortcut accuracy, inverting
+to `0.312` under the flip). The model's decision does not reduce to that crude
+heuristic (~56% row-level agreement), so we claim behavioral polarity
+sensitivity, not a specific internal feature.

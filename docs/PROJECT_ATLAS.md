@@ -79,9 +79,24 @@ endpoint sensitivity.
   that diff hunk polarity -- not the prose labels -- drives the side-swap
   failure.
 
+- `reports/POLARITY_GOLD_CONFOUND.md` measures the relationship between diff
+  polarity and gold that the arc's interpretation depends on: rendering
+  orientation is de-confounded from gold in both training (balanced
+  forward/reverse, all pairs in both orientations) and eval, while net
+  changed-line polarity remains a predictive-but-task-illegitimate feature
+  (`0.855` train / `0.706` canonical shortcut accuracy, inverting to `0.312`
+  under a polarity flip). The model does not reduce to that crude heuristic
+  (~56% row agreement). `docs/TASK_FORMULATION.md` states the resulting claim
+  boundary: the candidate-identity task treats polarity as nuisance, so the
+  polarity-only-swap collapse is a genuine relational failure, and naive
+  both-orientation augmentation -- already present in training -- does not fix
+  it.
+
 Boundary: this layer supports mechanism evidence. It does not solve side-order
 reasoning and does not promote readout variants as accuracy-preserving better
-classifiers.
+classifiers. Polarity claims are scoped to the candidate-identity task
+(`docs/TASK_FORMULATION.md`); under a directional-patch task polarity is
+semantic and sensitivity would not be a failure.
 
 ## 4. Reproducibility Layer
 

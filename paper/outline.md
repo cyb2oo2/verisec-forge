@@ -21,6 +21,10 @@ Core hook:
 
 Define:
 
+- the candidate-identity judgment (which candidate is riskier) vs the
+  directional-patch judgment (does this patch fix or introduce), and why diff
+  polarity is a nuisance variable under the former and semantic under the
+  latter (`docs/TASK_FORMULATION.md`);
 - pointwise accuracy;
 - side-order equivariance;
 - marginal-conditioned independence baseline;
@@ -104,7 +108,16 @@ the prediction to near-independence (`phi = -0.094`) and collapses accuracy
 from `0.66` to `0.3450` (gold unchanged), whereas relabeling alone did neither
 -- localizing the driver to diff hunk polarity (structural content order),
 with the polarity-flipped and full-swap predictions agreeing (`phi = +0.892`)
-since they share a diff body and differ only in the inert labels.
+since they share a diff body and differ only in the inert labels. The
+interpretation is bounded by `reports/POLARITY_GOLD_CONFOUND.md`: rendering
+orientation is de-confounded from gold in both training (balanced `3000/3000`
+forward/reverse, every pair in both orientations) and eval, so the collapse is
+a genuine relational failure under the candidate-identity task rather than valid
+directional inference -- and because both-orientation augmentation is already in
+the training data, it is not the fix. Net changed-line polarity nonetheless
+stays a spurious-but-predictive feature (`0.706` canonical shortcut accuracy,
+inverting to `0.312` under the flip), the standard shortcut-learning setup,
+while the model does not reduce to that crude heuristic (~56% row agreement).
 
 ## 7. Limitations
 
