@@ -72,6 +72,12 @@ endpoint sensitivity.
   (polarity fixed) leaves the prediction almost unchanged (`phi = 0.91`),
   ruling out the prose labels as the driver and pointing to diff hunk
   polarity as the more likely locus.
+- `reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md` runs the complement
+  and completes the 2x2: flipping diff hunk polarity with the labels and gold
+  held fixed moves the prediction to near-independence (`phi = -0.094`) and
+  collapses accuracy (`0.66` -> `0.3450`, gold unchanged), directly confirming
+  that diff hunk polarity -- not the prose labels -- drives the side-swap
+  failure.
 
 Boundary: this layer supports mechanism evidence. It does not solve side-order
 reasoning and does not promote readout variants as accuracy-preserving better

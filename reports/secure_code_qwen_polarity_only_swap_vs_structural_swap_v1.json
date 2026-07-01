@@ -1,0 +1,49 @@
+{
+  "status": "ok",
+  "scope": "qwen_polarity_only_swap_vs_structural_swap",
+  "checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "length": 1024,
+  "base_pairs": 600,
+  "results": {
+    "canonical": {
+      "n": 600,
+      "accuracy": 0.66
+    },
+    "polarity_only_swap": {
+      "n": 600,
+      "accuracy": 0.345,
+      "independence_vs_canonical": {
+        "n": 600,
+        "a_rate_first": 0.6133333333333333,
+        "a_rate_second": 0.655,
+        "chi2": 5.288228769783712,
+        "phi": -0.0938813858882909,
+        "p_value": 0.02147004618773975
+      }
+    },
+    "side_swap": {
+      "n": 600,
+      "accuracy": 0.665,
+      "independence_vs_canonical": {
+        "n": 600,
+        "a_rate_first": 0.6133333333333333,
+        "a_rate_second": 0.6016666666666667,
+        "chi2": 0.34164120781552093,
+        "phi": -0.023862146027251414,
+        "p_value": 0.5588834141720695
+      }
+    }
+  },
+  "cross_check": {
+    "note": "polarity_only_swap and side_swap have byte-identical diff bodies and differ only in the 'Side A'/'Side B' words; a high positive phi confirms the words are inert, so the polarity_only_swap effect is attributable to the diff polarity flip alone.",
+    "polarity_only_swap_vs_side_swap": {
+      "n": 600,
+      "a_rate_first": 0.655,
+      "a_rate_second": 0.6016666666666667,
+      "chi2": 477.3515602542399,
+      "phi": 0.8919562398218125,
+      "p_value": 8.054554628055964e-106
+    }
+  },
+  "claim_boundary": "Isolates diff hunk polarity as the driver of the side-swap failure: relabeling alone did not move the prediction (label_only_swap, prior report), whereas flipping polarity with the labels and gold held fixed does. One checkpoint, one length, 600 pairs, observational/correlational only."
+}
