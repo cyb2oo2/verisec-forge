@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "scope": "qwen_side_swap_positional_independence",
+  "baseline_variant": "canonical",
+  "results": {
+    "polarity_only_swap": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.655,
+      "chi2": 5.288228769783712,
+      "phi": -0.0938813858882909,
+      "p_value": 0.02147004618773975
+    },
+    "side_swap": {
+      "n": 600,
+      "a_rate_first": 0.6133333333333333,
+      "a_rate_second": 0.6016666666666667,
+      "chi2": 0.34164120781552093,
+      "phi": -0.023862146027251414,
+      "p_value": 0.5588834141720695
+    }
+  }
+}

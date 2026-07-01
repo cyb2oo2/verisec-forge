@@ -6,6 +6,10 @@ from vrf.qwen_mechanism_audit import (
 )
 from scripts.build_qwen_mechanism_side_swap_terminal_phrase_audit import build_interaction_rows
 from scripts.build_qwen_mechanism_label_only_swap_audit import build_rows, label_only_swap
+from scripts.build_qwen_mechanism_polarity_only_swap_audit import (
+    build_rows as build_polarity_rows,
+    polarity_only_swap,
+)
 
 
 def test_padding_variants_use_identical_neutral_content():
@@ -135,3 +139,91 @@ def test_build_rows_flips_gold_for_label_only_swap():
     assert by_variant["label_only_swap"]["gold_riskier_side"] == "B"
     assert by_variant["label_only_swap"]["expected_relation"] == "equivariant_swap"
     assert "@@ -1 +1 @@\n-old\n+new\n" in by_variant["label_only_swap"]["text"]
+
+
+def test_polarity_only_swap_flips_body_but_relabels_headers():
+    # The reverse-rendered swap text: same words as canonical ("Side A to
+    # Side B") but the diff body polarity is already flipped (-new/+old).
+    swap_text = (
+        "Task: compare two related code states and choose the riskier side.\n"
+        "Output one label: A_RISKIER, B_RISKIER, or INSUFFICIENT_CONTEXT.\n\n"
+        "Unified diff from Side A to Side B:\n"
+        "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-new\n+old\n"
+    )
+
+    swapped = polarity_only_swap(swap_text)
+
+    # The label words are relabeled back so "Side A" denotes the canonical
+    # side_a content again (the header/markers read B->A).
+    assert "Unified diff from Side B to Side A:" in swapped
+    assert "--- Side B" in swapped
+    assert "+++ Side A" in swapped
+    # The flipped diff body must be preserved byte-for-byte -- this transform
+    # only relabels the words, it does not re-touch the -/+ content.
+    assert "@@ -1 +1 @@\n-new\n+old\n" in swapped
+    # The fixed output vocabulary must survive the substitution.
+    assert "A_RISKIER, B_RISKIER" in swapped
+
+
+def _diff_body(text):
+    return "\n".join(
+        line
+        for line in text.splitlines()
+        if line[:1] in "+- " and not line.startswith(("---", "+++"))
+    )
+
+
+def test_build_polarity_rows_holds_gold_and_flips_polarity():
+    base = {
+        "id": "audit::primevul::p1::canonical",
+        "dataset": "primevul",
+        "pair_key": "p1",
+        "cluster_id": "c1",
+        "gold_riskier_side": "A",
+        "text": (
+            "Unified diff from Side A to Side B:\n"
+            "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-old\n+new\n"
+        ),
+    }
+    # canonical_renderer_swap_v2 counterpart: difflib re-run with the sides
+    # exchanged, so the body polarity is flipped and gold is flipped to B.
+    swap = {
+        "id": "audit::primevul::p1::side_swap",
+        "gold_riskier_side": "B",
+        "text": (
+            "Unified diff from Side A to Side B:\n"
+            "--- Side A\n+++ Side B\n@@ -1 +1 @@\n-new\n+old\n"
+        ),
+    }
+    swaps = {base["id"]: swap}
+
+    rows = build_polarity_rows([base], swaps)
+
+    by_variant = {row["audit_variant"]: row for row in rows}
+    assert set(by_variant) == {"canonical", "polarity_only_swap", "side_swap"}
+
+    # canonical must stay expected_relation="identity" -- materialize_
+    # relational_runtime.py keys its base lookup on it.
+    assert by_variant["canonical"]["expected_relation"] == "identity"
+    assert by_variant["canonical"]["gold_riskier_side"] == "A"
+
+    # polarity_only_swap holds gold FIXED (the label meaning is restored),
+    # unlike the gold-flipping label_only_swap. A robust model should be
+    # invariant to it.
+    assert by_variant["polarity_only_swap"]["gold_riskier_side"] == "A"
+    assert by_variant["polarity_only_swap"]["expected_relation"] == "invariant"
+
+    # side_swap keeps the flipped gold from the swap row.
+    assert by_variant["side_swap"]["gold_riskier_side"] == "B"
+    assert by_variant["side_swap"]["expected_relation"] == "equivariant_swap"
+
+    # The polarity_only_swap body is the FLIPPED (swap) body, not canonical:
+    # this is the whole point -- polarity moved, labels/gold did not.
+    assert _diff_body(by_variant["polarity_only_swap"]["text"]) != _diff_body(
+        by_variant["canonical"]["text"]
+    )
+    # ...and it is byte-identical to the side_swap body -- polarity_only_swap
+    # and side_swap differ ONLY in the "Side A"/"Side B" words.
+    assert _diff_body(by_variant["polarity_only_swap"]["text"]) == _diff_body(
+        by_variant["side_swap"]["text"]
+    )

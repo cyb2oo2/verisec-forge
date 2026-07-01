@@ -97,7 +97,14 @@ leaves the prediction almost unchanged (`phi = 0.91`, accuracy collapses to
 `0.3483` -- nearly `1 - 0.66`, consistent with the prediction staying frozen
 while gold flips underneath it). This rules out the prose text labels as the
 driver and points to diff hunk polarity (structural content order) as the
-more likely locus, narrowing but not yet completing the explanation.
+more likely locus, narrowing but not yet completing the explanation. The
+complement (`reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md`) completes
+it: flipping diff hunk polarity while holding the labels and gold fixed moves
+the prediction to near-independence (`phi = -0.094`) and collapses accuracy
+from `0.66` to `0.3450` (gold unchanged), whereas relabeling alone did neither
+-- localizing the driver to diff hunk polarity (structural content order),
+with the polarity-flipped and full-swap predictions agreeing (`phi = +0.892`)
+since they share a diff body and differ only in the inert labels.
 
 ## 7. Limitations
 
