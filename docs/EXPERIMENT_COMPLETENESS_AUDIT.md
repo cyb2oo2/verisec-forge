@@ -389,6 +389,10 @@ next step is a judgment call between a third-model-family extension (optional
 breadth) and beginning the paper narrative (previously deferred). This audit
 does not itself authorize the paper-narrative work.
 
+**Follow-on:** that judgment call is taken up in
+`docs/PAPER_READINESS_AUDIT.md`, which audits readiness by paper section and
+recommends paper draft alignment as the next step.
+
 ## Priority summary
 
 | Item | Priority | Next action |

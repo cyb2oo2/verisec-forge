@@ -112,6 +112,7 @@ Start with:
 - [CodeBERT Label/Polarity Mechanism Replication](reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md)
 - [Evidence Hierarchy](docs/EVIDENCE_HIERARCHY.md)
 - [Experiment Completeness Audit and Remaining Evidence Gaps](docs/EXPERIMENT_COMPLETENESS_AUDIT.md)
+- [Paper-Readiness Audit](docs/PAPER_READINESS_AUDIT.md)
 - [Paper 1 Main Results Table](paper/tables/main_results.md)
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
