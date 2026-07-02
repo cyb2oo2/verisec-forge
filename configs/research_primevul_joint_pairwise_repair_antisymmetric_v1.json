@@ -1,0 +1,21 @@
+{
+  "name": "primevul_joint_pairwise_repair_antisymmetric_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "train_dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_primevul_repair_antisymmetric_qwen15b_lora_v1",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 4,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "scope": "repair_criteria_evaluation",
+  "label": "crossvul_baseline_antisym_NULL",
+  "audit": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+  "predictions": "outputs/secure_code_crossvul_baseline_antisym_inference_predictions_1024.jsonl",
+  "metrics": {
+    "canonical_accuracy": 0.8028571428571428,
+    "polarity_only_accuracy": 0.8028571428571428,
+    "side_swap_accuracy": 0.8028571428571428,
+    "polarity_flip_rate": 0.0,
+    "polarity_probability_gap": 0.0,
+    "relation_violation_rate": 0.0,
+    "marginal_conditioned_violation_baseline": 0.5,
+    "canonical_model_a_rate": 0.47714285714285715,
+    "relation_rows": 700
+  },
+  "criteria_passed": {
+    "canonical_non_inferiority": null,
+    "polarity_invariance": true,
+    "violation_below_baseline": true,
+    "no_degeneracy": true
+  },
+  "all_applicable_passed": true
+}

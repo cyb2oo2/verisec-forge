@@ -1,0 +1,33 @@
+{
+  "status": "ok",
+  "scope": "repair_antisymmetric_result_v1",
+  "config": "configs/research_primevul_joint_pairwise_repair_antisymmetric_v1.json",
+  "seed": 7,
+  "train_pairs": 3000,
+  "eval_pairs": 600,
+  "length": 1024,
+  "canonical_accuracy": {
+    "baseline_independent": 0.6600,
+    "repaired_independent": 0.6617,
+    "baseline_antisymmetric_inference_NULL": 0.7067,
+    "repaired_antisymmetric_inference": 0.7333
+  },
+  "attribution": {
+    "antisymmetric_inference_on_frozen_model_delta": 0.0467,
+    "antisymmetric_inference_is_the_preregistered_TTA_null": true,
+    "fine_tuning_delta_over_null": 0.0267,
+    "fine_tuning_mcnemar_exact_p": 0.002,
+    "fine_tuning_pairs_fixed": 21,
+    "fine_tuning_pairs_broken": 5
+  },
+  "by_construction_not_emergent": [
+    "polarity_flip_rate=0", "relation_violation_rate=0",
+    "swap_equivariance", "polarity_only_accuracy==canonical_accuracy"
+  ],
+  "not_run": [
+    "transfer: held-out nuisance transforms (context size, split-vs-unified, myers-vs-histogram, whitespace)",
+    "transfer: CrossVul relational subset",
+    "seed 123 and lambda grid {0.5,1.0,2.0}"
+  ],
+  "verdict": "Promising in-distribution signal; NOT a validated repair. Most of the accuracy recovery is the architectural projection (prereg null); the trained increment is small (+0.027) though significant (p=0.002). Transfer remains the gate."
+}

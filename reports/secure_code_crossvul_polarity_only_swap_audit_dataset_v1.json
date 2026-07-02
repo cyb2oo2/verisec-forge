@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "scope": "qwen_mechanism_polarity_only_swap_audit",
+  "base_pairs": 350,
+  "rows": 1050,
+  "variants": [
+    "canonical",
+    "polarity_only_swap",
+    "side_swap"
+  ],
+  "datasets": [
+    "crossvul"
+  ]
+}
