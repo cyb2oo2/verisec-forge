@@ -9,12 +9,23 @@ changes. Existing vulnerability benchmarks provide useful labels, but they do
 not directly test this paired relation. We introduce VeriPatch-RR, a
 tokenizer-aware relational evaluation instrument that measures side-order
 equivariance, endpoint robustness, both-directions-correct behavior, and
-runtime evidence visibility. Across decoder, encoder, and generative settings,
-we find that pointwise competence does not imply relational consistency. We
-also show that endpoint robustness is readout-controllable in Qwen, while
-side-order reasoning remains unresolved. The result is a bounded measurement
-claim: secure-patch evaluation should report relational consistency alongside
-pointwise accuracy.
+runtime evidence visibility. Our central finding is a bounded measurement
+claim: **pointwise secure-code accuracy can hide relation-violating behavior
+induced by patch presentation structure.** Under a controlled decomposition, a
+model's riskier-side decision is nearly inert to swapping the prose "Side A" /
+"Side B" labels but highly sensitive to flipping the diff-hunk polarity
+(which code appears on removed vs. added lines) with the gold answer held
+fixed. This behavioral ordering replicates across a Qwen decoder classifier and
+a competency-matched CodeBERT encoder classifier, though the two differ in
+functional form, so the evidence is a cross-architecture behavioral phenomenon
+rather than a proven shared internal mechanism. We further show that raw
+canonical accuracy on an external source (CrossVul) is inflated by a stronger
+presentation-correlated shortcut, and that a hard antisymmetric readout is a
+transferable *structural* consistency constraint while a *learned* fine-tuning
+objective over it is not validated as a transferable repair. We do not claim to
+solve secure patch reasoning, that models fail universally, or that this is a
+deployed vulnerability detector; the recommendation is that secure-patch
+evaluation should report relational consistency alongside pointwise accuracy.
 
 ## 1. Introduction
 
@@ -49,19 +60,26 @@ preserve known relations under side swaps and suffix perturbations. This
 motivates relational evaluation; it does not by itself claim a new
 vulnerability detector.
 
-This paper makes four bounded contributions.
+This paper makes five bounded, evidence-aligned contributions.
 
-1. We introduce VeriPatch-RR, a tokenizer-aware relational evaluation
-   instrument for paired secure-patch examples.
-2. We show that pointwise competence does not imply side-order consistency
-   across a Qwen decoder classifier and a CodeBERT encoder classifier.
-3. We decompose endpoint sensitivity from side-order reasoning, showing that
-   endpoint robustness is readout-controllable in Qwen without promoting a
-   better classifier.
-4. We release a bounded model-family stress replication with a non-Qwen
-   decoder classifier and a generative no-classification-head judge, while
-   explicitly limiting broad universal claims because both added slots have low
-   canonical accuracy.
+1. **A relation-preserving secure-patch evaluation framing.** VeriPatch-RR, a
+   tokenizer-aware relational evaluation instrument for paired secure-patch
+   examples, with expected relations attached to transformations before
+   inference.
+2. **A controlled side-label vs. diff-polarity mechanism decomposition.** We
+   isolate what drives the side-order failure: swapping the prose "Side A" /
+   "Side B" labels is nearly inert, while flipping diff-hunk polarity with the
+   gold answer held fixed is disruptive.
+3. **A cross-source confound analysis** showing that pointwise canonical
+   accuracy can be inflated by presentation-correlated shortcuts, so raw
+   accuracy across sources is not directly comparable.
+4. **A competency-matched non-Qwen behavioral replication.** A CodeBERT encoder
+   classifier reproduces the label-vs-polarity ordering, broadening the
+   phenomenon beyond one model family (with a stated functional-form
+   difference, not a shared-internal-mechanism claim).
+5. **A structural antisymmetric readout control**, reported as a transferable
+   *structural* consistency constraint, with the *learned* fine-tuning repair
+   reported as unresolved rather than solved.
 
 The intended contribution is not a new vulnerability scanner. It is a
 measurement and mechanism study: VeriPatch-RR shows how secure-patch models can
@@ -124,6 +142,22 @@ rendered sides of a vulnerable/fixed pair. The gold label `y` belongs to
 `{A, B}` and identifies the riskier side. A model `f` outputs either a forced
 decision in `{A, B}` or, in some settings, an abstention such as
 `INSUFFICIENT_CONTEXT`.
+
+**Task boundary: candidate-identity, not directional-patch.** Our task is a
+*candidate-identity* judgment — *which of two related code states is riskier /
+more vulnerable?* — not a *directional-patch* judgment — *does this patch fix
+or introduce a vulnerability?* The distinction matters for how diff-hunk
+polarity should be treated. Under the directional-patch task, polarity (which
+code is on removed vs. added lines) is semantic content the model should use.
+Under the candidate-identity task, Side A and Side B denote fixed code
+regardless of the direction their difference is rendered, so polarity is a
+**nuisance variable**: a robust model's answer to "which candidate is riskier"
+should not change when the same pair is re-rendered as a reverse diff with the
+gold answer held fixed. We treat polarity as nuisance because our benchmark
+assigns Side A / Side B independently of which side is vulnerable, so rendering
+orientation carries no information about gold [RESULT: polarity-gold-confound].
+A polarity-driven change in the decision is therefore a relational failure, not
+a valid directional inference.
 
 Let `T_swap(x) = (B, A)` be the side-swap transformation, and let
 `T_swap(y)` be the corresponding swapped gold label. A side-order consistent
@@ -287,6 +321,56 @@ the low-canonical slots add stress coverage across a non-Qwen decoder
 classifier and a generative no-classification-head judge. The evidence does not
 prove that all strong secure-code models fail.
 
+### 6.3 What Drives Side-Order Failure: Prose Labels vs Diff Polarity
+
+The side-swap transformation moves two factors at once: the prose "Side A" /
+"Side B" text labels and the diff-hunk polarity (which code is rendered on
+removed vs. added lines). We decompose them with two controlled interventions
+on the Qwen classifier, holding everything else byte-fixed. Swapping only the
+prose labels, with polarity fixed, leaves the prediction almost unchanged
+(phi `+0.914` vs. canonical) [RESULT: qwen-label-only-swap]. Flipping only the
+diff-hunk polarity, with the labels *and* the gold answer held fixed, moves the
+prediction to near-independence (phi `-0.094`) and collapses accuracy from
+`0.660` to `0.345` even though gold is unchanged; a cross-check confirms the
+prose words are inert, since the polarity-flipped and full-swap predictions
+agree at phi `+0.892` [RESULT: qwen-polarity-only-swap]. The side-order failure
+is therefore driven more by diff-hunk polarity / removed-added structure than
+by the prose side labels.
+
+This decomposition replicates on the competency-matched CodeBERT encoder
+classifier (canonical `0.677` vs. Qwen `0.660` on the same 600 base pairs):
+label-only swap is inert (phi `+0.988`), polarity-only swap is disruptive (phi
+`-0.193`), and polarity-only accuracy collapses `0.677` to `0.352`
+[RESULT: codebert-label-polarity-replication].
+
+The functional form, however, differs between the two models, and we state
+this directly rather than in a footnote. On PrimeVul, CodeBERT closely tracks a
+crude net-polarity line-count shortcut (~`0.96` per-row agreement with a
+"more-added-lines ⇒ Side A riskier" heuristic), whereas Qwen does not (~`0.57`)
+[RESULT: codebert-label-polarity-replication]. Both Qwen and CodeBERT reproduce
+the same behavioral ordering — prose side-label changes are nearly inert while
+diff-hunk polarity changes are disruptive — but their functional form differs:
+CodeBERT closely follows a crude net-polarity shortcut on PrimeVul, while
+Qwen's behavior is not explained by that simple heuristic. This broadens the
+behavioral evidence beyond one model family without proving a shared internal
+mechanism.
+
+### 6.4 CrossVul: Presentation Confound, Not Stronger Reasoning
+
+We measure the same net-polarity/gold structure on CrossVul, an external
+source. CrossVul carries a *stronger* presentation shortcut than PrimeVul: the
+crude net-polarity heuristic reaches `0.855` canonical accuracy on CrossVul vs.
+`0.706` on PrimeVul, and both Qwen (~`0.92`) and CodeBERT (~`0.93`) align
+strongly with that shortcut there [RESULT: crossvul-polarity-gold-confound].
+CrossVul's higher canonical accuracy should therefore not be read as stronger
+secure-code reasoning by itself; it coincides with a stronger measured
+presentation shortcut that both architectures lean on. This is a
+dataset/presentation-structure observation: it does not claim CrossVul accuracy
+is meaningless, that CrossVul demonstrates generalization, or that the model
+reasons better or worse on CrossVul in general — raw canonical accuracy alone
+was never sufficient evidence for any of those, which is this paper's starting
+point.
+
 ## 7. Readout Mechanism
 
 Having separated side-order failure from endpoint collapse, we study whether
@@ -350,7 +434,32 @@ marginal-conditioned independence baseline [RESULT: readout-ablation]. This is
 the core mechanism conclusion: endpoint robustness and relational reasoning are
 different capabilities.
 
-## 8. Limitations
+## 8. Repair: Structural Constraint vs Learned Objective
+
+Given that the side-order failure is tied to diff-hunk polarity, we ask whether
+it can be repaired. We separate two claims that are easy to conflate. A hard
+**antisymmetric readout** — a pairwise scorer with `s(A, B) = -s(B, A)` by
+construction — makes side-swap equivariance exact and polarity-invariance a
+structural property rather than something the model must learn. Evaluated on
+the held-out polarity audit, on the external CrossVul source, and on five
+held-out nuisance-transform families, this structural constraint holds and
+preserves canonical accuracy [RESULT: antisymmetric-repair]. We retain the
+antisymmetric readout as a transferable structural consistency constraint.
+
+The *learned* part is different. A fine-tuning objective layered over the
+antisymmetric readout showed a canonical-accuracy increment over the
+structural null that was significant in-distribution (McNemar `p = 0.002`) but
+did **not** survive transfer: not significant on the CrossVul external source
+(`p = 0.508`), and clearing no family at a Bonferroni-corrected threshold
+across the five nuisance transforms, with two families showing the fine-tuned
+model performing worse than the frozen structural baseline
+[RESULT: antisymmetric-repair]. We therefore do not claim that the fine-tuning
+objective produces a validated learned repair; the antisymmetric readout is
+retained as a structural constraint, and the learned repair objective is left
+as unresolved future work. The invariance we report is by construction, not
+evidence that the model has learned stronger relational reasoning.
+
+## 9. Limitations
 
 This work is a measurement study, not a deployed vulnerability scanner. The
 artifact should not be used as an automated security review system without
@@ -359,7 +468,42 @@ human oversight.
 The benchmark relies on existing vulnerable/fixed labels and does not yet
 replace them with independent human adjudication. Label validity and
 explanation validity are separate limitations: a pair can have the correct
-side label while still lacking a human-verified minimal evidence span.
+side label while still lacking a human-verified minimal evidence span. Our
+human-adjudicated set is small — 20 reviewer-confirmed rows — which supports
+qualitative, diagnostic-scale evidence-localization statements (both
+high-quality-disagreement and insufficient-context cases exist and are
+distinguishable) but not any distributional claim about how common each case
+is; a further AI-pilot-annotated round is explicitly excluded from
+headline evidence until human-confirmed.
+
+The task is scoped as a candidate-identity judgment (which of two code states
+is riskier), not a directional-patch judgment (does this patch fix or
+introduce). Our treatment of diff-hunk polarity as a nuisance variable, and
+hence our reading of polarity sensitivity as a relational failure, holds under
+the candidate-identity formulation; under a directional-patch task, polarity is
+semantic and the same sensitivity would not be a failure.
+
+The mechanism evidence is behavioral, not an internal-mechanistic proof. We
+report controlled input interventions on deterministic model predictions; we
+offer no probing or activation evidence, and we do not claim to have located
+polarity sensitivity inside either model. The label-vs-polarity ordering
+replicates across two architecture families (a Qwen decoder classifier and a
+CodeBERT encoder classifier), which is broader than one model but is not a
+universality claim, and the two differ in functional form (CodeBERT tracks a
+crude net-polarity shortcut on PrimeVul where Qwen does not), so we claim a
+cross-architecture behavioral phenomenon rather than a shared internal
+mechanism.
+
+Cross-source comparisons of raw canonical accuracy are confounded. CrossVul
+carries a measurably stronger polarity/gold presentation shortcut than PrimeVul,
+so its higher canonical accuracy is not standalone evidence of stronger
+secure-code reasoning, and the two sources' accuracy numbers should not be
+compared as if on equal footing.
+
+The repair evidence supports only the structural constraint. The antisymmetric
+readout's invariance is exact by construction; a learned fine-tuning objective
+over it did not survive external-source or nuisance-transform transfer and is
+reported as unresolved future work, not a validated learned repair.
 
 The broad model-family claim is intentionally limited. The strongest
 competency-controlled comparison is between the Qwen decoder classifier and the
@@ -386,7 +530,7 @@ Evidence localization remains diagnostic unless independently human
 adjudicated. The current evidence-coupled audit loop is useful for failure
 analysis, but it is not yet a gold explanation benchmark.
 
-## 9. Discussion
+## 10. Discussion
 
 The main lesson is that secure-patch evaluation should measure relational
 consistency, not only pointwise correctness. A model that classifies the
