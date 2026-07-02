@@ -1,0 +1,272 @@
+{
+  "status": "ok",
+  "scope": "repair_antisymmetric_nuisance_transfer_v1",
+  "purpose": "Test whether the fine-tuning delta over the antisymmetric projection null (significant in-distribution on PrimeVul, p=0.002; not significant on CrossVul, p=0.508) survives held-out nuisance transforms never seen during training or the original polarity-only-swap evaluation.",
+  "audit": "data/processed/secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl",
+  "families": {
+    "context_window": {
+      "family": "context_window",
+      "pair_count": 600,
+      "canonical_accuracy": {
+        "baseline_independent": 0.6216666666666667,
+        "repaired_independent": 0.6083333333333333,
+        "baseline_antisymmetric_inference_null": 0.68,
+        "repaired_antisymmetric_inference": 0.7016666666666667
+      },
+      "transformed_view_accuracy": {
+        "note": "The transformed rendering IS the canonical rendering in this dataset (that is the point of the nuisance transform); compare to the PrimeVul #54 canonical baseline (0.660 independent / 0.7067 antisym-null / 0.7333 repaired-antisym).",
+        "baseline_independent": 0.6216666666666667,
+        "repaired_independent": 0.6083333333333333
+      },
+      "relation_violation_rate": {
+        "baseline_independent": {
+          "n": 600,
+          "violation_rate": 0.6316666666666666,
+          "marginal_conditioned_violation_baseline": 0.5506333333333333
+        },
+        "repaired_independent": {
+          "n": 600,
+          "violation_rate": 0.6799999999999999,
+          "marginal_conditioned_violation_baseline": 0.5922499999999999
+        }
+      },
+      "projection_null_delta": 0.05833333333333335,
+      "fine_tuning_delta_over_null": 0.021666666666666612,
+      "mcnemar": {
+        "n_pairs": 600,
+        "fixed": 25,
+        "broken": 12,
+        "net": 13,
+        "p_value": 0.04703102743951604
+      },
+      "runtime_accounting": {
+        "canonical": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 26,
+          "transformation_introduced_critical_truncation_rows": 0
+        },
+        "side_swap": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 26,
+          "transformation_introduced_critical_truncation_rows": 0
+        }
+      }
+    },
+    "split_view": {
+      "family": "split_view",
+      "pair_count": 600,
+      "canonical_accuracy": {
+        "baseline_independent": 0.5133333333333333,
+        "repaired_independent": 0.5133333333333333,
+        "baseline_antisymmetric_inference_null": 0.5833333333333334,
+        "repaired_antisymmetric_inference": 0.6166666666666667
+      },
+      "transformed_view_accuracy": {
+        "note": "The transformed rendering IS the canonical rendering in this dataset (that is the point of the nuisance transform); compare to the PrimeVul #54 canonical baseline (0.660 independent / 0.7067 antisym-null / 0.7333 repaired-antisym).",
+        "baseline_independent": 0.5133333333333333,
+        "repaired_independent": 0.5133333333333333
+      },
+      "relation_violation_rate": {
+        "baseline_independent": {
+          "n": 600,
+          "violation_rate": 0.925,
+          "marginal_conditioned_violation_baseline": 0.5728
+        },
+        "repaired_independent": {
+          "n": 600,
+          "violation_rate": 0.9366666666666666,
+          "marginal_conditioned_violation_baseline": 0.5840444444444445
+        }
+      },
+      "projection_null_delta": 0.07000000000000006,
+      "fine_tuning_delta_over_null": 0.033333333333333326,
+      "mcnemar": {
+        "n_pairs": 600,
+        "fixed": 42,
+        "broken": 22,
+        "net": 20,
+        "p_value": 0.01685819004428113
+      },
+      "runtime_accounting": {
+        "canonical": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 0,
+          "transformation_introduced_critical_truncation_rows": 0
+        },
+        "side_swap": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 0,
+          "transformation_introduced_critical_truncation_rows": 0
+        }
+      }
+    },
+    "diff_algorithm_myers_header": {
+      "family": "diff_algorithm_myers_header",
+      "pair_count": 600,
+      "canonical_accuracy": {
+        "baseline_independent": 0.6366666666666667,
+        "repaired_independent": 0.6133333333333333,
+        "baseline_antisymmetric_inference_null": 0.7116666666666667,
+        "repaired_antisymmetric_inference": 0.695
+      },
+      "transformed_view_accuracy": {
+        "note": "The transformed rendering IS the canonical rendering in this dataset (that is the point of the nuisance transform); compare to the PrimeVul #54 canonical baseline (0.660 independent / 0.7067 antisym-null / 0.7333 repaired-antisym).",
+        "baseline_independent": 0.6366666666666667,
+        "repaired_independent": 0.6133333333333333
+      },
+      "relation_violation_rate": {
+        "baseline_independent": {
+          "n": 600,
+          "violation_rate": 0.56,
+          "marginal_conditioned_violation_baseline": 0.6297777777777778
+        },
+        "repaired_independent": {
+          "n": 600,
+          "violation_rate": 0.6383333333333333,
+          "marginal_conditioned_violation_baseline": 0.6785
+        }
+      },
+      "projection_null_delta": 0.07499999999999996,
+      "fine_tuning_delta_over_null": -0.01666666666666672,
+      "mcnemar": {
+        "n_pairs": 600,
+        "fixed": 15,
+        "broken": 25,
+        "net": -10,
+        "p_value": 0.1538599441628321
+      },
+      "runtime_accounting": {
+        "canonical": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        },
+        "side_swap": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        }
+      }
+    },
+    "diff_algorithm_histogram": {
+      "family": "diff_algorithm_histogram",
+      "pair_count": 600,
+      "canonical_accuracy": {
+        "baseline_independent": 0.6466666666666666,
+        "repaired_independent": 0.62,
+        "baseline_antisymmetric_inference_null": 0.7133333333333334,
+        "repaired_antisymmetric_inference": 0.6916666666666667
+      },
+      "transformed_view_accuracy": {
+        "note": "The transformed rendering IS the canonical rendering in this dataset (that is the point of the nuisance transform); compare to the PrimeVul #54 canonical baseline (0.660 independent / 0.7067 antisym-null / 0.7333 repaired-antisym).",
+        "baseline_independent": 0.6466666666666666,
+        "repaired_independent": 0.62
+      },
+      "relation_violation_rate": {
+        "baseline_independent": {
+          "n": 600,
+          "violation_rate": 0.5800000000000001,
+          "marginal_conditioned_violation_baseline": 0.6366666666666666
+        },
+        "repaired_independent": {
+          "n": 600,
+          "violation_rate": 0.6566666666666667,
+          "marginal_conditioned_violation_baseline": 0.6877333333333333
+        }
+      },
+      "projection_null_delta": 0.06666666666666676,
+      "fine_tuning_delta_over_null": -0.021666666666666723,
+      "mcnemar": {
+        "n_pairs": 600,
+        "fixed": 16,
+        "broken": 29,
+        "net": -13,
+        "p_value": 0.07245426016254441
+      },
+      "runtime_accounting": {
+        "canonical": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        },
+        "side_swap": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        }
+      }
+    },
+    "whitespace_comment": {
+      "family": "whitespace_comment",
+      "pair_count": 600,
+      "canonical_accuracy": {
+        "baseline_independent": 0.6383333333333333,
+        "repaired_independent": 0.655,
+        "baseline_antisymmetric_inference_null": 0.67,
+        "repaired_antisymmetric_inference": 0.6883333333333334
+      },
+      "transformed_view_accuracy": {
+        "note": "The transformed rendering IS the canonical rendering in this dataset (that is the point of the nuisance transform); compare to the PrimeVul #54 canonical baseline (0.660 independent / 0.7067 antisym-null / 0.7333 repaired-antisym).",
+        "baseline_independent": 0.6383333333333333,
+        "repaired_independent": 0.655
+      },
+      "relation_violation_rate": {
+        "baseline_independent": {
+          "n": 600,
+          "violation_rate": 0.5800000000000001,
+          "marginal_conditioned_violation_baseline": 0.5016611111111111
+        },
+        "repaired_independent": {
+          "n": 600,
+          "violation_rate": 0.5316666666666667,
+          "marginal_conditioned_violation_baseline": 0.5064444444444445
+        }
+      },
+      "projection_null_delta": 0.03166666666666673,
+      "fine_tuning_delta_over_null": 0.018333333333333313,
+      "mcnemar": {
+        "n_pairs": 600,
+        "fixed": 23,
+        "broken": 12,
+        "net": 11,
+        "p_value": 0.0895310789346695
+      },
+      "runtime_accounting": {
+        "canonical": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        },
+        "side_swap": {
+          "rows": 600,
+          "critical_hunk_truncated_rows": 28,
+          "transformation_introduced_critical_truncation_rows": 0
+        }
+      }
+    }
+  },
+  "multiple_comparisons": {
+    "families_tested": 5,
+    "bonferroni_corrected_threshold": 0.01,
+    "uncorrected_p_below_0_05_and_positive": [
+      "context_window",
+      "split_view"
+    ],
+    "corrected_p_below_threshold_and_positive": [],
+    "negative_delta_families": [
+      "diff_algorithm_myers_header",
+      "diff_algorithm_histogram"
+    ]
+  },
+  "comparison_reference": {
+    "primevul_in_distribution": {
+      "fine_tuning_delta_over_null": 0.026666666666666616,
+      "mcnemar_p_value": 0.0024939179420471
+    },
+    "crossvul_external_source": {
+      "fine_tuning_delta_over_null": 0.008571428571428563,
+      "mcnemar_p_value": 0.5078125
+    }
+  },
+  "verdict": "No family survives a Bonferroni-corrected significance threshold (p<0.010 for 5 families tested; smallest observed p-value is 0.0169). 2/5 families show an uncorrected p<0.05 positive delta, but 2/5 families show the fine-tuned model performing WORSE than the frozen baseline under the antisymmetric decision (diff_algorithm_myers_header, diff_algorithm_histogram). A repair effect that reverses sign across held-out presentation changes is evidence AGAINST a robust, content-based transferable effect, consistent with the CrossVul external-source result (delta shrinks from +0.0267, p=0.002 in-distribution to +0.0086, p=0.508 on an unseen source). Conclusion: the antisymmetric-readout architecture remains a useful structural fix; the current fine-tuning objective is not validated as a transferable learned repair."
+}

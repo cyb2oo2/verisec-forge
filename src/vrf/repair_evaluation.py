@@ -9,15 +9,31 @@ Consumes the polarity-audit shape: audit rows with ``audit_variant`` in
 {canonical, polarity_only_swap, side_swap}, ``gold_riskier_side``, and a
 predictions file with ``predicted_riskier_side`` (+ optional ``probability_a``).
 No model is run.
+
+Also provides ``antisymmetric_inference_correctness`` / ``exact_mcnemar`` /
+``compare_antisymmetric_inference``: the projection-null decision
+``s = g(canonical) - g(side_swap)`` and baseline-vs-repaired McNemar test used
+to decompose the PrimeVul (#54) and CrossVul transfer results, formalized here
+as tested functions so held-out nuisance-transform conditions
+(`src/vrf/nuisance_transfer.py`) reuse the identical decomposition rather than
+a re-derived metric.
 """
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 from vrf.relational_evaluation import marginal_conditioned_violation_baseline
 
-__all__ = ["evaluate_repair_criteria"]
+__all__ = [
+    "evaluate_repair_criteria",
+    "antisymmetric_inference_correctness",
+    "exact_mcnemar",
+    "compare_antisymmetric_inference",
+    "independent_inference_accuracy",
+    "independent_inference_relation_violation",
+]
 
 _CANONICAL = "canonical"
 _POLARITY = "polarity_only_swap"
@@ -31,6 +47,11 @@ def _norm(value: Any) -> str | None:
     if text.startswith("B"):
         return "B"
     return None
+
+
+def _logit(probability: float) -> float:
+    p = min(max(float(probability), 1e-6), 1 - 1e-6)
+    return math.log(p / (1 - p))
 
 
 def _by_pair(
@@ -185,4 +206,176 @@ def evaluate_repair_criteria(
         "all_applicable_passed": all(
             v for v in checks.values() if v is not None
         ),
+    }
+
+
+def independent_inference_accuracy(
+    audit_rows: list[dict[str, Any]],
+    predictions: dict[str, dict[str, Any]],
+    *,
+    variant: str = _CANONICAL,
+) -> float | None:
+    """Plain per-rendering accuracy for ``variant`` (the un-repaired readout)."""
+    return _accuracy(_by_pair(audit_rows, predictions, variant))
+
+
+def independent_inference_relation_violation(
+    audit_rows: list[dict[str, Any]],
+    predictions: dict[str, dict[str, Any]],
+    *,
+    canonical_variant: str = _CANONICAL,
+    side_swap_variant: str = _SIDE_SWAP,
+) -> dict[str, Any]:
+    """Side-swap equivariance violation rate for the independent (per-rendering)
+    readout, against its marginal-conditioned baseline. Reuses
+    ``marginal_conditioned_violation_baseline`` -- no new metric definition.
+    """
+    canonical = _by_pair(audit_rows, predictions, canonical_variant)
+    side_swap = _by_pair(audit_rows, predictions, side_swap_variant)
+    interventions = []
+    for key in canonical:
+        if key not in side_swap:
+            continue
+        if not canonical[key]["pred"] or not side_swap[key]["pred"]:
+            continue
+        expected = "B" if canonical[key]["pred"] == "A" else "A"
+        interventions.append(
+            {
+                "expected_relation": "equivariant_swap",
+                "base_prediction": canonical[key]["pred"],
+                "transformed_prediction": side_swap[key]["pred"],
+                "base_protocol_valid": True,
+                "transformed_protocol_valid": True,
+                "relation_success": side_swap[key]["pred"] == expected,
+            }
+        )
+    n = len(interventions)
+    violation_rate = (
+        1.0 - sum(r["relation_success"] for r in interventions) / n if n else None
+    )
+    baseline = marginal_conditioned_violation_baseline(interventions)
+    return {
+        "n": n,
+        "violation_rate": violation_rate,
+        "marginal_conditioned_violation_baseline": baseline.get(
+            "baseline_violation_rate"
+        ),
+    }
+
+
+def antisymmetric_inference_correctness(
+    audit_rows: list[dict[str, Any]],
+    predictions: dict[str, dict[str, Any]],
+    *,
+    canonical_variant: str = _CANONICAL,
+    side_swap_variant: str = _SIDE_SWAP,
+) -> dict[str, Any]:
+    """Per-pair correctness of the antisymmetric decision ``s = g(canonical) -
+    g(side_swap)``, where ``g(text) = logit P(B riskier)`` from the model's own
+    ``probability_b``.
+
+    This is the "projection null" readout: side-swap equivariance is exact by
+    construction (the decision depends only on the score difference, so
+    swapping which rendering is fed as canonical negates the score), and the
+    only empirical question is whether its accuracy differs between two
+    models scored on the same pairs.
+    """
+    scores: dict[tuple[str, str], float] = {}
+    gold: dict[str, str] = {}
+    for row in audit_rows:
+        variant = row.get("audit_variant")
+        if variant not in (canonical_variant, side_swap_variant):
+            continue
+        prediction = predictions.get(str(row["id"]))
+        if prediction is None or prediction.get("probability_b") is None:
+            continue
+        pair_key = str(row["pair_key"])
+        scores[(pair_key, variant)] = _logit(prediction["probability_b"])
+        if variant == canonical_variant:
+            gold_side = _norm(row.get("gold_riskier_side"))
+            if gold_side is not None:
+                gold[pair_key] = gold_side
+
+    correct: dict[str, bool] = {}
+    for pair_key, gold_side in gold.items():
+        if (pair_key, canonical_variant) in scores and (
+            pair_key,
+            side_swap_variant,
+        ) in scores:
+            score = (
+                scores[(pair_key, canonical_variant)]
+                - scores[(pair_key, side_swap_variant)]
+            )
+            predicted_side = "B" if score > 0 else "A"
+            correct[pair_key] = predicted_side == gold_side
+    n = len(correct)
+    accuracy = sum(correct.values()) / n if n else None
+    return {"n": n, "accuracy": accuracy, "correct_by_pair": correct}
+
+
+def exact_mcnemar(
+    baseline_correct: dict[str, bool], repaired_correct: dict[str, bool]
+) -> dict[str, Any]:
+    """Exact two-sided McNemar test on paired per-pair correctness dicts.
+
+    ``fixed`` = pairs wrong under baseline, right under repaired.
+    ``broken`` = pairs right under baseline, wrong under repaired.
+    Only discordant pairs (fixed + broken) carry information; concordant pairs
+    (both right or both wrong) do not affect the test.
+    """
+    keys = [key for key in baseline_correct if key in repaired_correct]
+    fixed = sum(1 for key in keys if not baseline_correct[key] and repaired_correct[key])
+    broken = sum(1 for key in keys if baseline_correct[key] and not repaired_correct[key])
+    discordant = fixed + broken
+    if discordant == 0:
+        p_value = 1.0
+    else:
+        tail = sum(math.comb(discordant, i) for i in range(0, min(fixed, broken) + 1))
+        p_value = min(1.0, tail / (2**discordant) * 2)
+    return {
+        "n_pairs": len(keys),
+        "fixed": fixed,
+        "broken": broken,
+        "net": fixed - broken,
+        "p_value": p_value,
+    }
+
+
+def compare_antisymmetric_inference(
+    audit_rows: list[dict[str, Any]],
+    baseline_predictions: dict[str, dict[str, Any]],
+    repaired_predictions: dict[str, dict[str, Any]],
+    *,
+    canonical_variant: str = _CANONICAL,
+    side_swap_variant: str = _SIDE_SWAP,
+) -> dict[str, Any]:
+    """Bundle the baseline-vs-repaired antisymmetric-inference decomposition:
+    projection-null accuracy for both models, the fine-tuning delta over the
+    null (``repaired - baseline``), and the exact McNemar test on paired
+    per-pair correctness. Same computation used to decompose the PrimeVul
+    (#54) and CrossVul transfer results.
+    """
+    baseline = antisymmetric_inference_correctness(
+        audit_rows,
+        baseline_predictions,
+        canonical_variant=canonical_variant,
+        side_swap_variant=side_swap_variant,
+    )
+    repaired = antisymmetric_inference_correctness(
+        audit_rows,
+        repaired_predictions,
+        canonical_variant=canonical_variant,
+        side_swap_variant=side_swap_variant,
+    )
+    mcnemar = exact_mcnemar(baseline["correct_by_pair"], repaired["correct_by_pair"])
+    fine_tuning_delta = None
+    if baseline["accuracy"] is not None and repaired["accuracy"] is not None:
+        fine_tuning_delta = repaired["accuracy"] - baseline["accuracy"]
+    return {
+        "baseline_antisymmetric_accuracy": baseline["accuracy"],
+        "repaired_antisymmetric_accuracy": repaired["accuracy"],
+        "baseline_n": baseline["n"],
+        "repaired_n": repaired["n"],
+        "fine_tuning_delta_over_null": fine_tuning_delta,
+        "mcnemar": mcnemar,
     }

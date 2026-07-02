@@ -77,6 +77,29 @@ Judged by `evaluate_repair_criteria` with `--baseline-canonical-accuracy 0.66`:
 A run that passes 1–4 in-distribution but fails transfer is reported as
 "regularized to the trained transforms," **not** a repair.
 
+## Transfer criterion 5 status (both legs now run; see `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`)
+
+Both halves of criterion 5 have been executed against the v1 antisymmetric
+repair from `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`'s runbook:
+
+- **CrossVul relational subset (external source, n=350):** the fine-tuning
+  delta over the projection null shrinks from +0.0267 (p=0.002) in-distribution
+  to +0.0086 (p=0.508) — not significant.
+- **Held-out nuisance transforms (five families, n=600 each):** context window,
+  split view, git-native Myers/histogram diff, and whitespace/comment
+  perturbation (`src/vrf/nuisance_transfer.py`,
+  `scripts/build_nuisance_transfer_audit.py`,
+  `scripts/analyze_nuisance_transfer.py`). No family survives a
+  Bonferroni-corrected significance threshold (p<0.01 for five families
+  tested); two families show the fine-tuned model performing *worse* than the
+  frozen baseline.
+
+**Criterion 5 fails.** Per this document's own rule, the result is "regularized
+to the trained transforms," not a repair: the antisymmetric-readout
+architecture is validated as a transferable structural fix (its by-construction
+guarantees hold on every tested condition), but the fine-tuning objective is
+**not** validated as a transferable learned repair.
+
 ## What will NOT count as success
 
 - Any metric computed with test-time symmetrization or the relation-consistent
