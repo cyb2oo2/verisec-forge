@@ -71,6 +71,17 @@ severe terminal endpoint collapse is architecture dependent. The PR #12
 replication slots broaden this from two trained classifiers toward a minimal
 model-family matrix without adding new readout variants.
 
+The label-vs-polarity mechanism decomposition (Section 6) now also has a
+competency-matched non-Qwen replication
+(`reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md`): CodeBERT
+(canonical 0.677 vs. Qwen 0.660) reproduces the ordering -- prose-label swap
+inert (phi +0.988 vs. Qwen +0.914), diff-hunk-polarity swap disruptive (phi
+−0.193 vs. Qwen −0.094), polarity-only accuracy collapsing 0.677→0.352. This
+is two-architecture behavioral evidence, not a universality claim. One nuance
+belongs in the writeup: CodeBERT reduces to the crude net-polarity line-count
+shortcut on PrimeVul (~0.96 row agreement) where Qwen does not (~0.57) -- the
+same behavioral ordering with a different functional form.
+
 ## 6. Readout Mechanism
 
 Report three levels:

@@ -32,36 +32,41 @@ induced by patch presentation structure.
   feature, on PrimeVul/DeltaSecommits/PatchEval.
 
 **Current weakness.**
-- The full label-only/polarity-only 2×2 has run on exactly **one architecture**
-  (the Qwen decoder classifier). A separate, competency-matched CodeBERT
-  checkpoint exists (`checkpoints/cls_secure_code_primevul_joint_side_choice_codebert_v1`,
-  canonical accuracy 67.67% vs. Qwen's 65.50% — verified in
-  `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`) and has been run on the
-  side-swap/endpoint mechanism, but **never** on the label-only vs.
-  polarity-only decomposition specifically. The polarity-is-the-driver claim is
-  therefore single-architecture.
+- ~~The full label-only/polarity-only 2×2 has run on exactly one
+  architecture.~~ **Resolved.**
+  `reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md` runs the 2×2 on the
+  competency-matched CodeBERT checkpoint (canonical 0.677 vs. Qwen 0.660, same
+  600 base pairs). The label-vs-polarity **ordering reproduces**: label swap
+  inert (phi +0.988 vs. Qwen +0.914), polarity swap disruptive (phi −0.193 vs.
+  Qwen −0.094), polarity-only accuracy collapses 0.677→0.352 (Qwen 0.660→0.345).
+  The mechanism is now two-architecture behavioral evidence, not single-Qwen.
+  (One nuance surfaced: CodeBERT *does* reduce to the crude net-polarity
+  line-count shortcut on PrimeVul, ~0.96 row agreement, where Qwen does not
+  (~0.57) — same ordering, different functional form. Documented in the report.)
 - Transformation-family coverage is broad (label swap, polarity swap, side
   swap, terminal-phrase/endpoint padding, context window, split view, two
   diff algorithms, whitespace/comment) but no report stratifies
   polarity-sensitivity **by diff size** (small vs. large diff_bucket); it is
-  implicitly covered by sampling balance, not explicitly analyzed.
+  implicitly covered by sampling balance, not explicitly analyzed. Still open,
+  low-priority.
 - Runtime/truncation accounting is consistently maintained (every recent
   builder reports `transformation_introduced_critical_truncation_rows: 0`
   explicitly per condition) — this is in good shape, not a live gap.
 
 **Likely reviewer attack.** *"Your entire polarity mechanism is one decoder
 classifier's idiosyncrasy — show me it isn't specific to Qwen's tokenizer,
-positional encoding, or training recipe."*
+positional encoding, or training recipe."* Now answered for one additional
+architecture (CodeBERT, an encoder — a different family, tokenizer, and
+positional scheme), though "two architectures" is broader than one, not
+general.
 
-**Required next experiment or control.** Rerun the label-only/polarity-only 2×2
-on the existing CodeBERT checkpoint (no new training needed — reuse
-`scripts/predict_encoder_relational_audit.py` against newly built
-label/polarity audit rows, materialized at CodeBERT's max length via the
-existing `materialize_relational_runtime.py`, matching
-`secure_code_cross_model_relational_audit_codebert_v1_runtime512_summary.json`'s
-established pattern).
+**Required next experiment or control.** The two-architecture replication is
+done. A third model family (or a probing/activation study) would broaden
+further, but is not a blocker for a bounded, honestly-scoped mechanism claim.
 
-**Priority.** Must-run before serious paper draft.
+**Priority.** Label/polarity replication: **done**
+(`reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md`). Third-family
+extension: useful but optional.
 
 **Decision.** Scope this as the next substantial experiment PR (see
 "Recommendation" below), after the smaller CrossVul confound analysis.
@@ -366,18 +371,31 @@ updated C and E sections above). This is a dataset/presentation-structure
 finding, not a model-quality claim, and does not by itself invalidate any
 existing report — it adds a required reading caveat.
 
-The recommended next experiment is now **item 1**,
-`experiment: competency-matched CodeBERT label/polarity mechanism
-replication`, per the reasoning above: it is the remaining must-run item
-before a serious paper draft, and no new confound work is scheduled ahead of
-it.
+### Update: CodeBERT label/polarity replication complete
+
+Item 1 has been run:
+`reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md`. The label-vs-polarity
+ordering reproduces on the competency-matched CodeBERT checkpoint (label swap
+inert phi +0.988; polarity swap disruptive phi −0.193; polarity-only accuracy
+collapses 0.677→0.352), broadening the mechanism to two architectures. A
+nuance surfaced worth carrying into any paper draft: CodeBERT reduces to the
+crude net-polarity line-count shortcut on PrimeVul (~0.96 row agreement) where
+Qwen does not (~0.57) — same behavioral ordering, different functional form.
+
+With both must-run items (C's CrossVul confound, A/B's CodeBERT replication)
+now done, the remaining items are all "useful but optional" or "do not pursue
+now." **No must-run experiment blocks a first serious paper draft**; the
+next step is a judgment call between a third-model-family extension (optional
+breadth) and beginning the paper narrative (previously deferred). This audit
+does not itself authorize the paper-narrative work.
 
 ## Priority summary
 
 | Item | Priority | Next action |
 | --- | --- | --- |
 | CrossVul polarity/gold confound (C, E) | **Done** | `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md` |
-| CodeBERT label-only/polarity-only replication (A, B, E) | **Must-run** | Next PR: `experiment: competency-matched CodeBERT label/polarity mechanism replication` |
+| CodeBERT label-only/polarity-only replication (A, B, E) | **Done** | `reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md` |
+| Third model-family mechanism extension (A, B) | Useful but optional | Broadens beyond two architectures; not a paper-draft blocker |
 | Activation/probing evidence for the mechanism (B) | Useful but optional | Not scheduled; state limitation in paper text instead |
 | Repair v1 seed/lambda grid sweep (D) | **Do not pursue now** | Keep repair v1 closed; redesign objective if revisited |
 | Round-3 human adjudication completion (F) | Useful but optional | Cheap if resumed (9 rows); not on critical path |

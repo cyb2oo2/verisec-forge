@@ -89,4 +89,5 @@ def test_experiment_completeness_audit_marks_confound_resolved():
     audit = (ROOT / "docs/EXPERIMENT_COMPLETENESS_AUDIT.md").read_text(encoding="utf-8")
     normalized = " ".join(audit.split()).lower()
     assert "reports/crossvul_polarity_gold_confound.md" in normalized
-    assert "codebert label/polarity mechanism replication" in normalized
+    # The CrossVul confound item is marked Done in the priority summary.
+    assert "crossvul polarity/gold confound (c, e) | **done**" in normalized

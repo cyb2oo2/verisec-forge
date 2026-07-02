@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "scope": "label_polarity_mechanism_audit",
+  "base_pairs": 600,
+  "rows": 2400,
+  "variants": [
+    "canonical",
+    "label_only_swap",
+    "polarity_only_swap",
+    "side_swap"
+  ],
+  "rows_per_variant": {
+    "canonical": 600,
+    "label_only_swap": 600,
+    "polarity_only_swap": 600,
+    "side_swap": 600
+  },
+  "sources": {
+    "label_only": "data/processed/secure_code_qwen_mechanism_label_only_swap_audit_v1.jsonl",
+    "polarity_only": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl"
+  },
+  "note": "Tokenizer-neutral merge of two already-committed audits; no model run, no new sampling. Materialize per model tokenizer/length before inference."
+}
