@@ -1,0 +1,111 @@
+{
+  "status": "ok",
+  "scope": "crossvul_polarity_gold_confound",
+  "purpose": "Measures whether CrossVul's higher canonical accuracy / worse polarity flip behavior (reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md CrossVul transfer section) could be explained by a stronger net-polarity/gold correlation there than on PrimeVul, rather than by better secure-code reasoning on the unseen source. Dataset: the same 350 CrossVul base pairs used for #54's repair-transfer test.",
+  "source": {
+    "path": "data/processed/secure_code_crossvul_pair_diff_eval_metadata.jsonl",
+    "pair_cleanliness": {
+      "total_rows": 8742,
+      "total_pair_keys": 4371,
+      "two_row_pair_groups": 4371,
+      "clean_one_vulnerable_one_secure_pairs": 4371,
+      "dirty_pair_groups": 0
+    }
+  },
+  "eval": {
+    "benchmark": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+    "predictions": "outputs/secure_code_crossvul_baseline_polarity_audit_predictions_1024.jsonl",
+    "gold_side_balance": {
+      "canonical_rows": 350,
+      "gold_side_counts": {
+        "A": 184,
+        "B": 166
+      },
+      "frac_gold_riskier_side_a": 0.5257142857142857
+    },
+    "by_variant": {
+      "canonical": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 115,
+              "B": 12
+            },
+            "net_removed": {
+              "A": 29,
+              "B": 127
+            },
+            "balanced": {
+              "A": 40,
+              "B": 27
+            }
+          },
+          "p_gold_a_given_net_added": 0.905511811023622,
+          "p_gold_a_given_net_removed": 0.1858974358974359,
+          "shortcut_decided_rows": 283,
+          "shortcut_accuracy": 0.8551236749116607
+        },
+        "model_vs_shortcut": {
+          "n": 283,
+          "agreement": 0.9151943462897526,
+          "model_a_rate": 0.4204946996466431
+        }
+      },
+      "polarity_only_swap": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 29,
+              "B": 124
+            },
+            "net_removed": {
+              "A": 117,
+              "B": 14
+            },
+            "balanced": {
+              "A": 38,
+              "B": 28
+            }
+          },
+          "p_gold_a_given_net_added": 0.1895424836601307,
+          "p_gold_a_given_net_removed": 0.8931297709923665,
+          "shortcut_decided_rows": 284,
+          "shortcut_accuracy": 0.15140845070422534
+        },
+        "model_vs_shortcut": {
+          "n": 284,
+          "agreement": 0.926056338028169,
+          "model_a_rate": 0.5211267605633803
+        }
+      },
+      "side_swap": {
+        "polarity_gold_correlation": {
+          "contingency": {
+            "net_added": {
+              "A": 124,
+              "B": 29
+            },
+            "net_removed": {
+              "A": 14,
+              "B": 117
+            },
+            "balanced": {
+              "A": 28,
+              "B": 38
+            }
+          },
+          "p_gold_a_given_net_added": 0.8104575163398693,
+          "p_gold_a_given_net_removed": 0.10687022900763359,
+          "shortcut_decided_rows": 284,
+          "shortcut_accuracy": 0.8485915492957746
+        },
+        "model_vs_shortcut": {
+          "n": 284,
+          "agreement": 0.9295774647887324,
+          "model_a_rate": 0.5035211267605634
+        }
+      }
+    }
+  },
+  "claim_boundary": "This is a dataset/presentation-structure analysis, not a model-quality claim. It measures how Side A/Side B and net changed-line polarity relate to gold on CrossVul, exactly paralleling reports/POLARITY_GOLD_CONFOUND.md's PrimeVul analysis, so the two sources' canonical-accuracy and polarity-sensitivity numbers can be interpreted on a comparable footing. It does not by itself establish that the model reasons better or worse on either source."
+}
