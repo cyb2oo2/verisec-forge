@@ -355,6 +355,27 @@ Qwen's behavior is not explained by that simple heuristic. This broadens the
 behavioral evidence beyond one model family without proving a shared internal
 mechanism.
 
+**Table 2. Label-vs-polarity mechanism decomposition (600 base pairs).** phi is
+the coefficient of a variant's predictions against canonical; a high positive
+phi means the swap is inert, a phi near zero means the swap moved the
+prediction. Crude-shortcut agreement is per-row agreement with a net-polarity
+line-count heuristic on PrimeVul.
+
+| Metric | Qwen | CodeBERT |
+| --- | ---: | ---: |
+| canonical accuracy | 0.660 | 0.677 |
+| label_only_swap phi (vs canonical) | +0.914 | +0.988 |
+| polarity_only_swap phi (vs canonical) | −0.094 | −0.193 |
+| polarity_only accuracy (gold fixed) | 0.345 | 0.352 |
+| crude net-polarity shortcut agreement (PrimeVul) | ~0.57 | ~0.96 |
+
+Sources: [RESULT: qwen-label-only-swap], [RESULT: qwen-polarity-only-swap],
+[RESULT: codebert-label-polarity-replication]. The behavioral ordering
+replicates, but CodeBERT follows the crude net-polarity shortcut much more
+closely than Qwen on PrimeVul: the evidence supports a behavioral side-label
+vs. diff-polarity ordering across Qwen and CodeBERT, but does not establish a
+shared internal mechanism.
+
 ### 6.4 CrossVul: Presentation Confound, Not Stronger Reasoning
 
 We measure the same net-polarity/gold structure on CrossVul, an external
@@ -370,6 +391,24 @@ is meaningless, that CrossVul demonstrates generalization, or that the model
 reasons better or worse on CrossVul in general — raw canonical accuracy alone
 was never sufficient evidence for any of those, which is this paper's starting
 point.
+
+**Table 3. Polarity/gold presentation confound, PrimeVul vs CrossVul.**
+Crude-shortcut accuracy is how well a net-polarity line-count heuristic predicts
+gold; the polarity-flip row is the same heuristic under a gold-fixed polarity
+flip (below 0.5 means it inverts). Model-vs-shortcut agreement is per-row
+agreement of the pre-repair model with that heuristic on canonical rows.
+
+| Metric | PrimeVul | CrossVul |
+| --- | ---: | ---: |
+| crude-shortcut canonical accuracy | 0.706 | 0.855 |
+| crude-shortcut under polarity flip (gold fixed) | 0.312 | 0.151 |
+| Qwen model-vs-shortcut agreement | ~0.57 | ~0.92 |
+| CodeBERT model-vs-shortcut agreement | ~0.96 | ~0.93 |
+
+Sources: [RESULT: polarity-gold-confound], [RESULT: crossvul-polarity-gold-confound],
+[RESULT: codebert-label-polarity-replication]. CrossVul's stronger polarity/gold
+structure means CrossVul raw canonical accuracy should not be treated as
+standalone evidence of stronger reasoning.
 
 ## 7. Readout Mechanism
 
@@ -458,6 +497,26 @@ objective produces a validated learned repair; the antisymmetric readout is
 retained as a structural constraint, and the learned repair objective is left
 as unresolved future work. The invariance we report is by construction, not
 evidence that the model has learned stronger relational reasoning.
+
+**Table 4. Repair decomposition (canonical accuracy).** "Independent" is the
+per-rendering readout; "antisymmetric inference" is the projection-null readout
+whose side-swap invariance is exact by construction. The fine-tuning delta is
+the repaired-minus-baseline gap under antisymmetric inference.
+
+| Condition | PrimeVul |
+| --- | ---: |
+| baseline, independent inference | 0.660 |
+| repaired, independent inference | 0.662 |
+| baseline, antisymmetric inference (projection null) | 0.707 |
+| repaired, antisymmetric inference | 0.733 |
+| fine-tuning delta over null (PrimeVul, in-distribution) | +0.027 (McNemar p=0.002) |
+| fine-tuning delta over null (CrossVul, external source) | +0.009 (p=0.508, n.s.) |
+| fine-tuning delta over null (5 nuisance families) | 0/5 pass Bonferroni p<0.01; 2/5 sign-reversed |
+
+Sources: [RESULT: antisymmetric-repair], [RESULT: crossvul-polarity-gold-confound].
+Antisymmetric consistency is by construction; the learned fine-tuning repair is
+not validated. The antisymmetric readout is retained as a structural
+consistency constraint; the learned fine-tuning objective remains unresolved.
 
 ## 9. Limitations
 
@@ -557,27 +616,75 @@ pointwise accuracy. If a model cannot preserve the relation between vulnerable
 and fixed sides, then a high pointwise score is incomplete evidence of secure
 patch understanding.
 
-## Appendix Placeholders
+## Appendices
 
 ### A. Artifact Manifest
 
-[APPENDIX PLACEHOLDER: reproducibility bundle contents, report paths, and public
-artifact hashes.]
+Every result in this paper is backed by a committed report and machine-readable
+JSON under `reports/`, indexed by `paper/result_anchor_map.md` (Appendix E) and
+by `reports/RESULTS_INDEX.md`. Each `[RESULT: ...]` anchor in the draft maps to
+exactly one primary report plus supporting JSON; the mapping is enforced by a
+test that fails if any anchor is unmapped or any mapped path is missing. Runnable
+reproduction manifests are pinned under `reproducibility/` (for example
+`reproducibility/cross_model_relational_audit_manifest.json`,
+`reproducibility/readout_confirmatory_manifest.json`,
+`reproducibility/frozen_backbone_readout_control_manifest.json`). The
+mechanism, confound, and repair analyses in Sections 6 and 8 recompute from
+committed audit datasets and prediction outputs via pure-counting scripts
+(`scripts/analyze_codebert_label_polarity_mechanism.py`,
+`scripts/analyze_crossvul_polarity_gold_confound.py`,
+`scripts/evaluate_repair_criteria.py`); no model inference is required to
+reproduce the tables in this paper from the committed artifacts.
 
 ### B. Bootstrap and Significance Protocol
 
-[APPENDIX PLACEHOLDER: pair-cluster bootstrap, McNemar tests, split seeds, and
-selection rules.]
+Relational metrics use a pair-cluster bootstrap that resamples by
+`dataset::pair_key` so intervals respect pair structure rather than treating
+rows as independent (`src/vrf/relational_evaluation.py`,
+`pair_cluster_bootstrap`). Side-swap equivariance and relation-violation rates
+are reported against a marginal-conditioned independence baseline — the rate an
+independent predictor with the same base and transformed A-rates would achieve
+(`marginal_conditioned_violation_baseline`) — so a value near the baseline is
+read as the chance floor, not a mild effect. Mechanism-decomposition
+comparisons use a 2×2 chi-square with phi coefficient
+(`prediction_independence`). Repair comparisons use an exact two-sided McNemar
+test on paired per-pair correctness (`exact_mcnemar`), with the
+nuisance-transform battery held to a Bonferroni-corrected threshold
+(p<0.01 for five families). Confirmatory readout results fix seeds `7` and
+`123` and evaluate held-out pair IDs and unseen suffix templates; selection
+rules (including the preregistered canonical non-inferiority rule) are stated
+before evaluation in the corresponding protocol docs.
 
 ### C. Runtime Visibility Schema
 
-[APPENDIX PLACEHOLDER: tokenizer-specific accounting fields, critical-hunk
-visibility, truncation flags, and transformation visibility.]
+Before inference, each audit is materialized per model tokenizer
+(`scripts/materialize_relational_runtime.py`), producing a `runtime_accounting`
+record with: `max_length`, `truncation_side`, `add_special_tokens`,
+`offset_mapping_quality` (required to be `exact_fast_tokenizer`),
+`critical_hunk_truncated_rows`, `mean_critical_line_visibility_ratio`, and
+`transformation_introduced_critical_truncation_rows`. The last field is the key
+control: across the label/polarity and CrossVul audits reported here it is `0`
+per variant, so no transformation added critical-hunk truncation and the
+within-model variant contrasts are fair. Absolute visibility remains
+model-specific: the CodeBERT (RoBERTa, length 512) runs truncate the critical
+hunk on 178/600 rows per variant (mean visibility ~0.76), lower than the Qwen
+length-1024 runs, so cross-model *absolute* accuracy is interpreted with that
+caveat while the label-vs-polarity ordering (a within-model contrast) is not
+affected.
 
 ### D. Prompt and Output Contracts
 
-[APPENDIX PLACEHOLDER: exact-training-contract prompts, generative judge fixed
-output protocol, and invalid-output handling.]
+The candidate-identity task is rendered with a fixed prompt: `Task: compare two
+related code states and choose the riskier side. Output one label: A_RISKIER,
+B_RISKIER, or INSUFFICIENT_CONTEXT.` followed by metadata and a unified diff
+labeled Side A → Side B (`src/vrf/relational_benchmark.py`, `render_pair`). No
+prompt in the pipeline frames the task directionally ("does this patch fix or
+introduce"), consistent with the candidate-identity boundary in Section 3. The
+external adapter contract accepts `A`/`A_RISKIER`, `B`/`B_RISKIER`, or
+`INSUFFICIENT_CONTEXT`; invalid outputs are rejected, not repaired or manually
+relabeled (`docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md`). The generative-judge
+replication slot uses the same strict output set, and its invalid-output rate is
+reported rather than silently dropped (Section 6.2).
 
 ### E. Result Anchor Map
 
