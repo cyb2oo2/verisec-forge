@@ -1,0 +1,36 @@
+{
+  "status": "ok",
+  "scope": "nuisance_transfer_audit",
+  "base_pairs": 600,
+  "rows": 6000,
+  "nuisance_families": [
+    "context_window",
+    "split_view",
+    "diff_algorithm_myers_header",
+    "diff_algorithm_histogram",
+    "whitespace_comment"
+  ],
+  "variants_per_family": [
+    "canonical",
+    "side_swap"
+  ],
+  "per_source": {
+    "primevul": {
+      "eligible_pairs": 827,
+      "skipped_groups": 50,
+      "sampled": 200
+    },
+    "deltasecommits": {
+      "eligible_pairs": 327,
+      "skipped_groups": 0,
+      "sampled": 200
+    },
+    "patcheval": {
+      "eligible_pairs": 269,
+      "skipped_groups": 0,
+      "sampled": 200
+    }
+  },
+  "build_errors": [],
+  "note": "Not part of the original polarity-only-swap audit's training/evaluation loop. Reuses the identical 600 base pairs (verified pair_key match) for direct comparability to the #54 PrimeVul in-distribution numbers."
+}

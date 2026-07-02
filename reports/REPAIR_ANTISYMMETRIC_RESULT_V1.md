@@ -110,6 +110,87 @@ the model reasons better on an unseen source. This was not separately measured
 here and should be checked before citing the CrossVul accuracy numbers on their
 own.
 
+## Transfer check: held-out nuisance transforms (unseen presentation changes)
+
+The preregistration's second transfer leg -- held-out nuisance transforms never
+seen during training or the original polarity-only-swap evaluation -- was still
+outstanding after the CrossVul check above. Built five families on the
+*identical* 600 PrimeVul/DeltaSecommits/PatchEval base pairs (verified
+`pair_key` match to the original audit) via `src/vrf/nuisance_transfer.py` and
+`scripts/build_nuisance_transfer_audit.py`:
+
+- **context_window** -- unified diff with a tighter context budget (`n=1`
+  instead of the `n=3` default used everywhere else).
+- **split_view** -- the same removed/added content regrouped into separate
+  "Removed" / "Added" / "Unchanged context" blocks instead of interleaved
+  unified hunks.
+- **diff_algorithm_myers_header** -- real `git diff --no-index` output
+  (Myers algorithm, git's native header format: `diff --git`, `index`,
+  `a/`/`b/` prefixes -- structurally different from the `difflib`-rendered
+  header used everywhere else).
+- **diff_algorithm_histogram** -- same git header family, `--diff-algorithm=histogram`.
+- **whitespace_comment** -- reindented diff-body lines plus one inserted
+  benign comment marker; code semantics and gold unchanged.
+
+Reproduce:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_nuisance_transfer_audit.py
+.\.venv\Scripts\python.exe scripts\materialize_relational_runtime.py `
+  --model-id qwen15b-nuisance-transfer-1024 `
+  --tokenizer checkpoints\cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1 `
+  --max-length 1024 --local-files-only `
+  --benchmark data\processed\secure_code_nuisance_transfer_audit_v1.jsonl `
+  --output data\processed\secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl
+.\.venv\Scripts\python.exe scripts\predict_veripatch_rr.py `
+  --checkpoint checkpoints\cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1 `
+  --dataset data\processed\secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl `
+  --output outputs\secure_code_nuisance_transfer_baseline_predictions_1024.jsonl --batch-size 4
+.\.venv\Scripts\python.exe scripts\predict_veripatch_rr.py `
+  --checkpoint checkpoints\cls_secure_code_primevul_repair_antisymmetric_qwen15b_lora_v1 `
+  --dataset data\processed\secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl `
+  --output outputs\secure_code_nuisance_transfer_repaired_predictions_1024.jsonl --batch-size 4
+.\.venv\Scripts\python.exe scripts\analyze_nuisance_transfer.py
+```
+
+`transformation_introduced_critical_truncation_rows: 0` across all ten
+(family × variant) conditions, n=600 pairs per family throughout.
+
+| Family | null delta | fine-tuning delta | fixed | broken | McNemar p |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| context_window | +0.058 | **+0.022** | 25 | 12 | 0.047 |
+| split_view | +0.070 | **+0.033** | 42 | 22 | 0.017 |
+| diff_algorithm_myers_header | +0.075 | **-0.017** | 15 | 25 | 0.154 |
+| diff_algorithm_histogram | +0.067 | **-0.022** | 16 | 29 | 0.073 |
+| whitespace_comment | +0.032 | +0.018 | 23 | 12 | 0.090 |
+| *(reference)* PrimeVul in-distribution | +0.047 | +0.027 | 21 | 5 | 0.002 |
+| *(reference)* CrossVul external-source | +0.017 | +0.009 | 6 | 3 | 0.508 |
+
+**With five families tested, an uncorrected p<0.05 threshold is the wrong bar.**
+At the Bonferroni-corrected threshold (p<0.05/5 = 0.010), **zero families
+survive** -- the smallest observed p-value (split_view, 0.017) does not clear
+it. Two families (`context_window`, `split_view`) show a positive delta at the
+uncorrected p<0.05 level; two other families
+(`diff_algorithm_myers_header`, `diff_algorithm_histogram`) show the
+**fine-tuned model performing worse than the frozen baseline** under the
+antisymmetric decision. A repair effect that reverses sign across held-out
+presentation changes is itself evidence against a robust, content-based
+transferable effect -- it looks like noise around a small, inconsistent
+signal, not a repeatable gain that merely fell short of significance in two
+conditions.
+
+Side observation, not part of the transfer claim: under `split_view`, the
+**independent-inference** side-swap violation rate jumps to 0.925 (both
+models) -- far above its own marginal-conditioned baseline (~0.57-0.58) and
+well above the ~0.55-0.66 range seen in the other four families. Restructuring
+the same content into grouped removed/added blocks is dramatically more
+disruptive to the un-repaired classifier's side-order consistency than any
+other tested presentation change. This is a data point for future mechanism
+work, not evidence for or against the fine-tuning transfer question (the
+antisymmetric decision is exact-by-construction regardless of this).
+
+Full per-family breakdown: `reports/secure_code_repair_antisymmetric_nuisance_transfer_v1.json`.
+
 ## What this does and does not establish
 
 Establishes (PrimeVul, in-distribution, one checkpoint, one length, n=600):
@@ -126,13 +207,20 @@ Establishes (CrossVul, unseen source, n=350):
 - **The fine-tuned increment over the null does not transfer**: +0.0086,
   p = 0.508 — not distinguishable from noise.
 
+Establishes (held-out nuisance transforms, five families, n=600 each):
+
+- The antisymmetric architecture's exactness (side-swap equivariance,
+  violation rate 0 by construction) holds under every family tested,
+  including presentations (git-native headers, split-view blocks) never seen
+  in training.
+- **The fine-tuning increment does not survive multiple-comparisons-corrected
+  significance testing on any family**, and reverses sign (fine-tuned model
+  worse than frozen baseline) on two of the five families.
+
 Does **not** establish (required before any headline "repair works" claim):
 
-- That fine-tuning is doing anything beyond the projection null. The one
-  transfer test run says no.
-- The held-out **nuisance-transform** leg of the preregistration (context size,
-  unified vs split, Myers vs histogram, whitespace/comment reorder) — still not
-  run; only the external-source leg was completed here.
+- That fine-tuning is doing anything beyond the projection null. Neither
+  transfer test (CrossVul, nuisance transforms) supports it.
 - Generality: one seed (7), one config, one backbone, one length. The
   preregistered seed {7,123} × λ {0.5,1,2} grid was not swept.
 
@@ -142,10 +230,13 @@ The antisymmetric head makes side-order failure vanish by construction and
 lifts canonical accuracy on PrimeVul from 0.660 to 0.733, but a matched control
 shows most of that lift (+0.047 of +0.073) is the inference-time readout
 applied to the *unchanged* model — the preregistered null — and only +0.027
-(McNemar p = 0.002) is attributable to fine-tuning. Run on CrossVul (an unseen
-source, the preregistration's external-source transfer test), the architectural
-null replicates (+0.017) but **the fine-tuned increment shrinks to +0.0086 and
-loses significance (p = 0.508)**. Verdict: the antisymmetric-readout
-architecture is a real, transferable structural fix for side-order
-inconsistency; the additional training signal on top of it is not yet
-demonstrated to generalize and should not be reported as a validated repair.
+(McNemar p = 0.002) is attributable to fine-tuning. That fine-tuning increment
+does not transfer: on CrossVul (external source) it shrinks to +0.0086
+(p = 0.508), and across five held-out nuisance-transform families it survives
+no multiple-comparisons-corrected significance test and **reverses sign on two
+of five families**. This run validates the antisymmetric readout as a
+transferable structural fix for side-order inconsistency, but it does not
+validate the fine-tuning objective as a learned repair. The fine-tuned
+increment over the projection null is significant in-distribution but does not
+survive either external-source or held-out nuisance-transform transfer
+testing.
