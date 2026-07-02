@@ -32,6 +32,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Qwen Polarity-Only Swap vs. Structural Swap`: `reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md`
 - `Task Formulation and the Status of Diff Polarity`: `docs/TASK_FORMULATION.md`
 - `Polarity/Gold Confound Measurement`: `reports/POLARITY_GOLD_CONFOUND.md`
+- `CrossVul Polarity/Gold Confound Measurement`: `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md`
 - `Evidence Hierarchy`: `docs/EVIDENCE_HIERARCHY.md`
 - `Experiment Completeness Audit and Remaining Evidence Gaps`: `docs/EXPERIMENT_COMPLETENESS_AUDIT.md`
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`

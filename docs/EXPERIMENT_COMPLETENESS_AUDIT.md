@@ -135,43 +135,44 @@ judgment, not under directional-patch judgment.
   polarity spurious-but-predictive).
 
 **Current weakness.**
-- **The polarity/gold confound has been measured on PrimeVul/DeltaSecommits/
-  PatchEval only.** Verified by grep: neither `docs/TASK_FORMULATION.md`,
-  `reports/POLARITY_GOLD_CONFOUND.md`, `src/vrf/polarity_gold_confound.py`, nor
-  `scripts/analyze_polarity_gold_confound.py` mention CrossVul anywhere. This
-  is a real, already-flagged gap: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`'s
-  own "side note" on the CrossVul transfer result explicitly says CrossVul's
-  higher canonical accuracy and higher flip rate *may* be explained by a
-  stronger net-polarity/gold correlation there, and explicitly states "this was
-  not separately measured here." That statement has sat unresolved since #54.
+- ~~The polarity/gold confound has been measured on PrimeVul/DeltaSecommits/
+  PatchEval only.~~ **Resolved.** `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md`
+  now measures it on the same 350-pair CrossVul audit used in #54, and the
+  result is not a null: CrossVul's net-polarity/gold correlation is
+  measurably **stronger** than PrimeVul's (canonical shortcut accuracy `0.855`
+  vs. `0.706`; polarity-flip inversion `0.151` vs. `0.312`), and the frozen
+  baseline model's predictions track that crude shortcut far more closely on
+  CrossVul (`~0.92` vs. `~0.57` row agreement). This means CrossVul's raw
+  canonical accuracy and PrimeVul's are **not on comparable footing** and
+  should not be read as evidence of stronger secure-code reasoning on the
+  unseen source — the `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md` CrossVul
+  transfer numbers should be read with this in mind.
 - The directional-patch task is excluded by consistent prompt wording
   everywhere checked, but there is no single sentence anywhere outside
   `docs/TASK_FORMULATION.md` that a reviewer can be pointed to as the
   project-wide guarantee; it depends on grep-verified consistency rather than
   an enforced contract (e.g., a test asserting the prompt template never
-  contains directional language).
+  contains directional language). Still open; small and low-priority.
 
 **Likely reviewer attack.** *"You call polarity a nuisance variable on
 PrimeVul; does the same de-confounding hold on the other source you tested for
 transfer? If CrossVul's polarity/gold correlation is stronger, your CrossVul
 repair-transfer numbers are being read through a different confound structure
-than your PrimeVul numbers, and the two are not directly comparable."*
+than your PrimeVul numbers, and the two are not directly comparable."* This
+attack is now pre-empted with a measured answer (see above) rather than an
+open question.
 
-**Required next experiment or control.** Run
-`scripts/analyze_polarity_gold_confound.py`-equivalent counting directly on
-the CrossVul polarity-only-swap audit (`data/processed/
-secure_code_crossvul_polarity_only_swap_audit_v1.jsonl`, already built for #54
-transfer testing — no new data construction needed, pure counting, no model
-run). Report `P(gold=A | net_added)`, `P(gold=A | net_removed)`, and shortcut
-accuracy for CrossVul canonical/polarity_only_swap/side_swap, exactly
-paralleling the PrimeVul table.
+**Required next experiment or control.** None remaining for the confound
+measurement itself. The smaller residual item (an enforced test that the
+prompt template never contains directional-patch language, rather than
+grep-verified consistency) is optional cleanup, not an experiment.
 
-**Priority.** Must-run before serious paper draft. This is cheap (no training,
-no new GPU inference, reuses existing tooling near-verbatim) and directly
-resolves an already-published open question.
+**Priority.** Confound measurement: **done**
+(`reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md`). Directional-language test
+guard: useful but optional.
 
-**Decision.** Run this next (see "Recommendation" below) — it is the more
-urgent of the two candidate next experiments.
+**Decision.** Closed. See "Recommendation" below for what was run and why it
+was prioritized first.
 
 ## D. Repair contribution
 
@@ -239,33 +240,41 @@ original source.
 - `reports/CROSSVUL_LANGUAGE_SHIFT_COMPARISON.md` — language shift adds no
   measurable degradation beyond source shift.
 - `#54`/`#55` CrossVul + nuisance-transform repair-transfer results (see D).
+- `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md` — CrossVul's net-polarity/gold
+  confound, now measured, is stronger than PrimeVul's (see C).
 
-**Current weakness.** Same two items already identified above, restated here
-because this is where they matter most for an external-validity claim
-specifically:
-- CrossVul polarity/gold confound not measured (C) — this bears directly on
-  how to interpret the CrossVul repair-transfer numbers, since a source-level
-  confound difference would explain part of the CrossVul accuracy gap
-  independent of any repair or mechanism claim.
+**Current weakness.**
+- ~~CrossVul polarity/gold confound not measured~~ **Resolved (see C).** The
+  measurement changes how the *other* CrossVul results in this section should
+  be read: the `CROSSVUL_ZERO_SHOT_*` accuracy numbers and the #54 CrossVul
+  repair-transfer canonical accuracy are all raw canonical accuracy on a
+  source now known to carry a stronger presentation shortcut than PrimeVul, so
+  "CrossVul accuracy is close to/above the PrimeVul mainline" claims anywhere
+  in this project should not be read as "the model reasons about CrossVul
+  patches as well as or better than PrimeVul ones" without this caveat. This
+  is a reading-caveat on existing evidence, not a reason to retract any
+  existing report.
 - Non-Qwen replication (A) exists for the side-swap/endpoint mechanism
   (CodeBERT, competency-matched) but not for the polarity-vs-label
   decomposition or for the repair architecture. "Generalizes beyond the
   original source" currently means "beyond the original *data* source
-  (PrimeVul → CrossVul)," not "beyond the original *model family*."
+  (PrimeVul → CrossVul)," not "beyond the original *model family*." Still open.
 
 **Likely reviewer attack.** *"External validity" in your title suggests both
 axes — different data and different models — but you've only really nailed
-the data axis. Say so explicitly, or do the model-axis work.*
+the data axis, and even there, your own confound measurement shows the two
+data sources aren't comparable on raw accuracy. Say so explicitly, or do the
+model-axis work.*
 
-**Required next experiment or control.** Both items are already named above
-(C's CrossVul confound measurement; A's CodeBERT label/polarity replication).
-No new item beyond those two.
+**Required next experiment or control.** The CrossVul confound item is closed.
+The remaining item is A's CodeBERT label/polarity replication — no new item
+beyond that.
 
-**Priority.** CrossVul confound: must-run (cheap, closes an open question).
-CodeBERT mechanism replication: must-run before serious paper draft (bigger,
-scope it as its own PR).
+**Priority.** CrossVul confound: **done**. CodeBERT mechanism replication:
+must-run before serious paper draft (bigger, scope it as its own PR).
 
-**Decision.** Covered by C and A's decisions above; no separate action here.
+**Decision.** CrossVul confound closed this PR. CodeBERT replication remains
+covered by A's decision above.
 
 ## F. Human adjudication / evidence localization
 
@@ -347,12 +356,28 @@ notably **no new training**, since the CodeBERT checkpoint used in the
 existing cross-model audit already exists). It should be the PR after the
 CrossVul confound analysis, not before it.
 
+### Update: CrossVul confound measurement complete
+
+Item 2 has been run: `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md`. It was not
+a null result — CrossVul's net-polarity/gold correlation is measurably
+**stronger** than PrimeVul's, which changes how CrossVul's raw canonical
+accuracy should be read everywhere it is cited in this project (see the
+updated C and E sections above). This is a dataset/presentation-structure
+finding, not a model-quality claim, and does not by itself invalidate any
+existing report — it adds a required reading caveat.
+
+The recommended next experiment is now **item 1**,
+`experiment: competency-matched CodeBERT label/polarity mechanism
+replication`, per the reasoning above: it is the remaining must-run item
+before a serious paper draft, and no new confound work is scheduled ahead of
+it.
+
 ## Priority summary
 
 | Item | Priority | Next action |
 | --- | --- | --- |
-| CrossVul polarity/gold confound (C, E) | **Must-run** | Next PR: `analysis: CrossVul polarity-gold confound measurement` |
-| CodeBERT label-only/polarity-only replication (A, B, E) | **Must-run** | PR after the confound analysis |
+| CrossVul polarity/gold confound (C, E) | **Done** | `reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md` |
+| CodeBERT label-only/polarity-only replication (A, B, E) | **Must-run** | Next PR: `experiment: competency-matched CodeBERT label/polarity mechanism replication` |
 | Activation/probing evidence for the mechanism (B) | Useful but optional | Not scheduled; state limitation in paper text instead |
 | Repair v1 seed/lambda grid sweep (D) | **Do not pursue now** | Keep repair v1 closed; redesign objective if revisited |
 | Round-3 human adjudication completion (F) | Useful but optional | Cheap if resumed (9 rows); not on critical path |

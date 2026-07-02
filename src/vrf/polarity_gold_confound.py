@@ -19,7 +19,11 @@ Two distinct notions of "polarity" matter and must not be conflated:
   correlated with the vulnerable side even when orientation is balanced. It is
   the task-illegitimate-but-predictive feature a polarity-only swap flips.
 
-Nothing here trains or runs a model; it is pure counting over existing rows.
+Used by both ``scripts/analyze_polarity_gold_confound.py`` (PrimeVul/
+DeltaSecommits/PatchEval training + eval) and
+``scripts/analyze_crossvul_polarity_gold_confound.py`` (CrossVul eval-only,
+since the checkpoint is never trained on CrossVul). Nothing here trains or
+runs a model; it is pure counting over existing rows.
 """
 
 from __future__ import annotations
@@ -32,6 +36,8 @@ __all__ = [
     "orientation_balance",
     "polarity_gold_correlation",
     "model_shortcut_agreement",
+    "source_pair_cleanliness",
+    "eval_set_gold_side_balance",
 ]
 
 
@@ -183,4 +189,62 @@ def model_shortcut_agreement(
         "n": total,
         "agreement": (agree / total) if total else None,
         "model_a_rate": (model_a / total) if total else None,
+    }
+
+
+def source_pair_cleanliness(
+    source_rows: Iterable[dict[str, Any]],
+    *,
+    pair_key: str = "pair_key",
+    vulnerable_key: str = "has_vulnerability",
+) -> dict[str, Any]:
+    """Verify a raw pair-diff source groups cleanly into one-vulnerable/
+    one-secure pairs -- the precondition ``build_canonical_pair``
+    (``src/vrf/relational_benchmark.py``) enforces when constructing base
+    pairs for any source (PrimeVul, DeltaSecommits, PatchEval, CrossVul).
+    Pure counting; confirms a dataset choice, not a new metric.
+    """
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in source_rows:
+        grouped[str(row.get(pair_key))].append(row)
+    two_row_groups = 0
+    clean_pairs = 0
+    dirty_pairs = 0
+    for rows in grouped.values():
+        if len(rows) != 2:
+            continue
+        two_row_groups += 1
+        flags = {bool(row.get(vulnerable_key)) for row in rows}
+        if flags == {True, False}:
+            clean_pairs += 1
+        else:
+            dirty_pairs += 1
+    return {
+        "total_rows": sum(len(rows) for rows in grouped.values()),
+        "total_pair_keys": len(grouped),
+        "two_row_pair_groups": two_row_groups,
+        "clean_one_vulnerable_one_secure_pairs": clean_pairs,
+        "dirty_pair_groups": dirty_pairs,
+    }
+
+
+def eval_set_gold_side_balance(
+    canonical_rows: Iterable[dict[str, Any]],
+    *,
+    gold_key: str = "gold_riskier_side",
+) -> dict[str, Any]:
+    """Gold-side (Side A vs Side B) balance on an audit's canonical rows.
+
+    For a source evaluated zero-shot (never trained on, e.g. CrossVul), this
+    is the applicable analog of ``orientation_balance``'s training-set check:
+    whether the eval benchmark itself assigns Side A/Side B independently of
+    which side is vulnerable, rather than a training-augmentation property.
+    """
+    canonical_rows = list(canonical_rows)
+    counts = Counter(_norm_side(row.get(gold_key)) for row in canonical_rows)
+    total = counts["A"] + counts["B"]
+    return {
+        "canonical_rows": len(canonical_rows),
+        "gold_side_counts": {"A": counts["A"], "B": counts["B"]},
+        "frac_gold_riskier_side_a": (counts["A"] / total) if total else None,
     }
