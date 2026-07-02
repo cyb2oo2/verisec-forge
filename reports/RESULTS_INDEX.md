@@ -33,12 +33,13 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Task Formulation and the Status of Diff Polarity`: `docs/TASK_FORMULATION.md`
 - `Polarity/Gold Confound Measurement`: `reports/POLARITY_GOLD_CONFOUND.md`
 - `Evidence Hierarchy`: `docs/EVIDENCE_HIERARCHY.md`
-- `Repair Objective Design`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
-- `Repair Experiment Preregistration`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
+- `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
+- `Repair Experiment Preregistration (Criterion 5 Status)`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
 - `Repair Criteria Pre-Repair Baseline`: `reports/secure_code_repair_criteria_pre_repair_baseline_v1.json`
-- `Repair Result: One Antisymmetric-Head Run (+ CrossVul + Nuisance-Transform Transfer)`: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`
-- `Repair CrossVul Transfer Decomposition`: `reports/secure_code_repair_antisymmetric_crossvul_transfer_v1.json`
-- `Repair Nuisance-Transform Transfer Decomposition`: `reports/secure_code_repair_antisymmetric_nuisance_transfer_v1.json`
+- `Repair Attempt: Antisymmetric-Head Run and Transfer Boundary (#54, #55)`: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`
+- `Repair Attempt: PrimeVul In-Distribution Decomposition (#54)`: `reports/secure_code_repair_antisymmetric_decomposition_v1.json`
+- `Repair Transfer Boundary: CrossVul External-Source Decomposition (#54)`: `reports/secure_code_repair_antisymmetric_crossvul_transfer_v1.json`
+- `Repair Transfer Boundary: Nuisance-Transform Decomposition (#55)`: `reports/secure_code_repair_antisymmetric_nuisance_transfer_v1.json`
 - `Cross-Model Relational Audit`: `reports/CROSS_MODEL_RELATIONAL_AUDIT.md`
 - `Cross-Model Replication`: `reports/CROSS_MODEL_REPLICATION.md`
 - `Decoder Stress Validation`: `reports/DECODER_STRESS_VALIDATION.md`

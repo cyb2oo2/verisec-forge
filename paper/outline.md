@@ -131,7 +131,8 @@ State explicitly:
 - bootstrap intervals are conditional on selected experiment designs;
 - frozen-backbone results condition on one Qwen+LoRA representation;
 - evidence localization is diagnostic unless independently human adjudicated;
-- antisymmetric side-order modeling is future work.
+- the learned fine-tuning repair objective is future work: it is not
+  validated as a transferable repair (see Section 8).
 
 ## 8. Discussion
 
@@ -140,14 +141,32 @@ The paper should end by shifting the field's evaluation question:
 > Secure-patch model evaluation should measure relational consistency, not
 > only pointwise correctness.
 
-The next method question is not another readout tweak. It is whether model
-architectures or objectives can enforce side-order structure, such as
-antisymmetric pair scoring. `docs/REPAIR_OBJECTIVE_DESIGN.md` specifies that
-repair: a weight-shared joint encoder with an antisymmetric readout
-(`s(A,B) = -s(B,A)` by construction, so side-swap equivariance is exact rather
-than penalized) plus an explicit polarity-invariance term, since antisymmetry
-does not fix polarity. It fixes the baselines (augmentation -- already in the
-training data -- TTA null, independent-scoring and unconstrained-head ablations)
-and the preregistered success criteria (raw single-pass, canonical
-non-inferiority, violation rate below its marginal-conditioned baseline, and
-transfer to held-out nuisance transforms and an external source).
+The retained methodological contribution is the **hard antisymmetric readout
+as a transferable structural consistency constraint**, not a learned-reasoning
+repair, and not another readout tweak in the sense of the pooling-variant
+ablations in Section 6 -- it is a structural change to how the two candidates'
+scores relate, not a change to how one candidate's hidden state is pooled.
+`docs/REPAIR_OBJECTIVE_DESIGN.md` specifies a weight-shared joint encoder with
+an antisymmetric readout (`s(A,B) = -s(B,A)` by construction, so side-swap
+equivariance is exact rather than penalized). One preregistered
+config was trained and evaluated end-to-end
+(`reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`): the antisymmetric readout's
+canonical accuracy, not only its by-construction invariance, held up on an
+external source (CrossVul, 350 pairs) and on five held-out nuisance-transform
+families never seen in training (context window, split view, git-native
+Myers/histogram diff, whitespace/comment reindent) -- so the structural
+constraint is a validated, transferable fix for side-order inconsistency.
+
+The additional fine-tuning objective on top of that readout (pointwise BCE +
+explicit polarity-invariance term, since antisymmetry alone does not fix
+polarity) is a different claim, and it did not transfer: it was significant
+in-distribution (PrimeVul, McNemar p=0.002) but failed both preregistered
+transfer tests -- not significant on CrossVul (p=0.508), and clears no family
+at a Bonferroni-corrected threshold across the five nuisance transforms, with
+two families showing the fine-tuned model performing *worse* than the frozen
+baseline. The antisymmetric readout provides a transferable structural
+constraint for side-order consistency; the fine-tuning increment over this
+structural null does not survive external-source or nuisance-transform
+transfer, so the current learned repair objective remains unresolved and is
+left as future work: a different objective, more data, or a different readout
+parameterization may be needed before re-attempting the learned-repair claim.
