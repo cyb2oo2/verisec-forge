@@ -122,3 +122,31 @@ A repair is credible only if **all** hold, on **raw single-pass** predictions
 
 Design + reference implementation only; no training here. Step 4 ports
 `repair_loss` to the torch training path and runs the preregistered evaluation.
+
+## v1 outcome (#54, #55)
+
+One preregistered run of this design (seed 7, one config) was trained and
+evaluated end-to-end. Full results: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`.
+
+- **The architectural constraint works by construction and transfers.** The
+  antisymmetric readout's side-swap equivariance is exact on every checkpoint
+  and every rendering tested (the trap this design was built to avoid — see
+  "Distinguishing a real repair from an artifact" above — did not materialize:
+  this is not a soft penalty that degrades under distribution shift). Its
+  canonical accuracy, not just its invariance, also held up on the external
+  CrossVul source and on five held-out nuisance-transform families never seen
+  during training.
+- **The fine-tuning increment over the projection null does not transfer
+  robustly.** It was statistically significant in-distribution (PrimeVul,
+  McNemar p=0.002) but failed both transfer legs specified above: not
+  significant on CrossVul (p=0.508), and clears no family at the
+  Bonferroni-corrected threshold across five nuisance transforms (two families
+  even reverse sign, the fine-tuned model scoring worse than the frozen
+  baseline). Per this document's own criteria, that pattern is "regularized to
+  the trained transforms," not a repair.
+- **Retained contribution:** the hard antisymmetric readout as a transferable
+  structural consistency constraint. The fine-tuning objective specified here
+  (pointwise BCE + polarity-invariance + collapse guard) is not validated as a
+  transferable learned repair and remains unresolved future work — a different
+  objective, more data, or a different readout parameterization may be needed
+  before re-attempting the learned-repair claim.

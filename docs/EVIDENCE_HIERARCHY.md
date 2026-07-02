@@ -50,6 +50,40 @@ promoted.
 | Pair-coupled decoding is the strongest system layer | T2 | `PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md` |
 | Relation-consistent decoding removes violations | T4 | `DECODER_STRESS_VALIDATION.md` |
 | Evidence localization tracks side-correctness | T3 / **T5** | `PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`, round-3 pilot |
+| Antisymmetric readout is a transferable structural fix for side-order inconsistency | T4 (exact by construction) / T2 (transfer confirmed on CrossVul + 5 nuisance families) | `REPAIR_ANTISYMMETRIC_RESULT_V1.md` (#54, #55) |
+| Fine-tuning increment over the projection null | **not validated** — significant in-distribution (p=0.002) but fails both preregistered transfer tests (CrossVul p=0.508; 0/5 nuisance families at Bonferroni-corrected p<0.01, 2/5 sign-reversed) | `REPAIR_ANTISYMMETRIC_RESULT_V1.md` (#54, #55) |
+
+## Repair evidence (#54, #55)
+
+The antisymmetric-head repair line splits into two claims with different
+evidential status, and they must not be conflated:
+
+- **The antisymmetric readout is a structural control, not a reasoning claim,
+  and it is T4 by the same logic as the relation-consistent decoder** — its
+  side-swap equivariance is exact by construction, not learned. What elevates
+  it above a bare T4 projection is that its *accuracy* (not just its
+  invariance) was independently measured on data never used to build it: the
+  350-pair CrossVul external-source audit and five held-out nuisance-transform
+  families (context window, split view, git-native Myers/histogram diff,
+  whitespace/comment reindent). Canonical accuracy under the antisymmetric
+  decision held up on every one of those T2-style checks, so "transferable
+  structural fix" is a T2 claim, not merely T4.
+- **The fine-tuning increment over that structural null is not validated as a
+  transferable learned repair.** It reached significance in-distribution
+  (PrimeVul, McNemar p=0.002) but failed both preregistered transfer legs:
+  CrossVul (p=0.508, not significant) and the nuisance-transform battery (no
+  family clears the Bonferroni-corrected threshold p<0.01 for five families
+  tested; two families show the fine-tuned model performing *worse* than the
+  frozen baseline). A sign-reversing effect across held-out conditions is
+  evidence against a real transferable signal, not merely an absence of proof
+  for one — do not report this increment as a validated repair, and do not
+  promote it into a headline claim above the structural-fix result.
+
+**Claim boundary to reuse verbatim:** *The antisymmetric readout provides a
+transferable structural constraint for side-order consistency. However, the
+fine-tuning increment over this structural null does not survive
+external-source or nuisance-transform transfer, so the current learned repair
+objective remains unresolved.*
 
 ## Relational-metric reporting contract
 
