@@ -1,0 +1,33 @@
+{
+  "status": "ok",
+  "scope": "repair_antisymmetric_crossvul_transfer_v1",
+  "purpose": "Test whether the fine-tuning delta measured in-distribution (PrimeVul) survives on an unseen source, per docs/REPAIR_EXPERIMENT_PREREGISTRATION.md transfer criteria.",
+  "audit": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+  "eval_pairs": 350,
+  "source": "crossvul",
+  "canonical_accuracy": {
+    "baseline_independent": 0.7857142857142857,
+    "repaired_independent": 0.7942857142857143,
+    "baseline_antisymmetric_inference_NULL": 0.8028571428571428,
+    "repaired_antisymmetric_inference": 0.8114285714285714
+  },
+  "attribution": {
+    "antisymmetric_inference_on_frozen_model_delta": 0.017142857142857,
+    "fine_tuning_delta_over_null": 0.0085714285714285,
+    "fine_tuning_mcnemar_exact_p": 0.5078,
+    "fine_tuning_pairs_fixed": 6,
+    "fine_tuning_pairs_broken": 3
+  },
+  "comparison_to_in_distribution": {
+    "primevul_fine_tuning_delta": 0.0267,
+    "primevul_mcnemar_p": 0.002,
+    "crossvul_fine_tuning_delta": 0.0086,
+    "crossvul_mcnemar_p": 0.5078,
+    "conclusion": "fine-tuning delta shrinks by ~3x and loses significance on the unseen source"
+  },
+  "not_run": [
+    "held-out nuisance transforms (context size, split-vs-unified, myers-vs-histogram, whitespace)",
+    "seed 123 and lambda grid {0.5,1.0,2.0}"
+  ],
+  "verdict": "The antisymmetric-inference architecture (the projection null) transfers to CrossVul. The fine-tuned increment over that null does NOT clearly transfer: effect shrinks from +0.0267 (p=0.002) in-distribution to +0.0086 (p=0.508) on CrossVul. Do not report the fine-tuning effect as a validated, generalizing repair on this evidence."
+}
