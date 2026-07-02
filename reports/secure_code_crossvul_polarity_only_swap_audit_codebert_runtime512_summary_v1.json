@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+  "model_id": "codebert-crossvul-512",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_side_choice_codebert_v1",
+  "max_length": 512,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 1050,
+  "critical_hunk_truncated_rows": 276,
+  "transformation_introduced_critical_truncation_rows": 0,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 1050,
+      "critical_hunk_truncated_rows": 276,
+      "transformation_introduced_critical_truncation_rows": 0
+    }
+  },
+  "by_template": {
+    "canonical": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 92,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8645188730685224,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "polarity_only_swap": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 92,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8644781368738128,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 92,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.8644781368738128,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}

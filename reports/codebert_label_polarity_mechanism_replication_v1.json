@@ -1,0 +1,121 @@
+{
+  "status": "ok",
+  "scope": "codebert_label_polarity_mechanism_replication",
+  "checkpoint": "checkpoints/cls_secure_code_primevul_joint_side_choice_codebert_v1",
+  "length": 512,
+  "base_pairs": 600,
+  "accuracy": {
+    "canonical": {
+      "n": 600,
+      "accuracy": 0.6766666666666666
+    },
+    "label_only_swap": {
+      "n": 600,
+      "accuracy": 0.32166666666666666
+    },
+    "polarity_only_swap": {
+      "n": 600,
+      "accuracy": 0.3516666666666667
+    },
+    "side_swap": {
+      "n": 600,
+      "accuracy": 0.6483333333333333
+    }
+  },
+  "prediction_independence_vs_canonical": {
+    "label_only_swap": {
+      "n": 600,
+      "a_rate_first": 0.30333333333333334,
+      "a_rate_second": 0.3016666666666667,
+      "chi2": 585.8749895427317,
+      "phi": 0.988159053950604,
+      "p_value": 1.9777068698648807e-129
+    },
+    "polarity_only_swap": {
+      "n": 600,
+      "a_rate_first": 0.30333333333333334,
+      "a_rate_second": 0.305,
+      "chi2": 22.351442636853655,
+      "phi": -0.1930088194740232,
+      "p_value": 2.2704243429192377e-06
+    },
+    "side_swap": {
+      "n": 600,
+      "a_rate_first": 0.30333333333333334,
+      "a_rate_second": 0.3016666666666667,
+      "chi2": 21.390967068409793,
+      "phi": -0.18881634405072828,
+      "p_value": 3.745315733025714e-06
+    }
+  },
+  "cross_check": {
+    "note": "polarity_only_swap and side_swap share a byte-identical diff body and differ only in the 'Side A'/'Side B' words; high agreement confirms the words are inert for this model too.",
+    "polarity_only_swap_vs_side_swap": {
+      "n": 600,
+      "a_rate_first": 0.305,
+      "a_rate_second": 0.3016666666666667,
+      "chi2": 590.6099612660903,
+      "phi": 0.9921441102196211,
+      "p_value": 1.8460092166537714e-130
+    }
+  },
+  "model_vs_crude_polarity_shortcut": {
+    "canonical": {
+      "n": 507,
+      "agreement": 0.9664694280078896,
+      "model_a_rate": 0.28007889546351084
+    },
+    "label_only_swap": {
+      "n": 507,
+      "agreement": 0.9664694280078896,
+      "model_a_rate": 0.28007889546351084
+    },
+    "polarity_only_swap": {
+      "n": 506,
+      "agreement": 0.9644268774703557,
+      "model_a_rate": 0.30039525691699603
+    },
+    "side_swap": {
+      "n": 506,
+      "agreement": 0.9644268774703557,
+      "model_a_rate": 0.2964426877470356
+    }
+  },
+  "crossvul_confound_aware_check": {
+    "audit": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+    "predictions": "outputs/secure_code_crossvul_label_polarity_codebert_predictions_512.jsonl",
+    "accuracy": {
+      "canonical": {
+        "n": 350,
+        "accuracy": 0.7628571428571429
+      },
+      "polarity_only_swap": {
+        "n": 350,
+        "accuracy": 0.2742857142857143
+      },
+      "side_swap": {
+        "n": 350,
+        "accuracy": 0.7285714285714285
+      }
+    },
+    "model_vs_crude_polarity_shortcut": {
+      "canonical": {
+        "n": 283,
+        "agreement": 0.9328621908127208,
+        "model_a_rate": 0.3957597173144876
+      },
+      "polarity_only_swap": {
+        "n": 284,
+        "agreement": 0.897887323943662,
+        "model_a_rate": 0.5070422535211268
+      },
+      "side_swap": {
+        "n": 284,
+        "agreement": 0.9014084507042254,
+        "model_a_rate": 0.5105633802816901
+      }
+    },
+    "note": "Compare model_vs_crude_polarity_shortcut agreement to Qwen's ~0.92 on CrossVul (reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md). Do not overinterpret CrossVul raw canonical accuracy: #58 showed CrossVul carries a stronger polarity/gold confound than PrimeVul."
+  },
+  "claim_boundary": "Behavioral mechanism evidence on one additional (non-Qwen) architecture, competency-matched on canonical accuracy. It tests whether the label-vs-polarity ORDERING (polarity more disruptive than prose labels) reproduces, not whether numbers match. It does not claim the mechanism is universal, that all models fail this way, or that the model internally binds to polarity."
+}
