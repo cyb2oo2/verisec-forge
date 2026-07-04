@@ -132,3 +132,11 @@ Rationale, on reviewer risk rather than aesthetics:
 
 (E) is not chosen: the figure gap is worth one more PR before external review.
 After B, the draft is externally reviewable; C can be a small follow-up.
+
+> **Status update (post-audit):** recommendation B has been implemented —
+> Figures 5 (label-vs-polarity mechanism), 6 (CrossVul confound), and 7 (repair
+> decomposition) are now in `paper/figures/`, generated deterministically from
+> the committed report JSON by `scripts/build_paper_mechanism_figures.py` and
+> referenced with cautionary captions in §6.3, §6.4, and §8. The "figure
+> completeness" item above is resolved; the remaining pre-submission items are
+> the title decision and a citation pass.

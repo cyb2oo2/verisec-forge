@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="CrossVul carries a stronger polarity gold presentation shortcut than PrimeVul">
+  <rect width="960" height="540" fill="#f7f3ea"/>
+  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 6. CrossVul carries a stronger polarity/gold presentation shortcut.</text>
+  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">Crude net-polarity shortcut accuracy; a 0.5 chance line is marked. PrimeVul vs CrossVul.</text>
+  <line x1="80" y1="270.0" x2="620" y2="270.0" stroke="#c9c1af" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="626" y="274.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">0.5 (chance)</text>
+  <rect x="130" y="224.7" width="42" height="155.3" fill="#3a4a5a"/>
+  <text x="151.0" y="214.65483234714003" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.706</text>
+  <rect x="182" y="191.9" width="42" height="188.1" fill="#4a6a63"/>
+  <text x="203.0" y="181.87279151943463" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.855</text>
+  <text x="177" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">shortcut acc</text>
+  <text x="177" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">(canonical)</text>
+  <rect x="360" y="311.3" width="42" height="68.7" fill="#3a4a5a"/>
+  <text x="381.0" y="301.304347826087" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.312</text>
+  <rect x="412" y="346.7" width="42" height="33.3" fill="#4a6a63"/>
+  <text x="433.0" y="336.6901408450704" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.151</text>
+  <text x="407" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">shortcut acc under</text>
+  <text x="407" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">polarity flip</text>
+  <text x="670" y="165" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#3a4a5a" text-anchor="start">PrimeVul</text>
+  <text x="670" y="188" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#4a6a63" text-anchor="start">CrossVul</text>
+  <text x="670" y="250" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="start">Model-vs-shortcut</text>
+  <text x="670" y="270" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#4f5b55" text-anchor="start">row agreement:</text>
+  <text x="670" y="300" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#22382f" text-anchor="start">Qwen  0.56 / 0.92</text>
+  <text x="670" y="326" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#22382f" text-anchor="start">CodeBERT  0.97 / 0.93</text>
+  <text x="670" y="348" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#4f5b55" text-anchor="start">(PrimeVul / CrossVul)</text>
+  <text x="60" y="470" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#4f5b55" text-anchor="start">CrossVul raw canonical accuracy is not standalone evidence of stronger secure-code reasoning.</text>
+</svg>

@@ -355,6 +355,15 @@ Qwen's behavior is not explained by that simple heuristic. This broadens the
 behavioral evidence beyond one model family without proving a shared internal
 mechanism.
 
+![Figure 5. Label swap inert, polarity swap disruptive, across Qwen and CodeBERT.](figures/figure5_label_polarity_mechanism.svg)
+
+**Figure 5.** Swapping the prose "Side A"/"Side B" labels leaves the prediction
+near phi `+1` (inert) for both Qwen and CodeBERT, while flipping diff-hunk
+polarity moves phi near `0` (disruptive); the side panel shows the two models'
+per-row agreement with a crude net-polarity shortcut on PrimeVul. This is
+behavioral evidence. It does not establish a shared internal mechanism. CodeBERT
+tracks the crude polarity shortcut much more closely than Qwen on PrimeVul.
+
 **Table 2. Label-vs-polarity mechanism decomposition (600 base pairs).** phi is
 the coefficient of a variant's predictions against canonical; a high positive
 phi means the swap is inert, a phi near zero means the swap moved the
@@ -391,6 +400,14 @@ is meaningless, that CrossVul demonstrates generalization, or that the model
 reasons better or worse on CrossVul in general — raw canonical accuracy alone
 was never sufficient evidence for any of those, which is this paper's starting
 point.
+
+![Figure 6. CrossVul carries a stronger polarity/gold presentation shortcut than PrimeVul.](figures/figure6_crossvul_confound.svg)
+
+**Figure 6.** The crude net-polarity shortcut predicts gold better on CrossVul
+than PrimeVul at canonical rendering, and inverts further below chance under a
+gold-fixed polarity flip; both models' per-row agreement with the shortcut is
+high on CrossVul. CrossVul raw canonical accuracy is not standalone evidence of
+stronger secure-code reasoning.
 
 **Table 3. Polarity/gold presentation confound, PrimeVul vs CrossVul.**
 Crude-shortcut accuracy is how well a net-polarity line-count heuristic predicts
@@ -497,6 +514,15 @@ objective produces a validated learned repair; the antisymmetric readout is
 retained as a structural constraint, and the learned repair objective is left
 as unresolved future work. The invariance we report is by construction, not
 evidence that the model has learned stronger relational reasoning.
+
+![Figure 7. Antisymmetric readout is a structural constraint, not a learned repair.](figures/figure7_repair_decomposition.svg)
+
+**Figure 7.** Canonical accuracy under the independent per-rendering readout and
+the antisymmetric projection-null readout, for the baseline and repaired models;
+the side panel gives the fine-tuning delta over the null on PrimeVul (in
+distribution), on CrossVul (external), and across the nuisance transforms.
+Antisymmetric consistency is by construction; learned fine-tuning repair is not
+validated as transferable repair.
 
 **Table 4. Repair decomposition (canonical accuracy).** "Independent" is the
 per-rendering readout; "antisymmetric inference" is the projection-null readout
