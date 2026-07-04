@@ -80,3 +80,36 @@ def test_draft_contribution_list_is_evidence_aligned():
     assert "five bounded" in text
     assert "structural antisymmetric readout control" in text
     assert "competency-matched non-qwen behavioral replication" in text
+
+
+def test_draft_has_no_appendix_placeholders():
+    text = DRAFT_PATH.read_text(encoding="utf-8")
+    assert "APPENDIX PLACEHOLDER" not in text
+
+
+def test_draft_section_numbering_is_coherent():
+    text = DRAFT_PATH.read_text(encoding="utf-8")
+    numbers = [int(m) for m in re.findall(r"(?m)^## (\d+)\.", text)]
+    assert numbers == list(range(1, 11)), numbers  # sections 1..10, no gaps/dupes
+
+
+def test_draft_has_the_three_production_tables_with_caveats():
+    text = DRAFT_PATH.read_text(encoding="utf-8")
+    normalized = _normalized(text)
+    # Table presence
+    assert "table 2. label-vs-polarity mechanism decomposition" in normalized
+    assert "table 3. polarity/gold presentation confound" in normalized
+    assert "table 4. repair decomposition" in normalized
+    # Required caveats attached to each table
+    assert "does not establish a shared internal mechanism" in normalized
+    assert "not be treated as standalone evidence of stronger reasoning" in normalized
+    assert "antisymmetric consistency is by construction" in normalized
+
+
+def test_appendix_referenced_paths_resolve():
+    text = DRAFT_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r"`((?:reports|docs|src|scripts|reproducibility)/[A-Za-z0-9_./-]+\.(?:md|json|py))`"
+    )
+    for rel in set(pattern.findall(text)):
+        assert (ROOT / rel).exists(), rel
