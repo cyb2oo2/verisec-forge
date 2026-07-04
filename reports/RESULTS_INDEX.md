@@ -37,6 +37,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Evidence Hierarchy`: `docs/EVIDENCE_HIERARCHY.md`
 - `Experiment Completeness Audit and Remaining Evidence Gaps`: `docs/EXPERIMENT_COMPLETENESS_AUDIT.md`
 - `Paper-Readiness Audit`: `docs/PAPER_READINESS_AUDIT.md`
+- `Reviewer-Readiness Audit`: `docs/REVIEWER_READINESS_AUDIT.md`
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
 - `Repair Experiment Preregistration (Criterion 5 Status)`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
 - `Repair Criteria Pre-Repair Baseline`: `reports/secure_code_repair_criteria_pre_repair_baseline_v1.json`
