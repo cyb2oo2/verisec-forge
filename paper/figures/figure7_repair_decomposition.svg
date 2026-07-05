@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Antisymmetric readout is a structural constraint not a learned repair">
+  <rect width="960" height="540" fill="#f7f3ea"/>
+  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 7. Antisymmetric readout is a structural constraint, not a learned repair.</text>
+  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">Canonical accuracy under two readouts; PrimeVul, 600 pairs.</text>
+  <rect x="110" y="198.5" width="74" height="181.5" fill="#3a4a5a"/>
+  <text x="147.0" y="188.5" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.660</text>
+  <text x="147" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">baseline</text>
+  <text x="147" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">independent</text>
+  <rect x="230" y="198.0" width="74" height="182.0" fill="#3a4a5a"/>
+  <text x="267.0" y="188.03250000000003" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.662</text>
+  <text x="267" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">repaired</text>
+  <text x="267" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">independent</text>
+  <rect x="350" y="185.7" width="74" height="194.3" fill="#4a6a63"/>
+  <text x="387.0" y="175.65750000000003" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.707</text>
+  <text x="387" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">baseline antisym</text>
+  <text x="387" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">(projection null)</text>
+  <rect x="470" y="178.3" width="74" height="201.7" fill="#4a6a63"/>
+  <text x="507.0" y="168.34250000000003" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.733</text>
+  <text x="507" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">repaired</text>
+  <text x="507" y="424" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">antisym</text>
+  <text x="640" y="165" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="start">Fine-tuning delta over the</text>
+  <text x="640" y="185" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="start">projection null:</text>
+  <text x="640" y="216" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#22382f" text-anchor="start">PrimeVul (in-dist.):  +0.027</text>
+  <text x="660" y="238" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">McNemar p = 0.002</text>
+  <text x="640" y="268" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#22382f" text-anchor="start">CrossVul (external):  +0.009</text>
+  <text x="660" y="290" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">p = 0.508 (n.s.)</text>
+  <text x="640" y="322" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#22382f" text-anchor="start">Nuisance transforms:</text>
+  <text x="660" y="344" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">0/5 pass Bonferroni p&lt;0.01</text>
+  <text x="660" y="362" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">2/5 sign-reversed</text>
+  <text x="60" y="470" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#4f5b55" text-anchor="start">Antisymmetric consistency is by construction; learned fine-tuning repair is not</text>
+  <text x="60" y="494" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#4f5b55" text-anchor="start">validated as transferable repair.</text>
+</svg>

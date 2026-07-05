@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Label swap inert, polarity swap disruptive, across Qwen and CodeBERT">
+  <rect width="960" height="540" fill="#f7f3ea"/>
+  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 5. Side-label swap is inert; diff-polarity swap is disruptive.</text>
+  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">phi of a swap variant vs canonical (near +1 = inert, near 0 = disruptive). 600 base pairs.</text>
+  <line x1="90" y1="150" x2="90" y2="380" stroke="#c9c1af" stroke-width="2"/>
+  <line x1="90" y1="265.0" x2="540" y2="265.0" stroke="#c9c1af" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="80" y="154" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="end">+1</text>
+  <text x="80" y="269.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="end">0</text>
+  <text x="80" y="384" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="end">-1</text>
+  <rect x="130" y="159.9" width="36" height="105.1" fill="#3a4a5a"/>
+  <text x="148" y="151.8845255733587" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="middle">+0.91</text>
+  <rect x="176" y="151.4" width="36" height="113.6" fill="#4a6a63"/>
+  <text x="194" y="143.36170879568056" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="middle">+0.99</text>
+  <text x="176" y="406" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#22382f" text-anchor="middle">label_only_swap</text>
+  <rect x="330" y="265.0" width="36" height="10.8" fill="#3a4a5a"/>
+  <text x="348" y="293.79635937715346" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="middle">-0.09</text>
+  <rect x="376" y="265.0" width="36" height="22.2" fill="#4a6a63"/>
+  <text x="394" y="305.1960142395127" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#22382f" text-anchor="middle">-0.19</text>
+  <text x="376" y="406" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#22382f" text-anchor="middle">polarity_only_swap</text>
+  <text x="560" y="175" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#3a4a5a" text-anchor="start">Qwen</text>
+  <text x="560" y="198" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#4a6a63" text-anchor="start">CodeBERT</text>
+  <text x="620" y="250" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#22382f" text-anchor="start">Crude net-polarity</text>
+  <text x="620" y="270" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#22382f" text-anchor="start">shortcut agreement</text>
+  <text x="620" y="292" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#4f5b55" text-anchor="start">(PrimeVul canonical):</text>
+  <text x="620" y="322" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#3a4a5a" text-anchor="start">Qwen  0.56</text>
+  <text x="620" y="348" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#4a6a63" text-anchor="start">CodeBERT  0.97</text>
+  <text x="60" y="470" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#4f5b55" text-anchor="start">This is behavioral evidence. It does not establish a shared internal mechanism.</text>
+  <text x="60" y="494" font-family="Arial, sans-serif" font-size="15" font-weight="400" fill="#4f5b55" text-anchor="start">CodeBERT tracks the crude polarity shortcut much more closely than Qwen on PrimeVul.</text>
+</svg>
