@@ -1,11 +1,12 @@
-# Pointwise Accuracy Is Not Relational Reasoning
+# Pointwise Accuracy Is Not Relational Consistency: Auditing Secure Patch Models Under Presentation-Structure Transformations
 
 ## Abstract
 
 Secure-code models are usually evaluated pointwise, but patch review is
 relational: a model should identify which side of a vulnerable/fixed pair is
-riskier and preserve that relation under side swaps and irrelevant context
-changes. Existing vulnerability benchmarks provide useful labels, but they do
+riskier — a candidate-identity judgment, not a directional "does this patch fix
+or introduce" judgment — and preserve that relation under side swaps and
+irrelevant context changes. Existing vulnerability benchmarks provide useful labels, but they do
 not directly test this paired relation. We introduce VeriPatch-RR, a
 tokenizer-aware relational evaluation instrument that measures side-order
 equivariance, endpoint robustness, both-directions-correct behavior, and
