@@ -60,9 +60,11 @@ def _text(x, y, s, size, *, weight="400", fill=INK, font=BODY_FONT, anchor="star
 
 
 def _title(title: str, subtitle: str) -> str:
+    # Font size 22 keeps titles (<= ~62 chars) inside the 960px canvas with a
+    # 60px left margin; subtitles stay at 16.
     return (
-        _text(60, 66, title, 30, weight="700", font=TITLE_FONT)
-        + _text(60, 100, subtitle, 17, fill=GREY)
+        _text(60, 62, title, 22, weight="700", font=TITLE_FONT)
+        + _text(60, 96, subtitle, 16, fill=GREY)
     )
 
 
@@ -96,7 +98,7 @@ def figure5_mechanism() -> str:
     c_short = cb["model_vs_crude_polarity_shortcut"]["canonical"]["agreement"]
 
     body = _title(
-        "Figure 5. Side-label swap is inert; diff-polarity swap is disruptive.",
+        "Figure 5. Label swap is inert; polarity swap is disruptive.",
         "phi of a swap variant vs canonical (near +1 = inert, near 0 = disruptive). 600 base pairs.",
     )
     # phi panel: axis from -1 (bottom) to +1 (top), zero line at mid.
@@ -154,7 +156,7 @@ def figure6_crossvul() -> str:
     c_cv = cb["crossvul_confound_aware_check"]["model_vs_crude_polarity_shortcut"]["canonical"]["agreement"]
 
     body = _title(
-        "Figure 6. CrossVul carries a stronger polarity/gold presentation shortcut.",
+        "Figure 6. CrossVul has a stronger polarity/gold shortcut.",
         "Crude net-polarity shortcut accuracy; a 0.5 chance line is marked. PrimeVul vs CrossVul.",
     )
     y_base = 380
@@ -201,7 +203,7 @@ def figure7_repair() -> str:
     cvp = rcv["attribution"]["fine_tuning_mcnemar_exact_p"]
 
     body = _title(
-        "Figure 7. Antisymmetric readout is a structural constraint, not a learned repair.",
+        "Figure 7. Structural readout, not a validated learned repair.",
         "Canonical accuracy under two readouts; PrimeVul, 600 pairs.",
     )
     y_base = 380

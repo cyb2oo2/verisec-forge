@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Antisymmetric readout is a structural constraint not a learned repair">
   <rect width="960" height="540" fill="#f7f3ea"/>
-  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 7. Antisymmetric readout is a structural constraint, not a learned repair.</text>
-  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">Canonical accuracy under two readouts; PrimeVul, 600 pairs.</text>
+  <text x="60" y="62" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#22382f" text-anchor="start">Figure 7. Structural readout, not a validated learned repair.</text>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#4f5b55" text-anchor="start">Canonical accuracy under two readouts; PrimeVul, 600 pairs.</text>
   <rect x="110" y="198.5" width="74" height="181.5" fill="#3a4a5a"/>
   <text x="147.0" y="188.5" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#22382f" text-anchor="middle">0.660</text>
   <text x="147" y="406" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#22382f" text-anchor="middle">baseline</text>

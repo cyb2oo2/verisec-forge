@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="Label swap inert, polarity swap disruptive, across Qwen and CodeBERT">
   <rect width="960" height="540" fill="#f7f3ea"/>
-  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 5. Side-label swap is inert; diff-polarity swap is disruptive.</text>
-  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">phi of a swap variant vs canonical (near +1 = inert, near 0 = disruptive). 600 base pairs.</text>
+  <text x="60" y="62" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#22382f" text-anchor="start">Figure 5. Label swap is inert; polarity swap is disruptive.</text>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#4f5b55" text-anchor="start">phi of a swap variant vs canonical (near +1 = inert, near 0 = disruptive). 600 base pairs.</text>
   <line x1="90" y1="150" x2="90" y2="380" stroke="#c9c1af" stroke-width="2"/>
   <line x1="90" y1="265.0" x2="540" y2="265.0" stroke="#c9c1af" stroke-width="2" stroke-dasharray="4 4"/>
   <text x="80" y="154" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="end">+1</text>

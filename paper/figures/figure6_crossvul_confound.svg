@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="CrossVul carries a stronger polarity gold presentation shortcut than PrimeVul">
   <rect width="960" height="540" fill="#f7f3ea"/>
-  <text x="60" y="66" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#22382f" text-anchor="start">Figure 6. CrossVul carries a stronger polarity/gold presentation shortcut.</text>
-  <text x="60" y="100" font-family="Arial, sans-serif" font-size="17" font-weight="400" fill="#4f5b55" text-anchor="start">Crude net-polarity shortcut accuracy; a 0.5 chance line is marked. PrimeVul vs CrossVul.</text>
+  <text x="60" y="62" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#22382f" text-anchor="start">Figure 6. CrossVul has a stronger polarity/gold shortcut.</text>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#4f5b55" text-anchor="start">Crude net-polarity shortcut accuracy; a 0.5 chance line is marked. PrimeVul vs CrossVul.</text>
   <line x1="80" y1="270.0" x2="620" y2="270.0" stroke="#c9c1af" stroke-width="2" stroke-dasharray="5 5"/>
   <text x="626" y="274.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#4f5b55" text-anchor="start">0.5 (chance)</text>
   <rect x="130" y="224.7" width="42" height="155.3" fill="#3a4a5a"/>

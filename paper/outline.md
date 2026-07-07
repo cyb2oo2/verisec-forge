@@ -2,8 +2,13 @@
 
 ## Working Title
 
-**Pointwise Accuracy Is Not Relational Reasoning: Auditing Secure Patch Models
-Under Pair and Context Transformations**
+**Pointwise Accuracy Is Not Relational Consistency: Auditing Secure Patch Models
+Under Presentation-Structure Transformations**
+
+Earlier drafts titled this "…Is Not Relational Reasoning"; "reasoning" was
+softened to "consistency" because the evidence is behavioral (relation-
+consistency metrics), not a claim about internal reasoning
+(`docs/REVIEWER_READINESS_AUDIT.md`).
 
 ## 1. Introduction
 

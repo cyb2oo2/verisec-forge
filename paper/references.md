@@ -53,3 +53,28 @@ It is not yet a final bibliography.
 - [RELATED: attention-not-not-explanation] Sarah Wiegreffe and Yuval Pinter.
   "Attention is not not Explanation." arXiv:1908.04626, 2019.
   https://arxiv.org/abs/1908.04626
+
+## Citation Gaps (to resolve before submission)
+
+The following datasets and models are used or named in the draft but do not yet
+have a verified bibliography entry. They are listed here explicitly rather than
+cited with fabricated details; each is marked `citation needed` and should be
+filled from the primary source before external submission. This is a working-
+draft gap, not a claim gap.
+
+- `citation needed` — **CrossVul** (external vulnerability/patch source used for
+  the confound and repair-transfer analyses; §6.4, §8). Cite the CrossVul
+  dataset paper.
+- `citation needed` — **DeltaSecommits** (a paired-diff source in the
+  VeriPatch-RR construction; §4). Cite the DeltaSecommits source.
+- `citation needed` — **PatchEval** (a paired-diff source in the VeriPatch-RR
+  construction; §4). Cite the PatchEval source.
+- `citation needed` — **Qwen2.5-Coder-1.5B-Instruct** (the decoder classifier
+  backbone). Cite the Qwen2.5-Coder technical report.
+- `citation needed` — **Qwen2.5-0.5B-Instruct** (the generative-judge
+  replication slot; §6.2). Cite the Qwen2.5 technical report.
+- `citation needed` — **distilgpt2** (the low-canonical non-Qwen decoder
+  replication slot; §6.2). Cite DistilGPT-2 / DistilBERT distillation work.
+
+Datasets/models that already have a verified entry above: PrimeVul, DiverseVul,
+CodeXGLUE, CodeBERT.
