@@ -114,6 +114,7 @@ Start with:
 - [Experiment Completeness Audit and Remaining Evidence Gaps](docs/EXPERIMENT_COMPLETENESS_AUDIT.md)
 - [Paper-Readiness Audit](docs/PAPER_READINESS_AUDIT.md)
 - [Reviewer-Readiness Audit](docs/REVIEWER_READINESS_AUDIT.md)
+- [PhD / Top-Lab Application Readiness Audit](docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md)
 - [Paper 1 Main Results Table](paper/tables/main_results.md)
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
