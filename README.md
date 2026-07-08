@@ -115,6 +115,8 @@ Start with:
 - [Paper-Readiness Audit](docs/PAPER_READINESS_AUDIT.md)
 - [Reviewer-Readiness Audit](docs/REVIEWER_READINESS_AUDIT.md)
 - [PhD / Top-Lab Application Readiness Audit](docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md)
+- [External Review Request](docs/EXTERNAL_REVIEW_REQUEST.md)
+- [External Review Email Templates](docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md)
 - [Paper 1 Main Results Table](paper/tables/main_results.md)
 - [Application Packet](docs/APPLICATION_PACKET.md)
 - [Application Focus](docs/APPLICATION_FOCUS.md)
