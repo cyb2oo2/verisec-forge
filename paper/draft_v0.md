@@ -199,7 +199,8 @@ therefore hide the evidence a model would need.
 ## 4. VeriPatch-RR
 
 VeriPatch-RR is a paired vulnerable/fixed patch benchmark built from PrimeVul,
-DeltaSecommits, and PatchEval. It contains a representative suite and a
+DeltaSecommits [RELATED: deltasecommits], and PatchEval [RELATED: patcheval].
+It contains a representative suite and a
 separate balanced-stress suite. The representative suite is the primary
 paper-facing result; selected reports use a representative-core filtered
 runtime containing canonical, side-swap, and suffix rows.
@@ -301,8 +302,8 @@ dependent.
 ### 6.2 Low-Canonical Stress Replication
 
 The low-canonical replication adds breadth, not a stronger headline. The added
-non-Qwen decoder classifier uses distilgpt2 with a LoRA sequence-classification
-head. It reaches canonical accuracy `55.83%`, side-swap equivariance `9.83%`,
+non-Qwen decoder classifier uses distilgpt2 [RELATED: distilgpt2] with a LoRA
+sequence-classification head. It reaches canonical accuracy `55.83%`, side-swap equivariance `9.83%`,
 marginal-conditioned independence baseline `43.93%`, and side-swap residual
 `-0.3410`; both-directions-correct is `6.67%`
 [RESULT: cross-model-replication]. This is stress evidence, not a strong-model
@@ -388,8 +389,8 @@ shared internal mechanism.
 
 ### 6.4 CrossVul: Presentation Confound, Not Stronger Reasoning
 
-We measure the same net-polarity/gold structure on CrossVul, an external
-source. CrossVul carries a *stronger* presentation shortcut than PrimeVul: the
+We measure the same net-polarity/gold structure on CrossVul
+[RELATED: crossvul], an external source. CrossVul carries a *stronger* presentation shortcut than PrimeVul: the
 crude net-polarity heuristic reaches `0.855` canonical accuracy on CrossVul vs.
 `0.706` on PrimeVul, and both Qwen (~`0.92`) and CodeBERT (~`0.93`) align
 strongly with that shortcut there [RESULT: crossvul-polarity-gold-confound].
@@ -661,7 +662,12 @@ committed audit datasets and prediction outputs via pure-counting scripts
 (`scripts/analyze_codebert_label_polarity_mechanism.py`,
 `scripts/analyze_crossvul_polarity_gold_confound.py`,
 `scripts/evaluate_repair_criteria.py`); no model inference is required to
-reproduce the tables in this paper from the committed artifacts.
+reproduce the tables in this paper from the committed artifacts. The Qwen
+decoder classifier and repair experiments (Sections 4-8) use the
+`Qwen/Qwen2.5-Coder-1.5B-Instruct` checkpoint [RELATED: qwen25-coder]; the
+generative-judge replication slot (Section 6.2) uses
+`Qwen/Qwen2.5-0.5B-Instruct` [RELATED: qwen25]. Both are used as released,
+with task-specific LoRA/readout heads as described in Sections 6-8.
 
 ### B. Bootstrap and Significance Protocol
 
