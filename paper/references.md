@@ -54,27 +54,59 @@ It is not yet a final bibliography.
   "Attention is not not Explanation." arXiv:1908.04626, 2019.
   https://arxiv.org/abs/1908.04626
 
-## Citation Gaps (to resolve before submission)
+## External Vulnerability/Patch Sources (CrossVul, DeltaSecommits, PatchEval)
 
-The following datasets and models are used or named in the draft but do not yet
-have a verified bibliography entry. They are listed here explicitly rather than
-cited with fabricated details; each is marked `citation needed` and should be
-filled from the primary source before external submission. This is a working-
-draft gap, not a claim gap.
+- [RELATED: crossvul] Georgios Nikitopoulos, Konstantina Dritsa, Panos
+  Louridas, and Dimitris Mitropoulos. "CrossVul: A Cross-Language
+  Vulnerability Dataset with Commit Data." Proceedings of the 29th ACM Joint
+  Meeting on European Software Engineering Conference and Symposium on the
+  Foundations of Software Engineering (ESEC/FSE), 2021.
+  https://doi.org/10.1145/3468264.3473122
+- [RELATED: patcheval] Zichao Wei, Jun Zeng, Ming Wen, Zeliang Yu, Kai Cheng,
+  Yiding Zhu, Jingyi Guo, Shiqi Zhou, Le Yin, Xiaodong Su, and Zhechao Ma.
+  "PatchEval: A New Benchmark for Evaluating LLMs on Patching Real-World
+  Vulnerabilities." arXiv:2511.11019, 2025.
+  https://arxiv.org/abs/2511.11019
+- [RELATED: deltasecommits] DeltaSecommits dataset (Hugging Face:
+  `rufimelo/DeltaSecommits`, MIT license): 2,493 paired vulnerable/secure C
+  code samples across 25 CWE categories, curated from single-commit
+  security-fixing commits linked to OSV/NVD vulnerability records.
+  https://huggingface.co/datasets/rufimelo/DeltaSecommits. The dataset card
+  states it is associated with Rui Melo et al., "Do Language Models Prefer
+  Vulnerable Code? A Probabilistic Study of Insecure Code Preference" (ICST
+  2026); a complete author list and a DOI/arXiv identifier for that paper
+  could not be independently verified as of this citation pass, so only the
+  dataset itself — the actual external source used in this repository — is
+  cited with verified details rather than an unverified full paper citation.
 
-- `citation needed` — **CrossVul** (external vulnerability/patch source used for
-  the confound and repair-transfer analyses; §6.4, §8). Cite the CrossVul
-  dataset paper.
-- `citation needed` — **DeltaSecommits** (a paired-diff source in the
-  VeriPatch-RR construction; §4). Cite the DeltaSecommits source.
-- `citation needed` — **PatchEval** (a paired-diff source in the VeriPatch-RR
-  construction; §4). Cite the PatchEval source.
-- `citation needed` — **Qwen2.5-Coder-1.5B-Instruct** (the decoder classifier
-  backbone). Cite the Qwen2.5-Coder technical report.
-- `citation needed` — **Qwen2.5-0.5B-Instruct** (the generative-judge
-  replication slot; §6.2). Cite the Qwen2.5 technical report.
-- `citation needed` — **distilgpt2** (the low-canonical non-Qwen decoder
-  replication slot; §6.2). Cite DistilGPT-2 / DistilBERT distillation work.
+## Model Backbones (Qwen2.5-Coder, Qwen2.5, distilgpt2)
 
-Datasets/models that already have a verified entry above: PrimeVul, DiverseVul,
-CodeXGLUE, CodeBERT.
+- [RELATED: qwen25-coder] Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang,
+  Dayiheng Liu, Lei Zhang, Tianyu Liu, Jiajun Zhang, Bowen Yu, Keming Lu, Kai
+  Dang, Yang Fan, Yichang Zhang, An Yang, Rui Men, Fei Huang, Bo Zheng, Yibo
+  Miao, Shanghaoran Quan, Yunlong Feng, Xingzhang Ren, Xuancheng Ren, Jingren
+  Zhou, and Junyang Lin. "Qwen2.5-Coder Technical Report." arXiv:2409.12186,
+  2024. https://arxiv.org/abs/2409.12186 — backbone for the
+  `Qwen/Qwen2.5-Coder-1.5B-Instruct` decoder classifier used throughout
+  Sections 4-8.
+- [RELATED: qwen25] An Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo
+  Zheng, Bowen Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, Haoran Wei, Huan
+  Lin, Jian Yang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Jiaxi Yang,
+  Jingren Zhou, Junyang Lin, Kai Dang, Keming Lu, Keqin Bao, Kexin Yang, Le
+  Yu, Mei Li, Mingfeng Xue, Pei Zhang, Qin Zhu, Rui Men, Runji Lin, Tianhao
+  Li, Tianyi Tang, Tingyu Xia, Xingzhang Ren, Xuancheng Ren, Yang Fan, Yang
+  Su, Yichang Zhang, Yu Wan, Yuqiong Liu, Zeyu Cui, Zhenru Zhang, and Zihan
+  Qiu. "Qwen2.5 Technical Report." arXiv:2412.15115, 2024.
+  https://arxiv.org/abs/2412.15115 — backbone for the
+  `Qwen/Qwen2.5-0.5B-Instruct` generative-judge replication slot (§6.2).
+- [RELATED: distilgpt2] Victor Sanh, Lysandre Debut, Julien Chaumond, and
+  Thomas Wolf. "DistilBERT, a Distilled Version of BERT: Smaller, Faster,
+  Cheaper and Lighter." arXiv:1910.01108, 2019.
+  https://arxiv.org/abs/1910.01108 — distilgpt2 (the low-canonical
+  non-Qwen decoder replication slot, §6.2) is trained with the same
+  distillation procedure described in this paper (per its Hugging Face model
+  card); there is no separate distilgpt2-specific paper.
+
+Datasets/models with a verified entry above: PrimeVul, DiverseVul, CodeXGLUE,
+CodeBERT, CrossVul, PatchEval, DeltaSecommits, Qwen2.5-Coder, Qwen2.5,
+distilgpt2. No citation gaps remain as of this pass.

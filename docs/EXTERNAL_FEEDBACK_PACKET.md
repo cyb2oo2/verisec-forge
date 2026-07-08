@@ -28,10 +28,13 @@ study, not a deployed vulnerability scanner.
   (deterministic SVGs from committed report JSON) are in place.
 - No must-run experiment is pending: the two must-run evidence gaps (CrossVul
   polarity/gold confound; competency-matched CodeBERT replication) are done.
-- **Remaining gaps are citation polish and optional future work**, not evidence
-  gaps. See `paper/references.md` "Citation Gaps" for the sources (CrossVul,
-  DeltaSecommits, PatchEval, Qwen2.5-Coder, distilgpt2) still marked
-  `citation needed`. This is a working draft, not a final submission.
+- **The `paper/references.md` "Citation Gaps" section is now resolved.** All
+  previously-gap-listed sources (CrossVul, DeltaSecommits, PatchEval,
+  Qwen2.5-Coder, Qwen2.5, distilgpt2) have verified reference entries; the
+  DeltaSecommits entry cites the dataset itself with a stated caveat that the
+  associated paper's full author list and DOI/arXiv identifier could not be
+  independently verified. No must-run evidence gap and no citation gap
+  remain. This is a working draft, not a final submission.
 
 ## 3. Five-Minute Reading Path
 
