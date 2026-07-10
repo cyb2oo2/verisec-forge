@@ -39,6 +39,8 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Paper-Readiness Audit`: `docs/PAPER_READINESS_AUDIT.md`
 - `Reviewer-Readiness Audit`: `docs/REVIEWER_READINESS_AUDIT.md`
 - `PhD / Top-Lab Application Readiness Audit`: `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
+- `External Review Request`: `docs/EXTERNAL_REVIEW_REQUEST.md`
+- `External Review Email Templates`: `docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md`
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
 - `Repair Experiment Preregistration (Criterion 5 Status)`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
 - `Repair Criteria Pre-Repair Baseline`: `reports/secure_code_repair_criteria_pre_repair_baseline_v1.json`
