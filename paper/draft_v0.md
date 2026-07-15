@@ -548,9 +548,21 @@ consistency constraint; the learned fine-tuning objective remains unresolved.
 
 ## 9. Limitations
 
-This work is a measurement study, not a deployed vulnerability scanner. The
-artifact should not be used as an automated security review system without
-human oversight.
+**Responsible use.** This work is a measurement and mechanism study, not a
+deployed vulnerability scanner, and it does not replace human security
+review; the artifact should not be used as an automated security review
+system without human oversight. In security review specifically, a
+confident wrong answer is more dangerous than an abstention, so false
+reassurance from an unvalidated system is a real risk this study does not
+resolve. The task evaluated here is a candidate-identity judgment -- which
+of two related code states is riskier -- not a directional judgment of
+whether a given patch fixes or introduces a vulnerability, and the findings
+should not be read past that boundary. Evidence localization and
+abstention (the `INSUFFICIENT_CONTEXT` option, Appendix D) are the
+mechanisms a real deployment would need and are evaluated here only as
+diagnostics, not validated as deployment-ready; any deployment-facing use
+of this evaluation approach would require additional validation beyond
+what is reported in this paper.
 
 The benchmark relies on existing vulnerable/fixed labels and does not yet
 replace them with independent human adjudication. Label validity and
