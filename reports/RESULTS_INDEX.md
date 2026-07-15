@@ -11,6 +11,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Preprint Readiness Checklist`: `docs/PREPRINT_READINESS_CHECKLIST.md`
 - `Preprint Preparation Plan`: `docs/PREPRINT_PREPARATION_PLAN.md`
 - `Workshop / Preprint Targeting Plan`: `docs/WORKSHOP_PREPRINT_TARGETING_PLAN.md`
+- `Current Workshop Target Shortlist`: `docs/CURRENT_WORKSHOP_TARGET_SHORTLIST.md`
 - `External Feedback Packet`: `docs/EXTERNAL_FEEDBACK_PACKET.md`
 - `One-Page Research Summary`: `docs/ONE_PAGE_RESEARCH_SUMMARY.md`
 - `External Participation Guide`: `docs/EXTERNAL_PARTICIPATION_GUIDE.md`
