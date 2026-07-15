@@ -252,9 +252,13 @@ shortcut, not detection capability."
 code-analysis and verification" and "case studies and practical
 applications of LLMs in real-world software development and testing" — a
 close match to this paper's application domain. Critically, at least one
-venue in this category (LLM4Sec at ESORICS 2026) has a still-live near-term
-submission window as of this plan (Section 9), which neither Positioning A
-nor most of Section 3's other categories currently do.
+venue in this category (LLM4Sec at ESORICS 2026, Rome, Sep 14-18 2026)
+could not be confirmed as closed by this plan's research (Section 9) —
+its parent conference is still months out, unlike Positioning A's and
+most of Section 3's other type examples, which were confirmed closed.
+This is a reason to check it first, not a claim that it is open; the exact
+deadline must be verified against its official CFP page (Section 8) before
+being treated as a live target.
 
 **What to emphasize:** the CrossVul confound as a concrete, actionable
 "don't trust this benchmark's headline number" warning; the explicit
@@ -286,8 +290,9 @@ target**, on scope-fit grounds: it is the tightest match found in Section
 3, requires the least reframing, and carries the lowest rejection risk of
 any category evaluated. **Positioning B (Security / Vulnerability Analysis
 workshops) is the parallel near-term track**, not a fallback — it should be
-pursued concurrently given the live LLM4Sec@ESORICS window identified in
-Section 9, rather than sequentially after Positioning A. These are not
+pursued concurrently given the LLM4Sec@ESORICS window this plan could not
+confirm as closed (Section 9), rather than sequentially after Positioning
+A — pending the Section 8 verification that window still requires. These are not
 mutually exclusive: the underlying paper content supports either framing
 with a different lead section and different emphasis, not a different
 paper (see Section 6).
@@ -707,8 +712,9 @@ reaction within a bounded time.
 **Primary audience: AI for Code / Code Generation workshops** (Section 3.2
 / Positioning A), with **Security / Vulnerability Analysis workshops**
 (Section 3.4 / Positioning B) pursued as a parallel near-term track given
-the live LLM4Sec@ESORICS window identified in Section 9 — not a fallback,
-a concurrent second track.
+the LLM4Sec@ESORICS window this plan could not confirm as closed
+(Section 9, pending Section 8 verification) — not a fallback, a concurrent
+second track.
 
 **Should a preprint post now? No.** Post it once a workshop submission is
 prepared and that venue's preprint/anonymity policy is explicitly checked
