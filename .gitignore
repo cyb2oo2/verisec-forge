@@ -13,6 +13,7 @@ artifacts/
 outputs/
 logs/
 checkpoints/
+build/
 models/
 .DS_Store
 .tmp_test_runs/
