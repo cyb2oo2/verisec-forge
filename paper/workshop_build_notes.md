@@ -10,7 +10,8 @@ SaTML-formatted submission PDF, and it should not be mistaken for one.
 ## How to Run the Build
 
 Check the input and report tool availability without requiring a PDF
-engine (always succeeds, never builds a PDF):
+engine. `--check-only` succeeds when the input file exists and never
+requires a PDF engine; it never builds a PDF:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\build_workshop_draft_pdf.py --check-only
