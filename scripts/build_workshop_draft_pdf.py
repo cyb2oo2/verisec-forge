@@ -8,12 +8,16 @@ SaTML-formatted submission PDF. SaTML 2027's own submission requirements
 `docs/CURRENT_WORKSHOP_TARGET_SHORTLIST.md`'s research date, so this script
 deliberately does not attempt to match any specific venue template.
 
-Tries, in order: `pandoc` on PATH (requires a PDF engine such as a LaTeX
-distribution, wkhtmltopdf, or weasyprint to already be installed and
-discoverable by pandoc itself), then the `markdown` + `weasyprint` Python
-packages. If neither path is available, this script reports exactly what is
-missing and exits non-zero -- it never fabricates a "success" result when no
-PDF was actually produced.
+`markdown` + `weasyprint` is the recommended toolchain for this repository
+(see `paper/workshop_build_notes.md`); `pandoc` is an optional alternative.
+Internally this script attempts, in order: `pandoc` on PATH (requires a PDF
+engine such as a LaTeX distribution, wkhtmltopdf, or weasyprint to already be
+installed and discoverable by pandoc itself), then the `markdown` +
+`weasyprint` Python packages -- this internal order is only a fallback
+chain, not a recommendation; if only the recommended weasyprint path is
+installed, pandoc is simply skipped as unavailable. If neither path is
+available, this script reports exactly what is missing and exits non-zero
+-- it never fabricates a "success" result when no PDF was actually produced.
 
 Usage:
     python scripts/build_workshop_draft_pdf.py --check-only
