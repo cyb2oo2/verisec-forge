@@ -139,3 +139,13 @@ belongs to whoever executes the recommended PR, not to this report.
   intervening substantive change (a v2 draft, new evidence) would not have
   new material to audit. The unresolved gap right now is tooling, not
   draft content.
+
+---
+
+**Forward-looking note (not a rerun result):** this report's recommendation
+above has since been acted on — `paper/workshop_build_notes.md` now
+documents `markdown` + `weasyprint` as the recommended provisional
+toolchain. The "Observed Behavior" section above remains the historical,
+unmodified record of this smoke test's actual run and is not updated by
+this note; re-running the two commands after installing the recommended
+toolchain would be a new smoke test, not a retroactive edit to this one.

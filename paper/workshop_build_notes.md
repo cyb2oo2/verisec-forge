@@ -32,18 +32,73 @@ Override the input/output paths if needed:
 
 ## Required Tools
 
-The script tries two build paths, in order, and uses whichever is
-available. **As of this PR, neither is installed in this project's
-development environment** — running the script without `--check-only`
-exits non-zero with a clear message, not a fabricated success.
+**As of this PR, neither supported toolchain is installed in this
+project's development environment** — running the script without
+`--check-only` exits non-zero with a clear message, not a fabricated
+success (see `paper/workshop_build_smoke_report.md` for the recorded
+output of that exact state; that report is a historical record and is not
+updated by this section).
 
-1. **Pandoc** (preferred) — `pandoc` must be on `PATH`, and it must in turn
-   be able to find a PDF engine itself (a LaTeX distribution, `wkhtmltopdf`,
-   or `weasyprint`). Install pandoc from https://pandoc.org/installing.html.
-2. **`markdown` + `weasyprint`** (fallback) — pure-Python path, no LaTeX or
-   external binary required. Install with
-   `pip install markdown weasyprint` (weasyprint itself has native library
-   dependencies on Windows; see https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows).
+### Recommended provisional toolchain: markdown + weasyprint
+
+This is the preferred default for this repository: a pure-Python path that
+fits the project's existing pip-based dependency convention
+(`pyproject.toml`'s `[dev]` extras), unlike pandoc, which requires a
+separate system-level binary and its own PDF engine outside that
+convention.
+
+- **Install command:**
+  ```bash
+  pip install markdown weasyprint
+  ```
+  This is a local, on-demand install for whoever runs the build — it is
+  **not** added to `pyproject.toml` as a project dependency (see "Why Not
+  a Project Dependency" below).
+- **Windows caveat:** weasyprint has native library dependencies (Pango,
+  cairo, gdk-pixbuf, GObject) that are not installed by `pip` alone on
+  Windows. See
+  https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows
+  for the current installer-based setup steps before `pip install
+  weasyprint` will actually import successfully.
+- **Expected command to run** (after the install above succeeds):
+  ```powershell
+  .\.venv\Scripts\python.exe scripts\build_workshop_draft_pdf.py
+  ```
+- **Expected output path:** `build/workshop_draft_v1.pdf`.
+- **Expected failure mode if dependencies are missing:** the script
+  reports `markdown/weasyprint not installed (No module named 'markdown')`
+  (if the `markdown` package itself is missing) or a weasyprint-specific
+  import/native-library error (if `markdown` is present but weasyprint's
+  native libraries are not), and exits non-zero — it does not fabricate a
+  PDF in either case.
+- **The output is generic, not SaTML-formatted**: no two-column layout, no
+  specific font, no citation-style bibliography — see "Current
+  Limitations" below.
+- **The generated PDF stays under `build/`, which is git-ignored, and is
+  not committed to this repository** under any circumstance.
+
+**Why not a project dependency:** adding `weasyprint` to `pyproject.toml`
+would make it a required install for every contributor and CI run, for a
+provisional, single-purpose build script that most contributors will never
+invoke. Documenting the install command, without lock-in, is the safer
+default until this build path is something more than provisional (e.g.,
+once SaTML 2027's actual requirements are published and a real submission
+build is being prepared).
+
+### Optional alternative: pandoc
+
+Not the default. Use only if you already have pandoc installed, or prefer
+its output for some other reason.
+
+- `pandoc` must be on `PATH`, and it must in turn be able to find a PDF
+  engine itself (a LaTeX distribution, `wkhtmltopdf`, or `weasyprint`).
+  Install from https://pandoc.org/installing.html.
+- The script tries pandoc first internally (see
+  `scripts/build_workshop_draft_pdf.py`), purely as an implementation
+  detail of the fallback chain — this does not change which toolchain is
+  *recommended* for a contributor deciding what to install. If only
+  weasyprint is installed (the recommended path), the script skips pandoc
+  automatically and uses weasyprint with no extra configuration needed.
 
 ## Expected Output
 
