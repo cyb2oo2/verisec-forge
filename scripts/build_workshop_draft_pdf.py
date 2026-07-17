@@ -16,8 +16,9 @@ installed and discoverable by pandoc itself), then the `markdown` +
 `weasyprint` Python packages -- this internal order is only a fallback
 chain, not a recommendation; if only the recommended weasyprint path is
 installed, pandoc is simply skipped as unavailable. If neither path is
-available, this script reports exactly what is missing and exits non-zero
--- it never fabricates a "success" result when no PDF was actually produced.
+available or usable, this script reports exactly what is missing and exits
+non-zero -- it never fabricates a "success" result when no PDF was actually
+produced.
 
 Usage:
     python scripts/build_workshop_draft_pdf.py --check-only
@@ -54,6 +55,31 @@ def _structural_summary(markdown_path: Path) -> dict[str, int]:
     return {"body_words": words, "numbered_sections": sections, "figure_placeholders": figures, "table_placeholders": tables}
 
 
+def _probe_weasyprint() -> tuple[bool, str]:
+    """Return whether the markdown+weasyprint path is importable and usable.
+
+    A broken Windows native-library install can raise OSError while importing
+    weasyprint, not ImportError. This probe catches that state so --check-only
+    can keep its documented promise: validate the input and report tool
+    availability without requiring a working PDF engine.
+    """
+    try:
+        import markdown as _markdown_probe  # noqa: F401
+    except ImportError as exc:
+        return False, f"markdown/weasyprint not installed: {type(exc).__name__}: {exc}"
+    except Exception as exc:  # pragma: no cover - defensive, environment-dependent
+        return False, f"markdown probe failed: {type(exc).__name__}: {exc}"
+
+    try:
+        import weasyprint as _weasyprint_probe  # noqa: F401
+    except (ImportError, OSError) as exc:
+        return False, f"markdown/weasyprint not usable: {type(exc).__name__}: {exc}"
+    except Exception as exc:  # pragma: no cover - defensive, environment-dependent
+        return False, f"weasyprint probe failed: {type(exc).__name__}: {exc}"
+
+    return True, "markdown+weasyprint importable"
+
+
 def _try_pandoc(input_path: Path, output_path: Path) -> tuple[bool, str]:
     pandoc = shutil.which("pandoc")
     if not pandoc:
@@ -67,7 +93,7 @@ def _try_pandoc(input_path: Path, output_path: Path) -> tuple[bool, str]:
             timeout=120,
         )
     except Exception as exc:  # pragma: no cover - defensive, environment-dependent
-        return False, f"pandoc invocation failed: {exc}"
+        return False, f"pandoc invocation failed: {type(exc).__name__}: {exc}"
     if result.returncode != 0:
         return False, f"pandoc exited with code {result.returncode}: {result.stderr.strip()}"
     if not output_path.exists():
@@ -80,13 +106,17 @@ def _try_weasyprint(input_path: Path, output_path: Path) -> tuple[bool, str]:
         import markdown as markdown_lib
         import weasyprint
     except ImportError as exc:
-        return False, f"markdown/weasyprint not installed ({exc})"
+        return False, f"markdown/weasyprint not installed: {type(exc).__name__}: {exc}"
+    except OSError as exc:
+        return False, f"markdown/weasyprint not usable: {type(exc).__name__}: {exc}"
+    except Exception as exc:  # pragma: no cover - defensive, environment-dependent
+        return False, f"markdown/weasyprint probe failed: {type(exc).__name__}: {exc}"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         html_body = markdown_lib.markdown(input_path.read_text(encoding="utf-8"), extensions=["tables"])
         weasyprint.HTML(string=f"<html><body>{html_body}</body></html>").write_pdf(str(output_path))
     except Exception as exc:  # pragma: no cover - defensive, environment-dependent
-        return False, f"weasyprint conversion failed: {exc}"
+        return False, f"weasyprint conversion failed: {type(exc).__name__}: {exc}"
     if not output_path.exists():
         return False, "weasyprint reported success but produced no output file"
     return True, f"built via markdown+weasyprint: {output_path}"
@@ -99,7 +129,7 @@ def main() -> int:
     parser.add_argument(
         "--check-only",
         action="store_true",
-        help="Report input validity, tool availability, and a structural summary; never requires a PDF engine, always exits 0.",
+        help="Report input validity, tool availability, and a structural summary; never requires a PDF engine when the input exists, always exits 0 in that case.",
     )
     args = parser.parse_args()
 
@@ -112,38 +142,42 @@ def main() -> int:
     print(f"Structural summary (not a page-fit claim): {summary}")
 
     pandoc_available = shutil.which("pandoc") is not None
-    try:
-        import markdown as _markdown_probe  # noqa: F401
-        import weasyprint as _weasyprint_probe  # noqa: F401
-        weasyprint_path_available = True
-    except ImportError:
-        weasyprint_path_available = False
+    weasyprint_path_available, weasyprint_probe_message = _probe_weasyprint()
 
     print(f"pandoc on PATH: {pandoc_available}")
     print(f"markdown+weasyprint importable: {weasyprint_path_available}")
+    if not weasyprint_path_available:
+        print(f"markdown+weasyprint probe: {weasyprint_probe_message}")
 
     if args.check_only:
         if not pandoc_available and not weasyprint_path_available:
             print(
                 "No PDF build tool is currently available in this environment. "
                 "This is a documented, expected state -- see paper/workshop_build_notes.md "
-                "for install options. --check-only never fails for this reason."
+                "for install options. --check-only succeeds when the input exists "
+                "and never fails only because a PDF engine is absent or broken."
             )
         print("check-only: no PDF was built.")
         return 0
 
+    failure_messages: list[str] = []
     for attempt in (_try_pandoc, _try_weasyprint):
         ok, message = attempt(args.input, args.output)
         print(message)
         if ok:
             return 0
+        failure_messages.append(message)
 
     print(
         "\nFAILED: no PDF was produced. Neither pandoc (with a discoverable PDF "
-        "engine) nor the markdown+weasyprint Python packages are available in "
-        "this environment. See paper/workshop_build_notes.md for install options. "
+        "engine) nor the markdown+weasyprint Python path is available and usable "
+        "in this environment. See paper/workshop_build_notes.md for install options. "
         "This script does not fabricate a success result when no PDF exists."
     )
+    if failure_messages:
+        print("Failure details:")
+        for message in failure_messages:
+            print(f"- {message}")
     return 1
 
 
