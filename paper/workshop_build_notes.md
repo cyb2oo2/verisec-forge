@@ -32,45 +32,107 @@ Override the input/output paths if needed:
 
 ## Required Tools
 
-**As of this PR, neither supported toolchain is installed in this
-project's development environment** — running the script without
-`--check-only` exits non-zero with a clear message, not a fabricated
-success (see `paper/workshop_build_smoke_report.md` for the recorded
-output of that exact state; that report is a historical record and is not
-updated by this section).
+`paper/workshop_build_smoke_report.md` recorded the original clean
+environment, where neither supported toolchain was installed. Then
+`paper/workshop_weasyprint_validation_report.md` recorded the next, more
+specific state: `pip install markdown weasyprint` succeeded, but importing
+`weasyprint` failed with `OSError: cannot load library 'libgobject-2.0-0'`
+because the required Windows native libraries were missing. That second
+state is realistic and now explicitly supported by the build script: the
+probe reports it clearly instead of crashing `--check-only`.
 
 ### Recommended provisional toolchain: markdown + weasyprint
 
-This is the preferred default for this repository: a pure-Python path that
+This is the preferred default for this repository: a Python-first path that
 fits the project's existing pip-based dependency convention
 (`pyproject.toml`'s `[dev]` extras), unlike pandoc, which requires a
 separate system-level binary and its own PDF engine outside that
 convention.
 
-- **Install command:**
-  ```bash
-  pip install markdown weasyprint
-  ```
-  This is a local, on-demand install for whoever runs the build — it is
-  **not** added to `pyproject.toml` as a project dependency (see "Why Not
-  a Project Dependency" below).
-- **Windows caveat:** weasyprint has native library dependencies (Pango,
-  cairo, gdk-pixbuf, GObject) that are not installed by `pip` alone on
-  Windows. See
-  https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows
-  for the current installer-based setup steps before `pip install
-  weasyprint` will actually import successfully.
-- **Expected command to run** (after the install above succeeds):
-  ```powershell
-  .\.venv\Scripts\python.exe scripts\build_workshop_draft_pdf.py
-  ```
-- **Expected output path:** `build/workshop_draft_v1.pdf`.
-- **Expected failure mode if dependencies are missing:** the script
-  reports `markdown/weasyprint not installed (No module named 'markdown')`
-  (if the `markdown` package itself is missing) or a weasyprint-specific
-  import/native-library error (if `markdown` is present but weasyprint's
-  native libraries are not), and exits non-zero — it does not fabricate a
-  PDF in either case.
+This does **not** mean `pip install` alone is always enough on Windows.
+WeasyPrint itself depends on native rendering libraries such as Pango,
+GObject/GLib, cairo, gdk-pixbuf, HarfBuzz, and fontconfig. A successful
+Python package install can still fail at import time with errors such as
+`cannot load library 'libgobject-2.0-0'`, `cannot load library
+'gobject-2.0-0'`, or Pango/GObject-related DLL errors.
+
+#### Step 1: install the Python packages
+
+```bash
+pip install markdown weasyprint
+```
+
+This is a local, on-demand install for whoever runs the build — it is
+**not** added to `pyproject.toml` as a project dependency (see "Why Not a
+Project Dependency" below).
+
+#### Step 2: on Windows, install WeasyPrint's native dependencies
+
+For the Python-library route used by this repository's script, follow
+WeasyPrint's official Windows guidance:
+
+1. Install MSYS2 with its default options.
+2. Open the MSYS2 shell.
+3. Run:
+   ```bash
+   pacman -S mingw-w64-x86_64-pango
+   ```
+4. Close the MSYS2 shell.
+5. If Python still cannot find the DLLs, set the DLL search path before
+   running the build. In `cmd.exe`, WeasyPrint documents this form:
+   ```cmd
+   set WEASYPRINT_DLL_DIRECTORIES=C:\msys64\mingw64\bin
+   ```
+   In PowerShell, the equivalent for the current session is:
+   ```powershell
+   $env:WEASYPRINT_DLL_DIRECTORIES = "C:\msys64\mingw64\bin"
+   ```
+6. Verify that the folder actually contains the needed `.dll` files before
+   treating this as fixed.
+
+Reference: WeasyPrint's Windows and missing-library guidance at
+`https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows`
+and `https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#missing-library`.
+
+#### Step 3: verify the import before running the build
+
+Do this before expecting the PDF build to work:
+
+```bash
+python -c "import markdown; import weasyprint"
+```
+
+Optional additional check:
+
+```bash
+python -m weasyprint --info
+```
+
+If this import check fails with `libgobject-2.0-0`, Pango, GObject, cairo,
+or another native-library error, the Python packages are installed but the
+native Windows layer is still not usable. The build script will report that
+state; it will not fabricate a PDF.
+
+#### Step 4: run the repo build commands
+
+```bash
+python scripts/build_workshop_draft_pdf.py --check-only
+python scripts/build_workshop_draft_pdf.py
+```
+
+Expected output path for a successful build:
+
+```text
+build/workshop_draft_v1.pdf
+```
+
+Expected failure mode when dependencies are missing or broken: the script
+reports a specific message such as `markdown/weasyprint not installed: ...`
+or `markdown/weasyprint not usable: OSError: cannot load library ...`, then
+exits non-zero for the full build. `--check-only` still exits `0` when the
+input file exists, because it is only an environment/reporting check and
+never builds a PDF.
+
 - **The output is generic, not SaTML-formatted**: no two-column layout, no
   specific font, no citation-style bibliography — see "Current
   Limitations" below.
@@ -119,10 +181,10 @@ that audit) can use, not a substitute for the judgment itself.
 
 ## Current Limitations
 
-- No PDF build tool is currently installed in this project's development
-  environment. The script detects this correctly and fails with a clear
-  message rather than pretending to succeed — this is expected, documented
-  behavior, not a bug.
+- A successful `pip install markdown weasyprint` is not enough on Windows if
+  the native GTK/Pango/GObject stack is missing. This exact failure mode is
+  recorded in `paper/workshop_weasyprint_validation_report.md` and is now
+  handled gracefully by the script's tool-availability probe.
 - Neither build path attempts any venue-specific formatting: no two-column
   layout, no specific font, no specific margin, no citation-style
   bibliography rendering matching a particular template. The output is a
