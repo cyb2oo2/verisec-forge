@@ -1,10 +1,11 @@
 """Checks for the weasyprint-preferred toolchain documentation in
 paper/workshop_build_notes.md: markdown + weasyprint is recommended as the
 preferred provisional toolchain, pandoc remains documented as optional
-(not default), an install command is present, the output is stated as
-generic/not-SaTML-formatted, generated PDFs are stated as not committed,
-no page fit is claimed, no new [RESULT: ...] anchors were added, and no
-forbidden overclaims appear.
+(not default), an install command is present, Windows native-library
+install instructions (MSYS2/pacman/WEASYPRINT_DLL_DIRECTORIES) are
+present, the output is stated as generic/not-SaTML-formatted, generated
+PDFs are stated as not committed, no page fit is claimed, no new
+[RESULT: ...] anchors were added, and no forbidden overclaims appear.
 """
 
 from __future__ import annotations
@@ -54,11 +55,17 @@ def test_notes_include_install_command() -> None:
     assert "pip install markdown weasyprint" in section
 
 
-def test_notes_include_windows_caveat() -> None:
+def test_notes_include_windows_native_library_instructions() -> None:
     section = _text().split("### Recommended provisional toolchain")[1].split(
         "### Optional alternative"
     )[0]
-    assert "Windows caveat" in section
+    assert "libgobject-2.0-0" in section
+    assert "Pango" in section
+    assert "GObject" in section
+    assert "MSYS2" in section
+    assert "pacman -S mingw-w64-x86_64-pango" in section
+    assert "WEASYPRINT_DLL_DIRECTORIES" in section
+    assert 'python -c "import markdown; import weasyprint"' in section
 
 
 def test_notes_state_output_is_generic_not_satml_formatted() -> None:
