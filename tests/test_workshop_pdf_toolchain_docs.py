@@ -3,9 +3,10 @@ paper/workshop_build_notes.md: markdown + weasyprint is recommended as the
 preferred provisional toolchain, pandoc remains documented as optional
 (not default), an install command is present, Windows native-library
 install instructions (MSYS2/pacman/WEASYPRINT_DLL_DIRECTORIES) are
-present, the output is stated as generic/not-SaTML-formatted, generated
-PDFs are stated as not committed, no page fit is claimed, no new
-[RESULT: ...] anchors were added, and no forbidden overclaims appear.
+present, the PR #85 unresolved-MSYS2-prerequisite finding is documented,
+the output is stated as generic/not-SaTML-formatted, generated PDFs are
+stated as not committed, no page fit is claimed, no new [RESULT: ...]
+anchors were added, and no forbidden overclaims appear.
 """
 
 from __future__ import annotations
@@ -66,6 +67,29 @@ def test_notes_include_windows_native_library_instructions() -> None:
     assert "pacman -S mingw-w64-x86_64-pango" in section
     assert "WEASYPRINT_DLL_DIRECTORIES" in section
     assert 'python -c "import markdown; import weasyprint"' in section
+
+
+def test_notes_document_unresolved_msys2_prerequisite() -> None:
+    section = _text().split("### Recommended provisional toolchain")[1].split(
+        "### Optional alternative"
+    )[0]
+    assert "paper/workshop_weasyprint_msys2_install_report.md" in section
+    assert "PR #85" in section
+    normalized = _normalized_whitespace(section).lower()
+    assert "msys2 was not installed" in normalized
+    assert "`pacman` was unavailable" in normalized
+    assert "`pacman -s mingw-w64-x86_64-pango` could not be" in normalized
+    assert "manual, system-level action" in normalized
+    assert "remains unresolved on that machine" in normalized
+    assert "no pdf has been produced via this toolchain on the tested machine" in normalized
+    assert "no page fit and no satml formatting have been validated" in normalized
+
+
+def test_current_limitations_points_to_msys2_report() -> None:
+    section = _text().split("## Current Limitations")[1].split("## Why This Is Provisional")[0]
+    assert "paper/workshop_weasyprint_msys2_install_report.md" in section
+    normalized = _normalized_whitespace(section).lower()
+    assert "msys2/pacman was unavailable" in normalized
 
 
 def test_notes_state_output_is_generic_not_satml_formatted() -> None:
