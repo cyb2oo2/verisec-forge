@@ -139,6 +139,48 @@ never builds a PDF.
 - **The generated PDF stays under `build/`, which is git-ignored, and is
   not committed to this repository** under any circumstance.
 
+#### Known unresolved local prerequisite (as of PR #85)
+
+`paper/workshop_weasyprint_msys2_install_report.md` (PR #85) attempted to
+follow Steps 2-3 above on this repository's tested Windows contributor
+machine, to actually run the `pacman -S mingw-w64-x86_64-pango` install.
+The result:
+
+- **MSYS2 was not installed** on that machine — no `C:\msys64` directory,
+  no MSYS2 installation under `Program Files`.
+- **`pacman` was unavailable** as a result — it is not on `PATH`, and it
+  is not bundled with Git Bash's own MinGW/MSYS runtime either, despite
+  sharing tooling ancestry with MSYS2.
+- Because of that, **`pacman -S mingw-w64-x86_64-pango` could not be
+  run** on that machine — there was nothing to invoke it with.
+- The `libgobject-2.0-0` load failure documented in Step 3 above
+  **remains unresolved on that machine** as a direct consequence: the
+  Python packages (`markdown`, `weasyprint`) install cleanly via `pip`,
+  but importing `weasyprint` still fails with the same
+  `OSError: cannot load library 'libgobject-2.0-0'` seen before any
+  install attempt.
+- **Installing MSYS2 itself is a manual, system-level action outside
+  this repository** — it requires a separate installer from
+  `https://www.msys2.org/` run by whoever has permission to install
+  system software on that machine. No script in this repository
+  attempts or can attempt that installation.
+- Once MSYS2 is installed manually on a given machine, the documented
+  `pacman -S mingw-w64-x86_64-pango` command (Step 2) and the import
+  verification command (Step 3, `python -c "import markdown; import
+  weasyprint"`) should be retried on that machine to confirm the fix
+  actually resolves the `libgobject-2.0-0` failure there.
+- **No PDF has been produced via this toolchain on the tested machine
+  yet.** No page fit and no SaTML formatting have been validated — both
+  remain out of scope regardless of whether this native-library
+  prerequisite is resolved, per "Why This Is Provisional" below.
+
+This is a local, per-machine prerequisite gap, not a defect in
+`scripts/build_workshop_draft_pdf.py` or in this documentation: the
+hardened script correctly detects and reports the missing native
+library (see `paper/workshop_weasyprint_hardening_validation_report.md`)
+rather than crashing, and the steps above are the documented fix — they
+simply have not yet been executable on the one machine tested so far.
+
 **Why not a project dependency:** adding `weasyprint` to `pyproject.toml`
 would make it a required install for every contributor and CI run, for a
 provisional, single-purpose build script that most contributors will never
@@ -184,7 +226,10 @@ that audit) can use, not a substitute for the judgment itself.
 - A successful `pip install markdown weasyprint` is not enough on Windows if
   the native GTK/Pango/GObject stack is missing. This exact failure mode is
   recorded in `paper/workshop_weasyprint_validation_report.md` and is now
-  handled gracefully by the script's tool-availability probe.
+  handled gracefully by the script's tool-availability probe. On the
+  tested Windows contributor machine, MSYS2/pacman was unavailable, so
+  the documented native-library fix could not yet be executed; see
+  `paper/workshop_weasyprint_msys2_install_report.md`.
 - Neither build path attempts any venue-specific formatting: no two-column
   layout, no specific font, no specific margin, no citation-style
   bibliography rendering matching a particular template. The output is a
