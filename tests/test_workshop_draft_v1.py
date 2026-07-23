@@ -3,7 +3,8 @@ all required sections, has a 150-180 word abstract, and implements the six
 readiness-audit-driven revisions (concrete candidate-identity example,
 related-work positioning sentence, reduced CrossVul body table,
 prompt-sensitivity rebuttal, repair bridge sentence, SaTML/trustworthy-ML
-framing), while all anchors resolve correctly, no new [RESULT: ...]
+framing), embeds Figures 1/5–7 and Tables 2/4, includes a reproducibility
+paragraph, while all anchors resolve correctly, no new [RESULT: ...]
 anchors were added, no forbidden overclaims appear, and the SaTML 2027
 re-check caveat remains.
 """
@@ -24,6 +25,7 @@ REQUIRED_SECTIONS = [
     "## 5. Cross-Source and Cross-Architecture Checks",
     "## 6. Repair Decomposition",
     "## 7. Limitations and Responsible Use",
+    "## 8. Reproducibility and Artifacts",
 ]
 
 FORBIDDEN_PHRASES = [
@@ -153,3 +155,51 @@ def test_draft_v1_has_no_forbidden_overclaims() -> None:
     normalized = _text().lower()
     for phrase in FORBIDDEN_PHRASES:
         assert phrase not in normalized, f"found forbidden phrase: {phrase!r}"
+
+
+def test_no_figure_or_table_placeholders() -> None:
+    text = _text()
+    assert not re.search(r"\[Figure \d+ here\]", text)
+    assert not re.search(r"\[Table \d+ here\]", text)
+
+
+def test_figures_1_and_5_to_7_are_embedded() -> None:
+    text = _text()
+    for n, path_frag in [
+        (1, "figure1_problem.svg"),
+        (5, "figure5_label_polarity_mechanism.svg"),
+        (6, "figure6_crossvul_confound.svg"),
+        (7, "figure7_repair_decomposition.svg"),
+    ]:
+        assert f"Figure {n}" in text
+        assert path_frag in text
+        assert (ROOT / "paper" / "figures" / path_frag).exists()
+
+
+def test_tables_2_and_4_are_embedded() -> None:
+    text = _text()
+    assert "**Table 2." in text or "**Table 2 " in text
+    assert "**Table 4." in text or "**Table 4 " in text
+    assert "| Metric | Qwen | CodeBERT |" in text
+    assert "antisymmetric inference" in text.lower()
+    assert "0.660" in text and "0.733" in text
+
+
+def test_functional_form_divergence_in_mechanism_section() -> None:
+    section = _text().split("## 4. Label-vs-Polarity Findings")[1].split("## 5.")[0]
+    normalized = section.lower()
+    assert "functional form" in normalized
+    assert "~0.57" in section and "~0.96" in section
+    assert "not a shared internal mechanism" in normalized or (
+        "not a shared" in normalized and "internal mechanism" in normalized
+    )
+
+
+def test_reproducibility_paragraph_separates_ci_and_release() -> None:
+    section = _text().split("## 8. Reproducibility")[1].split("## Supplement")[0]
+    normalized = section.lower()
+    assert "ci smoke" in normalized or "fresh-clone ci" in normalized
+    assert "release" in normalized
+    assert "30-pair" in normalized or "30 pair" in normalized
+    assert "does **not** train" in section.lower() or "does not train" in normalized
+    assert "result_anchor_map" in normalized

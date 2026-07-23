@@ -81,6 +81,19 @@ def test_build_script_has_weasyprint_native_library_probe() -> None:
     assert "weasyprint_probe_message" in text
 
 
+def test_compact_does_not_fall_back_to_pandoc() -> None:
+    """--compact must require WeasyPrint; pandoc success would silently drop compact CSS."""
+    text = _script_text()
+    assert "--compact requires a usable markdown+weasyprint" in text
+    # Compact branch must not append a pandoc fallback attempt.
+    compact_idx = text.find("if args.compact:")
+    assert compact_idx >= 0
+    next_default = text.find("# Default: prefer WeasyPrint", compact_idx)
+    compact_block = text[compact_idx:next_default] if next_default > compact_idx else text[compact_idx:]
+    assert "_try_pandoc" not in compact_block
+    assert "_try_weasyprint" in compact_block
+
+
 def test_notes_document_windows_native_library_hardening() -> None:
     normalized = _normalized(_notes_text())
     assert "libgobject-2.0-0" in normalized
