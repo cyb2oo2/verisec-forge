@@ -1,0 +1,11 @@
+{
+  "status": "not_run",
+  "claim_boundary": {
+    "diagnostic_subset_only": true,
+    "not_headline_balanced_accuracy": true,
+    "requires_human_consensus": true,
+    "human_gold_not_ai_pilot": true
+  },
+  "message": "Human consensus file missing or empty; subset evidence metrics not computed.",
+  "consensus_path": "data/annotation/primevul_pair_study_v1/human_gold_consensus_v1.jsonl"
+}

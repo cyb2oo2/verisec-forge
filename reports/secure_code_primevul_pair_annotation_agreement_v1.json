@@ -1,0 +1,36 @@
+{
+  "status": "not_applicable_single_author",
+  "mode": "single_author",
+  "study_id": "primevul_pair_study_author50_v1",
+  "reason": "active_study_is_single_author",
+  "claim_boundary": {
+    "human_gold_not_ai_pilot": true,
+    "not_prevalence_estimate": true,
+    "not_model_quality_benchmark": true,
+    "distinct_from_evidence_localization_30_row_rounds": true,
+    "packets_not_public_until_license_privacy_gate": true,
+    "no_inter_annotator_agreement": true,
+    "active_study_is_single_author": true,
+    "not_independent_dual_rater_gold": true
+  },
+  "paired_annotations": 0,
+  "dual_complete_n": 0,
+  "minimum_publishable_dual_complete": null,
+  "publishable_gate_met": false,
+  "side_exact_agreement": null,
+  "side_cohen_kappa": null,
+  "context_exact_agreement": null,
+  "context_cohen_kappa": null,
+  "disagreement_count": 0,
+  "disagreements": [],
+  "label_distributions": {
+    "side_a": {},
+    "side_b": {},
+    "context_a": {},
+    "context_b": {}
+  },
+  "by_stratum": {},
+  "annotator_a_complete": 0,
+  "annotator_b_complete": 0,
+  "note": "Inter-annotator agreement is not applicable: the active study is a single-author blinded audit. Do not report Cohen's κ as dual-rater reliability. Dual-independent agreement requires annotator_1/2 answer CSVs under mode=dual_independent."
+}

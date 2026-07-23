@@ -1,0 +1,40 @@
+{
+  "status": "annotation_pending",
+  "study_id": "primevul_pair_study_author50_v1",
+  "mode": "single_author",
+  "target_pairs": 50,
+  "materialized_pairs": 50,
+  "selection_strata": {
+    "control": 10,
+    "high_confidence": 10,
+    "large_patch": 10,
+    "low_margin": 10,
+    "model_error": 10
+  },
+  "author_complete_n": 0,
+  "complete_by_stratum": {},
+  "side_label_distribution": {},
+  "context_label_distribution": {},
+  "publishable_gate_met": false,
+  "minimum_publishable_complete": 50,
+  "engineering_scaffold_ready": true,
+  "human_annotation_complete": false,
+  "inter_annotator_agreement": null,
+  "inter_annotator_agreement_note": "Not applicable: single-author study has no second independent annotator; do not report Cohen's \u03ba as dual-rater reliability.",
+  "claim_boundary": {
+    "human_gold_not_ai_pilot": true,
+    "not_prevalence_estimate": true,
+    "not_model_quality_benchmark": true,
+    "distinct_from_evidence_localization_30_row_rounds": true,
+    "packets_not_public_until_license_privacy_gate": true,
+    "protocol": "single_author_blinded_audit",
+    "sample_size": 50,
+    "single_author_annotator": true,
+    "no_inter_annotator_agreement": true,
+    "not_independent_dual_rater_gold": true,
+    "author_may_know_system_under_study": true,
+    "suitable_for": "qualitative_evidence_coupled_audit_and_error_analysis",
+    "not_suitable_for": "inter_annotator_reliability_or_prevalence_claims"
+  },
+  "paper_claim_boundary_statement": "The human pair audit is a stratified 50-pair single-author annotation under blinded packet presentation (metadata scrubbed; sides randomized). It supports qualitative evidence-coupled error analysis and author-facing case review. It is not independent dual-rater gold, does not report inter-annotator Cohen's \u03ba, is not a prevalence estimate for PrimeVul, is not AI pilot labeling, and must not be promoted as a model-quality benchmark or replacement for the pair-coupled decoding mainline metrics."
+}

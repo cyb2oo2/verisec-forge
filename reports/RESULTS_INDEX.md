@@ -24,6 +24,9 @@ Reviewer-facing narrative and reproducibility entry points.
 - `VeriPatch-RR External Adapter`: `docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md`
 - `CI Testing Strategy`: `docs/CI_TESTING_STRATEGY.md`
 - `Human Patch-Pair Annotation Protocol`: `docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md`
+- `Pair Annotation Annotator Guide`: `docs/PAIR_ANNOTATION_ANNOTATOR_GUIDE.md`
+- `Pair Annotation Study (author audit n=50 + claim boundaries)`: `reports/PRIMEVUL_PAIR_ANNOTATION_STUDY_V1.md`
+- `Pair Annotation Paper Claim Boundary`: `paper/pair_annotation_claim_boundary.md`
 - `Counterfactual Shortcut Protocol`: `docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md`
 - `VeriPatch-RR v0.1`: `reports/RELATIONAL_BENCHMARK_V2.md`
 - `VeriPatch-RR Qwen Runtime Accounting`: `reports/secure_code_relational_benchmark_v2_qwen15b_runtime_summary.json`
@@ -64,7 +67,9 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Paper 1 Draft Outline`: `docs/PAPER1_DRAFT_OUTLINE.md`
 - `Qwen Batch-Shape Stability Audit`: `reports/secure_code_qwen_batch_shape_stability_v1.json`
 - `Learned Joint Model Plan`: `docs/LEARNED_JOINT_MODEL_PLAN.md`
-- `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json`
+- `Pair Annotation Study Summary`: `reports/secure_code_primevul_pair_annotation_study_v1.json` (active: single-author n=50)
+- `Pair Annotation Status`: `reports/secure_code_primevul_pair_annotation_status_v1.json` (author completion; not dual IAA)
+- `Pair Annotation Agreement JSON`: `reports/secure_code_primevul_pair_annotation_agreement_v1.json` (**status `not_applicable_single_author`** — dual Cohen's κ is not defined for the active study; dual IAA only under `mode=dual_independent`)
 - `Counterfactual Intervention Summary`: `reports/secure_code_primevul_counterfactual_interventions_v1.json`
 - `Joint Reasoning Dataset Summary`: `reports/secure_code_primevul_joint_reasoning_dataset_v1.json`
 - `Project Story`: `PROJECT_STORY.md`

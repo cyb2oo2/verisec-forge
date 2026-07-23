@@ -1,17 +1,25 @@
 {
   "status": "ok",
-  "protocol": "two_independent_blinded_annotators",
-  "requested_pairs": 150,
-  "materialized_pairs": 150,
+  "protocol": "single_author_blinded_audit",
+  "mode": "single_author",
+  "study_id": "primevul_pair_study_author50_v1",
+  "seed": 20260720,
+  "requested_pairs": 50,
+  "materialized_pairs": 50,
   "candidate_pairs": 827,
   "selection_strata": {
-    "control": 31,
-    "high_confidence": 31,
-    "large_patch": 25,
-    "low_margin": 31,
-    "model_error": 32
+    "control": 10,
+    "high_confidence": 10,
+    "large_patch": 10,
+    "low_margin": 10,
+    "model_error": 10
   },
   "output_dir": "data/annotation/primevul_pair_study_v1",
+  "files": {
+    "packet": "annotator_packet.jsonl",
+    "answers": "annotator_answers.csv",
+    "mapping": "private_case_mapping.jsonl"
+  },
   "annotation_fields": [
     "case_id",
     "annotator_id",
@@ -23,11 +31,38 @@
     "notes",
     "reviewed_at"
   ],
+  "packet_blinding": {
+    "randomized_case_order": true,
+    "randomized_side_assignment": true,
+    "scrub_project_cve_cwe_from_diff_text": true,
+    "exclude_model_scores_from_packet": true,
+    "private_mapping_staff_only": true
+  },
+  "claim_boundary": {
+    "human_gold_not_ai_pilot": true,
+    "not_prevalence_estimate": true,
+    "not_model_quality_benchmark": true,
+    "distinct_from_evidence_localization_30_row_rounds": true,
+    "packets_not_public_until_license_privacy_gate": true,
+    "protocol": "single_author_blinded_audit",
+    "sample_size": 50,
+    "single_author_annotator": true,
+    "no_inter_annotator_agreement": true,
+    "not_independent_dual_rater_gold": true,
+    "author_may_know_system_under_study": true,
+    "suitable_for": "qualitative_evidence_coupled_audit_and_error_analysis",
+    "not_suitable_for": "inter_annotator_reliability_or_prevalence_claims"
+  },
   "minimum_publishable_gate": {
-    "completed_by_both_annotators": 100,
-    "target_completed_by_both_annotators": 150,
-    "report_side_cohen_kappa": true,
-    "report_context_cohen_kappa": true,
-    "adjudicate_all_disagreements": true
+    "completed_by_author": 50,
+    "target_completed": 50,
+    "report_inter_annotator_kappa": false,
+    "note": "No dual-rater \u03ba; single-author audit only."
+  },
+  "tools": {
+    "annotator_guide": "docs/PAIR_ANNOTATION_ANNOTATOR_GUIDE.md",
+    "status": "scripts/check_pair_annotation_study_status.py",
+    "validate": "scripts/validate_pair_annotation_answers.py",
+    "export_sheets": "scripts/export_pair_annotation_review_sheets.py"
   }
 }
