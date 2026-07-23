@@ -2,52 +2,80 @@
 
 ## Goal
 
-Create a small, clean evidence-grounded evaluation set of `100-200` vulnerable/fixed patch pairs. The default study samples `150` unique pairs and assigns every pair independently to two annotators.
+Create a small, clean evidence-grounded **audit** set of vulnerable/fixed patch pairs for evidence-coupled analysis.
 
-AI-filled labels must not be copied into the annotation sheets. They may only be used after annotation for error analysis and adjudication prioritization.
+**Active default study:** single-author stratified **50** pairs (`primevul_pair_study_author50_v1`, seed `20260720`).
 
-## Independent Annotation Fields
+A larger dual-independent design (up to 150 pairs, two annotators, Cohen’s κ) remains implementable via `--mode dual_independent` but is **not** the active paper-facing protocol.
 
-Each annotator records:
+AI-filled labels must not be copied into the annotation sheet. AI may only support post-hoc prioritization, never gold.
+
+## Status checklist
+
+| Gate | Meaning |
+| --- | --- |
+| **Engineering scaffold** | Stratified sample, blinded packet, empty answers CSV, private mapping, status tools |
+| **Author-complete** | Required fields filled for a case |
+| **Study complete (active)** | 50/50 author-complete rows |
+| **Not claimed** | Inter-annotator κ; dual-rater consensus gold; prevalence; AI pilot as human gold |
+
+## Annotation fields
 
 - `vulnerable_side`: `A`, `B`, `neither`, or `unclear`
-- `root_cause`: one concise security-mechanism description
-- `minimal_evidence_lines`: the smallest side-prefixed line span that supports the decision
+- `root_cause`: concise security-mechanism description
+- `minimal_evidence_lines`: smallest side-prefixed span (e.g. `A:12-15;B:8`)
 - `context_sufficient`: `yes`, `no`, or `unclear`
 - `confidence`: `1-5`
-- `notes`: optional ambiguity or dependency information
+- `notes`: optional
 
-Annotators receive randomized case order and randomized A/B side assignment. Project, CVE, CWE, benchmark label, model probability, and model decision are excluded from the review packet.
+Packet presentation: randomized case order, randomized A/B assignment, Project/CVE/CWE scrubbed from diff text. Private mapping is staff-only (and should not be consulted during labeling).
 
 ## Sampling
 
-The default sampler draws from five strata:
+Five strata (same rules as before):
 
-- model pair errors
-- low-margin pairs
-- high-confidence pairs
-- large patches
-- ordinary controls
+- model pair errors  
+- low-margin pairs  
+- high-confidence pairs  
+- large patches  
+- ordinary controls  
 
-This is a high-value audit set, not a prevalence estimate for the full benchmark.
+Target ≈ equal stratum quotas then fill to exact `sample_size`. This is a **high-value audit set**, not a prevalence estimate.
 
-## Agreement And Adjudication
+## Single-author vs dual-independent
 
-Report:
+| | Single-author (active) | Dual-independent (optional) |
+| --- | --- | --- |
+| n (default) | 50 | 150 |
+| Files | `annotator_packet.jsonl`, `annotator_answers.csv` | `annotator_{1,2}_*` |
+| Reliability | No second rater; **no κ** | Exact agreement + Cohen’s κ; adjudicate disagreements |
+| Paper use | Qualitative audit / error analysis | Stronger human-gold claim if completed |
 
-- exact vulnerable-side agreement
-- Cohen's kappa for vulnerable-side choice
-- exact context-sufficiency agreement
-- Cohen's kappa for context sufficiency
-- disagreement count and disagreement taxonomy
+## Claim boundary (paper)
 
-All side or context disagreements must be adjudicated by a third reviewer or a documented consensus meeting. Root-cause and minimal-line agreement should additionally be reviewed qualitatively because free-text spans are not well summarized by kappa alone.
+Use this statement (also embedded in status JSON as `paper_claim_boundary_statement`):
+
+> The human pair audit is a stratified 50-pair single-author annotation under blinded packet presentation (metadata scrubbed; sides randomized). It supports qualitative evidence-coupled error analysis and author-facing case review. It is not independent dual-rater gold, does not report inter-annotator Cohen's κ, is not a prevalence estimate for PrimeVul, is not AI pilot labeling, and must not be promoted as a model-quality benchmark or replacement for the pair-coupled decoding mainline metrics.
+
+**Human gold ≠ AI pilot.** Author labels ≠ dual independent gold.
 
 ## Commands
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\build_pair_annotation_study.py --sample-size 150
-.\.venv\Scripts\python.exe scripts\analyze_pair_annotation_agreement.py
+# Build active study (50 pairs, seed 20260720, single author)
+.\.venv\Scripts\python.exe scripts\build_pair_annotation_study.py `
+  --sample-size 50 --seed 20260720 --mode single_author
+
+# Annotator tools — Streamlit UI (recommended)
+.\.venv\Scripts\python.exe -m pip install streamlit
+.\.venv\Scripts\python.exe -m streamlit run scripts\annotation_tool.py
+
+# Annotator tools — CLI helpers
+.\.venv\Scripts\python.exe scripts\export_pair_annotation_review_sheets.py
+.\.venv\Scripts\python.exe scripts\validate_pair_annotation_answers.py
+.\.venv\Scripts\python.exe scripts\check_pair_annotation_study_status.py
 ```
 
-The annotation packets are written under `data/annotation/`, which is intentionally not published until licensing and privacy checks are complete.
+Annotator guide: `docs/PAIR_ANNOTATION_ANNOTATOR_GUIDE.md`.
+
+Packets live under `data/annotation/` and are not published until licensing/privacy review.
