@@ -1,0 +1,101 @@
+{
+  "scope": "primevul_side_inversion_gate_uncertainty",
+  "supersedes_headline": "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md precision 1.0000 headline",
+  "selection_provenance": {
+    "preferred_gate": "project_holdout_top5:evidence_conditioned",
+    "preferred_pool": "project_holdout_top5",
+    "preferred_variant": "evidence_conditioned",
+    "pools_with_more_than_one_variant": [
+      "project_holdout_top5"
+    ],
+    "preferred_variant_defined_only_for_preferred_pool": true,
+    "verdict": "SELECTED-ON-HOLDOUT: the preferred gate variant is defined only for the pool it is reported on, which is the pool where the original variant failed. It is not independently validated.",
+    "selection_pool": "project_holdout_top5",
+    "descriptive_pools": [
+      "fresh_seed_top5",
+      "rank6_10",
+      "top5"
+    ]
+  },
+  "gates": [
+    {
+      "pool": "top5",
+      "gate_variant": "strict_or",
+      "protocol_role": "discovery",
+      "status": "artifact_missing",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json"
+    },
+    {
+      "pool": "rank6_10",
+      "gate_variant": "strict_or",
+      "protocol_role": "rank_holdout_validation",
+      "status": "artifact_missing",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json"
+    },
+    {
+      "pool": "fresh_seed_top5",
+      "gate_variant": "strict_or",
+      "protocol_role": "fresh_seed_validation",
+      "status": "artifact_missing",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json"
+    },
+    {
+      "pool": "project_holdout_top5",
+      "gate_variant": "strict_or",
+      "protocol_role": "project_stress_test",
+      "status": "artifact_missing",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json"
+    },
+    {
+      "pool": "project_holdout_top5",
+      "gate_variant": "evidence_conditioned",
+      "protocol_role": "project_stress_candidate",
+      "status": "ok",
+      "accepted_rows": 9,
+      "repaired_rows": 9,
+      "introduced_rows": 0,
+      "accepted_pairs": 4,
+      "repaired_pairs": 4,
+      "introduced_pairs": 0,
+      "precision_rows_point": 1.0,
+      "precision_rows_exact_95_ci": {
+        "point": 1.0,
+        "low": 0.6637,
+        "high": 1.0,
+        "n": 9,
+        "successes": 9,
+        "alpha": 0.05,
+        "method": "clopper_pearson"
+      },
+      "precision_pairs_point": 1.0,
+      "precision_pairs_exact_95_ci": {
+        "point": 1.0,
+        "low": 0.3976,
+        "high": 1.0,
+        "n": 4,
+        "successes": 4,
+        "alpha": 0.05,
+        "method": "clopper_pearson"
+      },
+      "preferred_unit": "pair",
+      "unit_note": "pair-level n is the honest sample size; the two rows of a pair are mirror renderings of one patch",
+      "is_preferred_gate": true,
+      "pool_role_for_this_gate": "SELECTION (the reported gate variant was introduced and preferred on this pool)"
+    },
+    {
+      "pool": "project_holdout_top5",
+      "gate_variant": "conservative",
+      "protocol_role": "project_stress_baseline",
+      "status": "artifact_missing",
+      "path": "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
+    }
+  ],
+  "missing_artifacts": [
+    "reports/secure_code_primevul_side_inversion_safe_flip_gate_top5_strict_v1.json",
+    "reports/secure_code_primevul_side_inversion_safe_flip_gate_rank6_10_strict_v1.json",
+    "reports/secure_code_primevul_side_inversion_safe_flip_gate_fresh_seeds_top5_strict_v1.json",
+    "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_strict_v1.json",
+    "reports/secure_code_primevul_side_inversion_safe_flip_gate_project_holdout_top5_conservative_v1.json"
+  ],
+  "reporting_rule": "Precision must always be reported as point estimate, n, and exact binomial interval, with pair groups as the unit. The preferred gate accepts 9 rows spanning only 4 pairs; at n=4 pairs the 95% lower bound on a precision of 1.0 is about 0.40, and even at n=9 rows it is about 0.66. Neither supports a zero-error claim."
+}

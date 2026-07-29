@@ -1,0 +1,411 @@
+{
+  "scope": "verisec_forge_clean_reproduction",
+  "started_at_utc": "2026-07-27T22:09:48.608576+00:00",
+  "environment": {
+    "git_commit": "1bb0b8d5fb79adc81f89f3ebbb974c3e9038cc16",
+    "git_working_tree_dirty": true,
+    "python_version": "3.13.14",
+    "python_executable": "D:\\code\\start\\.venv\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "dependency_versions": [
+      "GitPython==3.1.52",
+      "Jinja2==3.1.6",
+      "Markdown==3.10.2",
+      "MarkupSafe==3.0.3",
+      "PyYAML==6.0.3",
+      "Pygments==2.20.0",
+      "accelerate==1.13.0",
+      "aiohappyeyeballs==2.6.1",
+      "aiohttp==3.13.5",
+      "aiosignal==1.4.0",
+      "altair==6.2.2",
+      "annotated-doc==0.0.4",
+      "annotated-types==0.7.0",
+      "anyio==4.13.0",
+      "attrs==26.1.0",
+      "blinker==1.9.0",
+      "brotli==1.2.0",
+      "cachetools==7.1.4",
+      "certifi==2026.2.25",
+      "cffi==2.1.0",
+      "charset-normalizer==3.4.6",
+      "clang-format==22.1.5",
+      "click==8.4.1",
+      "colorama==0.4.6",
+      "cssselect2==0.9.0",
+      "datasets==4.8.4",
+      "dill==0.4.1",
+      "fastapi==0.135.2",
+      "filelock==3.25.2",
+      "fonttools==4.63.0",
+      "frozenlist==1.8.0",
+      "fsspec==2026.2.0",
+      "gitdb==4.0.12",
+      "greenlet==3.5.0",
+      "h11==0.16.0",
+      "hf-xet==1.5.1",
+      "httpcore==1.0.9",
+      "httptools==0.8.0",
+      "httpx==0.28.1",
+      "huggingface_hub==1.19.0",
+      "idna==3.11",
+      "iniconfig==2.3.0",
+      "itsdangerous==2.2.0",
+      "jsonschema-specifications==2025.9.1",
+      "jsonschema==4.26.0",
+      "markdown-it-py==4.0.0",
+      "mdurl==0.1.2",
+      "mpmath==1.3.0",
+      "multidict==6.7.1",
+      "multiprocess==0.70.19",
+      "narwhals==2.24.0",
+      "networkx==3.6.1",
+      "numpy==2.4.4",
+      "packaging==26.0",
+      "pandas==3.0.2",
+      "peft==0.18.1",
+      "pillow==12.3.0",
+      "playwright==1.59.0",
+      "pluggy==1.6.0",
+      "propcache==0.4.1",
+      "protobuf==7.34.1",
+      "psutil==7.2.2",
+      "pyarrow==23.0.1",
+      "pycparser==3.0",
+      "pydantic==2.12.5",
+      "pydantic_core==2.41.5",
+      "pydeck==0.9.3",
+      "pydyf==0.12.1",
+      "pyee==13.0.1",
+      "pypdf==6.14.2",
+      "pyphen==0.17.2",
+      "pytest==9.0.2",
+      "python-dateutil==2.9.0.post0",
+      "python-multipart==0.0.32",
+      "referencing==0.37.0",
+      "regex==2026.3.32",
+      "requests==2.33.1",
+      "rich==14.3.3",
+      "rpds-py==2026.6.3",
+      "safetensors==0.7.0",
+      "setuptools==81.0.0",
+      "shellingham==1.5.4",
+      "six==1.17.0",
+      "smmap==5.0.3",
+      "starlette==1.0.0",
+      "streamlit==1.59.2",
+      "sympy==1.14.0",
+      "tenacity==9.1.4",
+      "tinycss2==1.5.1",
+      "tinyhtml5==2.1.0",
+      "tokenizers==0.22.2",
+      "toml==0.10.2",
+      "torch==2.11.0+cu130",
+      "tqdm==4.67.3",
+      "transformers==5.4.0",
+      "trl==1.0.0",
+      "typer==0.24.1",
+      "typing-inspection==0.4.2",
+      "typing_extensions==4.15.0",
+      "tzdata==2025.3",
+      "urllib3==2.6.3",
+      "uvicorn==0.42.0",
+      "watchdog==6.0.0",
+      "weasyprint==69.0",
+      "webencodings==0.5.1",
+      "websockets==16.1.1",
+      "wheel==0.46.3",
+      "xxhash==3.6.0",
+      "yarl==1.23.0",
+      "zopfli==0.4.3"
+    ]
+  },
+  "bundles": [],
+  "stages": [
+    {
+      "name": "audit_verification",
+      "description": "Reproduce the independent audit findings against this tree.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/verify_audit_findings.py",
+      "seeds": {
+        "tie_break": 0
+      },
+      "inputs": [],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "F3: confirmed",
+        "F4: confirmed",
+        "F5: confirmed",
+        "F6: confirmed",
+        "F7: confirmed",
+        "F8: confirmed",
+        "F10: confirmed",
+        "F11: confirmed"
+      ],
+      "outputs": [
+        {
+          "path": "reports/RESEARCH_INTEGRITY_VERIFICATION.json",
+          "sha256": "7f47bdf91f3669501a811e5e2f7822a89bdcd5e2e4eab6416f69388e43c85f06",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "docs/RESEARCH_INTEGRITY_VERIFICATION.md",
+          "sha256": "bf07c8be0bb7b9fd86ec8413e9b432e150490f87994efc515c3a80cf5f77ebe7",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    },
+    {
+      "name": "polarity_structural_control",
+      "description": "Semantics-free diff-shape control for the paired-diff mainline.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/evaluate_polarity_structural_control.py",
+      "seeds": {
+        "tie_break": 20260727
+      },
+      "inputs": [
+        {
+          "path": "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+          "sha256": "3df4651802396654f17fa62ad4f285369b8cd3913339fc4864f8c24f660daae9",
+          "present": true
+        },
+        {
+          "path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+          "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+          "present": true
+        },
+        {
+          "path": "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl",
+          "sha256": "11137e2ef52c0951a98d86ac38f246f64d22366b0df04ae34f896c5157d4b4e3",
+          "present": true
+        }
+      ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "    \"rows_where_rule_decides\": 1718,",
+        "    \"row_agreement_with_rule\": 0.8923,",
+        "    \"model_accuracy_given_rule_correct\": 0.9132,",
+        "    \"model_accuracy_given_rule_incorrect\": 0.2584,",
+        "    \"n_rule_correct\": 1509,",
+        "    \"n_rule_incorrect\": 209",
+        "  }",
+        "}"
+      ],
+      "outputs": [
+        {
+          "path": "reports/secure_code_primevul_polarity_structural_control_v1.json",
+          "sha256": "3cb1fafc87d85d762a40c1da1969ce8f9377ae1658a513ead9b48972c4a87815",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md",
+          "sha256": "d590b106c1983c95b66a84d5bb185c2e367e6738e29bfcd35611fe3036dd156b",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    },
+    {
+      "name": "pair_coupled_constraint_decomposition",
+      "description": "Isolate the closed-world constraint from the model.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/evaluate_pair_coupled_constraint_decomposition.py",
+      "seeds": {
+        "bootstrap": 20260727
+      },
+      "inputs": [
+        {
+          "path": "reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json",
+          "sha256": "e725e730bd75887c9e7aa6637f610886f3d0de301abbc5541bc6b0041b062cca",
+          "present": true
+        },
+        {
+          "path": "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+          "sha256": "3df4651802396654f17fa62ad4f285369b8cd3913339fc4864f8c24f660daae9",
+          "present": true
+        },
+        {
+          "path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+          "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+          "present": true
+        }
+      ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "      \"independent_units\": 614,",
+        "      \"unit\": \"pair_key group\",",
+        "      \"method\": \"paired_cluster_bootstrap_over_pair_groups\",",
+        "      \"baseline_point\": 0.4948,",
+        "      \"system_point\": 0.7859",
+        "    }",
+        "  }",
+        "}"
+      ],
+      "outputs": [
+        {
+          "path": "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json",
+          "sha256": "ddb9f7e11ad749a35d66eda57e49e3e3c854dcb113062275f45056e0a85814e8",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md",
+          "sha256": "2914b8c1104b6e40330fb43a400c028566bf7b387cd5db7005b3593bf6c5fc8e",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    },
+    {
+      "name": "pair_coupled_clustered_statistics",
+      "description": "Pair-group clustered inference replacing the overlapping-split bootstrap.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/build_primevul_pair_coupled_clustered_statistics.py",
+      "seeds": {
+        "bootstrap": 20260727
+      },
+      "inputs": [
+        {
+          "path": "reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json",
+          "sha256": "e725e730bd75887c9e7aa6637f610886f3d0de301abbc5541bc6b0041b062cca",
+          "present": true
+        },
+        {
+          "path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+          "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+          "present": true
+        }
+      ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "    \"losses\": 0,",
+        "    \"discordant_groups\": 86,",
+        "    \"two_sided_p_value\": 2.58e-26,",
+        "    \"two_sided_p_value_display\": \"2.58e-26\",",
+        "    \"test\": \"exact_sign_test_over_pair_groups\",",
+        "    \"unit\": \"pair_key group\"",
+        "  }",
+        "}"
+      ],
+      "outputs": [
+        {
+          "path": "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json",
+          "sha256": "bb974b065ab9eb4a1b8b94712f3fc3e4041cca50c7ab06798f821d5f95917d53",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md",
+          "sha256": "7ca033a567f20ded30cb9524cedaa22700747cc5876da76c7a2e19c9183cfb01",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    },
+    {
+      "name": "evidence_heuristic_consistency",
+      "description": "Evidence analysis with the circular target removed.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/evaluate_evidence_heuristic_consistency.py",
+      "seeds": {},
+      "inputs": [],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "      \"confirmed_gold\": 3",
+        "    },",
+        "    \"reviewer_counts\": {",
+        "      \"cyb2oo2_human_confirmation_v1\": 30",
+        "    },",
+        "    \"limitations\": [",
+        "      \"The adjudicator only ever selected windows the pipeline had already proposed (10/10 subset, 0 outside). The overlap metric therefore cannot record a miss and must not be read as localization accuracy.\",",
+        "      \"Single adjudicating reviewer;"
+      ],
+      "outputs": [
+        {
+          "path": "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json",
+          "sha256": "074400a93ef95ff9f4c2a98e4fa47777009f1ed3d4eed980d0827e184dd137c4",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md",
+          "sha256": "77f34c8a18500b2965ad20a76ef74f70a0c8e53438d99fa88700da55b6af9877",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    },
+    {
+      "name": "gate_uncertainty",
+      "description": "Safe-flip gate precision with exact intervals and selection provenance.",
+      "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/build_primevul_side_inversion_gate_uncertainty.py",
+      "seeds": {},
+      "inputs": [],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
+      "exit_code": 0,
+      "output_tail": [
+        "  \"verdict\": \"SELECTED-ON-HOLDOUT: the preferred gate variant is defined only for the pool it is reported on, which is the pool where the original variant failed. It is not independently validated.\",",
+        "  \"selection_pool\": \"project_holdout_top5\",",
+        "  \"descriptive_pools\": [",
+        "    \"fresh_seed_top5\",",
+        "    \"rank6_10\",",
+        "    \"top5\"",
+        "  ]",
+        "}"
+      ],
+      "outputs": [
+        {
+          "path": "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json",
+          "sha256": "6c2a542f8f2f0657da3782dd55e93a9bde71313641479a2a621a4392bbf61000",
+          "present": true,
+          "origin": "computed_in_this_run"
+        },
+        {
+          "path": "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md",
+          "sha256": "723505a72d13da502d5a71920b93b68c37e43bfed434dd7a520ae6ba8fefa28c",
+          "present": true,
+          "origin": "computed_in_this_run"
+        }
+      ]
+    }
+  ],
+  "historical_only_outputs": [
+    {
+      "path": "paper/tables/main_results.md",
+      "status": "historical_not_regenerable",
+      "reason": "requires reports/*_threshold_sweep.json (absent)"
+    },
+    {
+      "path": "reports/PRIMEVUL_MAIN_RESULTS.md",
+      "status": "historical_not_regenerable",
+      "reason": "requires reports/*_threshold_sweep.json (absent)"
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md",
+      "status": "historical_not_regenerable",
+      "reason": "withdrawn; superseded by clustered statistics"
+    },
+    {
+      "path": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md",
+      "status": "historical_not_regenerable",
+      "reason": "withdrawn; circular target"
+    }
+  ],
+  "finished_at_utc": "2026-07-27T22:10:34.599330+00:00",
+  "summary": {
+    "stages_total": 6,
+    "stages_computed": 6,
+    "stages_blocked": 0,
+    "stages_failed": 0,
+    "historical_only_outputs": 4
+  }
+}

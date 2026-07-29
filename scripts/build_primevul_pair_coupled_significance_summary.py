@@ -13,10 +13,8 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.build_primevul_main_results import build_rows
+from vrf.artifact_guard import MissingResearchArtifact
 from vrf.io_utils import read_json, write_json
-
-
-RETAINED_DIFF_ONLY_THREE_SEED_BA = [0.8158, 0.8382, 0.8321]
 
 
 def percentile(values: list[float], q: float) -> float:
@@ -57,16 +55,20 @@ def _main_result_by_name(rows: list[dict[str, Any]], name: str) -> dict[str, Any
 
 
 def diff_only_seed_values() -> list[float]:
-    try:
-        rows = build_rows()
-        names = [
-            "diff-only detector, dedup eval",
-            "diff-only detector, seed7 dedup",
-            "diff-only detector, seed99 dedup",
-        ]
-        return [float(_main_result_by_name(rows, name)["balanced_accuracy"]) for name in names]
-    except FileNotFoundError:
-        return list(RETAINED_DIFF_ONLY_THREE_SEED_BA)
+    """Recompute the three diff-only seed values from their sweep artifacts.
+
+    There is deliberately no fallback. If the sweep artifacts are absent this
+    raises, because emitting a remembered constant here would publish a
+    headline mean and confidence interval that no computation supports.
+    """
+
+    rows = build_rows()
+    names = [
+        "diff-only detector, dedup eval",
+        "diff-only detector, seed7 dedup",
+        "diff-only detector, seed99 dedup",
+    ]
+    return [float(_main_result_by_name(rows, name)["balanced_accuracy"]) for name in names]
 
 
 def _p_values(payload: dict[str, Any], test_name: str) -> list[float]:

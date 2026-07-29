@@ -35,7 +35,42 @@ def group_rows(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     return grouped
 
 
-def apply_pair_coupling(rows: list[dict[str, Any]], *, margin: float) -> tuple[list[dict[str, Any]], dict[str, int]]:
+WELL_FORMED_PAIRS_ONLY = "well_formed_pairs_only"
+FORCE_ONE_PER_GROUP = "force_one_per_group"
+
+
+def apply_pair_coupling(
+    rows: list[dict[str, Any]],
+    *,
+    margin: float,
+    group_policy: str = WELL_FORMED_PAIRS_ONLY,
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    """Force one positive per pair group, subject to a group-structure policy.
+
+    **Closed-world assumption.** This operator encodes knowledge that a group is
+    a vulnerable/fixed pair containing exactly one vulnerable member. That is a
+    property of how the benchmark was built, not information available at
+    deployment, and it is not available to an unconstrained row-level baseline.
+    Any comparison against such a baseline measures the constraint *and* the
+    model together; see
+    ``scripts/evaluate_pair_coupled_constraint_decomposition.py``.
+
+    ``group_policy`` controls what happens to groups that are not well-formed
+    pairs. Group *size* is observable without labels, so this is a gold-free
+    guard:
+
+    ``well_formed_pairs_only`` (default)
+        Apply the constraint only to groups of exactly two rows. Larger or
+        singleton groups pass through with their unconstrained predictions.
+    ``force_one_per_group`` (legacy)
+        Apply the constraint to every group with at least two rows. On a group
+        that truly contains k > 1 positives this guarantees at least k-1 false
+        negatives. Retained only to reproduce historical numbers.
+    """
+
+    if group_policy not in {WELL_FORMED_PAIRS_ONLY, FORCE_ONE_PER_GROUP}:
+        raise ValueError(f"unknown group_policy: {group_policy}")
+
     coupled = [dict(row) for row in rows]
     by_pair = group_rows(coupled)
     counts = {
@@ -43,9 +78,17 @@ def apply_pair_coupling(rows: list[dict[str, Any]], *, margin: float) -> tuple[l
         "eligible_groups": 0,
         "coupled_groups": 0,
         "unchanged_groups": 0,
+        "skipped_non_pair_groups": 0,
+        "group_policy": group_policy,
     }
     for group in by_pair.values():
         if len(group) < 2:
+            counts["unchanged_groups"] += 1
+            continue
+        if group_policy == WELL_FORMED_PAIRS_ONLY and len(group) != 2:
+            # Structurally not a pair: the one-positive constraint does not
+            # apply and forcing it would manufacture false negatives.
+            counts["skipped_non_pair_groups"] += 1
             counts["unchanged_groups"] += 1
             continue
         counts["eligible_groups"] += 1
@@ -94,9 +137,31 @@ def exact_group_metric(metrics: dict[str, Any], selector: str) -> float:
     raise ValueError(f"Unsupported group metric selector: {selector}")
 
 
+def selector_values(rows: list[dict[str, Any]], selector: str) -> list[float]:
+    """Return the primary-selector value for each candidate configuration."""
+
+    if selector in {"orientation_accuracy", "group_all_correct_rate"}:
+        return [exact_group_metric(row["group_metrics"], selector) for row in rows]
+    return [exact_binary_metric(row["overall"], selector) for row in rows]
+
+
+def selector_discriminates(rows: list[dict[str, Any]], selector: str) -> bool:
+    """True when the selector takes at least two distinct values over candidates.
+
+    A selector that is constant across every candidate cannot be the criterion
+    that chose the winner; selection silently falls through to tie-breakers.
+    ``orientation_accuracy`` is the known case: it is computed from
+    ``vuln_probability``, which pair coupling never modifies, so it is invariant
+    under the very operation it was declared to select over.
+    """
+
+    return len(set(selector_values(rows, selector))) > 1
+
+
 def select_margin(rows: list[dict[str, Any]], *, selector: str) -> dict[str, Any]:
     if selector not in {"balanced_accuracy", "f1", "orientation_accuracy", "group_all_correct_rate"}:
         raise ValueError(f"Unsupported selector: {selector}")
+    discriminates = selector_discriminates(rows, selector)
     if selector in {"orientation_accuracy", "group_all_correct_rate"}:
         selected = max(
             rows,
@@ -109,6 +174,8 @@ def select_margin(rows: list[dict[str, Any]], *, selector: str) -> dict[str, Any
         selected["selection_scores"] = {
             "primary_metric": selector,
             "primary_score": exact_group_metric(selected["group_metrics"], selector),
+            "primary_metric_discriminates": discriminates,
+            "effective_selector": selector if discriminates else "balanced_accuracy (tie-break; primary metric is invariant)",
             "secondary_metric": "balanced_accuracy",
             "secondary_score": exact_binary_metric(selected["overall"], "balanced_accuracy"),
             "tie_break": "lowest_margin",
@@ -126,6 +193,8 @@ def select_margin(rows: list[dict[str, Any]], *, selector: str) -> dict[str, Any
     selected["selection_scores"] = {
         "primary_metric": selector,
         "primary_score": exact_binary_metric(selected["overall"], selector),
+        "primary_metric_discriminates": discriminates,
+        "effective_selector": selector if discriminates else "tie-break only (primary metric is invariant)",
         "secondary_metric": "orientation_accuracy",
         "secondary_score": exact_group_metric(selected["group_metrics"], "orientation_accuracy"),
         "tie_break": "lowest_margin",
@@ -215,7 +284,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate pair-coupled decoding on top of the calibrated PrimeVul bucket router.")
     parser.add_argument("--calibrated-report", default="reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json")
     parser.add_argument("--margins", default="0.0,0.02,0.05,0.1,0.2")
-    parser.add_argument("--selector", default="orientation_accuracy", choices=["balanced_accuracy", "f1", "orientation_accuracy", "group_all_correct_rate"])
+    # balanced_accuracy is the criterion that actually decides the margin.
+    # orientation_accuracy was the previous default but is invariant under pair
+    # coupling, so it never discriminated and selection fell to the tie-break.
+    parser.add_argument("--selector", default="balanced_accuracy", choices=["balanced_accuracy", "f1", "orientation_accuracy", "group_all_correct_rate"])
     parser.add_argument("--json-output", required=True)
     parser.add_argument("--md-output")
     parser.add_argument("--predictions-output")
