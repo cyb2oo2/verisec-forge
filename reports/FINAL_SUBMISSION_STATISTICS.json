@@ -22,7 +22,7 @@
       "setting": "Metadata/candidate/counterpart-only controls",
       "primary_result": "best control BA `0.5156`",
       "uncertainty_or_control": "Metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` BA.",
-      "reviewer_safe_interpretation": "Controls stay near chance, protecting the paired-diff formulation.",
+      "reviewer_safe_interpretation": "These controls remove the diff and bound only metadata/single-side context. They do not protect the paired-diff formulation; the character-level diff control does not stay near chance.",
       "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
     },
     {

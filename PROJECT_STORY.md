@@ -1,5 +1,17 @@
 # VeriSec Forge Project Story
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](docs/RESULT_STATUS_LEDGER.md).
+
+
 VeriSec Forge is a shortcut-aware secure patch reasoning project. Its central observation is that vulnerability-detection scores can look impressive on ordinary splits while failing to distinguish the vulnerable and fixed sides of the same patch.
 
 The project should be read as a research system, not as a product demo or a single leaderboard number.
@@ -24,13 +36,16 @@ Primary evidence:
 
 ### 2. Paired Diffs Are The Stronger Task Formulation
 
-The strongest system result is not standalone vulnerability classification. It is paired patch reasoning: the model sees vulnerable/fixed code as a coupled diff decision, and the decoder enforces coherent pair-level choices when the probability gap is strong enough.
+The paired-diff formulation was originally presented as the project's strongest system result. Adversarial structural controls showed it is not a semantic result.
 
-Key evidence:
+Current evidence:
 
-- Diff-only paired training reaches three-seed mean balanced accuracy `0.8287`.
-- Pair-coupled decoding reaches five-split mean balanced accuracy `0.8572`.
-- The strict pair-minus-bucket balanced-accuracy delta is `+0.0348`, with bootstrap 95% CI `[0.0329, 0.0368]`.
+- Under the closed-world pair constraint the detector reaches balanced accuracy `0.8596`.
+- A semantics-free control reading only the net added-minus-removed **character** count reaches `0.8588` on the same evaluation population.
+- The difference is `+0.0008`, pair-group clustered 95% CI `[-0.0202, +0.0222]`, group-level sign test 19 vs 18 (`p=1.0`).
+- **No semantic advantage beyond diff structure was established.**
+
+Historical, withdrawn: this section previously reported a diff-only three-seed mean of `0.8287`, a pair-coupled mean of `0.8572`, and a strict delta of `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`. That interval resampled five heavily overlapping splits of one frozen prediction set, and the pair-coupled comparison gave the decoder closed-world pair knowledge the baseline did not receive. **Those claims are withdrawn.**
 
 Primary evidence:
 
@@ -130,13 +145,9 @@ Primary evidence:
 
 ### 4. Evidence Is Coupled To The Side Decision
 
-Evidence localization is not presented as a solved explanation task. The important result is diagnostic: when pair-coupled side decisions are correct, top-1 evidence localization is much stronger; when the side decision is wrong, localization collapses.
+The evidence experiment is **withdrawn as a localization result**. The reported contrast between side-correct and side-wrong localization was circular: the target was computed from the same side decision it was supposed to validate, so flipping the predicted side flips the target deterministically. The small human-confirmation exercise was anchored to windows the pipeline had already proposed (10/10 subset, 0 outside) and therefore cannot measure missed evidence.
 
-Key evidence:
-
-- Predicted-side top-1 localization: `0.6555`.
-- Side-correct top-1 localization: `0.7610`.
-- Side-wrong top-1 localization: `0.0632`.
+Historical, withdrawn: side-correct top-1 `0.7610` versus side-wrong top-1 `0.0632`. These must not be described as localization accuracy or as human-validated evidence quality.
 
 Primary evidence:
 
@@ -150,6 +161,29 @@ Primary evidence:
 The strongest framing is:
 
 > I found a benchmark validity problem in secure-code reasoning, built paired controls to expose it, improved the task with pair-coupled decoding, and used evidence-coupled audit to identify the next modeling bottleneck.
+
+## What this project actually contributes
+
+The project demonstrated that apparently strong vulnerability-detection performance can
+collapse or be reproduced by structural shortcuts under stricter paired evaluation.
+Adversarial controls showed that character-level diff structure nearly matched the
+fine-tuned detector, preventing an unsupported semantic-learning claim.
+
+Concretely:
+
+- A same-source detector scoring `0.9524` falls to `0.4961` under paired evaluation.
+- A semantics-free control reading only net added-minus-removed **characters** reaches
+  `0.8627` unconstrained — above the fine-tuned detector's `0.8136` — and `0.8588` under
+  the pair constraint against the detector's `0.8596`.
+- The detector is `0.2584` accurate on rows where that control errs, i.e. below chance:
+  it follows the structural shortcut into its errors rather than correcting them.
+- Two circular evaluations were identified and withdrawn: an evidence metric whose target
+  was derived from the decision it was meant to validate, and a human-confirmation step
+  anchored to the pipeline's own proposals.
+
+The contribution is the identification and measurement of shortcut-driven performance,
+not a successful semantic vulnerability detector.
+
 
 This shows research taste: the project does not merely add another model or prompt. It changes the evaluation unit, introduces controls, runs stress tests, and keeps the claim bounded.
 

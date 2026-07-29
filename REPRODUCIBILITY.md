@@ -1,5 +1,43 @@
 # Reproducibility
 
+> **NOTE ON EXPECTED VALUES.**
+> The "expected key outputs" listed below are *reproduction fingerprints* — they verify
+> that a rerun matches the recorded artifacts. They are **not** claims that any of these
+> numbers supports a scientific conclusion. Several are for results that have since been
+> withdrawn, including the `1.0000` safe-flip gate precision (n=4 pairs, exact 95% CI
+> `[0.3976, 1.0]`, selected on the pool it is reported on).
+> For what each number does and does not support, see the
+> [Result Status Ledger](docs/RESULT_STATUS_LEDGER.md).
+
+
+## Canonical clean-run path (start here)
+
+```bash
+python -m venv .venv && . .venv/bin/activate      # Windows: .\.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev]"
+python scripts/download_reproducibility_bundle.py \
+  --bundle-name primevul_router_and_evidence_coupled_inputs --restore
+python scripts/run_clean_reproduction.py
+```
+
+`run_clean_reproduction.py` fetches nothing implicitly, verifies every input by
+hash, runs each supported result builder, and writes a provenance manifest to
+`reports/REPRODUCTION_PROVENANCE.json` recording the git commit, Python and
+dependency versions, input/output hashes, seeds, commands, and — per output —
+whether it was **computed in this run** or is **historical and not
+regenerable**.
+
+Exit codes: `0` all stages computed · `1` a stage failed · `2` a stage was
+blocked by a missing artifact (add `--allow-blocked` to record the gap without
+failing). Result builders never substitute historical values for missing
+inputs; see [Remediation Notice](docs/RESEARCH_INTEGRITY_REMEDIATION.md) and the
+[Result Status Ledger](docs/RESULT_STATUS_LEDGER.md).
+
+Some tables in this repository are **not regenerable** because their inputs were
+never published. They are labelled inline and listed in the ledger.
+
+---
+
 This repository separates committed research reports from large local experiment artifacts.
 
 The current most reproducible mainline is the validation-selected PrimeVul direction-aware bucket router. It does not require GPU training if the required dataset and prediction artifacts are already materialized locally.
@@ -46,7 +84,7 @@ Expected key outputs:
 
 - pair evidence localization rows: `1261`
 - pair evidence localization support rate: `0.6376`
-- pair evidence localization pseudo-localization accuracy: `0.6003`
+- pair evidence *pseudo-label consistency* (withdrawn as localization accuracy): `0.6003`
 - hunk+window linear top-1 coverage: `0.6178`
 - oracle side-aware matched top-1 coverage: `0.7184`
 - pair-coupled predicted-side top-1 coverage: `0.6555`

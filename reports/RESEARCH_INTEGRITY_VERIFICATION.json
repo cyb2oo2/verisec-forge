@@ -1,0 +1,388 @@
+{
+  "scope": "research_integrity_verification",
+  "commit": "1bb0b8d5fb79adc81f89f3ebbb974c3e9038cc16",
+  "python_version": "3.13.14",
+  "summary": {
+    "confirmed": 10,
+    "partially_confirmed": 0,
+    "rejected": 0,
+    "not_reproducible": 0
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "title": "Mainline task is confounded with diff polarity",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+        "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+        "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl"
+      ],
+      "code_location": "src/vrf/polarity_control.py:fit_rule; eval rendering in data/processed/secure_code_primevul_pair_diff_only_*",
+      "audit_claim": "polarity-only BA 0.7929; model/heuristic agreement 0.9525; model acc 0.1420 when heuristic wrong",
+      "observed": {
+        "fitted_rule": {
+          "sign": -1,
+          "threshold": 0.0
+        },
+        "polarity_only_balanced_accuracy_full_eval": 0.7929,
+        "polarity_only_ba_sd_over_tie_draws": 0.0059,
+        "polarity_only_balanced_accuracy_non_tie": 0.8782,
+        "non_tie_rows": 1389,
+        "eval_rows": 1792,
+        "model_vs_heuristic_agreement": 0.9525,
+        "model_accuracy_when_heuristic_right": 0.9656,
+        "model_accuracy_when_heuristic_wrong": 0.142,
+        "reported_mainline_three_seed_mean_ba": 0.8287
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F2",
+      "title": "Evidence localization target is algebraically determined by the predicted side",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "scripts/analyze_primevul_pair_evidence_localization.py"
+      ],
+      "code_location": "scripts/analyze_primevul_pair_evidence_localization.py:support_label_for_decision",
+      "audit_claim": "support_label_for_decision is antisymmetric in `decision`, forcing the 0.7610 vs 0.0632 contrast",
+      "observed": {
+        "grid": [
+          {
+            "risk_support": 3,
+            "safety_support": 1,
+            "decision_1": "supported",
+            "decision_0": "unsupported",
+            "flipped": true
+          },
+          {
+            "risk_support": 1,
+            "safety_support": 3,
+            "decision_1": "unsupported",
+            "decision_0": "supported",
+            "flipped": true
+          },
+          {
+            "risk_support": 2,
+            "safety_support": 2,
+            "decision_1": "unsupported",
+            "decision_0": "unsupported",
+            "flipped": false
+          },
+          {
+            "risk_support": 5,
+            "safety_support": 0,
+            "decision_1": "supported",
+            "decision_0": "unsupported",
+            "flipped": true
+          },
+          {
+            "risk_support": 0,
+            "safety_support": 5,
+            "decision_1": "unsupported",
+            "decision_0": "supported",
+            "flipped": true
+          },
+          {
+            "risk_support": 7,
+            "safety_support": 4,
+            "decision_1": "supported",
+            "decision_0": "unsupported",
+            "flipped": true
+          },
+          {
+            "risk_support": 4,
+            "safety_support": 7,
+            "decision_1": "unsupported",
+            "decision_0": "supported",
+            "flipped": true
+          }
+        ],
+        "cases_with_risk_ne_safety": 6,
+        "of_which_label_flips_when_decision_flips": 6,
+        "flip_is_deterministic": true,
+        "reported_side_correct_top1": 0.761,
+        "reported_side_wrong_top1": 0.0632
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F3",
+      "title": "Pair-coupled decoding injects an undisclosed oracle cardinality constraint",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json",
+        "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+        "outputs/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_directional_3000_v1_eval1792_dedup_predictions.jsonl"
+      ],
+      "code_location": "scripts/evaluate_primevul_pair_coupled_router.py:apply_pair_coupling",
+      "audit_claim": "coupling forces exactly one positive per group; constraint-only null at chance; >2-member groups mishandled",
+      "observed": {
+        "bucket_router_balanced_accuracy": 0.8136,
+        "pair_coupled_balanced_accuracy": 0.8596,
+        "random_orientation_constraint_only_null_ba": 0.4961,
+        "dataset_group_compositions_size_positives": {
+          "1x0": 15,
+          "1x1": 12,
+          "2x1": 827,
+          "3x1": 1,
+          "3x2": 1,
+          "4x2": 14,
+          "5x2": 1,
+          "5x3": 1,
+          "6x3": 3,
+          "8x4": 1,
+          "13x7": 1
+        },
+        "groups_whose_true_positive_count_is_not_one": 37,
+        "rows_in_those_groups": 123,
+        "assumption_documented_in_repo": false
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "Refinement, not a disagreement: the audit counted 22 multi-member groups with the wrong cardinality. Counting every group whose true positive count is not exactly one (including singleton groups with no positive) gives 37 groups spanning 123 rows."
+    },
+    {
+      "id": "F4",
+      "title": "Bootstrap CI computed over five heavily overlapping splits of one frozen prediction set",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json",
+        "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl"
+      ],
+      "code_location": "scripts/build_primevul_pair_coupled_significance_summary.py:bootstrap_mean",
+      "audit_claim": "five splits overlap with Jaccard 0.524-0.556; predictions frozen; CI treats them as independent",
+      "observed": {
+        "seeds": [
+          7,
+          13,
+          42,
+          99,
+          123
+        ],
+        "holdout_group_counts": {
+          "7": 614,
+          "13": 614,
+          "42": 614,
+          "99": 614,
+          "123": 614
+        },
+        "pairwise_jaccard": {
+          "7_vs_13": 0.5274,
+          "7_vs_42": 0.5466,
+          "7_vs_99": 0.5388,
+          "7_vs_123": 0.5369,
+          "13_vs_42": 0.5236,
+          "13_vs_99": 0.535,
+          "13_vs_123": 0.5564,
+          "42_vs_99": 0.5485,
+          "42_vs_123": 0.5236,
+          "99_vs_123": 0.5255
+        },
+        "min_jaccard": 0.5236,
+        "max_jaccard": 0.5564,
+        "union_of_holdout_groups": 874,
+        "groups_present_in_all_splits": 143,
+        "models_retrained_across_splits": false,
+        "reported_ci": [
+          0.0329,
+          0.0368
+        ]
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F5",
+      "title": "Declared margin selector is invariant under the operation it selects over",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "reports/secure_code_primevul_directional_bucket_router_calibrated_v1_report.json"
+      ],
+      "code_location": "scripts/evaluate_primevul_pair_coupled_router.py:select_margin (default selector=orientation_accuracy)",
+      "audit_claim": "orientation_accuracy identical for every margin; selection silently falls to the balanced_accuracy tie-break",
+      "observed": {
+        "sweep": [
+          {
+            "margin": 0.0,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8719,
+            "group_all_correct_rate": 0.8745
+          },
+          {
+            "margin": 0.02,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8795,
+            "group_all_correct_rate": 0.8555
+          },
+          {
+            "margin": 0.05,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8757,
+            "group_all_correct_rate": 0.8327
+          },
+          {
+            "margin": 0.1,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8607,
+            "group_all_correct_rate": 0.7947
+          },
+          {
+            "margin": 0.2,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8513,
+            "group_all_correct_rate": 0.7643
+          },
+          {
+            "margin": 0.5,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8456,
+            "group_all_correct_rate": 0.749
+          },
+          {
+            "margin": 0.9,
+            "orientation_accuracy": 0.8721,
+            "balanced_accuracy": 0.8456,
+            "group_all_correct_rate": 0.749
+          }
+        ],
+        "distinct_orientation_accuracy_values": 1,
+        "distinct_balanced_accuracy_values": 6,
+        "orientation_selector_can_discriminate": false,
+        "orientation_sign_test_p_values_reported": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F6",
+      "title": "Mirror-image rows treated as independent observations",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+        "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl"
+      ],
+      "code_location": "scripts/analyze_primevul_pair_coupled_multisplit.py:mcnemar_exact",
+      "audit_claim": "effective n is ~half the row count; 5 duplicate rows remain in the dedup file",
+      "observed": {
+        "eval_rows": 1792,
+        "eval_pair_groups": 877,
+        "rows_per_group_ratio": 2.043,
+        "extra_exact_duplicate_rows_in_dedup_file": 5,
+        "prompts_with_conflicting_labels": 0,
+        "train_eval_key_overlaps": {
+          "pair_key": 1,
+          "commit_id": 4,
+          "cve": 40,
+          "project": 136
+        }
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F7",
+      "title": "Safe-flip gate tuned on the pool it is reported against",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "scripts/build_primevul_side_inversion_gate_summary.py"
+      ],
+      "code_location": "scripts/build_primevul_side_inversion_gate_summary.py:GATE_SPECS / SELECTION_PROTOCOL",
+      "audit_claim": "a new gate variant was added only for the pool where the original gate failed, then preferred there",
+      "observed": {
+        "variants_by_pool": {
+          "top5": [
+            "strict_or"
+          ],
+          "rank6_10": [
+            "strict_or"
+          ],
+          "fresh_seed_top5": [
+            "strict_or"
+          ],
+          "project_holdout_top5": [
+            "conservative",
+            "evidence_conditioned",
+            "strict_or"
+          ]
+        },
+        "pools_with_more_than_one_variant": [
+          "project_holdout_top5"
+        ],
+        "current_preferred_gate": "project_holdout_top5:evidence_conditioned",
+        "preferred_gate_pool": "project_holdout_top5",
+        "preferred_pool_is_the_only_multi_variant_pool": true,
+        "reported_precision": 1.0,
+        "reported_accepted_n": 9
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F8",
+      "title": "'Does not reduce to the heuristic' reassurance is measured on a different rendering",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "scripts/analyze_polarity_gold_confound.py",
+        "README.md"
+      ],
+      "code_location": "scripts/analyze_polarity_gold_confound.py (argument defaults)",
+      "audit_claim": "the ~0.56 agreement figure comes from the VeriPatch-RR audit rendering, not the pair-diff mainline",
+      "observed": {
+        "confound_script_reads_veripatch_rr_audit_dataset": true,
+        "confound_script_reads_pair_diff_mainline_eval": false,
+        "readme_states_056_agreement": true,
+        "mainline_agreement_measured_in_f1": "see F1 observed.model_vs_heuristic_agreement",
+        "parser_introspected": false
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F10",
+      "title": "Report regeneration silently substitutes hardcoded results",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "scripts/build_primevul_pair_coupled_significance_summary.py",
+        "scripts/build_primevul_main_results.py",
+        "reports/*threshold_sweep*.json"
+      ],
+      "code_location": "scripts/build_primevul_pair_coupled_significance_summary.py:diff_only_seed_values",
+      "audit_claim": "missing sweeps cause a silent fallback to hardcoded [0.8158, 0.8382, 0.8321]",
+      "observed": {
+        "threshold_sweep_files_present": 0,
+        "hardcoded_constant_present": false,
+        "filenotfound_swallowed": false,
+        "silent_fallback_active": false
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    },
+    {
+      "id": "F11",
+      "title": "README and paper describe different theses",
+      "command": "python scripts/verify_audit_findings.py",
+      "inputs": [
+        "README.md",
+        "paper/main_claims.md"
+      ],
+      "code_location": "README.md 'Core Contributions'; paper/main_claims.md 'Contributions'",
+      "audit_claim": "README leads with pair-coupled decoding; paper/main_claims.md never mentions it",
+      "observed": {
+        "readme_mentions_pair_coupled": true,
+        "paper_claims_mention_pair_coupled": false,
+        "readme_mentions_veripatch_rr": true,
+        "paper_claims_mention_veripatch_rr": true
+      },
+      "verdict": "confirmed",
+      "delta_since_audit": "none"
+    }
+  ]
+}

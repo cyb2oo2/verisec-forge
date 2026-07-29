@@ -1,0 +1,235 @@
+{
+  "scope": "outward_claim_integrity",
+  "description": "Rules governing how withdrawn PrimeVul results may appear in reader-facing documents. A withdrawn metric is allowed only when its status is unmistakable in the surrounding context.",
+  "source_of_truth": "docs/RESULT_STATUS_LEDGER.md",
+  "qualification_window_lines": 12,
+  "historical_markers": [
+    "WITHDRAWN",
+    "Withdrawn",
+    "withdrawn",
+    "HISTORICAL",
+    "Historical",
+    "historical",
+    "not regenerable",
+    "non-regenerable",
+    "superseded",
+    "Superseded",
+    "SUPERSEDED",
+    "no longer",
+    "CORRECTED",
+    "Correction"
+  ],
+  "reader_facing_globs": [
+    "*.md",
+    "docs/**/*.md",
+    "paper/**/*.md",
+    "reports/**/*.md",
+    "application_materials/**/*.md"
+  ],
+  "excluded_paths": [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "checkpoints",
+    "outputs",
+    "models",
+    "artifacts",
+    "build",
+    "logs",
+    "data",
+    ".tmp_test_runs",
+    "node_modules",
+    "docs/RESEARCH_INTEGRITY_VERIFICATION.md",
+    "docs/RESEARCH_INTEGRITY_REMEDIATION.md",
+    "docs/RESULT_STATUS_LEDGER.md"
+  ],
+  "claims": [
+    {
+      "id": "primevul-diff-only-mainline",
+      "summary": "Diff-only paired detector three-seed mean balanced accuracy.",
+      "withdrawn_values": [
+        "0.8287"
+      ],
+      "prohibited_active_wording": [
+        "credible mainline",
+        "credible base formulation",
+        "strongest base formulation",
+        "still carry learnable security signal"
+      ],
+      "required_qualification": "Must be labelled historical/withdrawn and must not be presented as evidence of semantic reasoning.",
+      "ledger_entry": "Diff-only three-seed mean BA (historical, not regenerable)",
+      "allowed_files": []
+    },
+    {
+      "id": "pair-coupled-system-layer",
+      "summary": "Pair-coupled decoding five-split mean and delta.",
+      "withdrawn_values": [
+        "0.8572",
+        "0.0348",
+        "0.0329",
+        "0.0368"
+      ],
+      "prohibited_active_wording": [
+        "strongest system layer",
+        "strongest current layer",
+        "main systems contribution",
+        "strongest method-like contribution"
+      ],
+      "required_qualification": "Must be labelled historical/withdrawn; the constraint decomposition supersedes it.",
+      "ledger_entry": "Pair-coupled five-split mean BA (historical, withdrawn)",
+      "allowed_files": []
+    },
+    {
+      "id": "polarity-residual-gain",
+      "summary": "Claimed model advantage over a semantics-free control.",
+      "withdrawn_values": [
+        "0.0682"
+      ],
+      "prohibited_active_wording": [
+        "model value beyond polarity",
+        "value beyond the polarity shortcut",
+        "beyond the polarity shortcut"
+      ],
+      "required_qualification": "Superseded by the character-level control comparison (+0.0008, CI [-0.0202, +0.0222]).",
+      "ledger_entry": "Model vs strongest semantics-free control",
+      "allowed_files": []
+    },
+    {
+      "id": "controls-protect-formulation",
+      "summary": "Claim that the negative-control suite protects the paired-diff formulation.",
+      "withdrawn_values": [],
+      "prohibited_active_wording": [
+        "protecting the paired diff formulation",
+        "protecting the paired-diff formulation",
+        "protecting diff-based claims",
+        "controls protect"
+      ],
+      "required_qualification": "All three published controls remove the diff; they cannot test diff structure.",
+      "ledger_entry": "Controls-protect claim (withdrawn)",
+      "allowed_files": []
+    },
+    {
+      "id": "evidence-localization",
+      "summary": "Side-correct versus side-wrong evidence contrast.",
+      "withdrawn_values": [
+        "0.7610",
+        "0.0632"
+      ],
+      "prohibited_active_wording": [
+        "localization accuracy",
+        "localization recall",
+        "human-validated evidence",
+        "human-gold evidence quality",
+        "evidence quality is strongly coupled",
+        "independently human validated"
+      ],
+      "required_qualification": "Target is antisymmetric in the predicted side; human confirmation was anchored to pipeline-proposed windows.",
+      "ledger_entry": "Evidence localization (withdrawn, circular)",
+      "allowed_files": []
+    },
+    {
+      "id": "safe-flip-gate-precision",
+      "summary": "Safe-flip gate precision presented without uncertainty.",
+      "withdrawn_values": [
+        "1.0000"
+      ],
+      "prohibited_active_wording": [
+        "independently validated precision",
+        "validated precision of 1.0"
+      ],
+      "required_qualification": "Must carry accepted sample size (4 pairs), exact 95% CI [0.3976, 1.0], and selected-on-pool status.",
+      "ledger_entry": "Safe-flip gate precision (selected-on-holdout)",
+      "allowed_files": [
+        "REPRODUCIBILITY.md",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md",
+        "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_EVIDENCE_CONDITIONED.md"
+      ],
+      "qualifying_tokens": [
+        "CI",
+        "confidence interval",
+        "n=",
+        "sample size",
+        "accepted pairs",
+        "selected-on",
+        "selected on",
+        "0.3976"
+      ]
+    },
+    {
+      "id": "semantic-reasoning-claim",
+      "summary": "Any claim of semantic patch reasoning beyond structural cues.",
+      "withdrawn_values": [],
+      "prohibited_active_wording": [
+        "demonstrates secure-patch semantics",
+        "learns secure-patch semantics",
+        "semantic secure-patch reasoning is established",
+        "establishes semantic reasoning",
+        "genuine semantic reasoning beyond"
+      ],
+      "required_qualification": "No semantic advantage beyond diff structure was established.",
+      "ledger_entry": "Model vs strongest semantics-free control",
+      "allowed_files": []
+    },
+    {
+      "id": "weak-control-as-strongest",
+      "summary": "Describing the line-only polarity rule as the strongest semantics-free baseline.",
+      "withdrawn_values": [],
+      "prohibited_active_wording": [
+        "strongest semantics-free rule: `net_polarity`",
+        "strongest semantics-free control is net line",
+        "net-polarity is the strongest control"
+      ],
+      "required_qualification": "The character-level rule dominates the line-count rule; it is the strongest known control.",
+      "ledger_entry": "Semantics-free structural control, strongest rule (char_polarity)",
+      "allowed_files": []
+    }
+  ],
+  "staleness": [
+    {
+      "generated": "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md",
+      "source": "reports/secure_code_primevul_polarity_structural_control_v1.json"
+    },
+    {
+      "generated": "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md",
+      "source": "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json"
+    },
+    {
+      "generated": "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md",
+      "source": "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json"
+    },
+    {
+      "generated": "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md",
+      "source": "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json"
+    },
+    {
+      "generated": "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md",
+      "source": "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json"
+    }
+  ],
+  "document_banner_scan_lines": 40,
+  "document_banner": {
+    "historical": [
+      "HISTORICAL DOCUMENT",
+      "STATUS: NOT REGENERABLE",
+      "STATUS: WITHDRAWN",
+      "STATUS: PARTIALLY WITHDRAWN",
+      "WITHDRAWN AS LOCALIZATION ACCURACY",
+      "WITHDRAWN AS A LOCALIZATION RESULT",
+      "STATUS: SELECTION-ON-HOLDOUT",
+      "PARTIALLY WITHDRAWN AND NOT REGENERABLE",
+      "WITHDRAWN - INVALID INFERENCE UNITS"
+    ],
+    "corrected": [
+      "CORRECTED \u2014 WITHDRAWN RESULTS",
+      "CORRECTED \u2014 CONTAINS WITHDRAWN RESULTS",
+      "CORRECTED - WITHDRAWN RESULTS",
+      "NOTE ON EXPECTED VALUES"
+    ]
+  },
+  "document_banner_semantics": {
+    "historical": "Whole document is archival. Withdrawn values and legacy wording are permitted; do not cite as current.",
+    "corrected": "Document is current-facing but carries labelled historical values. Withdrawn numbers permitted; active claim wording is still enforced."
+  },
+  "qualifying_tokens_note": "Some claims are qualified by reporting uncertainty rather than by a withdrawal label. A precision cited with its sample size and exact interval is correctly reported, not a withdrawn claim."
+}

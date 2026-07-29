@@ -70,7 +70,7 @@ def build_rows(
             "key_metric": "best_control_balanced_accuracy",
             "value": negative_control_max,
             "supporting_metric": "metadata/candidate/counterpart controls",
-            "interpretation": "Controls stay close to chance, protecting the paired diff formulation.",
+            "interpretation": "These three controls remove the diff, so they bound metadata and single-side context only. They do NOT protect the paired-diff formulation: a semantics-free character-level diff control reaches 0.8588 under the pair constraint.",
             "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json",
         },
         {
@@ -82,7 +82,7 @@ def build_rows(
                 f"range={main_results['summary']['diff_seed_balanced_accuracy_min']}-"
                 f"{main_results['summary']['diff_seed_balanced_accuracy_max']}"
             ),
-            "interpretation": "Diff-only paired reasoning is the strongest base formulation.",
+            "interpretation": "WITHDRAWN as a semantic result. Matched by a semantics-free character-level diff control; no advantage beyond diff structure established.",
             "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json",
         },
         {
@@ -115,7 +115,7 @@ def build_rows(
                 f"side_correct_top1={first_coverage(predicted_side, 'coverage', 'pair_coupled_predicted_side_correct_only', k=1)}, "
                 f"side_wrong_top1={first_coverage(predicted_side, 'coverage', 'pair_coupled_predicted_side_wrong_only', k=1)}"
             ),
-            "interpretation": "Localization quality is coupled to upstream side correctness.",
+            "interpretation": "WITHDRAWN. The target is antisymmetric in the predicted side, so this contrast is an identity of the labelling function, not a measurement.",
             "artifact": "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json",
         },
         {
@@ -127,7 +127,7 @@ def build_rows(
                 f"accepted={gate_project['accepted_rows']}, introduced={gate_project['introduced_side_error_rows']}, "
                 f"stress_invalidated={gate_summary['summary']['stress_invalidated_reports']}"
             ),
-            "interpretation": "Evidence-conditioned stress-safe gate repairs errors without introduced side errors, but remains small-scale.",
+            "interpretation": "WITHDRAWN as a validated claim. Precision 1.0 rests on 4 accepted pairs (exact 95% CI [0.3976, 1.0]) and the gate was selected on the pool it is reported on.",
             "artifact": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json",
         },
     ]
@@ -148,7 +148,7 @@ def build_payload(
     return {
         "summary": {
             "rows": len(rows),
-            "headline": "Shortcut-aware paired diff reasoning is the credible mainline; evidence/gate results define the audit loop.",
+            "headline": "No semantic advantage beyond diff structure was established: a semantics-free character-level diff control matches the detector under the pair constraint (0.8588 vs 0.8596). The contribution is the measurement of shortcut-driven performance.",
             "primary_result": rows[5],
             "main_limitation": "Evidence localization and safe flip gates remain pseudo-label/small-queue diagnostics.",
         },
@@ -166,6 +166,15 @@ def render_markdown(payload: dict[str, Any]) -> str:
     lines = [
         "# PrimeVul Progressive Controls",
         "",
+        "",
+        "> **CORRECTED — CONTAINS WITHDRAWN RESULTS.**",
+        "> Under the closed-world pair constraint the detector reaches balanced accuracy `0.8596`;",
+        "> a semantics-free character-level diff structural control reaches `0.8588` on the same",
+        "> evaluation population (difference `+0.0008`, pair-group clustered 95% CI",
+        "> `[-0.0202, +0.0222]`, sign test 19 vs 18, `p=1.0`).",
+        "> **No semantic advantage beyond diff structure was established.**",
+        "> The evidence-localization contrast and the `1.0000` safe-flip gate precision are also",
+        "> withdrawn. Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).",
         "This table compresses the PrimeVul research story into a small set of controls and system stages. It is designed for project overviews, application material, and reviewer orientation rather than exhaustive experiment comparison.",
         "",
         "## Summary",

@@ -1,0 +1,118 @@
+{
+  "scope": "primevul_pair_coupled_constraint_decomposition",
+  "closed_world_assumption": {
+    "statement": "Pair coupling assumes group membership is known and that each group contains exactly one vulnerable member.",
+    "available_at_deployment": false,
+    "source": "benchmark construction (paired vulnerable/fixed rows share a pair_key)",
+    "consequence": "A constrained decoder must not be compared directly against an unconstrained baseline; the constraint itself carries part of the delta."
+  },
+  "group_structure": {
+    "groups": 614,
+    "size_positive_composition": {
+      "1x0": 12,
+      "1x1": 10,
+      "2x1": 574,
+      "3x1": 1,
+      "4x2": 11,
+      "5x3": 1,
+      "6x3": 3,
+      "8x4": 1,
+      "13x7": 1
+    },
+    "well_formed_pairs": 574,
+    "non_pair_groups_passed_through": 40,
+    "policy": "constraint applied only to groups of exactly two rows (observable without labels)"
+  },
+  "systems": {
+    "unconstrained_model": {
+      "description": "router row-level predictions; no group constraint",
+      "balanced_accuracy": 0.8136
+    },
+    "constraint_only_random": {
+      "description": "random orientation inside each pair; constraint only (null)",
+      "balanced_accuracy": 0.4948
+    },
+    "constraint_only_structural": {
+      "description": "semantics-free net LINE-count rule ranked inside each pair",
+      "balanced_accuracy": 0.7859
+    },
+    "constraint_only_char_structural": {
+      "description": "semantics-free net CHARACTER-count rule ranked inside each pair (strongest control)",
+      "balanced_accuracy": 0.8588
+    },
+    "constrained_model": {
+      "description": "router probabilities ranked inside each pair",
+      "balanced_accuracy": 0.8596
+    }
+  },
+  "comparisons": {
+    "constrained_model_minus_unconstrained_model": {
+      "point": 0.046,
+      "ci95_low": 0.0301,
+      "ci95_high": 0.062,
+      "iterations": 10000,
+      "seed": 20260727,
+      "independent_units": 614,
+      "unit": "pair_key group",
+      "method": "paired_cluster_bootstrap_over_pair_groups",
+      "baseline_point": 0.8136,
+      "system_point": 0.8596
+    },
+    "constrained_model_minus_constraint_only_structural_LINES": {
+      "point": 0.0738,
+      "ci95_low": 0.048,
+      "ci95_high": 0.1002,
+      "iterations": 10000,
+      "seed": 20260728,
+      "independent_units": 614,
+      "unit": "pair_key group",
+      "method": "paired_cluster_bootstrap_over_pair_groups",
+      "baseline_point": 0.7859,
+      "system_point": 0.8596
+    },
+    "constrained_model_minus_constraint_only_structural_CHARS": {
+      "point": 0.0008,
+      "ci95_low": -0.0202,
+      "ci95_high": 0.0222,
+      "iterations": 10000,
+      "seed": 20260730,
+      "independent_units": 614,
+      "unit": "pair_key group",
+      "method": "paired_cluster_bootstrap_over_pair_groups",
+      "baseline_point": 0.8588,
+      "system_point": 0.8596
+    },
+    "constraint_only_structural_minus_constraint_only_random": {
+      "point": 0.291,
+      "ci95_low": 0.2433,
+      "ci95_high": 0.34,
+      "iterations": 10000,
+      "seed": 20260729,
+      "independent_units": 614,
+      "unit": "pair_key group",
+      "method": "paired_cluster_bootstrap_over_pair_groups",
+      "baseline_point": 0.4948,
+      "system_point": 0.7859
+    }
+  },
+  "group_level_sign_test_model_vs_structural_LINES": {
+    "wins": 56,
+    "losses": 13,
+    "discordant_groups": 69,
+    "two_sided_p_value": 1.68e-07,
+    "two_sided_p_value_display": "1.68e-07",
+    "test": "exact_sign_test_over_pair_groups",
+    "unit": "pair_key group"
+  },
+  "group_level_sign_test_model_vs_structural_CHARS": {
+    "wins": 19,
+    "losses": 18,
+    "discordant_groups": 37,
+    "two_sided_p_value": 1.0,
+    "two_sided_p_value_display": "1",
+    "test": "exact_sign_test_over_pair_groups",
+    "unit": "pair_key group"
+  },
+  "headline": "The model must be compared against the STRONGEST semantics-free control, not the weakest. Against the character-count rule the model shows no reliable advantage.",
+  "statistics_note": "All intervals are clustered bootstraps over pair_key groups, the independent units. Previous intervals resampled five overlapping split seeds of one frozen prediction set."
+}

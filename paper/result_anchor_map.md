@@ -1,5 +1,15 @@
 # Result Anchor Map
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+
+
 This file maps paper-facing `[RESULT: ...]` anchors to repository reports and
 future paper references. It is an internal citation bridge for the Markdown
 draft; it is not a bibliography.
@@ -7,8 +17,8 @@ draft; it is not a bibliography.
 | Anchor | Used For | Primary Report | Supporting Artifact | Future Paper Target | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `[RESULT: primevul-progressive-controls]` | Same-source `0.9524` accuracy; metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` BA | `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md` | `reports/PRIMEVUL_PROGRESSIVE_CONTROLS.json` | Table 1 / Appendix B | Supports shortcut-control diagnosis, not relational mechanism. |
-| `[RESULT: primevul-main-results]` | Diff-only paired detector three-seed mean BA `0.8287` | `reports/PRIMEVUL_MAIN_RESULTS.md` | `reports/PRIMEVUL_MAIN_RESULTS.json` | Table 1 | Establishes paired-diff signal as the credible mainline. |
-| `[RESULT: pair-coupled-significance]` | Pair-coupled five-split BA `0.8572`; pair-minus-bucket delta `+0.0348` | `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md` | `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`; `reports/secure_code_primevul_pair_coupled_significance_v1.json` | Table 1 / Appendix B | Task-structured decoding result, not a side-order solution. |
+| `[RESULT: primevul-main-results]` | **WITHDRAWN interpretation** — historical diff-only three-seed mean BA `0.8287`; matched by a semantics-free character control | `reports/PRIMEVUL_MAIN_RESULTS.md` | `reports/PRIMEVUL_MAIN_RESULTS.json` | Table 1 | Establishes paired-diff signal as the credible mainline. |
+| `[RESULT: pair-coupled-significance]` | **WITHDRAWN** — historical `0.8572` / `+0.0348` from overlapping splits; corrected `0.8596` vs control `0.8588`, difference `+0.0008` CI `[-0.0202, +0.0222]` | `reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md` | `reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md`; `reports/secure_code_primevul_pair_coupled_significance_v1.json` | Table 1 / Appendix B | Task-structured decoding result, not a side-order solution. |
 | `[RESULT: cross-model-relational-audit]` | Qwen swap `0.4600`, CodeBERT swap `0.5300`; endpoint gap `+0.3767`, CI `[0.3317, 0.4200]` | `reports/CROSS_MODEL_RELATIONAL_AUDIT.md` | `reports/secure_code_cross_model_relational_audit_v1.json`; `reproducibility/cross_model_relational_audit_manifest.json` | Figure 2 / Table 2 | Stronger competency-controlled comparison than PR #12 stress slots. |
 | `[RESULT: cross-model-replication]` | distilgpt2 residual `-0.3410`; generative judge both-correct `0.50%`; prediction distributions | `reports/CROSS_MODEL_REPLICATION.md` | `reports/secure_code_cross_model_replication_v1.json` | Table 2 / Appendix C | Low-canonical stress evidence; not universal strong-model failure proof. |
 | `[RESULT: readout-ablation]` | Mean post-diff `0.8983`; changed-hunk `0.9983`; side-swap remains near baseline | `reports/READOUT_ABLATION.md` | `docs/READOUT_ABLATION_PROTOCOL.md`; `reports/secure_code_readout_ablation_v1.json`; `reproducibility/readout_ablation_manifest.json` | Figure 3 / Table 3 | Discovery-stage mechanism result; no readout is promoted. |

@@ -1,0 +1,56 @@
+{
+  "scope": "primevul_evidence_heuristic_consistency",
+  "supersedes": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md (side-correct vs side-wrong contrast)",
+  "circularity_audit": {
+    "legacy_target": "scripts/analyze_primevul_pair_evidence_localization.support_label_for_decision",
+    "legacy_target_is_decision_invariant": false,
+    "legacy_target_verdict": "INVALID as evidence ground truth: flipping the predicted side deterministically flips the target whenever risk_support != safety_support.",
+    "replacement_target": "vrf.evidence_targets.evidence_polarity_label",
+    "replacement_target_is_decision_invariant": true,
+    "role_separation": {
+      "side_prediction": "model output (pair-coupled or raw detector)",
+      "evidence_scoring": "model output (hunk/window ranker)",
+      "evidence_ground_truth": "human adjudication only; never derived from a model decision"
+    }
+  },
+  "human_grounded_check": {
+    "status": "anchored_confirmation_only",
+    "adjudicated_rows": 30,
+    "rows_with_usable_evidence_span": 10,
+    "rows_excluded_insufficient_context": 20,
+    "pipeline_window_overlaps_adjudicated_window": 10,
+    "overlap_rate": 1.0,
+    "overlap_rate_95_ci": {
+      "point": 1.0,
+      "low": 0.7225,
+      "high": 1.0,
+      "n": 10,
+      "successes": 10,
+      "method": "wilson"
+    },
+    "adjudicated_windows_subset_of_pipeline_proposal": 10,
+    "adjudicator_selected_window_outside_proposal": 0,
+    "target_is_anchored_on_pipeline_output": true,
+    "overlap_metric_is_informative": false,
+    "label_status_counts": {
+      "corrected_side": 7,
+      "insufficient_context": 20,
+      "confirmed_gold": 3
+    },
+    "reviewer_counts": {
+      "cyb2oo2_human_confirmation_v1": 30
+    },
+    "limitations": [
+      "The adjudicator only ever selected windows the pipeline had already proposed (10/10 subset, 0 outside). The overlap metric therefore cannot record a miss and must not be read as localization accuracy.",
+      "Single adjudicating reviewer; no inter-annotator agreement is established on these final labels.",
+      "Several rows were AI-drafted and then human-confirmed rather than independently annotated.",
+      "Only 10 of 30 adjudicated rows carry a usable evidence span; 20 were ruled insufficient_context.",
+      "No independent, pipeline-blind evidence ground truth exists in this repository today."
+    ]
+  },
+  "withdrawn_claim": {
+    "previous": "Evidence quality depends on correct side choice: side-correct top-1 0.7610, side-wrong top-1 0.0632.",
+    "status": "withdrawn",
+    "reason": "The target is antisymmetric in the predicted side, so the contrast is forced by the labelling function. No model evidence output enters the target."
+  }
+}

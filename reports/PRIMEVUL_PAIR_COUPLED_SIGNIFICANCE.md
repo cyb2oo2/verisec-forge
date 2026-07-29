@@ -1,5 +1,10 @@
 # PrimeVul Pair-Coupled Significance Summary
 
+> **STATUS: WITHDRAWN - INVALID INFERENCE UNITS.**
+> The bootstrap intervals here resample five held-out splits that overlap pairwise at Jaccard 0.524-0.556 over the same 874 pair groups, with model predictions frozen across all five. They are not five independent confirmations, and the interval does not describe generalisation. The `diff_only_three_seed` block was additionally emitted from a hardcoded constant whenever its source artifacts were absent; that fallback has been removed. The orientation sign-test row is structurally invariant and carries no information. Superseded by `reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md`.
+> See [Research Integrity Verification](../docs/RESEARCH_INTEGRITY_VERIFICATION.md) and [Remediation Notice](../docs/RESEARCH_INTEGRITY_REMEDIATION.md).
+
+
 This report packages the statistical support for the paired-diff mainline. It separates the strict same-split claim from the headline narrative comparison.
 
 ![PrimeVul pair-coupled significance](assets/primevul_pair_coupled_significance.svg)

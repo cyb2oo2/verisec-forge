@@ -168,8 +168,8 @@
         "reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md",
         "reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md"
       ],
-      "claim": "evidence localization quality depends strongly on correct side choice",
-      "boundary": "decision-coupled diagnostic, not a solved explanation or human security review task",
+      "claim": "WITHDRAWN: the side-correct vs side-wrong evidence contrast is circular -- the target is antisymmetric in the predicted side, so flipping the side flips the target deterministically",
+      "boundary": "Withdrawn as a localization result. Not localization accuracy, not localization recall, not independently human-validated evidence quality. See reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md",
       "reproducibility": "report-backed"
     },
     {

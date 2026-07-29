@@ -1,5 +1,10 @@
 # PrimeVul Main Results
 
+> **STATUS: NOT REGENERABLE - HISTORICAL.**
+> Rebuilding this report requires `reports/*_threshold_sweep.json`; zero are present in the tree, and `scripts/build_primevul_main_results.py` now fails loudly rather than substituting values. All numbers below are historical and unverified. Thresholds were selected by sweeping the evaluation set, so positive-system numbers are optimistically biased. The `0.8287` diff-only headline is superseded by `reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md`, which supplies the semantics-free floor it must be read against.
+> See [Research Integrity Verification](../docs/RESEARCH_INTEGRITY_VERIFICATION.md) and [Remediation Notice](../docs/RESEARCH_INTEGRITY_REMEDIATION.md).
+
+
 This table is generated from run artifacts by `scripts/build_primevul_main_results.py`.
 
 ## Summary

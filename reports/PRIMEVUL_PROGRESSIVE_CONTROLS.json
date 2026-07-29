@@ -1,7 +1,7 @@
 {
   "summary": {
     "rows": 8,
-    "headline": "Shortcut-aware paired diff reasoning is the credible mainline; evidence/gate results define the audit loop.",
+    "headline": "No semantic advantage beyond diff structure was established: a semantics-free character-level diff control matches the detector under the pair constraint (0.8588 vs 0.8596). The contribution is the measurement of shortcut-driven performance.",
     "primary_result": {
       "stage": "Pair-coupled decoding",
       "question": "Does enforcing paired consistency improve decisions?",
@@ -38,7 +38,7 @@
       "key_metric": "best_control_balanced_accuracy",
       "value": 0.5156,
       "supporting_metric": "metadata/candidate/counterpart controls",
-      "interpretation": "Controls stay close to chance, protecting the paired diff formulation.",
+      "interpretation": "These three controls remove the diff, so they bound metadata and single-side context only. They do NOT protect the paired-diff formulation: a semantics-free character-level diff control reaches 0.8588 under the pair constraint.",
       "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
     },
     {
@@ -47,7 +47,7 @@
       "key_metric": "three_seed_mean_balanced_accuracy",
       "value": 0.8287,
       "supporting_metric": "range=0.8158-0.8382",
-      "interpretation": "Diff-only paired reasoning is the strongest base formulation.",
+      "interpretation": "WITHDRAWN as a semantic result. Matched by a semantics-free character-level diff control; no advantage beyond diff structure established.",
       "artifact": "reports/PRIMEVUL_MAIN_RESULTS.json"
     },
     {
@@ -74,7 +74,7 @@
       "key_metric": "predicted_side_top1",
       "value": 0.6555,
       "supporting_metric": "side_correct_top1=0.761, side_wrong_top1=0.0632",
-      "interpretation": "Localization quality is coupled to upstream side correctness.",
+      "interpretation": "WITHDRAWN. The target is antisymmetric in the predicted side, so this contrast is an identity of the labelling function, not a measurement.",
       "artifact": "reports/secure_code_primevul_predicted_side_hunk_scorer_v1.json"
     },
     {
@@ -83,7 +83,7 @@
       "key_metric": "project_holdout_accept_precision",
       "value": 1.0,
       "supporting_metric": "accepted=9, introduced=0, stress_invalidated=1",
-      "interpretation": "Evidence-conditioned stress-safe gate repairs errors without introduced side errors, but remains small-scale.",
+      "interpretation": "WITHDRAWN as a validated claim. Precision 1.0 rests on 4 accepted pairs (exact 95% CI [0.3976, 1.0]) and the gate was selected on the pool it is reported on.",
       "artifact": "reports/secure_code_primevul_side_inversion_gate_summary_v1.json"
     }
   ]

@@ -1,5 +1,14 @@
 # Final Submission Statistics
 
+
+> **CORRECTED — CONTAINS WITHDRAWN RESULTS.**
+> Under the closed-world pair constraint the detector reaches balanced accuracy `0.8596`;
+> a semantics-free character-level diff structural control reaches `0.8588` on the same
+> evaluation population (difference `+0.0008`, pair-group clustered 95% CI
+> `[-0.0202, +0.0222]`, sign test 19 vs 18, `p=1.0`).
+> **No semantic advantage beyond diff structure was established.**
+> The evidence-localization contrast and the `1.0000` safe-flip gate precision are also
+> withdrawn. Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
 This table compresses the reviewer-facing evidence into one submission-oriented view. It favors claim boundaries over raw score maximization: high same-source scores are treated as shortcut diagnostics, while paired diff reasoning, pair-coupled decoding, external validation, source-aware routing, and evidence triage are separated.
 
 ## Main Table
@@ -8,7 +17,7 @@ This table compresses the reviewer-facing evidence into one submission-oriented 
 | --- | --- | --- | --- | --- | --- |
 | Shortcut diagnosis | PrimeVul same-source detector | BA `0.9524` | Recall `0.9709`, specificity `0.9339`; treated as artifact-sensitive. | High standard-split score motivates stricter paired evaluation; it is not the headline breakthrough. | `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_holdout2000_report.json` |
 | Shortcut diagnosis | Same detector on vulnerable/fixed paired stress | BA `0.4961` | Best threshold `0.9999`; near chance. | The easy same-source result does not survive paired patch structure. | `reports/secure_code_primevul_cls_qwen15bcoder_lora_presence_3000_v1_paired1800_threshold_sweep.json` |
-| Negative controls | Metadata/candidate/counterpart-only controls | best control BA `0.5156` | Metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` BA. | Controls stay near chance, protecting the paired-diff formulation. | `reports/PRIMEVUL_MAIN_RESULTS.json` |
+| Negative controls | Metadata/candidate/counterpart-only controls | best control BA `0.5156` | Metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` BA. | These controls remove the diff and bound only metadata/single-side context. They do not protect the paired-diff formulation; the character-level diff control does not stay near chance. | `reports/PRIMEVUL_MAIN_RESULTS.json` |
 | Paired diff reasoning | PrimeVul diff-only paired detector | mean BA `0.8287` | 3 seeds, range `0.8158-0.8382`. | Diff-only paired reasoning is the credible base formulation after shortcut diagnosis. | `reports/PRIMEVUL_MAIN_RESULTS.json` |
 | Metadata removal | PrimeVul diff-only without Project/CVE/CWE prompt metadata | BA `0.8244` | Threshold `0.8`. | The paired-diff signal does not depend on obvious prompt metadata. | `reports/secure_code_primevul_cls_qwen15bcoder_lora_pair_diff_no_metadata_3000_v1_eval1800_threshold_sweep.json` |
 | Task-structured decoding | Pair-coupled decoding over held-out pair-key splits | mean BA `0.8572` | 5 splits, CI `[0.8523, 0.8616]`; strict pair-minus-bucket BA delta `0.0348` CI `[0.0329, 0.0368]`. | This is the main method-like contribution because it uses paired task structure. | `reports/secure_code_primevul_pair_coupled_significance_v1.json` |

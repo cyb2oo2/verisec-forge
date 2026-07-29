@@ -11,7 +11,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from vrf.artifact_guard import require_artifact
 from vrf.io_utils import read_json, write_json
+
+SWEEP_REMEDIATION = {
+    "produced_by": (
+        "the per-system threshold sweep step of scripts/evaluate_repair_criteria.py / "
+        "the detector evaluation scripts that emit reports/*_threshold_sweep.json"
+    ),
+    "obtain": (
+        "python scripts/download_reproducibility_bundle.py "
+        "--bundle-name primevul_router_and_evidence_coupled_inputs --restore"
+    ),
+    "purpose": "PrimeVul main results table (paper/tables/main_results.md)",
+}
 
 
 def _metric(row: dict[str, Any], key: str) -> float:
@@ -26,6 +39,7 @@ def _nested(payload: dict[str, Any], path: str) -> Any:
 
 
 def _from_report(label: str, path: str, *, threshold: float | None = None, note: str = "") -> dict[str, Any]:
+    require_artifact(path, **SWEEP_REMEDIATION)
     payload = read_json(path)
     precision = _metric(payload, "precision")
     recall = _metric(payload, "vulnerable_recall")
@@ -53,6 +67,7 @@ def _from_sweep(
     selector: str = "best_by_balanced_accuracy",
     note: str = "",
 ) -> dict[str, Any]:
+    require_artifact(path, **SWEEP_REMEDIATION)
     payload = read_json(path)
     row = payload[selector]
     return {

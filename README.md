@@ -10,6 +10,20 @@ The project is aimed at the standard of top security/ML systems groups: clear pr
 
 ![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
 
+## Research Integrity Status (read first)
+
+This repository has been through an independent audit and a remediation pass.
+Several previously headlined results were **withdrawn or re-scoped**, and some
+tables are **not currently regenerable** from the tree.
+
+- What was checked, and what reproduced: [Research Integrity Verification](docs/RESEARCH_INTEGRITY_VERIFICATION.md)
+- What changed and why: [Remediation Notice](docs/RESEARCH_INTEGRITY_REMEDIATION.md)
+- Which results are currently computed vs historical vs withdrawn: [Result Status Ledger](docs/RESULT_STATUS_LEDGER.md)
+
+Result builders now fail loudly when a scientific input artifact is missing.
+They never substitute historical values. Passing unit tests in this repository
+are evidence of contract consistency, not of scientific validity.
+
 ## For External Reviewers
 
 Status: research artifact draft seeking external feedback. This is not yet a
@@ -52,23 +66,26 @@ model-quality benchmark.
 
 ## Core Contributions
 
-1. **Shortcut-aware benchmark diagnosis.** Same-source PrimeVul detection reaches high headline accuracy, but paired vulnerable/fixed controls expose artifact-sensitive behavior. Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
+1. **Shortcut-aware benchmark diagnosis.** Same-source PrimeVul detection reaches high headline accuracy, but paired vulnerable/fixed controls expose artifact-sensitive behavior. Three *diff-removing* controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, counterpart-only `0.5156` balanced accuracy. These bound what metadata and single-side context contribute; they do **not** show the paired-diff formulation is shortcut-free, because none of them retains diff structure. The control that does is reported separately in [Polarity Structural Control](reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md), and it is strong.
 
-2. **Paired diff reasoning and task-structured decoding.** Diff-only paired training is the credible mainline, with three-seed mean balanced accuracy `0.8287`. Pair-coupled decoding is the strongest system layer: five-split mean balanced accuracy `0.8572`, with strict same-split pair-minus-bucket delta `+0.0348` BA and bootstrap 95% CI `[0.0329, 0.0368]`.
+2. **No demonstrated signal beyond diff shape.** A rule reading only the net added-minus-removed **character** count — no tokens, no semantics — matches the fine-tuned detector under the same pair constraint (`0.8588` vs `0.8596`; clustered 95% CI on the difference `[-0.0202, +0.0225]`; group-level sign test `19–18`, `p=1.0`). An earlier remediation reported a `+0.0682` model advantage, but that was measured against a weaker line-count rule that ties on ~22% of pairs and is then forced to guess; **that claim is withdrawn**. See [Polarity Structural Control](reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md) and [Constraint Decomposition](reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md). Historical `0.8287` / `0.8572` headlines are retained only as labelled historical values in [Main Results](reports/PRIMEVUL_MAIN_RESULTS.md).
 
-3. **Evidence-coupled audit loop.** Evidence localization is treated as a decision-coupled diagnostic, not as a solved explanation task. Side-correct rows reach top-1 localization `0.7610`, while side-wrong rows fall to `0.0632`, making error propagation measurable.
+3. **Pair-coupled decoding as a closed-world operator.** Pair coupling assumes group membership is known and that each group contains exactly one vulnerable member. That is a property of benchmark construction, not of deployment. It is reported against four baselines — unconstrained model, constraint-only structural rule, random-orientation null, and the model under the same constraint — in [Pair-Coupled Constraint Decomposition](reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md), so the value of the constraint is separated from the value of the model.
 
-4. **Bounded external generalization.** CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks support a narrow claim: source-aware paired-diff experts and learned closed-world routing improve robustness, but this is not open-set expert discovery.
+4. **Evidence heuristic consistency (not localization accuracy).** The former "evidence localization" contrast is withdrawn: its target is antisymmetric in the predicted side, so the side-correct/side-wrong gap was an identity of the labelling function rather than a measurement. The same computation is reported under an accurate name in [Evidence Heuristic Consistency](reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md). No human-adjudicated evidence ground truth is currently in place.
 
-5. **Relation-consistent decoder as a structural control, not a reasoning claim.** A test-time decoder enforces declared identity/invariant/side-swap relations over existing predictions, eliminating relation violations on the retained Qwen smoke artifact (`0.3042 -> 0.0000`) while leaving an `0.0875` identity distortion rate. This is a post-hoc structural control, not evidence that the underlying model has learned stronger secure-patch reasoning.
+5. **Bounded external generalization.** CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks support a narrow claim: source-aware paired-diff experts and learned closed-world routing improve robustness, but this is not open-set expert discovery. These numbers are historical and were not re-verified in the remediation pass.
+
+6. **Relation-consistent decoder as a structural control, not a reasoning claim.** A test-time decoder enforces declared identity/invariant/side-swap relations over existing predictions. The reported `0.3042 -> 0.0000` violation rate is a **definitional identity**, not a measured outcome: the operator projects the swapped-side probability to `1 - p`, so zero violations is what the projection is defined to produce. The informative numbers are the ones the projection does not fix — an `0.0875` identity distortion rate, and a randomized-pair control that degrades to `0.4033`. This is a post-hoc structural control, not evidence that the underlying model has learned stronger secure-patch reasoning.
 
 ## Headline Evidence
 
 | Claim | Main Result | Where To Read |
 | --- | ---: | --- |
-| Artifact-sensitive same-source success needs controls | same-source accuracy `0.9524`; paired controls near chance | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) |
-| Pair-coupled decoding is the strongest current layer | five-split mean BA `0.8572`; mean delta `+0.0348` | [Pair-Coupled Significance](reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md) |
-| Learned joint side choice is promising but not yet strongest | held-out pair orientation `0.8283`; decoder reference `0.8572` | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
+| Artifact-sensitive same-source success needs controls | same-source accuracy `0.9524`; three diff-removing controls near chance | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) (partially withdrawn) |
+| A semantics-free diff-shape rule matches the detector under the pair constraint | control `0.8588` vs detector `0.8596`; difference CI `[-0.0202, +0.0225]` | [Polarity Structural Control](reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md), [Constraint Decomposition](reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md) |
+| ~~Pair-coupled decoding is the strongest current layer~~ **WITHDRAWN** — constrained vs unconstrained comparison | constraint value now isolated against four baselines | [Constraint Decomposition](reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md) |
+| Learned joint side choice is promising but not yet strongest | held-out pair orientation `0.8283`; historical decoder reference `0.8572` (withdrawn interpretation, see Constraint Decomposition) | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
 | Low-margin abstention gives a stable review operating point | accepted accuracy `0.8767` at coverage `0.7896`; error capture `0.4087` | [Selective Calibration](reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md) |
 | Targeted adaptation can remove a measured shortcut | padding violation `0.4250 -> 0.1300`; paired `p<1.4e-23`; main-task delta not significant | [Nuisance Adaptation Pilot](reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md) |
 | A larger frozen pair head does not solve the gap | hidden/score probes `0.6856` / `0.6941`; synthetic reverse exact match `1.21%` | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
@@ -81,7 +98,7 @@ model-quality benchmark.
 | Side-swap failure is closer to content-blindness than mislabeling | canonical-vs-swapped predictions are statistically independent (`phi=-0.024`, `p=0.56`); canonical-vs-padding-only predictions correlate strongly (`phi=0.80`, `p<0.0001`) | [Side-Swap Positional Independence](reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md) |
 | Text-label relabeling alone does not explain the side-swap failure | relabeling with diff polarity held fixed leaves prediction almost unchanged (`phi=0.91`); accuracy collapses to `0.3483` (~`1-0.66`) as gold flips under frozen predictions | [Label-Only Swap vs. Structural Swap](reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
 | Diff hunk polarity, not text labels, drives the side-swap failure | flipping polarity with labels and gold held fixed moves the prediction to near-independence (`phi=-0.094`) and collapses accuracy `0.66`->`0.3450` (gold unchanged); `polarity_only_swap` and `side_swap` predictions agree (`phi=+0.892`), confirming the words are inert | [Polarity-Only Swap vs. Structural Swap](reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
-| Polarity is a nuisance variable under the candidate-identity task, and augmentation alone will not fix it | rendering orientation is de-confounded from gold in training (`3000/3000` forward/reverse, vuln side `0.50`, all pairs both orientations) and eval; net-polarity remains a spurious-but-predictive feature (`0.855` train / `0.706` canonical, inverts to `0.312` under flip); model does not reduce to that heuristic (`~0.56` row agreement) | [Polarity/Gold Confound](reports/POLARITY_GOLD_CONFOUND.md), [Task Formulation](docs/TASK_FORMULATION.md) |
+| Polarity is a nuisance variable under the candidate-identity task, and augmentation alone will not fix it | rendering orientation is de-confounded from gold in training (`3000/3000` forward/reverse, vuln side `0.50`, all pairs both orientations) and eval; net-polarity remains a spurious-but-predictive feature (`0.855` train / `0.706` canonical, inverts to `0.312` under flip); the VeriPatch-RR checkpoint does not reduce to that heuristic on the VeriPatch-RR candidate-identity rendering (`~0.56` row agreement). **Scope warning:** this reassurance is measured on that rendering only. On the PrimeVul pair-diff mainline rendering, the mainline checkpoint agrees with the same crude heuristic on the large majority of rows and its accuracy collapses far below chance where the heuristic errs — see [Polarity Structural Control](reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md) | [Polarity/Gold Confound](reports/POLARITY_GOLD_CONFOUND.md), [Task Formulation](docs/TASK_FORMULATION.md) |
 | CrossVul's polarity/gold confound is measurably stronger than PrimeVul's, so its raw canonical accuracy is not directly comparable | canonical shortcut accuracy `0.855` (CrossVul) vs `0.706` (PrimeVul); polarity-flip inversion `0.151` vs `0.312`; frozen-model-vs-crude-shortcut row agreement `~0.92` (CrossVul) vs `~0.57` (PrimeVul) | [CrossVul Polarity/Gold Confound](reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md) |
 | The label-vs-polarity ordering reproduces on a competency-matched non-Qwen model (behavioral, not universal) | CodeBERT (canonical `0.677` vs Qwen `0.660`): label swap inert (`phi=+0.988` vs Qwen `+0.914`), polarity swap disruptive (`phi=-0.193` vs Qwen `-0.094`), polarity-only accuracy collapses `0.677`->`0.352`; CodeBERT reduces to the crude shortcut on PrimeVul (`~0.96`) where Qwen does not (`~0.57`) | [CodeBERT Label/Polarity Replication](reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md) |
 | Antisymmetric readout transfers as a structural fix; the current fine-tuning objective does not validate as transferable learned repair | on PrimeVul, antisymmetric inference lifts canonical `0.660`->`0.733` (`+0.047` projection null on the frozen model, `+0.027` from fine-tuning, McNemar `p=0.002`); the fine-tuning delta shrinks and loses significance on both transfer legs -- CrossVul (n=350, `+0.0086`, `p=0.508`) and five held-out nuisance-transform families (n=600 each, no family survives Bonferroni-corrected `p<0.01`, two families reverse sign) | [Antisymmetric Repair Result](reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md) |
@@ -95,8 +112,8 @@ model-quality benchmark.
 | Paired-diff signal degrades but survives genuine open-set source shift | CrossVul (never trained on) pair-coupled BA `0.8061`, below the `0.8287` PrimeVul mainline and the DeltaSecommits/PatchEval range | [CrossVul Zero-Shot Transfer](reports/CROSSVUL_ZERO_SHOT_PRIMEVUL_CHECKPOINT.md) |
 | Mixed-source training generalizes better to an unseen source than single-source training | matched-mixed checkpoint beats single-source by `+0.0322` BA (default threshold) / `+0.0080` BA (pair-coupled) on the same open-set CrossVul rows | [CrossVul Matched-Mixed Comparison](reports/CROSSVUL_ZERO_SHOT_MATCHED_MIXED_CHECKPOINT.md) |
 | Language shift does not add measurable degradation beyond source shift | PHP/JS/Python/Java pair-coupled BA `0.8132`/`0.8316`, comparable to or above the C/C++-only CrossVul result for both checkpoints; no single language drives the result | [CrossVul Language-Shift Comparison](reports/CROSSVUL_LANGUAGE_SHIFT_COMPARISON.md) |
-| Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
-| Relation-consistent decoding removes measured relation violations as a structural control | violation rate `0.3042 -> 0.0000`; randomized-pair control degrades to `0.4033`, confirming the effect needs real pairing structure | [Decoder Stress Validation](reports/DECODER_STRESS_VALIDATION.md) |
+| ~~Evidence quality depends on correct side choice~~ **WITHDRAWN** — target is antisymmetric in the predicted side, so the gap is an identity, not a measurement | reported as heuristic consistency instead | [Evidence Heuristic Consistency](reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md) |
+| Relation-consistent decoding satisfies its declared constraint by construction | violation rate `0.3042 -> 0.0000` is a **definitional identity** (the operator projects to `1-p`); the measured result is the randomized-pair control degrading to `0.4033` | [Decoder Stress Validation](reports/DECODER_STRESS_VALIDATION.md) |
 | Decoding still distorts some identity predictions even as it removes violations | identity distortion rate `0.0875`; flips toward gold `55` vs away from gold `50`, a roughly even split | [Decoder Failure Case Audit](reports/DECODER_FAILURE_CASE_AUDIT.md) |
 
 ## Reading Order
@@ -143,7 +160,6 @@ Then inspect the artifact-backed demo:
 - `reproducibility/`: manifests and release metadata for local artifact validation and bundle packaging.
 - `configs/`: only the patch-review demo config, the report index config, and the application summary config.
 - `tests/`: focused tests for the retained core and application-facing scripts.
-
 ## Quick Verification
 
 CI runs a focused fresh-clone smoke path for the external adapter, paper result
