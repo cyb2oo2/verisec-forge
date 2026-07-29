@@ -1,5 +1,10 @@
 # PrimeVul Side-Inversion Gate Summary
 
+> **STATUS: SELECTION-ON-HOLDOUT - UNCERTAINTY REQUIRED.**
+> The preferred gate (`project_holdout_top5:evidence_conditioned`) is the only variant defined for the only pool where the original `strict_or` gate failed, and it is selected and scored on that same pool. It is selected-on-holdout, not independently validated. Precision must be reported with its sample size and exact binomial interval; see `reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md`.
+> See [Research Integrity Verification](../docs/RESEARCH_INTEGRITY_VERIFICATION.md) and [Remediation Notice](../docs/RESEARCH_INTEGRITY_REMEDIATION.md).
+
+
 This generated table compares safe-flip gates across side-inversion candidate pools. It separates in-pool, rank-holdout, fresh-seed, and project-holdout behavior so the evidence-coupled system is not judged from a single pool.
 
 ## Summary

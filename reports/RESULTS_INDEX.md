@@ -1,5 +1,17 @@
 # Results Index
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+
+
 This index collects the application-facing reports and reproducibility entry points retained after pruning.
 
 ## Application Entry Points
@@ -95,7 +107,7 @@ Disjoint PrimeVul stress tests, external datasets, and bounded source-aware rout
 
 ## Evidence-Coupled Audit
 
-Evidence localization and side-inversion diagnostics retained as bounded audit evidence.
+Evidence localization is **withdrawn**: the metric was circular and the human-confirmation step was anchored to pipeline-proposed windows. Side-inversion gate results require sample size and exact interval; see `PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md`.
 
 - `Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Predicted-Side Hunk Scorer`: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`

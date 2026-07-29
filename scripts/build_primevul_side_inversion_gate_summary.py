@@ -13,6 +13,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
+from vrf.artifact_guard import require_artifact
 from vrf.io_utils import read_json, write_json
 
 DEFAULT_GATE_SPECS = [
@@ -80,6 +81,15 @@ SELECTION_PROTOCOL = {
 
 
 def load_gate_row(spec: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
+    require_artifact(
+        repo_root / spec["path"],
+        produced_by="scripts/evaluate_primevul_side_inversion_safe_flip_gate.py for this pool/variant",
+        obtain=(
+            "python scripts/download_reproducibility_bundle.py "
+            "--bundle-name primevul_router_and_evidence_coupled_inputs --restore"
+        ),
+        purpose="side-inversion gate summary",
+    )
     payload = read_json(repo_root / spec["path"])
     config = payload["config"]
     summary = payload["summary"]
@@ -192,6 +202,14 @@ def render_markdown(payload: dict[str, Any]) -> str:
     summary = payload["summary"]
     lines = [
         "# PrimeVul Side-Inversion Gate Summary",
+        "",
+        "> **STATUS: SELECTION-ON-HOLDOUT — UNCERTAINTY REQUIRED.**",
+        "> The preferred gate is the only variant defined for the only pool where the original",
+        "> gate failed, and is selected and scored on that same pool. It is not independently",
+        "> validated. Its precision of `1.0` rests on **4 accepted pairs** (9 rows), exact 95% CI",
+        "> `[0.3976, 1.0]`. Five of six pool artifacts are missing from the tree.",
+        "> Never cite this precision without sample size, interval, and selected-on-pool status.",
+        "> See `reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md`.",
         "",
         "This generated table compares safe-flip gates across side-inversion candidate pools. It separates in-pool, rank-holdout, fresh-seed, and project-holdout behavior so the evidence-coupled system is not judged from a single pool.",
         "",

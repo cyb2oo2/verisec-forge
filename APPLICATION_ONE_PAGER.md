@@ -1,5 +1,40 @@
 # VeriSec Forge: Application One-Pager
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](docs/RESULT_STATUS_LEDGER.md).
+
+## What this project actually contributes
+
+The project demonstrated that apparently strong vulnerability-detection performance can
+collapse or be reproduced by structural shortcuts under stricter paired evaluation.
+Adversarial controls showed that character-level diff structure nearly matched the
+fine-tuned detector, preventing an unsupported semantic-learning claim.
+
+Concretely:
+
+- A same-source detector scoring `0.9524` falls to `0.4961` under paired evaluation.
+- A semantics-free control reading only net added-minus-removed **characters** reaches
+  `0.8627` unconstrained — above the fine-tuned detector's `0.8136` — and `0.8588` under
+  the pair constraint against the detector's `0.8596`.
+- The detector is `0.2584` accurate on rows where that control errs, i.e. below chance:
+  it follows the structural shortcut into its errors rather than correcting them.
+- Two circular evaluations were identified and withdrawn: an evidence metric whose target
+  was derived from the decision it was meant to validate, and a human-confirmation step
+  anchored to the pipeline's own proposals.
+
+The contribution is the identification and measurement of shortcut-driven performance,
+not a successful semantic vulnerability detector.
+
+
+
 ![PrimeVul pair-coupled significance](reports/assets/primevul_pair_coupled_significance.svg)
 
 ## One-Sentence Summary
@@ -15,13 +50,15 @@ Standard vulnerability-detection benchmarks can reward dataset shortcuts such as
 1. Shortcut-aware benchmark diagnosis.
    A same-source PrimeVul detector reaches `0.9524` accuracy, but paired stress testing shows that score is artifact-sensitive rather than a robust semantic vulnerability-detection breakthrough. Negative controls stay near chance, the current disjoint stress matrix removes eval rows overlapping training by project/CVE/commit/file hash, and a true CVE-year time split is now materialized.
 
-2. Paired diff reasoning plus pair-coupled decoding.
-   Diff-only paired evaluation reaches `0.8158` balanced accuracy, three-seed mean `0.8287`, and no-metadata `0.8244`. Pair-coupled decoding over five pair-key split seeds improves mean balanced accuracy to `0.8572`; the strict same-split pair-minus-bucket BA delta is `+0.0348` with bootstrap 95% CI `[0.0329, 0.0368]`.
+2. Structural controls show the paired-diff result is not semantic.
+   **No semantic advantage beyond diff structure was established.** Under the closed-world pair constraint the detector reaches balanced accuracy `0.8596`, while a semantics-free control that reads only the net added-minus-removed **character** count of the diff reaches `0.8588` on the same evaluation population. The difference is `+0.0008`, pair-group clustered 95% CI `[-0.0202, +0.0222]`, group-level sign test 19 vs 18 (`p=1.0`). Unconstrained, that same control (`0.8627`) scores *above* the detector (`0.8136`).
+
+   Historical, withdrawn: earlier versions of this document reported a diff-only three-seed mean of `0.8287` and a pair-coupled mean of `0.8572` with a `+0.0348` delta and CI `[0.0329, 0.0368]`, as evidence of paired-diff reasoning. Those intervals came from five heavily overlapping splits of one frozen prediction set, and the comparison gave the decoder a closed-world constraint the baseline did not receive. **That interpretation is withdrawn.**
 
    The result now has external stress coverage rather than only PrimeVul-internal validation: project-disjoint BA `0.8225`, later-CVE time-disjoint direct-train BA `0.8835`, DeltaSecommits pair-coupled BA `0.8563`, and PatchEval adapter three-seed mean BA `0.8172`. A three-source source-routed adapter mixture improves aggregate BA from `0.8591` to `0.8664`. The learned diff-body-only router reaches `0.9063` row routing accuracy and end-to-end routed BA `0.8664`; cached multi-seed stability checks reach 50% train-pair mean BA `0.8649` with char features, `0.8630` with token features, and `0.8634` with diff-line features. The claim is explicitly bounded as closed-world source-aware expert selection: BA gain over single is `+0.0073` with CI `[0.0000, 0.0145]`, group all-correct is not reliable, and leave-one-source stress prevents open-set overclaiming.
 
-3. Evidence-coupled audit loop.
-   Hunk/window localization shows that evidence quality is strongly coupled to upstream side correctness: side-correct rows reach top-1 `0.7610`, while side-wrong rows fall to `0.0632`. The current audit loop includes AI-filled adjudication for `20` routed rows, precision-first safe-flip gates, a public reproduction bundle, and an artifact-backed patch review demo.
+3. Evidence audit — withdrawn as a localization result.
+   Earlier versions reported side-correct top-1 `0.7610` versus side-wrong `0.0632` as evidence that localization quality tracks side correctness. **That contrast is circular**: the target was computed from the same side decision it was meant to validate, so flipping the predicted side flips the target deterministically. The limited human-confirmation exercise cannot repair it — reviewers only ever confirmed windows the pipeline had already proposed (10/10 subset, 0 outside), so the measurement cannot record a miss. Nothing here may be described as localization accuracy, localization recall, or independently human-validated evidence quality.
 
 ## Current Evidence
 

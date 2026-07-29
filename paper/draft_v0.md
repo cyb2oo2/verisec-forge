@@ -1,5 +1,15 @@
 # Pointwise Accuracy Is Not Relational Consistency: Auditing Secure Patch Models Under Presentation-Structure Transformations
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+
+
 ## Abstract
 
 Secure-code models are usually evaluated pointwise, but patch review is
@@ -115,7 +125,15 @@ evaluation [RELATED: checklist; counterfactual-augmentation]. Unlike generic
 robustness tests, VeriPatch-RR separates identity tests, side-swap
 equivariance, and visibility-qualified context pressure.
 
-### 2.4 Evidence Localization and Explanation Faithfulness
+### 2.4 Evidence Localization and Explanation Faithfulness (WITHDRAWN)
+
+> **Correction.** The evidence contrast was circular: the metric depended on the same side
+> decision it was supposed to validate, so flipping the predicted side flips the target
+> deterministically. The limited human-confirmation exercise was anchored to
+> pipeline-proposed windows (10/10 subset, 0 outside) and could not measure missed
+> evidence. This must not be described as localization accuracy, localization recall, or
+> independently human-validated evidence quality.
+
 
 Evidence localization in this project is treated as an audit diagnostic rather
 than a solved explanation task. This is consistent with broader work on
@@ -258,7 +276,16 @@ evidence and do not establish canonical non-inferiority.
 
 Paired controls reveal why. Metadata-only balanced accuracy was `0.5022`,
 candidate-only was `0.5078`, and counterpart-only was `0.5156`
-[RESULT: primevul-progressive-controls]. These near-chance controls protect the
+
+> **Correction (adversarial validation).** An earlier analysis compared the detector with a
+> weaker line-polarity control and suggested a positive residual gain. A subsequent
+> adversarial validation identified a stronger semantics-free **character** structural
+> control that matched the detector (`0.8588` vs `0.8596`; difference `+0.0008`, pair-group
+> clustered 95% CI `[-0.0202, +0.0222]`, sign test 19 vs 18, `p=1.0`). The earlier
+> semantic-advantage interpretation is therefore withdrawn. The originally reported values
+> are retained below as historical record only.
+
+[RESULT: primevul-progressive-controls]. Historically these near-chance controls were described as protecting the
 claim that the diff-based paired task contains real relational signal rather
 than only project, length, or source artifacts.
 
