@@ -180,28 +180,68 @@ def test_gate_precision_with_sample_size_and_interval_passes(tmp_path: Path, rul
 # ---------------------------------------------------------------------------
 
 
-def test_stale_generated_documentation_is_flagged(rules: dict) -> None:
+def test_staleness_is_content_based_not_mtime_based(rules: dict) -> None:
+    """Touching a file must not make documentation look stale.
+
+    A checkout stamps every file with the clone time, so an mtime comparison is
+    both false-negative on a fresh clone and false-positive after an unrelated
+    touch. Only content drift may count.
+    """
+
     import os
-    import time
 
     entry = rules["staleness"][0]
     generated = ROOT / entry["generated"]
-    source = ROOT / entry["source"]
-    if not generated.exists() or not source.exists():
+    if not generated.exists():
         pytest.skip("staleness pair not present")
 
-    original = generated.stat().st_mtime
+    stat = generated.stat()
     try:
-        os.utime(generated, (original, source.stat().st_mtime - 600))
+        # Move the mtime far into the past without changing a byte.
+        os.utime(generated, (stat.st_atime, stat.st_mtime - 86_400))
         findings = check_staleness(rules)
-        assert any(f["kind"] == "stale_generated_documentation" for f in findings)
+        assert not any(
+            f["file"] == entry["generated"] and f["kind"] == "stale_generated_documentation"
+            for f in findings
+        ), "an mtime change alone was reported as staleness; the check is not content-based"
     finally:
-        os.utime(generated, (original, original))
+        os.utime(generated, (stat.st_atime, stat.st_mtime))
+
+
+def test_content_drift_in_a_generated_document_is_flagged(rules: dict) -> None:
+    """Editing a generated document away from its recorded hash must be caught."""
+
+    entry = rules["staleness"][0]
+    generated = ROOT / entry["generated"]
+    manifest = ROOT / "reports/REPRODUCTION_PROVENANCE.json"
+    if not generated.exists() or not manifest.exists():
+        pytest.skip("staleness pair or provenance manifest not present")
+
+    recorded = json.loads(manifest.read_text(encoding="utf-8"))
+    tracked = {
+        item["path"]
+        for stage in recorded.get("stages", [])
+        for item in stage.get("inputs", []) + stage.get("outputs", [])
+        if item.get("sha256")
+    }
+    if entry["generated"] not in tracked:
+        pytest.skip("generated document has no recorded provenance hash")
+
+    original = generated.read_bytes()
+    try:
+        generated.write_bytes(original + b"\n<!-- drift -->\n")
+        findings = check_staleness(rules)
+        assert any(
+            f["file"] == entry["generated"] and f["kind"] == "stale_generated_documentation"
+            for f in findings
+        ), "content drift from the recorded provenance hash was not flagged"
+    finally:
+        generated.write_bytes(original)
 
     assert not any(
         f["file"] == entry["generated"] and f["kind"] == "stale_generated_documentation"
         for f in check_staleness(rules)
-    )
+    ), "restoring the original content should clear the finding"
 
 
 # ---------------------------------------------------------------------------

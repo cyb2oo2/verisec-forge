@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import re
 import sys
@@ -244,24 +245,78 @@ def check_file(path: Path, rules: dict[str, Any]) -> list[dict[str, Any]]:
     return violations
 
 
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def check_staleness(rules: dict[str, Any]) -> list[dict[str, Any]]:
+    """Content-based staleness: compare recorded provenance hashes, not mtimes.
+
+    A checkout timestamp says nothing about whether a document reflects its
+    source. ``git clone`` stamps every file with the clone time, so an
+    mtime comparison is both false-negative on fresh clones and false-positive
+    after an unrelated touch. Instead we compare each source artifact's current
+    hash against the hash recorded in the provenance manifest when the document
+    was last generated.
+    """
+
     violations: list[dict[str, Any]] = []
+    manifest_path = REPO_ROOT / "reports/REPRODUCTION_PROVENANCE.json"
+    recorded: dict[str, str] = {}
+    if manifest_path.exists():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            manifest = {}
+        for stage in manifest.get("stages", []):
+            for item in stage.get("inputs", []) + stage.get("outputs", []):
+                if item.get("sha256"):
+                    recorded[item["path"]] = item["sha256"]
+
     for entry in rules.get("staleness", []):
         generated = REPO_ROOT / entry["generated"]
         source = REPO_ROOT / entry["source"]
         if not generated.exists() or not source.exists():
             continue
-        if generated.stat().st_mtime + 1 < source.stat().st_mtime:
+
+        source_key = entry["source"]
+        generated_key = entry["generated"]
+        drifted = []
+        for key, path in ((source_key, source), (generated_key, generated)):
+            if key in recorded and recorded[key] != _sha256(path):
+                drifted.append(key)
+        if drifted:
             violations.append(
                 {
                     "file": entry["generated"],
                     "line": 0,
                     "claim_id": "stale-generated-doc",
                     "kind": "stale_generated_documentation",
-                    "found": f"older than {entry['source']}",
+                    "found": "content hash differs from the recorded provenance for " + ", ".join(drifted),
                     "required_qualification": "Regenerate with scripts/run_clean_reproduction.py",
                     "ledger_entry": "n/a",
-                    "excerpt": f"{entry['generated']} predates {entry['source']}",
+                    "excerpt": f"{generated_key} provenance drift: {', '.join(drifted)}",
+                }
+            )
+            continue
+
+        # Fallback when the manifest has no record of this pair at all: the
+        # document has never been provenance-tracked, which is itself a gap.
+        if source_key not in recorded and generated_key not in recorded:
+            violations.append(
+                {
+                    "file": entry["generated"],
+                    "line": 0,
+                    "claim_id": "stale-generated-doc",
+                    "kind": "stale_generated_documentation",
+                    "found": "no provenance record for this generated document",
+                    "required_qualification": "Regenerate with scripts/run_clean_reproduction.py to record provenance",
+                    "ledger_entry": "n/a",
+                    "excerpt": f"{entry['generated']} has no recorded hash linking it to {entry['source']}",
                 }
             )
     return violations

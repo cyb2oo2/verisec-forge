@@ -1,8 +1,14 @@
 {
   "scope": "verisec_forge_clean_reproduction",
-  "started_at_utc": "2026-07-27T22:09:48.608576+00:00",
+  "started_at_utc": "2026-07-29T13:49:12.483588+00:00",
+  "working_tree_dirty": true,
+  "dirty_paths": [
+    "docs/RESULT_STATUS_LEDGER.md",
+    "scripts/run_clean_reproduction.py"
+  ],
+  "dirty_override_used": true,
   "environment": {
-    "git_commit": "1bb0b8d5fb79adc81f89f3ebbb974c3e9038cc16",
+    "git_commit": "c4d03c1fb6d4932067fd8462af21146b3e12b0ba",
     "git_working_tree_dirty": true,
     "python_version": "3.13.14",
     "python_executable": "D:\\code\\start\\.venv\\Scripts\\python.exe",
@@ -130,8 +136,16 @@
         "tie_break": 0
       },
       "inputs": [],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/RESEARCH_INTEGRITY_VERIFICATION.json": "7f47bdf91f3669501a811e5e2f7822a89bdcd5e2e4eab6416f69388e43c85f06",
+        "docs/RESEARCH_INTEGRITY_VERIFICATION.md": "bf07c8be0bb7b9fd86ec8413e9b432e150490f87994efc515c3a80cf5f77ebe7"
+      },
+      "output_hashes_after": {
+        "reports/RESEARCH_INTEGRITY_VERIFICATION.json": "8473e901dee2f4658c705368dee93eb0332a34eeaea3d73f491a314268bd1e3c",
+        "docs/RESEARCH_INTEGRITY_VERIFICATION.md": "d1787570b77ab3dc136909d90affff5160738e2cab8d01fea272e2d673301dc0"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [],
       "exit_code": 0,
       "output_tail": [
         "F3: confirmed",
@@ -143,18 +157,22 @@
         "F10: confirmed",
         "F11: confirmed"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/RESEARCH_INTEGRITY_VERIFICATION.json",
-          "sha256": "7f47bdf91f3669501a811e5e2f7822a89bdcd5e2e4eab6416f69388e43c85f06",
+          "sha256": "8473e901dee2f4658c705368dee93eb0332a34eeaea3d73f491a314268bd1e3c",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "computed_in_this_run",
+          "changed_by_this_run": true
         },
         {
           "path": "docs/RESEARCH_INTEGRITY_VERIFICATION.md",
-          "sha256": "bf07c8be0bb7b9fd86ec8413e9b432e150490f87994efc515c3a80cf5f77ebe7",
+          "sha256": "d1787570b77ab3dc136909d90affff5160738e2cab8d01fea272e2d673301dc0",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "computed_in_this_run",
+          "changed_by_this_run": true
         }
       ]
     },
@@ -182,8 +200,19 @@
           "present": true
         }
       ],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/secure_code_primevul_polarity_structural_control_v1.json": "3cb1fafc87d85d762a40c1da1969ce8f9377ae1658a513ead9b48972c4a87815",
+        "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md": "d590b106c1983c95b66a84d5bb185c2e367e6738e29bfcd35611fe3036dd156b"
+      },
+      "output_hashes_after": {
+        "reports/secure_code_primevul_polarity_structural_control_v1.json": "3cb1fafc87d85d762a40c1da1969ce8f9377ae1658a513ead9b48972c4a87815",
+        "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md": "d590b106c1983c95b66a84d5bb185c2e367e6738e29bfcd35611fe3036dd156b"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [
+        "reports/secure_code_primevul_polarity_structural_control_v1.json",
+        "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md"
+      ],
       "exit_code": 0,
       "output_tail": [
         "    \"rows_where_rule_decides\": 1718,",
@@ -195,18 +224,22 @@
         "  }",
         "}"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/secure_code_primevul_polarity_structural_control_v1.json",
           "sha256": "3cb1fafc87d85d762a40c1da1969ce8f9377ae1658a513ead9b48972c4a87815",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         },
         {
           "path": "reports/PRIMEVUL_POLARITY_STRUCTURAL_CONTROL.md",
           "sha256": "d590b106c1983c95b66a84d5bb185c2e367e6738e29bfcd35611fe3036dd156b",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         }
       ]
     },
@@ -234,8 +267,19 @@
           "present": true
         }
       ],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json": "ddb9f7e11ad749a35d66eda57e49e3e3c854dcb113062275f45056e0a85814e8",
+        "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md": "2914b8c1104b6e40330fb43a400c028566bf7b387cd5db7005b3593bf6c5fc8e"
+      },
+      "output_hashes_after": {
+        "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json": "ddb9f7e11ad749a35d66eda57e49e3e3c854dcb113062275f45056e0a85814e8",
+        "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md": "2914b8c1104b6e40330fb43a400c028566bf7b387cd5db7005b3593bf6c5fc8e"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [
+        "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json",
+        "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md"
+      ],
       "exit_code": 0,
       "output_tail": [
         "      \"independent_units\": 614,",
@@ -247,18 +291,22 @@
         "  }",
         "}"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json",
           "sha256": "ddb9f7e11ad749a35d66eda57e49e3e3c854dcb113062275f45056e0a85814e8",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         },
         {
           "path": "reports/PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md",
           "sha256": "2914b8c1104b6e40330fb43a400c028566bf7b387cd5db7005b3593bf6c5fc8e",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         }
       ]
     },
@@ -281,8 +329,19 @@
           "present": true
         }
       ],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json": "bb974b065ab9eb4a1b8b94712f3fc3e4041cca50c7ab06798f821d5f95917d53",
+        "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md": "7ca033a567f20ded30cb9524cedaa22700747cc5876da76c7a2e19c9183cfb01"
+      },
+      "output_hashes_after": {
+        "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json": "bb974b065ab9eb4a1b8b94712f3fc3e4041cca50c7ab06798f821d5f95917d53",
+        "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md": "7ca033a567f20ded30cb9524cedaa22700747cc5876da76c7a2e19c9183cfb01"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [
+        "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json",
+        "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md"
+      ],
       "exit_code": 0,
       "output_tail": [
         "    \"losses\": 0,",
@@ -294,18 +353,22 @@
         "  }",
         "}"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json",
           "sha256": "bb974b065ab9eb4a1b8b94712f3fc3e4041cca50c7ab06798f821d5f95917d53",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         },
         {
           "path": "reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md",
           "sha256": "7ca033a567f20ded30cb9524cedaa22700747cc5876da76c7a2e19c9183cfb01",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         }
       ]
     },
@@ -315,8 +378,19 @@
       "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/evaluate_evidence_heuristic_consistency.py",
       "seeds": {},
       "inputs": [],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json": "074400a93ef95ff9f4c2a98e4fa47777009f1ed3d4eed980d0827e184dd137c4",
+        "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md": "77f34c8a18500b2965ad20a76ef74f70a0c8e53438d99fa88700da55b6af9877"
+      },
+      "output_hashes_after": {
+        "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json": "074400a93ef95ff9f4c2a98e4fa47777009f1ed3d4eed980d0827e184dd137c4",
+        "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md": "77f34c8a18500b2965ad20a76ef74f70a0c8e53438d99fa88700da55b6af9877"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [
+        "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json",
+        "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md"
+      ],
       "exit_code": 0,
       "output_tail": [
         "      \"confirmed_gold\": 3",
@@ -328,18 +402,22 @@
         "      \"The adjudicator only ever selected windows the pipeline had already proposed (10/10 subset, 0 outside). The overlap metric therefore cannot record a miss and must not be read as localization accuracy.\",",
         "      \"Single adjudicating reviewer;"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/secure_code_primevul_evidence_heuristic_consistency_v1.json",
           "sha256": "074400a93ef95ff9f4c2a98e4fa47777009f1ed3d4eed980d0827e184dd137c4",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         },
         {
           "path": "reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md",
           "sha256": "77f34c8a18500b2965ad20a76ef74f70a0c8e53438d99fa88700da55b6af9877",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         }
       ]
     },
@@ -349,8 +427,19 @@
       "command": "D:\\code\\start\\.venv\\Scripts\\python.exe scripts/build_primevul_side_inversion_gate_uncertainty.py",
       "seeds": {},
       "inputs": [],
-      "status": "computed",
-      "result_origin": "computed_in_this_run",
+      "output_hashes_before": {
+        "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json": "6c2a542f8f2f0657da3782dd55e93a9bde71313641479a2a621a4392bbf61000",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md": "723505a72d13da502d5a71920b93b68c37e43bfed434dd7a520ae6ba8fefa28c"
+      },
+      "output_hashes_after": {
+        "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json": "6c2a542f8f2f0657da3782dd55e93a9bde71313641479a2a621a4392bbf61000",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md": "723505a72d13da502d5a71920b93b68c37e43bfed434dd7a520ae6ba8fefa28c"
+      },
+      "outputs_missing_after_run": [],
+      "outputs_unchanged_by_run": [
+        "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json",
+        "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md"
+      ],
       "exit_code": 0,
       "output_tail": [
         "  \"verdict\": \"SELECTED-ON-HOLDOUT: the preferred gate variant is defined only for the pool it is reported on, which is the pool where the original variant failed. It is not independently validated.\",",
@@ -362,18 +451,22 @@
         "  ]",
         "}"
       ],
+      "status": "computed",
+      "result_origin": "computed_in_this_run",
       "outputs": [
         {
           "path": "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json",
           "sha256": "6c2a542f8f2f0657da3782dd55e93a9bde71313641479a2a621a4392bbf61000",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         },
         {
           "path": "reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md",
           "sha256": "723505a72d13da502d5a71920b93b68c37e43bfed434dd7a520ae6ba8fefa28c",
           "present": true,
-          "origin": "computed_in_this_run"
+          "origin": "unchanged_by_this_run",
+          "changed_by_this_run": false
         }
       ]
     }
@@ -400,12 +493,13 @@
       "reason": "withdrawn; circular target"
     }
   ],
-  "finished_at_utc": "2026-07-27T22:10:34.599330+00:00",
+  "finished_at_utc": "2026-07-29T13:50:26.203773+00:00",
   "summary": {
     "stages_total": 6,
     "stages_computed": 6,
     "stages_blocked": 0,
     "stages_failed": 0,
-    "historical_only_outputs": 4
+    "historical_only_outputs": 4,
+    "provenance_quality": "weakened_dirty_tree"
   }
 }

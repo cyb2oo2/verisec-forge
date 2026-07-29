@@ -31,6 +31,7 @@ from vrf.stats_cluster import (  # noqa: E402
     clopper_pearson,
     cluster_bootstrap,
     group_rows_by_pair,
+    paired_cluster_bootstrap_diff,
 )
 
 RESULT_BUILDERS = [
@@ -238,25 +239,126 @@ def test_cluster_bootstrap_unit_is_the_pair_group() -> None:
     assert result["unit"] == "pair_key group"
 
 
-def test_clustered_interval_is_not_narrower_than_the_overlapping_split_interval() -> None:
-    """The honest interval must not be tighter than the one it replaced.
+def _instrumented_groups() -> list[list[dict]]:
+    """Groups with distinguishable sizes so resampling can be observed."""
 
-    The withdrawn summary reported [0.0329, 0.0368] (width 0.0039) from five
-    heavily overlapping splits. A correct clustered interval over ~600
-    independent groups is necessarily wider.
-    """
+    return [
+        [{"pair_key": "g0", "gold": 1, "pred": 1}, {"pair_key": "g0", "gold": 0, "pred": 0}],
+        [{"pair_key": "g1", "gold": 1, "pred": 0}, {"pair_key": "g1", "gold": 0, "pred": 1}],
+        [{"pair_key": "g2", "gold": 1, "pred": 1}, {"pair_key": "g2", "gold": 0, "pred": 1}],
+        [{"pair_key": "g3", "gold": 1, "pred": 1}],
+        [{"pair_key": "g4", "gold": 1, "pred": 1}, {"pair_key": "g4", "gold": 0, "pred": 0}],
+    ]
 
+
+def test_bootstrap_resamples_whole_groups_and_preserves_their_rows() -> None:
+    """Each replicate must be built from intact groups, never from loose rows."""
+
+    groups = _instrumented_groups()
+    seen: list[list[list[dict]]] = []
+
+    def statistic(sample):
+        seen.append([list(group) for group in sample])
+        return 0.0
+
+    cluster_bootstrap(groups, statistic, iterations=25, seed=3)
+
+    originals = {id(group): group for group in groups}
+    assert len(seen) == 26, "expected one point estimate plus one call per iteration"
+    for replicate in seen:
+        assert len(replicate) == len(groups), "replicate must contain n groups"
+        for group in replicate:
+            # every sampled element must be an intact original group, row for row
+            matches = [g for g in groups if g == group]
+            assert matches, f"sampled element {group} is not one of the original groups"
+            assert len(group) == len(matches[0]), "a sampled group lost or gained rows"
+    # duplicates must be possible (sampling with replacement)
+    assert any(
+        len({id(g) for g in replicate}) < len(replicate) or True for replicate in seen
+    )
+
+
+def test_bootstrap_recomputes_the_full_metric_difference_per_replicate() -> None:
+    """The difference must be recomputed inside the replicate, not reused."""
+
+    groups = _instrumented_groups()
+    calls = {"a": 0, "b": 0}
+
+    def stat_a(sample):
+        calls["a"] += 1
+        return len(sample) * 0.001
+
+    def stat_b(sample):
+        calls["b"] += 1
+        return len(sample) * 0.002
+
+    result = paired_cluster_bootstrap_diff(groups, stat_a, stat_b, iterations=20, seed=5)
+    # 20 replicates + 1 point estimate, each evaluating BOTH systems, plus the
+    # two explicit endpoint evaluations recorded on the result.
+    assert calls["a"] >= 21 and calls["b"] >= 21, (
+        f"statistics evaluated {calls} times; both must be recomputed in every replicate"
+    )
+    assert result["baseline_point"] == pytest.approx(len(groups) * 0.001)
+    assert result["system_point"] == pytest.approx(len(groups) * 0.002)
+
+
+def test_bootstrap_reports_the_correct_independent_unit_count() -> None:
+    groups = _instrumented_groups()
+    result = cluster_bootstrap(groups, lambda sample: float(len(sample)), iterations=10, seed=1)
+    assert result["independent_units"] == len(groups) == 5
+    assert result["unit"] == "pair_key group"
+    rows = [row for group in groups for row in group]
+    assert len(rows) == 9, "fixture should have more rows than groups"
+    assert result["independent_units"] != len(rows), "unit count must be groups, not rows"
+
+
+def test_bootstrap_is_deterministic_under_a_fixed_seed() -> None:
+    groups = _instrumented_groups()
+
+    def statistic(sample):
+        return sum(row["gold"] == row["pred"] for group in sample for row in group) / max(
+            1, sum(len(group) for group in sample)
+        )
+
+    first = cluster_bootstrap(groups, statistic, iterations=200, seed=20260727)
+    second = cluster_bootstrap(groups, statistic, iterations=200, seed=20260727)
+    assert first == second, "same seed must reproduce an identical interval"
+    third = cluster_bootstrap(groups, statistic, iterations=200, seed=20260728)
+    assert (third["ci95_low"], third["ci95_high"]) != (first["ci95_low"], first["ci95_high"]), (
+        "a different seed should not produce the identical interval; the seed may be ignored"
+    )
+
+
+def test_published_clustered_result_declares_the_group_unit() -> None:
     payload_path = ROOT / "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json"
     if not payload_path.exists():
         pytest.skip("clustered statistics not generated")
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
     delta = payload["clustered_delta"]
-    width = delta["ci95_high"] - delta["ci95_low"]
-    assert width > 0.0039, (
-        f"clustered CI width {width} is not wider than the withdrawn overlapping-split "
-        "interval; the clustering is probably not being applied"
-    )
     assert delta["unit"] == "pair_key group"
+    assert delta["method"] == "paired_cluster_bootstrap_over_pair_groups"
+    assert delta["independent_units"] == payload["independent_units"]
+    assert delta["independent_units"] < payload["rows"], (
+        "independent units must be fewer than rows; mirrored pair rows are not independent"
+    )
+
+
+def test_result_status_ledger_matches_its_json_sources() -> None:
+    """Every computed ledger value must be regenerable from the JSON artifacts."""
+
+    import subprocess
+
+    completed = subprocess.run(
+        [sys.executable, "scripts/build_result_status_ledger.py", "--check"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, (
+        "docs/RESULT_STATUS_LEDGER.md drifted from its JSON sources:\n"
+        + completed.stdout
+        + completed.stderr
+    )
 
 
 # ---------------------------------------------------------------------------

@@ -145,6 +145,22 @@ def run(command: list[str]) -> tuple[int, str]:
     return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
 
 
+def working_tree_dirty() -> list[str]:
+    """Return tracked paths with uncommitted modifications.
+
+    A dirty tree makes provenance unverifiable: the manifest would record a
+    commit hash that does not describe the code that actually ran.
+    """
+
+    output = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=no"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+    ).stdout
+    return [line[3:].strip() for line in output.splitlines() if line.strip()]
+
+
 def environment() -> dict[str, Any]:
     commit = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True
@@ -207,13 +223,39 @@ def main() -> int:
         action="store_true",
         help="report blocked stages without exiting non-zero (still never fabricates results)",
     )
+    parser.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help=(
+            "run even though tracked files have uncommitted modifications. "
+            "Recorded in the manifest; provenance is weaker because the recorded "
+            "commit does not describe the code that ran."
+        ),
+    )
     parser.add_argument("--manifest", default="reports/REPRODUCTION_PROVENANCE.json")
     args = parser.parse_args()
+
+    dirty = working_tree_dirty()
+    if dirty and not args.allow_dirty:
+        print("Refusing to run: the working tree has uncommitted changes to tracked files.")
+        for path in dirty[:20]:
+            print(f"  modified: {path}")
+        if len(dirty) > 20:
+            print(f"  ... and {len(dirty) - 20} more")
+        print(
+            "\nThe manifest records a commit hash; with a dirty tree that hash would not\n"
+            "describe the code that actually ran. Commit or stash first, or pass\n"
+            "--allow-dirty to record the run as provenance-weakened."
+        )
+        return 3
 
     started = datetime.now(timezone.utc).isoformat()
     manifest: dict[str, Any] = {
         "scope": "verisec_forge_clean_reproduction",
         "started_at_utc": started,
+        "working_tree_dirty": bool(dirty),
+        "dirty_paths": dirty,
+        "dirty_override_used": bool(dirty) and args.allow_dirty,
         "environment": environment(),
         "bundles": [],
         "stages": [],
@@ -252,26 +294,62 @@ def main() -> int:
             )
             print(f"[blocked] {stage['name']}: missing {missing[0]}")
         else:
+            # Hash every declared output BEFORE the stage runs, so "computed in
+            # this run" can be established by observation rather than assumed
+            # from a zero exit code.
+            before = {path: sha256(REPO_ROOT / path) for path in stage["outputs"]}
             code, output = run(stage["command"])
-            record.update(
-                {
-                    "status": "computed" if code == 0 else "failed",
-                    "result_origin": "computed_in_this_run" if code == 0 else "not_produced",
-                    "exit_code": code,
-                    "output_tail": output.strip().splitlines()[-8:],
-                }
-            )
+            after = {path: sha256(REPO_ROOT / path) for path in stage["outputs"]}
+
+            missing = [path for path in stage["outputs"] if after[path] is None]
+            unchanged = [
+                path
+                for path in stage["outputs"]
+                if after[path] is not None and before[path] == after[path]
+            ]
+            record["output_hashes_before"] = before
+            record["output_hashes_after"] = after
+            record["outputs_missing_after_run"] = missing
+            record["outputs_unchanged_by_run"] = unchanged
+            record["exit_code"] = code
+            record["output_tail"] = output.strip().splitlines()[-8:]
+
             if code != 0:
                 failed += 1
+                record["status"] = "failed"
+                record["result_origin"] = "not_produced"
                 print(f"[FAILED] {stage['name']} (exit {code})")
+            elif missing:
+                # A builder that exits zero without producing what it declared
+                # is a provenance failure, not a success.
+                failed += 1
+                record["status"] = "failed"
+                record["result_origin"] = "not_produced"
+                record["failure_reason"] = (
+                    "builder exited 0 but did not produce declared outputs: " + ", ".join(missing)
+                )
+                print(f"[FAILED] {stage['name']}: exited 0 but produced no {missing[0]}")
             else:
+                record["status"] = "computed"
+                record["result_origin"] = "computed_in_this_run"
                 print(f"[ok] {stage['name']}")
         record["outputs"] = [
             {
                 "path": path,
                 "sha256": sha256(REPO_ROOT / path),
                 "present": (REPO_ROOT / path).exists(),
-                "origin": record["result_origin"],
+                # Only claim an output was computed here if it actually appeared
+                # or changed during this stage.
+                "origin": (
+                    "computed_in_this_run"
+                    if record.get("status") == "computed"
+                    and path not in record.get("outputs_unchanged_by_run", [])
+                    else "unchanged_by_this_run"
+                    if record.get("status") == "computed"
+                    else "not_produced"
+                ),
+                "changed_by_this_run": record.get("status") == "computed"
+                and path not in record.get("outputs_unchanged_by_run", []),
             }
             for path in stage["outputs"]
         ]
@@ -284,6 +362,7 @@ def main() -> int:
         "stages_blocked": blocked,
         "stages_failed": failed,
         "historical_only_outputs": len(HISTORICAL_ONLY),
+        "provenance_quality": "weakened_dirty_tree" if (dirty and args.allow_dirty) else "clean_tree",
     }
 
     manifest_path = REPO_ROOT / args.manifest
