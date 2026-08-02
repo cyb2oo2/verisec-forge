@@ -1,0 +1,15 @@
+{
+  "id": "short_snake_case_unique_id",
+  "title": "Human-readable experiment title",
+  "layer": "measurement | model_evidence | mechanism | reproducibility",
+  "reproducibility_level": "report-backed | manifest-backed | ci-smoke | protocol-backed",
+  "report": "reports/YOUR_REPORT.md",
+  "script": "scripts/analyze_or_build_your_result.py",
+  "config": "configs/optional_config.json",
+  "seeds": [7, 13, 123],
+  "dataset": "primevul | crossvul | deltasecommits | patcheval",
+  "split": "held-out | time-disjoint | cve-disjoint | project-disjoint",
+  "claim": "One bounded sentence. Report a mean + CI/spread, not a lone point value.",
+  "negative_control": "The control that would falsify the claim if it were high.",
+  "notes": "Optional: known caveats, why this is smoke/pilot vs. promoted."
+}

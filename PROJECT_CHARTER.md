@@ -73,8 +73,6 @@ The project is successful if a reviewer can verify these points quickly:
 ## Primary Entry Points
 
 - [README](README.md)
-- [Application Focus](docs/APPLICATION_FOCUS.md)
-- [Application Packet](docs/APPLICATION_PACKET.md)
 - [Project Story](PROJECT_STORY.md)
 - [Results Index](reports/RESULTS_INDEX.md)
 - [Reproducibility](REPRODUCIBILITY.md)

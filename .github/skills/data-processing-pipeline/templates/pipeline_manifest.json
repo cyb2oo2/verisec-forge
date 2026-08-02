@@ -1,0 +1,25 @@
+{
+  "manifest_version": 1,
+  "description": "SHA256 manifest for a derived data artifact. Regenerate with scripts/build_reproducibility_bundle.py; validate with --check-only.",
+  "source": {
+    "raw_inputs": ["data/raw/<source>.jsonl"],
+    "git_commit": "<filled at build time>"
+  },
+  "transforms": [
+    "materialize_relational_runtime",
+    "canonical_side_swap_render",
+    "model_specific_truncation"
+  ],
+  "deconfound_checks": {
+    "orientation_vs_gold": "de-confounded (3000/3000 forward/reverse)",
+    "vuln_side_rate": 0.5,
+    "net_polarity": "tracked nuisance, not a feature"
+  },
+  "outputs": [
+    {
+      "path": "data/processed/<artifact>.jsonl",
+      "rows": 0,
+      "sha256": "<filled at build time>"
+    }
+  ]
+}

@@ -20,12 +20,11 @@ research feedback, through which channel, and with which paper shape.
 
 **This is not another self-audit.** The project has already produced several
 internal readiness audits (`docs/REVIEWER_READINESS_AUDIT.md`,
-`docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`,
 `docs/PREPRINT_PREPARATION_PLAN.md`), and each of them independently
 concluded the same thing: the highest-leverage remaining step is contact
 with the outside research world, not another internally-produced document.
 This plan exists to make that contact concrete and actionable, not to add a
-fourth audit to the pile.
+third audit to the pile.
 
 **The goal is to get real external research feedback by entering a relevant
 research channel.** Three mechanisms, not one:

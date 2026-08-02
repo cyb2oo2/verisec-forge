@@ -23,8 +23,7 @@
     "*.md",
     "docs/**/*.md",
     "paper/**/*.md",
-    "reports/**/*.md",
-    "application_materials/**/*.md"
+    "reports/**/*.md"
   ],
   "excluded_paths": [
     ".venv",
