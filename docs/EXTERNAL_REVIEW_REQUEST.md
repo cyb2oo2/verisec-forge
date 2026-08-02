@@ -1,5 +1,17 @@
 # External Review Request
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](RESULT_STATUS_LEDGER.md).
+
+
 Status: working-draft request for feedback. This is not a submission-ready
 packet, a preprint, or a claim that the draft is finished.
 
@@ -83,8 +95,6 @@ transfer.
 - References: `paper/references.md`
 - Result anchor map: `paper/result_anchor_map.md`
 - External feedback packet: `docs/EXTERNAL_FEEDBACK_PACKET.md`
-- PhD / top-lab application readiness audit:
-  `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
 - One-page research summary: `docs/ONE_PAGE_RESEARCH_SUMMARY.md`
 - Main results table: `paper/tables/main_results.md`
 - Key figures: `paper/figures/figure1_problem.svg`,

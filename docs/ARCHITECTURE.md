@@ -1,5 +1,15 @@
 # Architecture Overview
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](RESULT_STATUS_LEDGER.md).
+
+
 VeriSec Forge is organized as a research artifact around paired secure-patch reasoning. The codebase keeps enough infrastructure to reproduce reports, run the artifact-backed demo, and extend the retained experiments without reviving the old config explosion.
 
 ## Main Layers

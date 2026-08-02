@@ -1,5 +1,17 @@
 # Results Index
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+
+
 This index collects the application-facing reports and reproducibility entry points retained after pruning.
 
 ## Application Entry Points
@@ -18,8 +30,6 @@ Reviewer-facing narrative and reproducibility entry points.
 - `External Model Report Card`: `docs/EXTERNAL_MODEL_REPORT_CARD.md`
 - `Project Atlas`: `docs/PROJECT_ATLAS.md`
 - `Experiment Matrix`: `reports/EXPERIMENT_MATRIX.md`
-- `Application Packet`: `docs/APPLICATION_PACKET.md`
-- `Application Focus`: `docs/APPLICATION_FOCUS.md`
 - `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
 - `VeriPatch-RR External Adapter`: `docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md`
 - `CI Testing Strategy`: `docs/CI_TESTING_STRATEGY.md`
@@ -41,7 +51,6 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Experiment Completeness Audit and Remaining Evidence Gaps`: `docs/EXPERIMENT_COMPLETENESS_AUDIT.md`
 - `Paper-Readiness Audit`: `docs/PAPER_READINESS_AUDIT.md`
 - `Reviewer-Readiness Audit`: `docs/REVIEWER_READINESS_AUDIT.md`
-- `PhD / Top-Lab Application Readiness Audit`: `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
 - `External Review Request`: `docs/EXTERNAL_REVIEW_REQUEST.md`
 - `External Review Email Templates`: `docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md`
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
@@ -95,7 +104,7 @@ Disjoint PrimeVul stress tests, external datasets, and bounded source-aware rout
 
 ## Evidence-Coupled Audit
 
-Evidence localization and side-inversion diagnostics retained as bounded audit evidence.
+Evidence localization is **withdrawn**: the metric was circular and the human-confirmation step was anchored to pipeline-proposed windows. Side-inversion gate results require sample size and exact interval; see `PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md`.
 
 - `Pair Evidence Localization`: `reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md`
 - `Predicted-Side Hunk Scorer`: `reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`

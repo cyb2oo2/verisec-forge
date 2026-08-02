@@ -1,5 +1,17 @@
 # Evidence Hierarchy
 
+> **CORRECTED — WITHDRAWN RESULTS.**
+> This document previously presented PrimeVul detector results as evidence of learned
+> secure-patch reasoning. That interpretation was withdrawn after adversarial
+> structural-control analysis. Under the closed-world pair constraint the fine-tuned
+> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
+> structural control** reaches `0.8588` on the same evaluation population. The difference
+> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
+> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
+> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> Current status: [Result Status Ledger](RESULT_STATUS_LEDGER.md).
+
+
 Not every result in this repository carries the same evidential weight. A
 skeptical reader should be able to see, per claim, *what kind* of evidence backs
 it and how much to trust it. This document defines the tiers, places the main
@@ -47,9 +59,9 @@ promoted.
 | Side-swap predictions ≈ independent of canonical | T2 | `QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md` |
 | Endpoint fix does not transfer to side-order | T2 | `QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md` |
 | Relational failure appears in Qwen and CodeBERT | T2 / T3 | `CROSS_MODEL_RELATIONAL_AUDIT.md` |
-| Pair-coupled decoding is the strongest system layer | T2 | `PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md` |
+| ~~Pair-coupled decoding is the strongest system layer~~ **WITHDRAWN** | — | `PRIMEVUL_PAIR_COUPLED_CONSTRAINT_DECOMPOSITION.md` (matched by a semantics-free character control) |
 | Relation-consistent decoding removes violations | T4 | `DECODER_STRESS_VALIDATION.md` |
-| Evidence localization tracks side-correctness | T3 / **T5** | `PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`, round-3 pilot |
+| ~~Evidence localization tracks side-correctness~~ **WITHDRAWN (circular target)** | — | `PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md`, round-3 pilot |
 | Antisymmetric readout is a transferable structural fix for side-order inconsistency | T4 (exact by construction) / T2 (transfer confirmed on CrossVul + 5 nuisance families) | `REPAIR_ANTISYMMETRIC_RESULT_V1.md` (#54, #55) |
 | Fine-tuning increment over the projection null | **not validated** — significant in-distribution (p=0.002) but fails both preregistered transfer tests (CrossVul p=0.508; 0/5 nuisance families at Bonferroni-corrected p<0.01, 2/5 sign-reversed) | `REPAIR_ANTISYMMETRIC_RESULT_V1.md` (#54, #55) |
 

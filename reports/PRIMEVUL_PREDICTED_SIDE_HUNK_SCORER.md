@@ -1,5 +1,10 @@
 # PrimeVul Predicted-Side Hunk Scorer
 
+> **STATUS: WITHDRAWN AS LOCALIZATION ACCURACY.**
+> The `pseudo_label` target is produced by `support_label_for_decision`, which is antisymmetric in the decision argument: whenever risk_support != safety_support, flipping the predicted side flips the target deterministically. The side-correct (`0.7610`) versus side-wrong (`0.0632`) contrast is therefore an identity of the labelling function, not a measurement of evidence quality, and no model evidence output enters the target. Superseded by `reports/PRIMEVUL_EVIDENCE_HEURISTIC_CONSISTENCY.md`, which reports the same computation under an accurate name.
+> See [Research Integrity Verification](../docs/RESEARCH_INTEGRITY_VERIFICATION.md) and [Remediation Notice](../docs/RESEARCH_INTEGRITY_REMEDIATION.md).
+
+
 This report turns the side-aware hunk+window scorer from an oracle diagnostic into an end-to-end propagation check. The scorer is still trained on pseudo labels, but eval-time feature alignment uses the pair-coupled predicted side instead of the gold side.
 
 ## Side Source

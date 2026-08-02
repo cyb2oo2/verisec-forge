@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
 from scripts.build_primevul_pair_coupled_significance_summary import build_summary as build_significance_summary
 from scripts.build_primevul_pair_coupled_significance_summary import render_markdown as render_significance_markdown
 from scripts.analyze_primevul_pair_coupled_multisplit import build_summary, mcnemar_exact
@@ -109,11 +113,37 @@ def test_pair_coupled_significance_summary_separates_strict_and_headline_claims(
         ]
     }
 
-    summary = build_significance_summary(payload, iterations=100, seed=1)
-    markdown = render_significance_markdown(summary)
+    # The diff-only seed values must come from real sweep artifacts. When they
+    # are absent the builder is required to fail rather than substitute a
+    # remembered constant, so the test injects them explicitly instead.
+    import scripts.build_primevul_pair_coupled_significance_summary as module
+
+    original = module.diff_only_seed_values
+    module.diff_only_seed_values = lambda: [0.8158, 0.8382, 0.8321]
+    try:
+        summary = build_significance_summary(payload, iterations=100, seed=1)
+        markdown = render_significance_markdown(summary)
+    finally:
+        module.diff_only_seed_values = original
 
     assert summary["strict_pair_minus_bucket"]["positive_balanced_accuracy_splits"] == 2
     assert summary["strict_pair_minus_bucket"]["balanced_accuracy_delta"]["mean"] == 0.045
     assert "Strict Same-Split Claim" in markdown
     assert "Headline Comparison" in markdown
     assert "protocol caveat" in markdown
+
+
+def test_significance_summary_refuses_to_run_without_sweep_artifacts() -> None:
+    """Without its inputs the builder must raise, not fall back to a constant."""
+
+    import pytest
+
+    from vrf.artifact_guard import MissingResearchArtifact
+    import scripts.build_primevul_pair_coupled_significance_summary as module
+
+    sweeps = list((ROOT / "reports").glob("*threshold_sweep*.json"))
+    if sweeps:
+        pytest.skip("threshold sweep artifacts present; missing-input path not exercised")
+
+    with pytest.raises(MissingResearchArtifact):
+        module.diff_only_seed_values()

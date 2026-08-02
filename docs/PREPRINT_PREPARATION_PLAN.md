@@ -1,5 +1,15 @@
 # Preprint Preparation Plan
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](RESULT_STATUS_LEDGER.md).
+
+
 This is a planning document, not the preprint itself. It defines what remains
 before the current Markdown draft (`paper/draft_v0.md`) can be posted as a
 public preprint. It does not run experiments, train or tune models, change
@@ -24,7 +34,7 @@ This plan answers them separately, because the bar rises at each stage.
 | --- | --- | --- |
 | Ready as an internal working draft? | **READY** | `paper/draft_v0.md` is complete end-to-end (abstract through appendices), every `[RESULT: ...]` anchor resolves to a real report (`tests/test_paper_artifacts.py::test_paper_result_anchors_have_report_map`), and every `[RELATED: ...]` anchor resolves to `paper/references.md`. This bar has been met since before PR #67. |
 | Ready for external working-draft review? | **READY** | PR #68 shipped exactly this: `docs/EXTERNAL_REVIEW_REQUEST.md`, `docs/EXTERNAL_FEEDBACK_PACKET.md`, and `docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md` exist, are indexed in `README.md` and `reports/RESULTS_INDEX.md`, state working-draft framing, state the core claim boundary, and contain no forbidden overclaim phrases (enforced by `tests/test_external_review_packet.py`). `docs/REVIEWER_READINESS_AUDIT.md` independently verified no claim-boundary blocker exists. |
-| Ready for public preprint posting? | **NOT READY** | No external human has actually read the draft yet — every readiness audit in this repository (`docs/REVIEWER_READINESS_AUDIT.md`, `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`, this plan) is self-produced. Posting publicly before that step spends a one-time credibility event on a draft that has not been pressure-tested by anyone outside the project. Two items in `docs/PREPRINT_READINESS_CHECKLIST.md` §1 and §6 are also still unchecked (final abstract pass, external review actually solicited and returned), and no PDF/typesetting decision has been executed (Markdown-only was *decided* but never re-verified against arXiv's actual submission requirements — see Section 6 below). |
+| Ready for public preprint posting? | **NOT READY** | No external human has actually read the draft yet — every readiness audit in this repository (`docs/REVIEWER_READINESS_AUDIT.md`, this plan) is self-produced. Posting publicly before that step spends a one-time credibility event on a draft that has not been pressure-tested by anyone outside the project. Two items in `docs/PREPRINT_READINESS_CHECKLIST.md` §1 and §6 are also still unchecked (final abstract pass, external review actually solicited and returned), and no PDF/typesetting decision has been executed (Markdown-only was *decided* but never re-verified against arXiv's actual submission requirements — see Section 6 below). |
 
 **The difference between these three states, concretely:**
 
@@ -65,7 +75,6 @@ into "ready" — the gap here is a specific, actionable set of steps
 | Citation gaps resolved | `paper/references.md` (PR #67) | Complete; the "Citation Gaps" section that previously listed CrossVul, DeltaSecommits, PatchEval, Qwen2.5-Coder, Qwen2.5, and distilgpt2 as uncited is now empty — all six have verified entries. |
 | Claim-boundary tests | `tests/test_paper_artifacts.py`, `tests/test_paper_citation_polish.py`, `tests/test_external_review_packet.py` | Complete; these tests assert anchor consistency and scan for forbidden overclaim phrases, not just format. |
 | External review packet | `docs/EXTERNAL_REVIEW_REQUEST.md`, `docs/EXTERNAL_FEEDBACK_PACKET.md`, `docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md`, `docs/EXTERNAL_PARTICIPATION_GUIDE.md` | Complete (PR #68); packaged, indexed, and claim-bounded, but not yet sent/returned as of this plan. |
-| PhD/top-lab readiness audit | `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md` | Complete (PR #66); an application-focused audit, not a preprint-readiness audit — it identifies the same "no external eyes yet" gap this plan treats as a hard blocker (Section 3). |
 | Reviewer-readiness audit | `docs/REVIEWER_READINESS_AUDIT.md` | Complete; verdict "ready for external review as a working draft," no claim-boundary blocker found. |
 | Release tag and metadata | `CITATION.cff`, `LICENSE` (Apache-2.0), `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_V0_1_NOTES.md` | Complete; `v0.1.0` tagged as a bounded research-artifact release, distinct from and prior to any preprint decision. |
 
@@ -74,8 +83,8 @@ into "ready" — the gap here is a specific, actionable set of steps
 Most candidate items below are not true blockers. Three are:
 
 1. **No external human has read the draft.** Every readiness verdict in this
-   repository, including this one, is self-produced. `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
-   §1 and §11 independently reach the same conclusion: this is the single
+   repository, including this one, is self-produced. Every prior readiness
+   audit reached the same conclusion independently: this is the single
    highest-leverage remaining step, and no other item substitutes for it.
    The external review packet (`docs/EXTERNAL_REVIEW_REQUEST.md` etc.) is
    packaged and ready to send — it has not yet been sent, or has been sent
@@ -95,7 +104,7 @@ Everything else is should-fix, optional, or already done:
 | External human review obtained | **Blocker** | See above. Packet is ready (`docs/EXTERNAL_REVIEW_REQUEST.md`); the review itself has not happened. |
 | Author metadata (real name/affiliation) | **Blocker** | `CITATION.cff` line 7 says `"VeriSec Forge contributors"`; `paper/draft_v0.md` has no author line at all. |
 | PDF build path | **Blocker** | No *scripts/build_paper_pdf.py* or equivalent exists; format decision (Section 6) was made but never executed. |
-| Final title stability | Optional polish | `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md` §10 states title/abstract/contributions are "already settled per commit `899ea02`." `docs/REVIEWER_READINESS_AUDIT.md` flagged one wording nuance (does "reasoning" overclaim relative to "behavioral evidence"?) as a decision, not a defect, and explicitly recommended no forced change. A final human read before the irreversible step of posting is cheap and worth doing, but this is not blocking. |
+| Final title stability | Optional polish | Title, abstract, and contributions were settled at commit `899ea02`. `docs/REVIEWER_READINESS_AUDIT.md` flagged one wording nuance (does "reasoning" overclaim relative to "behavioral evidence"?) as a decision, not a defect, and explicitly recommended no forced change. A final human read before the irreversible step of posting is cheap and worth doing, but this is not blocking. |
 | Abstract length and clarity | Should-fix before preprint | `docs/PREPRINT_READINESS_CHECKLIST.md` §1 still lists "Final abstract pass" unchecked. The current abstract (`paper/draft_v0.md` lines 3-29) is accurate and bounded but dense (~230 words in one paragraph); a light pass for a cold arXiv reader is worthwhile. |
 | Figure rendering / visual quality | Should-fix before preprint | Figures are SVG (`paper/figures/*.svg`), fine for a Markdown/HTML reading path but not guaranteed to render inside a LaTeX/Pandoc PDF pipeline without conversion. Tied to the Section 6 decision. |
 | References format | Should-fix before preprint | Content-complete (10 sources, no gaps as of PR #67) but still an anchor bridge (`[RELATED: ...]` in `paper/references.md`), not a formatted bibliography. Acceptable for a Markdown-only preprint (see Section 6 Option A); would become a blocker only under a LaTeX/BibTeX conversion (Option B). |
@@ -108,7 +117,7 @@ Everything else is should-fix, optional, or already done:
 | arXiv category choice | Should-fix before preprint | Not yet decided. Likely candidates given the content (secure-code ML evaluation, not a systems or theory paper): `cs.CR` (Cryptography and Security) as primary, `cs.SE` (Software Engineering) or `cs.LG` (Machine Learning) as cross-list. This is a five-minute decision at submission time, not a drafting task, but it is undecided today. |
 | Anonymous vs non-anonymous version | Blocker (same root cause as author metadata) | arXiv preprints are non-anonymous by construction; this is resolved by fixing author metadata, not a separate task. |
 | GitHub release / Zenodo archive | Optional polish | `v0.1.0` is already tagged (`docs/RELEASE_CHECKLIST.md`); Zenodo archival was explicitly deferred there ("not part of the v0.1.0 release action"). A DOI is nice for citability but not required to post a preprint. |
-| README public-facing clarity | Should-fix before preprint | `README.md` is comprehensive but, per `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md` §2, the repository has "produced dozens of near-duplicate audit and report documents... A reader has to work to find the three or four documents that actually matter." A reader arriving from an arXiv link has less patience than an internal contributor. See Section 7. |
+| README public-facing clarity | Should-fix before preprint | `README.md` is comprehensive, but the repository has produced dozens of near-duplicate audit and report documents, and a reader has to work to find the three or four that actually matter. A reader arriving from an arXiv link has less patience than an internal contributor. See Section 7. |
 
 Do not read the should-fix and optional rows as blocking work for *this* PR —
 this plan's job is to classify them, not to resolve them here.
@@ -144,7 +153,7 @@ This boundary is a verification, not a proposed change.
 | A learned repair claimed as validated | §8: the draft states the fine-tuning objective does not produce a repair that is validated as transferable |
 | Production-ready security tool | §9 opening: "should not be used as an automated security review system without human oversight" |
 | Human replacement | Not explicitly stated as a standalone sentence in the current draft — see Section 8 of this plan for the recommendation to add this explicitly. |
-| Readiness for top-conference acceptance | Not a draft claim; addressed at the meta level in `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`, not inside the paper itself, which is correct — the paper should not claim its own venue-readiness either way. |
+| Readiness for top-conference acceptance | Not a draft claim; addressed at the meta level in the project's readiness audits, not inside the paper itself, which is correct — the paper should not claim its own venue-readiness either way. |
 
 One gap: "does not replace human review" is present in the *supporting docs*
 (`docs/EXTERNAL_FEEDBACK_PACKET.md`: "It does not replace human security
@@ -246,8 +255,8 @@ public preprint today?
 | License | `LICENSE` (Apache-2.0) at repo root, referenced from `README.md` "Citation and Release Metadata". | Done at the repo level. (The `CITATION.cff` author-name placeholder is tracked separately as a blocker in Section 3 — that is an identity gap, not a license gap.) |
 | Data / model download assumptions | `REPRODUCIBILITY.md`'s "Quick Check" and "Evidence-Coupled Reproduction" paths explicitly assume required dataset/prediction artifacts are "already materialized locally" — there is no documented one-command path to fetch PrimeVul, CrossVul, DeltaSecommits, PatchEval, or the `Qwen/Qwen2.5-Coder-1.5B-Instruct` checkpoint from scratch. This is very likely because at least PrimeVul has its own access/redistribution terms that this repository correctly does not try to route around, but the assumption is not stated as such anywhere a first-time cloner would see it before running a command. | Should-fix before preprint: add one explicit sentence to `REPRODUCIBILITY.md` (or `README.md`) stating that full reproduction assumes the underlying datasets/checkpoints are obtained separately per their own licenses, and pointing to where each is normally sourced. This is a documentation gap, not a missing artifact. |
 | Known limitations (repo-level) | Present in depth inside the paper (`paper/draft_v0.md` §9) but there is no short pointer to it from the README's top-level sections; the closest is the bottom-of-README "Claim Boundaries" section. | Optional polish: a one-line "Limitations: see paper §9" pointer near the top would help a skimming reader, but the content already exists and is linked eventually. |
-| Out-of-scope untracked or private files | `git status` at the start of this plan shows three untracked paths: `application_materials/` (admissions materials, including a `.pptx` walkthrough and a recommender-outreach email draft), *docs/REAL_WORLD_USE_CASE_DEFINITION.md* (the separate, explicitly out-of-scope real-world directional patch review line), and *reports/repair_train_status_smoke.json*. None of these are committed, so none are currently part of the public repository, and none are committed by this plan. | Flag only, no action taken: before any future `git add -A` or bulk-staging commit, these three paths should be reviewed individually — `application_materials/` in particular should probably never be committed to a research-artifact repository a preprint links to, since it contains personal/admissions content (a recommender email draft, a personal profile digest) rather than research artifacts. |
-| Application-oriented docs already tracked | `docs/APPLICATION_PACKET.md`, `docs/APPLICATION_FOCUS.md`, `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`, and related files *are* already committed and public. They are internally honest and well-bounded (no overclaims found in this plan's review of them), so there is no correctness problem. The open question is audience fit: a PI or reviewer following a preprint link to this repository would see "PhD / Top-Lab Application Readiness Audit" alongside the research artifact, which can read as slightly unusual for a research-preprint audience even though the content itself is not misleading. | **Decision: keep tracked, do not delete or hide, but recommend future separation.** A future `docs: public repo cleanup for preprint release` PR (see Section 11) should move the application-oriented docs into a clearly labeled subdirectory (e.g. `docs/application/`) and adjust `README.md` so the primary reading path a preprint reader follows leads with the research artifact (paper, results, reproducibility) and only optionally surfaces the application-focused material. This is explicitly **not** done in this PR — see the "do not delete anything... unless clearly safe" instruction this plan was given; moving files is a separate, reviewable change, not a safe default here. |
+| Out-of-scope untracked files | `git status` shows two untracked paths: *docs/REAL_WORLD_USE_CASE_DEFINITION.md* (the separate, explicitly out-of-scope real-world directional patch review line) and *reports/repair_train_status_smoke.json*. Neither is committed, so neither is currently part of the public repository, and neither is committed by this plan. | Flag only, no action taken: before any future `git add -A` or bulk-staging commit, these two paths should be reviewed individually. |
+| Application-oriented docs | Previously this repository tracked a set of PhD-application-facing documents alongside the research artifact, which was a poor audience fit for a preprint-facing surface. | **Resolved: removed.** The application-oriented documents and the untracked personal/admissions materials have been deleted, and the index entries in `README.md`, `PROJECT_CHARTER.md`, `reports/RESULTS_INDEX.md`, and `configs/report_index.json` were updated to match. The primary reading path now leads with the research artifact (paper, results, reproducibility) only. |
 
 **Overall verdict for this section: the repository is close but not yet a
 clean preprint-facing surface.** Nothing found here is a correctness problem
@@ -310,7 +319,7 @@ Presentation-Structure Transformations."*
 | --- | --- |
 | Title accuracy | Accurate. The title's two halves map directly onto the paper's two main moves: the pointwise-vs-relational gap (Sections 3, 5-6) and the presentation-structure mechanism (Sections 6.3-6.4, 8). No part of the title claims something the paper does not deliver. |
 | Title memorability | Reasonable. The negative-claim structure ("X is not Y") is a recognizable pattern in this literature — notably, it echoes "Attention is not Explanation" [RELATED: attention-not-explanation], which this paper itself cites in `paper/references.md`. That is a fitting, not accidental-looking, resemblance given the paper's own positioning around behavioral-vs-mechanistic evidence boundaries (§2.4). |
-| Risk of overclaiming | **Already resolved, and worth recording explicitly because the record is easy to misread otherwise.** `docs/REVIEWER_READINESS_AUDIT.md` (written earlier in the project's history) flagged concern over a *prior* working title using the word "Reasoning" — *"Pointwise Accuracy Is Not Relational Reasoning."* The **current** title, verified directly against `paper/draft_v0.md` line 1 in this review, already reads "Relational **Consistency**," not "Relational Reasoning." The concern that audit raised has been addressed by the title change itself, most likely as part of the title/abstract finalization `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md` §10 references at commit `899ea02`. No further title-overclaim risk was found in this review. |
+| Risk of overclaiming | **Already resolved, and worth recording explicitly because the record is easy to misread otherwise.** `docs/REVIEWER_READINESS_AUDIT.md` (written earlier in the project's history) flagged concern over a *prior* working title using the word "Reasoning" — *"Pointwise Accuracy Is Not Relational Reasoning."* The **current** title, verified directly against `paper/draft_v0.md` line 1 in this review, already reads "Relational **Consistency**," not "Relational Reasoning." The concern that audit raised has been addressed by the title change itself, most likely as part of the title/abstract finalization at commit `899ea02`. No further title-overclaim risk was found in this review. |
 | Whether "Relational Consistency" is the right phrase | Yes. "Consistency" names exactly the measurable, behavioral property VeriPatch-RR tests (side-order equivariance, endpoint robustness, both-directions-correct) without implying the stronger, unverified claim "Reasoning" would carry (an inferential/cognitive capability claim the paper explicitly disclaims — §6.3, §9: "behavioral, not an internal-mechanistic proof"). The word choice and the claim boundary agree. |
 | Whether the abstract clearly explains candidate-identity vs. directional-patch classification | Yes. The abstract's second sentence states it directly: "a candidate-identity judgment, not a directional 'does this patch fix or introduce' judgment" (`paper/draft_v0.md` line 7-8). A reader does not need to reach §3 to encounter this distinction. |
 | Whether the abstract gives enough motivation for readers outside this repo | Mostly. The abstract states the applied motivation (patch review is relational; benchmarks test it pointwise), the central finding, the cross-architecture evidence, the CrossVul confound, the repair result, and the explicit non-claims — all self-contained without repository context. The one real readability cost is density: it is a single ~230-word paragraph. This is the same gap already flagged in Section 3 as "should-fix before preprint," not a new finding. |
@@ -395,8 +404,7 @@ external read — none of which requires new research.
 
 **Is it worth making into a preprint?** Yes, conditional on not skipping the
 external-review step. The value of a preprint here is largely the same value
-`docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md` §1 already identified for
-applications: a public, citable, timestamped record of a complete research
+prior readiness audits already identified: a public, citable, timestamped record of a complete research
 loop (artifact discovery, reframing, mechanism isolation, confound
 measurement, honestly-reported failed repair). That value is undercut, not
 gained, by posting before a single outside reader has engaged with it,
@@ -409,8 +417,8 @@ outside this project to actually read the draft and react to it (Section 3,
 Blocker #1). This is not a task that more internal engineering effort can
 substitute for or accelerate — it depends on another person's time and
 attention, which is exactly why every audit in this repository
-(`docs/REVIEWER_READINESS_AUDIT.md`, `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`,
-this plan) converges on the same conclusion from different angles.
+(`docs/REVIEWER_READINESS_AUDIT.md`, this plan) converges on the same
+conclusion from different angles.
 
 **What is the highest-leverage next action?** Two things, in parallel, not
 in sequence: (1) actually send the already-packaged external review request
@@ -425,9 +433,9 @@ orders stages by what depends on what technically, not by what should
 happen first in wall-clock time.
 
 **What should not be done next?** Four things: (1) another self-produced
-audit or readiness checklist — `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
-§9 already names this exact pattern as a risk ("the next document this
-project needs is external, not self-generated"), and this plan itself is
+audit or readiness checklist — prior audits already named this exact pattern
+as a risk (the next document this project needs is external, not
+self-generated), and this plan itself is
 the last of that genre this project should produce before an external
 reader is actually obtained; (2) any new experiment, model training, or
 result — the task boundary for this plan explicitly excludes it, and

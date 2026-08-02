@@ -5,8 +5,6 @@
       "description": "Reviewer-facing narrative and reproducibility entry points.",
       "entries": [
         { "label": "README", "path": "README.md", "required": true },
-        { "label": "Application Packet", "path": "docs/APPLICATION_PACKET.md", "required": true },
-        { "label": "Application Focus", "path": "docs/APPLICATION_FOCUS.md", "required": true },
         { "label": "Project Story", "path": "PROJECT_STORY.md", "required": true },
         { "label": "Reproducibility Guide", "path": "REPRODUCIBILITY.md", "required": true }
       ]

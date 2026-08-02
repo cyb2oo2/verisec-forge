@@ -1,5 +1,15 @@
 # Pointwise Accuracy Is Not Relational Consistency: Auditing Secure Patch Models Under Presentation-Structure Transformations
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+
+
 *Draft status: this is a prose short-paper draft (v1) for SaTML 2027, not
 final typeset copy. Page length has not been validated against a
 page-limit or formatting path, since SaTML 2027's own page limit is not

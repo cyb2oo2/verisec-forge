@@ -1,5 +1,15 @@
 # Learned Joint Secure Patch Reasoning Plan
 
+> **HISTORICAL DOCUMENT — CONTAINS WITHDRAWN RESULTS.**
+> Contains results or interpretations withdrawn after adversarial structural-control
+> analysis. Under the closed-world pair constraint the detector reaches `0.8596` balanced
+> accuracy and a semantics-free character-level diff control reaches `0.8588` on the same
+> population; the difference (`+0.0008`, clustered 95% CI `[-0.0202, +0.0222]`, sign test
+> 19 vs 18, `p=1.0`) is not distinguishable from zero.
+> **Do not cite as the repository's current scientific conclusion.**
+> Current status: [Result Status Ledger](RESULT_STATUS_LEDGER.md).
+
+
 ## Motivation
 
 Pair-coupled decoding is currently a strong system layer, but it is still a decoding rule over independently scored sides. The next method-level contribution should learn the coupled decision directly.
