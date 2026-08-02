@@ -95,8 +95,6 @@ transfer.
 - References: `paper/references.md`
 - Result anchor map: `paper/result_anchor_map.md`
 - External feedback packet: `docs/EXTERNAL_FEEDBACK_PACKET.md`
-- PhD / top-lab application readiness audit:
-  `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
 - One-page research summary: `docs/ONE_PAGE_RESEARCH_SUMMARY.md`
 - Main results table: `paper/tables/main_results.md`
 - Key figures: `paper/figures/figure1_problem.svg`,

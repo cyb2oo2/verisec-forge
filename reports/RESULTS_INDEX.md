@@ -30,8 +30,6 @@ Reviewer-facing narrative and reproducibility entry points.
 - `External Model Report Card`: `docs/EXTERNAL_MODEL_REPORT_CARD.md`
 - `Project Atlas`: `docs/PROJECT_ATLAS.md`
 - `Experiment Matrix`: `reports/EXPERIMENT_MATRIX.md`
-- `Application Packet`: `docs/APPLICATION_PACKET.md`
-- `Application Focus`: `docs/APPLICATION_FOCUS.md`
 - `Next Method Phase`: `docs/NEXT_METHOD_PHASE.md`
 - `VeriPatch-RR External Adapter`: `docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md`
 - `CI Testing Strategy`: `docs/CI_TESTING_STRATEGY.md`
@@ -53,7 +51,6 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Experiment Completeness Audit and Remaining Evidence Gaps`: `docs/EXPERIMENT_COMPLETENESS_AUDIT.md`
 - `Paper-Readiness Audit`: `docs/PAPER_READINESS_AUDIT.md`
 - `Reviewer-Readiness Audit`: `docs/REVIEWER_READINESS_AUDIT.md`
-- `PhD / Top-Lab Application Readiness Audit`: `docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md`
 - `External Review Request`: `docs/EXTERNAL_REVIEW_REQUEST.md`
 - `External Review Email Templates`: `docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md`
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
