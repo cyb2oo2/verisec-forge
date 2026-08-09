@@ -1,0 +1,84 @@
+{
+  "benchmark_version": "v4",
+  "rows": 4980,
+  "pairs": 1245,
+  "rendering_families": [
+    "glyph",
+    "prose"
+  ],
+  "sources": {
+    "primevul": {
+      "input": "D:/code/start/data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 827,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 797,
+      "skipped_groups": 50,
+      "rejected_non_mirror_pairs": 30,
+      "non_mirror_rejection_rate": 0.036275695284159616,
+      "sampled_pairs": 350,
+      "polarity_balanced_pairs": 68,
+      "polarity_balanced_fraction": 0.19428571428571428
+    },
+    "deltasecommits": {
+      "input": "D:/code/start/data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata_v2.jsonl",
+      "ingestion": {
+        "pairs_seen": 327,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 316,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 11,
+      "non_mirror_rejection_rate": 0.03363914373088685,
+      "sampled_pairs": 316,
+      "polarity_balanced_pairs": 60,
+      "polarity_balanced_fraction": 0.189873417721519
+    },
+    "patcheval": {
+      "input": "D:/code/start/data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 269,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 229,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 40,
+      "non_mirror_rejection_rate": 0.14869888475836432,
+      "sampled_pairs": 229,
+      "polarity_balanced_pairs": 76,
+      "polarity_balanced_fraction": 0.3318777292576419
+    },
+    "crossvul": {
+      "input": "D:/code/start/data/processed/secure_code_crossvul_pair_diff_eval_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 4371,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 4218,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 153,
+      "non_mirror_rejection_rate": 0.035003431708991076,
+      "sampled_pairs": 350,
+      "polarity_balanced_pairs": 104,
+      "polarity_balanced_fraction": 0.29714285714285715
+    }
+  },
+  "invariants": {
+    "exact_swap_mirror": "enforced at load; non-mirror pairs rejected, rates published per source",
+    "line_structured_sources": "counted per source via is_line_structured; single-line records are an ingestion defect",
+    "autojunk": "difflib default (autojunk=True) retained. Measured on CrossVul: autojunk=False would recover 128 of 153 rejected pairs (+3.0%) but changes the rendering of 477/4218 (11.3%) currently-valid pairs, invalidating every existing prediction artifact. The exact-mirror filter is the cheaper and safer control."
+  },
+  "shortcuts_removed": {
+    "malformed_side_swap": "pairs whose swapped rendering is not an exact mirror are rejected, so side-swap metrics are always well-defined",
+    "net_polarity_sign": "the polarity_balanced_slice equalises the four (gold x net-sign) cells, so the sign of the net character change carries no information about gold and the semantics-free control sits at chance"
+  },
+  "shortcuts_NOT_removed": {
+    "glyph_encoding": "stripping +/- glyphs does NOT weaken the control: a prose control reading the split_view block headers scores the same as the glyph control on the same pairs (0.8029 vs 0.8057 on CrossVul). The prose family exists to measure glyph->prose transfer, not to handicap the control.",
+    "net_polarity_magnitude": "within the balanced slice a threshold rule refit on |net chars| still reaches ~0.58-0.59 (eval-set refit, so an optimistic upper bound). Magnitude stratification is the next lever if that residual matters."
+  }
+}

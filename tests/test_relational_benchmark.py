@@ -2,10 +2,12 @@ from vrf.relational_benchmark import (
     build_canonical_pair,
     build_interventions,
     changed_line_occurrences,
+    is_line_structured,
     render_pair,
     sample_balanced_stress,
     sample_representative,
     sampling_diagnostics,
+    swap_mirror_is_exact,
     swap_pair,
 )
 
@@ -54,6 +56,40 @@ def test_canonical_swap_changes_only_side_order_contract():
     assert pair.gold_riskier_side != swapped.gold_riskier_side
     assert "Output one label" in render_pair(pair)
     assert "Output one label" in render_pair(swapped)
+
+
+def test_is_line_structured_flags_flattened_records():
+    """Names the ingestion defect the mirror invariant only detects as a symptom."""
+
+    multi = "int main() {\n  return 0;\n}\n" * 8
+    assert is_line_structured(multi)
+    assert not is_line_structured(multi.replace("\n", " "))
+    # A genuinely short one-line record is not a defect.
+    assert is_line_structured("int f(void) { return 0; }")
+
+
+def test_swap_mirror_invariant_accepts_line_structured_pairs():
+    pair = build_canonical_pair("demo-1", pair_rows("demo-1"), dataset="demo")
+    assert swap_mirror_is_exact(pair)
+
+
+def test_swap_mirror_invariant_rejects_single_line_records():
+    """A newline-free record renders the added body onto the removed line.
+
+    The row then carries no line-level +/- structure, so nothing flips under the
+    swap and every side-swap metric over it is meaningless. See
+    reports/VERIPATCH_RR_STRUCTURAL_CONTROL.md.
+    """
+
+    rows = pair_rows("demo-2")
+    for row in rows:
+        row["code"] = row["code"].replace("\n", " ")
+    pair = build_canonical_pair("demo-2", rows, dataset="demo")
+
+    forward = render_pair(pair)
+    reverse = render_pair(swap_pair(pair))
+    assert forward != reverse, "sanity: the swap must still change the text"
+    assert not swap_mirror_is_exact(pair)
 
 
 def test_interventions_are_tokenizer_neutral_and_runtime_described():

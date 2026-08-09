@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v3.jsonl",
+  "model_id": "qwen15b-v3-1024",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "max_length": 1024,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 1800,
+  "critical_hunk_truncated_rows": 39,
+  "transformation_introduced_critical_truncation_rows": 0,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 1800,
+      "critical_hunk_truncated_rows": 39,
+      "transformation_introduced_critical_truncation_rows": 0
+    }
+  },
+  "by_template": {
+    "canonical": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 13,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9929754050184926,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "polarity_only_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 13,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9930726767013143,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap": {
+      "rows": 600,
+      "critical_hunk_truncated_rows": 13,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9930726767013143,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}

@@ -22,12 +22,15 @@ from vrf.relational_benchmark import (
     sample_representative,
     sampling_diagnostics,
     structural_accounting,
+    swap_mirror_is_exact,
 )
 
 
 DEFAULT_SOURCES = [
     "primevul=data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
-    "deltasecommits=data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl",
+    # v2: newline-normalised `code` field. The pre-v2 file stores every function
+    # on one line, which the exact-mirror invariant rejects wholesale (327/327).
+    "deltasecommits=data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata_v2.jsonl",
     "patcheval=data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
 ]
 
@@ -40,17 +43,45 @@ def parse_source(value: str) -> tuple[str, Path]:
 
 
 def load_pairs(name: str, path: Path):
+    """Load canonical pairs, rejecting any that cannot support a side swap.
+
+    Construction-time invariant: a pair is admitted only when swapping its sides
+    produces an exact structural mirror of the rendering. Pairs that fail carry
+    no line-level polarity structure, so every side-swap metric computed over
+    them is meaningless. The rejection rate is published in the summary rather
+    than being silently absorbed.
+    """
+
     grouped: dict[str, list[dict[str, Any]]] = {}
     for row in read_jsonl(path):
         grouped.setdefault(str(row.get("pair_key") or row["id"]), []).append(row)
     pairs = []
     skipped = 0
+    rejected_non_mirror = 0
     for pair_key, rows in grouped.items():
         try:
-            pairs.append(build_canonical_pair(pair_key, rows, dataset=name))
+            pair = build_canonical_pair(pair_key, rows, dataset=name)
         except ValueError:
             skipped += 1
-    return pairs, skipped
+            continue
+        if not swap_mirror_is_exact(pair):
+            rejected_non_mirror += 1
+            continue
+        pairs.append(pair)
+
+    # Fail loudly rather than emitting a benchmark that silently omits a source.
+    # A source that renders no valid side swap at all is a data defect, not an
+    # empty sample: this is exactly how the DeltaSecommits newline defect went
+    # unnoticed while contaminating every side-swap number built over it.
+    if not pairs and rejected_non_mirror:
+        raise SystemExit(
+            f"source {name!r} ({path}): every one of {rejected_non_mirror} pairs "
+            "fails the exact-mirror invariant, so it can support no side-swap "
+            "measurement. This usually means the source stores each function on "
+            "a single line. Fix ingestion (see normalize_code_for_diff) rather "
+            "than proceeding with the source silently dropped."
+        )
+    return pairs, skipped, rejected_non_mirror
 
 
 def build_rows(pairs, *, seed: int, suite: str) -> list[dict[str, Any]]:
@@ -195,7 +226,7 @@ def main() -> int:
     source_summaries = {}
     for source_value in args.source or DEFAULT_SOURCES:
         name, path = parse_source(source_value)
-        pairs, skipped = load_pairs(name, path)
+        pairs, skipped, rejected_non_mirror = load_pairs(name, path)
         representative = sample_representative(
             pairs, limit=args.pairs_per_source, seed=args.seed
         )
@@ -212,6 +243,12 @@ def main() -> int:
             "input": str(path.relative_to(ROOT)).replace("\\", "/"),
             "eligible_pairs": len(pairs),
             "skipped_groups": skipped,
+            "rejected_non_mirror_pairs": rejected_non_mirror,
+            "non_mirror_rejection_rate": (
+                rejected_non_mirror / (len(pairs) + rejected_non_mirror)
+                if (len(pairs) + rejected_non_mirror)
+                else 0.0
+            ),
             "representative": sampling_diagnostics(
                 representative, suite="representative"
             ),

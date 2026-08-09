@@ -1,0 +1,349 @@
+{
+  "status": "ok",
+  "benchmark": "VeriPatch-RR-v0.1",
+  "pairs": 1200,
+  "unique_source_pairs": 851,
+  "rows": 9600,
+  "intervention_rows": 8400,
+  "sampling": {
+    "seed": 42,
+    "pairs_per_source_per_suite": 200,
+    "suites": [
+      "representative",
+      "balanced_stress"
+    ],
+    "balance_dimensions": [
+      "diff_bucket",
+      "character_bucket"
+    ],
+    "caps": [
+      "project",
+      "cwe"
+    ]
+  },
+  "tokenizer_neutral": true,
+  "runtime_accounting_required": true,
+  "source_summaries": {
+    "primevul": {
+      "input": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "eligible_pairs": 797,
+      "skipped_groups": 50,
+      "rejected_non_mirror_pairs": 30,
+      "non_mirror_rejection_rate": 0.036275695284159616,
+      "representative": {
+        "suite": "representative",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": "source_distribution",
+          "character_bucket": "source_distribution"
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "06-10": 46,
+            "03-05": 42,
+            "26+": 12,
+            "00-02": 70,
+            "11-25": 30
+          },
+          "character_bucket": {
+            "<=1k": 150,
+            "1k-4k": 48,
+            "4k-16k": 2
+          },
+          "language": {
+            "unknown": 200
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": []
+        },
+        "maximum_project_concentration": 0.175,
+        "maximum_cwe_concentration": 0.135,
+        "effective_projects": 15.612802498048401,
+        "effective_cwes": 15.974440894568689
+      },
+      "balanced_stress": {
+        "suite": "balanced_stress",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": [
+            "00-02",
+            "03-05",
+            "06-10",
+            "11-25",
+            "26+"
+          ],
+          "character_bucket": [
+            "<=1k",
+            "1k-4k",
+            "4k-16k",
+            "16k+"
+          ]
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "11-25": 40,
+            "00-02": 40,
+            "26+": 40,
+            "03-05": 40,
+            "06-10": 40
+          },
+          "character_bucket": {
+            "1k-4k": 83,
+            "<=1k": 106,
+            "4k-16k": 11
+          },
+          "language": {
+            "unknown": 200
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": [
+            "16k+"
+          ]
+        },
+        "maximum_project_concentration": 0.01,
+        "maximum_cwe_concentration": 0.05,
+        "effective_projects": 170.94017094017093,
+        "effective_cwes": 39.525691699604735
+      }
+    },
+    "deltasecommits": {
+      "input": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata_v2.jsonl",
+      "eligible_pairs": 316,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 11,
+      "non_mirror_rejection_rate": 0.03363914373088685,
+      "representative": {
+        "suite": "representative",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": "source_distribution",
+          "character_bucket": "source_distribution"
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "06-10": 42,
+            "26+": 10,
+            "03-05": 65,
+            "11-25": 21,
+            "00-02": 62
+          },
+          "character_bucket": {
+            "<=1k": 129,
+            "4k-16k": 5,
+            "1k-4k": 66
+          },
+          "language": {
+            "c": 164,
+            "cpp": 36
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": []
+        },
+        "maximum_project_concentration": 0.36,
+        "maximum_cwe_concentration": 0.12,
+        "effective_projects": 6.529546196539341,
+        "effective_cwes": 12.422360248447205
+      },
+      "balanced_stress": {
+        "suite": "balanced_stress",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": [
+            "00-02",
+            "03-05",
+            "06-10",
+            "11-25",
+            "26+"
+          ],
+          "character_bucket": [
+            "<=1k",
+            "1k-4k",
+            "4k-16k",
+            "16k+"
+          ]
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "03-05": 53,
+            "11-25": 40,
+            "26+": 16,
+            "00-02": 43,
+            "06-10": 48
+          },
+          "character_bucket": {
+            "<=1k": 103,
+            "1k-4k": 89,
+            "4k-16k": 8
+          },
+          "language": {
+            "c": 166,
+            "cpp": 34
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": [
+            "16k+"
+          ]
+        },
+        "maximum_project_concentration": 0.09,
+        "maximum_cwe_concentration": 0.145,
+        "effective_projects": 31.446540880503143,
+        "effective_cwes": 11.79245283018868
+      }
+    },
+    "patcheval": {
+      "input": "data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+      "eligible_pairs": 229,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 40,
+      "non_mirror_rejection_rate": 0.14869888475836432,
+      "representative": {
+        "suite": "representative",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": "source_distribution",
+          "character_bucket": "source_distribution"
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "06-10": 38,
+            "11-25": 29,
+            "03-05": 64,
+            "00-02": 53,
+            "26+": 16
+          },
+          "character_bucket": {
+            "<=1k": 146,
+            "1k-4k": 52,
+            "4k-16k": 2
+          },
+          "language": {
+            "python": 76,
+            "javascript": 51,
+            "go": 73
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": []
+        },
+        "maximum_project_concentration": 0.015,
+        "maximum_cwe_concentration": 0.205,
+        "effective_projects": 148.14814814814815,
+        "effective_cwes": 12.091898428053206
+      },
+      "balanced_stress": {
+        "suite": "balanced_stress",
+        "pairs": 200,
+        "target_marginals": {
+          "diff_bucket": [
+            "00-02",
+            "03-05",
+            "06-10",
+            "11-25",
+            "26+"
+          ],
+          "character_bucket": [
+            "<=1k",
+            "1k-4k",
+            "4k-16k",
+            "16k+"
+          ]
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "03-05": 61,
+            "11-25": 36,
+            "26+": 17,
+            "06-10": 40,
+            "00-02": 46
+          },
+          "character_bucket": {
+            "<=1k": 137,
+            "1k-4k": 61,
+            "4k-16k": 2
+          },
+          "language": {
+            "python": 73,
+            "javascript": 52,
+            "go": 75
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": [
+            "16k+"
+          ]
+        },
+        "maximum_project_concentration": 0.02,
+        "maximum_cwe_concentration": 0.13,
+        "effective_projects": 152.67175572519082,
+        "effective_cwes": 16.736401673640167
+      }
+    }
+  },
+  "suite_summaries": {
+    "balanced_stress": {
+      "pairs": 600,
+      "datasets": {
+        "primevul": 200,
+        "deltasecommits": 200,
+        "patcheval": 200
+      },
+      "diff_buckets": {
+        "11-25": 116,
+        "00-02": 129,
+        "26+": 73,
+        "03-05": 154,
+        "06-10": 128
+      },
+      "character_buckets": {
+        "1k-4k": 233,
+        "<=1k": 346,
+        "4k-16k": 21
+      },
+      "maximum_project_concentration": 0.03
+    },
+    "representative": {
+      "pairs": 600,
+      "datasets": {
+        "primevul": 200,
+        "deltasecommits": 200,
+        "patcheval": 200
+      },
+      "diff_buckets": {
+        "06-10": 126,
+        "03-05": 171,
+        "26+": 38,
+        "00-02": 185,
+        "11-25": 80
+      },
+      "character_buckets": {
+        "<=1k": 425,
+        "1k-4k": 166,
+        "4k-16k": 9
+      },
+      "maximum_project_concentration": 0.12
+    }
+  },
+  "transformation_templates": {
+    "metadata_removed_v2": 1200,
+    "length_only_end_numbered_comments_v2": 1200,
+    "position_before_diff_numbered_comments_v2": 1200,
+    "canonical_renderer_swap_v2": 1200,
+    "budget_25pct_before_diff_v2": 1200,
+    "budget_50pct_before_diff_v2": 1200,
+    "budget_75pct_before_diff_v2": 1200
+  },
+  "validation_tiers": {
+    "1": 8400
+  },
+  "claim_boundary": "VeriPatch-RR v0.1 stores tokenizer-neutral text, structural spans, and transformation contracts. Token visibility, exact context-pressure ratios, and truncation subsets must be materialized per model runtime."
+}

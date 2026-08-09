@@ -1,0 +1,171 @@
+{
+  "status": "ok",
+  "benchmark": "VeriPatch-RR-v0.1",
+  "pairs": 700,
+  "unique_source_pairs": 670,
+  "rows": 5600,
+  "intervention_rows": 4900,
+  "sampling": {
+    "seed": 42,
+    "pairs_per_source_per_suite": 350,
+    "suites": [
+      "representative",
+      "balanced_stress"
+    ],
+    "balance_dimensions": [
+      "diff_bucket",
+      "character_bucket"
+    ],
+    "caps": [
+      "project",
+      "cwe"
+    ]
+  },
+  "tokenizer_neutral": true,
+  "runtime_accounting_required": true,
+  "source_summaries": {
+    "crossvul": {
+      "input": "data/processed/secure_code_crossvul_pair_diff_eval_metadata.jsonl",
+      "eligible_pairs": 4218,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 153,
+      "non_mirror_rejection_rate": 0.035003431708991076,
+      "representative": {
+        "suite": "representative",
+        "pairs": 350,
+        "target_marginals": {
+          "diff_bucket": "source_distribution",
+          "character_bucket": "source_distribution"
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "00-02": 108,
+            "11-25": 67,
+            "03-05": 63,
+            "06-10": 71,
+            "26+": 41
+          },
+          "character_bucket": {
+            "<=1k": 226,
+            "1k-4k": 112,
+            "4k-16k": 11,
+            "16k+": 1
+          },
+          "language": {
+            "c": 319,
+            "cpp": 31
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": []
+        },
+        "maximum_project_concentration": 1.0,
+        "maximum_cwe_concentration": 0.20285714285714285,
+        "effective_projects": 1.0,
+        "effective_cwes": 12.5
+      },
+      "balanced_stress": {
+        "suite": "balanced_stress",
+        "pairs": 350,
+        "target_marginals": {
+          "diff_bucket": [
+            "00-02",
+            "03-05",
+            "06-10",
+            "11-25",
+            "26+"
+          ],
+          "character_bucket": [
+            "<=1k",
+            "1k-4k",
+            "4k-16k",
+            "16k+"
+          ]
+        },
+        "achieved_marginals": {
+          "diff_bucket": {
+            "11-25": 67,
+            "00-02": 67,
+            "26+": 82,
+            "06-10": 67,
+            "03-05": 67
+          },
+          "character_bucket": {
+            "1k-4k": 102,
+            "<=1k": 161,
+            "4k-16k": 85,
+            "16k+": 2
+          },
+          "language": {
+            "c": 295,
+            "cpp": 55
+          }
+        },
+        "unavailable_target_buckets": {
+          "diff_bucket": [],
+          "character_bucket": []
+        },
+        "maximum_project_concentration": 1.0,
+        "maximum_cwe_concentration": 0.017142857142857144,
+        "effective_projects": 1.0,
+        "effective_cwes": 87.12660028449503
+      }
+    }
+  },
+  "suite_summaries": {
+    "balanced_stress": {
+      "pairs": 350,
+      "datasets": {
+        "crossvul": 350
+      },
+      "diff_buckets": {
+        "11-25": 67,
+        "00-02": 67,
+        "26+": 82,
+        "06-10": 67,
+        "03-05": 67
+      },
+      "character_buckets": {
+        "1k-4k": 102,
+        "<=1k": 161,
+        "4k-16k": 85,
+        "16k+": 2
+      },
+      "maximum_project_concentration": 1.0
+    },
+    "representative": {
+      "pairs": 350,
+      "datasets": {
+        "crossvul": 350
+      },
+      "diff_buckets": {
+        "00-02": 108,
+        "11-25": 67,
+        "03-05": 63,
+        "06-10": 71,
+        "26+": 41
+      },
+      "character_buckets": {
+        "<=1k": 226,
+        "1k-4k": 112,
+        "4k-16k": 11,
+        "16k+": 1
+      },
+      "maximum_project_concentration": 1.0
+    }
+  },
+  "transformation_templates": {
+    "metadata_removed_v2": 700,
+    "length_only_end_numbered_comments_v2": 700,
+    "position_before_diff_numbered_comments_v2": 700,
+    "canonical_renderer_swap_v2": 700,
+    "budget_25pct_before_diff_v2": 700,
+    "budget_50pct_before_diff_v2": 700,
+    "budget_75pct_before_diff_v2": 700
+  },
+  "validation_tiers": {
+    "1": 4900
+  },
+  "claim_boundary": "VeriPatch-RR v0.1 stores tokenizer-neutral text, structural spans, and transformation contracts. Token visibility, exact context-pressure ratios, and truncation subsets must be materialized per model runtime."
+}

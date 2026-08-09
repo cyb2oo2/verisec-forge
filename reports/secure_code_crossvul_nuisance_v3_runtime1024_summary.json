@@ -1,0 +1,103 @@
+{
+  "status": "ok",
+  "benchmark": "data/processed/secure_code_crossvul_nuisance_transfer_audit_v3.jsonl",
+  "model_id": "qwen15b-crossvul-nuisance-v3-1024",
+  "tokenizer_id": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "max_length": 1024,
+  "truncation_side": "right",
+  "add_special_tokens": true,
+  "offset_mapping_quality": "exact_fast_tokenizer",
+  "rows": 3500,
+  "critical_hunk_truncated_rows": 148,
+  "transformation_introduced_critical_truncation_rows": 0,
+  "by_sampling_suite": {
+    "representative": {
+      "rows": 3500,
+      "critical_hunk_truncated_rows": 148,
+      "transformation_introduced_critical_truncation_rows": 0
+    }
+  },
+  "by_template": {
+    "canonical__context_window": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 12,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9912073548589395,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "canonical__diff_algorithm_histogram": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 22,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9808458655290844,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "canonical__diff_algorithm_myers_header": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 22,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9809471174189689,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "canonical__split_view": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 0,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 1.0,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "canonical__whitespace_comment": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 18,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9850742860134762,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap__context_window": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 12,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9912073548589395,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap__diff_algorithm_histogram": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 22,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9809510986653324,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap__diff_algorithm_myers_header": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 22,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.981053403608017,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap__split_view": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 0,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 1.0,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    },
+    "side_swap__whitespace_comment": {
+      "rows": 350,
+      "critical_hunk_truncated_rows": 18,
+      "transformation_introduced_critical_truncation_rows": 0,
+      "mean_critical_line_visibility_ratio": 0.9850801015478523,
+      "achieved_budget_ratio": null,
+      "transformation_visibility": null
+    }
+  },
+  "claim_boundary": "This artifact validates model-specific token visibility only. It contains no model predictions and supports no robustness claim."
+}

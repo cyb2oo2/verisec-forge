@@ -53,7 +53,17 @@ def changed_line_bucket(pair_text: str) -> str:
 
 
 def normalize_code_for_diff(code: str) -> str:
-    """DeltaSecommits snapshots are often single-line; expand C-like separators for readable diffs."""
+    """DeltaSecommits snapshots are often single-line; expand C-like separators for readable diffs.
+
+    This MUST be applied to the emitted ``code`` field, not only to ``pair_text``.
+    ``src/vrf/relational_benchmark.py::build_canonical_pair`` reads ``code`` and
+    re-diffs it. On a single-line snapshot with no trailing newline,
+    ``difflib.unified_diff`` emits the added body on the same physical line as
+    the removed body, leaving the row with no line-level ``+``/``-`` structure --
+    which silently destroys every side-swap measurement built over it. See
+    ``reports/VERIPATCH_RR_STRUCTURAL_CONTROL.md``.
+    """
+
     code = _safe_text(code)
     if code.count("\n") > 2:
         return code
@@ -114,6 +124,13 @@ def pair_rows_from_example(example: dict[str, Any], *, index: int, text_mode: st
     secure_code = _safe_text(example.get("after_version"))
     if not vulnerable_code or not secure_code:
         return []
+
+    # Emit line-structured code. Downstream consumers (the relational benchmark)
+    # re-diff this field directly, so it must carry real line boundaries.
+    # ``unified_pair_diff`` normalizes again and is idempotent here, so
+    # ``pair_text`` is unchanged by this.
+    vulnerable_code = normalize_code_for_diff(vulnerable_code)
+    secure_code = normalize_code_for_diff(secure_code)
 
     pair_key = f"deltasecommits-{index}"
     cwe = normalize_cwe(example)

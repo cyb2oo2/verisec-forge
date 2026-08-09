@@ -33,16 +33,17 @@ from vrf.nuisance_transfer import NUISANCE_FAMILIES, build_nuisance_rows
 from scripts.build_relational_benchmark_v2 import DEFAULT_SOURCES, load_pairs, parse_source
 
 
-def build_base_pairs(*, limit: int, seed: int):
+def build_base_pairs(*, limit: int, seed: int, sources: list[str] | None = None):
     all_pairs = []
     per_source = {}
-    for source_value in DEFAULT_SOURCES:
+    for source_value in sources or DEFAULT_SOURCES:
         name, path = parse_source(source_value)
-        pairs, skipped = load_pairs(name, path)
+        pairs, skipped, rejected_non_mirror = load_pairs(name, path)
         representative = sample_representative(pairs, limit=limit, seed=seed)
         per_source[name] = {
             "eligible_pairs": len(pairs),
             "skipped_groups": skipped,
+            "rejected_non_mirror_pairs": rejected_non_mirror,
             "sampled": len(representative),
         }
         all_pairs.extend(representative)
@@ -58,6 +59,11 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=200, help="pairs per source (matches the original 600-pair audit: 3 sources x 200)")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
+        "--source",
+        action="append",
+        help="name=path; repeatable. Defaults to the three primary sources.",
+    )
+    parser.add_argument(
         "--output",
         default="data/processed/secure_code_nuisance_transfer_audit_v1.jsonl",
     )
@@ -67,7 +73,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    base_pairs, per_source = build_base_pairs(limit=args.limit, seed=args.seed)
+    base_pairs, per_source = build_base_pairs(
+        limit=args.limit, seed=args.seed, sources=args.source
+    )
 
     rows: list[dict[str, Any]] = []
     build_errors: list[dict[str, str]] = []
