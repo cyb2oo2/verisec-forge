@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "train_pairs": 16,
+  "steps_per_epoch": 2,
+  "smoke": true,
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1"
+}

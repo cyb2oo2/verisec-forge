@@ -1,0 +1,36 @@
+{
+  "name": "polarity_adversarial_lambda1_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "train_dataset": "data/processed/secure_code_prose_native_train_pilot_v2.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_adversarial_lambda1_qwen15b_lora_v1",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "adversary": {
+    "lambda_grl": 1.0,
+    "aux_weight": 1.0,
+    "aux_hidden": 128,
+    "target": "sign of the pair's net character change, read from the glyph rendering",
+    "note": "Rows with zero net change are masked out of the auxiliary loss."
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 4,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Option A, lambda=1.0. At lambda=0.1 the auxiliary polarity accuracy ROSE to ~0.68, i.e. the encoder retained polarity; the reversal was too weak.",
+    "ablation_baseline": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1 (same data, same schedule, no adversarial term)",
+    "training_rendering": "split_view prose only",
+    "training_pairs": 1736,
+    "held_out": "all v4 suite keys plus both full PrimeVul eval pools (2050 keys)",
+    "decisive_metric": "accuracy conditional on the polarity rule being wrong; must rise well above the 0.1944 of the non-adversarial pilot"
+  }
+}

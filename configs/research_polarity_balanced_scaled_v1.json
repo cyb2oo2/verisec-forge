@@ -1,0 +1,30 @@
+{
+  "name": "polarity_balanced_scaled_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_qwen15b_lora_v1",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 4,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Scale the polarity-balanced set by mining more discordant pairs: 254 -> 552 per cell.",
+    "training_pairs": 2208,
+    "cells": "552 per cell x 4",
+    "sources": "PrimeVul time-disjoint train, PatchEval all, DeltaSecommits all (v2), CrossVul non-held-out",
+    "epochs_rationale": "1 epoch on 2208 pairs (2208 updates) is compute-matched to the reference run 2 epochs on 1016 pairs (2032 updates), isolating the data-scale effect from compute.",
+    "CAVEAT_crossvul": "CrossVul pairs (excluding the 350 v4 eval keys) are now TRAINING data. CrossVul eval numbers for this checkpoint are therefore no longer zero-shot. The three other sources remain clean.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_qwen15b_lora_v1 (254/cell)"
+  }
+}

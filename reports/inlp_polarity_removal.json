@@ -1,0 +1,479 @@
+{
+  "checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+  "rounds": 12,
+  "probe_epochs": 400,
+  "readouts": {
+    "frozen_head": "the checkpoint's own score layer; measures dependence on the removed direction",
+    "retrained_head": "antisymmetric readout refit on projected training representations; measures whether other usable signal remains"
+  },
+  "history": [
+    {
+      "round": 0,
+      "polarity_probe_val_accuracy": 0.8589,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8261,
+          "acc_concordant": 0.9403,
+          "acc_discordant": 0.1778,
+          "balanced_delta_vs_control": 0.059
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8344,
+          "acc_concordant": 0.9472,
+          "acc_discordant": 0.1944,
+          "balanced_delta_vs_control": 0.0708
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8211,
+          "acc_concordant": 0.9276,
+          "acc_discordant": 0.2167,
+          "balanced_delta_vs_control": 0.0721
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8186,
+          "acc_concordant": 0.9217,
+          "acc_discordant": 0.2333,
+          "balanced_delta_vs_control": 0.0775
+        }
+      }
+    },
+    {
+      "round": 1,
+      "polarity_probe_val_accuracy": 0.8506,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8211,
+          "acc_concordant": 0.9354,
+          "acc_discordant": 0.1722,
+          "balanced_delta_vs_control": 0.0538
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8311,
+          "acc_concordant": 0.9393,
+          "acc_discordant": 0.2167,
+          "balanced_delta_vs_control": 0.078
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8203,
+          "acc_concordant": 0.9237,
+          "acc_discordant": 0.2333,
+          "balanced_delta_vs_control": 0.0785
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8111,
+          "acc_concordant": 0.91,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.08
+        }
+      }
+    },
+    {
+      "round": 2,
+      "polarity_probe_val_accuracy": 0.8422,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8203,
+          "acc_concordant": 0.9325,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0579
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.827,
+          "acc_concordant": 0.9325,
+          "acc_discordant": 0.2278,
+          "balanced_delta_vs_control": 0.0801
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8203,
+          "acc_concordant": 0.9256,
+          "acc_discordant": 0.2222,
+          "balanced_delta_vs_control": 0.0739
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8145,
+          "acc_concordant": 0.911,
+          "acc_discordant": 0.2667,
+          "balanced_delta_vs_control": 0.0888
+        }
+      }
+    },
+    {
+      "round": 3,
+      "polarity_probe_val_accuracy": 0.838,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8178,
+          "acc_concordant": 0.9295,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0564
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8186,
+          "acc_concordant": 0.9217,
+          "acc_discordant": 0.2333,
+          "balanced_delta_vs_control": 0.0775
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8186,
+          "acc_concordant": 0.9198,
+          "acc_discordant": 0.2444,
+          "balanced_delta_vs_control": 0.0821
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8095,
+          "acc_concordant": 0.907,
+          "acc_discordant": 0.2556,
+          "balanced_delta_vs_control": 0.0813
+        }
+      }
+    },
+    {
+      "round": 4,
+      "polarity_probe_val_accuracy": 0.8317,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8161,
+          "acc_concordant": 0.9276,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0555
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.812,
+          "acc_concordant": 0.911,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.0805
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8186,
+          "acc_concordant": 0.9237,
+          "acc_discordant": 0.2222,
+          "balanced_delta_vs_control": 0.073
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8145,
+          "acc_concordant": 0.9119,
+          "acc_discordant": 0.2611,
+          "balanced_delta_vs_control": 0.0865
+        }
+      }
+    },
+    {
+      "round": 5,
+      "polarity_probe_val_accuracy": 0.8275,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8128,
+          "acc_concordant": 0.9217,
+          "acc_discordant": 0.1944,
+          "balanced_delta_vs_control": 0.0581
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.797,
+          "acc_concordant": 0.8914,
+          "acc_discordant": 0.2611,
+          "balanced_delta_vs_control": 0.0763
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8186,
+          "acc_concordant": 0.9188,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.0844
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8095,
+          "acc_concordant": 0.909,
+          "acc_discordant": 0.2444,
+          "balanced_delta_vs_control": 0.0767
+        }
+      }
+    },
+    {
+      "round": 6,
+      "polarity_probe_val_accuracy": 0.8268,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8045,
+          "acc_concordant": 0.9139,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0486
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7612,
+          "acc_concordant": 0.8376,
+          "acc_discordant": 0.3278,
+          "balanced_delta_vs_control": 0.0827
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.807,
+          "acc_concordant": 0.909,
+          "acc_discordant": 0.2278,
+          "balanced_delta_vs_control": 0.0684
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8111,
+          "acc_concordant": 0.91,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.08
+        }
+      }
+    },
+    {
+      "round": 7,
+      "polarity_probe_val_accuracy": 0.8212,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7995,
+          "acc_concordant": 0.908,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0457
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7471,
+          "acc_concordant": 0.816,
+          "acc_discordant": 0.3556,
+          "balanced_delta_vs_control": 0.0858
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8062,
+          "acc_concordant": 0.9031,
+          "acc_discordant": 0.2556,
+          "balanced_delta_vs_control": 0.0793
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8087,
+          "acc_concordant": 0.907,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.0785
+        }
+      }
+    },
+    {
+      "round": 8,
+      "polarity_probe_val_accuracy": 0.8142,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7787,
+          "acc_concordant": 0.8836,
+          "acc_discordant": 0.1833,
+          "balanced_delta_vs_control": 0.0334
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.6714,
+          "acc_concordant": 0.7162,
+          "acc_discordant": 0.4167,
+          "balanced_delta_vs_control": 0.0665
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7895,
+          "acc_concordant": 0.8806,
+          "acc_discordant": 0.2722,
+          "balanced_delta_vs_control": 0.0764
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8087,
+          "acc_concordant": 0.91,
+          "acc_discordant": 0.2333,
+          "balanced_delta_vs_control": 0.0717
+        }
+      }
+    },
+    {
+      "round": 9,
+      "polarity_probe_val_accuracy": 0.8052,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7604,
+          "acc_concordant": 0.8611,
+          "acc_discordant": 0.1889,
+          "balanced_delta_vs_control": 0.025
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.6173,
+          "acc_concordant": 0.6448,
+          "acc_discordant": 0.4611,
+          "balanced_delta_vs_control": 0.053
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7579,
+          "acc_concordant": 0.8415,
+          "acc_discordant": 0.2833,
+          "balanced_delta_vs_control": 0.0624
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.807,
+          "acc_concordant": 0.9051,
+          "acc_discordant": 0.25,
+          "balanced_delta_vs_control": 0.0775
+        }
+      }
+    },
+    {
+      "round": 10,
+      "polarity_probe_val_accuracy": 0.7996,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7587,
+          "acc_concordant": 0.8591,
+          "acc_discordant": 0.1889,
+          "balanced_delta_vs_control": 0.024
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.6131,
+          "acc_concordant": 0.6399,
+          "acc_discordant": 0.4611,
+          "balanced_delta_vs_control": 0.0505
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7246,
+          "acc_concordant": 0.7955,
+          "acc_discordant": 0.3222,
+          "balanced_delta_vs_control": 0.0589
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8053,
+          "acc_concordant": 0.907,
+          "acc_discordant": 0.2278,
+          "balanced_delta_vs_control": 0.0674
+        }
+      }
+    },
+    {
+      "round": 11,
+      "polarity_probe_val_accuracy": 0.8045,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7587,
+          "acc_concordant": 0.8591,
+          "acc_discordant": 0.1889,
+          "balanced_delta_vs_control": 0.024
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.6115,
+          "acc_concordant": 0.6389,
+          "acc_discordant": 0.4556,
+          "balanced_delta_vs_control": 0.0472
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.6522,
+          "acc_concordant": 0.7025,
+          "acc_discordant": 0.3667,
+          "balanced_delta_vs_control": 0.0346
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.8053,
+          "acc_concordant": 0.9051,
+          "acc_discordant": 0.2389,
+          "balanced_delta_vs_control": 0.072
+        }
+      }
+    },
+    {
+      "round": 12,
+      "polarity_probe_val_accuracy": 0.7996,
+      "frozen_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7454,
+          "acc_concordant": 0.8376,
+          "acc_discordant": 0.2222,
+          "balanced_delta_vs_control": 0.0299
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.589,
+          "acc_concordant": 0.6037,
+          "acc_discordant": 0.5056,
+          "balanced_delta_vs_control": 0.0546
+        }
+      },
+      "retrained_head": {
+        "glyph": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.574,
+          "acc_concordant": 0.5832,
+          "acc_discordant": 0.5222,
+          "balanced_delta_vs_control": 0.0527
+        },
+        "prose": {
+          "n_pairs": 1202,
+          "canonical_accuracy": 0.7995,
+          "acc_concordant": 0.8982,
+          "acc_discordant": 0.2389,
+          "balanced_delta_vs_control": 0.0686
+        }
+      }
+    }
+  ]
+}

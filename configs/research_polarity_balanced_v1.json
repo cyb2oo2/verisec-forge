@@ -1,0 +1,31 @@
+{
+  "name": "polarity_balanced_train_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_qwen15b_lora_v1",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 2,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 4,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Sampling-level lever: train only where the four (gold x net-sign) cells are equal, so the net-polarity shortcut carries no gradient. No adversarial term - isolates the sampling effect.",
+    "training_rendering": "split_view prose only (prose_fraction = 1.0)",
+    "training_pairs": 1016,
+    "cells": "254 per cell x 4 (gold A/B x net +/-)",
+    "sources": "PrimeVul time-disjoint train, PatchEval train, DeltaSecommits train (v2, newline-fixed)",
+    "held_out": "2101 keys: v4 suite plus all four eval pools",
+    "epochs_rationale": "2 epochs on 1016 pairs matches the prose-native pilot 1 epoch on 1736 pairs in optimizer steps (~2032 pair-updates), so the comparison is compute-matched.",
+    "init": "prose-native pilot (already closed the glyph->prose transfer gap)"
+  }
+}

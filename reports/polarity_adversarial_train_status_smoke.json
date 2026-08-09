@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "config": "configs/research_polarity_adversarial_v1.json",
+  "train_pairs": 16,
+  "steps_per_epoch": 2,
+  "lambda_grl": 0.1,
+  "aux_weight": 1.0,
+  "aux_hidden": 128,
+  "smoke": true,
+  "output_dir": "checkpoints/cls_secure_code_polarity_adversarial_qwen15b_lora_v1",
+  "log_history": [
+    {
+      "train_runtime": 11.9628,
+      "train_samples_per_second": 2.006,
+      "train_steps_per_second": 0.251,
+      "total_flos": 102818022948864.0,
+      "train_loss": 1.3745778401692708,
+      "main_loss": 0.6824,
+      "aux_polarity_loss": 0.6922,
+      "aux_polarity_accuracy": 0.5,
+      "lambda_grl": 0.1,
+      "epoch": 1.5,
+      "step": 3
+    }
+  ]
+}

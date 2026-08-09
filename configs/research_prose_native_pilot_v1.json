@@ -1,0 +1,30 @@
+{
+  "name": "prose_native_pilot_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "train_dataset": "data/processed/secure_code_prose_native_train_pilot_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 4,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Pilot for the v4 purified protocol: can a model learn content-based relational signal when the +/- glyph channel is absent from training?",
+    "training_rendering": "split_view prose only (prose_fraction = 1.0)",
+    "training_pairs": 1736,
+    "training_rows": 3472,
+    "held_out": "all v4 suite pair_keys plus the full PrimeVul eval pools (2050 keys); 368 source pairs excluded",
+    "source_split": "time-disjoint PrimeVul train split (<=2020)",
+    "init_caveat": "initialised from the glyph-trained baseline LoRA, so the starting point has already seen unified-diff glyphs; a from-scratch head is the cleaner ablation if the pilot moves."
+  }
+}

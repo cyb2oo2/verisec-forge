@@ -1,7 +1,7 @@
 {
   "status": "ok",
-  "train_pairs": 3000,
-  "steps_per_epoch": 375,
+  "train_pairs": 2208,
+  "steps_per_epoch": 276,
   "smoke": false,
-  "output_dir": "checkpoints/cls_secure_code_primevul_repair_antisymmetric_qwen15b_lora_v1"
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen15b_lora_v1"
 }

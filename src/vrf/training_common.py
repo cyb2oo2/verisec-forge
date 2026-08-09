@@ -116,6 +116,31 @@ def record_training_stage(config_path: str, config: dict[str, Any], metrics: dic
         )
 
 
+def quantization_kwargs(config: dict[str, Any], torch_module: Any) -> dict[str, Any]:
+    """Translate an optional ``quantization`` config block into from_pretrained kwargs.
+
+    Returns ``{}`` when the block is absent, so every existing config loads its
+    backbone exactly as before. A 7B backbone does not fit a 12 GB card in
+    bf16 (15.2 GB of weights), so the 7B arm of the scale-up loads nf4 and
+    trains QLoRA. Quantization is a documented deviation from the bf16 1.5B and
+    3B arms, not a free variable.
+    """
+    block = config.get("quantization")
+    if not block:
+        return {}
+    from transformers import BitsAndBytesConfig
+
+    compute_dtype = getattr(torch_module, str(block.get("bnb_4bit_compute_dtype", "bfloat16")))
+    return {
+        "quantization_config": BitsAndBytesConfig(
+            load_in_4bit=bool(block.get("load_in_4bit", True)),
+            bnb_4bit_quant_type=str(block.get("bnb_4bit_quant_type", "nf4")),
+            bnb_4bit_compute_dtype=compute_dtype,
+            bnb_4bit_use_double_quant=bool(block.get("bnb_4bit_use_double_quant", True)),
+        )
+    }
+
+
 def cpu_training_overrides(torch_module: Any) -> dict[str, Any]:
     if getattr(torch_module, "cuda", None) and torch_module.cuda.is_available():
         return {
