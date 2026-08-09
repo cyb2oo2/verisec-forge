@@ -1,0 +1,32 @@
+{
+  "name": "polarity_balanced_scaled_4ep_qwen3b_seed123_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_seed123.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_4ep_qwen3b_seed123_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_4ep_qwen3b_seed123_v1.json",
+  "seed": 123,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Seed replication of the 4-epoch knee, the recommended operating point from reports/EPOCH_CURVE_3B_V1.md. Seed 7 -> 123 for BOTH the balanced cell draw and training, matching the protocol of the earlier 3B replications.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_scaled_4ep_qwen3b_lora_v1",
+    "reference_metrics": "prose concordant 0.8283, discordant 0.6292, balanced delta +0.2287",
+    "init": "the SAME 3B prose-native pilot as every point on the curve",
+    "training_pairs": 2208,
+    "steps": 1104,
+    "CAVEAT_draw_overlap": "Jaccard vs the seed-7 draw is 0.399 over pairs; the two discordant cells are limiting (552 of 552 available) and overlap ~95%, the concordant cells ~9%. This varies training stochasticity and the concordant sample, not the discordant pairs the decisive metric is computed on.",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run."
+  }
+}

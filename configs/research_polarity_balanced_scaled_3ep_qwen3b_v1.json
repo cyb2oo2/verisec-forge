@@ -1,0 +1,28 @@
+{
+  "name": "polarity_balanced_scaled_3ep_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_3ep_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_3ep_qwen3b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 3,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Compute control for the hard-negative phase. The hard and control arms each took 852 optimizer steps against the published baseline 552, so their gains are confounded with additional compute. This run holds the training SET fixed at the published 2208-pair balanced set and raises epochs 2 -> 3 (828 steps), matching the arms on compute to within 3%. Any gain here is attributable to compute alone.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_lora_v1",
+    "training_pairs": 2208,
+    "steps": "828 vs 852 in the enriched arms"
+  }
+}

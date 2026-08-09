@@ -1,0 +1,38 @@
+{
+  "name": "polarity_balanced_scaled_4ep_qwen7b_seed7_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen7b_qlora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_4ep_qwen7b_seed7_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_4ep_qwen7b_seed7_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "provenance": {
+    "purpose": "Backbone scale comparison at a proper training regime. The original 1.5B/3B/7B comparison ran at 2 epochs, which reports/EPOCH_CURVE_3B_V1.md showed is under-trained for the 3B. Every backbone is retrained at 4 epochs on identical data with identical hyperparameters.",
+    "matched_to": "configs/research_polarity_balanced_scaled_4ep_qwen3b_v1.json",
+    "init": "this backbone's own prose-native stage-2 checkpoint, matching its original lineage",
+    "training_pairs": 2208,
+    "steps": 1104,
+    "hyperparameters": "identical across all three backbones; nothing retuned per size",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run.",
+    "DEVIATION_precision": "nf4 QLoRA. 7B in bf16 is 15.2 GB of weights and does not fit the 12 GB card. This is the same deviation carried by the original 7B arm, so the 2ep-vs-4ep comparison within the 7B is clean; cross-backbone 7B numbers keep the confound."
+  }
+}

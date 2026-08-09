@@ -1,0 +1,30 @@
+{
+  "name": "polarity_balanced_scaled_8ep_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_8ep_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_8ep_qwen3b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 8,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Compute curve at 3B, 8 epochs (2208 optimizer steps). The training SET is held fixed at the published 2208-pair balanced set and only epochs vary, so the curve measures compute alone. Motivated by the hard-negative phase, where 3 epochs moved prose discordant accuracy 0.4326 -> 0.5393 on this identical data.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_lora_v1",
+    "init": "the SAME 3B prose-native pilot as every other balanced run, so the curve forks at one point",
+    "training_pairs": 2208,
+    "steps": 2208,
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run."
+  }
+}
