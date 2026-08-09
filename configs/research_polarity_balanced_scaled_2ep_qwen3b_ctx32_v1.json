@@ -1,0 +1,30 @@
+{
+  "name": "polarity_balanced_scaled_2ep_qwen3b_ctx32_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_ctx32_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_ctx32.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_ctx32_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_2ep_qwen3b_ctx32_v1.json",
+  "seed": 7,
+  "max_seq_length": 2048,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 2,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Headline run of the wide-context task formulation. Identical to configs/research_polarity_balanced_scaled_2ep_qwen3b_v1.json (prose discordant 0.4333) except context_lines=32 and max_seq_length 2048.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_lora_v1",
+    "training_pairs": 2208,
+    "cells": "552 per cell x 4",
+    "NOTE_identical_cells": "The four (gold x net-sign) cells are computed from the +/- lines, which context width does not touch. This training set therefore selects the SAME 2208 pairs as the narrow-context run; only their rendered text is wider.",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run in this repository."
+  }
+}

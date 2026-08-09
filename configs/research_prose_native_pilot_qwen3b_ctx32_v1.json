@@ -1,0 +1,31 @@
+{
+  "name": "prose_native_pilot_qwen3b_ctx32_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_prose_native_train_ctx32_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_ctx32_lora_v1",
+  "status_output": "reports/repair_train_status_prose_native_pilot_qwen3b_ctx32_v1.json",
+  "seed": 7,
+  "max_seq_length": 2048,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Stage 2 of the wide-context (task-formulation) arm. Identical to configs/research_prose_native_pilot_qwen3b_v1.json except the training text is rendered with difflib context_lines=32 instead of 3, and max_seq_length is 2048 instead of 1024.",
+    "reference_run": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+    "init": "the SAME 3B joint-pairwise stage-1 checkpoint as the narrow-context arm, so the lineage forks at exactly one point",
+    "training_pairs": 1736,
+    "training_rows": 3472,
+    "rendering": "split_view prose only, context_lines=32",
+    "held_out": "v4/v5 suite keys plus all four eval pools; v5 contains exactly the v4 pair set"
+  }
+}

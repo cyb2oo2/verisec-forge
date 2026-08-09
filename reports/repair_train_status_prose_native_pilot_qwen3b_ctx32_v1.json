@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen3b_lora_v1",
+  "train_pairs": 1736,
+  "steps_per_epoch": 217,
+  "epochs": 1.0,
+  "seed": 7,
+  "max_seq_length": 2048,
+  "smoke": false,
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_ctx32_lora_v1"
+}

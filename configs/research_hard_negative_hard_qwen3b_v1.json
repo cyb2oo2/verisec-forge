@@ -1,0 +1,28 @@
+{
+  "name": "hard_negative_hard_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_hard_negative_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_hard_negative_hard_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_hard_negative_hard_qwen3b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": { "collapse_weight": 0.1 },
+  "training": {
+    "num_train_epochs": 2,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Hard-negative arm. Base 552/cell balanced set plus a cell-balanced block of 75 pure add/delete pairs per cell, oversampled 4x. Targets the subpopulation where the published 3B checkpoint is systematically inverted (discordant pure add/delete: 2/28 correct).",
+    "init": "the SAME 3B prose-native pilot as the published balanced run, so the lineage forks at exactly one point",
+    "baseline": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_lora_v1 (prose discordant 0.4333, balanced delta +0.1629)",
+    "training_pairs": 3408,
+    "balance": "four (gold x net-sign) cells hold 852 pairs each; the pure/mixed marker is 300 per cell, so neither polarity nor edit shape is predictive of gold",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run in this repository."
+  }
+}

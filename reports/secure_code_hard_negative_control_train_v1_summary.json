@@ -1,0 +1,36 @@
+{
+  "base": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "base_pairs": 2208,
+  "enrichment_block": "control",
+  "enrichment_edit_shape": "mixed_edit",
+  "enrichment_available_per_cell": {
+    "gold=A,net=+": 2082,
+    "gold=A,net=-": 498,
+    "gold=B,net=+": 477,
+    "gold=B,net=-": 2169
+  },
+  "enrichment_per_cell": 75,
+  "enrichment_unique_pairs": 300,
+  "enrichment_oversample": 4,
+  "enrichment_emitted_pairs": 1200,
+  "total_pairs": 3408,
+  "total_rows": 6816,
+  "cell_counts_observed_orientation": {
+    "gold=A,net=+": 300,
+    "gold=A,net=-": 300,
+    "gold=A,net=-1": 552,
+    "gold=A,net=1": 552,
+    "gold=B,net=+": 300,
+    "gold=B,net=-": 300,
+    "gold=B,net=-1": 552,
+    "gold=B,net=1": 552
+  },
+  "pure_add_delete_by_cell": {},
+  "seed": 7,
+  "guarantees": [
+    "every enrichment pair satisfies swap_mirror_is_exact (re-checked at selection)",
+    "no synthesis: all pairs are real records from the four sources",
+    "zero overlap with the v4/v5 evaluation suite or any eval pool",
+    "the enrichment block is balanced over the four (gold x net-sign) cells, so neither net polarity nor the pure/mixed marker is predictive of gold"
+  ]
+}

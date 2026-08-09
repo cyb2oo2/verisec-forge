@@ -1,0 +1,52 @@
+{
+  "sources": [
+    "primevul=data/processed/secure_code_primevul_pair_diff_time_train_le2020_balanced_6000_metadata.jsonl",
+    "patcheval=data/processed/secure_code_patcheval_pair_diff_all_metadata.jsonl",
+    "deltasecommits=data/processed/secure_code_deltasecommits_pair_diff_cpp_all_metadata_v2.jsonl",
+    "crossvul=data/processed/secure_code_crossvul_pair_diff_eval_metadata.jsonl"
+  ],
+  "polarity_balanced": true,
+  "cell_counts_before_balancing": {
+    "gold=A,net=+": 3169,
+    "gold=A,net=-": 581,
+    "gold=B,net=+": 552,
+    "gold=B,net=-": 3258
+  },
+  "cell_counts_after_balancing": {
+    "gold=A,net=+": 552,
+    "gold=A,net=-": 552,
+    "gold=B,net=+": 552,
+    "gold=B,net=-": 552
+  },
+  "held_out_suites": [
+    "data/processed/secure_code_relational_benchmark_v4.jsonl",
+    "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_metadata.jsonl",
+    "data/processed/secure_code_primevul_pair_diff_time_eval_ge2021_balanced_2000_metadata.jsonl",
+    "data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+    "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata_v2.jsonl"
+  ],
+  "held_out_pair_keys": 2101,
+  "exclusions": {
+    "source_pairs": 10821,
+    "excluded_held_out": 1314,
+    "excluded_bad_structure": 1266,
+    "excluded_non_mirror": 454,
+    "excluded_flat_records": 1,
+    "excluded_zero_net": 226
+  },
+  "training_pairs": 2208,
+  "training_rows": 4416,
+  "mixture": {
+    "prose_fraction_requested": 1.0,
+    "prose_pairs": 2208,
+    "glyph_pairs": 0,
+    "prose_fraction_actual": 1.0
+  },
+  "context_lines": 32,
+  "seed": 7,
+  "guarantees": [
+    "every pair satisfies swap_mirror_is_exact",
+    "every source record is line-structured",
+    "zero overlap with the v4 evaluation suite"
+  ]
+}
