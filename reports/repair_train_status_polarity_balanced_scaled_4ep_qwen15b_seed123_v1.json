@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+  "train_pairs": 2208,
+  "steps_per_epoch": 276,
+  "epochs": 4.0,
+  "seed": 123,
+  "max_seq_length": 1024,
+  "smoke": false,
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_4ep_qwen15b_seed123_lora_v1"
+}
