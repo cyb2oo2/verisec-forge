@@ -34,7 +34,8 @@ if str(SRC) not in sys.path:
 
 from vrf.io_utils import read_jsonl, write_json
 from vrf.joint_reasoning import reverse_side_choice_text
-from vrf.training_common import optional_import_train_stack
+from vrf.gpu_budget import apply_gpu_budget, describe, throttle_callback
+from vrf.training_common import optional_import_train_stack, quantization_kwargs
 
 
 def pair_records(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -73,7 +74,8 @@ def main() -> int:
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
     model = AutoPeftModelForSequenceClassification.from_pretrained(
-        ROOT / config["init_checkpoint"], local_files_only=True, is_trainable=True
+        ROOT / config["init_checkpoint"], local_files_only=True, is_trainable=True,
+        **quantization_kwargs(config, torch),
     )
     model.config.pad_token_id = tokenizer.pad_token_id
     model.enable_input_require_grads()
@@ -126,6 +128,7 @@ def main() -> int:
     steps = math.ceil(len(train_pairs) / (int(training["per_device_train_batch_size"]) * int(training["gradient_accumulation_steps"])))
     print(f"repair: train_pairs={len(train_pairs)} steps/epoch={steps} max_length={max_length} "
           f"smoke={args.smoke} device={torch.cuda.get_device_name(0)}", flush=True)
+    print(describe(apply_gpu_budget(torch)), flush=True)
 
     trainer = RepairTrainer(
         model=model,
@@ -141,12 +144,24 @@ def main() -> int:
         ),
         train_dataset=train_dataset, data_collator=Collator(),
     )
+    pacing = throttle_callback(transformers)
+    if pacing is not None:
+        trainer.add_callback(pacing)
     trainer.train()
     if not args.smoke:
         trainer.save_model(str(output_dir))
         tokenizer.save_pretrained(str(output_dir))
-    write_json(ROOT / "reports" / f"repair_train_status_{'smoke' if args.smoke else 'v1'}.json",
-               {"status": "ok", "train_pairs": len(train_pairs), "steps_per_epoch": steps,
+    # Configs may redirect the status artifact so a run on a new backbone cannot
+    # overwrite the published status of an earlier one.
+    default_status = f"reports/repair_train_status_{'smoke' if args.smoke else 'v1'}.json"
+    status_path = config.get("status_output", default_status)
+    if args.smoke and "status_output" in config:
+        status_path = status_path.replace(".json", "_smoke.json")
+    write_json(ROOT / status_path,
+               {"status": "ok", "model_name": config.get("model_name"),
+                "init_checkpoint": config.get("init_checkpoint"),
+                "train_pairs": len(train_pairs), "steps_per_epoch": steps,
+                "epochs": epochs, "seed": seed, "max_seq_length": max_length,
                 "smoke": args.smoke, "output_dir": config["output_dir"]})
     print("training complete", flush=True)
     return 0

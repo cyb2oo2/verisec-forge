@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen7b_qlora_v1",
+  "train_pairs": 2208,
+  "steps_per_epoch": 276,
+  "epochs": 2.0,
+  "seed": 7,
+  "max_seq_length": 1024,
+  "smoke": false,
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen7b_qlora_v1"
+}

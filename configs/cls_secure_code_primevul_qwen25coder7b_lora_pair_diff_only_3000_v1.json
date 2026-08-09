@@ -1,0 +1,39 @@
+{
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+  "eval_dataset_path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_metadata.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_primevul_qwen25coder7b_qlora_pair_diff_only_3000_v1",
+  "report_path": "reports/secure_code_primevul_cls_qwen25coder7b_qlora_pair_diff_only_3000_v1_eval1800_report.json",
+  "predictions_path": "outputs/secure_code_primevul_cls_qwen25coder7b_qlora_pair_diff_only_3000_v1_eval1800_predictions.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "text_field": "pair_text",
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logging_steps": 20,
+    "save_steps": 400,
+    "max_seq_length": 1024,
+    "bf16": true,
+    "gradient_checkpointing": true
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  },
+  "provenance": {
+    "purpose": "Stage 0 of the 7B backbone lineage. Same data, LoRA rank, schedule and learning rate as the 1.5B and 3B stage 0.",
+    "DEVIATION_precision": "nf4 double-quantised weights with bf16 compute. 7B in bf16 is 15.2 GB of weights and does not fit a 12 GB card. This is the one deliberate confound in the 7B arm and every 7B number must be read with it: a null result at 7B is jointly attributable to capacity and to 4-bit quantization, which is why the bf16 3B arm exists as the clean scale point."
+  }
+}

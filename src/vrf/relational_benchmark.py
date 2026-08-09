@@ -9,6 +9,8 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from typing import Any, Iterable
 
+from vrf.polarity_control import diff_line_counts
+
 
 @dataclass(frozen=True)
 class CanonicalSide:
@@ -128,7 +130,11 @@ def swap_pair(pair: CanonicalPair) -> CanonicalPair:
     )
 
 
-def unified_diff(pair: CanonicalPair) -> str:
+DEFAULT_CONTEXT_LINES = 3
+"""``difflib.unified_diff`` default. Every v2-v4 artifact was built with this."""
+
+
+def unified_diff(pair: CanonicalPair, *, context_lines: int = DEFAULT_CONTEXT_LINES) -> str:
     return "".join(
         difflib.unified_diff(
             pair.side_a.code.splitlines(keepends=True),
@@ -136,12 +142,17 @@ def unified_diff(pair: CanonicalPair) -> str:
             fromfile="Side A",
             tofile="Side B",
             lineterm="\n",
+            n=context_lines,
         )
     ).rstrip()
 
 
 def render_pair(
-    pair: CanonicalPair, *, include_metadata: bool = True, prefix: str = ""
+    pair: CanonicalPair,
+    *,
+    include_metadata: bool = True,
+    prefix: str = "",
+    context_lines: int = DEFAULT_CONTEXT_LINES,
 ) -> str:
     metadata = ""
     if include_metadata:
@@ -158,7 +169,47 @@ def render_pair(
         f"{metadata}"
         f"{prefix}"
         "Unified diff from Side A to Side B:\n"
-        f"{unified_diff(pair)}\n"
+        f"{unified_diff(pair, context_lines=context_lines)}\n"
+    )
+
+
+def is_line_structured(code: str, *, min_chars: int = 120) -> bool:
+    """Does this record carry real line boundaries?
+
+    Sources that flatten a whole function onto one line produce unified diffs in
+    which the added body is concatenated onto the removed line, destroying all
+    line-level polarity structure. ``swap_mirror_is_exact`` rejects the result,
+    but this predicate names the *cause* so ingestion can be fixed rather than
+    the pair silently dropped. Short records are exempt: a genuinely one-line
+    function is fine.
+    """
+
+    text = str(code or "")
+    return len(text) < min_chars or len(text.splitlines()) > 1
+
+
+def swap_mirror_is_exact(pair: CanonicalPair) -> bool:
+    """Does the side swap produce an exact structural mirror of the rendering?
+
+    A side-swap evaluation is only meaningful when swapping the two sides
+    genuinely reverses the rendered diff: what was removed must become added and
+    vice versa. Sources that store a whole function on one line with no trailing
+    newline break this -- ``difflib.unified_diff`` then emits the added body on
+    the same physical line as the removed body, so the row carries no line-level
+    polarity structure and *nothing flips under the swap*. Such a pair cannot
+    support side-swap equivariance, both-directions-correct, or robust accuracy,
+    and admitting it silently contaminates all three.
+
+    See ``reports/VERIPATCH_RR_STRUCTURAL_CONTROL.md``.
+    """
+
+    forward = diff_line_counts(render_pair(pair))
+    reverse = diff_line_counts(render_pair(swap_pair(pair)))
+    return (
+        forward["added"] == reverse["removed"]
+        and forward["removed"] == reverse["added"]
+        and forward["added_chars"] == reverse["removed_chars"]
+        and forward["removed_chars"] == reverse["added_chars"]
     )
 
 

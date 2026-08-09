@@ -1,0 +1,36 @@
+{
+  "name": "polarity_balanced_scaled_2ep_qwen7b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen7b_qlora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen7b_qlora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_2ep_qwen7b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 2,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Stage 3 of the 7B backbone lineage, and the headline 7B run. Port of configs/research_polarity_balanced_scaled_2ep_v1.json (best 1.5B setting, prose discordant 0.2833).",
+    "training_pairs": 2208,
+    "cells": "552 per cell x 4",
+    "sources": "PrimeVul time-disjoint train, PatchEval all, DeltaSecommits all (v2), CrossVul non-held-out",
+    "CAVEAT_crossvul": "CrossVul pairs (excluding the 350 v4 eval keys) are TRAINING data, exactly as in the 1.5B and 3B reference runs. CrossVul evaluation rows are not zero-shot for this checkpoint. All three arms share the caveat, so the cross-backbone comparison is unaffected.",
+    "DEVIATION_precision": "nf4 QLoRA, see the stage 0 config."
+  }
+}

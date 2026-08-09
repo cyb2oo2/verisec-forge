@@ -1,0 +1,93 @@
+{
+  "benchmark_version": "v5",
+  "derived_from": "v4",
+  "single_variable_change": {
+    "field": "difflib unified-diff context lines (n)",
+    "v4": 3,
+    "v5": 32,
+    "affects": "amount of unchanged surrounding code shown, in both rendering families",
+    "does_not_affect": "the +/- lines, therefore net character polarity, therefore the semantics-free control and the four (gold x net-sign) cells"
+  },
+  "parity_with_v4": {
+    "pairs": 1245,
+    "balanced_slice_pairs": 308,
+    "pair_set_identical": true,
+    "balanced_slice_identical": true,
+    "gold_identical": true
+  },
+  "rows": 4980,
+  "pairs": 1245,
+  "rendering_families": [
+    "glyph",
+    "prose"
+  ],
+  "sources": {
+    "primevul": {
+      "input": "D:/code/start/data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 827,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 797,
+      "skipped_groups": 50,
+      "rejected_non_mirror_pairs": 30,
+      "non_mirror_rejection_rate": 0.036275695284159616,
+      "non_mirror_at_emitted_width": 0,
+      "sampled_pairs": 350,
+      "polarity_balanced_pairs": 68
+    },
+    "deltasecommits": {
+      "input": "D:/code/start/data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata_v2.jsonl",
+      "ingestion": {
+        "pairs_seen": 327,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 316,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 11,
+      "non_mirror_rejection_rate": 0.03363914373088685,
+      "non_mirror_at_emitted_width": 0,
+      "sampled_pairs": 316,
+      "polarity_balanced_pairs": 60
+    },
+    "patcheval": {
+      "input": "D:/code/start/data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 269,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 229,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 40,
+      "non_mirror_rejection_rate": 0.14869888475836432,
+      "non_mirror_at_emitted_width": 0,
+      "sampled_pairs": 229,
+      "polarity_balanced_pairs": 76
+    },
+    "crossvul": {
+      "input": "D:/code/start/data/processed/secure_code_crossvul_pair_diff_eval_metadata.jsonl",
+      "ingestion": {
+        "pairs_seen": 4371,
+        "single_line_pairs": 0,
+        "single_line_rate": 0.0
+      },
+      "eligible_pairs": 4218,
+      "skipped_groups": 0,
+      "rejected_non_mirror_pairs": 153,
+      "non_mirror_rejection_rate": 0.035003431708991076,
+      "non_mirror_at_emitted_width": 0,
+      "sampled_pairs": 350,
+      "polarity_balanced_pairs": 104
+    }
+  },
+  "invariants": {
+    "exact_swap_mirror": "enforced at load AND re-validated at the emitted context width; a suite with any non-mirror pair is refused",
+    "truncation_hazard": "canonical and side_swap renderings of a pair do not truncate at the same point, so a row truncated by max_length is no longer an exact mirror. This is why the context budget is chosen to keep over-length rows rare rather than rendering whole units."
+  },
+  "shortcuts_NOT_removed": {
+    "net_polarity_sign": "unchanged from v4 by construction. Widening context cannot weaken the polarity control, which reads only +/- lines. The balanced slice remains the primary reporting surface, where the control sits at chance."
+  }
+}

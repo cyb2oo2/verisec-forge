@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from vrf.gpu_budget import apply_gpu_budget, describe, make_throttle
 from vrf.io_utils import read_jsonl
 
 
@@ -48,6 +49,15 @@ def main() -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--progress-every", type=int, default=25)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--load-in-4bit",
+        action="store_true",
+        help=(
+            "Load the backbone as nf4 (double-quantised, bf16 compute). Required "
+            "for a 7B backbone on a 12 GB card; must match how the adapter was "
+            "trained, since inference precision is part of the reported system."
+        ),
+    )
     parser.add_argument(
         "--num-labels",
         type=int,
@@ -108,6 +118,16 @@ def main() -> int:
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    quant_kwargs = {}
+    if args.load_in_4bit:
+        from transformers import BitsAndBytesConfig
+
+        quant_kwargs["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+        )
     if args.num_labels:
         peft_config = PeftConfig.from_pretrained(
             args.checkpoint,
@@ -118,6 +138,7 @@ def main() -> int:
             num_labels=args.num_labels,
             local_files_only=True,
             dtype=torch.bfloat16,
+            **quant_kwargs,
         )
         model = PeftModelForSequenceClassification.from_pretrained(
             base_model,
@@ -131,19 +152,25 @@ def main() -> int:
             local_files_only=True,
             dtype=torch.bfloat16,
             is_trainable=False,
+            **quant_kwargs,
         )
     model.config.pad_token_id = tokenizer.pad_token_id
-    model.to(torch.device("cuda"))
+    if not args.load_in_4bit:
+        # bitsandbytes already places the quantised weights on the GPU and
+        # .to() on a 4-bit model is rejected.
+        model.to(torch.device("cuda"))
     model.eval()
 
     total = len(rows)
     processed = len(completed_ids)
     started = time.perf_counter()
+    throttle = make_throttle()
     print(
         f"VeriPatch-RR inference: total={total} pending={len(pending)} "
         f"batch_size={args.batch_size} device={torch.cuda.get_device_name(0)}",
         flush=True,
     )
+    print(describe(apply_gpu_budget(torch)), flush=True)
     with output_path.open(mode, encoding="utf-8") as handle:
         for batch_index, start in enumerate(
             range(0, len(pending), args.batch_size), start=1
@@ -183,6 +210,7 @@ def main() -> int:
                     json.dumps(prediction, ensure_ascii=False) + "\n"
                 )
             handle.flush()
+            throttle()
             processed += len(batch)
             if (
                 batch_index == 1

@@ -54,7 +54,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from vrf.relational_benchmark import CanonicalPair, swap_pair, unified_diff
+from vrf.relational_benchmark import (
+    DEFAULT_CONTEXT_LINES,
+    CanonicalPair,
+    swap_pair,
+    unified_diff,
+)
 
 NUISANCE_FAMILIES = [
     "context_window",
@@ -109,11 +114,17 @@ def render_context_window(pair: CanonicalPair, *, context_lines: int) -> str:
     return _wrap(pair, "Unified diff from Side A to Side B:", diff)
 
 
-def render_split_view(pair: CanonicalPair) -> str:
+def render_split_view(
+    pair: CanonicalPair, *, context_lines: int = DEFAULT_CONTEXT_LINES
+) -> str:
     """Group the same content into Removed / Added / Unchanged-context blocks.
 
     Same underlying unified diff computation as canonical, restructured so the
     removed and added lines are no longer interleaved hunk-by-hunk.
+
+    ``context_lines`` widens the ``Unchanged context`` block only; the Removed
+    and Added blocks are determined by the edit itself and do not move. This is
+    what makes it the prose counterpart of a wide-context unified diff.
     """
     removed: list[str] = []
     added: list[str] = []
@@ -124,6 +135,7 @@ def render_split_view(pair: CanonicalPair) -> str:
         fromfile="Side A",
         tofile="Side B",
         lineterm="\n",
+        n=context_lines,
     ):
         if line.startswith(("--- ", "+++ ", "@@")):
             continue
@@ -228,12 +240,24 @@ def render_diff_algorithm(pair: CanonicalPair, *, algorithm: str) -> str:
     )
 
 
-def render_nuisance(pair: CanonicalPair, family: str) -> str:
-    """Dispatch to the renderer for ``family`` (one of ``NUISANCE_FAMILIES``)."""
+def render_nuisance(
+    pair: CanonicalPair, family: str, *, context_lines: int | None = None
+) -> str:
+    """Dispatch to the renderer for ``family`` (one of ``NUISANCE_FAMILIES``).
+
+    ``context_lines=None`` keeps each family's historical budget, so every
+    existing artifact rebuilds byte-identically. Passing a value widens the
+    surrounding-code window for the families that render one.
+    """
     if family == "context_window":
-        return render_context_window(pair, context_lines=1)
+        return render_context_window(
+            pair, context_lines=1 if context_lines is None else context_lines
+        )
     if family == "split_view":
-        return render_split_view(pair)
+        return render_split_view(
+            pair,
+            context_lines=DEFAULT_CONTEXT_LINES if context_lines is None else context_lines,
+        )
     if family == "diff_algorithm_myers_header":
         return render_diff_algorithm(pair, algorithm="myers")
     if family == "diff_algorithm_histogram":
@@ -243,8 +267,10 @@ def render_nuisance(pair: CanonicalPair, family: str) -> str:
     raise ValueError(f"unknown nuisance family: {family}")
 
 
-def build_nuisance_rows(pair: CanonicalPair, family: str) -> tuple[str, str]:
+def build_nuisance_rows(
+    pair: CanonicalPair, family: str, *, context_lines: int | None = None
+) -> tuple[str, str]:
     """Return (canonical_text, side_swap_text) for ``family`` on ``pair``."""
-    canonical_text = render_nuisance(pair, family)
-    side_swap_text = render_nuisance(swap_pair(pair), family)
+    canonical_text = render_nuisance(pair, family, context_lines=context_lines)
+    side_swap_text = render_nuisance(swap_pair(pair), family, context_lines=context_lines)
     return canonical_text, side_swap_text

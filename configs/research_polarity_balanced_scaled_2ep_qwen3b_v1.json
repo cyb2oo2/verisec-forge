@@ -1,0 +1,30 @@
+{
+  "name": "polarity_balanced_scaled_2ep_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_scaled_2ep_qwen3b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 2,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Stage 3 of the 3B backbone lineage, and the headline run. Exact port of configs/research_polarity_balanced_scaled_2ep_v1.json (the best 1.5B setting, prose discordant 0.2833) with the backbone swapped. Tests whether the discordant ceiling is a capacity limit.",
+    "reference_run": "checkpoints/cls_secure_code_polarity_balanced_scaled_2ep_qwen15b_lora_v1",
+    "training_pairs": 2208,
+    "cells": "552 per cell x 4",
+    "sources": "PrimeVul time-disjoint train, PatchEval all, DeltaSecommits all (v2), CrossVul non-held-out",
+    "CAVEAT_crossvul": "CrossVul pairs (excluding the 350 v4 eval keys) are TRAINING data here, exactly as in the 1.5B reference run. CrossVul evaluation rows are therefore not zero-shot for this checkpoint either. The comparison against the 1.5B reference is unaffected because both share the caveat; the three other sources remain clean."
+  }
+}

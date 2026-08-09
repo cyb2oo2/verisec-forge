@@ -19,7 +19,8 @@ if str(SRC) not in sys.path:
 from vrf.io_utils import read_jsonl, write_json
 from vrf.counterfactuals import add_nonsecurity_padding, normalize_code_identifiers
 from vrf.joint_reasoning import reverse_side_choice_text
-from vrf.training_common import optional_import_train_stack
+from vrf.gpu_budget import apply_gpu_budget, describe, throttle_callback
+from vrf.training_common import optional_import_train_stack, quantization_kwargs
 
 
 def pair_records(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -101,6 +102,7 @@ def main() -> int:
         ROOT / load_checkpoint,
         local_files_only=True,
         is_trainable=True,
+        **quantization_kwargs(config, torch),
     )
     model.config.pad_token_id = tokenizer.pad_token_id
     model.enable_input_require_grads()
@@ -241,6 +243,10 @@ def main() -> int:
         train_dataset=train_dataset,
         data_collator=PairCollator(),
     )
+    print(describe(apply_gpu_budget(torch)), flush=True)
+    pacing = throttle_callback(transformers)
+    if pacing is not None:
+        trainer.add_callback(pacing)
     if not args.skip_training:
         trainer.train()
         trainer.save_model(str(output_dir))

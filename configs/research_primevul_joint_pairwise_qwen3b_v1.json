@@ -1,0 +1,30 @@
+{
+  "name": "primevul_joint_pairwise_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_qwen25coder3b_lora_pair_diff_only_3000_v1",
+  "train_dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen3b_lora_v1",
+  "predictions_output": "outputs/secure_code_primevul_joint_pairwise_qwen3b_lora_v1_predictions.jsonl",
+  "report_output": "reports/secure_code_primevul_joint_pairwise_qwen3b_lora_v1_report.json",
+  "seed": 42,
+  "max_seq_length": 1024,
+  "loss": {
+    "margin": 0.5,
+    "margin_weight": 0.5,
+    "complement_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 10
+  },
+  "provenance": {
+    "purpose": "Stage 1 of the 3B backbone lineage. Exact port of configs/research_primevul_joint_pairwise_qwen15b_v1.json with the backbone swapped.",
+    "reference_run": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+    "DEVIATION_eval_batch": "per_device_eval_batch_size 4 -> 2. Evaluation batching affects throughput and padding width only; the pairwise decision is computed per pair."
+  }
+}

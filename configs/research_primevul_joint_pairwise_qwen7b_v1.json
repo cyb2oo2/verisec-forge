@@ -1,0 +1,35 @@
+{
+  "name": "primevul_joint_pairwise_qwen7b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_qwen25coder7b_qlora_pair_diff_only_3000_v1",
+  "train_dataset": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen7b_qlora_v1",
+  "predictions_output": "outputs/secure_code_primevul_joint_pairwise_qwen7b_qlora_v1_predictions.jsonl",
+  "report_output": "reports/secure_code_primevul_joint_pairwise_qwen7b_qlora_v1_report.json",
+  "seed": 42,
+  "max_seq_length": 1024,
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "loss": {
+    "margin": 0.5,
+    "margin_weight": 0.5,
+    "complement_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 10
+  },
+  "provenance": {
+    "purpose": "Stage 1 of the 7B backbone lineage. Port of configs/research_primevul_joint_pairwise_qwen15b_v1.json.",
+    "DEVIATION_precision": "nf4 QLoRA, see the stage 0 config."
+  }
+}

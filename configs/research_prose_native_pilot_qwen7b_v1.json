@@ -1,0 +1,34 @@
+{
+  "name": "prose_native_pilot_qwen7b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen7b_qlora_v1",
+  "train_dataset": "data/processed/secure_code_prose_native_train_pilot_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen7b_qlora_v1",
+  "status_output": "reports/repair_train_status_prose_native_pilot_qwen7b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Stage 2 of the 7B backbone lineage, and the within-backbone prose control. Port of configs/research_prose_native_pilot_v1.json.",
+    "training_rendering": "split_view prose only (prose_fraction = 1.0)",
+    "training_pairs": 1736,
+    "DEVIATION_precision": "nf4 QLoRA, see the stage 0 config."
+  }
+}

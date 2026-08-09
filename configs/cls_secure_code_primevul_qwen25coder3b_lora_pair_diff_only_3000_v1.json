@@ -1,0 +1,35 @@
+{
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "local_files_only": true,
+  "train_dataset_path": "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl",
+  "eval_dataset_path": "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_metadata.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_primevul_qwen25coder3b_lora_pair_diff_only_3000_v1",
+  "report_path": "reports/secure_code_primevul_cls_qwen25coder3b_lora_pair_diff_only_3000_v1_eval1800_report.json",
+  "predictions_path": "outputs/secure_code_primevul_cls_qwen25coder3b_lora_pair_diff_only_3000_v1_eval1800_predictions.jsonl",
+  "tracker_path": "artifacts/experiments.jsonl",
+  "text_field": "pair_text",
+  "training_args": {
+    "num_train_epochs": 1,
+    "learning_rate": 5e-5,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "logging_steps": 20,
+    "save_steps": 200,
+    "max_seq_length": 1024,
+    "bf16": true,
+    "gradient_checkpointing": true
+  },
+  "peft": {
+    "enabled": true,
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  },
+  "provenance": {
+    "purpose": "Stage 0 of the 3B backbone lineage. Exact port of the 1.5B config configs/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1.json (recovered from commit 06da8a2^, pruned in 06da8a2) with the backbone swapped.",
+    "reference_run": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+    "DEVIATION_precision": "The 1.5B stage 0 ran in fp32. A 3B in fp32 is 12.4 GB of weights alone and does not fit a 12 GB card, so this run is bf16 with gradient checkpointing. Every downstream stage in the 1.5B lineage already ran bf16 + gradient checkpointing, so this makes stage 0 consistent with the rest of the chain rather than introducing a new regime.",
+    "DEVIATION_save_steps": "save_steps 100 -> 200; intermediate checkpoints are not used by any downstream stage, this only halves the write volume."
+  }
+}

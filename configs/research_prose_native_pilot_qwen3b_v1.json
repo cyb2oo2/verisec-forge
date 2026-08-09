@@ -1,0 +1,30 @@
+{
+  "name": "prose_native_pilot_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_prose_native_train_pilot_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_prose_native_pilot_qwen3b_v1.json",
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 1,
+    "learning_rate": 0.00002,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Stage 2 of the 3B backbone lineage. Exact port of configs/research_prose_native_pilot_v1.json with the backbone swapped. Serves as the within-backbone prose control for the balanced run.",
+    "reference_run": "checkpoints/cls_secure_code_prose_native_pilot_qwen15b_lora_v1",
+    "training_rendering": "split_view prose only (prose_fraction = 1.0)",
+    "training_pairs": 1736,
+    "training_rows": 3472,
+    "held_out": "all v4 suite pair_keys plus the full PrimeVul eval pools (2050 keys); identical dataset file to the 1.5B run"
+  }
+}
