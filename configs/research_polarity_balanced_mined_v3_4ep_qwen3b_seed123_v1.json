@@ -1,0 +1,31 @@
+{
+  "name": "polarity_balanced_mined_v3_4ep_qwen3b_seed123_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_mined_v3_seed123.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_mined_v3_4ep_qwen3b_seed123_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_mined_v3_4ep_qwen3b_seed123_v1.json",
+  "seed": 123,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "First training run on the mined discordant supply. The balanced design is gated by the smallest (gold x net-sign) cell; mining lifts it from 541 to 790, so the balanced set grows 2164 -> 3160 pairs. Everything else matches the matched-compute regime in reports/BACKBONE_COMPARISON_MATCHED_COMPUTE_V1.md: 3B bf16, 4 epochs, lr 2e-5, length 1024, LoRA r=8.",
+    "training_pairs": 3160,
+    "steps": 1580,
+    "cells": "790 per (gold x net-sign) cell, up from 541 in the decontaminated v2 set and 552 in the published v1 set",
+    "DECONTAMINATED": "Built by the content-fingerprint filter added to scripts/build_prose_native_training_set.py. Verified 0 v4 content leaks and 0 internal content duplicates (reports/decontamination_verification.json). The published v1 sets carried 32 (seed 7) and 36 (seed 123) content twins of v4 evaluation pairs.",
+    "CONFOUND_language": "The mined supply is cross-language. v2 is 100% C/C++; v3 is 69% C/C++ with 17% PHP and 14% JavaScript/Python/Java, because CrossVul's remaining discordant pairs exist only in other languages. Any movement against the published v1 numbers mixes THREE changes: decontamination, added volume, and language shift. The v2 arm is the control that separates decontamination from the rest; volume and language cannot be separated by this data.",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "crossvul_multilang": {
+    "total": 3780,
+    "key_new": 3780,
+    "content_new": 3779,
+    "same_content_as_baseline": 0,
+    "same_content_as_heldout": 1
+  },
+  "mixed_pv_dsc": {
+    "total": 3376,
+    "key_new": 3376,
+    "content_new": 1307,
+    "same_content_as_baseline": 1856,
+    "same_content_as_heldout": 213
+  },
+  "primevul_directional3000": {
+    "total": 605,
+    "key_new": 264,
+    "content_new": 264,
+    "same_content_as_baseline": 302,
+    "same_content_as_heldout": 28
+  }
+}

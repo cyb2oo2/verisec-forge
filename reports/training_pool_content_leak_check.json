@@ -1,0 +1,58 @@
+{
+  "per_source": {
+    "primevul": {
+      "survived_key_filter": 1848,
+      "content_matches_held_out": 0,
+      "content_matches_v4_suite": 0
+    },
+    "patcheval": {
+      "survived_key_filter": 1075,
+      "content_matches_held_out": 8,
+      "content_matches_v4_suite": 0
+    },
+    "deltasecommits": {
+      "survived_key_filter": 1307,
+      "content_matches_held_out": 21,
+      "content_matches_v4_suite": 0
+    },
+    "crossvul": {
+      "survived_key_filter": 4021,
+      "content_matches_held_out": 0,
+      "content_matches_v4_suite": 0
+    }
+  },
+  "total_leaks": 29,
+  "v4_suite_leaks": 0,
+  "examples": [
+    {
+      "source": "patcheval",
+      "train_key": "patcheval-18-0",
+      "matches_held_out": "secure_code_patcheval_pair_diff_eval_metadata.jsonl::patcheval-677-0",
+      "in_v4_suite": false
+    },
+    {
+      "source": "patcheval",
+      "train_key": "patcheval-199-2",
+      "matches_held_out": "secure_code_patcheval_pair_diff_eval_metadata.jsonl::patcheval-138-2",
+      "in_v4_suite": false
+    },
+    {
+      "source": "patcheval",
+      "train_key": "patcheval-255-0",
+      "matches_held_out": "secure_code_patcheval_pair_diff_eval_metadata.jsonl::patcheval-656-0",
+      "in_v4_suite": false
+    },
+    {
+      "source": "patcheval",
+      "train_key": "patcheval-255-1",
+      "matches_held_out": "secure_code_patcheval_pair_diff_eval_metadata.jsonl::patcheval-656-1",
+      "in_v4_suite": false
+    },
+    {
+      "source": "patcheval",
+      "train_key": "patcheval-408-2",
+      "matches_held_out": "secure_code_patcheval_pair_diff_eval_metadata.jsonl::patcheval-555-2",
+      "in_v4_suite": false
+    }
+  ]
+}

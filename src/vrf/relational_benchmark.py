@@ -188,6 +188,33 @@ def is_line_structured(code: str, *, min_chars: int = 120) -> bool:
     return len(text) < min_chars or len(text.splitlines()) > 1
 
 
+def pair_content_fingerprint(rows: Iterable[dict[str, Any]]) -> str:
+    """Content identity of a pair, independent of its ``pair_key`` and side order.
+
+    Key-based held-out exclusion is only sound when every source shares one key
+    namespace. PatchEval, DeltaSecommits and CrossVul all assign *multiple keys to
+    identical content*, so a pair held out under one key can re-enter training
+    under another. Measured on the published pool: 127 training-pool pairs carry
+    the same content as a v4 evaluation pair, 32 of which reached the seed-7
+    balanced training set.
+
+    Side order is normalised away so that a pair and its mirror fingerprint
+    identically -- a duplicate that merely swaps A and B is still a duplicate.
+
+    See ``reports/v4_suite_content_leak_check.json``.
+    """
+
+    sides = sorted(
+        hashlib.sha256(
+            "\n".join(line.rstrip() for line in str(row.get("code") or "").split("\n"))
+            .strip()
+            .encode("utf-8", "replace")
+        ).hexdigest()
+        for row in rows
+    )
+    return hashlib.sha256("|".join(sides).encode("ascii")).hexdigest()
+
+
 def swap_mirror_is_exact(pair: CanonicalPair) -> bool:
     """Does the side swap produce an exact structural mirror of the rendering?
 

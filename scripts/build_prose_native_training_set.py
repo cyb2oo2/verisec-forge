@@ -15,7 +15,14 @@ Guarantees enforced here:
 * every pair satisfies ``swap_mirror_is_exact``;
 * every pair is line-structured at ingestion (``is_line_structured``);
 * **no pair appears in any v4 evaluation source** -- the held-out keys are read
-  from the v4 suite itself rather than assumed.
+  from the v4 suite itself rather than assumed;
+* **no pair repeats the CONTENT of a held-out pair under a different key**, and
+  no two admitted pairs share content. Key-based exclusion alone is not
+  sufficient: PatchEval, DeltaSecommits and CrossVul assign several keys to
+  identical content, which let 127 content-twins of v4 evaluation pairs into the
+  pool and 32 of them into the published seed-7 balanced training set. See
+  ``vrf.relational_benchmark.pair_content_fingerprint`` and
+  ``reports/v4_suite_content_leak_check.json``.
 
 ``--prose-fraction`` controls the mixture. A pair is rendered entirely in one
 family so that its two rows stay comparable; the fraction selects how many pairs
@@ -43,6 +50,7 @@ from vrf.relational_benchmark import (
     DEFAULT_CONTEXT_LINES,
     build_canonical_pair,
     is_line_structured,
+    pair_content_fingerprint,
     render_pair,
     swap_mirror_is_exact,
     swap_pair,
@@ -120,10 +128,32 @@ def main() -> int:
     stats = {
         "source_pairs": len(grouped),
         "excluded_held_out": 0,
+        "excluded_held_out_content": 0,
+        "excluded_duplicate_content": 0,
         "excluded_bad_structure": 0,
         "excluded_non_mirror": 0,
         "excluded_flat_records": 0,
     }
+
+    # Pass 1: fingerprint every held-out pair we can see, whether it reaches us
+    # through a held-out suite or through a source file that also carries it.
+    # Key-based exclusion alone lets a held-out pair back in under a second key,
+    # which is not hypothetical -- see pair_content_fingerprint's docstring.
+    held_out_fingerprints: set[str] = set()
+    for scoped_key, rows in sorted(grouped.items()):
+        pair_key = scoped_key.split("::", 1)[1]
+        if len(rows) == 2 and (pair_key in excluded or scoped_key in excluded):
+            held_out_fingerprints.add(pair_content_fingerprint(rows))
+    for source in held_out_sources:
+        held_rows: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for row in read_jsonl(ROOT / source):
+            if row.get("code") is not None:
+                held_rows[str(row.get("pair_key") or row["id"])].append(row)
+        for rows in held_rows.values():
+            if len(rows) == 2:
+                held_out_fingerprints.add(pair_content_fingerprint(rows))
+
+    seen_fingerprints: set[str] = set()
     pairs = []
     for scoped_key, rows in sorted(grouped.items()):
         dataset = dataset_of[scoped_key]
@@ -133,6 +163,13 @@ def main() -> int:
             continue
         if len(rows) != 2:
             stats["excluded_bad_structure"] += 1
+            continue
+        fingerprint = pair_content_fingerprint(rows)
+        if fingerprint in held_out_fingerprints:
+            stats["excluded_held_out_content"] += 1
+            continue
+        if fingerprint in seen_fingerprints:
+            stats["excluded_duplicate_content"] += 1
             continue
         if any(not is_line_structured(str(r.get("code") or "")) for r in rows):
             stats["excluded_flat_records"] += 1
@@ -145,6 +182,7 @@ def main() -> int:
         if not swap_mirror_is_exact(pair):
             stats["excluded_non_mirror"] += 1
             continue
+        seen_fingerprints.add(fingerprint)
         pairs.append(pair)
 
     rng = random.Random(args.seed)
@@ -242,8 +280,10 @@ def main() -> int:
         "guarantees": [
             "every pair satisfies swap_mirror_is_exact",
             "every source record is line-structured",
-            "zero overlap with the v4 evaluation suite",
+            "zero overlap with the v4 evaluation suite, by pair_key AND by content",
+            "no two admitted pairs share content under different keys",
         ],
+        "held_out_content_fingerprints": len(held_out_fingerprints),
     }
 
     write_jsonl(ROOT / args.output, out_rows)

@@ -1,0 +1,642 @@
+{
+  "v4_pairs": 1245,
+  "v4_resolved": 1237,
+  "v4_unresolved": 0,
+  "hits": [
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-18-0",
+      "v4_pair": "patcheval::patcheval-677-0"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-199-2",
+      "v4_pair": "patcheval::patcheval-138-2"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-255-0",
+      "v4_pair": "patcheval::patcheval-656-0"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-255-1",
+      "v4_pair": "patcheval::patcheval-656-1"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-408-2",
+      "v4_pair": "patcheval::patcheval-555-2"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-427-0",
+      "v4_pair": "patcheval::patcheval-993-0"
+    },
+    {
+      "train_source": "patcheval",
+      "train_key": "patcheval-448-2",
+      "v4_pair": "patcheval::patcheval-761-2"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-73",
+      "v4_pair": "deltasecommits::deltasecommits-74"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-222",
+      "v4_pair": "deltasecommits::deltasecommits-221"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-223",
+      "v4_pair": "deltasecommits::deltasecommits-221"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-266",
+      "v4_pair": "deltasecommits::deltasecommits-265"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-454",
+      "v4_pair": "deltasecommits::deltasecommits-455"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1118",
+      "v4_pair": "deltasecommits::deltasecommits-1119"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1155",
+      "v4_pair": "deltasecommits::deltasecommits-1156"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1250",
+      "v4_pair": "deltasecommits::deltasecommits-1249"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1616",
+      "v4_pair": "deltasecommits::deltasecommits-1617"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1698",
+      "v4_pair": "deltasecommits::deltasecommits-1699"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1749",
+      "v4_pair": "deltasecommits::deltasecommits-1748"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1750",
+      "v4_pair": "deltasecommits::deltasecommits-1748"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1753",
+      "v4_pair": "deltasecommits::deltasecommits-1754"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1807",
+      "v4_pair": "deltasecommits::deltasecommits-1808"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-1976",
+      "v4_pair": "deltasecommits::deltasecommits-1975"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-2041",
+      "v4_pair": "deltasecommits::deltasecommits-2042"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-2126",
+      "v4_pair": "deltasecommits::deltasecommits-2128"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-2127",
+      "v4_pair": "deltasecommits::deltasecommits-2128"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-2178",
+      "v4_pair": "deltasecommits::deltasecommits-2179"
+    },
+    {
+      "train_source": "deltasecommits",
+      "train_key": "deltasecommits-2292",
+      "v4_pair": "deltasecommits::deltasecommits-2293"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-339_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-340_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-341_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-342_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-343_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-344_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-345_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-346_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-4806_0",
+      "v4_pair": "crossvul::crossvul-4807_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-400_4",
+      "v4_pair": "crossvul::crossvul-402_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-401_4",
+      "v4_pair": "crossvul::crossvul-402_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-347_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-348_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_0",
+      "v4_pair": "crossvul::crossvul-341_0"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_1",
+      "v4_pair": "crossvul::crossvul-341_1"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_10",
+      "v4_pair": "crossvul::crossvul-342_10"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_2",
+      "v4_pair": "crossvul::crossvul-343_2"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_3",
+      "v4_pair": "crossvul::crossvul-339_3"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_4",
+      "v4_pair": "crossvul::crossvul-347_4"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_5",
+      "v4_pair": "crossvul::crossvul-348_5"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_6",
+      "v4_pair": "crossvul::crossvul-344_6"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_7",
+      "v4_pair": "crossvul::crossvul-340_7"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-349_9",
+      "v4_pair": "crossvul::crossvul-341_9"
+    },
+    {
+      "train_source": "crossvul",
+      "train_key": "crossvul-3243_0",
+      "v4_pair": "crossvul::crossvul-3242_0"
+    }
+  ]
+}

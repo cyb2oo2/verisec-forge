@@ -1,0 +1,81 @@
+{
+  "suite": "data/processed/secure_code_relational_benchmark_v4.jsonl",
+  "training_sets": {
+    "v1_seed7_published": {
+      "path": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+      "pairs": 2208,
+      "unresolved": 0,
+      "suite_content_leaks": 32,
+      "internal_content_duplicates": 29,
+      "leak_examples": [
+        "crossvul-339_0",
+        "crossvul-339_7",
+        "crossvul-340_0",
+        "crossvul-340_2",
+        "crossvul-342_0",
+        "crossvul-342_2",
+        "crossvul-342_5",
+        "crossvul-342_6",
+        "crossvul-343_1",
+        "crossvul-343_7"
+      ],
+      "clean": false
+    },
+    "v1_seed123_published": {
+      "path": "data/processed/secure_code_polarity_balanced_train_scaled_seed123.jsonl",
+      "pairs": 2208,
+      "unresolved": 0,
+      "suite_content_leaks": 36,
+      "internal_content_duplicates": 32,
+      "leak_examples": [
+        "crossvul-339_0",
+        "crossvul-339_1",
+        "crossvul-339_7",
+        "crossvul-340_0",
+        "crossvul-340_10",
+        "crossvul-340_2",
+        "crossvul-340_5",
+        "crossvul-341_10",
+        "crossvul-342_0",
+        "crossvul-342_1"
+      ],
+      "clean": false
+    },
+    "v2_seed7_decontaminated": {
+      "path": "data/processed/secure_code_polarity_balanced_train_decontaminated_v2.jsonl",
+      "pairs": 2164,
+      "unresolved": 0,
+      "suite_content_leaks": 0,
+      "internal_content_duplicates": 0,
+      "leak_examples": [],
+      "clean": true
+    },
+    "v2_seed123_decontaminated": {
+      "path": "data/processed/secure_code_polarity_balanced_train_decontaminated_v2_seed123.jsonl",
+      "pairs": 2164,
+      "unresolved": 0,
+      "suite_content_leaks": 0,
+      "internal_content_duplicates": 0,
+      "leak_examples": [],
+      "clean": true
+    },
+    "v3_seed7_mined": {
+      "path": "data/processed/secure_code_polarity_balanced_train_mined_v3.jsonl",
+      "pairs": 3160,
+      "unresolved": 0,
+      "suite_content_leaks": 0,
+      "internal_content_duplicates": 0,
+      "leak_examples": [],
+      "clean": true
+    },
+    "v3_seed123_mined": {
+      "path": "data/processed/secure_code_polarity_balanced_train_mined_v3_seed123.jsonl",
+      "pairs": 3160,
+      "unresolved": 0,
+      "suite_content_leaks": 0,
+      "internal_content_duplicates": 0,
+      "leak_examples": [],
+      "clean": true
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "baseline_cells": {
+    "gold=A,net=+": 3169,
+    "gold=A,net=-": 581,
+    "gold=B,net=+": 552,
+    "gold=B,net=-": 3258
+  },
+  "baseline_distinct_pairs": 7560,
+  "candidates": [
+    {
+      "name": "crossvul_multilang",
+      "admitted": 3507,
+      "new_pairs": 3507,
+      "new_discordant": 530,
+      "new_discordant_cells": {
+        "gold=A,net=-": 274,
+        "gold=B,net=+": 256
+      }
+    },
+    {
+      "name": "primevul_recall3249",
+      "admitted": 448,
+      "new_pairs": 202,
+      "new_discordant": 27,
+      "new_discordant_cells": {
+        "gold=A,net=-": 13,
+        "gold=B,net=+": 14
+      }
+    },
+    {
+      "name": "primevul_recall3113",
+      "admitted": 465,
+      "new_pairs": 205,
+      "new_discordant": 29,
+      "new_discordant_cells": {
+        "gold=A,net=-": 14,
+        "gold=B,net=+": 15
+      }
+    },
+    {
+      "name": "primevul_edge3000",
+      "admitted": 160,
+      "new_pairs": 73,
+      "new_discordant": 11,
+      "new_discordant_cells": {
+        "gold=A,net=-": 7,
+        "gold=B,net=+": 4
+      }
+    },
+    {
+      "name": "primevul_directional3000",
+      "admitted": 489,
+      "new_pairs": 219,
+      "new_discordant": 32,
+      "new_discordant_cells": {
+        "gold=A,net=-": 17,
+        "gold=B,net=+": 15
+      }
+    },
+    {
+      "name": "primevul_contrastive3000",
+      "admitted": 489,
+      "new_pairs": 219,
+      "new_discordant": 32,
+      "new_discordant_cells": {
+        "gold=A,net=-": 13,
+        "gold=B,net=+": 19
+      }
+    },
+    {
+      "name": "primevul_localized3000",
+      "admitted": 489,
+      "new_pairs": 219,
+      "new_discordant": 32,
+      "new_discordant_cells": {
+        "gold=A,net=-": 14,
+        "gold=B,net=+": 18
+      }
+    },
+    {
+      "name": "primevul_only3000",
+      "admitted": 489,
+      "new_pairs": 219,
+      "new_discordant": 32,
+      "new_discordant_cells": {
+        "gold=A,net=-": 15,
+        "gold=B,net=+": 17
+      }
+    },
+    {
+      "name": "mixed_pv_dsc",
+      "admitted": 1881,
+      "new_pairs": 1881,
+      "new_discordant": 276,
+      "new_discordant_cells": {
+        "gold=A,net=-": 157,
+        "gold=B,net=+": 119
+      }
+    },
+    {
+      "name": "patcheval_train",
+      "admitted": 910,
+      "new_pairs": 0,
+      "new_discordant": 0,
+      "new_discordant_cells": {}
+    },
+    {
+      "name": "deltasecommits_v1",
+      "admitted": 0,
+      "new_pairs": 0,
+      "new_discordant": 0,
+      "new_discordant_cells": {}
+    }
+  ]
+}
