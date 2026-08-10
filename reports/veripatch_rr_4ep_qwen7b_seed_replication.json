@@ -1,0 +1,428 @@
+{
+  "families": {
+    "glyph": {
+      "n_pairs_nonzero_net": 1202,
+      "cell_sizes": {
+        "gold=A,net=+": 507,
+        "gold=A,net=-": 90,
+        "gold=B,net=+": 90,
+        "gold=B,net=-": 515
+      },
+      "max_pooled_balanced_slice": 360,
+      "systems": {
+        "baseline_antisym": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.9677,
+            "acc_discordant": 0.2556,
+            "balanced_accuracy": 0.6116,
+            "delta_vs_control": 0.1116
+          },
+          "bootstrap": {
+            "point": 0.1116,
+            "ci95_low": 0.0801,
+            "ci95_high": 0.144,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": 0.0917,
+            "delta_median": 0.1139,
+            "delta_max": 0.1194,
+            "delta_mean": 0.1113,
+            "fraction_positive": 1.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.9707,
+            "acc_discordant": 0.2584,
+            "balanced_accuracy": 0.6146,
+            "delta_vs_control": 0.1146
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.9647,
+            "acc_discordant": 0.2527,
+            "balanced_accuracy": 0.6087,
+            "delta_vs_control": 0.1087
+          },
+          "overall_pair_counts": {
+            "correct": 1035,
+            "incorrect": 167
+          }
+        },
+        "baseline_independent": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.7632,
+            "acc_discordant": 0.0722,
+            "balanced_accuracy": 0.4177,
+            "delta_vs_control": -0.0823
+          },
+          "bootstrap": {
+            "point": -0.0823,
+            "ci95_low": -0.1041,
+            "ci95_high": -0.0581,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": -0.0944,
+            "delta_median": -0.0861,
+            "delta_max": -0.0556,
+            "delta_mean": -0.0807,
+            "fraction_positive": 0.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.7812,
+            "acc_discordant": 0.1124,
+            "balanced_accuracy": 0.4468,
+            "delta_vs_control": -0.0532
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.7451,
+            "acc_discordant": 0.033,
+            "balanced_accuracy": 0.389,
+            "delta_vs_control": -0.111
+          },
+          "overall_pair_counts": {
+            "correct": 793,
+            "incorrect": 409
+          }
+        },
+        "repaired_antisym": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.9609,
+            "acc_discordant": 0.2556,
+            "balanced_accuracy": 0.6082,
+            "delta_vs_control": 0.1082
+          },
+          "bootstrap": {
+            "point": 0.1082,
+            "ci95_low": 0.0761,
+            "ci95_high": 0.1411,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": 0.0917,
+            "delta_median": 0.1111,
+            "delta_max": 0.1194,
+            "delta_mean": 0.1084,
+            "fraction_positive": 1.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.9629,
+            "acc_discordant": 0.2809,
+            "balanced_accuracy": 0.6219,
+            "delta_vs_control": 0.1219
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.9588,
+            "acc_discordant": 0.2308,
+            "balanced_accuracy": 0.5948,
+            "delta_vs_control": 0.0948
+          },
+          "overall_pair_counts": {
+            "correct": 1028,
+            "incorrect": 174
+          }
+        },
+        "repaired_independent": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.6174,
+            "acc_discordant": 0.0833,
+            "balanced_accuracy": 0.3504,
+            "delta_vs_control": -0.1496
+          },
+          "bootstrap": {
+            "point": -0.1496,
+            "ci95_low": -0.1744,
+            "ci95_high": -0.1237,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": -0.1778,
+            "delta_median": -0.1472,
+            "delta_max": -0.1056,
+            "delta_mean": -0.1493,
+            "fraction_positive": 0.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.6406,
+            "acc_discordant": 0.1011,
+            "balanced_accuracy": 0.3709,
+            "delta_vs_control": -0.1291
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.5941,
+            "acc_discordant": 0.0659,
+            "balanced_accuracy": 0.33,
+            "delta_vs_control": -0.17
+          },
+          "overall_pair_counts": {
+            "correct": 646,
+            "incorrect": 556
+          }
+        }
+      }
+    },
+    "prose": {
+      "n_pairs_nonzero_net": 1202,
+      "cell_sizes": {
+        "gold=A,net=+": 507,
+        "gold=A,net=-": 90,
+        "gold=B,net=+": 90,
+        "gold=B,net=-": 515
+      },
+      "max_pooled_balanced_slice": 360,
+      "systems": {
+        "baseline_antisym": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.8562,
+            "acc_discordant": 0.5167,
+            "balanced_accuracy": 0.6864,
+            "delta_vs_control": 0.1864
+          },
+          "bootstrap": {
+            "point": 0.1864,
+            "ci95_low": 0.1479,
+            "ci95_high": 0.2242,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": 0.1611,
+            "delta_median": 0.1833,
+            "delta_max": 0.2083,
+            "delta_mean": 0.184,
+            "fraction_positive": 1.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.8672,
+            "acc_discordant": 0.5281,
+            "balanced_accuracy": 0.6976,
+            "delta_vs_control": 0.1976
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.8451,
+            "acc_discordant": 0.5055,
+            "balanced_accuracy": 0.6753,
+            "delta_vs_control": 0.1753
+          },
+          "overall_pair_counts": {
+            "correct": 968,
+            "incorrect": 234
+          }
+        },
+        "baseline_independent": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.275,
+            "acc_discordant": 0.0889,
+            "balanced_accuracy": 0.1819,
+            "delta_vs_control": -0.3181
+          },
+          "bootstrap": {
+            "point": -0.3181,
+            "ci95_low": -0.3421,
+            "ci95_high": -0.2926,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": -0.3472,
+            "delta_median": -0.3222,
+            "delta_max": -0.2889,
+            "delta_mean": -0.3221,
+            "fraction_positive": 0.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.2891,
+            "acc_discordant": 0.0899,
+            "balanced_accuracy": 0.1895,
+            "delta_vs_control": -0.3105
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.2608,
+            "acc_discordant": 0.0879,
+            "balanced_accuracy": 0.1743,
+            "delta_vs_control": -0.3257
+          },
+          "overall_pair_counts": {
+            "correct": 297,
+            "incorrect": 905
+          }
+        },
+        "repaired_antisym": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.8454,
+            "acc_discordant": 0.5167,
+            "balanced_accuracy": 0.681,
+            "delta_vs_control": 0.181
+          },
+          "bootstrap": {
+            "point": 0.181,
+            "ci95_low": 0.1422,
+            "ci95_high": 0.2193,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": 0.1472,
+            "delta_median": 0.1806,
+            "delta_max": 0.2083,
+            "delta_mean": 0.1809,
+            "fraction_positive": 1.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.8711,
+            "acc_discordant": 0.4831,
+            "balanced_accuracy": 0.6771,
+            "delta_vs_control": 0.1771
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.8196,
+            "acc_discordant": 0.5495,
+            "balanced_accuracy": 0.6845,
+            "delta_vs_control": 0.1845
+          },
+          "overall_pair_counts": {
+            "correct": 957,
+            "incorrect": 245
+          }
+        },
+        "repaired_independent": {
+          "population": {
+            "n_concordant": 1022,
+            "n_discordant": 180,
+            "acc_concordant": 0.2348,
+            "acc_discordant": 0.0944,
+            "balanced_accuracy": 0.1646,
+            "delta_vs_control": -0.3354
+          },
+          "bootstrap": {
+            "point": -0.3354,
+            "ci95_low": -0.3594,
+            "ci95_high": -0.3096,
+            "iterations": 10000,
+            "seed": 20260727,
+            "independent_units": 1202,
+            "unit": "pair_key group",
+            "method": "cluster_bootstrap_over_pair_groups"
+          },
+          "seed_distribution": {
+            "draws": 25,
+            "slice_size": 360,
+            "delta_min": -0.3611,
+            "delta_median": -0.3361,
+            "delta_max": -0.3056,
+            "delta_mean": -0.335,
+            "fraction_positive": 0.0,
+            "note": "NOT independent draws: the discordant cells are limiting and appear in full in every draw (~58% pair overlap between seeds)."
+          },
+          "disjoint_half_a": {
+            "n_concordant": 512,
+            "n_discordant": 89,
+            "acc_concordant": 0.2422,
+            "acc_discordant": 0.0899,
+            "balanced_accuracy": 0.166,
+            "delta_vs_control": -0.334
+          },
+          "disjoint_half_b": {
+            "n_concordant": 510,
+            "n_discordant": 91,
+            "acc_concordant": 0.2275,
+            "acc_discordant": 0.0989,
+            "balanced_accuracy": 0.1632,
+            "delta_vs_control": -0.3368
+          },
+          "overall_pair_counts": {
+            "correct": 257,
+            "incorrect": 945
+          }
+        }
+      }
+    }
+  }
+}
