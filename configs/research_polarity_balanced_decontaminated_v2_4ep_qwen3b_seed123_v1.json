@@ -1,0 +1,31 @@
+{
+  "name": "polarity_balanced_decontaminated_v2_4ep_qwen3b_seed123_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "init_checkpoint": "checkpoints/cls_secure_code_prose_native_pilot_qwen3b_lora_v1",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_decontaminated_v2_seed123.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed123_lora_v1",
+  "status_output": "reports/repair_train_status_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed123_v1.json",
+  "seed": 123,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20
+  },
+  "provenance": {
+    "purpose": "Control arm for the mined experiment. Decontaminated but C/C++ only: this is the v1 recipe with content-level held-out exclusion applied and NOTHING else changed. Isolates decontamination from the volume, compute and language changes that v3 carries.",
+    "training_pairs": 2164,
+    "steps": 1082,
+    "cells": "541 per (gold x net-sign) cell, down from 552 in the published v1 set because 129 held-out content twins and 112 in-pool content duplicates were removed",
+    "DECONTAMINATED": "Verified 0 v4 content leaks and 0 internal content duplicates by scripts/audit_training_pool_contamination.py (reports/decontamination_verification.json). The published v1 sets carried 32 (seed 7) and 36 (seed 123) content twins of v4 evaluation pairs.",
+    "ISOLATES": "v2 vs v1 = decontamination alone (2164 vs 2208 pairs, 1082 vs 1104 steps, both 100 percent C/C++). v3 vs v2 = added volume + 46 percent more steps + the language shift. Together the two comparisons bracket what mining bought.",
+    "CAVEAT_crossvul": "CrossVul non-held-out pairs are training data, as in every balanced run."
+  }
+}
