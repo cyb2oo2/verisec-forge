@@ -194,15 +194,48 @@ balanced checkpoints. Balanced slice, prose, both-directions-correct:
 
 | Source | zero-shot? | n | control | 1.5B | 3B | 7B |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| PatchEval | yes | 76 | `0.5000` | `0.5789` | **`0.7105`** | `0.6579` |
-| DeltaSecommits | yes | 60 | `0.5000` | `0.6167` | `0.6667` | `0.6000` |
+| PatchEval | **nearly**¹ | 76 | `0.5000` | `0.5789` | **`0.7105`** | `0.6579` |
+| DeltaSecommits | **nearly**¹ | 60 | `0.5000` | `0.6167` | `0.6667` | `0.6000` |
 | PrimeVul | yes | 68 | `0.4853` | `0.5735` | `0.6471` | `0.6471` |
 | CrossVul | **no** | 104 | `0.5000` | `0.6154` | `0.6442` | **`0.7019`** |
+
+> ¹ **Correction, added after this report was published.** PatchEval and
+> DeltaSecommits were labelled `zero-shot: yes` here. They are not strictly
+> zero-shot. The training-set builder excluded held-out pairs by `pair_key` alone,
+> and both sources assign *several keys to identical content*
+> (`patcheval-18-0` == `patcheval-677-0`; `deltasecommits-222` and `-223` both ==
+> `deltasecommits-221`), so evaluation pairs re-entered training under a second
+> key. Across the whole v4 suite, 37 pairs have a training-side content twin —
+> DeltaSecommits 17, CrossVul 13, PatchEval 7. **On the 308-pair balanced slice
+> this table reports, 11 are affected: CrossVul 7, PatchEval 3, DeltaSecommits 1.**
+> Each published balanced checkpoint trained on 32 (seed 7) or 36 (seed 123) such
+> twins. **PrimeVul is unaffected and remains genuinely zero-shot**, as does the
+> `0.4853` control column.
+>
+> **This does not change any conclusion in this report.** Of the 180 discordant
+> evaluation pairs the decisive metric rests on, 3 have a training twin, bounding
+> the memorisation bias at `0.0167` — against measured seed spreads of
+> `0.0674`–`0.0778`. The bound was tested directly: `MINED_DISCORDANT_SUPPLY_V1.md`
+> retrained the 3B on a decontaminated set and the balanced Δ mean moved by
+> `+0.0009` (`+0.2166` → `+0.2175`), with discordant accuracy *rising* rather than
+> falling. Removing the contamination cost nothing, so it was not inflating these
+> numbers.
+>
+> Fixed in `pair_content_fingerprint`
+> (`src/vrf/relational_benchmark.py`), enforced by
+> `scripts/build_prose_native_training_set.py`, and checked independently by
+> `scripts/audit_training_pool_contamination.py`. Evidence:
+> `reports/v4_suite_content_leak_check.json`,
+> `reports/decontamination_verification.json`.
 
 For the **3B the gain is weakest on the contaminated source**, which rules out
 leakage as its explanation. For the **7B it is strongest there**, so the 7B's
 aggregate is somewhat inflated by contamination — though all three zero-shot
 sources still clear the control by `+0.10` to `+0.16`.
+
+That last sentence should now read "the two nearly-zero-shot sources and
+PrimeVul"; the margins themselves are unchanged, and the `+0.10`–`+0.16` range
+still holds.
 
 ## Full clean set (1,245 pairs)
 
@@ -343,7 +376,9 @@ LoRA r=8 on q/k/v/o — a rank the larger backbones may under-use. Evaluated on
 1,245 held-out pairs across four sources; balanced-slice figures rest on 308
 pairs and the discordant cells on 180 pairs, so `0.4333` is 78/180 and its
 sampling error is not small. CrossVul rows are not zero-shot for any balanced
-checkpoint; for the 7B the contaminated source carries the largest gain.
+checkpoint; for the 7B the contaminated source carries the largest gain. **Nor
+are PatchEval and DeltaSecommits strictly zero-shot** — see the correction under
+§"Contamination check". Only PrimeVul is.
 
 The 7B arm is nf4 throughout — training, inference and probing — which is a
 deliberate confound the 3B arm does not carry. Stage 0 ran bf16 in both new arms
