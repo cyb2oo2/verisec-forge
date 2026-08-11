@@ -1,0 +1,123 @@
+name: Docs Build
+
+# Validates paper/docs integrity without requiring a full LaTeX toolchain in CI.
+# Checks Markdown anchors, result-map consistency, and optional PDF build when
+# a LaTeX source is present and texlive is installable.
+
+on:
+  pull_request:
+    paths:
+      - "paper/**"
+      - "docs/**"
+      - "reports/**"
+      - "README.md"
+      - "AI-WORKFLOW.md"
+      - "REPRODUCIBILITY.md"
+      - "tests/test_paper_artifacts.py"
+      - "tests/test_report_index.py"
+      - ".github/workflows/docs-build.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "paper/**"
+      - "docs/**"
+      - "reports/**"
+      - "README.md"
+      - "AI-WORKFLOW.md"
+      - "REPRODUCIBILITY.md"
+      - "tests/**"
+      - ".github/workflows/docs-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  paper-docs-integrity:
+    name: Paper and docs integrity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # No `pip install -e ".[dev]"`: the remaining steps are a bash file-existence
+      # check and a stdlib-only (re + pathlib) link scanner. Nothing imports vrf.
+
+      # test_paper_artifacts.py and test_report_index.py are not run here:
+      # ci.yml already runs both unconditionally on every PR and push to main.
+      # This job keeps only the checks unique to docs/paper integrity.
+
+      - name: Required paper scaffold files exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            paper/abstract.md
+            paper/outline.md
+            paper/main_claims.md
+            paper/result_anchor_map.md
+            paper/tables/main_results.md
+            docs/EVIDENCE_HIERARCHY.md
+            docs/CI_TESTING_STRATEGY.md
+          )
+          missing=0
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "::error::missing required file: $f"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Markdown link sanity (local paths in paper/ and docs/)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          link_re = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+          roots = [Path("paper"), Path("docs")]
+          broken = []
+          checked = 0
+          for root in roots:
+              for path in root.rglob("*.md"):
+                  text = path.read_text(encoding="utf-8", errors="replace")
+                  for match in link_re.finditer(text):
+                      target = match.group(1).strip()
+                      if target.startswith(("http://", "https://", "mailto:", "#")):
+                          continue
+                      # strip anchors and optional title
+                      target = target.split()[0].split("#", 1)[0]
+                      if not target:
+                          continue
+                      candidate = (path.parent / target).resolve()
+                      checked += 1
+                      if not candidate.exists():
+                          # also try repo-root relative
+                          alt = Path(target).resolve()
+                          if not alt.exists():
+                              broken.append(f"{path}: {target}")
+          if broken:
+              print("Broken local links:")
+              for b in broken[:50]:
+                  print(" -", b)
+              raise SystemExit(1)
+          print(f"OK: checked {checked} local markdown links")
+          PY
+
+# An `optional-latex` job was drafted here but hardwired to `if: false`, so it
+# could never run. When LaTeX sources actually land under paper/, add it back as
+# a real job gated on a `paper/**.tex` path filter rather than a constant false.

@@ -1,0 +1,109 @@
+name: Experiment CI
+
+# Lightweight, non-GPU checks for experiment configs, registry integrity, and
+# report/anchor consistency. Complements ci.yml (fresh-clone research smoke).
+# Does NOT train models or run inference (docs/CI_TESTING_STRATEGY.md).
+
+on:
+  pull_request:
+    paths:
+      - "configs/**"
+      - "experiments/**"
+      - "reports/**"
+      - "paper/**"
+      - "reproducibility/**"
+      - "scripts/**"
+      - "src/vrf/**"
+      - "tests/test_paper_artifacts.py"
+      - "tests/test_report_index.py"
+      - "tests/test_reproducibility_bundle.py"
+      - "tests/test_ci_smoke_contract.py"
+      - "tests/test_veripatch_external_adapter.py"
+      - ".github/workflows/experiment-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "configs/**"
+      - "experiments/**"
+      - "reports/**"
+      - "paper/**"
+      - "reproducibility/**"
+      - "scripts/**"
+      - "src/vrf/**"
+      - "tests/**"
+      - ".github/workflows/experiment-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: experiment-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  experiment-integrity:
+    name: Experiment integrity
+    runs-on: ubuntu-latest
+    # Single OS on purpose: ci.yml already runs the shared research smoke suite
+    # on the ubuntu + windows matrix. This job only adds registry/config checks,
+    # which are pure JSON parsing and not OS-sensitive.
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # No `pip install -e ".[dev]"`: both checks below are stdlib-only
+      # (json + pathlib) and never import vrf. ci.yml covers the installed-package
+      # path on every PR.
+
+      - name: Validate experiment registry JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("experiments/registry.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          assert "experiments" in data, "registry missing experiments list"
+          required = {"id", "title", "layer", "status", "primary_report", "claim"}
+          ids = set()
+          for exp in data["experiments"]:
+              missing = required - set(exp)
+              assert not missing, f"{exp.get('id')}: missing {missing}"
+              assert exp["id"] not in ids, f"duplicate id: {exp['id']}"
+              ids.add(exp["id"])
+              report = Path(exp["primary_report"])
+              if not report.exists():
+                  raise SystemExit(f"missing primary_report for {exp['id']}: {report}")
+          print(f"OK: {len(data['experiments'])} registry entries")
+          PY
+
+      - name: Validate research configs are JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          configs = sorted(Path("configs").glob("*.json"))
+          assert configs, "no configs found"
+          for path in configs:
+              json.loads(path.read_text(encoding="utf-8"))
+          print(f"OK: {len(configs)} config files parse")
+          PY
+
+      # The paper/report/reproducibility pytest suite and the
+      # build_reproducibility_bundle.py --check-only gate are deliberately NOT
+      # repeated here: ci.yml runs both on every PR and every push to main, with
+      # no path filter, across ubuntu + windows. Duplicating them cost three
+      # extra install+test cycles per PR and gave no additional coverage.

@@ -1,0 +1,113 @@
+name: Skills Sync
+
+# Validates the AI agent skill catalog under .github/skills/.
+# Ensures each skill has a SKILL.md with required frontmatter and that the
+# catalog stays complete for research workflows.
+
+on:
+  pull_request:
+    paths:
+      - ".github/skills/**"
+      - ".github/workflows/skills-sync.yml"
+      - "AI-WORKFLOW.md"
+      - "CONTRIBUTING.md"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/skills/**"
+      - ".github/workflows/skills-sync.yml"
+      - "AI-WORKFLOW.md"
+      - "CONTRIBUTING.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skills-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-skills:
+    name: Validate skill catalog
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate SKILL.md frontmatter and required skills
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from __future__ import annotations
+
+          import re
+          from pathlib import Path
+
+          ROOT = Path(".github/skills")
+          REQUIRED = {
+              "research-experiment-manager",
+              "scientific-paper-assistant",
+              "data-processing-pipeline",
+              "model-training-workflow",
+              "visualization-and-plotting",
+              "document-handling",
+              "github-workflow-automation",
+              "reproducibility-check",
+              "literature-review-helper",
+              "code-review-scientific",
+          }
+          REQUIRED_SECTIONS = [
+              "When to Use",
+              "Instructions",
+              "Best Practices",
+              "Examples",
+              "Dependencies",
+          ]
+
+          assert ROOT.is_dir(), f"missing {ROOT}"
+          skill_dirs = sorted(p for p in ROOT.iterdir() if p.is_dir())
+          names = {p.name for p in skill_dirs}
+          missing = REQUIRED - names
+          if missing:
+              raise SystemExit(f"missing required skills: {sorted(missing)}")
+
+          frontmatter_re = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+          name_re = re.compile(r"^name:\s*(.+)$", re.MULTILINE)
+          desc_re = re.compile(r"^description:\s*(.+)$", re.MULTILINE)
+
+          for skill_dir in skill_dirs:
+              skill_md = skill_dir / "SKILL.md"
+              if not skill_md.is_file():
+                  raise SystemExit(f"{skill_dir.name}: missing SKILL.md")
+              text = skill_md.read_text(encoding="utf-8")
+              m = frontmatter_re.match(text)
+              if not m:
+                  raise SystemExit(f"{skill_dir.name}: missing YAML frontmatter")
+              fm = m.group(1)
+              name_m = name_re.search(fm)
+              desc_m = desc_re.search(fm)
+              if not name_m:
+                  # allow block description after name on own line
+                  if "name:" not in fm:
+                      raise SystemExit(f"{skill_dir.name}: frontmatter missing name")
+              if "description:" not in fm:
+                  raise SystemExit(f"{skill_dir.name}: frontmatter missing description")
+              body = text[m.end():]
+              for section in REQUIRED_SECTIONS:
+                  if section.lower() not in body.lower():
+                      raise SystemExit(
+                          f"{skill_dir.name}: missing required section containing '{section}'"
+                      )
+              print(f"OK: {skill_dir.name}")
+
+          print(f"Validated {len(skill_dirs)} skills; required set present.")
+          PY

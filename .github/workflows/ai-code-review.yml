@@ -1,0 +1,212 @@
+name: AI Code Review
+
+# Posts a scientific review checklist on pull requests and optionally runs a
+# lightweight static hygiene check. This workflow does NOT call external LLM
+# APIs by default (no secrets required). Agents (Copilot / Claude / Cursor)
+# should still apply `.github/skills/code-review-scientific/SKILL.md` when
+# reviewing locally or in an IDE.
+#
+# Optional: set repository variable ENABLE_AI_REVIEW_BOT=true and provide
+# OPENAI_API_KEY / ANTHROPIC_API_KEY as secrets to plug in a custom bot step.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ai-code-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  scientific-checklist:
+    name: Scientific review checklist
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed paths
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          mapfile -t FILES < <(git diff --name-only "$BASE"..."$HEAD" || true)
+          printf 'changed_count=%s\n' "${#FILES[@]}" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed_files<<EOF"
+            printf '%s\n' "${FILES[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          touches_src=false
+          touches_reports=false
+          touches_paper=false
+          touches_repro=false
+          touches_tests=false
+          for f in "${FILES[@]}"; do
+            case "$f" in
+              src/*|scripts/*|configs/*) touches_src=true ;;
+              reports/*|experiments/*) touches_reports=true ;;
+              paper/*) touches_paper=true ;;
+              reproducibility/*) touches_repro=true ;;
+              tests/*|.github/workflows/*) touches_tests=true ;;
+            esac
+          done
+          echo "touches_src=$touches_src" >> "$GITHUB_OUTPUT"
+          echo "touches_reports=$touches_reports" >> "$GITHUB_OUTPUT"
+          echo "touches_paper=$touches_paper" >> "$GITHUB_OUTPUT"
+          echo "touches_repro=$touches_repro" >> "$GITHUB_OUTPUT"
+          echo "touches_tests=$touches_tests" >> "$GITHUB_OUTPUT"
+
+      - name: Compose checklist body
+        id: body
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/review_body.md <<'MARKDOWN'
+          ## Scientific review checklist
+
+          Automated reminder from `.github/workflows/ai-code-review.yml`.
+          Apply skill: `.github/skills/code-review-scientific/SKILL.md`.
+
+          ### Scope (`AGENTS.md`)
+          - [ ] Change serves paired-diff / pair-coupled decoding, bounded external routing, or evidence-coupled audit
+          - [ ] No revival of pruned experiment families
+
+          ### Design & statistics
+          - [ ] Falsifiable question + negative control identified
+          - [ ] Seeds ≥3 for any promoted mean; seeds recorded in artifacts
+          - [ ] Effect size + uncertainty (CI / `n=`), not p-value alone
+          - [ ] Smoke / pilot / AI-filled audit **not** promoted to model-quality claims
+
+          ### Reproducibility
+          - [ ] Config + git commit captured in outputs
+          - [ ] Logic in `src/vrf/`, scripts thin
+          - [ ] Releasable artifacts have `reproducibility/` manifests and a green `--check-only` path
+          - [ ] No secrets, large checkpoints, or executed vulnerability samples
+
+          ### Claim hygiene (if numbers change)
+          - [ ] Number lives in `reports/` before any `paper/` text
+          - [ ] Paper-facing numbers appear in `paper/result_anchor_map.md`
+          - [ ] Boundary sentence present ("X, not Y")
+          - [ ] Registry entry updated in `experiments/registry.json` when promoting a result
+
+          ### Software
+          - [ ] Tests updated for retained library / smoke contract changes
+          - [ ] Windows + Linux path safety considered
+          - [ ] CI boundary respected (no training / GPU in the fresh-clone smoke path)
+
+          ### Agent prompt (paste into Copilot / Claude / Cursor)
+
+          ```text
+          Review this PR with the code-review-scientific skill
+          (.github/skills/code-review-scientific/SKILL.md).
+          Structure findings as Blocking / Non-blocking / Questions / Praise.
+          Enforce claim boundaries and docs/EVIDENCE_HIERARCHY.md.
+          ```
+          MARKDOWN
+
+          {
+            echo "### Changed surface"
+            echo ""
+            echo "- files: ${{ steps.changes.outputs.changed_count }}"
+            echo "- src/scripts/configs: ${{ steps.changes.outputs.touches_src }}"
+            echo "- reports/experiments: ${{ steps.changes.outputs.touches_reports }}"
+            echo "- paper: ${{ steps.changes.outputs.touches_paper }}"
+            echo "- reproducibility: ${{ steps.changes.outputs.touches_repro }}"
+            echo "- tests/workflows: ${{ steps.changes.outputs.touches_tests }}"
+            echo ""
+            if [ "${{ steps.changes.outputs.touches_paper }}" = "true" ]; then
+              echo "> **Paper surface touched.** Verify every new number against \`reports/\` and \`paper/result_anchor_map.md\`."
+              echo ""
+            fi
+            if [ "${{ steps.changes.outputs.touches_repro }}" = "true" ]; then
+              echo "> **Reproducibility surface touched.** Run manifest \`--check-only\` before merge."
+              echo ""
+            fi
+          } >> /tmp/review_body.md
+
+      - name: Find existing bot comment
+        id: find
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '## Scientific review checklist';
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find(c =>
+              c.user?.type === 'Bot' && c.body && c.body.includes(marker)
+            );
+            core.setOutput('comment_id', existing ? String(existing.id) : '');
+
+      - name: Upsert checklist comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('/tmp/review_body.md', 'utf8');
+            const commentId = '${{ steps.find.outputs.comment_id }}';
+            if (commentId) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: Number(commentId),
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+  hygiene:
+    name: Diff hygiene (no training in CI)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Guard against expanding CI into training/GPU
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          mapfile -t WF < <(git diff --name-only "$BASE"..."$HEAD" -- '.github/workflows/*.yml' || true)
+          if [ "${#WF[@]}" -eq 0 ]; then
+            echo "No workflow files changed."
+            exit 0
+          fi
+          # Fail if a changed workflow introduces training/GPU runners without an explicit allow marker.
+          if git diff "$BASE"..."$HEAD" -- '.github/workflows/*.yml' | grep -E '^\+' | grep -Eiq \
+            'torch\.cuda|nvidia\.com/gpu|runs-on:.*gpu|pip install -e "\.\[train\]"|accelerate launch|trl |peft '; then
+            if ! git diff "$BASE"..."$HEAD" -- '.github/workflows/*.yml' | grep -q 'ALLOW_TRAINING_IN_CI';
+            then
+              echo "::error::Workflow diff appears to add training/GPU work. CI must stay smoke-only"
+              echo "(docs/CI_TESTING_STRATEGY.md). Add the comment marker ALLOW_TRAINING_IN_CI only if"
+              echo "this is intentional and documented."
+              exit 1
+            fi
+          fi
+          echo "Workflow hygiene OK."
