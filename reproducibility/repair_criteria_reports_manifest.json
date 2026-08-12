@@ -1,0 +1,24 @@
+{
+  "name": "repair_criteria_reports_v1",
+  "description": "Promoted repair-criteria reports after relation-stratified marginal-independence correction.",
+  "created_utc": "2026-08-12",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/evaluate_repair_criteria.py"
+  ],
+  "artifacts": [],
+  "generated_artifacts": [
+    { "role": "crossvul_baseline_antisym", "path": "reports/secure_code_repair_criteria_crossvul_baseline_antisym_v1.json", "sha256": "fa368f44c694c122d30d0961c60577c54c608d5514311961c62343e8b35024ab", "bytes": 3257 },
+    { "role": "crossvul_baseline_independent", "path": "reports/secure_code_repair_criteria_crossvul_baseline_independent_v1.json", "sha256": "e86ebff024906a2b5dc46838ca8f9bd292acd91afa0447cd525a3b9ac02af17d", "bytes": 3281 },
+    { "role": "crossvul_repaired_antisym", "path": "reports/secure_code_repair_criteria_crossvul_repaired_antisym_v1.json", "sha256": "d2d38d543ff6e587d5c0f18caf97fc30a037dcd9daa1619f69b17936ada6510c", "bytes": 3248 },
+    { "role": "crossvul_repaired_independent", "path": "reports/secure_code_repair_criteria_crossvul_repaired_independent_v1.json", "sha256": "ede2416fd2672897e01bce8cbeafcfbd0446cc26b43006aaf08644a9f0606e45", "bytes": 3280 },
+    { "role": "pre_repair_baseline", "path": "reports/secure_code_repair_criteria_pre_repair_baseline_v1.json", "sha256": "a5c2d175048740a47bd7a46732aa12369b114182f8d351eeed25cf8a4112559c", "bytes": 3252 },
+    { "role": "repaired_antisymmetric", "path": "reports/secure_code_repair_criteria_repaired_antisymmetric_v1.json", "sha256": "d3a8a5bf0b6b96f4770150f8b2900be87a887101303bab558dfd2111175dfbac", "bytes": 3280 },
+    { "role": "repaired_independent", "path": "reports/secure_code_repair_criteria_repaired_independent_v1.json", "sha256": "6d46dd85cc0bd2cba4e39e4bd4491a902b0fd379263d70a85eeb9ae05ecc9306", "bytes": 3302 }
+  ],
+  "limitations": [
+    "Each report embeds LF-normalized SHA256 hashes for its audit, prediction, and evaluator-code inputs.",
+    "The fresh-clone manifest validates promoted report bytes; full regeneration requires restoring gitignored audit and prediction inputs.",
+    "The correction changes the independence baseline computation but does not flip any previously reported criterion decision."
+  ]
+}

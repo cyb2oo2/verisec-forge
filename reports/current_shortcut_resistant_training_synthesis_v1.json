@@ -1,0 +1,447 @@
+{
+  "schema_version": 1,
+  "status": "report_backed",
+  "scope": "controlled_training_synthesis",
+  "matched_compute": {
+    "protocol": {
+      "training_pairs": 2208,
+      "epochs": 4,
+      "optimizer_steps": 1104,
+      "discordant_evaluation_pairs_per_seed": 180,
+      "seeds": [
+        7,
+        123
+      ]
+    },
+    "arms": [
+      {
+        "backbone": "Qwen2.5-Coder-1.5B bf16",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8659,
+            "discordant_accuracy": 0.4389,
+            "balanced_accuracy": 0.6524,
+            "balanced_delta_vs_control": 0.1524
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.9031,
+            "discordant_accuracy": 0.3611,
+            "balanced_accuracy": 0.6321,
+            "balanced_delta_vs_control": 0.1321
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.4,
+          "sample_standard_deviation": 0.05501290757631342,
+          "observed_min": 0.3611,
+          "observed_max": 0.4389,
+          "observed_range": 0.07780000000000004,
+          "student_t_95_ci": [
+            -0.09426340000000011,
+            0.8942634000000002
+          ],
+          "student_t_95_half_width": 0.49426340000000013
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.14225,
+          "sample_standard_deviation": 0.014354267658086924,
+          "observed_min": 0.1321,
+          "observed_max": 0.1524,
+          "observed_range": 0.020300000000000012,
+          "student_t_95_ci": [
+            0.01328409999999991,
+            0.27121590000000007
+          ],
+          "student_t_95_half_width": 0.12896590000000008
+        }
+      },
+      {
+        "backbone": "Qwen2.5-Coder-7B nf4",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8562,
+            "discordant_accuracy": 0.5167,
+            "balanced_accuracy": 0.6864,
+            "balanced_delta_vs_control": 0.1864
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.8454,
+            "discordant_accuracy": 0.5167,
+            "balanced_accuracy": 0.681,
+            "balanced_delta_vs_control": 0.181
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.5167,
+          "sample_standard_deviation": 0.0,
+          "observed_min": 0.5167,
+          "observed_max": 0.5167,
+          "observed_range": 0.0,
+          "student_t_95_ci": [
+            0.5167,
+            0.5167
+          ],
+          "student_t_95_half_width": 0.0
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.1837,
+          "sample_standard_deviation": 0.003818376618407368,
+          "observed_min": 0.181,
+          "observed_max": 0.1864,
+          "observed_range": 0.005400000000000016,
+          "student_t_95_ci": [
+            0.1493937999999999,
+            0.2180062000000001
+          ],
+          "student_t_95_half_width": 0.03430620000000009
+        }
+      },
+      {
+        "backbone": "Qwen2.5-Coder-3B bf16",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8258,
+            "discordant_accuracy": 0.6333,
+            "balanced_accuracy": 0.7296,
+            "balanced_delta_vs_control": 0.2296
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.8405,
+            "discordant_accuracy": 0.5667,
+            "balanced_accuracy": 0.7036,
+            "balanced_delta_vs_control": 0.2036
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.6,
+          "sample_standard_deviation": 0.047093311627024056,
+          "observed_min": 0.5667,
+          "observed_max": 0.6333,
+          "observed_range": 0.06659999999999999,
+          "student_t_95_ci": [
+            0.1768902000000001,
+            1.0231097999999998
+          ],
+          "student_t_95_half_width": 0.42310979999999987
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.21660000000000001,
+          "sample_standard_deviation": 0.018384776310850233,
+          "observed_min": 0.2036,
+          "observed_max": 0.2296,
+          "observed_range": 0.025999999999999995,
+          "student_t_95_ci": [
+            0.05142200000000005,
+            0.38177799999999995
+          ],
+          "student_t_95_half_width": 0.16517799999999996
+        }
+      }
+    ],
+    "observed_ordering": "1.5B bf16 < 7B nf4 < 3B bf16 on both seeds",
+    "closest_7b_3b_same_seed_gap": 0.04999999999999993,
+    "largest_within_arm_seed_range": 0.07780000000000004,
+    "claim": "At matched data and optimizer steps, the observed two-seed system ordering is 1.5B bf16 < 7B nf4 < 3B bf16 on discordant pairs.",
+    "boundary": "This is a two-seed, one-model-family system comparison. The 7B quantization regime is a precision confound. The closest same-seed 7B-to-3B gap (0.0500) is below the largest within-arm seed range (0.0778). The zero observed 7B seed SD is not evidence of zero training variance."
+  },
+  "discordant_supply_control": {
+    "protocol": {
+      "backbone": "Qwen2.5-Coder-3B-Instruct bf16",
+      "epochs": 4,
+      "discordant_evaluation_pairs_per_seed": 180,
+      "seeds": [
+        7,
+        123
+      ]
+    },
+    "arms": [
+      {
+        "training_set": "v1 balanced (2,208 pairs)",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8258,
+            "discordant_accuracy": 0.6333,
+            "balanced_accuracy": 0.7296,
+            "balanced_delta_vs_control": 0.2296
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.8405,
+            "discordant_accuracy": 0.5667,
+            "balanced_accuracy": 0.7036,
+            "balanced_delta_vs_control": 0.2036
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.6,
+          "sample_standard_deviation": 0.047093311627024056,
+          "observed_min": 0.5667,
+          "observed_max": 0.6333,
+          "observed_range": 0.06659999999999999,
+          "student_t_95_ci": [
+            0.1768902000000001,
+            1.0231097999999998
+          ],
+          "student_t_95_half_width": 0.42310979999999987
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.21660000000000001,
+          "sample_standard_deviation": 0.018384776310850233,
+          "observed_min": 0.2036,
+          "observed_max": 0.2296,
+          "observed_range": 0.025999999999999995,
+          "student_t_95_ci": [
+            0.05142200000000005,
+            0.38177799999999995
+          ],
+          "student_t_95_half_width": 0.16517799999999996
+        }
+      },
+      {
+        "training_set": "v2 decontaminated (2,164 pairs)",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8219,
+            "discordant_accuracy": 0.5944,
+            "balanced_accuracy": 0.7082,
+            "balanced_delta_vs_control": 0.2082
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.8258,
+            "discordant_accuracy": 0.6278,
+            "balanced_accuracy": 0.7268,
+            "balanced_delta_vs_control": 0.2268
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.6111,
+          "sample_standard_deviation": 0.023617366491630678,
+          "observed_min": 0.5944,
+          "observed_max": 0.6278,
+          "observed_range": 0.033399999999999985,
+          "student_t_95_ci": [
+            0.3989098000000001,
+            0.8232901999999999
+          ],
+          "student_t_95_half_width": 0.21219019999999988
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.2175,
+          "sample_standard_deviation": 0.013152186130069788,
+          "observed_min": 0.2082,
+          "observed_max": 0.2268,
+          "observed_range": 0.018600000000000005,
+          "student_t_95_ci": [
+            0.09933419999999998,
+            0.3356658
+          ],
+          "student_t_95_half_width": 0.11816580000000002
+        }
+      },
+      {
+        "training_set": "v3 mined (3,160 pairs)",
+        "seeds": [
+          {
+            "seed": 7,
+            "concordant_accuracy": 0.8229,
+            "discordant_accuracy": 0.6111,
+            "balanced_accuracy": 0.717,
+            "balanced_delta_vs_control": 0.217
+          },
+          {
+            "seed": 123,
+            "concordant_accuracy": 0.8053,
+            "discordant_accuracy": 0.6278,
+            "balanced_accuracy": 0.7165,
+            "balanced_delta_vs_control": 0.2165
+          }
+        ],
+        "discordant_accuracy": {
+          "n_seeds": 2,
+          "mean": 0.6194500000000001,
+          "sample_standard_deviation": 0.011808683245815377,
+          "observed_min": 0.6111,
+          "observed_max": 0.6278,
+          "observed_range": 0.016700000000000048,
+          "student_t_95_ci": [
+            0.5133548999999997,
+            0.7255451000000004
+          ],
+          "student_t_95_half_width": 0.10609510000000029
+        },
+        "balanced_delta_vs_control": {
+          "n_seeds": 2,
+          "mean": 0.21675,
+          "sample_standard_deviation": 0.0003535533905932741,
+          "observed_min": 0.2165,
+          "observed_max": 0.217,
+          "observed_range": 0.0005000000000000004,
+          "student_t_95_ci": [
+            0.2135735,
+            0.2199265
+          ],
+          "student_t_95_half_width": 0.0031765000000000022
+        }
+      }
+    ],
+    "largest_between_arm_mean_gap": 0.01945000000000008,
+    "smallest_within_arm_seed_range": 0.016700000000000048,
+    "largest_within_arm_seed_range": 0.06659999999999999,
+    "claim": "Decontamination and mined discordant supply leave mean balanced delta nearly unchanged and move mean discordant accuracy only slightly across the three two-seed arms.",
+    "boundary": "The largest between-arm mean gap (0.0195) is below the largest within-arm seed range (0.0666) but slightly above the smallest (0.0167); this two-seed control does not establish a data-supply improvement."
+  },
+  "seed_precision": {
+    "method": "Student-t interval over independent training-seed observations",
+    "unit_of_inference": "training seed",
+    "conservative_planning_standard_deviation": 0.05501290757631342,
+    "basis": "maximum observed discordant-accuracy sample SD across the two bf16 matched-compute arms",
+    "projected_95_half_width_at_3_seeds": 0.13667066824277505,
+    "required_seeds_for_95_half_width_at_most_0_05": 8,
+    "required_seeds_for_95_half_width_at_most_0_025": 22,
+    "interpretation": "A third seed is a useful minimum diagnostic for direction and seed collisions, but is not sufficient for a sharp mean estimate. Pair-level binomial intervals are not substituted for seed uncertainty.",
+    "caution": "Variance planning from two seeds is unstable; these counts are sensitivity calculations, not a preregistered power guarantee."
+  },
+  "overall_conclusion": "The controlled training results are bounded experimental evidence for experimental design and shortcut diagnosis, but not evidence of a general secure-patch reasoning solution.",
+  "provenance": {
+    "git_commit": "2250f4a9f4ae92defbbc44659626be5a69781e55",
+    "git_working_tree_dirty": true,
+    "provenance_quality": "weakened_dirty_tree",
+    "python_version": "3.11.15",
+    "python_implementation": "CPython",
+    "python_executable": "python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "sources": [
+      {
+        "path": "reports/veripatch_rr_4ep_qwen15b_seed_replication.json",
+        "sha256": "bd4988f6beb0f3442a67a435effdad1bd00c3d88139a5844b0f74bcc01608bf5",
+        "bytes": 14116,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "reports/veripatch_rr_4ep_qwen7b_seed_replication.json",
+        "sha256": "67c652207514c11efa9c4f9d1d509f1bd1174a0ca2a0e72d29635001f7335faf",
+        "bytes": 14126,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "reports/veripatch_rr_4ep_seed_replication.json",
+        "sha256": "10525bf050b6cdb5a4d445699897f18cbf563ba889d8fc97dad95e2cc6633386",
+        "bytes": 14111,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "reports/veripatch_rr_decon_v2_seed_replication.json",
+        "sha256": "0ebfb347c0ee69781d79aed5f2d8b38143c72d20aa0261793578fa1bf517f3ad",
+        "bytes": 14123,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "reports/veripatch_rr_mined_v3_seed_replication.json",
+        "sha256": "1054c321c08d657c20cb5cc0126c1d8c4af7734cdf900880925f69df3a3ac261",
+        "bytes": 14121,
+        "normalization": "text_lf"
+      }
+    ],
+    "configs": [
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen15b_seed7_v1.json",
+        "sha256": "9e293e0665b8e7e782287387bac7633b7cb184c15a7c66948c97dc2607d4cd1f",
+        "bytes": 1596,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen15b_seed123_v1.json",
+        "sha256": "cbf25b9cfef051320add369bb329fcde566aed5c86b527587353d9ae9b0472fa",
+        "bytes": 1609,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen7b_seed7_v1.json",
+        "sha256": "4e723912e4463a1ac43610d84db95cde6f7c84dc79a1f3fc9fc461efa3bc24cd",
+        "bytes": 2020,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen7b_seed123_v1.json",
+        "sha256": "d8da48cee7de08ceeecfbfb24ea29a6e92fb5cf5c6d47e653a3dd762cc3c8450",
+        "bytes": 2033,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen3b_v1.json",
+        "sha256": "746fd0743038daf9700db6c8561f8466ef493990e92bef50559b0d750ad95efd",
+        "bytes": 1548,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_scaled_4ep_qwen3b_seed123_v1.json",
+        "sha256": "ddeb330d7f74ba5dece9ac6fee4a6a34f52b91f2e7cff8bf7efb23ee75ccb5af",
+        "bytes": 1856,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed7_v1.json",
+        "sha256": "556dee6169a6b7d13a699f934341f54ecf6d6fe5eb175e378c64d74ea011f393",
+        "bytes": 2037,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed123_v1.json",
+        "sha256": "513d4d6ed0318d5bd9d581bd6162ff6b167e9176c22e54a3fc5893f9657190dd",
+        "bytes": 2053,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_mined_v3_4ep_qwen3b_seed7_v1.json",
+        "sha256": "f0ad4784d60224d65445718c1b615257af8b40491b081e89c4e360ff3c362f20",
+        "bytes": 2322,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "configs/research_polarity_balanced_mined_v3_4ep_qwen3b_seed123_v1.json",
+        "sha256": "79875c8ffcd4a7f5cd4e6ee023c35825bed4dae0b99769809f6b0c151bccd9a7",
+        "bytes": 2337,
+        "normalization": "text_lf"
+      }
+    ],
+    "code": [
+      {
+        "path": "scripts/build_current_training_synthesis.py",
+        "sha256": "7fd02b7986741f6dff0036fbdac362c12d38e2ce1107bdf2258d1782450f2eeb",
+        "bytes": 4404,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/current_training_synthesis.py",
+        "sha256": "208773c786f2780d0843f73855cc2c6de7147b4496c1db66f623769db07ba0d6",
+        "bytes": 12372,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/reproducibility.py",
+        "sha256": "a42115a9b7e9bf83fb8c22aab9a90862e8d0a361dcd222b0589bca549c7cc368",
+        "bytes": 17996,
+        "normalization": "text_lf"
+      }
+    ]
+  }
+}

@@ -8,6 +8,7 @@ from pathlib import Path
 from vrf.io_utils import write_json, write_jsonl
 from vrf.reproducibility import (
     build_artifact_bundle,
+    capture_artifact_provenance,
     download_bundle_file,
     load_bundle_release_metadata,
     restore_artifact_bundle,
@@ -17,6 +18,40 @@ from vrf.reproducibility import (
 
 
 TMP_ROOT = Path(".tmp_test_runs/reproducibility_bundle")
+
+
+def test_capture_artifact_provenance_hashes_sources_and_configs(tmp_path: Path) -> None:
+    source = tmp_path / "source.json"
+    config = tmp_path / "config.json"
+    source.write_text('{"value": 1}', encoding="utf-8")
+    config.write_text('{"seed": 7}', encoding="utf-8")
+
+    provenance = capture_artifact_provenance(
+        tmp_path,
+        source_paths=[source],
+        config_paths=[config],
+        code_paths=[source],
+    )
+
+    assert provenance["git_commit"] == "unknown"
+    assert provenance["sources"][0]["sha256"] == sha256_file(source)
+    assert provenance["configs"][0]["sha256"] == sha256_file(config)
+    assert provenance["code"][0]["sha256"] == sha256_file(source)
+    assert provenance["python_version"]
+
+
+def test_provenance_text_hash_is_line_ending_independent(tmp_path: Path) -> None:
+    lf = tmp_path / "lf.json"
+    crlf = tmp_path / "crlf.json"
+    lf.write_bytes(b'{\n  "value": 1\n}')
+    crlf.write_bytes(b'{\r\n  "value": 1\r\n}')
+
+    lf_provenance = capture_artifact_provenance(tmp_path, source_paths=[lf])
+    crlf_provenance = capture_artifact_provenance(tmp_path, source_paths=[crlf])
+
+    assert lf_provenance["sources"][0]["sha256"] == crlf_provenance["sources"][0]["sha256"]
+    assert lf_provenance["sources"][0]["bytes"] == crlf_provenance["sources"][0]["bytes"]
+    assert lf_provenance["sources"][0]["normalization"] == "text_lf"
 
 
 def setup_function() -> None:

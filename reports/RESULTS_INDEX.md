@@ -1,16 +1,13 @@
 # Results Index
 
 > **CORRECTED — WITHDRAWN RESULTS.**
-> This document previously presented PrimeVul detector results as evidence of learned
-> secure-patch reasoning. That interpretation was withdrawn after adversarial
-> structural-control analysis. Under the closed-world pair constraint the fine-tuned
-> detector reaches balanced accuracy `0.8596`; a **semantics-free character-level diff
-> structural control** reaches `0.8588` on the same evaluation population. The difference
-> is `+0.0008`, with a pair-group clustered 95% CI spanning zero (`[-0.0202, +0.0222]`)
-> and a non-significant group-level sign test (19 vs 18, `p=1.0`).
-> **This experiment does not establish semantic secure-patch reasoning beyond diff structure.**
+> This index includes historical PrimeVul detector reports whose semantic
+> interpretation was withdrawn after adversarial structural-control analysis.
+> Under the closed-world pair constraint the detector reaches `0.8596` BA and
+> a semantics-free character-level control reaches `0.8588`; the difference
+> `+0.0008` has a clustered 95% CI `[-0.0202, +0.0222]` spanning zero.
+> **Do not treat those historical reports as semantic reasoning evidence.**
 > Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
-
 
 This index collects the application-facing reports and reproducibility entry points retained after pruning.
 
@@ -56,6 +53,7 @@ Reviewer-facing narrative and reproducibility entry points.
 - `Repair Objective Design (+ v1 Outcome)`: `docs/REPAIR_OBJECTIVE_DESIGN.md`
 - `Repair Experiment Preregistration (Criterion 5 Status)`: `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`
 - `Repair Criteria Pre-Repair Baseline`: `reports/secure_code_repair_criteria_pre_repair_baseline_v1.json`
+- `Repair Criteria Reports Manifest`: `reproducibility/repair_criteria_reports_manifest.json`
 - `Repair Attempt: Antisymmetric-Head Run and Transfer Boundary (#54, #55)`: `reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`
 - `Repair Attempt: PrimeVul In-Distribution Decomposition (#54)`: `reports/secure_code_repair_antisymmetric_decomposition_v1.json`
 - `Repair Transfer Boundary: CrossVul External-Source Decomposition (#54)`: `reports/secure_code_repair_antisymmetric_crossvul_transfer_v1.json`
@@ -101,6 +99,17 @@ Disjoint PrimeVul stress tests, external datasets, and bounded source-aware rout
 - `PatchEval Multi-Seed Adapter`: `reports/PATCHEVAL_ADAPTER_MULTISEED.md`
 - `Three-Source Adapter Mixture`: `reports/THREE_SOURCE_ADAPTER_MIXTURE.md`
 - `Learned Router Claim Boundary`: `reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md`
+
+## Current Shortcut-Resistant Training Controls
+
+Matched-compute, data-supply, and seed-precision evidence with explicit claim boundaries.
+
+- `Current Training Synthesis`: `reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md`
+- `Current Training Synthesis Manifest`: `reproducibility/current_training_synthesis_manifest.json`
+- `Matched-Compute Backbone Comparison`: `reports/BACKBONE_COMPARISON_MATCHED_COMPUTE_V1.md`
+- `Mined Discordant-Supply Control`: `reports/MINED_DISCORDANT_SUPPLY_V1.md`
+- `Hard-Negative Contrastive Control`: `reports/HARD_NEGATIVE_CONTRASTIVE_V1.md`
+- `Wide-Context Negative Result`: `reports/TASK_FORMULATION_WIDE_CONTEXT_V5.md`
 
 ## Evidence-Coupled Audit
 

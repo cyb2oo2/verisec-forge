@@ -91,10 +91,10 @@ def marginal_conditioned_violation_baseline(
     with base A-rate ``p`` and transformed A-rate ``q`` succeeds with
     ``p*q + (1-p)*(1-q)``; for ``equivariant_swap`` (success = flipped answer)
     it succeeds with ``p*(1-q) + (1-p)*q``. The baseline violation rate is one
-    minus that. A model whose observed violation rate sits at this baseline is
-    statistically indistinguishable from two independent classifiers -- exactly
-    the side-swap failure signature -- so relational claims should report the
-    observed rate next to this number, not in isolation.
+    minus that. A model whose observed violation rate sits at this baseline
+    behaves as expected under the marginal-matched independence reference; that
+    point comparison is descriptive, not a significance test. Relational claims
+    should report the observed rate next to this number, not in isolation.
     """
     scored = [
         row
@@ -112,16 +112,54 @@ def marginal_conditioned_violation_baseline(
     invariant_share = sum(
         row["expected_relation"] == "invariant" for row in scored
     ) / n
-    agree = base_a * trans_a + (1 - base_a) * (1 - trans_a)
-    disagree = 1.0 - agree
-    # Per-relation success under independence; mix by the relation composition.
-    success = invariant_share * agree + (1 - invariant_share) * disagree
+
+    # The independence floor must be conditioned on the relation as well as on
+    # the prediction marginals. Pooling invariant and equivariant rows before
+    # computing p/q can manufacture a 0.5 floor when the two transformations
+    # have different transformed marginals. Compute each stratum first, then
+    # combine the relation-specific success probabilities by row count.
+    by_relation: dict[str, dict[str, Any]] = {}
+    weighted_success = 0.0
+    for relation in ("invariant", "equivariant_swap"):
+        relation_rows = [
+            row for row in scored if row["expected_relation"] == relation
+        ]
+        if not relation_rows:
+            continue
+        relation_n = len(relation_rows)
+        relation_base_a = (
+            sum(row["base_prediction"] == "A" for row in relation_rows)
+            / relation_n
+        )
+        relation_trans_a = (
+            sum(
+                row["transformed_prediction"] == "A"
+                for row in relation_rows
+            )
+            / relation_n
+        )
+        agree = (
+            relation_base_a * relation_trans_a
+            + (1 - relation_base_a) * (1 - relation_trans_a)
+        )
+        relation_success = agree if relation == "invariant" else 1.0 - agree
+        weighted_success += relation_n * relation_success
+        by_relation[relation] = {
+            "n": relation_n,
+            "weight": relation_n / n,
+            "base_a_rate": relation_base_a,
+            "transformed_a_rate": relation_trans_a,
+            "baseline_violation_rate": 1.0 - relation_success,
+        }
+    success = weighted_success / n
     return {
         "baseline_violation_rate": 1.0 - success,
         "n": n,
         "base_a_rate": base_a,
         "transformed_a_rate": trans_a,
         "invariant_share": invariant_share,
+        "by_relation": by_relation,
+        "method": "relation_stratified_marginal_independence",
     }
 
 

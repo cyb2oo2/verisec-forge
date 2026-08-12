@@ -20,6 +20,10 @@ the relation between the two sides of a patch pair.
 4. **Frozen-representation mechanism split.** Mean pooling's endpoint gain is
    mainly training mediated, while changed-hunk pooling retains a direct
    structural effect when the backbone representation is frozen.
+5. **Controlled shortcut-resistant training evidence.** Under matched data and
+   optimizer steps, two-seed runs show an observed 1.5B bf16 < 7B nf4 < 3B
+   bf16 ordering on discordant pairs; decontamination and mined-supply controls
+   do not establish an additional data-supply gain.
 
 ## Claim Boundaries
 
@@ -36,6 +40,10 @@ the relation between the two sides of a patch pair.
   direction.
 - Frozen-backbone results are conditional on the single terminal-seed7
   Qwen+LoRA representation; seeds 7 and 123 vary only matched linear heads.
+- The controlled-training ordering covers one Qwen family with two seeds per
+  arm, and 7B uses nf4 while the smaller arms use bf16. It is not a scaling law.
+- Seed-level precision is weak: a third seed is diagnostically useful but does
+  not by itself support a sharp mean or a small between-arm difference.
 
 ## One-Sentence Version
 

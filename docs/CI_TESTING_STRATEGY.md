@@ -37,8 +37,9 @@ new experimental result.
 Run the same focused smoke path from a fresh clone:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements\py311-dev.lock
+.\.venv\Scripts\python.exe -m pip install -e . --no-deps
 .\.venv\Scripts\python.exe -m pytest -q `
   tests\test_veripatch_external_adapter.py `
   tests\test_ci_smoke_contract.py `
@@ -47,6 +48,14 @@ python -m venv .venv
   tests\test_reproducibility_bundle.py
 .\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
   --manifest reproducibility\veripatch_external_smoke_manifest.json `
+  --check-only
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\current_training_synthesis_manifest.json `
+  --include-generated `
+  --check-only
+.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
+  --manifest reproducibility\repair_criteria_reports_manifest.json `
+  --include-generated `
   --check-only
 ```
 
@@ -59,3 +68,18 @@ The full local regression suite remains:
 The full suite assumes the local research environment has optional dependencies
 for training, dataset-building, and demo tests. The fresh-clone contract is the
 focused smoke path above.
+
+## Dependency lock
+
+`requirements/py311-dev.lock` pins the complete runtime plus test dependency
+graph used by the Python 3.11 CI smoke. It intentionally excludes the optional
+`train` and `serve` extras because CI does not run GPU training or vLLM. Refresh
+it only after reviewing resolver changes:
+
+```powershell
+uv pip compile pyproject.toml --python-version 3.11 --extra dev `
+  --output-file requirements\py311-dev.lock
+```
+
+The editable install uses `--no-deps` so `pyproject.toml` cannot silently
+override the reviewed lock during CI.

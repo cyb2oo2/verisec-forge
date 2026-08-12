@@ -1,5 +1,20 @@
 # Main Results Table Draft
 
+## Current report-backed controlled training evidence
+
+These rows are rebuilt from retained evaluator JSONs and are separate from the
+historical table below. They summarize training-seed observations; they do not
+promote a model or establish a scaling law.
+
+| Controlled comparison | Seed-level result | Bounded interpretation |
+| --- | ---: | --- |
+| Matched 4-epoch compute, discordant accuracy | 1.5B bf16 `0.4000`; 7B nf4 `0.5167`; 3B bf16 `0.6000` (two-seed means) | Observed ordering on both seeds; one Qwen family and 7B precision confound |
+| Training-set supply, 3B bf16 | v1 `0.6000`; decontaminated v2 `0.6111`; mined v3 `0.6195` (two-seed means) | Largest mean gap `0.0195` is below the largest seed range `0.0666`, but above the smallest `0.0167`; no improvement established |
+| Seed precision sensitivity | three-seed projected 95% half-width `0.1367`; eight seeds for target `<=0.05` | Sensitivity calculation from an unstable two-seed variance estimate |
+
+Source: `reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md` and
+`reports/current_shortcut_resistant_training_synthesis_v1.json`.
+
 > **STATUS: PARTIALLY WITHDRAWN AND NOT REGENERABLE.**
 > This table cannot currently be rebuilt: `scripts/build_primevul_main_results.py`
 > requires `reports/*_threshold_sweep.json` artifacts, and zero are present in the

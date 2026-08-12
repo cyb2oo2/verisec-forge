@@ -277,3 +277,38 @@ def test_marginal_conditioned_violation_baseline_ignores_invalid():
         }
     ]
     assert marginal_conditioned_violation_baseline(rows)["n"] == 0
+
+
+def test_marginal_conditioned_violation_baseline_stratifies_relations():
+    from vrf.relational_evaluation import marginal_conditioned_violation_baseline
+
+    # Both relation-specific independent predictors succeed perfectly. Pooling
+    # their transformed marginals first would instead manufacture a 0.5
+    # violation floor and make a mixed-relation system look artificially good.
+    rows = [
+        {
+            "expected_relation": "invariant",
+            "base_prediction": "A",
+            "transformed_prediction": "A",
+            "base_protocol_valid": True,
+            "transformed_protocol_valid": True,
+        },
+        {
+            "expected_relation": "equivariant_swap",
+            "base_prediction": "A",
+            "transformed_prediction": "B",
+            "base_protocol_valid": True,
+            "transformed_protocol_valid": True,
+        },
+    ]
+
+    result = marginal_conditioned_violation_baseline(rows)
+
+    assert result["baseline_violation_rate"] == pytest.approx(0.0)
+    assert result["method"] == "relation_stratified_marginal_independence"
+    assert result["by_relation"]["invariant"][
+        "baseline_violation_rate"
+    ] == pytest.approx(0.0)
+    assert result["by_relation"]["equivariant_swap"][
+        "baseline_violation_rate"
+    ] == pytest.approx(0.0)

@@ -4,7 +4,11 @@ import argparse
 import json
 from pathlib import Path
 
-from vrf.report_index import build_report_index, load_report_index_manifest
+from vrf.report_index import (
+    build_report_index,
+    load_report_index_manifest,
+    load_report_index_preamble,
+)
 
 
 def main() -> None:
@@ -15,7 +19,8 @@ def main() -> None:
 
     root = Path(__file__).resolve().parents[1]
     sections = load_report_index_manifest(args.manifest, root)
-    output = build_report_index(sections, root)
+    preamble = load_report_index_preamble(args.manifest)
+    output = build_report_index(sections, root, preamble=preamble)
     output_path = root / args.output_path
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(output, encoding="utf-8")

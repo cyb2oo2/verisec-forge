@@ -19,6 +19,14 @@ class ReportIndexSection:
     entries: list[ReportIndexEntry]
 
 
+def load_report_index_preamble(manifest_path: str | Path) -> str:
+    manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+    preamble = manifest.get("preamble", [])
+    if isinstance(preamble, str):
+        return preamble.strip()
+    return "\n".join(str(line) for line in preamble).strip()
+
+
 def load_report_index_manifest(manifest_path: str | Path, root: str | Path | None = None) -> list[ReportIndexSection]:
     manifest_file = Path(manifest_path)
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
@@ -43,7 +51,12 @@ def load_report_index_manifest(manifest_path: str | Path, root: str | Path | Non
     return sections
 
 
-def build_report_index(sections: list[ReportIndexSection], root: str | Path | None = None) -> str:
+def build_report_index(
+    sections: list[ReportIndexSection],
+    root: str | Path | None = None,
+    *,
+    preamble: str = "",
+) -> str:
     base_root = Path(root).resolve() if root is not None else None
     lines = [
         "# Results Index",
@@ -51,6 +64,8 @@ def build_report_index(sections: list[ReportIndexSection], root: str | Path | No
         "This index collects the application-facing reports and reproducibility entry points retained after pruning.",
         "",
     ]
+    if preamble:
+        lines[2:2] = [*preamble.splitlines(), ""]
 
     for section in sections:
         lines.append(f"## {section.title}")

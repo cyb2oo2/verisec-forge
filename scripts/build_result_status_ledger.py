@@ -38,6 +38,7 @@ SOURCES = {
     "decomposition": "reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json",
     "clustered": "reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json",
     "gate": "reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json",
+    "training": "reports/current_shortcut_resistant_training_synthesis_v1.json",
 }
 
 REMEDIATION = {
@@ -64,6 +65,7 @@ def render(payloads: dict[str, Any]) -> str:
     decomposition = payloads["decomposition"]
     clustered = payloads["clustered"]
     gate = payloads["gate"]
+    training = payloads["training"]
 
     rules = polarity["rules"]
     best = polarity["strongest_rule"]
@@ -186,6 +188,48 @@ def render(payloads: dict[str, Any]) -> str:
                 "pair group",
             )
         )
+
+    training_doc = "[Current Training Synthesis](../reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md)"
+    matched_arms = training["matched_compute"]["arms"]
+    arm_means = {
+        arm["backbone"]: arm["discordant_accuracy"]["mean"] for arm in matched_arms
+    }
+    rows.append(
+        (
+            "Matched-compute discordant accuracy, two-seed means",
+            " / ".join(
+                [
+                    f"1.5B bf16 `{arm_means['Qwen2.5-Coder-1.5B bf16']:.4f}`",
+                    f"7B nf4 `{arm_means['Qwen2.5-Coder-7B nf4']:.4f}`",
+                    f"3B bf16 `{arm_means['Qwen2.5-Coder-3B bf16']:.4f}`",
+                ]
+            ),
+            training_doc,
+            "training seed",
+        )
+    )
+    supply_arms = training["discordant_supply_control"]["arms"]
+    rows.append(
+        (
+            "Discordant-supply control, two-seed mean accuracy",
+            " / ".join(
+                f"{arm['training_set'].split()[0]} `{arm['discordant_accuracy']['mean']:.4f}`"
+                for arm in supply_arms
+            ),
+            "same",
+            "training seed",
+        )
+    )
+    precision = training["seed_precision"]
+    rows.append(
+        (
+            "Seed precision sensitivity (95% mean half-width <= 0.05)",
+            f"`{precision['required_seeds_for_95_half_width_at_most_0_05']}` seeds; "
+            f"3-seed projected half-width `{precision['projected_95_half_width_at_3_seeds']:.4f}`",
+            "same",
+            "training seed",
+        )
+    )
 
     out = [
         BEGIN,

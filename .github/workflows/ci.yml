@@ -26,8 +26,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install package
-        run: python -m pip install -e ".[dev]"
+      - name: Install locked Python 3.11 environment
+        run: |
+          python -m pip install -r requirements/py311-dev.lock
+          python -m pip install -e . --no-deps
 
       - name: Check whitespace
         run: git diff --check
@@ -41,8 +43,8 @@ jobs:
           tests/test_report_index.py
           tests/test_reproducibility_bundle.py
 
-      - name: Validate retained reproducibility manifest
-        run: >-
-          python scripts/build_reproducibility_bundle.py
-          --manifest reproducibility/veripatch_external_smoke_manifest.json
-          --check-only
+      - name: Validate retained reproducibility manifests
+        run: |
+          python scripts/build_reproducibility_bundle.py --manifest reproducibility/veripatch_external_smoke_manifest.json --check-only
+          python scripts/build_reproducibility_bundle.py --manifest reproducibility/current_training_synthesis_manifest.json --include-generated --check-only
+          python scripts/build_reproducibility_bundle.py --manifest reproducibility/repair_criteria_reports_manifest.json --include-generated --check-only

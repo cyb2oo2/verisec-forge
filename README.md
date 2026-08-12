@@ -168,9 +168,10 @@ into a benchmark result.
 Linux/macOS:
 
 ```bash
-python -m venv .venv
+python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[dev]"
+python -m pip install -r requirements/py311-dev.lock
+python -m pip install -e . --no-deps
 python -m pytest -q \
   tests/test_veripatch_external_adapter.py \
   tests/test_ci_smoke_contract.py \
@@ -185,9 +186,10 @@ python scripts/build_reproducibility_bundle.py \
 Windows PowerShell:
 
 ```powershell
-python -m venv .venv
+py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -e ".[dev]"
+python -m pip install -r requirements\py311-dev.lock
+python -m pip install -e . --no-deps
 .\.venv\Scripts\python.exe -m pytest -q `
   tests\test_veripatch_external_adapter.py `
   tests\test_ci_smoke_contract.py `

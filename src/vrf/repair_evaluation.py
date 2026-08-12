@@ -199,6 +199,12 @@ def evaluate_repair_criteria(
             "marginal_conditioned_violation_baseline": baseline.get(
                 "baseline_violation_rate"
             ),
+            "marginal_conditioned_violation_baseline_by_relation": baseline.get(
+                "by_relation", {}
+            ),
+            "marginal_conditioned_violation_baseline_method": baseline.get(
+                "method"
+            ),
             "canonical_model_a_rate": canonical_a_rate,
             "relation_rows": n_rel,
         },
@@ -259,6 +265,12 @@ def independent_inference_relation_violation(
         "violation_rate": violation_rate,
         "marginal_conditioned_violation_baseline": baseline.get(
             "baseline_violation_rate"
+        ),
+        "marginal_conditioned_violation_baseline_by_relation": baseline.get(
+            "by_relation", {}
+        ),
+        "marginal_conditioned_violation_baseline_method": baseline.get(
+            "method"
         ),
     }
 

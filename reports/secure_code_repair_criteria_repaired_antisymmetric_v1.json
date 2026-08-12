@@ -4,6 +4,56 @@
   "label": "repaired_antisymmetric_inference_v1",
   "audit": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
   "predictions": "outputs/secure_code_repair_antisymmetric_antisym_inference_predictions_1024.jsonl",
+  "provenance": {
+    "git_commit": "2250f4a9f4ae92defbbc44659626be5a69781e55",
+    "git_working_tree_dirty": true,
+    "provenance_quality": "weakened_dirty_tree",
+    "python_version": "3.11.15",
+    "python_implementation": "CPython",
+    "python_executable": "python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "sources": [
+      {
+        "path": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
+        "sha256": "5f212a78e298b063885c6e3937df13ffda44093e74dc5e7e2d61267f0307983c",
+        "bytes": 3663037,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "outputs/secure_code_repair_antisymmetric_antisym_inference_predictions_1024.jsonl",
+        "sha256": "ab2f0f685ac147e1d32a70adc8ecab93dcb2df8f44b1f1cd516d3536045e8e84",
+        "bytes": 463248,
+        "normalization": "text_lf"
+      }
+    ],
+    "configs": [],
+    "code": [
+      {
+        "path": "scripts/evaluate_repair_criteria.py",
+        "sha256": "6c06f3240d300fdf9e6df14c88c28e507b5ad4c582caa3e772040db5dd2c8567",
+        "bytes": 3012,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/repair_evaluation.py",
+        "sha256": "f9005500072dce6d8378ddcf295ac6444337577cb6af44a65b5f176357381893",
+        "bytes": 15326,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/relational_evaluation.py",
+        "sha256": "c2777744d7cbc456106ca1fcf06f992e3a0f5f8cc1ddfaade2258d8e3e72faf9",
+        "bytes": 24849,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/reproducibility.py",
+        "sha256": "a42115a9b7e9bf83fb8c22aab9a90862e8d0a361dcd222b0589bca549c7cc368",
+        "bytes": 17996,
+        "normalization": "text_lf"
+      }
+    ]
+  },
   "metrics": {
     "canonical_accuracy": 0.7333333333333333,
     "polarity_only_accuracy": 0.7333333333333333,
@@ -11,7 +61,24 @@
     "polarity_flip_rate": 0.0,
     "polarity_probability_gap": 0.0,
     "relation_violation_rate": 0.0,
-    "marginal_conditioned_violation_baseline": 0.5,
+    "marginal_conditioned_violation_baseline": 0.49777777777777776,
+    "marginal_conditioned_violation_baseline_by_relation": {
+      "invariant": {
+        "n": 600,
+        "weight": 0.5,
+        "base_a_rate": 0.4666666666666667,
+        "transformed_a_rate": 0.4666666666666667,
+        "baseline_violation_rate": 0.49777777777777776
+      },
+      "equivariant_swap": {
+        "n": 600,
+        "weight": 0.5,
+        "base_a_rate": 0.4666666666666667,
+        "transformed_a_rate": 0.5333333333333333,
+        "baseline_violation_rate": 0.49777777777777776
+      }
+    },
+    "marginal_conditioned_violation_baseline_method": "relation_stratified_marginal_independence",
     "canonical_model_a_rate": 0.4666666666666667,
     "relation_rows": 1200
   },

@@ -226,6 +226,67 @@
       "reproducibility": "protocol-backed"
     },
     {
+      "id": "shortcut_resistant_training_controls",
+      "title": "Controlled Training Synthesis",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md",
+      "supporting_artifacts": [
+        "reports/current_shortcut_resistant_training_synthesis_v1.json",
+        "reproducibility/current_training_synthesis_manifest.json",
+        "reports/BACKBONE_COMPARISON_MATCHED_COMPUTE_V1.md",
+        "reports/EPOCH_CURVE_3B_V1.md"
+      ],
+      "claim": "matched-compute two-seed controls show an observed 1.5B bf16 < 7B nf4 < 3B bf16 ordering on discordant pairs",
+      "boundary": "one Qwen model family, two seeds per arm, and a 7B quantization confound; this is not a general secure-patch reasoning solution",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "discordant_supply_control",
+      "title": "Decontaminated and Mined Discordant-Supply Control",
+      "layer": "mechanism",
+      "status": "retained",
+      "primary_report": "reports/MINED_DISCORDANT_SUPPLY_V1.md",
+      "supporting_artifacts": [
+        "reports/current_shortcut_resistant_training_synthesis_v1.json",
+        "reports/veripatch_rr_decon_v2_seed_replication.json",
+        "reports/veripatch_rr_mined_v3_seed_replication.json"
+      ],
+      "claim": "decontamination and mined supply leave balanced delta nearly unchanged and produce only small mean discordant movements",
+      "boundary": "the largest mean gap is below the largest within-arm seed range but slightly above the smallest; with two seeds, no data-supply improvement is established",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "training_seed_precision",
+      "title": "Training-Seed Precision Sensitivity Analysis",
+      "layer": "reproducibility",
+      "status": "retained",
+      "primary_report": "reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md",
+      "supporting_artifacts": [
+        "scripts/build_current_training_synthesis.py",
+        "reproducibility/current_training_synthesis_manifest.json",
+        "reports/current_shortcut_resistant_training_synthesis_v1.json"
+      ],
+      "claim": "a third seed is a useful minimum diagnostic but remains inadequate for a sharp seed-level mean estimate",
+      "boundary": "planning variance is estimated from only two seeds and is a sensitivity calculation, not a preregistered power guarantee",
+      "reproducibility": "report-backed"
+    },
+    {
+      "id": "antisymmetric_repair_evaluation",
+      "title": "Antisymmetric Repair Evaluation",
+      "layer": "model_evidence",
+      "status": "retained",
+      "primary_report": "reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md",
+      "supporting_artifacts": [
+        "docs/REPAIR_EXPERIMENT_PREREGISTRATION.md",
+        "reports/secure_code_repair_criteria_pre_repair_baseline_v1.json",
+        "reproducibility/repair_criteria_reports_manifest.json"
+      ],
+      "claim": "the antisymmetric readout enforces structural consistency, while the learned fine-tuning increment is not validated as transferable repair",
+      "boundary": "structural constraint, not a general learned repair; CrossVul and nuisance-transfer criteria remain the headline boundary",
+      "reproducibility": "report-backed"
+    },
+    {
       "id": "external_adapter_smoke",
       "title": "VeriPatch-RR External Adapter Smoke",
       "layer": "reproducibility",

@@ -36,8 +36,11 @@ This ledger is the single place to check which.
 | Model vs weaker line-count rule (context only) | `+0.0738`, 95% CI `[+0.0480, +0.1002]`; sign test 56–13 | same | pair group |
 | Pair coupling vs unconstrained same model (clustered) | `+0.0460`, 95% CI `[+0.0301, +0.0620]` | [Clustered Statistics](../reports/PRIMEVUL_PAIR_COUPLED_CLUSTERED_STATISTICS.md) | pair group |
 | Safe-flip gate precision, preferred gate | `1.0` at **n=4 pairs**, exact 95% CI `[0.3976, 1.0]` | [Gate Uncertainty](../reports/PRIMEVUL_SIDE_INVERSION_GATE_UNCERTAINTY.md) | pair group |
+| Matched-compute discordant accuracy, two-seed means | 1.5B bf16 `0.4000` / 7B nf4 `0.5167` / 3B bf16 `0.6000` | [Current Training Synthesis](../reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md) | training seed |
+| Discordant-supply control, two-seed mean accuracy | v1 `0.6000` / v2 `0.6111` / v3 `0.6195` | same | training seed |
+| Seed precision sensitivity (95% mean half-width <= 0.05) | `8` seeds; 3-seed projected half-width `0.1367` | same | training seed |
 
-Sources: `reports/secure_code_primevul_polarity_structural_control_v1.json`, `reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json`, `reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json`, `reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json`
+Sources: `reports/secure_code_primevul_polarity_structural_control_v1.json`, `reports/secure_code_primevul_pair_coupled_constraint_decomposition_v1.json`, `reports/secure_code_primevul_pair_coupled_clustered_statistics_v1.json`, `reports/secure_code_primevul_side_inversion_gate_uncertainty_v1.json`, `reports/current_shortcut_resistant_training_synthesis_v1.json`
 
 <!-- END GENERATED: computed -->
 

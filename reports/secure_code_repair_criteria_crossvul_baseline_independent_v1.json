@@ -4,6 +4,56 @@
   "label": "crossvul_baseline_independent",
   "audit": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
   "predictions": "outputs/secure_code_crossvul_baseline_polarity_audit_predictions_1024.jsonl",
+  "provenance": {
+    "git_commit": "2250f4a9f4ae92defbbc44659626be5a69781e55",
+    "git_working_tree_dirty": true,
+    "provenance_quality": "weakened_dirty_tree",
+    "python_version": "3.11.15",
+    "python_implementation": "CPython",
+    "python_executable": "python.exe",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "sources": [
+      {
+        "path": "data/processed/secure_code_crossvul_polarity_only_swap_audit_v1.jsonl",
+        "sha256": "1c4241bd547c1ccc6d8063d6f909927f872e49bd19057840a45fd9552a2dfb1f",
+        "bytes": 2121373,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "outputs/secure_code_crossvul_baseline_polarity_audit_predictions_1024.jsonl",
+        "sha256": "cd2f02e9afbd8896a2f41df390dee20db8c8a3aacbd77067f7b09f9f308f9f85",
+        "bytes": 325090,
+        "normalization": "text_lf"
+      }
+    ],
+    "configs": [],
+    "code": [
+      {
+        "path": "scripts/evaluate_repair_criteria.py",
+        "sha256": "6c06f3240d300fdf9e6df14c88c28e507b5ad4c582caa3e772040db5dd2c8567",
+        "bytes": 3012,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/repair_evaluation.py",
+        "sha256": "f9005500072dce6d8378ddcf295ac6444337577cb6af44a65b5f176357381893",
+        "bytes": 15326,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/relational_evaluation.py",
+        "sha256": "c2777744d7cbc456106ca1fcf06f992e3a0f5f8cc1ddfaade2258d8e3e72faf9",
+        "bytes": 24849,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/reproducibility.py",
+        "sha256": "a42115a9b7e9bf83fb8c22aab9a90862e8d0a361dcd222b0589bca549c7cc368",
+        "bytes": 17996,
+        "normalization": "text_lf"
+      }
+    ]
+  },
   "metrics": {
     "canonical_accuracy": 0.7857142857142857,
     "polarity_only_accuracy": 0.25142857142857145,
@@ -11,7 +61,24 @@
     "polarity_flip_rate": 0.74,
     "polarity_probability_gap": 0.6259576080606452,
     "relation_violation_rate": 0.5042857142857142,
-    "marginal_conditioned_violation_baseline": 0.5,
+    "marginal_conditioned_violation_baseline": 0.503608163265306,
+    "marginal_conditioned_violation_baseline_by_relation": {
+      "invariant": {
+        "n": 350,
+        "weight": 0.5,
+        "base_a_rate": 0.4257142857142857,
+        "transformed_a_rate": 0.5371428571428571,
+        "baseline_violation_rate": 0.5055183673469388
+      },
+      "equivariant_swap": {
+        "n": 350,
+        "weight": 0.5,
+        "base_a_rate": 0.4257142857142857,
+        "transformed_a_rate": 0.48857142857142855,
+        "baseline_violation_rate": 0.5016979591836734
+      }
+    },
+    "marginal_conditioned_violation_baseline_method": "relation_stratified_marginal_independence",
     "canonical_model_a_rate": 0.4257142857142857,
     "relation_rows": 700
   },

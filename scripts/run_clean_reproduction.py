@@ -54,6 +54,33 @@ BUNDLE_HINT = (
 # subprocess runs, with a remediation command rather than a stack trace.
 STAGES: list[dict[str, Any]] = [
     {
+        "name": "current_training_synthesis",
+        "description": "Rebuild bounded matched-compute, supply, and seed-precision controls.",
+        "command": [PYTHON, "scripts/build_current_training_synthesis.py"],
+        "inputs": [
+            "reports/veripatch_rr_4ep_qwen15b_seed_replication.json",
+            "reports/veripatch_rr_4ep_qwen7b_seed_replication.json",
+            "reports/veripatch_rr_4ep_seed_replication.json",
+            "reports/veripatch_rr_decon_v2_seed_replication.json",
+            "reports/veripatch_rr_mined_v3_seed_replication.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen15b_seed7_v1.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen15b_seed123_v1.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen7b_seed7_v1.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen7b_seed123_v1.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen3b_v1.json",
+            "configs/research_polarity_balanced_scaled_4ep_qwen3b_seed123_v1.json",
+            "configs/research_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed7_v1.json",
+            "configs/research_polarity_balanced_decontaminated_v2_4ep_qwen3b_seed123_v1.json",
+            "configs/research_polarity_balanced_mined_v3_4ep_qwen3b_seed7_v1.json",
+            "configs/research_polarity_balanced_mined_v3_4ep_qwen3b_seed123_v1.json",
+        ],
+        "outputs": [
+            "reports/current_shortcut_resistant_training_synthesis_v1.json",
+            "reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md",
+        ],
+        "seeds": {"training": [7, 123]},
+    },
+    {
         "name": "audit_verification",
         "description": "Reproduce the independent audit findings against this tree.",
         "command": [PYTHON, "scripts/verify_audit_findings.py"],

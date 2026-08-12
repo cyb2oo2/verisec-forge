@@ -105,3 +105,15 @@ def test_ci_paper_anchor_map_and_boundary_doc_are_linked() -> None:
     assert "does not train models" in ci_doc
     assert "does not convert the external smoke artifact into a benchmark result" in ci_doc
     assert "PrimeVul calibrated-router manifest" in ci_doc
+
+
+def test_ci_installs_the_reviewed_python311_lock() -> None:
+    workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    lock = ROOT / "requirements/py311-dev.lock"
+
+    assert lock.exists()
+    assert "requirements/py311-dev.lock" in workflow
+    assert "pip install -e . --no-deps" in workflow
+    assert "current_training_synthesis_manifest.json" in workflow
+    assert "repair_criteria_reports_manifest.json" in workflow
+    assert "pytest==" in lock.read_text(encoding="utf-8")

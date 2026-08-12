@@ -1,0 +1,30 @@
+{
+  "name": "current_controlled_training_synthesis_v1",
+  "description": "Published bounded synthesis of retained matched-compute, data-supply, and seed-precision evidence.",
+  "created_utc": "2026-08-12",
+  "command": [
+    ".venv/Scripts/python.exe",
+    "scripts/build_current_training_synthesis.py"
+  ],
+  "artifacts": [],
+  "generated_artifacts": [
+    {
+      "role": "synthesis_json",
+      "path": "reports/current_shortcut_resistant_training_synthesis_v1.json",
+      "sha256": "31b74f4308f3c8f34e006faf387a85483e11f23d8f193591de97342f075ffaf0",
+      "bytes": 16057
+    },
+    {
+      "role": "synthesis_markdown",
+      "path": "reports/CURRENT_SHORTCUT_RESISTANT_TRAINING_SYNTHESIS.md",
+      "sha256": "7843ad8a411ce240aab93627a0f0c9a73bc01db62b1aef040d2c8a6032d21d1b",
+      "bytes": 2648
+    }
+  ],
+  "limitations": [
+    "The report JSON embeds LF-normalized SHA256 hashes for all five evaluator sources, ten training configs, and three analysis-code files.",
+    "The manifest validates published synthesis bytes; it does not rerun GPU training or inference.",
+    "The comparison has two seeds per arm and a bf16-versus-nf4 precision confound.",
+    "Seed-count calculations are sensitivity analyses based on an unstable two-seed variance estimate, not power guarantees."
+  ]
+}

@@ -8,6 +8,8 @@
 > 19 vs 18, `p=1.0`) is not distinguishable from zero.
 > **Do not cite as the repository's current scientific conclusion.**
 > Current status: [Result Status Ledger](../docs/RESULT_STATUS_LEDGER.md).
+> Section 8.1 is a current, report-backed synthesis and is explicitly bounded;
+> the historical warning applies to the withdrawn interpretations above.
 
 
 ## Abstract
@@ -572,6 +574,32 @@ Sources: [RESULT: antisymmetric-repair], [RESULT: crossvul-polarity-gold-confoun
 Antisymmetric consistency is by construction; the learned fine-tuning repair is
 not validated. The antisymmetric readout is retained as a structural
 consistency constraint; the learned fine-tuning objective remains unresolved.
+
+### 8.1 Controlled Training Beyond the Structural Null
+
+We also tested whether more training, backbone scale, decontamination, and
+additional discordant supply change behavior on difficult discordant pairs. At
+matched four-epoch compute on the same 2,208 training pairs, the two-seed mean
+discordant accuracies are `0.4000` for 1.5B bf16, `0.5167` for 7B nf4, and
+`0.6000` for 3B bf16. The ordering holds on both observed seeds, but the 7B
+precision regime is confounded with scale. The closest same-seed 7B-to-3B gap
+(`0.0500`) is below the largest within-arm seed range (`0.0778`)
+[RESULT: shortcut-resistant-training-controls].
+
+On the 3B backbone, the original, decontaminated, and mined-supply training
+sets yield two-seed mean discordant accuracies of `0.6000`, `0.6111`, and
+`0.6195`, while mean balanced deltas remain `0.2166`, `0.2175`, and `0.2167`.
+The largest between-arm mean movement (`0.0195`) is below the largest within-arm
+seed range (`0.0666`) but slightly above the smallest (`0.0167`). These
+experiments document observed discordant-behavior differences, but neither a
+general scaling law nor a distinct data-supply improvement is established.
+
+Training seed, not evaluation pair, is the unit of inference for replication.
+Using the larger observed bf16 seed standard deviation (`0.0550`), a Student-t
+sensitivity analysis projects a three-seed 95% mean half-width of `0.1367`;
+about eight seeds would be needed for half-width at most `0.05` if that unstable
+two-seed variance estimate were representative. A third seed is therefore a
+minimum diagnostic, not confirmatory precision.
 
 ## 9. Limitations
 

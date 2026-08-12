@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import platform
 import shutil
+import subprocess
+import sys
 import urllib.request
 import zipfile
 from dataclasses import dataclass
@@ -13,6 +16,16 @@ from vrf.io_utils import ensure_parent, read_json
 
 DETERMINISTIC_BUNDLE_TIME = "1980-01-01T00:00:00+00:00"
 DETERMINISTIC_ZIP_DATE_TIME = (1980, 1, 1, 0, 0, 0)
+TEXT_PROVENANCE_SUFFIXES = {
+    ".json",
+    ".jsonl",
+    ".lock",
+    ".md",
+    ".py",
+    ".toml",
+    ".yaml",
+    ".yml",
+}
 
 
 @dataclass(frozen=True)
@@ -55,6 +68,84 @@ def sha256_file(path: str | Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def normalized_provenance_bytes(path: str | Path) -> tuple[bytes, str]:
+    """Return cross-platform bytes for provenance hashing.
+
+    Git may materialize text as CRLF on Windows and LF on Linux. Provenance
+    tracks scientific content, so known text artifacts are normalized to LF;
+    bundle manifests continue to use raw-byte ``sha256_file`` integrity.
+    """
+
+    file_path = Path(path)
+    content = file_path.read_bytes()
+    if file_path.suffix.lower() in TEXT_PROVENANCE_SUFFIXES:
+        return content.replace(b"\r\n", b"\n").replace(b"\r", b"\n"), "text_lf"
+    return content, "raw"
+
+
+def capture_artifact_provenance(
+    repo_root: str | Path,
+    *,
+    source_paths: Iterable[str | Path],
+    config_paths: Iterable[str | Path] = (),
+    code_paths: Iterable[str | Path] = (),
+) -> dict[str, Any]:
+    """Capture exact inputs plus the environment that promoted an artifact.
+
+    The record deliberately omits wall-clock time so rebuilding an unchanged
+    artifact remains deterministic. A dirty tree is reported explicitly; the
+    per-input hashes still identify the materialized evidence used by the
+    builder even when the commit alone is insufficient.
+    """
+
+    root = Path(repo_root).resolve()
+
+    def inventory(paths: Iterable[str | Path]) -> list[dict[str, Any]]:
+        items: list[dict[str, Any]] = []
+        for raw_path in paths:
+            path = resolve_repo_path(raw_path, root).resolve()
+            if not path.is_file():
+                raise FileNotFoundError(path)
+            content, normalization = normalized_provenance_bytes(path)
+            items.append(
+                {
+                    "path": repo_relative_path(path, root),
+                    "sha256": hashlib.sha256(content).hexdigest(),
+                    "bytes": len(content),
+                    "normalization": normalization,
+                }
+            )
+        return items
+
+    def git(*args: str) -> str:
+        try:
+            result = subprocess.run(
+                ["git", *args],
+                cwd=root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        except (OSError, subprocess.CalledProcessError):
+            return ""
+        return result.stdout.strip()
+
+    commit = git("rev-parse", "HEAD") or "unknown"
+    dirty = bool(git("status", "--porcelain", "--untracked-files=all"))
+    return {
+        "git_commit": commit,
+        "git_working_tree_dirty": dirty,
+        "provenance_quality": "weakened_dirty_tree" if dirty else "clean_tree",
+        "python_version": platform.python_version(),
+        "python_implementation": platform.python_implementation(),
+        "python_executable": Path(sys.executable).name,
+        "platform": platform.platform(),
+        "sources": inventory(source_paths),
+        "configs": inventory(config_paths),
+        "code": inventory(code_paths),
+    }
 
 
 def count_jsonl_rows(path: str | Path) -> int:

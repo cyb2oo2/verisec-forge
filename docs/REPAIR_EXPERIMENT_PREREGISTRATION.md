@@ -21,11 +21,12 @@ significance after the fact. Architecture and objective: see
 | polarity flip rate (target ≤ 0.05) | **0.508** |
 | polarity probability gap | 0.428 |
 | relation violation rate | **0.510** |
-| marginal-conditioned violation baseline | 0.500 |
+| relation-stratified marginal-conditioned violation baseline | 0.494 |
 | canonical model A-rate (target 0.4–0.6) | 0.613 |
 
 **The current model fails every applicable relational criterion.** Its violation
-rate (0.510) is *at or above* the marginal-independence floor (0.500) — i.e. no
+rate (0.510) is *above* the relation-stratified marginal-independence floor
+(0.494) — i.e. no
 better than two independent classifiers — and it flips on ~51% of pairs when the
 diff is re-rendered with gold held fixed. This is the bar the repair must clear.
 
@@ -67,7 +68,8 @@ Judged by `evaluate_repair_criteria` with `--baseline-canonical-accuracy 0.66`:
 2. `polarity_invariance`: polarity flip rate ≤ 0.05 (from 0.508) and the
    probability gap shrinks.
 3. `violation_below_baseline`: raw violation rate **strictly below** its
-   marginal-conditioned baseline (from 0.510 ≥ 0.500 to clearly below).
+   relation-stratified marginal-conditioned baseline (from 0.510 > 0.494 to
+   clearly below).
 4. `no_degeneracy`: canonical A-rate ∈ [0.4, 0.6]; per-class accuracy balanced.
 5. **Transfer (reported separately, required for the headline claim):** criteria
    2–4 also hold on nuisance transforms *not trained on* (diff context size,

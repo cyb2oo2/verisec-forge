@@ -20,8 +20,9 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from vrf.io_utils import read_jsonl, write_json
+from vrf.io_utils import read_jsonl
 from vrf.repair_evaluation import evaluate_repair_criteria
+from vrf.reproducibility import capture_artifact_provenance
 
 
 def main() -> int:
@@ -66,9 +67,22 @@ def main() -> int:
         "label": args.label,
         "audit": args.audit,
         "predictions": args.predictions,
+        "provenance": capture_artifact_provenance(
+            ROOT,
+            source_paths=[args.audit, args.predictions],
+            code_paths=[
+                "scripts/evaluate_repair_criteria.py",
+                "src/vrf/repair_evaluation.py",
+                "src/vrf/relational_evaluation.py",
+                "src/vrf/reproducibility.py",
+            ],
+        ),
         **result,
     }
-    write_json(ROOT / args.output, payload)
+    output_path = ROOT / args.output
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8", newline="\n") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 

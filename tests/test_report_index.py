@@ -4,7 +4,14 @@ import json
 from pathlib import Path
 from uuid import uuid4
 
-from vrf.report_index import build_report_index, load_report_index_manifest
+from vrf.report_index import (
+    build_report_index,
+    load_report_index_manifest,
+    load_report_index_preamble,
+)
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_report_index_builds_from_manifest() -> None:
@@ -40,3 +47,12 @@ def test_report_index_builds_from_manifest() -> None:
     assert "## Demo Section" in rendered
     assert "`Demo Report`: `reports/demo.md`" in rendered
     assert "`Missing Report`: `reports/missing.md` (missing)" in rendered
+
+
+def test_checked_in_report_index_matches_complete_manifest() -> None:
+    sections = load_report_index_manifest(ROOT / "configs/report_index.json", ROOT)
+    preamble = load_report_index_preamble(ROOT / "configs/report_index.json")
+    expected = build_report_index(sections, ROOT, preamble=preamble)
+    actual = (ROOT / "reports/RESULTS_INDEX.md").read_text(encoding="utf-8")
+
+    assert actual == expected

@@ -211,3 +211,7 @@ def test_independent_inference_relation_violation_detects_swap_inconsistency():
     assert result["n"] == 2
     assert result["violation_rate"] == 0.5
     assert result["marginal_conditioned_violation_baseline"] is not None
+    assert (
+        result["marginal_conditioned_violation_baseline_method"]
+        == "relation_stratified_marginal_independence"
+    )
