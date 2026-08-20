@@ -1,0 +1,46 @@
+{
+  "name": "split_view_only_qwen3b_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+  "train_dataset": "data/processed/secure_code_polarity_balanced_train_scaled_v1.jsonl",
+  "eval_dataset": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+  "output_dir": "checkpoints/cls_secure_code_split_view_only_qwen3b_lora_v1",
+  "status_output": "reports/repair_train_status_split_view_only_qwen3b_v1.json",
+  "require_split_view_only": true,
+  "seed": 7,
+  "max_seq_length": 1024,
+  "loss": {
+    "collapse_weight": 0.1
+  },
+  "peft": {
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+    "modules_to_save": ["score"]
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "logging_steps": 20,
+    "save_strategy": "epoch",
+    "save_total_limit": 2
+  },
+  "provenance": {
+    "protocol": "docs/SPLIT_VIEW_ONLY_TRAINING_PROTOCOL.md",
+    "purpose": "Arc 2 Q1: train from the base 3B + fresh LoRA on split_view only. Glyph channel never seen. Same 2208-pair polarity-balanced set and 4-epoch compute as the locked curve, without inheriting glyph-exposed weights.",
+    "init": "base Qwen2.5-Coder-3B-Instruct; no init_checkpoint",
+    "not_used": [
+      "checkpoints/cls_secure_code_polarity_balanced_scaled_*",
+      "checkpoints/cls_secure_code_prose_native_pilot_*",
+      "checkpoints/cls_secure_code_primevul_joint_pairwise_*"
+    ],
+    "training_rendering": "split_view prose only",
+    "training_pairs": 2208,
+    "predeclared_epochs": 4,
+    "predeclared_steps": 1104,
+    "do_not_extend": true
+  }
+}

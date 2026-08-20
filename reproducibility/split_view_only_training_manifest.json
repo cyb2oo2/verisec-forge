@@ -1,0 +1,105 @@
+{
+  "name": "split_view_only_training_v1",
+  "description": "Arc 2 Q1 split-view-only training adjudication: one from-scratch 3B run on split_view only, evaluated on the admissible v4 suite.",
+  "created_utc": "2026-08-18",
+  "amendment": {
+    "id": "A",
+    "date": "2026-08-18",
+    "status": "post-run",
+    "document": "docs/SPLIT_VIEW_ONLY_TRAINING_PROTOCOL.md"
+  },
+  "analysis_command": [
+    "python",
+    "scripts/analyze_split_view_only_training.py"
+  ],
+  "validation_command": [
+    "python",
+    "scripts/build_reproducibility_bundle.py",
+    "--manifest",
+    "reproducibility/split_view_only_training_manifest.json",
+    "--check-only",
+    "--include-generated"
+  ],
+  "artifacts": [
+    {
+      "role": "config",
+      "path": "configs/research_split_view_only_qwen3b_v1.json",
+      "sha256": "61b7db2fdd855ad2ea35a9a7bfdb4c568dc0e963bb57335273ac9b8bdbd45239",
+      "bytes": 1745
+    },
+    {
+      "role": "train_status",
+      "path": "reports/repair_train_status_split_view_only_qwen3b_v1.json",
+      "sha256": "fb40c10d232c3ef796a36f35136f5d3cf6a9717652883df4f13e4e047e849836",
+      "bytes": 309
+    },
+    {
+      "role": "protocol",
+      "path": "docs/SPLIT_VIEW_ONLY_TRAINING_PROTOCOL.md",
+      "sha256": "4c7c0b660703b92bb40e2a71670a613f1fc916399d5ccd7ba3d58efb04abfa6b",
+      "bytes": 10861
+    },
+    {
+      "role": "eval_suite",
+      "path": "data/processed/secure_code_relational_benchmark_v4_runtime1024.jsonl",
+      "sha256": "ed7ba46c6eaa859c035e2aca56a7192c2cba9638792b0244bc3ab2f5330189ae",
+      "bytes": 19178616,
+      "rows": 4980
+    },
+    {
+      "role": "eval_suite_summary",
+      "path": "reports/secure_code_relational_benchmark_v4_summary.json",
+      "sha256": "705f353c8a78694b5844121e552c9e172c107ba2d112369c38e337f7c12c5fcf",
+      "bytes": 3866
+    },
+    {
+      "role": "predictions",
+      "path": "outputs/secure_code_v4_split_view_only_qwen3b_predictions_1024.jsonl",
+      "sha256": "9d387b6d41d146ce318859ab922927fdb20a715f6726e09b9effedc8f9be4bb7",
+      "bytes": 1586712,
+      "rows": 4980
+    }
+  ],
+  "generated_artifacts": [
+    {
+      "role": "report_json",
+      "path": "reports/veripatch_rr_split_view_only_training.json",
+      "sha256": "41d3bd1003c378e95cb7ab5f69965f0c8b7e77f489e374e3b357b15ee1e80eba",
+      "bytes": 328878
+    },
+    {
+      "role": "report_markdown",
+      "path": "reports/SPLIT_VIEW_ONLY_TRAINING_V1.md",
+      "sha256": "3910efdd595bb43d4b3c3aaf4a09675960ef190374310ee9d1fcb597556c5c76",
+      "bytes": 14371
+    }
+  ],
+  "expected": {
+    "primary_outcome": "ceiling_holds",
+    "stop_training": true,
+    "provenance_ok": true,
+    "prediction_provenance_ok": true,
+    "degeneracy_delta_threshold": 0.1
+  },
+  "checkpoint_identity": {
+    "checkpoint": "checkpoints/cls_secure_code_split_view_only_qwen3b_lora_v1",
+    "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+    "note": "Checkpoint weights are local, are not committed, and are not hashed by this manifest. Only the declared identity is bound."
+  },
+  "git_commit": "eda3f0aae52e11cd6324c1f020249507aec22917",
+  "git_working_tree_dirty": true,
+  "publication_ready": false,
+  "publication_blockers": {
+    "gitignored_inputs": [
+      "predictions",
+      "suite"
+    ],
+    "missing_inputs": []
+  },
+  "limitations": [
+    "The manifest reproduces analysis from stored predictions, not GPU training. No model is retrained by the validation command.",
+    "Model checkpoints are local and are not included in Git or this manifest; only the declared checkpoint identity is bound.",
+    "publication_ready is false: ['predictions', 'suite'] are gitignored, so the manifest binds their local content by hash but cannot bind them to committed history. Provenance is not invented to cover this.",
+    "ceiling_holds is an adjudication label, not proof that all relational information is absent."
+  ]
+}
