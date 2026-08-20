@@ -1,7 +1,7 @@
 {
   "name": "split_view_only_training_v1",
   "description": "Arc 2 Q1 split-view-only training adjudication: one from-scratch 3B run on split_view only, evaluated on the admissible v4 suite.",
-  "created_utc": "2026-08-18",
+  "amendment_date": "2026-08-18",
   "amendment": {
     "id": "A",
     "date": "2026-08-18",
@@ -58,20 +58,68 @@
       "sha256": "9d387b6d41d146ce318859ab922927fdb20a715f6726e09b9effedc8f9be4bb7",
       "bytes": 1586712,
       "rows": 4980
+    },
+    {
+      "role": "analysis_library",
+      "path": "src/vrf/split_view_only.py",
+      "sha256": "bf64361b8b7b338dd5a464d2a53d736947714d2dcca7bbbd2153a8bf901b6833",
+      "bytes": 45907
+    },
+    {
+      "role": "analysis_script",
+      "path": "scripts/analyze_split_view_only_training.py",
+      "sha256": "1655afb53a03660dc1d8ab562af1c928a4061830026c082f7b2a390f40d5b4d5",
+      "bytes": 39196
+    },
+    {
+      "role": "analysis_script",
+      "path": "scripts/build_split_view_only_manifest.py",
+      "sha256": "972f281e3f8e2ea5600728b8e65aa65406eb7542ad15deb8777f42948a0a6434",
+      "bytes": 7031
+    },
+    {
+      "role": "analysis_dependency",
+      "path": "src/vrf/pair_decision.py",
+      "sha256": "c1410254e2633c080088f3904d20db1ae57b2de268cc90e25bdb774a1938b171",
+      "bytes": 8586
+    },
+    {
+      "role": "analysis_dependency",
+      "path": "src/vrf/frozen_pairs_decomposition.py",
+      "sha256": "1b2780bd712769f4c90510bfcc42c0403f4a6bfe526a7c4966a62be0fa8173ff",
+      "bytes": 19024
+    },
+    {
+      "role": "analysis_dependency",
+      "path": "src/vrf/stats_cluster.py",
+      "sha256": "c4271ee0d8ebaff75890ca1ad57a77226ce88f78a590b865894ef23a12467841",
+      "bytes": 9217
+    },
+    {
+      "role": "analysis_dependency",
+      "path": "src/vrf/relational_report_contract.py",
+      "sha256": "39979e588c82968a42f798137faeb7e5bd5da4a783319a722acdfe1f42308691",
+      "bytes": 8866
+    },
+    {
+      "role": "analysis_dependency",
+      "path": "src/vrf/reproducibility.py",
+      "sha256": "a42115a9b7e9bf83fb8c22aab9a90862e8d0a361dcd222b0589bca549c7cc368",
+      "bytes": 17996
     }
   ],
   "generated_artifacts": [
     {
       "role": "report_json",
       "path": "reports/veripatch_rr_split_view_only_training.json",
-      "sha256": "41d3bd1003c378e95cb7ab5f69965f0c8b7e77f489e374e3b357b15ee1e80eba",
-      "bytes": 328878
+      "sha256": "7608afd9ee854f0bdbf9a55dcd4505a88999ee0ace7745618be11ac73a885b3f",
+      "bytes": 332062
     },
     {
       "role": "report_markdown",
       "path": "reports/SPLIT_VIEW_ONLY_TRAINING_V1.md",
-      "sha256": "3910efdd595bb43d4b3c3aaf4a09675960ef190374310ee9d1fcb597556c5c76",
-      "bytes": 14371
+      "sha256": "68d5bed1874dcf9fe6a005950ae8586746e0abc0b2bccbced9f433dfa60d8490",
+      "bytes": 14369
     }
   ],
   "expected": {
@@ -86,20 +134,32 @@
     "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
     "note": "Checkpoint weights are local, are not committed, and are not hashed by this manifest. Only the declared identity is bound."
   },
-  "git_commit": "eda3f0aae52e11cd6324c1f020249507aec22917",
+  "source_commit": "79b0cd4327b8c9c648746e379c3849e6bc496058",
+  "source_commit_note": "The commit HEAD pointed at when the report was generated. It does not necessarily contain the analysis code — see publication_blockers.stale_source_commit.",
   "git_working_tree_dirty": true,
+  "local_analysis_reproducible": true,
   "publication_ready": false,
   "publication_blockers": {
+    "missing_inputs": [],
     "gitignored_inputs": [
       "predictions",
       "suite"
     ],
-    "missing_inputs": []
+    "untracked_inputs": [],
+    "dirty_working_tree": true,
+    "stale_source_commit": [],
+    "missing_analysis_code_hashes": [],
+    "unverified_checkpoint_weights": true
   },
+  "publication_blocking_reasons": [
+    "gitignored inputs (not reconstructible from a fresh clone): ['predictions', 'suite']",
+    "working tree is dirty, so the recorded commit does not describe the materialized evidence",
+    "checkpoint weights are local and unverified by any hash (release limitation, not a defect)"
+  ],
   "limitations": [
     "The manifest reproduces analysis from stored predictions, not GPU training. No model is retrained by the validation command.",
-    "Model checkpoints are local and are not included in Git or this manifest; only the declared checkpoint identity is bound.",
-    "publication_ready is false: ['predictions', 'suite'] are gitignored, so the manifest binds their local content by hash but cannot bind them to committed history. Provenance is not invented to cover this.",
+    "Model checkpoints are local and are not included in Git or this manifest; only the declared checkpoint identity is bound. Their weights are unverified.",
+    "A passing --check-only proves the local files match their hashes. It does not make this artifact fresh-clone reproducible: local_analysis_reproducible and publication_ready are separate properties and only the first can be established locally.",
     "ceiling_holds is an adjudication label, not proof that all relational information is absent."
   ]
 }

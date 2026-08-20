@@ -7505,6 +7505,13 @@
     "ok": true,
     "failures": [],
     "checks": {
+      "prediction_ids_present": {
+        "ok": true,
+        "detail": {
+          "n_blank": 0,
+          "row_positions": []
+        }
+      },
       "prediction_ids_unique": {
         "ok": true,
         "detail": {
@@ -7548,6 +7555,20 @@
           "n_required": 4980,
           "n_absent": 0,
           "examples": []
+        }
+      },
+      "no_extra_prediction_ids": {
+        "ok": true,
+        "detail": {
+          "n_extra": 0,
+          "examples": []
+        }
+      },
+      "prediction_id_set_equals_required_set": {
+        "ok": true,
+        "detail": {
+          "n_required": 4980,
+          "n_predicted": 4980
         }
       },
       "no_malformed_probabilities": {
@@ -7609,6 +7630,9 @@
     "expected_output_dir": "checkpoints/cls_secure_code_split_view_only_qwen3b_lora_v1",
     "n_required_renderings": 4980,
     "n_required_renderings_absent": 0,
+    "n_extra_prediction_ids": 0,
+    "extra_prediction_ids": [],
+    "n_blank_prediction_ids": 0,
     "n_malformed_probabilities": 0,
     "coverage": {
       "glyph": {
@@ -7626,7 +7650,8 @@
         "pairs_missing_predictions": 0
       }
     },
-    "note": "Expected pair counts are derived from the loaded admissible suite, not hard-coded. Duplicate ids are detected on the raw row list before dictionary construction. Any failure forces 'indeterminate'."
+    "id_policy": "strict equality: the set of prediction ids must equal the set of required suite-rendering ids. Extras are reported and fail the check; they are never silently ignored.",
+    "note": "Expected pair counts are derived from the loaded admissible suite, not hard-coded. Duplicate ids are detected on the raw row list before dictionary construction, in linear time. Any failure forces 'indeterminate'."
   },
   "resolved_config": {
     "name": "split_view_only_qwen3b_v1",
@@ -7682,7 +7707,7 @@
     }
   },
   "reproducibility": {
-    "git_commit": "eda3f0aae52e11cd6324c1f020249507aec22917",
+    "git_commit": "79b0cd4327b8c9c648746e379c3849e6bc496058",
     "git_working_tree_dirty": true,
     "provenance_quality": "weakened_dirty_tree",
     "python_version": "3.13.14",
@@ -7694,7 +7719,7 @@
         "sha256_raw_bytes": "61b7db2fdd855ad2ea35a9a7bfdb4c568dc0e963bb57335273ac9b8bdbd45239",
         "bytes": 1745,
         "normalization": "text_lf",
-        "git_tracked": false,
+        "git_tracked": true,
         "git_ignored": false
       },
       "train_status": {
@@ -7703,7 +7728,7 @@
         "sha256_raw_bytes": "fb40c10d232c3ef796a36f35136f5d3cf6a9717652883df4f13e4e047e849836",
         "bytes": 309,
         "normalization": "text_lf",
-        "git_tracked": false,
+        "git_tracked": true,
         "git_ignored": false
       },
       "suite": {
@@ -7737,20 +7762,57 @@
     "code": [
       {
         "path": "src/vrf/split_view_only.py",
-        "sha256": "ffd766ddf0e69416cf702d18b7d61f21859ae42deef2234da788eb6eb5d6e072",
-        "bytes": 39847,
+        "sha256": "bf64361b8b7b338dd5a464d2a53d736947714d2dcca7bbbd2153a8bf901b6833",
+        "bytes": 45907,
         "normalization": "text_lf"
       },
       {
         "path": "scripts/analyze_split_view_only_training.py",
-        "sha256": "8047569ee27f6d207ba3bfe24685461064fa31d646a4e29e39256d4ea95d3887",
-        "bytes": 36297,
+        "sha256": "1655afb53a03660dc1d8ab562af1c928a4061830026c082f7b2a390f40d5b4d5",
+        "bytes": 39196,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "scripts/build_split_view_only_manifest.py",
+        "sha256": "972f281e3f8e2ea5600728b8e65aa65406eb7542ad15deb8777f42948a0a6434",
+        "bytes": 7031,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/pair_decision.py",
+        "sha256": "c1410254e2633c080088f3904d20db1ae57b2de268cc90e25bdb774a1938b171",
+        "bytes": 8586,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/frozen_pairs_decomposition.py",
+        "sha256": "1b2780bd712769f4c90510bfcc42c0403f4a6bfe526a7c4966a62be0fa8173ff",
+        "bytes": 19024,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/stats_cluster.py",
+        "sha256": "ab58528c91e11e0b8a767531754ced2e89abd77282ee4e938d64633001cf8e21",
+        "bytes": 8950,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/relational_report_contract.py",
+        "sha256": "39979e588c82968a42f798137faeb7e5bd5da4a783319a722acdfe1f42308691",
+        "bytes": 8866,
+        "normalization": "text_lf"
+      },
+      {
+        "path": "src/vrf/reproducibility.py",
+        "sha256": "a42115a9b7e9bf83fb8c22aab9a90862e8d0a361dcd222b0589bca549c7cc368",
+        "bytes": 17996,
         "normalization": "text_lf"
       }
     ],
     "checkpoint_identity": {
       "checkpoint": "checkpoints/cls_secure_code_split_view_only_qwen3b_lora_v1",
       "model_name": "Qwen/Qwen2.5-Coder-3B-Instruct",
+      "weights_hashed": false,
       "note": "Checkpoint identity only. Checkpoint weights are local, are not committed, and are deliberately not hashed here."
     },
     "missing_inputs": [],
@@ -7758,8 +7820,27 @@
       "predictions",
       "suite"
     ],
+    "publication_blockers": {
+      "missing_inputs": [],
+      "gitignored_inputs": [
+        "predictions",
+        "suite"
+      ],
+      "untracked_inputs": [],
+      "dirty_working_tree": true,
+      "stale_source_commit": [],
+      "missing_analysis_code_hashes": [],
+      "unverified_checkpoint_weights": true
+    },
+    "publication_blocking_reasons": [
+      "gitignored inputs (not reconstructible from a fresh clone): ['predictions', 'suite']",
+      "working tree is dirty, so the recorded commit does not describe the materialized evidence",
+      "checkpoint weights are local and unverified by any hash (release limitation, not a defect)"
+    ],
+    "local_analysis_reproducible": true,
+    "local_analysis_reproducible_note": "true when every input the analysis consumed is present locally and matches its recorded hash. This says nothing about whether a fresh clone could reproduce it.",
     "publication_ready": false,
-    "publication_readiness_note": "false while any input artifact is missing or gitignored: the manifest can bind local content by hash but cannot bind it to committed history. See reproducibility/split_view_only_training_manifest.json."
+    "publication_readiness_note": "false. A passing local --check-only proves the local files match their hashes; it does NOT make the artifact fresh-clone reproducible. Gitignored suite and prediction inputs, a dirty tree, and analysis code that the recorded commit does not contain each independently block a reconstructible release chain. See publication_blockers."
   },
   "verdict": {
     "headline_cell": "prose/balanced/ALL",

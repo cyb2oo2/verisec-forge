@@ -77,15 +77,15 @@ Expected counts are derived from the loaded admissible suite, not hard-coded.
 
 ### Reproducibility binding
 
-- git commit: `eda3f0aae52e11cd6324c1f020249507aec22917`
+- git commit: `79b0cd4327b8c9c648746e379c3849e6bc496058`
 - working tree dirty: `True` (`weakened_dirty_tree`)
 - checkpoint identity: `checkpoints/cls_secure_code_split_view_only_qwen3b_lora_v1` (model `Qwen/Qwen2.5-Coder-3B-Instruct`); checkpoint weights are local and deliberately not hashed
 - **publication_ready: `False`**
 
 | Role | Path | SHA256 (LF-normalized) | bytes | tracked | gitignored |
 | --- | --- | --- | ---: | ---: | ---: |
-| config | `configs/research_split_view_only_qwen3b_v1.json` | `61b7db2fdd855ad2…` | 1745 | `False` | `False` |
-| train_status | `reports/repair_train_status_split_view_only_qwen3b_v1.json` | `7f6dfe1986beb4c4…` | 309 | `False` | `False` |
+| config | `configs/research_split_view_only_qwen3b_v1.json` | `61b7db2fdd855ad2…` | 1745 | `True` | `False` |
+| train_status | `reports/repair_train_status_split_view_only_qwen3b_v1.json` | `7f6dfe1986beb4c4…` | 309 | `True` | `False` |
 | suite | `data/processed/secure_code_relational_benchmark_v4_runtime1024.jsonl` | `c8ea99b894623f3d…` | 19178616 | `False` | `True` |
 | suite_summary | `reports/secure_code_relational_benchmark_v4_summary.json` | `9861d5404daf6d2e…` | 3866 | `True` | `False` |
 | predictions | `outputs/secure_code_v4_split_view_only_qwen3b_predictions_1024.jsonl` | `3c869a6bc84d633a…` | 1586712 | `False` | `True` |
