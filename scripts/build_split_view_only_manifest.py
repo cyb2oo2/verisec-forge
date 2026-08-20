@@ -29,6 +29,7 @@ from vrf.reproducibility import count_jsonl_rows, sha256_file
 from vrf.split_view_only import (
     AMENDMENT_DATE,
     AMENDMENT_ID,
+    ANALYSIS_CODE,
     PREDECLARED_OUTPUT_DIR,
 )
 
@@ -70,14 +71,15 @@ def build_manifest() -> dict[str, Any]:
         entry("eval_suite_summary", SUITE_SUMMARY),
         entry("predictions", PREDICTIONS),
     ]
+    # The code that produced the adjudication is bound directly, so
+    # --check-only detects an edited analyser. Nested code hashes inside the
+    # report JSON are not seen by the generic manifest verifier.
+    artifacts.extend(entry(role, path) for role, path in ANALYSIS_CODE)
+
     generated = [
         entry("report_json", REPORT_JSON),
         entry("report_markdown", REPORT_MD),
     ]
-
-    gitignored = repro.get("gitignored_inputs") or []
-    missing = repro.get("missing_inputs") or []
-    publication_ready = bool(repro.get("publication_ready"))
 
     return {
         "name": "split_view_only_training_v1",
@@ -85,7 +87,9 @@ def build_manifest() -> dict[str, Any]:
             "Arc 2 Q1 split-view-only training adjudication: one from-scratch "
             "3B run on split_view only, evaluated on the admissible v4 suite."
         ),
-        "created_utc": AMENDMENT_DATE,
+        # No created_utc: this manifest is deterministic, and the amendment
+        # date is protocol history, not a manifest creation time.
+        "amendment_date": AMENDMENT_DATE,
         "amendment": {
             "id": AMENDMENT_ID,
             "date": AMENDMENT_DATE,
@@ -121,26 +125,27 @@ def build_manifest() -> dict[str, Any]:
                 "hashed by this manifest. Only the declared identity is bound."
             ),
         },
-        "git_commit": repro.get("git_commit"),
+        "source_commit": repro.get("git_commit"),
+        "source_commit_note": (
+            "The commit HEAD pointed at when the report was generated. It does "
+            "not necessarily contain the analysis code — see "
+            "publication_blockers.stale_source_commit."
+        ),
         "git_working_tree_dirty": repro.get("git_working_tree_dirty"),
-        "publication_ready": publication_ready,
-        "publication_blockers": {
-            "gitignored_inputs": gitignored,
-            "missing_inputs": missing,
-        },
+        "local_analysis_reproducible": bool(repro.get("local_analysis_reproducible")),
+        "publication_ready": bool(repro.get("publication_ready")),
+        "publication_blockers": repro.get("publication_blockers"),
+        "publication_blocking_reasons": repro.get("publication_blocking_reasons"),
         "limitations": [
             "The manifest reproduces analysis from stored predictions, not GPU "
             "training. No model is retrained by the validation command.",
             "Model checkpoints are local and are not included in Git or this "
-            "manifest; only the declared checkpoint identity is bound.",
-            (
-                "publication_ready is false: "
-                f"{sorted(gitignored)} are gitignored, so the manifest binds "
-                "their local content by hash but cannot bind them to committed "
-                "history. Provenance is not invented to cover this."
-            )
-            if gitignored or missing
-            else "All manifest inputs are present and not gitignored.",
+            "manifest; only the declared checkpoint identity is bound. Their "
+            "weights are unverified.",
+            "A passing --check-only proves the local files match their hashes. "
+            "It does not make this artifact fresh-clone reproducible: "
+            "local_analysis_reproducible and publication_ready are separate "
+            "properties and only the first can be established locally.",
             "ceiling_holds is an adjudication label, not proof that all "
             "relational information is absent.",
         ],

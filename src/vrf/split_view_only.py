@@ -14,6 +14,8 @@ Adjudication estimand (Amendment A, 2026-08-18 — see the protocol doc)
 
 from __future__ import annotations
 
+import math
+from collections import Counter
 from typing import Any, Mapping, Sequence
 
 from vrf.frozen_pairs_decomposition import resolve_pairs
@@ -63,7 +65,25 @@ IDENTITY_TOLERANCE = 1e-3
 DEGENERACY_DELTA_THRESHOLD = 0.10
 
 AMENDMENT_ID = "A"
+# The date Amendment A was written. This is protocol history — it is NOT a
+# manifest creation time and must never be presented as one.
 AMENDMENT_DATE = "2026-08-18"
+
+# Code whose content determines the adjudication. Bound by hash in both the
+# report JSON and the reproducibility manifest, with roles assigned by the
+# manifest builder.
+ANALYSIS_CODE: tuple[tuple[str, str], ...] = (
+    ("analysis_library", "src/vrf/split_view_only.py"),
+    ("analysis_script", "scripts/analyze_split_view_only_training.py"),
+    ("analysis_script", "scripts/build_split_view_only_manifest.py"),
+    ("analysis_dependency", "src/vrf/pair_decision.py"),
+    ("analysis_dependency", "src/vrf/frozen_pairs_decomposition.py"),
+    ("analysis_dependency", "src/vrf/stats_cluster.py"),
+    ("analysis_dependency", "src/vrf/relational_report_contract.py"),
+    ("analysis_dependency", "src/vrf/reproducibility.py"),
+)
+
+ANALYSIS_CODE_PATHS: tuple[str, ...] = tuple(path for _, path in ANALYSIS_CODE)
 
 
 class _Missing:
@@ -209,28 +229,73 @@ def _dig(mapping: Mapping[str, Any], *keys: str) -> Any:
     return current
 
 
-# Required config fields: (check name, key path, expected value).
-REQUIRED_CONFIG_FIELDS: tuple[tuple[str, tuple[str, ...], Any], ...] = (
-    ("config.require_split_view_only", ("require_split_view_only",), True),
-    ("config.seed", ("seed",), PREDECLARED_SEED),
-    ("config.num_train_epochs", ("training", "num_train_epochs"), PREDECLARED_EPOCHS),
-    ("config.predeclared_steps", ("provenance", "predeclared_steps"), PREDECLARED_STEPS),
-    ("config.training_pairs", ("provenance", "training_pairs"), PREDECLARED_TRAIN_PAIRS),
-    ("config.model_name", ("model_name",), PREDECLARED_MODEL),
-    ("config.output_dir", ("output_dir",), PREDECLARED_OUTPUT_DIR),
+def finite_number(value: Any) -> float | None:
+    """``float(value)`` when it is a finite, non-boolean number; else ``None``.
+
+    Booleans are rejected on type grounds: ``True == 1`` would otherwise let a
+    boolean satisfy an integer contract. NaN and infinity are rejected as
+    non-finite. Strings are never coerced — a malformed value is a provenance
+    failure, not something to parse hopefully.
+    """
+
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    number = float(value)
+    if math.isnan(number) or math.isinf(number):
+        return None
+    return number
+
+
+# Required field tables: (check name, key path, expected value, kind).
+#
+# kind:
+#   "exact"      -- equality against a string/scalar
+#   "number"     -- finite, non-boolean number equal to the expected value
+#   "is_true"    -- identity with True (a real boolean, not a truthy value)
+#   "is_false"   -- identity with False (not None/0/""/[])
+#   "is_none"    -- identity with None (present, explicitly null)
+REQUIRED_CONFIG_FIELDS: tuple[tuple[str, tuple[str, ...], Any, str], ...] = (
+    ("config.require_split_view_only", ("require_split_view_only",), True, "is_true"),
+    ("config.seed", ("seed",), PREDECLARED_SEED, "number"),
+    (
+        "config.num_train_epochs",
+        ("training", "num_train_epochs"),
+        PREDECLARED_EPOCHS,
+        "number",
+    ),
+    (
+        "config.predeclared_steps",
+        ("provenance", "predeclared_steps"),
+        PREDECLARED_STEPS,
+        "number",
+    ),
+    (
+        "config.training_pairs",
+        ("provenance", "training_pairs"),
+        PREDECLARED_TRAIN_PAIRS,
+        "number",
+    ),
+    ("config.model_name", ("model_name",), PREDECLARED_MODEL, "exact"),
+    ("config.output_dir", ("output_dir",), PREDECLARED_OUTPUT_DIR, "exact"),
 )
 
-# Required status fields. ``smoke`` and ``init_checkpoint`` are listed here so
-# that an absent key fails even though its expected value is False / None.
-REQUIRED_STATUS_FIELDS: tuple[tuple[str, str, Any], ...] = (
-    ("status.status", "status", "ok"),
-    ("status.smoke", "smoke", False),
-    ("status.seed", "seed", PREDECLARED_SEED),
-    ("status.train_pairs", "train_pairs", PREDECLARED_TRAIN_PAIRS),
-    ("status.steps_per_epoch", "steps_per_epoch", PREDECLARED_STEPS_PER_EPOCH),
-    ("status.model_name", "model_name", PREDECLARED_MODEL),
-    ("status.output_dir", "output_dir", PREDECLARED_OUTPUT_DIR),
-    ("status.init_checkpoint", "init_checkpoint", None),
+# ``smoke`` and ``init_checkpoint`` are listed here so an absent key fails even
+# though the expected value is False / None, and are matched by *identity* so a
+# falsey stand-in (0, "", [], None) cannot satisfy them.
+REQUIRED_STATUS_FIELDS: tuple[tuple[str, str, Any, str], ...] = (
+    ("status.status", "status", "ok", "exact"),
+    ("status.smoke", "smoke", False, "is_false"),
+    ("status.seed", "seed", PREDECLARED_SEED, "number"),
+    ("status.train_pairs", "train_pairs", PREDECLARED_TRAIN_PAIRS, "number"),
+    (
+        "status.steps_per_epoch",
+        "steps_per_epoch",
+        PREDECLARED_STEPS_PER_EPOCH,
+        "number",
+    ),
+    ("status.model_name", "model_name", PREDECLARED_MODEL, "exact"),
+    ("status.output_dir", "output_dir", PREDECLARED_OUTPUT_DIR, "exact"),
+    ("status.init_checkpoint", "init_checkpoint", None, "is_none"),
 )
 
 
@@ -251,9 +316,22 @@ def validate_provenance(
     failures: list[str] = []
     checks: dict[str, Any] = {}
 
-    def _record(name: str, observed: Any, expected: Any, ok: bool) -> None:
+    def _record(
+        name: str,
+        observed: Any,
+        expected: Any,
+        ok: bool,
+        *,
+        reason: str | None = None,
+    ) -> None:
+        serializable = None if observed is MISSING else observed
+        if isinstance(serializable, float) and (
+            math.isnan(serializable) or math.isinf(serializable)
+        ):
+            # NaN/Infinity are not valid JSON; keep the artifact loadable.
+            serializable = repr(serializable)
         checks[name] = {
-            "observed": None if observed is MISSING else observed,
+            "observed": serializable,
             "expected": expected,
             "present": observed is not MISSING,
             "ok": ok,
@@ -261,11 +339,51 @@ def validate_provenance(
         if not ok:
             if observed is MISSING:
                 failures.append(f"{name}: required field is missing")
+            elif reason:
+                failures.append(f"{name}: {reason} (got {serializable!r})")
             else:
-                failures.append(f"{name}: expected {expected!r}, got {observed!r}")
+                failures.append(f"{name}: expected {expected!r}, got {serializable!r}")
 
-    def _check(name: str, observed: Any, expected: Any) -> None:
-        _record(name, observed, expected, observed is not MISSING and observed == expected)
+    def _check(name: str, observed: Any, expected: Any, kind: str = "exact") -> None:
+        """Type-strict field check. Never raises on a malformed value."""
+
+        if observed is MISSING:
+            _record(name, observed, expected, False)
+            return
+        if kind == "number":
+            number = finite_number(observed)
+            _record(
+                name,
+                observed,
+                expected,
+                number is not None and number == float(expected),
+                reason=(
+                    "expected a finite non-boolean number "
+                    f"equal to {expected!r}"
+                ),
+            )
+        elif kind == "is_true":
+            _record(
+                name, observed, expected, observed is True, reason="expected exactly True"
+            )
+        elif kind == "is_false":
+            _record(
+                name,
+                observed,
+                expected,
+                observed is False,
+                reason="expected exactly False (a boolean, not a falsey value)",
+            )
+        elif kind == "is_none":
+            _record(
+                name,
+                observed,
+                expected,
+                observed is None,
+                reason="expected an explicit null",
+            )
+        else:
+            _record(name, observed, expected, observed == expected)
 
     if not isinstance(config, Mapping):
         failures.append("config: missing")
@@ -276,8 +394,8 @@ def validate_provenance(
             "ok": False,
         }
     else:
-        for name, path, expected in REQUIRED_CONFIG_FIELDS:
-            _check(name, _dig(config, *path), expected)
+        for name, path, expected, kind in REQUIRED_CONFIG_FIELDS:
+            _check(name, _dig(config, *path), expected, kind)
         # The config contract expects the key to be ABSENT: this run must not
         # inherit any checkpoint, and the config declares that by omission.
         # (The train status, by contrast, must carry an explicit null.)
@@ -304,53 +422,46 @@ def validate_provenance(
             "ok": False,
         }
     else:
-        for name, key, expected in REQUIRED_STATUS_FIELDS:
-            observed = _dig(status, key)
-            if name == "status.smoke":
-                # Present-and-falsey is the only pass; absent must fail.
-                _record(
-                    name,
-                    observed,
-                    expected,
-                    observed is not MISSING and bool(observed) is False,
-                )
-            else:
-                _check(name, observed, expected)
+        for name, key, expected, kind in REQUIRED_STATUS_FIELDS:
+            _check(name, _dig(status, key), expected, kind)
 
         epochs = _dig(status, "epochs")
-        _record(
-            "status.epochs",
-            epochs,
-            PREDECLARED_EPOCHS,
-            epochs is not MISSING
-            and epochs is not None
-            and float(epochs) == float(PREDECLARED_EPOCHS),
-        )
+        _check("status.epochs", epochs, PREDECLARED_EPOCHS, "number")
 
+        # Derived only from values that already parsed as finite numbers, so a
+        # malformed epochs/steps_per_epoch cannot raise here.
         steps_per_epoch = _dig(status, "steps_per_epoch")
-        if (
-            steps_per_epoch is MISSING
-            or epochs is MISSING
-            or steps_per_epoch is None
-            or epochs is None
-        ):
-            total: Any = MISSING
-        else:
-            total = int(round(float(steps_per_epoch) * float(epochs)))
-        _record(
-            "status.total_optimizer_steps",
-            total,
-            PREDECLARED_STEPS,
-            total is not MISSING and total == PREDECLARED_STEPS,
+        epochs_number = None if epochs is MISSING else finite_number(epochs)
+        steps_number = (
+            None if steps_per_epoch is MISSING else finite_number(steps_per_epoch)
         )
+        if epochs_number is None or steps_number is None:
+            _record(
+                "status.total_optimizer_steps",
+                MISSING,
+                PREDECLARED_STEPS,
+                False,
+            )
+            failures[-1] = (
+                "status.total_optimizer_steps: cannot be derived — "
+                "epochs or steps_per_epoch is missing or not a finite number"
+            )
+        else:
+            total = int(round(steps_number * epochs_number))
+            _record(
+                "status.total_optimizer_steps",
+                total,
+                PREDECLARED_STEPS,
+                total == PREDECLARED_STEPS,
+            )
 
     return {
         "ok": not failures,
         "failures": failures,
         "checks": checks,
-        "required_config_fields": [name for name, _, _ in REQUIRED_CONFIG_FIELDS]
+        "required_config_fields": [field[0] for field in REQUIRED_CONFIG_FIELDS]
         + ["config.init_checkpoint_absent"],
-        "required_status_fields": [name for name, _, _ in REQUIRED_STATUS_FIELDS]
+        "required_status_fields": [field[0] for field in REQUIRED_STATUS_FIELDS]
         + ["status.epochs", "status.total_optimizer_steps"],
         "note": (
             "Validated by key membership, not value coercion: a required field "
@@ -422,11 +533,28 @@ def validate_prediction_artifact(
             failures.append(message or f"{name}: failed ({detail!r})")
 
     rows = list(prediction_rows)
-    ids = [str(row.get("id")) for row in rows]
+
+    # An absent/empty id cannot be bound to a suite rendering at all.
+    blank_id_positions = [
+        index
+        for index, row in enumerate(rows)
+        if row.get("id") is None or not str(row.get("id")).strip()
+    ]
+    _record(
+        "prediction_ids_present",
+        not blank_id_positions,
+        {"n_blank": len(blank_id_positions), "row_positions": blank_id_positions[:5]},
+        f"prediction_ids_present: {len(blank_id_positions)} row(s) have a missing "
+        "or empty id",
+    )
+
+    ids = [str(row.get("id")).strip() for row in rows]
     unique_ids = set(ids)
 
     # Duplicates first: dict construction would overwrite them silently.
-    duplicates = sorted({key for key in ids if ids.count(key) > 1}) if len(unique_ids) != len(ids) else []
+    # Counter keeps this linear rather than a quadratic list.count() scan.
+    counts = Counter(ids)
+    duplicates = sorted(key for key, count in counts.items() if count > 1)
     _record(
         "prediction_ids_unique",
         not duplicates,
@@ -486,7 +614,12 @@ def validate_prediction_artifact(
             ("prose", "prose__side_swap"),
         )
     ]
+    required_set = set(required_ids)
     absent = [key for key in required_ids if key not in predictions]
+    # Policy: the prediction id set must EQUAL the required suite-rendering set.
+    # Extras are not silently ignored — an unrelated or mixed prediction file is
+    # exactly what this check exists to catch.
+    extras = sorted(key for key in unique_ids if key and key not in required_set)
     malformed = [
         key
         for key in required_ids
@@ -498,6 +631,21 @@ def validate_prediction_artifact(
         {"n_required": len(required_ids), "n_absent": len(absent), "examples": absent[:5]},
         f"all_required_renderings_predicted: {len(absent)} suite rendering(s) have "
         "no prediction",
+    )
+    _record(
+        "no_extra_prediction_ids",
+        not extras,
+        {"n_extra": len(extras), "examples": extras[:5]},
+        f"no_extra_prediction_ids: {len(extras)} prediction id(s) do not "
+        f"correspond to any required suite rendering, e.g. {extras[:3]}",
+    )
+    _record(
+        "prediction_id_set_equals_required_set",
+        not absent and not extras,
+        {"n_required": len(required_set), "n_predicted": len(unique_ids)},
+        "prediction_id_set_equals_required_set: the prediction id set differs "
+        f"from the required suite-rendering set ({len(absent)} absent, "
+        f"{len(extras)} extra)",
     )
     _record(
         "no_malformed_probabilities",
@@ -558,12 +706,21 @@ def validate_prediction_artifact(
         "expected_output_dir": normalized_expected,
         "n_required_renderings": len(required_ids),
         "n_required_renderings_absent": len(absent),
+        "n_extra_prediction_ids": len(extras),
+        "extra_prediction_ids": extras[:10],
+        "n_blank_prediction_ids": len(blank_id_positions),
         "n_malformed_probabilities": len(malformed),
         "coverage": coverage,
+        "id_policy": (
+            "strict equality: the set of prediction ids must equal the set of "
+            "required suite-rendering ids. Extras are reported and fail the "
+            "check; they are never silently ignored."
+        ),
         "note": (
             "Expected pair counts are derived from the loaded admissible suite, "
             "not hard-coded. Duplicate ids are detected on the raw row list "
-            "before dictionary construction. Any failure forces 'indeterminate'."
+            "before dictionary construction, in linear time. Any failure forces "
+            "'indeterminate'."
         ),
     }
 

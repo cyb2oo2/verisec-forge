@@ -8,6 +8,7 @@ import pytest
 from vrf.split_view_only import (
     AMENDMENT_DATE,
     AMENDMENT_ID,
+    ANALYSIS_CODE,
     BOTH_CORRECT_RANDOM_BASELINE,
     DEGENERACY_DELTA_THRESHOLD,
     PREDECLARED_EPOCHS,
@@ -23,6 +24,7 @@ from vrf.split_view_only import (
     both_correct_from_marginals,
     check_slice_identity,
     marginal_both_correct_baseline,
+    finite_number,
     normalize_checkpoint_id,
     text_has_unified_diff_glyphs,
     unfrozen_diagnostic,
@@ -482,6 +484,106 @@ def test_missing_config_field_fails_closed(
     assert verdict["stop_training"] is True
 
 
+@pytest.mark.parametrize("falsey", [None, 0, 0.0, "", [], {}, ()])
+def test_smoke_requires_an_exact_boolean_false(falsey: object) -> None:
+    """A falsey stand-in must not satisfy the boolean contract."""
+
+    status = _good_status()
+    status["smoke"] = falsey
+    result = validate_provenance(_good_config(), status)
+    assert result["ok"] is False
+    assert result["checks"]["status.smoke"]["ok"] is False
+    assert any("status.smoke" in failure for failure in result["failures"])
+
+    verdict = _verdict_for_provenance(result)
+    assert verdict["primary_outcome"] == "indeterminate"
+    assert verdict["unexpected_positive"] is False
+    assert verdict["ceiling_holds"] is False
+    assert verdict["stop_training"] is True
+
+
+def test_smoke_false_and_valid_numerics_still_pass() -> None:
+    status = _good_status()
+    status["smoke"] = False
+    status["epochs"] = 4
+    status["steps_per_epoch"] = 276
+    result = validate_provenance(_good_config(), status)
+    assert result["ok"] is True, result["failures"]
+    # 4.0 is equally valid.
+    status["epochs"] = 4.0
+    assert validate_provenance(_good_config(), status)["ok"] is True
+
+
+@pytest.mark.parametrize(
+    "field, value",
+    [
+        ("epochs", "oops"),
+        ("epochs", float("nan")),
+        ("epochs", float("inf")),
+        ("epochs", float("-inf")),
+        ("epochs", None),
+        ("epochs", True),
+        ("epochs", [4]),
+        ("steps_per_epoch", "oops"),
+        ("steps_per_epoch", float("nan")),
+        ("steps_per_epoch", float("inf")),
+        ("steps_per_epoch", None),
+        ("steps_per_epoch", True),
+        ("train_pairs", "2208"),
+        ("seed", "7"),
+    ],
+)
+def test_malformed_numeric_provenance_fails_without_raising(
+    field: str, value: object
+) -> None:
+    """Malformed numerics must produce a structured failure, never an exception."""
+
+    status = _good_status()
+    status[field] = value
+
+    result = validate_provenance(_good_config(), status)  # must not raise
+    assert result["ok"] is False
+    assert any(f"status.{field}" in failure for failure in result["failures"])
+
+    # The artifact must stay JSON-serializable even with NaN/inf inputs.
+    json.dumps(result, allow_nan=False)
+
+    verdict = _verdict_for_provenance(result)
+    assert verdict["primary_outcome"] == "indeterminate"
+    assert verdict["unexpected_positive"] is False
+    assert verdict["ceiling_holds"] is False
+    assert verdict["stop_training"] is True
+
+
+@pytest.mark.parametrize("field", ["epochs", "steps_per_epoch"])
+def test_derived_total_steps_survives_a_malformed_input(field: str) -> None:
+    status = _good_status()
+    status[field] = "oops"
+    result = validate_provenance(_good_config(), status)
+    total = result["checks"]["status.total_optimizer_steps"]
+    assert total["ok"] is False
+    assert any(
+        "total_optimizer_steps" in failure and "finite" in failure
+        for failure in result["failures"]
+    )
+
+
+def test_booleans_are_not_coerced_into_numbers() -> None:
+    assert finite_number(True) is None
+    assert finite_number(False) is None
+    assert finite_number(float("nan")) is None
+    assert finite_number(float("inf")) is None
+    assert finite_number("4") is None
+    assert finite_number(4) == 4.0
+    assert finite_number(4.0) == 4.0
+
+    config = _good_config()
+    config["require_split_view_only"] = 1  # truthy, not True
+    result = validate_provenance(config, _good_status())
+    assert result["ok"] is False
+    assert result["checks"]["config.require_split_view_only"]["ok"] is False
+
+
 def test_config_contract_requires_the_init_checkpoint_key_to_be_absent() -> None:
     """The config declares 'no inherited checkpoint' by omission.
 
@@ -692,6 +794,59 @@ def test_checkpoint_identity_is_path_shape_insensitive() -> None:
     suite = _suite_rows()
     rows = _prediction_rows(suite, model_id=PREDECLARED_OUTPUT_DIR.replace("/", "\\"))
     assert _prediction_check(rows, suite)["ok"] is True
+
+
+@pytest.mark.parametrize("blank", [None, "", "   "])
+def test_blank_prediction_id_fails_closed(blank: object) -> None:
+    suite = _suite_rows()
+    rows = _prediction_rows(suite)
+    rows[0] = {**rows[0], "id": blank}
+    result = _prediction_check(rows, suite)
+    assert result["ok"] is False
+    assert result["n_blank_prediction_ids"] == 1
+    assert any("missing or empty id" in f for f in result["failures"])
+    _assert_indeterminate(result)
+
+
+def test_extra_prediction_ids_are_recorded_and_rejected() -> None:
+    """Policy: the prediction id set must EQUAL the required set."""
+
+    suite = _suite_rows()
+    rows = _prediction_rows(suite)
+    rows.append(
+        {
+            "id": "pair-999::prose::prose__canonical",
+            "probability_a": 0.5,
+            "probability_b": 0.5,
+            "model_id": PREDECLARED_OUTPUT_DIR,
+        }
+    )
+    result = _prediction_check(rows, suite)
+    assert result["ok"] is False
+    assert result["n_extra_prediction_ids"] == 1
+    assert result["extra_prediction_ids"] == ["pair-999::prose::prose__canonical"]
+    assert any("do not correspond" in f for f in result["failures"])
+    assert result["checks"]["prediction_id_set_equals_required_set"]["ok"] is False
+    assert "strict equality" in result["id_policy"]
+    # Coverage alone would not have caught this: every required pair resolves.
+    for cov in result["coverage"].values():
+        assert cov["pairs_missing_predictions"] == 0
+    _assert_indeterminate(result)
+
+
+def test_duplicate_detection_is_linear_and_precedes_lookup() -> None:
+    """Counter-based detection: large duplicate sets stay fast and exact."""
+
+    suite = _suite_rows(n_pairs=30, n_balanced=10)
+    rows = _prediction_rows(suite)
+    rows.extend(dict(row) for row in rows[:100])
+    result = _prediction_check(rows, suite)
+    assert result["ok"] is False
+    assert result["n_prediction_rows"] == len(rows)
+    assert result["n_unique_prediction_ids"] == len(suite)
+    expected_dupes = min(100, len(suite))
+    assert len(result["duplicate_prediction_ids"]) == min(10, expected_dupes)
+    assert any("duplicate id" in f for f in result["failures"])
 
 
 def test_missing_prediction_provenance_forces_indeterminate() -> None:
@@ -985,6 +1140,97 @@ def test_published_report_does_not_reopen_locked_curve_if_present() -> None:
         assert payload["amendment"]["authorises_further_training"] is False
 
 
+def test_manifest_detects_an_edited_analysis_file(tmp_path, monkeypatch) -> None:
+    """Changing analysis code must surface as a SHA256 mismatch.
+
+    Uses a temporary repo root and a temporary manifest so the real tree is
+    never modified. Exercises the shared verifier, not a second hasher.
+
+    The CWD is pinned to the fixture: ``resolve_repo_path`` returns a relative
+    path unchanged when it exists relative to the CWD, which would otherwise
+    resolve these paths against the real repository.
+    """
+
+    from vrf.reproducibility import sha256_file, validate_manifests
+
+    repo = tmp_path / "repo"
+    (repo / "src/vrf").mkdir(parents=True)
+    (repo / "scripts").mkdir()
+    library = repo / "src/vrf/split_view_only.py"
+    script = repo / "scripts/analyze_split_view_only_training.py"
+    library.write_text("CHANCE = 0.5\n", encoding="utf-8")
+    script.write_text("print('analyse')\n", encoding="utf-8")
+
+    manifest = {
+        "name": "fixture",
+        "artifacts": [
+            {
+                "role": "analysis_library",
+                "path": "src/vrf/split_view_only.py",
+                "sha256": sha256_file(library),
+                "bytes": library.stat().st_size,
+            },
+            {
+                "role": "analysis_script",
+                "path": "scripts/analyze_split_view_only_training.py",
+                "sha256": sha256_file(script),
+                "bytes": script.stat().st_size,
+            },
+        ],
+    }
+    manifest_path = repo / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    monkeypatch.chdir(repo)
+    clean = validate_manifests([manifest_path], repo_root=repo)
+    assert clean["status"] == "ok", clean["checks"]
+
+    # Flip the adjudication constant — exactly the class of edit that would
+    # silently change the verdict.
+    library.write_text("CHANCE = 0.9\n", encoding="utf-8")
+    tampered = validate_manifests([manifest_path], repo_root=repo)
+    assert tampered["status"] == "failed"
+    bad = [c for c in tampered["checks"] if c["status"] != "ok"]
+    assert len(bad) == 1
+    assert bad[0]["path"] == "src/vrf/split_view_only.py"
+    assert bad[0]["status"] == "mismatch"
+    assert "sha256" in bad[0]["message"]
+
+
+def test_manifest_binds_the_analysis_code() -> None:
+    """The real manifest must verify the code, not just the data."""
+
+    path = ROOT / "reproducibility/split_view_only_training_manifest.json"
+    if not path.exists():
+        return
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    bound = {artifact["path"] for artifact in manifest["artifacts"]}
+    for _, expected in ANALYSIS_CODE:
+        assert expected in bound, f"{expected} is not bound by the manifest"
+
+    roles = {artifact["role"] for artifact in manifest["artifacts"]}
+    assert {"analysis_library", "analysis_script", "analysis_dependency"} <= roles
+
+
+def test_manifest_does_not_present_the_amendment_date_as_creation_time() -> None:
+    path = ROOT / "reproducibility/split_view_only_training_manifest.json"
+    if not path.exists():
+        return
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+
+    # created_utc is removed outright; if a timestamp is ever reintroduced it
+    # must be generated_utc and must not be the amendment date.
+    assert "created_utc" not in manifest
+    assert manifest["amendment_date"] == AMENDMENT_DATE
+    if "generated_utc" in manifest:
+        assert manifest["generated_utc"] != AMENDMENT_DATE
+
+    # No other field may smuggle the amendment date in as a creation time.
+    for key, value in manifest.items():
+        if isinstance(value, str) and value == AMENDMENT_DATE:
+            assert key in {"amendment_date"}, key
+
+
 def test_reproducibility_manifest_declares_its_publication_blockers() -> None:
     """The manifest must report gitignored inputs, not invent provenance."""
 
@@ -1004,8 +1250,26 @@ def test_reproducibility_manifest_declares_its_publication_blockers() -> None:
     assert manifest["checkpoint_identity"]["checkpoint"] == PREDECLARED_OUTPUT_DIR
 
     blockers = manifest["publication_blockers"]
-    if blockers["gitignored_inputs"] or blockers["missing_inputs"]:
-        assert manifest["publication_ready"] is False
+    # Every blocker category must be represented, not just the two easy ones.
+    assert {
+        "missing_inputs",
+        "gitignored_inputs",
+        "untracked_inputs",
+        "dirty_working_tree",
+        "stale_source_commit",
+        "missing_analysis_code_hashes",
+        "unverified_checkpoint_weights",
+    } <= set(blockers)
+
+    # The suite and predictions are gitignored, so this must stay false.
+    assert blockers["gitignored_inputs"]
+    assert manifest["publication_ready"] is False
+    assert manifest["publication_blocking_reasons"]
+
+    # Local reproducibility is a separate, weaker property.
+    assert "local_analysis_reproducible" in manifest
+    assert manifest["source_commit"]
+
     assert "--check-only" in manifest["validation_command"]
     assert manifest["expected"]["primary_outcome"] == "ceiling_holds"
     assert manifest["expected"]["stop_training"] is True

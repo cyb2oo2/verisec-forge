@@ -33,6 +33,7 @@ from vrf.reproducibility import (
 from vrf.split_view_only import (
     AMENDMENT_DATE,
     AMENDMENT_ID,
+    ANALYSIS_CODE_PATHS,
     BOTH_CORRECT_RANDOM_BASELINE,
     DEGENERACY_DELTA_THRESHOLD,
     LOCKED_PROSE_CONTROL,
@@ -597,10 +598,7 @@ def _reproducibility_block(
                 for r in ("config", "train_status", "suite_summary")
                 if r in present
             ],
-            code_paths=[
-                "src/vrf/split_view_only.py",
-                "scripts/analyze_split_view_only_training.py",
-            ],
+            code_paths=list(ANALYSIS_CODE_PATHS),
         )
     except (FileNotFoundError, OSError) as exc:  # pragma: no cover - defensive
         provenance = {"error": str(exc)}
@@ -624,30 +622,100 @@ def _reproducibility_block(
     gitignored = sorted(
         role for role, entry in artifacts.items() if entry.get("git_ignored")
     )
+    untracked = sorted(
+        role
+        for role, entry in artifacts.items()
+        if entry.get("status") != "missing"
+        and not entry.get("git_tracked")
+        and not entry.get("git_ignored")
+    )
+
+    # Analysis code: hashed, and checked for whether the recorded source commit
+    # could actually contain it.
+    code_entries = provenance.get("code") or []
+    code_paths = [entry["path"] for entry in code_entries]
+    missing_code_hashes = [
+        path for path in ANALYSIS_CODE_PATHS if path not in set(code_paths)
+    ]
+    code_not_in_commit = sorted(
+        path
+        for path in code_paths
+        if not _git_tracked(path) or _git_differs_from_head(path)
+    )
+
+    dirty = bool(provenance.get("git_working_tree_dirty"))
+    blockers: dict[str, Any] = {
+        "missing_inputs": absent,
+        "gitignored_inputs": gitignored,
+        "untracked_inputs": untracked,
+        "dirty_working_tree": dirty,
+        "stale_source_commit": code_not_in_commit,
+        "missing_analysis_code_hashes": missing_code_hashes,
+        "unverified_checkpoint_weights": True,
+    }
+    blocking_reasons = []
+    if absent:
+        blocking_reasons.append(f"missing inputs: {absent}")
+    if gitignored:
+        blocking_reasons.append(
+            f"gitignored inputs (not reconstructible from a fresh clone): {gitignored}"
+        )
+    if untracked:
+        blocking_reasons.append(f"required inputs not tracked in git: {untracked}")
+    if dirty:
+        blocking_reasons.append(
+            "working tree is dirty, so the recorded commit does not describe the "
+            "materialized evidence"
+        )
+    if code_not_in_commit:
+        blocking_reasons.append(
+            "recorded source commit does not contain this analysis code "
+            f"(untracked or modified): {code_not_in_commit}"
+        )
+    if missing_code_hashes:
+        blocking_reasons.append(f"analysis code not hashed: {missing_code_hashes}")
+    blocking_reasons.append(
+        "checkpoint weights are local and unverified by any hash (release "
+        "limitation, not a defect)"
+    )
+
     return {
         "git_commit": provenance.get("git_commit"),
-        "git_working_tree_dirty": provenance.get("git_working_tree_dirty"),
+        "git_working_tree_dirty": dirty,
         "provenance_quality": provenance.get("provenance_quality"),
         "python_version": provenance.get("python_version"),
         "platform": provenance.get("platform"),
         "artifacts": artifacts,
-        "code": provenance.get("code"),
+        "code": code_entries,
         "checkpoint_identity": {
             "checkpoint": normalize_checkpoint_id(checkpoint),
             "model_name": model_name,
+            "weights_hashed": False,
             "note": (
                 "Checkpoint identity only. Checkpoint weights are local, are "
                 "not committed, and are deliberately not hashed here."
             ),
         },
+        # Kept at the top level for readers that already consume them.
         "missing_inputs": absent,
         "gitignored_inputs": gitignored,
-        "publication_ready": not absent and not gitignored,
+        "publication_blockers": blockers,
+        "publication_blocking_reasons": blocking_reasons,
+        # Two distinct properties, deliberately not conflated.
+        "local_analysis_reproducible": not absent,
+        "local_analysis_reproducible_note": (
+            "true when every input the analysis consumed is present locally and "
+            "matches its recorded hash. This says nothing about whether a fresh "
+            "clone could reproduce it."
+        ),
+        "publication_ready": False,
         "publication_readiness_note": (
-            "false while any input artifact is missing or gitignored: the "
-            "manifest can bind local content by hash but cannot bind it to "
-            "committed history. See reproducibility/"
-            "split_view_only_training_manifest.json."
+            "false. A passing local --check-only proves the local files match "
+            "their hashes; it does NOT make the artifact fresh-clone "
+            "reproducible. Gitignored suite and prediction inputs, a dirty "
+            "tree, and analysis code that the recorded commit does not contain "
+            "each independently block a reconstructible release chain. See "
+            "publication_blockers."
         ),
     }
 
@@ -670,6 +738,13 @@ def _git_tracked(rel: str) -> bool:
 def _git_ignored(rel: str) -> bool:
     code, _ = _git("check-ignore", "-q", rel)
     return code == 0
+
+
+def _git_differs_from_head(rel: str) -> bool:
+    """True when the working copy differs from the committed version."""
+
+    code, _ = _git("diff", "--quiet", "HEAD", "--", rel)
+    return code != 0
 
 
 def main() -> int:
