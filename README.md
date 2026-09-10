@@ -1,308 +1,55 @@
-# VeriSec Forge
+# VeriSec Forge / VeriPatch-RR
 
-**Shortcut-aware secure patch reasoning with paired-diff evaluation, pair-coupled decoding, and evidence-coupled audit.**
+**Evaluating whether AI security judgments follow the code when its presentation changes.**
 
-VeriSec Forge is now pruned as a paper-facing research artifact. The repository is not trying to be a general secure-coding assistant or a catalog of every experiment run along the way. It presents one focused research story:
+VeriSec Forge studies language-model assessment of paired code candidates. Its central question is whether a model tracks the relevant candidate across changes in order, labels, and presentation, and what an evaluation can legitimately tell us about security reasoning.
 
-> Can secure-code models be stress-tested under paired vulnerable/fixed patch conditions, without letting shortcut artifacts, output-format noise, or unsupported rationales masquerade as security reasoning?
+**Current status: measurement validation, source-data repair, and preparation for a small weak-supervision pilot.** The September 7 scientific review, including its subsequent updates, supersedes earlier result narratives. No transferable learned repair or deployment-ready vulnerability detector is established.
 
-The project is aimed at the standard of top security/ML systems groups: clear problem framing, falsifiable controls, reproducible artifacts, and honest claim boundaries.
+## Start here
 
-![Patch review demo UI](reports/assets/patch_review_demo_ui.png)
+- [Current research review: English summary](reports/public_review_2026_09_10/REVIEW.md)
+- [Full scientific review and update history: Chinese](reports/public_review_2026_09_10/REVIEW_ZH.md)
+- [Machine-readable aggregate snapshot and source hashes](reports/public_review_2026_09_10/snapshot.json)
 
-## For External Reviewers
+These documents describe the latest **local research state** as of September 10, 2026. This update publishes the review and aggregate evidence; it does not synchronize the entire local implementation, datasets, or checkpoints. Earlier reports and paper drafts still present elsewhere in the public repository are historical and must be read subject to this review.
 
-Status: research artifact draft seeking external feedback. This is not yet a
-formal preprint or benchmark release.
+## What the work contributes
 
-If you only have 5-10 minutes, start here:
+**Controlled evaluation.** Paired candidates, order and label transformations, strict prediction coverage checks, and paired statistical analysis help distinguish model behavior from presentation effects and structural decoding constraints.
 
-1. [One-page research summary](docs/ONE_PAGE_RESEARCH_SUMMARY.md)
-2. [External feedback packet](docs/EXTERNAL_FEEDBACK_PACKET.md)
-3. [Main results table](paper/tables/main_results.md)
-4. [Paper v0 draft](paper/draft_v0.md)
+**Measurement repair.** Source-linked changed-line visibility, explicit tie/abstention handling, source-aware pair identities, and stratified pair-cluster bootstrap analysis improve measurement validity. Reanalysis uses retained predictions; it is not a new model run.
 
-The feedback needed most is about claim strength:
+**Source traceability.** Repairing extraction and function matching across PrimeVul, DeltaSecommits, and PatchEval produced 32 structurally verified function pairs from 27 original cases, with commit, file-hash, and source-line provenance. This establishes source integrity within the checked scope, not correctness of security labels.
 
-- Is the main thesis correctly bounded?
-- Is the evidence hierarchy clear?
-- Are the limitations strong enough?
+**Data preparation.** A PatchEval pilot contains 838 weakly labeled function pairs, represented as 1,676 bidirectional inputs. Splits group connected project, CVE, and lexical near-duplicate relationships; complete inputs pass hash and tokenizer checks without truncation. No new pilot training has run.
 
-## Citation and Release Metadata
+## Latest milestones and boundaries
 
-For citation metadata, see [CITATION.cff](CITATION.cff). For the bounded v0.1
-research-artifact release scope, see
-[v0.1 release notes](docs/RELEASE_V0_1_NOTES.md) and the
-[release checklist](docs/RELEASE_CHECKLIST.md).
+| Workstream | Current evidence | Interpretation |
+| --- | --- | --- |
+| Measurement reanalysis | 577 of 600 pairs have changed lines fully visible in both split-view directions | Visibility does not establish semantic information equivalence |
+| Raw repair evaluation | Original repair gate remains failed | Structural projection is separate from learned improvement |
+| Source repair | 32 function pairs / 27 cases; 64 bidirectional prompts verified | Multiple functions from one case remain clustered |
+| Exploratory AI review | After context review: 13 provisional single-side, 2 both-risk, 17 unclear | AI-authored diagnostics; neither independent human gold nor model accuracy |
+| Weak-supervision pilot | 571 train / 134 validation / 133 test pairs | Upstream patch-direction labels; no new training result |
 
-## Reviewer Fast Path
+The pilot was prepared from 1,006 candidates: 117 failed input filters and 51 were quarantined through connected components after a 12-pair exploratory AI audit of training examples. The remaining 838 pairs are not individually verified gold. Validation and test retain upstream weak labels.
 
-For a quick technical review, start with:
+## Evidence limits
 
-- [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
-- [Paper v0 Draft](paper/draft_v0.md)
-- [Main Results Table](paper/tables/main_results.md)
-- [Project Atlas](docs/PROJECT_ATLAS.md)
-- [Result Anchor Map](paper/result_anchor_map.md)
-- [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
+- High benchmark scores and presentation consistency do not by themselves demonstrate security understanding.
+- Historical independence and structural-guarantee claims were too strong. A nonsignificant test does not establish independence; antisymmetry alone does not guarantee polarity-invariant, tie-safe decisions.
+- Changed-line visibility, syntactic validity, and AI confidence do not prove that a security judgment is correct.
+- Known project and lexical-overlap checks do not establish independence from foundation-model pretraining or exclude all semantic clones.
+- Local artifact verification does not establish fresh-clone training reproducibility. The latest implementation and data are not all included in this documentation update.
 
-The project is a measurement and mechanism study. It is not a deployed
-vulnerability scanner, and the 30-pair external smoke artifact is not a
-model-quality benchmark.
+## Public checkout checks
 
-## Core Contributions
+See the [CI testing strategy](docs/CI_TESTING_STRATEGY.md) for the retained public smoke checks. These check the published integration and historical fixtures; they do not certify the latest local research results.
 
-1. **Shortcut-aware benchmark diagnosis.** Same-source PrimeVul detection reaches high headline accuracy, but paired vulnerable/fixed controls expose artifact-sensitive behavior. Negative controls stay near chance: metadata-only `0.5022`, candidate-only `0.5078`, and counterpart-only `0.5156` balanced accuracy.
+## Next research step
 
-2. **Paired diff reasoning and task-structured decoding.** Diff-only paired training is the credible mainline, with three-seed mean balanced accuracy `0.8287`. Pair-coupled decoding is the strongest system layer: five-split mean balanced accuracy `0.8572`, with strict same-split pair-minus-bucket delta `+0.0348` BA and bootstrap 95% CI `[0.0329, 0.0368]`.
+Use the prepared data for a bounded baseline pilot and assess agreement with weak labels and candidate-order consistency. Stronger claims require better security-label evidence and comparisons that separate candidate identity tracking, semantic judgment, and structural decoding effects.
 
-3. **Evidence-coupled audit loop.** Evidence localization is treated as a decision-coupled diagnostic, not as a solved explanation task. Side-correct rows reach top-1 localization `0.7610`, while side-wrong rows fall to `0.0632`, making error propagation measurable.
-
-4. **Bounded external generalization.** CVE-disjoint, project-disjoint, time-disjoint, DeltaSecommits, and PatchEval checks support a narrow claim: source-aware paired-diff experts and learned closed-world routing improve robustness, but this is not open-set expert discovery.
-
-5. **Relation-consistent decoder as a structural control, not a reasoning claim.** A test-time decoder enforces declared identity/invariant/side-swap relations over existing predictions, eliminating relation violations on the retained Qwen smoke artifact (`0.3042 -> 0.0000`) while leaving an `0.0875` identity distortion rate. This is a post-hoc structural control, not evidence that the underlying model has learned stronger secure-patch reasoning.
-
-## Headline Evidence
-
-| Claim | Main Result | Where To Read |
-| --- | ---: | --- |
-| Artifact-sensitive same-source success needs controls | same-source accuracy `0.9524`; paired controls near chance | [PrimeVul Progressive Controls](reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md) |
-| Pair-coupled decoding is the strongest current layer | five-split mean BA `0.8572`; mean delta `+0.0348` | [Pair-Coupled Significance](reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md) |
-| Learned joint side choice is promising but not yet strongest | held-out pair orientation `0.8283`; decoder reference `0.8572` | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
-| Low-margin abstention gives a stable review operating point | accepted accuracy `0.8767` at coverage `0.7896`; error capture `0.4087` | [Selective Calibration](reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md) |
-| Targeted adaptation can remove a measured shortcut | padding violation `0.4250 -> 0.1300`; paired `p<1.4e-23`; main-task delta not significant | [Nuisance Adaptation Pilot](reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md) |
-| A larger frozen pair head does not solve the gap | hidden/score probes `0.6856` / `0.6941`; synthetic reverse exact match `1.21%` | [Learned Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
-| Real-pair consistency helps, but synthetic supervision remains stronger | real-only `0.7219`; consistency `0.7437`; synthetic-supervised `0.8283` | [Joint Pairwise Baseline](reports/LEARNED_JOINT_PAIRWISE_BASELINE.md) |
-| The synthetic-supervised model is also more stable in current stress tests | mean invariant change `0.2494` vs `0.2944` | [Joint Counterfactual Comparison](reports/PRIMEVUL_JOINT_COUNTERFACTUAL_COMPARISON.md) |
-| Counterfactual interventions expose causal shortcut sensitivity | VeriPatch-RR v0.1 is tokenizer-neutral and separates relation tests from context pressure | [VeriPatch-RR v0.1](reports/RELATIONAL_BENCHMARK_V2.md) |
-| Frozen-instrument smoke exposes relational failure | Qwen 1.5B representative base `0.6533`, robust `0.4883`, side-swap `0.4950` | [VeriPatch-RR Qwen Smoke](reports/VERIPATCH_RR_QWEN15B_SMOKE.md) |
-| Mechanism audit separates context, endpoint, and representation effects | 1024 swap `0.4850`; suffix relation `0.4267` -> terminal phrase `0.9050`; Delta raw `0.4700` -> expanded `0.7500` | [Qwen Mechanism Audit](reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md) |
-| Endpoint-collapse fix does not transfer to side-order reasoning | terminal phrase repairs invariance `+0.4783` but side-swap equivariance only `+0.0333` (`0.4883` -> `0.5217`, `p=0.012`, n=600) -- a ~14x smaller effect | [Side-Swap x Terminal-Phrase Interaction](reports/QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md) |
-| Side-swap failure is closer to content-blindness than mislabeling | canonical-vs-swapped predictions are statistically independent (`phi=-0.024`, `p=0.56`); canonical-vs-padding-only predictions correlate strongly (`phi=0.80`, `p<0.0001`) | [Side-Swap Positional Independence](reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md) |
-| Text-label relabeling alone does not explain the side-swap failure | relabeling with diff polarity held fixed leaves prediction almost unchanged (`phi=0.91`); accuracy collapses to `0.3483` (~`1-0.66`) as gold flips under frozen predictions | [Label-Only Swap vs. Structural Swap](reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
-| Diff hunk polarity, not text labels, drives the side-swap failure | flipping polarity with labels and gold held fixed moves the prediction to near-independence (`phi=-0.094`) and collapses accuracy `0.66`->`0.3450` (gold unchanged); `polarity_only_swap` and `side_swap` predictions agree (`phi=+0.892`), confirming the words are inert | [Polarity-Only Swap vs. Structural Swap](reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md) |
-| Polarity is a nuisance variable under the candidate-identity task, and augmentation alone will not fix it | rendering orientation is de-confounded from gold in training (`3000/3000` forward/reverse, vuln side `0.50`, all pairs both orientations) and eval; net-polarity remains a spurious-but-predictive feature (`0.855` train / `0.706` canonical, inverts to `0.312` under flip); model does not reduce to that heuristic (`~0.56` row agreement) | [Polarity/Gold Confound](reports/POLARITY_GOLD_CONFOUND.md), [Task Formulation](docs/TASK_FORMULATION.md) |
-| CrossVul's polarity/gold confound is measurably stronger than PrimeVul's, so its raw canonical accuracy is not directly comparable | canonical shortcut accuracy `0.855` (CrossVul) vs `0.706` (PrimeVul); polarity-flip inversion `0.151` vs `0.312`; frozen-model-vs-crude-shortcut row agreement `~0.92` (CrossVul) vs `~0.57` (PrimeVul) | [CrossVul Polarity/Gold Confound](reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md) |
-| The label-vs-polarity ordering reproduces on a competency-matched non-Qwen model (behavioral, not universal) | CodeBERT (canonical `0.677` vs Qwen `0.660`): label swap inert (`phi=+0.988` vs Qwen `+0.914`), polarity swap disruptive (`phi=-0.193` vs Qwen `-0.094`), polarity-only accuracy collapses `0.677`->`0.352`; CodeBERT reduces to the crude shortcut on PrimeVul (`~0.96`) where Qwen does not (`~0.57`) | [CodeBERT Label/Polarity Replication](reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md) |
-| Antisymmetric readout transfers as a structural fix; the current fine-tuning objective does not validate as transferable learned repair | on PrimeVul, antisymmetric inference lifts canonical `0.660`->`0.733` (`+0.047` projection null on the frozen model, `+0.027` from fine-tuning, McNemar `p=0.002`); the fine-tuning delta shrinks and loses significance on both transfer legs -- CrossVul (n=350, `+0.0086`, `p=0.508`) and five held-out nuisance-transform families (n=600 each, no family survives Bonferroni-corrected `p<0.01`, two families reverse sign) | [Antisymmetric Repair Result](reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md) |
-| Cross-architecture controls separate two failure modes | exact-contract swap `0.4600/0.5300`; endpoint gap `+0.3767`, paired 95% CI `[0.3317, 0.4200]` | [Cross-Model Relational Audit](reports/CROSS_MODEL_RELATIONAL_AUDIT.md) |
-| Cross-model replication broadens failure evidence | distilgpt2 swap residual `-0.3410`; generative judge both-correct `0.50%`; low-canonical stress evidence, not universal failure proof | [Cross-Model Replication](reports/CROSS_MODEL_REPLICATION.md) |
-| Same-backbone readout ablation isolates endpoint robustness | mean post-diff `0.8983`; changed-hunk `0.9983`; no readout passes the preregistered canonical-delta rule | [Readout Ablation](reports/READOUT_ABLATION.md) |
-| Independent confirmation replicates the mechanism, not non-inferiority | suffix delta `+0.3095` mean / `+0.4903` changed-hunk; both canonical non-inferiority CIs fail | [Readout Confirmation](reports/READOUT_CONFIRMATORY.md) |
-| Frozen-backbone control separates direct pooling from training effects | mean delta `+0.0260` (CI crosses 0); changed-hunk `+0.1970` (`95% CI [+0.1418, +0.2554]`) | [Frozen-Backbone Readout Control](reports/FROZEN_BACKBONE_READOUT_CONTROL.md) |
-| Time/project/CVE stress tests preserve the mainline | time direct-train BA `0.8835`; composite BA `0.8853` | [Time-Disjoint Comparison](reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md) |
-| Source-aware routing is useful but bounded | routed BA `0.8664`; closed-world delta `+0.0073` | [Learned Router Claim Boundary](reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md) |
-| Paired-diff signal degrades but survives genuine open-set source shift | CrossVul (never trained on) pair-coupled BA `0.8061`, below the `0.8287` PrimeVul mainline and the DeltaSecommits/PatchEval range | [CrossVul Zero-Shot Transfer](reports/CROSSVUL_ZERO_SHOT_PRIMEVUL_CHECKPOINT.md) |
-| Mixed-source training generalizes better to an unseen source than single-source training | matched-mixed checkpoint beats single-source by `+0.0322` BA (default threshold) / `+0.0080` BA (pair-coupled) on the same open-set CrossVul rows | [CrossVul Matched-Mixed Comparison](reports/CROSSVUL_ZERO_SHOT_MATCHED_MIXED_CHECKPOINT.md) |
-| Language shift does not add measurable degradation beyond source shift | PHP/JS/Python/Java pair-coupled BA `0.8132`/`0.8316`, comparable to or above the C/C++-only CrossVul result for both checkpoints; no single language drives the result | [CrossVul Language-Shift Comparison](reports/CROSSVUL_LANGUAGE_SHIFT_COMPARISON.md) |
-| Evidence quality depends on correct side choice | side-correct top-1 `0.7610`; side-wrong top-1 `0.0632` | [Predicted-Side Hunk Scorer](reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md) |
-| Relation-consistent decoding removes measured relation violations as a structural control | violation rate `0.3042 -> 0.0000`; randomized-pair control degrades to `0.4033`, confirming the effect needs real pairing structure | [Decoder Stress Validation](reports/DECODER_STRESS_VALIDATION.md) |
-| Decoding still distorts some identity predictions even as it removes violations | identity distortion rate `0.0875`; flips toward gold `55` vs away from gold `50`, a roughly even split | [Decoder Failure Case Audit](reports/DECODER_FAILURE_CASE_AUDIT.md) |
-
-## Reading Order
-
-Start with:
-
-- [Paper 1 Abstract Draft](paper/abstract.md)
-- [Reviewer Checklist](docs/REVIEWER_CHECKLIST.md)
-- [Paper 1 Outline](paper/outline.md)
-- [Paper 1 Main Claims](paper/main_claims.md)
-- [Task Formulation and the Status of Diff Polarity](docs/TASK_FORMULATION.md)
-- [CrossVul Polarity/Gold Confound Measurement](reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md)
-- [CodeBERT Label/Polarity Mechanism Replication](reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md)
-- [Evidence Hierarchy](docs/EVIDENCE_HIERARCHY.md)
-- [Experiment Completeness Audit and Remaining Evidence Gaps](docs/EXPERIMENT_COMPLETENESS_AUDIT.md)
-- [Paper-Readiness Audit](docs/PAPER_READINESS_AUDIT.md)
-- [Reviewer-Readiness Audit](docs/REVIEWER_READINESS_AUDIT.md)
-- [PhD / Top-Lab Application Readiness Audit](docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md)
-- [External Review Request](docs/EXTERNAL_REVIEW_REQUEST.md)
-- [External Review Email Templates](docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md)
-- [Paper 1 Main Results Table](paper/tables/main_results.md)
-- [Application Packet](docs/APPLICATION_PACKET.md)
-- [Application Focus](docs/APPLICATION_FOCUS.md)
-- [Next Method Phase](docs/NEXT_METHOD_PHASE.md)
-- [VeriPatch-RR External Adapter](docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md)
-- [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md)
-- [Relational Benchmark V2 Protocol](docs/COUNTERFACTUAL_SHORTCUT_PROTOCOL.md)
-- [External Model Report Card](docs/EXTERNAL_MODEL_REPORT_CARD.md)
-- [Project Story](PROJECT_STORY.md)
-- [Results Index](reports/RESULTS_INDEX.md)
-- [Reproducibility Guide](REPRODUCIBILITY.md)
-
-Then inspect the artifact-backed demo:
-
-- [Patch Review Demo](docs/PATCH_REVIEW_DEMO.md)
-- [Patch Review Walkthrough](docs/PATCH_REVIEW_WALKTHROUGH.md)
-
-## Repository Map
-
-- `src/vrf/`: core library code for datasets, evaluation, routing, reporting, serving, and reproducibility helpers.
-- `scripts/`: curated reproduction and report-building scripts for the retained research story.
-- `reports/`: pruned result set; intermediate sweeps and obsolete branches were removed.
-- `paper/`: paper-facing abstract, outline, claim hierarchy, tables, and editable SVG figures.
-- `reproducibility/`: manifests and release metadata for local artifact validation and bundle packaging.
-- `configs/`: only the patch-review demo config, the report index config, and the application summary config.
-- `tests/`: focused tests for the retained core and application-facing scripts.
-
-## Quick Verification
-
-CI runs a focused fresh-clone smoke path for the external adapter, paper result
-anchors, reproducibility helpers, and the checked-in external smoke manifest.
-See [CI Testing Strategy](docs/CI_TESTING_STRATEGY.md) for the exact boundary:
-CI does not train models, run GPU inference, or turn the external smoke artifact
-into a benchmark result.
-
-Linux/macOS:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e ".[dev]"
-python -m pytest -q \
-  tests/test_veripatch_external_adapter.py \
-  tests/test_ci_smoke_contract.py \
-  tests/test_paper_artifacts.py \
-  tests/test_report_index.py \
-  tests/test_reproducibility_bundle.py
-python scripts/build_reproducibility_bundle.py \
-  --manifest reproducibility/veripatch_external_smoke_manifest.json \
-  --check-only
-```
-
-Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -e ".[dev]"
-.\.venv\Scripts\python.exe -m pytest -q `
-  tests\test_veripatch_external_adapter.py `
-  tests\test_ci_smoke_contract.py `
-  tests\test_paper_artifacts.py `
-  tests\test_report_index.py `
-  tests\test_reproducibility_bundle.py
-.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py `
-  --manifest reproducibility\veripatch_external_smoke_manifest.json `
-  --check-only
-```
-
-The full local regression suite is broader than the fresh-clone smoke path and
-requires optional research dependencies used by training, dataset-building, and
-demo tests. CI intentionally tracks the focused smoke path above.
-
-Build the reviewer-facing tokenizer-neutral benchmark:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\build_relational_benchmark_v2.py
-```
-
-Materialize accounting for the exact model runtime before inference:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\materialize_relational_runtime.py `
-  --model-id <model-id> `
-  --tokenizer <tokenizer-id-or-path> `
-  --max-length 512 `
-  --output data\processed\<model>-veripatch-rr-runtime.jsonl
-```
-
-VeriPatch-RR v0.1 contains a within-source representative,
-source-macro-balanced primary suite and a separate marginal-balanced stress
-suite over PrimeVul, DeltaSecommits, and PatchEval. It renders side swaps
-through one canonical path, tracks changed-line occurrences through exact fast
-tokenizer offsets, and computes truncation with each model's own tokenizer,
-context length, truncation side, and special-token policy.
-
-The first Qwen mechanism audit shows that increasing the context cap from
-`512` to `1024` does not repair side-order equivariance. Semantically neutral
-post-diff padding remains strongly directional without introducing critical
-hunk truncation, while adding a terminal task-completion phrase largely
-restores decision consistency. DeltaSecommits representation interventions
-recover ordinary accuracy
-but not swap or suffix robustness, separating representation recovery from
-relational consistency.
-
-The first encoder control sharpens that conclusion. A CodeBERT classifier
-trained on the same 6,000 bidirectional side-choice rows reaches `0.5300`
-exact-training-contract side-swap equivariance, versus Qwen's `0.4600`, but
-preserves `0.9417` of canonical
-decisions under post-diff padding. Relational inconsistency therefore appears
-broader than one architecture, while the severe terminal endpoint effect is
-not reproduced by this first-token encoder readout. The paired endpoint gap is
-`+0.3767` with bootstrap 95% CI `[0.3317, 0.4200]`, and remains positive on
-jointly clean, both-canonical-correct, and confidence-matched subsets.
-Against marginal-conditioned independent-decision baselines, Qwen is nearly
-independent (`+0.0064` canonical; `-0.0307` exact contract), while CodeBERT
-shows limited but incomplete relational signal (`+0.0797`; `+0.0811`).
-
-A preregistered same-backbone Qwen ablation then changes only hidden-state
-readout. Mean pooling raises post-diff consistency from `0.5533` to `0.8983`;
-changed-hunk pooling reaches `0.9983`. The latter still has only `0.5017`
-side-swap equivariance against a `0.5002` marginal-conditioned baseline,
-showing that endpoint robustness and side-order reasoning are separable.
-First-token pooling collapses, as expected for a causal decoder whose first
-token cannot see the later diff. No candidate meets the fixed
-`|canonical delta| <= 0.02` success rule, so this remains a discovery-stage
-mechanism result rather than a promoted model improvement.
-
-An independent confirmation freezes PR #8 as discovery and evaluates 180 new
-pair IDs, three unseen suffix templates, and seeds `7` and `123`. Mean pooling
-improves visible-suffix consistency by `+0.3095` with 95% CI
-`[+0.2348, +0.3799]`; changed-hunk pooling improves it by `+0.4903` with
-95% CI `[+0.4448, +0.5357]`. Both effects are positive in both seeds, with
-zero changed-hunk fallback. Neither candidate passes the preregistered
-canonical non-inferiority criterion: pooled canonical deltas are `-0.0139`
-and `-0.0250`, with lower confidence bounds below `-0.02`. The replicated
-claim is therefore causal endpoint-robustness control, not a promoted
-accuracy-preserving classifier. Side-swap equivariance remains near its
-marginal-conditioned independence baseline.
-
-A frozen-backbone matched-head control then holds the terminal-trained
-Qwen+LoRA hidden states fixed. Mean pooling no longer has a stable suffix
-advantage (`+0.0260`, 95% CI `[-0.0281, +0.0823]`), while changed-hunk
-pooling retains a direct gain of `+0.1970` with 95% CI
-`[+0.1418, +0.2554]`. This separates two mechanisms: mean pooling primarily
-changes the fine-tuning trajectory, whereas changed-hunk pooling also
-structurally excludes endpoint tokens. Canonical non-inferiority remains
-unestablished, and side-order reasoning remains unresolved. The seeds in this
-frozen-backbone control vary only the matched linear heads; all results are
-conditional on one terminal-seed7 frozen Qwen+LoRA representation.
-
-Validate local reproducibility inputs:
-
-```powershell
-.\.venv\Scripts\python.exe scripts\reproduce_primevul_calibrated_router.py --check-only
-.\.venv\Scripts\python.exe scripts\reproduce_primevul_evidence_coupled.py --check-only
-.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\external_generalization_manifest.json --check-only --include-generated
-.\.venv\Scripts\python.exe scripts\build_reproducibility_bundle.py --manifest reproducibility\readout_confirmatory_manifest.json --check-only --include-generated
-.\.venv\Scripts\python.exe scripts\download_reproducibility_bundle.py --bundle-name readout_confirmatory_inputs --restore
-```
-
-Run the local patch-review UI:
-
-```powershell
-.\.venv\Scripts\python.exe -m vrf.cli serve --config configs\serve_patch_review_demo.json
-```
-
-Then open `http://127.0.0.1:8000/review-pair/ui`.
-
-## What Was Pruned
-
-The repository previously contained many historical branches: CodeXGLUE experiments, SFT/DPO/verifier dead ends, broad failure-analysis dumps, obsolete configs, generated egg-info metadata, and repeated side-inversion queue variants. Those were useful during exploration but weak for application review because they blurred the strongest research signal.
-
-The retained repository emphasizes:
-
-- paired patch/diff reasoning over generic vulnerability classification
-- shortcut controls over raw leaderboard-style scores
-- pair-coupled decoding over single-row prediction
-- closed-world source-aware routing with explicit limitations
-- evidence localization as diagnostic support, not an overclaimed explanation result
-
-## Claim Boundaries
-
-This project is a research artifact, not a deployed vulnerability scanner. The current evidence supports paired-diff reasoning and bounded source-aware routing under the materialized datasets and prediction artifacts. It does not claim open-set source discovery, human-gold evidence localization, or production-grade secure-code review.
-
-The earlier regex identifier/formatting counterfactuals remain diagnostic
-pilots, not validated semantics-preserving interventions. Reviewer-facing
-counterfactual claims should use the v2 transformation tiers and report
-context-pressure separately from no-truncation invariance.
+For exact measurements, corrected interpretations, and the chronology of decisions, read the [current review](reports/public_review_2026_09_10/REVIEW.md).
