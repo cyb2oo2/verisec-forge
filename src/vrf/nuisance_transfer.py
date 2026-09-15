@@ -226,10 +226,8 @@ def _git_diff(code_a: str, code_b: str, *, algorithm: str) -> str:
         file_b = tmp_path / "side_b"
         file_a.write_text(code_a, encoding="utf-8", newline="\n")
         file_b.write_text(code_b, encoding="utf-8", newline="\n")
-        # Pass POSIX-style path strings even on Windows: git quotes
-        # backslash-separated paths in C-style escapes in its diff headers
-        # (`"a/C:\\Users\\..."`), which forward-slash paths avoid entirely.
-        posix_a, posix_b = file_a.as_posix(), file_b.as_posix()
+        # Relative paths avoid platform-specific absolute-prefix stripping.
+        # Pin presentation options so user Git settings cannot alter inputs.
         result = subprocess.run(
             [
                 "git",
@@ -237,11 +235,17 @@ def _git_diff(code_a: str, code_b: str, *, algorithm: str) -> str:
                 "core.autocrlf=false",
                 "diff",
                 "--no-index",
+                "--no-color",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--src-prefix=a/",
+                "--dst-prefix=b/",
                 f"--diff-algorithm={algorithm}",
                 "--",
-                posix_a,
-                posix_b,
+                "side_a",
+                "side_b",
             ],
+            cwd=tmp_path,
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -252,7 +256,12 @@ def _git_diff(code_a: str, code_b: str, *, algorithm: str) -> str:
             raise RuntimeError(
                 f"git diff --no-index failed (exit {result.returncode}): {result.stderr}"
             )
-        return result.stdout.replace(posix_a, "Side A").replace(posix_b, "Side B")
+        headers = {
+            "diff --git a/side_a b/side_b\n": "diff --git a/Side A b/Side B\n",
+            "--- a/side_a\n": "--- a/Side A\n",
+            "+++ b/side_b\n": "+++ b/Side B\n",
+        }
+        return "".join(headers.get(line, line) for line in result.stdout.splitlines(keepends=True))
 
 
 def render_diff_algorithm(pair: CanonicalPair, *, algorithm: str) -> str:

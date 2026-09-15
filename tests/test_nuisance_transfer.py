@@ -88,6 +88,16 @@ def test_side_swap_flips_gold_and_content_position():
     assert "buf[5]" in side_swap_text and "buf[8]" in side_swap_text
 
 
+def test_git_rendering_is_independent_of_user_prefix_and_color_settings(monkeypatch):
+    expected = render_diff_algorithm(_pair(), algorithm="myers")
+    monkeypatch.setenv("GIT_CONFIG_COUNT", "2")
+    monkeypatch.setenv("GIT_CONFIG_KEY_0", "diff.noprefix")
+    monkeypatch.setenv("GIT_CONFIG_VALUE_0", "true")
+    monkeypatch.setenv("GIT_CONFIG_KEY_1", "color.ui")
+    monkeypatch.setenv("GIT_CONFIG_VALUE_1", "always")
+    assert render_diff_algorithm(_pair(), algorithm="myers") == expected
+
+
 def test_unknown_family_raises():
     pair = _pair()
     with pytest.raises(ValueError):

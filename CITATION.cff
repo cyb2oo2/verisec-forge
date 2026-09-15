@@ -4,10 +4,9 @@ title: "VeriSec Forge: Relation-Preserving Secure Patch Reasoning"
 version: "0.1.0"
 type: software
 authors:
-  # Affiliation is unresolved as of this metadata pass -- omitted rather
-  # than fabricated. Resolve before a formal preprint/workshop submission
-  # if an institutional affiliation applies.
-  - alias: "cyb"
+  - family-names: "Chen"
+    given-names: "Yibo"
+    alias: "cyb2oo2"
 repository-code: "https://github.com/cyb2oo2/verisec-forge"
 url: "https://github.com/cyb2oo2/verisec-forge"
 abstract: >
