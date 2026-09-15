@@ -1,0 +1,388 @@
+{
+  "status": "AI_DIAGNOSTIC_COMPLETED",
+  "units": 32,
+  "original_case_clusters": 27,
+  "judgments": {
+    "B": 7,
+    "A": 5,
+    "both": 2,
+    "unclear": 18
+  },
+  "eligible_provisional_ab": 12,
+  "eligible_ab_clusters": 11,
+  "by_source": {
+    "deltasecommits": {
+      "units": 12,
+      "original_case_clusters": 7,
+      "judgments": {
+        "unclear": 9,
+        "B": 3
+      },
+      "eligible_provisional_ab": 3,
+      "eligible_ab_clusters": 2
+    },
+    "patcheval": {
+      "units": 10,
+      "original_case_clusters": 10,
+      "judgments": {
+        "B": 1,
+        "A": 3,
+        "both": 1,
+        "unclear": 5
+      },
+      "eligible_provisional_ab": 4,
+      "eligible_ab_clusters": 4
+    },
+    "primevul": {
+      "units": 10,
+      "original_case_clusters": 10,
+      "judgments": {
+        "unclear": 4,
+        "B": 3,
+        "A": 2,
+        "both": 1
+      },
+      "eligible_provisional_ab": 5,
+      "eligible_ab_clusters": 5
+    }
+  },
+  "human_gold": false,
+  "factual_correctness_validated": false,
+  "independent_contexts": false,
+  "evaluation_contract_frozen": false,
+  "main_denominator": "all repaired units; cluster by original_case_id",
+  "ab_subset_role": "post-selection sensitivity only, not overall accuracy",
+  "rows": [
+    {
+      "case_id": "source-v3::aade9d34856564a7ce84",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "aade9d34856564a7ce84",
+      "unit_id": "aade9d34856564a7ce84",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::709d01715d3061578a5d",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "709d01715d3061578a5d",
+      "unit_id": "709d01715d3061578a5d",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "A",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::bdec550da7dc77c3723c",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "bdec550da7dc77c3723c",
+      "unit_id": "bdec550da7dc77c3723c",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "both",
+      "source_order_vulnerable_slot": "both"
+    },
+    {
+      "case_id": "source-v3::eb8897f39a88a2ee5030",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "eb8897f39a88a2ee5030",
+      "unit_id": "eb8897f39a88a2ee5030",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::82f3f28862c911f89c1a",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "82f3f28862c911f89c1a",
+      "unit_id": "82f3f28862c911f89c1a",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "A",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::405749d3d4a724127c4c",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "405749d3d4a724127c4c",
+      "unit_id": "405749d3d4a724127c4c",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::9d2092e54a1fff1532f4",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "9d2092e54a1fff1532f4",
+      "unit_id": "9d2092e54a1fff1532f4",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::b0edf38bea633ddee390",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "b0edf38bea633ddee390",
+      "unit_id": "b0edf38bea633ddee390",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::1c5b06a74fba194736b4",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "1c5b06a74fba194736b4",
+      "unit_id": "1c5b06a74fba194736b4",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "after"
+    },
+    {
+      "case_id": "source-v3::a46b1f408aa1e31a288b",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "a46b1f408aa1e31a288b",
+      "unit_id": "a46b1f408aa1e31a288b",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::1db827b9b05e6861e9db",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "1db827b9b05e6861e9db",
+      "unit_id": "1db827b9b05e6861e9db",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "A",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::7c36c1594ddbccd53e38",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "7c36c1594ddbccd53e38",
+      "unit_id": "7c36c1594ddbccd53e38",
+      "dataset": "patcheval",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::6b71ed850e4dda7d215a",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "6b71ed850e4dda7d215a",
+      "unit_id": "6b71ed850e4dda7d215a",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "A",
+      "source_order_vulnerable_slot": "after"
+    },
+    {
+      "case_id": "source-v3::318d37aa81f83872429d",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "318d37aa81f83872429d",
+      "unit_id": "318d37aa81f83872429d",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "A",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::047198328f2dae6d2f8a",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "047198328f2dae6d2f8a",
+      "unit_id": "047198328f2dae6d2f8a",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::79c11d4c0c49189c4e8c",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "79c11d4c0c49189c4e8c",
+      "unit_id": "79c11d4c0c49189c4e8c",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::36b3fbaf3e052082dd5e",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "36b3fbaf3e052082dd5e",
+      "unit_id": "36b3fbaf3e052082dd5e",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "after"
+    },
+    {
+      "case_id": "source-v3::d2e5873bb4f104fc7709",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "d2e5873bb4f104fc7709",
+      "unit_id": "d2e5873bb4f104fc7709",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "both",
+      "source_order_vulnerable_slot": "both"
+    },
+    {
+      "case_id": "source-v3::375ad661425def9928f1",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "375ad661425def9928f1",
+      "unit_id": "375ad661425def9928f1",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::5201e803385b5a948f7a",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "5201e803385b5a948f7a",
+      "unit_id": "5201e803385b5a948f7a",
+      "dataset": "primevul",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::d93ede0ff01ef3b132784d62",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "fa3fd2c41f4a9a11727f",
+      "unit_id": "d93ede0ff01ef3b132784d62",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::a3c7f7fac7480c16d9a76c6c",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "fa3fd2c41f4a9a11727f",
+      "unit_id": "a3c7f7fac7480c16d9a76c6c",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::0f80bbbcf773878a9c6b633f",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "8ae5d1ec5ed79c831a05",
+      "unit_id": "0f80bbbcf773878a9c6b633f",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::51e74e8f3ac59b0172648052",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "8ae5d1ec5ed79c831a05",
+      "unit_id": "51e74e8f3ac59b0172648052",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "before"
+    },
+    {
+      "case_id": "source-v3::ff77b2f9e8c28681390e8a7b",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "0a44c19072152f039653",
+      "unit_id": "ff77b2f9e8c28681390e8a7b",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::53b2bc0a27785311ccff4bc6",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "491edb6c069c144f9e45",
+      "unit_id": "53b2bc0a27785311ccff4bc6",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::9a409412b2554faefb1f18bc",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "a9f49eee709bab5504f6",
+      "unit_id": "9a409412b2554faefb1f18bc",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::091e5dd3973c516d61195c9c",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "a9f49eee709bab5504f6",
+      "unit_id": "091e5dd3973c516d61195c9c",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::a5643157a8b76fb5f013b2a1",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "a9f49eee709bab5504f6",
+      "unit_id": "a5643157a8b76fb5f013b2a1",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::862c5857d193afcb25f6a7f5",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "6f24cdefc7f7d2dde195",
+      "unit_id": "862c5857d193afcb25f6a7f5",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::31c5572d0da38a668c462fa1",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": false,
+      "original_case_id": "6f24cdefc7f7d2dde195",
+      "unit_id": "31c5572d0da38a668c462fa1",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "unclear",
+      "source_order_vulnerable_slot": "unclear"
+    },
+    {
+      "case_id": "source-v3::6492ea809c9ef3d97c4e591f",
+      "label_status": "ai_provisional",
+      "eligible_for_provisional_ab": true,
+      "original_case_id": "7ef9b074122fcca03e37",
+      "unit_id": "6492ea809c9ef3d97c4e591f",
+      "dataset": "deltasecommits",
+      "displayed_vulnerable_side": "B",
+      "source_order_vulnerable_slot": "before"
+    }
+  ],
+  "artifact_sha256": {
+    "reports/scientific_review_2026_09_07/p1/ai_source_v3_preparation.json": "5c7a9d4bc82da3500ec28fedf5b41532f4a361cb29e964109445a28347a0b06f",
+    "reports/scientific_review_2026_09_07/p1/source_repair_v3.json": "3667106a36cab3702e723c00415012830f55eca20ed36a1f215f61ebd6de352b",
+    "data/annotation/p1_source_repair_v3/PRIVATE_units.json": "d5ac221a84596dfb737793184b40fc17b44a7d583990f7184504672246717638",
+    "data/annotation/p1_reannotation_inputs_v3/PRIVATE_binding.json": "e2b11e4a1ccb4c3bbbf080228fdbba81cb4cf1dacb9fa2a61e7a2393b0662e00",
+    "data/annotation/p1_ai_source_v3/cases.json": "f2fd94787974aed3da25727039852173ef0444230c25069419120501ebe0f2e2",
+    "data/annotation/p1_assistant_source_v3/responses.jsonl": "b1aa3a50f82e7f34b1cbe9db3e319c25262bfa75c0ddf308a6553513dc00d28c",
+    "data/annotation/p1_assistant_source_v3/metadata.json": "2161e9aaddd9b17cfd0980b27cb153fdf2245d4b7ebf83234a9ff723342ce465",
+    "reports/scientific_review_2026_09_07/p1/assistant_annotation_decisions_source_v3.json": "33d007c963b4c9b8b2ece3ee2e24d79bbfa5106d2e60636e3451d2746d65eafd"
+  },
+  "execution_disclosure": "Assistant read all 32 displayed code pairs in batches in this existing conversation. Prior project context visible. No external provider API call, no independent sessions, no blinded certification. Judgments were newly authored for these inputs."
+}

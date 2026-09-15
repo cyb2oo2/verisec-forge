@@ -1,0 +1,539 @@
+{
+  "status": "LOCAL_CONTEXT_REVIEW_COMPLETED",
+  "annotation_source": "ai",
+  "execution_mode": "current_assistant_context",
+  "independent_contexts": false,
+  "exact_serving_model": "unavailable",
+  "provider_api_calls": 0,
+  "source_context_and_prior_judgments_visible": true,
+  "human_gold": false,
+  "parent_acceptance_sha256": "6b824484dce342686a9343119ec21ef0f97afbac319909c8a2a7dc038936b030",
+  "context_manifest_sha256": "2f900644d7722cc46eba9aa119f0f589df9d52dffd7907302f09185ded887d9e",
+  "reviewed_with_context": 9,
+  "retained_without_new_context": 9,
+  "changed_labels": 1,
+  "combined_diagnostic_counts": {
+    "B": 7,
+    "A": 6,
+    "both": 2,
+    "unclear": 17
+  },
+  "main_units": 32,
+  "original_case_clusters": 27,
+  "eligible_ab_clusters": 12,
+  "evaluation_contract_frozen": false,
+  "boundary": "Mixed input contexts; counts describe a diagnostic ledger, not a comparable model score. No compiled exploit or upstream integration test was run. Prior labels and artifacts remain unchanged.",
+  "rows": [
+    {
+      "case_id": "source-v3::eb8897f39a88a2ee5030",
+      "original_case_id": "eb8897f39a88a2ee5030",
+      "context_input_sha256": "e26ab342e73d878ecb5a260998c74c5d30223d6fd19104ff90517dff8f3e370b",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "Userdata finalizer and Lua error-unwinding ownership rules."
+      ]
+    },
+    {
+      "case_id": "source-v3::405749d3d4a724127c4c",
+      "original_case_id": "405749d3d4a724127c4c",
+      "context_input_sha256": "35c3579dda5b9dd782fe04f6f119f0d57f672e5234e24429636e541f36255479",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "isDir, _copy, _copySymbolicLink and the caller's allowed-root policy."
+      ]
+    },
+    {
+      "case_id": "source-v3::9d2092e54a1fff1532f4",
+      "original_case_id": "9d2092e54a1fff1532f4",
+      "context_input_sha256": "9d0a2b9c31d4e5d5d6fe0217a5ef0bde4cf3eaa7e6d1cadaa30b403d12a0a054",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "Complete command construction, shell dialect and quoting mode."
+      ]
+    },
+    {
+      "case_id": "source-v3::b0edf38bea633ddee390",
+      "original_case_id": "b0edf38bea633ddee390",
+      "context_input_sha256": "68bfdb6614bbdc40217b4aa8a4b64be7f827963720f890b25d6465875c3cc0c5",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "Buffer object type and consumers of reconstructed values."
+      ]
+    },
+    {
+      "case_id": "source-v3::a46b1f408aa1e31a288b",
+      "original_case_id": "a46b1f408aa1e31a288b",
+      "context_input_sha256": "0dca0d3fa3d698c5547564552a7c60bf5806aa74721cc5a73b3830452d2a0679",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "sha256sum implementation and database authentication/storage contract."
+      ]
+    },
+    {
+      "case_id": "source-v3::7c36c1594ddbccd53e38",
+      "original_case_id": "7c36c1594ddbccd53e38",
+      "context_input_sha256": "6e991f5cf1fe03430dc27538ffda6d473a7518ceb5924678eecb0350c188da5d",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "Form field validators, save logic and old-password verification."
+      ]
+    },
+    {
+      "case_id": "source-v3::047198328f2dae6d2f8a",
+      "original_case_id": "047198328f2dae6d2f8a",
+      "context_input_sha256": "608d5f6742f6db9ccffe38248ec925b33a397fb43931425e95f78adc3684e34c",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "ft_in_start implementations and lookup contract."
+      ]
+    },
+    {
+      "case_id": "source-v3::79c11d4c0c49189c4e8c",
+      "original_case_id": "79c11d4c0c49189c4e8c",
+      "context_input_sha256": "8aab2a5fecfd85aca73fd52dadead196a3ff88403c4cab7e497eaa20ca2a6750",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "Downstream URL normalization, destination allowlist and whether this is a security boundary."
+      ]
+    },
+    {
+      "case_id": "source-v3::5201e803385b5a948f7a",
+      "original_case_id": "5201e803385b5a948f7a",
+      "context_input_sha256": "a662e0defe0d6421eeaf80ad91f8502e9264d01f4b296b1cb5482af0294cb0a6",
+      "action": "NOT_REANNOTATED_NO_CONTEXT",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "No revision-bound full file reference in the v3 recovery cache. Prior unclear judgment is retained, not independently reannotated. Recover the original source repository, exact revision and matching function bytes before adding context.",
+      "evidence": [],
+      "remaining_context": [
+        "PAM configuration, conversation callback and ownership/lifetime contract."
+      ]
+    },
+    {
+      "case_id": "source-v3::d93ede0ff01ef3b132784d62",
+      "original_case_id": "fa3fd2c41f4a9a11727f",
+      "context_input_sha256": "4e2ae1abf13481eb0b96fd537c672ea214f6ad778970dc8c5290f44e24c6ff82",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "Helper permits nonnegative integer inputs and numeric values up to 0x7FFFFFFF; this does not rule out overflow of a sum or shift. Exact txInteger definition and compilation semantics remain missing. No single safe side established.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/7e06492fd218366a7ed2374064d64d7fdccbe851aa8bf55abd08e12efbc3bba2.bin",
+          "sha256": "4d79989db4db5cc3003b003f0e7b6359b30a27135343e457b6d78f58df8a6090",
+          "commit": "249ec437002eaffea0b19134d60776d2c4564471",
+          "displayed_side": "A",
+          "start_line": 323,
+          "end_line": 342
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/71b8ffb423a7efbb717c7a3a60dae923e8a7f21029368a440a1d6bc95aefdc63.bin",
+          "sha256": "49ddba240a4034367afc01004fc87809d82f98b5db8c2a3a67c60dfe165ef084",
+          "commit": "135aa9a4a6a9b49b60aa730ebc3bcc6247d75c45",
+          "displayed_side": "B",
+          "start_line": 323,
+          "end_line": 342
+        }
+      ],
+      "remaining_context": [
+        "txInteger definition, fxArgToByteLength limits and signed-overflow build semantics.",
+        "Integer type, argument conversion bounds, supported shifts and compiler overflow rules."
+      ]
+    },
+    {
+      "case_id": "source-v3::a3c7f7fac7480c16d9a76c6c",
+      "original_case_id": "fa3fd2c41f4a9a11727f",
+      "context_input_sha256": "b5d4242c9071138265d4d4d26b8358a7768b27344b57a3db6cdc9032a18f2c5a",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "Helper permits nonnegative integer inputs and numeric values up to 0x7FFFFFFF; this does not rule out overflow of a sum or shift. Exact txInteger definition and compilation semantics remain missing. No single safe side established.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/7e06492fd218366a7ed2374064d64d7fdccbe851aa8bf55abd08e12efbc3bba2.bin",
+          "sha256": "4d79989db4db5cc3003b003f0e7b6359b30a27135343e457b6d78f58df8a6090",
+          "commit": "249ec437002eaffea0b19134d60776d2c4564471",
+          "displayed_side": "B",
+          "start_line": 323,
+          "end_line": 342
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/71b8ffb423a7efbb717c7a3a60dae923e8a7f21029368a440a1d6bc95aefdc63.bin",
+          "sha256": "49ddba240a4034367afc01004fc87809d82f98b5db8c2a3a67c60dfe165ef084",
+          "commit": "135aa9a4a6a9b49b60aa730ebc3bcc6247d75c45",
+          "displayed_side": "A",
+          "start_line": 323,
+          "end_line": 342
+        }
+      ],
+      "remaining_context": [
+        "txInteger definition, fxArgToByteLength limits and signed-overflow build semantics.",
+        "Integer type, argument conversion bounds, supported shifts and compiler overflow rules."
+      ]
+    },
+    {
+      "case_id": "source-v3::ff77b2f9e8c28681390e8a7b",
+      "original_case_id": "0a44c19072152f039653",
+      "context_input_sha256": "84c7d7a68df6963e5709635849ee9716e5baf4d79ecebb5e37c1772d4b33ecf4",
+      "action": "REVISED_PROVISIONAL",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "A",
+      "confidence": "medium",
+      "assessment": "For number=0 and bufbits=0, SWFInput_readBits returns at source lines 73-77 without rejecting the count. Candidate A then evaluates 1 << (number-1), a negative shift count. Candidate B short-circuits this zero-count expression. This supports a provisional A label for this specific path, not complete safety for arbitrary counts.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/8a160d29d209d05907c44b3664beec83b5d85c13d1f72f55285fe28624e36c52.bin",
+          "sha256": "1e69b34fae9692c744a7316b867c34dd273e680657c39bda9a61b6fe3442413e",
+          "commit": "da9d86eab55cbf608d5c916b8b690f5b76bca462",
+          "displayed_side": "A",
+          "start_line": 69,
+          "end_line": 120
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/b49b4d9b5855f6d13ad57fa826d55cdb73bd82f2e7ccf17edcb4886022e3d107.bin",
+          "sha256": "6d27be1006b49f99948da41e0747255f941102df073ec293a137a007e0aba717",
+          "commit": "a009a38dce1d9316cad1ab522b813b1d5ba4c62a",
+          "displayed_side": "B",
+          "start_line": 69,
+          "end_line": 120
+        }
+      ],
+      "remaining_context": [
+        "Caller reachability and legal nonzero count bounds remain outside the confirmed zero-count path."
+      ]
+    },
+    {
+      "case_id": "source-v3::53b2bc0a27785311ccff4bc6",
+      "original_case_id": "491edb6c069c144f9e45",
+      "context_input_sha256": "11c0f76d624aa0f4d152900bd4389c2be81571bea368285f49f8b6232d42c17a",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "The nearby element-name decoder checks the same return status, but the actual UTF-8 decoder implementation and nesting limits are not in this cached file. Similar call-site checks do not establish its failure-output contract.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/0696f0f796cab9bcfd4d87d840e8643e3ac00248631caae362c62bd2b08dbeba.bin",
+          "sha256": "b42de844c2eede0d8125763f1faad8c3d3bcecf033e64ae05b8e913aced0fd0a",
+          "commit": "de254ab4193f6b9d865213a35482b65b7be01dee",
+          "displayed_side": "B",
+          "start_line": 20,
+          "end_line": 58
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/a048a3d0557a3bab6d52fbd7ef40ba4a3b5c3706af41adbc5cf31fdcc8311e1e.bin",
+          "sha256": "61dea6875a4eedfe49153fa7e14c2c739edfc7d1a04062c73df1835bf2b1d706",
+          "commit": "539851c66778f68a244633985f6f8d0df94ea3b3",
+          "displayed_side": "A",
+          "start_line": 20,
+          "end_line": 58
+        }
+      ],
+      "remaining_context": [
+        "Decoder failure output guarantees and context-level nesting limits."
+      ]
+    },
+    {
+      "case_id": "source-v3::9a409412b2554faefb1f18bc",
+      "original_case_id": "a9f49eee709bab5504f6",
+      "context_input_sha256": "1ef9fd2dd939ed269da1b9673db3f77f1a60aae428ea2609dac3dc63d0643f1d",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "The old save helper triggers GUI refresh inside the notepad save loop; refresh removes notebook pages. The newer revision moves refresh to callers after saving. This reveals a possible mid-save widget-state/data-loss problem and invalidates a simple missing-refresh interpretation. Security impact and all GUI lifetimes remain unproven; keep all three functions in the same unresolved case cluster.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 418,
+          "end_line": 446
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 1116,
+          "end_line": 1150
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 1332,
+          "end_line": 1356
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 418,
+          "end_line": 444
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 1118,
+          "end_line": 1152
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 1334,
+          "end_line": 1358
+        }
+      ],
+      "remaining_context": [
+        "Save callers, refresh helpers, event payload construction and reentrancy.",
+        "save_text_from_text_view and its transitive save/refresh behavior in each revision.",
+        "Revision-specific save helpers, warning state and event payload source."
+      ]
+    },
+    {
+      "case_id": "source-v3::091e5dd3973c516d61195c9c",
+      "original_case_id": "a9f49eee709bab5504f6",
+      "context_input_sha256": "f7bed7366ca0e5a88080fe42a5b9e31debeff08d655ce136d692c0fdd0b0f09c",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "The old save helper triggers GUI refresh inside the notepad save loop; refresh removes notebook pages. The newer revision moves refresh to callers after saving. This reveals a possible mid-save widget-state/data-loss problem and invalidates a simple missing-refresh interpretation. Security impact and all GUI lifetimes remain unproven; keep all three functions in the same unresolved case cluster.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 418,
+          "end_line": 446
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 1116,
+          "end_line": 1150
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "B",
+          "start_line": 1332,
+          "end_line": 1356
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 418,
+          "end_line": 444
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 1118,
+          "end_line": 1152
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "A",
+          "start_line": 1334,
+          "end_line": 1358
+        }
+      ],
+      "remaining_context": [
+        "Save callers, refresh helpers, event payload construction and reentrancy.",
+        "save_text_from_text_view and its transitive save/refresh behavior in each revision.",
+        "Revision-specific save helpers, warning state and event payload source."
+      ]
+    },
+    {
+      "case_id": "source-v3::a5643157a8b76fb5f013b2a1",
+      "original_case_id": "a9f49eee709bab5504f6",
+      "context_input_sha256": "c0ff2241656174e32ce76b727fdbadec0fa85b390cc5a6eee2eb43bfb4e575ed",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "The old save helper triggers GUI refresh inside the notepad save loop; refresh removes notebook pages. The newer revision moves refresh to callers after saving. This reveals a possible mid-save widget-state/data-loss problem and invalidates a simple missing-refresh interpretation. Security impact and all GUI lifetimes remain unproven; keep all three functions in the same unresolved case cluster.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "A",
+          "start_line": 418,
+          "end_line": 446
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "A",
+          "start_line": 1116,
+          "end_line": 1150
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/d9050fa3b7c395fb7a44a8455e3070b0fad8cef45d7d993829e7e48628d2773e.bin",
+          "sha256": "3b577f02d07ce80f3820c10b9cc709799620d25b54ad7c4e7df583fd1741eaa2",
+          "commit": "6f8b577f928de09bb4e5e79eaf697e54f54dfaf3",
+          "displayed_side": "A",
+          "start_line": 1332,
+          "end_line": 1356
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "B",
+          "start_line": 418,
+          "end_line": 444
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "B",
+          "start_line": 1118,
+          "end_line": 1152
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/459335edec0acdbda5bf09d72c33f3cc5e5ded6388f9c034398cc3cae802c35c.bin",
+          "sha256": "1943b1a1d437ef1de29451f5824b385eafe49d9e59a9f5006b11dc1f2eb75b47",
+          "commit": "257578a23d1537a2d235aaa2b1488ee4f818e360",
+          "displayed_side": "B",
+          "start_line": 1334,
+          "end_line": 1358
+        }
+      ],
+      "remaining_context": [
+        "Save callers, refresh helpers, event payload construction and reentrancy.",
+        "save_text_from_text_view and its transitive save/refresh behavior in each revision.",
+        "Revision-specific save helpers, warning state and event payload source."
+      ]
+    },
+    {
+      "case_id": "source-v3::862c5857d193afcb25f6a7f5",
+      "original_case_id": "6f24cdefc7f7d2dde195",
+      "context_input_sha256": "b7398a9f544b642d6751c547b67c09135a1bd3ac6fcdb32d09c7b425c291d861",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "Headers identify Boost iterator dependencies and the replacement Base64 helper, but their implementations and precise dependency revisions are not present in the recovered file. Neither decoder rejection behavior nor encoder boundary behavior is established.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/de5948781fde6751daf394d41afaecfd637773116dc235a7ccf7191e21903118.bin",
+          "sha256": "68a0e96beed9bc44c289b86f58891a991976fd1401d30576a31f573bb52f6752",
+          "commit": "b64f58b5e09b2f037224ddaaf1b7b40949fe4fb3",
+          "displayed_side": "B",
+          "start_line": 11,
+          "end_line": 18
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/3d963e235ac50e325e48d00acbdb85c81d10ae8731cd702d29e531714839534c.bin",
+          "sha256": "df7d2a9c7b653419726ae85e2d14e6a3439f025be8853311602cf7bc94579b92",
+          "commit": "2f07985bef9fbae124cc63e5c0272e32da4fdaec",
+          "displayed_side": "A",
+          "start_line": 11,
+          "end_line": 18
+        }
+      ],
+      "remaining_context": [
+        "Boost decoder behavior on malformed padding and Base64::decode implementation.",
+        "Encoder implementations and iterator end behavior."
+      ]
+    },
+    {
+      "case_id": "source-v3::31c5572d0da38a668c462fa1",
+      "original_case_id": "6f24cdefc7f7d2dde195",
+      "context_input_sha256": "99716bf9baf0a0fff9952e3951bd4c0dc61c264f69e81e4ed8741f925e82302c",
+      "action": "REVIEWED_UNRESOLVED",
+      "previous_vulnerable_side": "unclear",
+      "vulnerable_side": "unclear",
+      "confidence": "not_applicable",
+      "assessment": "Headers identify Boost iterator dependencies and the replacement Base64 helper, but their implementations and precise dependency revisions are not present in the recovered file. Neither decoder rejection behavior nor encoder boundary behavior is established.",
+      "evidence": [
+        {
+          "path": "data/annotation/p1_source_recovery_cache/de5948781fde6751daf394d41afaecfd637773116dc235a7ccf7191e21903118.bin",
+          "sha256": "68a0e96beed9bc44c289b86f58891a991976fd1401d30576a31f573bb52f6752",
+          "commit": "b64f58b5e09b2f037224ddaaf1b7b40949fe4fb3",
+          "displayed_side": "A",
+          "start_line": 11,
+          "end_line": 18
+        },
+        {
+          "path": "data/annotation/p1_source_recovery_cache/3d963e235ac50e325e48d00acbdb85c81d10ae8731cd702d29e531714839534c.bin",
+          "sha256": "df7d2a9c7b653419726ae85e2d14e6a3439f025be8853311602cf7bc94579b92",
+          "commit": "2f07985bef9fbae124cc63e5c0272e32da4fdaec",
+          "displayed_side": "B",
+          "start_line": 11,
+          "end_line": 18
+        }
+      ],
+      "remaining_context": [
+        "Boost decoder behavior on malformed padding and Base64::decode implementation.",
+        "Encoder implementations and iterator end behavior."
+      ]
+    }
+  ]
+}

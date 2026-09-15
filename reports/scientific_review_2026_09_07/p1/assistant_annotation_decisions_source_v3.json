@@ -1,0 +1,918 @@
+[
+  [
+    0,
+    "B",
+    "yes",
+    "medium",
+    "B permits leading backslashes past its authority-prefix guard and forwards the location; A extends the guard.",
+    [
+      [
+        "B",
+        9,
+        18,
+        "Backslash-leading paths are not excluded before redirect."
+      ],
+      [
+        "A",
+        9,
+        10,
+        "Both leading separator positions are checked."
+      ]
+    ],
+    [
+      "Untrusted redirect location; downstream browser treats backslashes as URL separators."
+    ],
+    [],
+    "A redirect helper that normalizes or restricts destinations before emission could prevent this route; the shared AppURL prefix check also depends on configuration."
+  ],
+  [
+    1,
+    "A",
+    "yes",
+    "medium",
+    "A preserves a leading double slash while stripping trailing slashes; B reconstructs a path with exactly one leading slash.",
+    [
+      [
+        "A",
+        1,
+        2,
+        "The entire request URI becomes a redirect target."
+      ],
+      [
+        "B",
+        2,
+        7,
+        "Path and query are separated and the path prefix is normalized."
+      ]
+    ],
+    [
+      "A request URI starts with an external network-path reference and reaches this handler."
+    ],
+    [],
+    "A framework that rejects external Location values could mitigate the redirect."
+  ],
+  [
+    2,
+    "both",
+    "yes",
+    "high",
+    "A has no path containment check; B compares character prefixes, which also admits a sibling directory sharing the root prefix.",
+    [
+      [
+        "A",
+        10,
+        16,
+        "Joined user path is opened without containment enforcement."
+      ],
+      [
+        "B",
+        11,
+        16,
+        "realpath followed by commonprefix is not a path-component containment test."
+      ],
+      [
+        "B",
+        24,
+        25,
+        "The accepted path is opened."
+      ]
+    ],
+    [
+      "User controls path components and a readable sibling such as root_backup exists alongside root."
+    ],
+    [],
+    "Upstream rejection of traversal or an OS sandbox can restrict impact, but neither is shown."
+  ],
+  [
+    3,
+    "unclear",
+    "no",
+    "medium",
+    "B leaves a freed session pointer in userdata, whereas A clears it; a subsequent access or finalizer is needed to establish a use-after-free or double-free.",
+    [
+      [
+        "B",
+        16,
+        18,
+        "Error path frees the session without clearing the field."
+      ],
+      [
+        "A",
+        16,
+        19,
+        "The corresponding field is cleared before raising."
+      ]
+    ],
+    [
+      "Handshake fails and userdata is later finalized or reused."
+    ],
+    [
+      "Userdata finalizer and Lua error-unwinding ownership rules."
+    ],
+    "The userdata may never dereference or free the session again."
+  ],
+  [
+    4,
+    "A",
+    "yes",
+    "high",
+    "A evaluates an expression containing the supplied type name; B performs a namespaced import and attribute lookup instead.",
+    [
+      [
+        "A",
+        3,
+        3,
+        "Untrusted text enters eval before object construction."
+      ],
+      [
+        "B",
+        3,
+        4,
+        "No expression evaluator is used."
+      ]
+    ],
+    [
+      "An attacker can supply the type-name field without a strict upstream allowlist."
+    ],
+    [],
+    "An upstream allowlist would block expression injection; allowed modules still need their own trust policy."
+  ],
+  [
+    5,
+    "unclear",
+    "no",
+    "medium",
+    "The changed branch treats symbolic links separately, but the original helper behavior and permitted copy boundary are absent.",
+    [
+      [
+        "A",
+        2,
+        4,
+        "Symbolic links have a separate copy branch."
+      ],
+      [
+        "B",
+        2,
+        12,
+        "Directory traversal and ordinary copy depend on helpers."
+      ]
+    ],
+    [
+      "Source contains a symbolic link outside an intended copy root."
+    ],
+    [
+      "isDir, _copy, _copySymbolicLink and the caller's allowed-root policy."
+    ],
+    "Helpers may already use lstat or preserve links safely."
+  ],
+  [
+    6,
+    "unclear",
+    "no",
+    "medium",
+    "The sanitizers differ on newline, tab and quote handling; neither excerpt states the shell quoting context needed to judge injection.",
+    [
+      [
+        "A",
+        18,
+        22,
+        "Additional character replacements are applied before return."
+      ],
+      [
+        "B",
+        18,
+        19,
+        "Returned string retains some shell-significant characters."
+      ]
+    ],
+    [
+      "Output is interpolated into a shell command."
+    ],
+    [
+      "Complete command construction, shell dialect and quoting mode."
+    ],
+    "Passing the string as an argument without invoking a shell could make these differences non-security-relevant."
+  ],
+  [
+    7,
+    "unclear",
+    "no",
+    "medium",
+    "B permits arbitrary buffer property lookup; A restricts type and range but does not require an integer. A security consequence needs downstream use of the reconstructed value.",
+    [
+      [
+        "B",
+        4,
+        5,
+        "Unvalidated data.num indexes buffers."
+      ],
+      [
+        "A",
+        4,
+        12,
+        "Numeric range validation still admits fractional values."
+      ]
+    ],
+    [
+      "Attacker controls placeholder fields."
+    ],
+    [
+      "Buffer object type and consumers of reconstructed values."
+    ],
+    "The consumer may reject non-buffer results, yielding only an ordinary input error."
+  ],
+  [
+    8,
+    "B",
+    "yes",
+    "medium",
+    "B increments the address count and writes array entries without the capacity guard present in A.",
+    [
+      [
+        "B",
+        6,
+        15,
+        "Both address record branches write at ctx->cnt and increment it."
+      ],
+      [
+        "A",
+        5,
+        5,
+        "Count is checked before writes."
+      ]
+    ],
+    [
+      "Repeated address records fill the fixed address array and callbacks continue."
+    ],
+    [],
+    "An upstream callback limit could prevent overflow; negative initial counts would require separate validation on both sides."
+  ],
+  [
+    9,
+    "unclear",
+    "no",
+    "medium",
+    "A delegates password hashing to sha256sum while B uses a costed password-hashing call; the name of A's helper alone does not establish its implementation.",
+    [
+      [
+        "A",
+        4,
+        5,
+        "Password transformation is hidden in sha256sum."
+      ],
+      [
+        "B",
+        4,
+        9,
+        "Explicit password hashing and failure handling are visible."
+      ]
+    ],
+    [
+      "Generated password database is exposed to offline guessing."
+    ],
+    [
+      "sha256sum implementation and database authentication/storage contract."
+    ],
+    "The helper could wrap a stretched salted scheme despite its name; hashPassword=false may be intentionally supplied pre-hashed values."
+  ],
+  [
+    10,
+    "A",
+    "yes",
+    "medium",
+    "A resolves a caller-supplied path against an origin, allowing an absolute path URL to replace the intended origin; B concatenates the origin and path.",
+    [
+      [
+        "A",
+        40,
+        45,
+        "The path becomes the first URL-constructor argument."
+      ],
+      [
+        "B",
+        45,
+        57,
+        "The path is joined onto the origin rather than resolved as an independent URL."
+      ]
+    ],
+    [
+      "Trusted origin and attacker-controlled absolute URL in the object path field."
+    ],
+    [],
+    "If callers intentionally allow path to choose an origin, this is API behavior rather than a violated security boundary."
+  ],
+  [
+    11,
+    "unclear",
+    "no",
+    "medium",
+    "B omits rejection of a lone new password or confirmation, but neither excerpt shows how fields are saved or old passwords authenticated.",
+    [
+      [
+        "B",
+        8,
+        17,
+        "Only the branch with both new fields populated is validated."
+      ],
+      [
+        "A",
+        17,
+        21,
+        "Asymmetric field presence is explicitly rejected."
+      ]
+    ],
+    [
+      "A submission contains only one new-password field."
+    ],
+    [
+      "Form field validators, save logic and old-password verification."
+    ],
+    "Save logic may ignore incomplete password changes or validation elsewhere may reject them."
+  ],
+  [
+    12,
+    "A",
+    "yes",
+    "medium",
+    "A retains each accepted connection without a local count bound; B checks the connection list before allocation.",
+    [
+      [
+        "A",
+        9,
+        19,
+        "Each callback allocates and retains another connection."
+      ],
+      [
+        "B",
+        9,
+        13,
+        "Maximum active connections is enforced."
+      ]
+    ],
+    [
+      "A client can repeatedly connect and hold connections open."
+    ],
+    [],
+    "Listener admission controls or rapid connection cleanup outside this function could bound resource consumption."
+  ],
+  [
+    13,
+    "A",
+    "yes",
+    "high",
+    "A subtracts a possibly larger length from unsigned packetSize, so underflow can pass the capacity test and lead to an out-of-range append.",
+    [
+      [
+        "A",
+        22,
+        26,
+        "Unsigned subtraction guards an offset memcpy without first checking len <= packetSize."
+      ],
+      [
+        "B",
+        22,
+        26,
+        "The subtraction is preceded by a size comparison."
+      ]
+    ],
+    [
+      "The supplied current length exceeds the destination capacity."
+    ],
+    [],
+    "A caller invariant guaranteeing len <= packetSize would make the added check defensive; header readability is a separate precondition."
+  ],
+  [
+    14,
+    "unclear",
+    "no",
+    "medium",
+    "A passes a potentially missing user to a callback; B requires a non-null user. The callback's null contract is absent.",
+    [
+      [
+        "A",
+        4,
+        7,
+        "Lookup result is forwarded without a null test."
+      ],
+      [
+        "B",
+        6,
+        7,
+        "Null lookup result suppresses callback invocation."
+      ]
+    ],
+    [
+      "Handle lookup returns no user."
+    ],
+    [
+      "ft_in_start implementations and lookup contract."
+    ],
+    "The callback may deliberately accept a null user."
+  ],
+  [
+    15,
+    "unclear",
+    "no",
+    "medium",
+    "A adds a correctly escaped backslash guard, but the redirect validation and consumer are absent; accepting a backslash alone does not establish a security violation.",
+    [
+      [
+        "A",
+        12,
+        17,
+        "Backslash-containing inputs are rejected."
+      ],
+      [
+        "B",
+        5,
+        14,
+        "Only control characters are rejected."
+      ]
+    ],
+    [
+      "A backslash-containing URL reaches a downstream redirect consumer."
+    ],
+    [
+      "Downstream URL normalization, destination allowlist and whether this is a security boundary."
+    ],
+    "A separate validator may already enforce destination containment."
+  ],
+  [
+    16,
+    "B",
+    "yes",
+    "high",
+    "A trailing backslash makes B advance onto the terminator and then past it; the loop can read beyond the source string. A checks for a following character.",
+    [
+      [
+        "B",
+        4,
+        5,
+        "Backslash advances src even when the next character is the terminator."
+      ],
+      [
+        "B",
+        17,
+        19,
+        "The unconditional second advance leads the next loop test beyond the terminator."
+      ],
+      [
+        "A",
+        4,
+        4,
+        "The extra lookahead prevents this terminal case."
+      ]
+    ],
+    [
+      "A valid null-terminated string ends with a backslash; destination has ordinary input-sized capacity."
+    ],
+    [],
+    "Callers excluding trailing backslashes would avoid this input; destination capacity is still an external precondition."
+  ],
+  [
+    17,
+    "both",
+    "yes",
+    "medium",
+    "Both variants allocate a dynamic string and return without releasing it, including the empty-input path. The memcpy/strncpy change does not address this repeated-call resource loss.",
+    [
+      [
+        "A",
+        6,
+        12,
+        "Allocation occurs before an early return with no release."
+      ],
+      [
+        "A",
+        45,
+        46,
+        "Normal return also lacks release."
+      ],
+      [
+        "B",
+        6,
+        12,
+        "Same early-return allocation loss."
+      ],
+      [
+        "B",
+        44,
+        47,
+        "Normal path still has no release."
+      ]
+    ],
+    [
+      "Repeated calls and ordinary ownership of the created dynamic string."
+    ],
+    [],
+    "An arena-managed create implementation could reclaim allocations externally; buffer allocation and output termination contracts need separate verification."
+  ],
+  [
+    18,
+    "B",
+    "yes",
+    "medium",
+    "B copies the declared packet length into a fixed temporary buffer without the destination-size clamp visible in A.",
+    [
+      [
+        "B",
+        2,
+        4,
+        "Packet length directly controls memcpy size."
+      ],
+      [
+        "A",
+        2,
+        5,
+        "Copy length is clamped to destination capacity."
+      ]
+    ],
+    [
+      "Packet length can exceed tempMsgBuffer capacity while the source packet is available."
+    ],
+    [],
+    "Prior packet validation could impose the missing bound; A's clamp alone does not prove sufficient source bytes."
+  ],
+  [
+    19,
+    "unclear",
+    "no",
+    "medium",
+    "A lacks the account-management step present in B, and both return early after authentication failure without visible PAM cleanup. Exact account-policy and resource-lifetime effects require integration context.",
+    [
+      [
+        "A",
+        25,
+        38,
+        "Authentication is followed directly by session termination on success."
+      ],
+      [
+        "B",
+        38,
+        48,
+        "Account-management result is separately checked."
+      ],
+      [
+        "B",
+        25,
+        35,
+        "Failure returns before the visible end call."
+      ]
+    ],
+    [
+      "An authenticated account is expired/restricted, or many authentication attempts fail."
+    ],
+    [
+      "PAM configuration, conversation callback and ownership/lifetime contract."
+    ],
+    "Policy may be enforced elsewhere; no unrestricted-account bypass is demonstrated by this snippet alone."
+  ],
+  [
+    20,
+    "unclear",
+    "no",
+    "medium",
+    "A's offset-plus-size test can overflow; B adds a post-addition comparison, whose correctness depends on integer representation and compilation semantics.",
+    [
+      [
+        "A",
+        25,
+        28,
+        "Addition precedes the only upper-bound comparison."
+      ],
+      [
+        "B",
+        26,
+        29,
+        "A wrapped-order comparison is added after computing the sum."
+      ]
+    ],
+    [
+      "Large offset and length reach the addition."
+    ],
+    [
+      "txInteger definition, fxArgToByteLength limits and signed-overflow build semantics."
+    ],
+    "Helper limits may make overflow unreachable; a signed overflowing expression may invalidate the apparent repair."
+  ],
+  [
+    21,
+    "unclear",
+    "no",
+    "medium",
+    "B lacks an addition-overflow comparison, but A still shifts size before checking the sum. Neither shift reachability nor the resulting view safety can be established here.",
+    [
+      [
+        "B",
+        20,
+        23,
+        "Size shift and addition occur before capacity comparison."
+      ],
+      [
+        "A",
+        20,
+        25,
+        "The shift remains unchecked even with the added end comparison."
+      ]
+    ],
+    [
+      "Large typed-array element count and nonzero element-width shift."
+    ],
+    [
+      "Integer type, argument conversion bounds, supported shifts and compiler overflow rules."
+    ],
+    "Global argument limits may rule out both shift and addition overflow; otherwise the apparent fix can be incomplete."
+  ],
+  [
+    22,
+    "B",
+    "yes",
+    "medium",
+    "B promotes the requested route to valid solely from the received type attribute; A also requires that this route is awaiting negotiation.",
+    [
+      [
+        "B",
+        22,
+        34,
+        "Packet-derived route receives conn_VALID without prior-state check."
+      ],
+      [
+        "A",
+        25,
+        29,
+        "Prior state must be conn_INPROGRESS."
+      ]
+    ],
+    [
+      "An unsolicited valid-result packet reaches this handler for a route not under negotiation."
+    ],
+    [],
+    "Dispatcher authentication and route binding may prevent such unsolicited packets before this function."
+  ],
+  [
+    23,
+    "B",
+    "yes",
+    "medium",
+    "B can validate an incoming route selected by packet fields without checking that the route has an outstanding verification; A checks the route state.",
+    [
+      [
+        "B",
+        32,
+        46,
+        "Existing connection and packet route are sufficient for promotion."
+      ],
+      [
+        "A",
+        44,
+        46,
+        "Promotion is conditioned on conn_INPROGRESS."
+      ]
+    ],
+    [
+      "An attacker can submit an unsolicited verification response naming an existing incoming connection."
+    ],
+    [],
+    "Earlier authentication and outstanding-request matching could enforce the missing condition."
+  ],
+  [
+    24,
+    "unclear",
+    "no",
+    "medium",
+    "A shifts by number-1 even for zero; B handles zero but does not bound negative or word-width counts. Reachability depends on the bit reader and callers.",
+    [
+      [
+        "A",
+        4,
+        7,
+        "Read helper is followed by unchecked shift counts."
+      ],
+      [
+        "B",
+        4,
+        7,
+        "Zero guard does not constrain the upper bound or negative counts."
+      ]
+    ],
+    [
+      "number is zero or outside the supported shift range."
+    ],
+    [
+      "SWFInput_readBits behavior and legal caller count range."
+    ],
+    "The helper may reject invalid counts before either expression executes."
+  ],
+  [
+    25,
+    "unclear",
+    "no",
+    "medium",
+    "B ignores UTF-8 decode failure before using and freeing the output pointer; A returns on failure. Both also recurse without a visible depth bound, so a single safe side cannot be certified from this function.",
+    [
+      [
+        "B",
+        53,
+        59,
+        "Decoder status is overwritten before output use."
+      ],
+      [
+        "A",
+        53,
+        59,
+        "Decoder failure is checked."
+      ],
+      [
+        "A",
+        90,
+        96,
+        "Recursive container conversion has no local depth limit."
+      ],
+      [
+        "B",
+        89,
+        95,
+        "Same recursive call is present."
+      ]
+    ],
+    [
+      "Malformed UTF-8 string or deeply nested containers."
+    ],
+    [
+      "Decoder failure output guarantees and context-level nesting limits."
+    ],
+    "Decoder may initialize outputs on failure and enforce a global depth limit; such protections are not visible."
+  ],
+  [
+    26,
+    "unclear",
+    "no",
+    "medium",
+    "B reloads problem data and GUI state after saving while A does not. Whether stale state exposes sensitive data depends on the surrounding event and save flow.",
+    [
+      [
+        "A",
+        13,
+        18,
+        "Disk save without visible state refresh."
+      ],
+      [
+        "B",
+        13,
+        20,
+        "Adds reload and GUI update after the save."
+      ]
+    ],
+    [
+      "Edited problem data changes a security-relevant reporting decision."
+    ],
+    [
+      "Save callers, refresh helpers, event payload construction and reentrancy."
+    ],
+    "Callers may already refresh state; the added calls may only repair stale UI presentation."
+  ],
+  [
+    27,
+    "unclear",
+    "no",
+    "medium",
+    "The variants differ in explicit reload after saving. This function alone cannot tell whether the save helper already performs that work or whether the change affects confidentiality.",
+    [
+      [
+        "A",
+        54,
+        59,
+        "Explicit state refresh follows save."
+      ],
+      [
+        "B",
+        54,
+        55,
+        "Only the save helper is invoked."
+      ]
+    ],
+    [
+      "User edits a field that affects later reporting or warnings."
+    ],
+    [
+      "save_text_from_text_view and its transitive save/refresh behavior in each revision."
+    ],
+    "The refresh may have moved into a shared helper, making the local deletion behavior-preserving."
+  ],
+  [
+    28,
+    "unclear",
+    "no",
+    "medium",
+    "B explicitly refreshes stored problem data after saving fields; A relies on save helpers. Missing revision-specific helper behavior prevents a vulnerability-side assignment.",
+    [
+      [
+        "A",
+        33,
+        38,
+        "Saves fields before subsequent GUI/event work."
+      ],
+      [
+        "B",
+        37,
+        40,
+        "Adds explicit reload/update at this location."
+      ]
+    ],
+    [
+      "Saved edits change sensitive-data warnings or event payloads."
+    ],
+    [
+      "Revision-specific save helpers, warning state and event payload source."
+    ],
+    "A helper-level refresh can make the apparent removal a refactoring rather than a security regression."
+  ],
+  [
+    29,
+    "unclear",
+    "no",
+    "medium",
+    "B subtracts the count of every '=' from the decoded end iterator; malformed padding could exceed decoded length, but decoder rejection behavior is not shown. A delegates to another decoder.",
+    [
+      [
+        "B",
+        13,
+        17,
+        "Padding count is not limited to a valid suffix or checked against decoded length."
+      ],
+      [
+        "A",
+        9,
+        16,
+        "Suffix padding count is capped but actual decoder is external."
+      ]
+    ],
+    [
+      "Malformed input contains excessive or interior padding."
+    ],
+    [
+      "Boost decoder behavior on malformed padding and Base64::decode implementation."
+    ],
+    "The iterator decoder might reject malformed input before erase; the replacement's behavior is also unverified."
+  ],
+  [
+    30,
+    "unclear",
+    "no",
+    "medium",
+    "This is a switch between Base64 encoders; the excerpt provides no demonstrated unsafe read, output-length failure or security boundary violation.",
+    [
+      [
+        "A",
+        3,
+        7,
+        "Iterator-based encoding and padding."
+      ],
+      [
+        "B",
+        2,
+        4,
+        "Encoding delegated to an external helper with explicit input length."
+      ]
+    ],
+    [
+      "Boundary-length or empty input exercises encoder implementation details."
+    ],
+    [
+      "Encoder implementations and iterator end behavior."
+    ],
+    "The change may be maintenance or part of a broader decoder fix, with no vulnerability in this function."
+  ],
+  [
+    31,
+    "B",
+    "yes",
+    "medium",
+    "B supplies a fixed 256-byte signature buffer without checking key size; A allocates storage using the key's reported signature size.",
+    [
+      [
+        "B",
+        5,
+        6,
+        "Fixed-size stack signature buffer."
+      ],
+      [
+        "B",
+        22,
+        25,
+        "Key-dependent signing writes to that buffer."
+      ],
+      [
+        "A",
+        14,
+        19,
+        "Allocation follows the reported key size."
+      ]
+    ],
+    [
+      "A supported signing key produces a signature larger than 256 bytes and the signing call expects caller-provided capacity."
+    ],
+    [],
+    "A strict key-size policy or capacity-enforcing signing implementation could prevent overflow; allocation sizing error handling in A also deserves separate checking."
+  ]
+]

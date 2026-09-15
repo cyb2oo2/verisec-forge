@@ -43,8 +43,22 @@ def main() -> int:
     parser.add_argument("--config", default="configs/research_primevul_joint_side_choice_qwen15b_v1.json")
     parser.add_argument("--max-train-examples", type=int)
     parser.add_argument("--max-eval-examples", type=int)
+    parser.add_argument("--validate-data-only", action="store_true", help="Check a bound pilot dataset and tokenizer without loading model weights")
     args = parser.parse_args()
     config = json.loads((ROOT / args.config).read_text(encoding="utf-8"))
+
+    if config.get("dataset_manifest"):
+        from vrf.training_dataset import verify_training_manifest
+        verify_training_manifest(ROOT, config)
+        from transformers import AutoTokenizer
+        checked_tokenizer = AutoTokenizer.from_pretrained(
+            resolve_local_model_source(config["model_name"], True), local_files_only=True)
+        verify_training_manifest(ROOT, config, checked_tokenizer)
+        if args.validate_data_only:
+            print(json.dumps({"status": "DATA_AND_RUNTIME_TOKENIZER_VERIFIED", "weights_loaded": False, "training_run": False}))
+            return 0
+    elif args.validate_data_only:
+        raise ValueError("Data-only validation requires a dataset_manifest")
 
     stack = optional_import_train_stack()
     datasets = stack["datasets"]
@@ -98,7 +112,7 @@ def main() -> int:
     def tokenize(batch: dict[str, list[Any]]) -> dict[str, Any]:
         encoded = tokenizer(
             batch["text"],
-            truncation=True,
+            truncation=config.get("allow_truncation", True),
             max_length=int(config["max_seq_length"]),
             padding=False,
         )

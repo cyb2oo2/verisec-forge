@@ -1,0 +1,78 @@
+{
+  "status": "NOT_READY_FOR_INFERENCE",
+  "construction": {
+    "status": "ok",
+    "cases": 36,
+    "prompts": 432
+  },
+  "provisionally_unexposed_and_fitting_by_source": {
+    "patcheval": 9,
+    "deltasecommits": 3
+  },
+  "candidate_runtime_config": "configs/research_primevul_joint_pairwise_repair_antisymmetric_v1.json",
+  "runtime_config_sha256": "c2bc4f7a801a00cd2c9a5e4001c1fdcb4decaabc082b088003d75afc0a0553b8",
+  "tokenizer_path": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "tokenizer_hashes": {
+    "tokenizer.json": "51e62e7f03178cb93eb7728dca2bfc5be275edcf4ae7235d2c7b8e9771fad212",
+    "tokenizer_config.json": "b4e9ef68cc74d05c07a30f55ef3237f4875d8dd7ef1ebbf699d77ad3c0b9714f"
+  },
+  "length_check": {
+    "max_length": 1024,
+    "max_observed": 4299,
+    "overlength_prompts": 108,
+    "all_cells_fit_cases": 27,
+    "total_cases": 36,
+    "boundary": "Plain tokenizer input; chat template or another runtime requires revalidation."
+  },
+  "known_exposure": {
+    "train_dataset": {
+      "path": "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl",
+      "sha256": "2e0638cd746c24a6ece603bad5dfcf174e3bed58e677a3940334d5c3e4d8cbc8",
+      "rows": 6000,
+      "candidate_project_overlap": [
+        "f2e2eb0a908cb16f34f0",
+        "77c4c3806fa4eb627e36",
+        "449101971ccd76ccf5db",
+        "147688076cd28047a299",
+        "1a9479cc1a032cc6645c",
+        "0e544b3e3383182c9c95",
+        "93028d434e1485af47fa",
+        "4a9762bb8f06c59af2c3",
+        "57e213e1c9d38c818c4a",
+        "30404e6bd2726e033e53",
+        "27925dfc1486e58ca598",
+        "75bf0b7ba914c9bdc36a",
+        "338f2954e43fe398fb0f"
+      ],
+      "unparsed_rows": 0,
+      "boundary": "Known configured inputs only; checkpoint ancestry and pretraining unverified."
+    },
+    "eval_dataset": {
+      "path": "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl",
+      "sha256": "9ec1b6644be2156b8e1c4613bad13871046a3ed9e7dd51a5f06d75406d969b31",
+      "rows": 1654,
+      "candidate_project_overlap": [
+        "f2e2eb0a908cb16f34f0",
+        "77c4c3806fa4eb627e36",
+        "449101971ccd76ccf5db",
+        "b9d9a8f721f16f612aac",
+        "8eefba50812673544ef0",
+        "07a4d67a0890153ac198",
+        "7f22b4cfbefb74cdf7b5",
+        "b84cab7eeaaa8d886c4f",
+        "f94cb844bde8d2873515",
+        "0e544b3e3383182c9c95",
+        "93028d434e1485af47fa",
+        "80bb2a5cab88939e5f60",
+        "f0b27e5c86b830b82839",
+        "57e213e1c9d38c818c4a"
+      ],
+      "unparsed_rows": 0,
+      "boundary": "Known configured inputs only; checkpoint ancestry and pretraining unverified."
+    }
+  },
+  "new_model_inference": false,
+  "human_reviews_completed": 0,
+  "checkpoint_weights_hashed": false,
+  "next_action": "Resolve exposure and runtime feasibility before freezing eligible cases; obtain independent human review."
+}

@@ -46,12 +46,6 @@
       "bytes": 8242
     },
     {
-      "role": "cross_model_report_markdown",
-      "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
-      "sha256": "a2da20434a072cc9a4ba0c99d1c023d57589b4126cbbc18947832f7182cbf5d9",
-      "bytes": 3430
-    },
-    {
       "role": "codebert_training_report",
       "path": "reports/secure_code_primevul_joint_side_choice_codebert_v1_report.json",
       "sha256": "87ad2083e59b3accc7ef4c030f44210bceed4bea4b702b04f11e322014be1876",
@@ -93,5 +87,6 @@
     "The comparison controls the side-choice rows and audit pairs, not objective, model capacity, tokenizer, pretraining, or initialization.",
     "The manifest reproduces analysis from stored predictions, not GPU training.",
     "The CodeBERT checkpoint and public base model remain gitignored local artifacts."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

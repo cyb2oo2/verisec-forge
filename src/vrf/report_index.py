@@ -48,7 +48,7 @@ def build_report_index(sections: list[ReportIndexSection], root: str | Path | No
     lines = [
         "# Results Index",
         "",
-        "This index collects the application-facing reports and reproducibility entry points retained after pruning.",
+        "The September 7 scientific review is the sole current result narrative. Other entries are operating documents or historical evidence inventories.",
         "",
     ]
 

@@ -1,0 +1,62 @@
+{
+  "status": "CANDIDATES_READY_NOT_FROZEN",
+  "model_inference_allowed": false,
+  "new_model_inference": false,
+  "validation": {
+    "status": "ok",
+    "cases": 36,
+    "prompts": 432
+  },
+  "selection": {
+    "selected_by_source": {
+      "primevul": 12,
+      "patcheval": 12,
+      "deltasecommits": 12
+    },
+    "excluded": {
+      "prior_pair": 600,
+      "prior_or_selected_project": 577,
+      "source_quota": 210
+    },
+    "project_alias_rule": "lowercase repository basename; conservative",
+    "training_overlap": "not_checked",
+    "near_duplicate_overlap": "not_checked"
+  },
+  "requested_per_source": 12,
+  "input_hashes": {
+    "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl": {
+      "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+      "eligible": 827,
+      "skipped": 50
+    },
+    "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl": {
+      "sha256": "5d24596fc85bf967cebc2785b0508c0061b6b80fef5824f4d128b663e733cc37",
+      "eligible": 327,
+      "skipped": 0
+    },
+    "data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl": {
+      "sha256": "f3b27cbaf40809ba0f7bf06fdaa4313377de5579b70ff64f15b22ed9ff459e6a",
+      "eligible": 269,
+      "skipped": 0
+    }
+  },
+  "gates_pending": [
+    "independent_human_annotation_and_adjudication",
+    "checkpoint_identity_and_complete_training_exposure_audit",
+    "exact_tokenizer_full_prompt_visibility",
+    "signed_final_sample_and_analysis_freeze"
+  ],
+  "bundle": "data/annotation/binding_semantics_p1_v1",
+  "bundle_hashes": {
+    "model_prompts.json": "c13106113ae383243e78a1f93c0068671afaf6403e88e23bc2b79a0c3a28dae6",
+    "PRIVATE_keys.json": "41f11f5ae0a92fa2bc60a66cd634019332ac1949162a273c455f8f11b53e46db",
+    "PRIVATE_provenance.json": "3a00ec1969573aa73a5e95b34715fa1d51fc82f3c9bc7fcbf26192d9fb77f472",
+    "review_r1.json": "d3839e017e967fe51fd86c75536cffbfd5286adc8ca7ebe1131c9fcc89e42d0d",
+    "review_r2.json": "1949cb021b57e24bc8c0e492bf3c3edc435928c9fa5d8b12f3415686134a93ae"
+  },
+  "implementation_hashes": {
+    "scripts/build_binding_semantics_p1.py": "3c2ff9f928253a3e1926fd010c8cfa4827706e5d6392d45671b985dcc97b1720",
+    "src/vrf/binding_semantics.py": "eb21833c26d018943768f417c5954bcdafa8259a4b051009f61e1429e0b90960",
+    "docs/BINDING_SEMANTICS_P1_PROTOCOL.md": "bc60719eafedaeea0c6acf26d6c57207ae68708ec9520820cb2f0ffc7f27eef9"
+  }
+}

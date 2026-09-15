@@ -1,17 +1,11 @@
 """Held-out nuisance-transform renderers for repair transfer evaluation.
 
-The antisymmetric-head repair (`docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`,
-`reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md`) showed a fine-tuning delta over
-the projection null that was significant in-distribution (PrimeVul) but did
-not survive an external-source transfer test (CrossVul). This module builds
-the *other* preregistered transfer leg: held-out nuisance transforms that were
-not part of the polarity-only-swap audit's training/evaluation loop, so the
-repair's remaining gate -- "does fine-tuning transfer to fresh presentation
-changes?" -- can be tested rather than assumed.
+These renderers support exploratory evaluation on a mixed-source audit.
+Candidate labels are retained, but preservation of security-relevant information
+must be validated separately, especially for split-view regrouping. The current
+scientific interpretation is reports/scientific_review_2026_09_07/REVIEW.md.
 
-Five families, each rendering the SAME candidate-identity question (which side
-is riskier) through a different structural presentation while leaving the
-gold answer's content dependence unchanged:
+Five presentation families:
 
 - ``context_window``: unified diff with a different context-line budget
   (``difflib`` ``n`` parameter) than the ``n=3`` default used everywhere else.
@@ -49,6 +43,8 @@ overclaimed as perfectly orthogonal factors.
 from __future__ import annotations
 
 import difflib
+import hashlib
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -144,6 +140,54 @@ def render_split_view(pair: CanonicalPair) -> str:
         + ("".join(context) if context else "(none)\n")
     ).rstrip()
     return _wrap(pair, "Split-view diff from Side A to Side B:", body)
+
+
+def split_view_occurrences(pair: CanonicalPair, text: str) -> list[dict[str, Any]]:
+    """Source-bound offsets for the exact legacy split-view rendering.
+
+    Preserve input bytes so retained model predictions can be reanalyzed.
+    Repeated code lines are mapped by diff position, never by text search.
+    """
+    if text != render_split_view(pair):
+        raise ValueError("split-view text does not match source pair")
+    removed, added = [], []
+    a_line = b_line = 0
+    for line in difflib.unified_diff(pair.side_a.code.splitlines(keepends=True),
+                                    pair.side_b.code.splitlines(keepends=True),
+                                    fromfile="Side A", tofile="Side B", lineterm="\n"):
+        hunk = re.match(r"@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@", line)
+        if hunk:
+            a_line, b_line = map(int, hunk.groups())
+        elif line.startswith(("--- ", "+++ ")):
+            continue
+        elif line.startswith("-"):
+            removed.append((line[1:], a_line))
+            a_line += 1
+        elif line.startswith("+"):
+            added.append((line[1:], b_line))
+            b_line += 1
+        elif line.startswith(" "):
+            a_line += 1
+            b_line += 1
+    result = []
+    for side, candidate, records, marker in [
+        ("A", pair.side_a, removed, "Removed from Side A (absent in Side B):\n"),
+        ("B", pair.side_b, added, "Added in Side B (absent in Side A):\n"),
+    ]:
+        cursor = text.index(marker, text.index("Split-view diff from")) + len(marker)
+        for chunk, source_line in records:
+            content = chunk.rstrip("\r\n")
+            if content.strip():
+                if text[cursor:cursor + len(content)] != content:
+                    raise ValueError("split-view occurrence mismatch")
+                result.append({"occurrence": len(result), "text": content,
+                               "char_start": cursor, "char_end": cursor + len(content),
+                               "line_index": text[:cursor].count("\n"),
+                               "candidate_side": side, "candidate_id": candidate.id,
+                               "source_line": source_line,
+                               "source_code_sha256": hashlib.sha256(candidate.code.encode()).hexdigest()})
+            cursor += len(chunk)
+    return result
 
 
 def render_whitespace_comment(pair: CanonicalPair) -> str:

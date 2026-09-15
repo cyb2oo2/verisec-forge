@@ -95,12 +95,13 @@ def test_ci_external_adapter_cli_evaluates_filled_smoke_predictions(
     assert "relational_claim_boundary" in report
 
 
-def test_ci_paper_anchor_map_and_boundary_doc_are_linked() -> None:
+def test_ci_current_review_and_boundary_doc_are_linked() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     results_index = (ROOT / "reports/RESULTS_INDEX.md").read_text(encoding="utf-8")
     ci_doc = (ROOT / "docs/CI_TESTING_STRATEGY.md").read_text(encoding="utf-8")
 
     assert "docs/CI_TESTING_STRATEGY.md" in readme
+    assert "reports/scientific_review_2026_09_07/REVIEW.md" in readme
     assert "CI Testing Strategy" in results_index
     assert "does not train models" in ci_doc
     assert "does not convert the external smoke artifact into a benchmark result" in ci_doc

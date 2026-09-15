@@ -1,0 +1,28 @@
+{
+  "name": "patcheval_training_pilot_v1",
+  "model_name": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "init_checkpoint": null,
+  "dataset_manifest": "reports/scientific_review_2026_09_07/p1/training_pilot_v1_release.json",
+  "train_dataset": "data/processed/patcheval_training_pilot_v1/train_released.jsonl",
+  "eval_dataset": "data/processed/patcheval_training_pilot_v1/validation.jsonl",
+  "test_dataset": "data/processed/patcheval_training_pilot_v1/test.jsonl",
+  "output_dir": "checkpoints/cls_patcheval_training_pilot_v1",
+  "predictions_output": "outputs/patcheval_training_pilot_v1_validation_predictions.jsonl",
+  "report_output": "reports/scientific_review_2026_09_07/p1/training_pilot_v1_training.json",
+  "seed": 20260909,
+  "max_seq_length": 4096,
+  "allow_truncation": false,
+  "peft": {
+    "r": 8, "lora_alpha": 16, "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  },
+  "training": {
+    "num_train_epochs": 1, "learning_rate": 0.00005,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "logging_steps": 10
+  },
+  "label_status": "upstream_weak_supervision_not_gold",
+  "usage": "Small engineering pilot; no inherited research checkpoint and no confirmatory claim"
+}

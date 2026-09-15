@@ -1,0 +1,219 @@
+{
+  "status": "REMAINING_AFTER_LOCAL_CONTEXT_V1",
+  "accepted_sha256": "6b824484dce342686a9343119ec21ef0f97afbac319909c8a2a7dc038936b030",
+  "unresolved_units": 17,
+  "original_case_clusters": 13,
+  "main_diagnostic_denominator": 32,
+  "human_review_required": false,
+  "training_authorized": false,
+  "policy": "Recover missing pinned revisions and helper/dependency implementations; do not repeat already supplied context. Preserve source case clusters and prior labels. No human review gate.",
+  "cases": [
+    {
+      "original_case_id": "eb8897f39a88a2ee5030",
+      "dataset": "primevul",
+      "units": [
+        {
+          "case_id": "source-v3::eb8897f39a88a2ee5030",
+          "unit_id": "eb8897f39a88a2ee5030",
+          "summary": "B leaves a freed session pointer in userdata, whereas A clears it; a subsequent access or finalizer is needed to establish a use-after-free or double-free."
+        }
+      ],
+      "required_context": [
+        "Userdata finalizer and Lua error-unwinding ownership rules."
+      ]
+    },
+    {
+      "original_case_id": "405749d3d4a724127c4c",
+      "dataset": "patcheval",
+      "units": [
+        {
+          "case_id": "source-v3::405749d3d4a724127c4c",
+          "unit_id": "405749d3d4a724127c4c",
+          "summary": "The changed branch treats symbolic links separately, but the original helper behavior and permitted copy boundary are absent."
+        }
+      ],
+      "required_context": [
+        "isDir, _copy, _copySymbolicLink and the caller's allowed-root policy."
+      ]
+    },
+    {
+      "original_case_id": "9d2092e54a1fff1532f4",
+      "dataset": "patcheval",
+      "units": [
+        {
+          "case_id": "source-v3::9d2092e54a1fff1532f4",
+          "unit_id": "9d2092e54a1fff1532f4",
+          "summary": "The sanitizers differ on newline, tab and quote handling; neither excerpt states the shell quoting context needed to judge injection."
+        }
+      ],
+      "required_context": [
+        "Complete command construction, shell dialect and quoting mode."
+      ]
+    },
+    {
+      "original_case_id": "b0edf38bea633ddee390",
+      "dataset": "patcheval",
+      "units": [
+        {
+          "case_id": "source-v3::b0edf38bea633ddee390",
+          "unit_id": "b0edf38bea633ddee390",
+          "summary": "B permits arbitrary buffer property lookup; A restricts type and range but does not require an integer. A security consequence needs downstream use of the reconstructed value."
+        }
+      ],
+      "required_context": [
+        "Buffer object type and consumers of reconstructed values."
+      ]
+    },
+    {
+      "original_case_id": "a46b1f408aa1e31a288b",
+      "dataset": "patcheval",
+      "units": [
+        {
+          "case_id": "source-v3::a46b1f408aa1e31a288b",
+          "unit_id": "a46b1f408aa1e31a288b",
+          "summary": "A delegates password hashing to sha256sum while B uses a costed password-hashing call; the name of A's helper alone does not establish its implementation."
+        }
+      ],
+      "required_context": [
+        "sha256sum implementation and database authentication/storage contract."
+      ]
+    },
+    {
+      "original_case_id": "7c36c1594ddbccd53e38",
+      "dataset": "patcheval",
+      "units": [
+        {
+          "case_id": "source-v3::7c36c1594ddbccd53e38",
+          "unit_id": "7c36c1594ddbccd53e38",
+          "summary": "B omits rejection of a lone new password or confirmation, but neither excerpt shows how fields are saved or old passwords authenticated."
+        }
+      ],
+      "required_context": [
+        "Form field validators, save logic and old-password verification."
+      ]
+    },
+    {
+      "original_case_id": "047198328f2dae6d2f8a",
+      "dataset": "primevul",
+      "units": [
+        {
+          "case_id": "source-v3::047198328f2dae6d2f8a",
+          "unit_id": "047198328f2dae6d2f8a",
+          "summary": "A passes a potentially missing user to a callback; B requires a non-null user. The callback's null contract is absent."
+        }
+      ],
+      "required_context": [
+        "ft_in_start implementations and lookup contract."
+      ]
+    },
+    {
+      "original_case_id": "79c11d4c0c49189c4e8c",
+      "dataset": "primevul",
+      "units": [
+        {
+          "case_id": "source-v3::79c11d4c0c49189c4e8c",
+          "unit_id": "79c11d4c0c49189c4e8c",
+          "summary": "A adds a correctly escaped backslash guard, but the redirect validation and consumer are absent; accepting a backslash alone does not establish a security violation."
+        }
+      ],
+      "required_context": [
+        "Downstream URL normalization, destination allowlist and whether this is a security boundary."
+      ]
+    },
+    {
+      "original_case_id": "5201e803385b5a948f7a",
+      "dataset": "primevul",
+      "units": [
+        {
+          "case_id": "source-v3::5201e803385b5a948f7a",
+          "unit_id": "5201e803385b5a948f7a",
+          "summary": "A lacks the account-management step present in B, and both return early after authentication failure without visible PAM cleanup. Exact account-policy and resource-lifetime effects require integration context."
+        }
+      ],
+      "required_context": [
+        "PAM configuration, conversation callback and ownership/lifetime contract."
+      ]
+    },
+    {
+      "original_case_id": "fa3fd2c41f4a9a11727f",
+      "dataset": "deltasecommits",
+      "units": [
+        {
+          "case_id": "source-v3::d93ede0ff01ef3b132784d62",
+          "unit_id": "d93ede0ff01ef3b132784d62",
+          "summary": "A's offset-plus-size test can overflow; B adds a post-addition comparison, whose correctness depends on integer representation and compilation semantics."
+        },
+        {
+          "case_id": "source-v3::a3c7f7fac7480c16d9a76c6c",
+          "unit_id": "a3c7f7fac7480c16d9a76c6c",
+          "summary": "B lacks an addition-overflow comparison, but A still shifts size before checking the sum. Neither shift reachability nor the resulting view safety can be established here."
+        }
+      ],
+      "required_context": [
+        "txInteger definition, fxArgToByteLength limits and signed-overflow build semantics.",
+        "Integer type, argument conversion bounds, supported shifts and compiler overflow rules."
+      ]
+    },
+    {
+      "original_case_id": "491edb6c069c144f9e45",
+      "dataset": "deltasecommits",
+      "units": [
+        {
+          "case_id": "source-v3::53b2bc0a27785311ccff4bc6",
+          "unit_id": "53b2bc0a27785311ccff4bc6",
+          "summary": "B ignores UTF-8 decode failure before using and freeing the output pointer; A returns on failure. Both also recurse without a visible depth bound, so a single safe side cannot be certified from this function."
+        }
+      ],
+      "required_context": [
+        "Decoder failure output guarantees and context-level nesting limits."
+      ]
+    },
+    {
+      "original_case_id": "a9f49eee709bab5504f6",
+      "dataset": "deltasecommits",
+      "units": [
+        {
+          "case_id": "source-v3::9a409412b2554faefb1f18bc",
+          "unit_id": "9a409412b2554faefb1f18bc",
+          "summary": "B reloads problem data and GUI state after saving while A does not. Whether stale state exposes sensitive data depends on the surrounding event and save flow."
+        },
+        {
+          "case_id": "source-v3::091e5dd3973c516d61195c9c",
+          "unit_id": "091e5dd3973c516d61195c9c",
+          "summary": "The variants differ in explicit reload after saving. This function alone cannot tell whether the save helper already performs that work or whether the change affects confidentiality."
+        },
+        {
+          "case_id": "source-v3::a5643157a8b76fb5f013b2a1",
+          "unit_id": "a5643157a8b76fb5f013b2a1",
+          "summary": "B explicitly refreshes stored problem data after saving fields; A relies on save helpers. Missing revision-specific helper behavior prevents a vulnerability-side assignment."
+        }
+      ],
+      "required_context": [
+        "Save callers, refresh helpers, event payload construction and reentrancy.",
+        "save_text_from_text_view and its transitive save/refresh behavior in each revision.",
+        "Revision-specific save helpers, warning state and event payload source."
+      ]
+    },
+    {
+      "original_case_id": "6f24cdefc7f7d2dde195",
+      "dataset": "deltasecommits",
+      "units": [
+        {
+          "case_id": "source-v3::862c5857d193afcb25f6a7f5",
+          "unit_id": "862c5857d193afcb25f6a7f5",
+          "summary": "B subtracts the count of every '=' from the decoded end iterator; malformed padding could exceed decoded length, but decoder rejection behavior is not shown. A delegates to another decoder."
+        },
+        {
+          "case_id": "source-v3::31c5572d0da38a668c462fa1",
+          "unit_id": "31c5572d0da38a668c462fa1",
+          "summary": "This is a switch between Base64 encoders; the excerpt provides no demonstrated unsafe read, output-length failure or security boundary violation."
+        }
+      ],
+      "required_context": [
+        "Boost decoder behavior on malformed padding and Base64::decode implementation.",
+        "Encoder implementations and iterator end behavior."
+      ]
+    }
+  ],
+  "context_review_sha256": "337011a272492abcca42fb02155ba4fe041d0a5015048e94a8a8bb60b35eba55"
+}

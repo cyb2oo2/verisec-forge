@@ -23,6 +23,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from vrf.io_utils import read_jsonl, write_json
+from vrf.prediction_validation import prediction_index
 from vrf.nuisance_transfer import NUISANCE_FAMILIES
 from vrf.repair_evaluation import (
     compare_antisymmetric_inference,
@@ -167,12 +168,8 @@ def main() -> int:
     args = parser.parse_args()
 
     audit_rows = read_jsonl(ROOT / args.audit)
-    baseline_predictions = {
-        str(r["id"]): r for r in read_jsonl(ROOT / args.baseline_predictions)
-    }
-    repaired_predictions = {
-        str(r["id"]): r for r in read_jsonl(ROOT / args.repaired_predictions)
-    }
+    baseline_predictions = prediction_index(read_jsonl(ROOT / args.baseline_predictions), [r["id"] for r in audit_rows])
+    repaired_predictions = prediction_index(read_jsonl(ROOT / args.repaired_predictions), [r["id"] for r in audit_rows])
     truncation_summary = json.loads(
         (ROOT / args.truncation_summary).read_text(encoding="utf-8")
     )

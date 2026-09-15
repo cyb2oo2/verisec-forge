@@ -1,0 +1,139 @@
+{
+  "status": "ok",
+  "new_model_inference": false,
+  "scope": "Post-review exploratory reanalysis; no preregistered threshold changed or new confirmation claimed.",
+  "source_pair_sampling": {
+    "primevul": {
+      "eligible_pairs": 827,
+      "skipped_groups": 50,
+      "sampled": 200
+    },
+    "deltasecommits": {
+      "eligible_pairs": 327,
+      "skipped_groups": 0,
+      "sampled": 200
+    },
+    "patcheval": {
+      "eligible_pairs": 269,
+      "skipped_groups": 0,
+      "sampled": 200
+    }
+  },
+  "split_view": {
+    "rows": 1200,
+    "texts_and_gold_unchanged": true,
+    "token_counts_match_original": true,
+    "zero_changed_line_rows": 0,
+    "truncated_rows": 46,
+    "fully_visible_pairs": 577,
+    "total_pairs": 600,
+    "clean_pair_projection_comparison": {
+      "baseline_antisymmetric_accuracy": 0.58578856152513,
+      "repaired_antisymmetric_accuracy": 0.6204506065857885,
+      "baseline_ties": 4,
+      "repaired_ties": 4,
+      "tie_policy": "abstain_counted_incorrect",
+      "baseline_forced_coverage": 0.9930675909878682,
+      "repaired_forced_coverage": 0.9930675909878682,
+      "baseline_n": 577,
+      "repaired_n": 577,
+      "fine_tuning_delta_over_null": 0.03466204506065851,
+      "mcnemar": {
+        "n_pairs": 577,
+        "fixed": 42,
+        "broken": 22,
+        "net": 20,
+        "p_value": 0.01685819004428113
+      }
+    },
+    "boundary": "Visibility of changed lines only; split-view information equivalence remains unestablished."
+  },
+  "pooled_projection_v2": {
+    "baseline_antisymmetric_accuracy": 0.705,
+    "repaired_antisymmetric_accuracy": 0.7333333333333333,
+    "baseline_ties": 3,
+    "repaired_ties": 0,
+    "tie_policy": "abstain_counted_incorrect",
+    "baseline_forced_coverage": 0.995,
+    "repaired_forced_coverage": 1.0,
+    "baseline_n": 600,
+    "repaired_n": 600,
+    "fine_tuning_delta_over_null": 0.02833333333333332,
+    "mcnemar": {
+      "n_pairs": 600,
+      "fixed": 21,
+      "broken": 4,
+      "net": 17,
+      "p_value": 0.0009105205535888672
+    }
+  },
+  "raw_repair_gate_v2": {
+    "metrics": {
+      "canonical_accuracy": 0.6616666666666666,
+      "polarity_only_accuracy": 0.345,
+      "side_swap_accuracy": 0.6666666666666666,
+      "polarity_flip_rate": 0.4866666666666667,
+      "polarity_probability_gap": 0.42328005115618,
+      "relation_violation_rate": 0.48916666666666664,
+      "marginal_conditioned_violation_baseline": 0.49751666666666666,
+      "canonical_model_a_rate": 0.6683333333333333,
+      "relation_rows": 1200
+    },
+    "criteria_passed": {
+      "canonical_non_inferiority": true,
+      "polarity_invariance": false,
+      "violation_below_baseline": true,
+      "no_degeneracy": false
+    },
+    "all_applicable_passed": false
+  },
+  "raw_repair_relation_gap": {
+    "gap": 0.008350000000000024,
+    "rows": 1200,
+    "total_rows": 1200,
+    "pair_groups": 600,
+    "iterations": 2000,
+    "ci95_low": 0.0011554774945383677,
+    "ci95_high": 0.01536142863989487,
+    "population": "protocol_valid_forced_A_B",
+    "cluster_key": "dataset::pair_key"
+  },
+  "cache_mismatch_diagnosis": {
+    "cause": "line endings only",
+    "json_identical": true,
+    "original_sha256": "22b45a854004be6bf46f413d0eb8d2a8ed236043ea6b4f697a6c7bc87e452060",
+    "current_sha256": "d9ae496c2ab8d7abd3e92c37ee2350336f7dea2f514a0e3c85c0a8796c871733",
+    "original_crlf": 29,
+    "current_crlf": 31,
+    "bundle_sha256": "fd31abaa8788754e8149dcf5463a801cbeeaa5a235673dd64d07e9fcba2ba109",
+    "original_file_preserved": true
+  },
+  "recovered_manifest": {
+    "status": "ok",
+    "artifacts": 43
+  },
+  "input_hashes": {
+    "data/processed/secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl": "053b20f60089570c4959c54584322b1f7012891b7bb4558b08ee316bbfba6107",
+    "outputs/secure_code_nuisance_transfer_baseline_predictions_1024.jsonl": "538825ff8be9f0456783487342d395e8e0c7e70c8430bfe6bf8bf973927452a0",
+    "outputs/secure_code_nuisance_transfer_repaired_predictions_1024.jsonl": "f413f982d9ff2ac6ad4b24831fa712eb30341884b6fddec20bc0b01e976e7cc3",
+    "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl": "8adff04083dc4b74bdebed8e02c964b8841c16dfb271e719b6c58100d1fb3b29",
+    "outputs/secure_code_repair_antisymmetric_polarity_audit_predictions_1024.jsonl": "d2d136d2dfdf465b6acf0642d7ad991d1301ab8b431545c9558e271c6518819f",
+    "outputs/secure_code_qwen_mechanism_polarity_only_swap_audit_v1_predictions_1024.jsonl": "9997e283d6e412df3e8cb16673005b96ca4288d995f198e01946ac0ea0655652"
+  },
+  "tokenizer_hashes": {
+    "tokenizer.json": "51e62e7f03178cb93eb7728dca2bfc5be275edcf4ae7235d2c7b8e9771fad212",
+    "tokenizer_config.json": "b4e9ef68cc74d05c07a30f55ef3237f4875d8dd7ef1ebbf699d77ad3c0b9714f"
+  },
+  "implementation_hashes": {
+    "src/vrf/relational_runtime.py": "7b5a50edcf26ec58241627d20cbb4774af9bd19921e0febb2c336e02cb8c378a",
+    "src/vrf/nuisance_transfer.py": "d80a05de7aa63bae83be9a99900eca6c9c0dc7e923f7e064fe161cdf6b36537c",
+    "src/vrf/repair_evaluation.py": "3c9108dc930907c58b02020946e6a48385b74a50bb119c863fdef2143ce2633a",
+    "src/vrf/relational_evaluation.py": "2ba2cc349d233ca997adeb85abeea527f85ed29cf09f9fb620eb609795d43915",
+    "src/vrf/prediction_validation.py": "dd3101d45786f4c77d2c970b4483eb10b6fe490b1bf80f8e129e83bca2cec954",
+    "scripts/reanalyze_measurement_p0.py": "1891de5fce2aeaa3c7b728ed11a73a0afed26e450c7903afef2932d00350da30"
+  },
+  "derived_runtime": {
+    "path": "data/processed/p0_measurement_v2/split_view_runtime1024.jsonl",
+    "sha256": "f0e7adc2c2461307d38bccdbb0a6f6629ebfef1d167113211acf85e4f2fccaea"
+  }
+}

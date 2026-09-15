@@ -1,0 +1,68 @@
+{
+  "status": "DESIGN_REVISED_AI_DIAGNOSTIC_COMPLETED",
+  "header_only_control": {
+    "correct": 288,
+    "total": 288,
+    "accuracy": 1.0,
+    "interpretation": "Tag questions are header lookup, not code identity or security evidence."
+  },
+  "path_containment_counterexample": {
+    "character_prefix_accepts_sibling": true,
+    "path_component_check_rejects_sibling": true,
+    "case_id": "bdec550da7dc77c3723c",
+    "boundary": "Demonstrates prefix-check defect; no exploit or project runtime executed."
+  },
+  "annotation_labels": {
+    "unclear": 23,
+    "B": 8,
+    "A": 4,
+    "both": 1
+  },
+  "by_source": {
+    "primevul": {
+      "total": 12,
+      "eligible": 7,
+      "unresolved": 5
+    },
+    "deltasecommits": {
+      "total": 12,
+      "eligible": 0,
+      "unresolved": 12
+    },
+    "patcheval": {
+      "total": 12,
+      "eligible": 5,
+      "unresolved": 7
+    }
+  },
+  "quality_review": {
+    "fragmentary_or_malformed_cases": [
+      "6f24cdefc7f7d2dde195",
+      "ec897337990b352e581c",
+      "0484b2e11d30d60794f9",
+      "17c9b6ca6f1be1f33dc1",
+      "0a44c19072152f039653",
+      "b78fe14450467b6ae2f2",
+      "406d53230df6aa7f18de",
+      "7ef9b074122fcca03e37",
+      "8ae5d1ec5ed79c831a05",
+      "fa3fd2c41f4a9a11727f",
+      "a9f49eee709bab5504f6",
+      "491edb6c069c144f9e45"
+    ],
+    "non_corresponding_pair_cases": [
+      "e84dee135727015d6e22"
+    ],
+    "origin": "Current-assistant code inspection, not compiler certification"
+  },
+  "execution_mode": "current_assistant_context",
+  "independent_annotation": false,
+  "primary_next_step": "Repair source extraction/pair matching before any security-model comparison; retain all 36 diagnostic outcomes.",
+  "model_training_or_checkpoint_inference": false,
+  "inputs_sha256": {
+    "reports/scientific_review_2026_09_07/p1/assistant_annotation_decisions_v1.json": "f79c2d923d5ea051fd4c2d81105745404ace36c1dd50a757698b209a96d4f144",
+    "data/annotation/p1_assistant_diagnostic_v1/accepted.json": "a840691c3c871147904bf1af2435a6427f8120d5931e04abdd3d68a75feb0db8",
+    "data/annotation/binding_semantics_p1_v2/model_prompts.json": "4cd4ff05f4d694b9145daa38119a20a0b9b06cafc45cbb227a0a46ef21ca76d9",
+    "data/annotation/binding_semantics_p1_v2/PRIVATE_keys.json": "8b10ade5e31010d455753cbab42386d09826d5672e8ebf1b485fa9cd516fe4b3"
+  }
+}

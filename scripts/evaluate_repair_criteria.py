@@ -21,6 +21,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from vrf.io_utils import read_jsonl, write_json
+from vrf.prediction_validation import prediction_index
 from vrf.repair_evaluation import evaluate_repair_criteria
 
 
@@ -52,9 +53,7 @@ def main() -> int:
     args = parser.parse_args()
 
     audit_rows = read_jsonl(ROOT / args.audit)
-    predictions = {
-        str(row["id"]): row for row in read_jsonl(ROOT / args.predictions)
-    }
+    predictions = prediction_index(read_jsonl(ROOT / args.predictions), [r["id"] for r in audit_rows])
     result = evaluate_repair_criteria(
         audit_rows,
         predictions,

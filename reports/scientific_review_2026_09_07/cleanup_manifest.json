@@ -1,0 +1,1619 @@
+{
+  "cleanup_date": "2026-09-07",
+  "source_commit": "09b41f7f46c03196de558f4754e7bab0778ed458",
+  "status": "completed",
+  "removed_files": [
+    {
+      "path": "APPLICATION_ONE_PAGER.md",
+      "reason": "superseded project/application narrative",
+      "bytes": 7170,
+      "sha256": "f4ddb4b95014ed236d5b82bce6da41972e66e0f95d6ac6f1fb832bf5706e3f88",
+      "tracked": true
+    },
+    {
+      "path": "PROJECT_CHARTER.md",
+      "reason": "superseded project/application narrative",
+      "bytes": 1842,
+      "sha256": "2c6f04d3989042b5c4deabfdda589967bb98241e8a745ba68079e91eba11dbc3",
+      "tracked": true
+    },
+    {
+      "path": "PROJECT_STORY.md",
+      "reason": "superseded project/application narrative",
+      "bytes": 10073,
+      "sha256": "dd2a931d88d9c2767c2e66bc1940dfd1123696ee47ca09ad6b6611d579a63fde",
+      "tracked": true
+    },
+    {
+      "path": "docs/AI_USE_DISCLOSURE_DRAFT.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4532,
+      "sha256": "3ef91eec1507f508ae7baf780a5e7c5702ff78b68ff4f43da579e251504cf513",
+      "tracked": true
+    },
+    {
+      "path": "docs/APPLICATION_FOCUS.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4070,
+      "sha256": "a603d01162de12acdadd1df7b22fd423fe6f2590f85e3c3ff0180671a08b74a3",
+      "tracked": true
+    },
+    {
+      "path": "docs/APPLICATION_PACKET.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4022,
+      "sha256": "39ca0732eb8ad89fa1f0634b568fbcf33588cf73036335ce420b079db6fe6d45",
+      "tracked": true
+    },
+    {
+      "path": "docs/CURRENT_WORKSHOP_TARGET_SHORTLIST.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 26358,
+      "sha256": "b7cdcffeff05f7b2fd0fa1e91cd34b09c91308c59a20d790762564bbae4ebb6e",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXPERIMENT_COMPLETENESS_AUDIT.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 23265,
+      "sha256": "afd9ae3f3b7c37c80aa08ee848af37cc905a9c407bccc0ddedfdaaaad5253140",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXPERIMENT_WORKFLOWS.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3090,
+      "sha256": "94727d727f6b3805e1df7417491feb4c249dfeffad5dcfdda7e47e012442e3c8",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXTERNAL_FEEDBACK_PACKET.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 5022,
+      "sha256": "5e7b78af4d0aa3be9751b98b57f14bb9b9ae99b1f33e18361d1026af25697250",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXTERNAL_MODEL_REPORT_CARD.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2435,
+      "sha256": "ab67fd114c3d4e9cb37d4e0d6ee7a36c952e38a6b0d71252fc18cd0a68135032",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXTERNAL_PARTICIPATION_GUIDE.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2626,
+      "sha256": "4fca1e9adcdd140d0402d6cc8138f817ef050ed1f31b19dc77f91d92ac619d67",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXTERNAL_REVIEW_EMAIL_TEMPLATE.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3985,
+      "sha256": "ad2cd84c1e0e85461f12b2c255f3b533cc1826d61199f377093c1638c3b270c9",
+      "tracked": true
+    },
+    {
+      "path": "docs/EXTERNAL_REVIEW_REQUEST.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4825,
+      "sha256": "57961f50d7004322a0605744a7aa15d9983a421208a7868c78fa2725a7cb7b9a",
+      "tracked": true
+    },
+    {
+      "path": "docs/LEARNED_JOINT_MODEL_PLAN.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3938,
+      "sha256": "d9adc942fd1a88caa8c2edbd065f6da7dea3e6a06abfa3e7b538c5320d627627",
+      "tracked": true
+    },
+    {
+      "path": "docs/MANUAL_EVIDENCE_AUDIT_GUIDE.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3066,
+      "sha256": "0d8ea8711e9fbaf705bec9756ab834f9ba63d03bf8567847c88a22396eb95496",
+      "tracked": true
+    },
+    {
+      "path": "docs/NEXT_METHOD_PHASE.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4684,
+      "sha256": "f49fc5a8499b8da0800b4bbfd20b9fd22162c4e16721b147777dda88a9828519",
+      "tracked": true
+    },
+    {
+      "path": "docs/NEXT_PHASE_ROADMAP.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 8117,
+      "sha256": "620104291bafcfe669789383c14f85fd6ae27b3b0b0fd1c9e2054134aefdc0e2",
+      "tracked": true
+    },
+    {
+      "path": "docs/ONE_PAGE_RESEARCH_SUMMARY.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2723,
+      "sha256": "f8eb5679bc2f7f0b39d5f3ef1f65283bc1a04105e3b1809605070d578dcf82f7",
+      "tracked": true
+    },
+    {
+      "path": "docs/PAPER1_DRAFT_OUTLINE.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4620,
+      "sha256": "37118140cbd2c24bfcab85f91a263703edaf7de3dfbdcc5cfd2c2d4fbebb50b8",
+      "tracked": true
+    },
+    {
+      "path": "docs/PAPER_READINESS_AUDIT.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 10640,
+      "sha256": "1f975d1ff4cadbeba91a4b09f1dd12e109777a1c310f0155ee0504e9ba020e10",
+      "tracked": true
+    },
+    {
+      "path": "docs/PATCH_REVIEW_DEMO.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2490,
+      "sha256": "c37c4324bb3f6f0cd338192887d8093c94d359180e5b7cb40631d92c83561eed",
+      "tracked": true
+    },
+    {
+      "path": "docs/PATCH_REVIEW_WALKTHROUGH.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3281,
+      "sha256": "9926822f3bca4473263e1a9d96c9a37c3d4aab5f63e3316922fbf9085c49aa32",
+      "tracked": true
+    },
+    {
+      "path": "docs/PHD_TOP_LAB_APPLICATION_READINESS_AUDIT.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 27615,
+      "sha256": "4bd41ba9f412a26fd6ecdb52229f0fc383a5fafc3194a8f7da6e9eee0e3afc84",
+      "tracked": true
+    },
+    {
+      "path": "docs/PREPRINT_PREPARATION_PLAN.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 46155,
+      "sha256": "a9900e4e0f5bbd1d5271d2f5ae16d3dd4873971eeb8b9ec48b5b02d5254068a9",
+      "tracked": true
+    },
+    {
+      "path": "docs/PREPRINT_READINESS_CHECKLIST.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3370,
+      "sha256": "2da9455c06fe0a67e45f603bfc19422c15154fcd480838292a58c9ab14364931",
+      "tracked": true
+    },
+    {
+      "path": "docs/PROJECT_ATLAS.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 6471,
+      "sha256": "357fdd8834090f61e5913e9ff93026be440a9a4563774205a7240c180541e289",
+      "tracked": true
+    },
+    {
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2931,
+      "sha256": "a01472bccf4c719627c611b49da986e36366152a4f6cc45acc1279bcd2ff2a6a",
+      "tracked": true
+    },
+    {
+      "path": "docs/RELEASE_V0_1_BODY.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 3073,
+      "sha256": "423bb08112ee12574597684d058fc93b830d5fa8b07f49bdcac26435debf6aba",
+      "tracked": true
+    },
+    {
+      "path": "docs/RELEASE_V0_1_NOTES.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 2306,
+      "sha256": "0007d35cc1e0727d0899fd131b35208cd494dd907dbb56951a7be9722b49229c",
+      "tracked": true
+    },
+    {
+      "path": "docs/REPAIR_OBJECTIVE_DESIGN.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 8337,
+      "sha256": "71bebaf7ab4cfe9fb1ff8dfbb24c703cf4a5b0d748847cda7c196e6ff774645b",
+      "tracked": true
+    },
+    {
+      "path": "docs/REVIEWER_CHECKLIST.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 4698,
+      "sha256": "b236563a7633d29f27c7d19851f00593256b8f4e3e2d05a678e9d768ddd01972",
+      "tracked": true
+    },
+    {
+      "path": "docs/REVIEWER_READINESS_AUDIT.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 9791,
+      "sha256": "93c16c249d53dca1105c46ecb129d2a359620346d43f91af5c66534855161bb4",
+      "tracked": true
+    },
+    {
+      "path": "docs/WORKSHOP_PREPRINT_TARGETING_PLAN.md",
+      "reason": "superseded narrative, roadmap or submission checklist",
+      "bytes": 52873,
+      "sha256": "dda70637313326ed10c8c85ec71af905d97dd1ceda7da0fd92f2409f41a4408d",
+      "tracked": true
+    },
+    {
+      "path": "paper/abstract.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 1754,
+      "sha256": "accaa05def06997a27a994335ad79115bea9a731837b58bb1db0a76672cad4e3",
+      "tracked": true
+    },
+    {
+      "path": "paper/draft_v0.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 42629,
+      "sha256": "387330bcb62bf537c4f0bee3bf03eec9fd096b0c47fd31b0479887e173cf79a7",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure1_problem.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2419,
+      "sha256": "a39957c1a52be97057039698c714cf48b5ac43fd42e84f5b66d67a32a0707f4c",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure2_veripatch_rr.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2086,
+      "sha256": "96d1f0eebdef09816b96e8917c89234d581fe5f170692cc0bca5be1c00c4736b",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure3_mechanism_decomposition.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2223,
+      "sha256": "77215f84dcfd723854e2fb3e48345eef17efaace5e5a1dece4827d20282ddb26",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure4_discovery_confirmation.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2567,
+      "sha256": "fff610d7ee06952b37d18f72c1c76918f9ed39012efd0c9470102b6fe088a8bf",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure5_label_polarity_mechanism.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 3876,
+      "sha256": "221fa26b8f66da2baa61950ff2199ab1668beb3725ee7985af27bfc29f17af48",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure6_crossvul_confound.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 3659,
+      "sha256": "38a615ef5782f65478b83abb9311f9014557dd0558ab40b3b0c5c1ec6d9e9cf3",
+      "tracked": true
+    },
+    {
+      "path": "paper/figures/figure7_repair_decomposition.svg",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 4440,
+      "sha256": "6601e957e83146a7613645e866af9f24fd4211b2849eb364b7c916599cbe784e",
+      "tracked": true
+    },
+    {
+      "path": "paper/main_claims.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2099,
+      "sha256": "181e2af3207258493b269113449b6d3b31b84c3355eddabb42854b78e2839338",
+      "tracked": true
+    },
+    {
+      "path": "paper/outline.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 9781,
+      "sha256": "09985c063eb5775ed184bdc27cbd22969bcaaeb6b4c7751cb988d9e5a5ef2691",
+      "tracked": true
+    },
+    {
+      "path": "paper/result_anchor_map.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 5690,
+      "sha256": "158573e619a7f344e2ade72ea18cafd6b58bcd6491bc8306614140793f231c50",
+      "tracked": true
+    },
+    {
+      "path": "paper/tables/main_results.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 2190,
+      "sha256": "1caf9df89be767bd43de85e17913b7d509d1bba5115280230c744922a78d6896",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_build_notes.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 14566,
+      "sha256": "13c4e54483566ac20262c1edafe0b321c8def8190d5eedf703ad62056d4627de",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_build_smoke_report.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 8173,
+      "sha256": "fcdce3d6e8996b43d9e65931189f468a55a8022e806f88512535eed00ad0ea1c",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_draft_skeleton.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 12102,
+      "sha256": "17554657adaa88e3e126a4cf1ab741bc2c7ba187c72e565a047fd969a722187a",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_draft_v0.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 12412,
+      "sha256": "21800afb35b439989d5227e053cc65f65baece811b91288cd20440deb42783d3",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_draft_v0_readiness_audit.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 28501,
+      "sha256": "ca2d3f94051fd9b637a1819e8b9acd02f3458d7f6d0845d76f882f269cceb651",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_draft_v1.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 14388,
+      "sha256": "5bbc084c0def116137506a73152d65238e9fe35b8f02cb9b41940dc2b851a92e",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_pdf_inspection_checklist.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 6346,
+      "sha256": "92ae42d6fd210ec097afd74e8a6b6c96f847e58112a7611cc70d28e6cca7fb2b",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_short_paper_outline.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 26851,
+      "sha256": "28e15182fa803ebfa343869226d164e1c3d7e8bd3048f96e27e24b8b1994529f",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_weasyprint_hardening_validation_report.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 7383,
+      "sha256": "f3a9051fcfc220de4d0aa7743c5c16e36c395c9015e4293a678988213f0c956f",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_weasyprint_msys2_install_report.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 10266,
+      "sha256": "68b9d724028fdc5c9df75dca394d08408cf70d40d73e126e1cf6c97fd93300c6",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_weasyprint_msys2_resolved_report.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 9174,
+      "sha256": "4710de983dff0c9d671c64c45c819583b2bf711e41ac627cd6047f72276c69f0",
+      "tracked": true
+    },
+    {
+      "path": "paper/workshop_weasyprint_validation_report.md",
+      "reason": "withdrawn pre-review paper draft or derived figure",
+      "bytes": 7128,
+      "sha256": "cc03b9b0ca0dac7303af4d5641565f8da0236f120b9abc8a695dd0dc4075def0",
+      "tracked": true
+    },
+    {
+      "path": "reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 7733,
+      "sha256": "3fa738825eb9a963261b0d7a14822b8546e5526e236fbf0b86b351d2f5db1c97",
+      "tracked": true
+    },
+    {
+      "path": "reports/CONTENT_SOURCE_ROUTER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1722,
+      "sha256": "fed6386fbba4475cd7e761317036c8134f69efc97049ffaf1ee77f7bd73da23d",
+      "tracked": true
+    },
+    {
+      "path": "reports/COUNTERFACTUAL_SHORTCUT_EVALUATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1790,
+      "sha256": "616e90f01ca7f60d8baae22cc8b48a5d64ed4a76e9c6deea7414fbc864c1dd9b",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_LANGUAGE_SHIFT_COMPARISON.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4297,
+      "sha256": "517b076a9e0f658bfdb6f3ef1c88fd8f1f4e7c7aae304eb844aac939f0ca3ead",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_MULTILANG_ZERO_SHOT_MATCHED_MIXED_CHECKPOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1355,
+      "sha256": "f5887ef065b132622a6ecbc0ce0b0b46bad33e2a29916ec244e4d2af2ba5d286",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_MULTILANG_ZERO_SHOT_PRIMEVUL_CHECKPOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1324,
+      "sha256": "f93d5095b0fb97f397e2b89189b10bb233e62cd706152c189793509e1e40e763",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_PAIR_DIFF_DATASET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1333,
+      "sha256": "3825991f9dbd5bbc62b43a46971c55370ca59ffc0bd2686f03620563a1848c4e",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_PAIR_DIFF_MULTILANG_DATASET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1468,
+      "sha256": "42671deb56cf0e1d826751355ed3ff21a6d14b0628bcfbcb720799c00432fa1c",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_POLARITY_GOLD_CONFOUND.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 7025,
+      "sha256": "0cbdf02d6247d0609cd994c3528c075e9808aa79a1a06abb4d7ef85085f2206f",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_ZERO_SHOT_MATCHED_MIXED_CHECKPOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3802,
+      "sha256": "8bcb4918bed99ef0267c7a08442d61b93970cfcf2fcd1db90f424a92222a898d",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSSVUL_ZERO_SHOT_PRIMEVUL_CHECKPOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2932,
+      "sha256": "576ab2a53ddd383bdd88d683560f3bdc1830cc036f47a542a76d6411d4ce7966",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3430,
+      "sha256": "a2da20434a072cc9a4ba0c99d1c023d57589b4126cbbc18947832f7182cbf5d9",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSS_MODEL_REPLICATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3699,
+      "sha256": "d7e60b7ae91ed0026cb145d4527bb2047ccb1416880f35d6cf8c75d24589b1f2",
+      "tracked": true
+    },
+    {
+      "path": "reports/CROSS_SOURCE_DOMAIN_CALIBRATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1676,
+      "sha256": "a2851e0c8bc9f23028e40d0c44523d6183c042100ef948aed1e039a34b4eb4fc",
+      "tracked": true
+    },
+    {
+      "path": "reports/DATA_LINEAGE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 22651,
+      "sha256": "04ef9efec4fc70e9e23d99606d0b9f5d15db6da91d5f63de976f7882528fac8b",
+      "tracked": true
+    },
+    {
+      "path": "reports/DECODER_FAILURE_CASE_AUDIT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3986,
+      "sha256": "2f9bc88ce615adecf82d7c697e70031a9b6e5034901de609c8ab7452650d1dfa",
+      "tracked": true
+    },
+    {
+      "path": "reports/DECODER_STRESS_VALIDATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3287,
+      "sha256": "ec1f1cd77db01c49c5b97a5188ceb0c2ffb99d9566dab154c4724f55eeb0d367",
+      "tracked": true
+    },
+    {
+      "path": "reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1184,
+      "sha256": "d95fa4baddac7bbac10420ba90fc1941bf14a2ebc4e9e55d5a96e324187451a7",
+      "tracked": true
+    },
+    {
+      "path": "reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1274,
+      "sha256": "0615706029095a5709c858a2060ff43b4fcd0418aef3f4c1cde1e1f61776c061",
+      "tracked": true
+    },
+    {
+      "path": "reports/DELTASECCOMMITS_ZERO_SHOT_PRIMEVUL_TIME_CHECKPOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1346,
+      "sha256": "6bd20afbba2ec222879dbf96334510a0cf823c2b47d4e62184847182bac5a270",
+      "tracked": true
+    },
+    {
+      "path": "reports/FINAL_SUBMISSION_STATISTICS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 5552,
+      "sha256": "57ef313358a1deb2ae5ae56a992258a600eb42b461a7bb5af0941718061f33ce",
+      "tracked": true
+    },
+    {
+      "path": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3015,
+      "sha256": "8e1a9cfc11334d8f39619e0acd7b3ba3e0bc364ec28009116f7505485bedbc5c",
+      "tracked": true
+    },
+    {
+      "path": "reports/GENERATIVE_JUDGE_PROMPT_CONTRACT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 360,
+      "sha256": "814c150a42050944794e6589ebc3cf5c0269194252793ea1fc637dd7852bf573",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_ROUTED_SYSTEM.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1767,
+      "sha256": "0edd9d7f43286b54ee24586bd321ba9d7ff65b911e53cc135f26dff8a92ff592",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_ROUTED_SYSTEM_STATISTICS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2662,
+      "sha256": "30ba8a09f2f22ef232444b04e234025f6767e836143d085bedd87077f7d8966f",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_ROUTER_FEATURE_ABLATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1199,
+      "sha256": "02524af34ff34aa054d3fe89adaae9f7d5e36116f26f2f039f83c26cb00a8f44",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_ROUTER_LEAVE_ONE_SOURCE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1699,
+      "sha256": "4ae29c966afe961d67a1a5e48323dac83f8a08b6bb23cf601a1c815e7ad46e8a",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2449,
+      "sha256": "511cff75abffc2dffef4a6a2bc19a0c640db0125d0502fa014175aed32191e5c",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_CONTENT_SOURCE_ROUTER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1149,
+      "sha256": "3ba337e7845db8ce9002c38eba2555ed73b7fbc833574b60711d948877b090c9",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_JOINT_PAIRWISE_BASELINE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 7015,
+      "sha256": "c9f84b5f99b4912d9f52ecc5c9cc49f57aff151ee1c579b8298319be1a84add1",
+      "tracked": true
+    },
+    {
+      "path": "reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1926,
+      "sha256": "f5dfc4393012eec6ce1ac8493a8af8fa6b7f89fbc3fcf5da39807adc01b87346",
+      "tracked": true
+    },
+    {
+      "path": "reports/NON_ORACLE_SOURCE_ROUTER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1659,
+      "sha256": "e271ecf40374773845f43105d0d4331f04de2510bc73f1c2b98e5db806ac0a16",
+      "tracked": true
+    },
+    {
+      "path": "reports/PATCHEVAL_ADAPTER_MULTISEED.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1627,
+      "sha256": "1edb0aa920afa28739c12213c2604b0f431dac834efcc0b076122caedb53b9fb",
+      "tracked": true
+    },
+    {
+      "path": "reports/PATCHEVAL_CROSS_SOURCE_SPECIALIZATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1259,
+      "sha256": "cf472baf925c31f01776499313041a14c3379d159d82c3abc3a86455aafdd8a6",
+      "tracked": true
+    },
+    {
+      "path": "reports/PATCHEVAL_PAIR_DIFF_DATASET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 746,
+      "sha256": "cd54477571a7777de085824f3aa44c0d897a83a3e57703d28b25b1f3006bb707",
+      "tracked": true
+    },
+    {
+      "path": "reports/PATCHEVAL_ZERO_SHOT_MATCHED_MIXED_PRIMEVUL_SHORT_DELTA.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1251,
+      "sha256": "a71af21bf9283875c306043108436bdf218352841212346bb9be0ebcd4bac59f",
+      "tracked": true
+    },
+    {
+      "path": "reports/POLARITY_GOLD_CONFOUND.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4010,
+      "sha256": "59d3355f9d52c5ac2f23793728d9ff1f71f1c7a2e0e718430fcb003f69965aec",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3864,
+      "sha256": "2acd53abda4745218e401e718f3f54338bfe6a13e0cef752048e62a007f72a91",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_CONFIDENT_SIDE_INVERSION_SET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3777,
+      "sha256": "500e6a99049f9e3f6f74577b163bc07bd28bc8f8ec52ad109d1286513129e53d",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_CONTRASTIVE_SIDE_CORRECTION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1402,
+      "sha256": "fd777476892eb3539fa725291ee287b25a5b5559ee98e657a4a15c829a0df7be",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_NUISANCE_JOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1789,
+      "sha256": "896a72bc0844069570be483a321b95ff1f0d9f0ab2e31cabd9ff2a92e96ae3e2",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_REAL_CONSISTENCY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1790,
+      "sha256": "057a7f2ae3c0d479467541de797e5d68eb142d91169bbe7dfd450ce6a47676c3",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_SYNTHETIC_JOINT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1788,
+      "sha256": "fe779a7fb8af75bc202e802eb4e9522e782d94ec183f055cdebb372f3372dbf4",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_COUNTERFACTUAL_SYNTHETIC_JOINT_CLEAN_IDENTIFIER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1789,
+      "sha256": "269d91331f0d4adacf269dc492ccb6686e0e1756f1d5f887b44979e626f23052",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_CVE_DISJOINT_EVAL.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1156,
+      "sha256": "2a04cd86dfb0b85fc881f5e0a2b0e5bbc56c819542748aeea3c0930a45a305ae",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_DIRECTIONAL_BUCKET_ROUTER_CALIBRATED.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2897,
+      "sha256": "a634e91e33c0448e238a0d0fbecf025c71f0d859bde115ac9a6c115835c568b2",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1512,
+      "sha256": "97b83edecbc44efd4884c1e3517d775039b0f1d71e6284c3f90eb7380df6c735",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_HUNK_PLUS_WINDOW_LINEAR_SCORER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4326,
+      "sha256": "d272612abe6d61a0ed3c7e90086081eafe2d07c08acf6fdb9870568715c4ba39",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_JOINT_COUNTERFACTUAL_COMPARISON.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 688,
+      "sha256": "4115835ee163a7e323f0d18cdb82a0f170c7bdb469eac23319fb5ac306503a55",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2203,
+      "sha256": "81495e0262739b6311eac782496f26c3dba5a3f96af8690ff185d570430b39a6",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MAIN_RESULTS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3790,
+      "sha256": "5fb5f0dd332c4d5680a91407c2f7784b8aa44d5854c25ca4e48525b61e17096a",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2996,
+      "sha256": "c325294cced63eb696305d66ab8d137d7b6d2a584aef3c5a322c54a472fdd330",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET_ROUND2.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2544,
+      "sha256": "6c3a8e48a48e8821e05d987c1e0e6fd6c01d2f25eee8daededf9b8a0526dbcb3",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_AUDIT_SET_ROUND3.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1111,
+      "sha256": "977013bfd153bab563fc30f92c6052991374e34b4be31c97461c393abf3bccc1",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_ANALYSIS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 501,
+      "sha256": "7acf1f7d3f5468f159ed1e0e6347f62475ed1c4ee98fc87678c9dfa5817f9405",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_BRIEF.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 10695,
+      "sha256": "e5a8cab4e4b6d95ccf4d4e3dec626f4dd0325f43c75763901c46bbff0f6d4b54",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_HIGH_QUALITY_ADJUDICATION_WORKFLOW.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3071,
+      "sha256": "95f7f85e1ec89380f3230b048b197194b7f41bbaa3d2bbbe8c74d1fb919d8f77",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_AI_ADJUDICATION_ANALYSIS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 516,
+      "sha256": "46eb9fba25b2902d8b86369c280e7496fd8b8aa8e8d73b784e1aa1d44938cbfc",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_INSUFFICIENT_CONTEXT_BRIEF.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 28252,
+      "sha256": "847cbde6df52be7c4dde3f1515df04cd02ca196516b9be667bcbf58a85e4e012",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS_ROUND2.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4806,
+      "sha256": "5d1cf5c0a1a68e1f403b3dcfe9b4e0f6e22d2a0943f69b4da577d8324b8272d9",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_PILOT_FINDINGS_ROUND3.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4515,
+      "sha256": "5009207d8557883d32f4d4eea96a8fa84135d8cae3b7e13337b8de4fdf21d170",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES_ROUND2.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2974,
+      "sha256": "87d9e72f9caeed2807b8d3a01733246d54a53f5e048e8f010dbf22297862ed63",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_REVIEW_QUEUES_ROUND3.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2803,
+      "sha256": "097f295f253976a14ba037110d0cf484fdaf228084bf6303dd018ad9aebd02ff",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_ROUND2_ADJUDICATION_ANALYSIS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 492,
+      "sha256": "04080ee895b3b1c2897905b0c636916e9c2900796e0d922b79ca1013c5d8b320",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_ROUND2_SUMMARY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3195,
+      "sha256": "30f7b95d449fbb57cc503553b42b1ae6e6f5f2d6d33c0dfd07ca3d28709e1d1c",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_MANUAL_EVIDENCE_ROUND3_PENDING.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2208,
+      "sha256": "23f1b6539108748f5408a104cb36b532c9f54caada1ea4070cadd3dc885733a2",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1338,
+      "sha256": "396cc23ce4ce7ff859f31583cd33c6c9228bf0a638fb8ee62300af9900ede5aa",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIRED_WINDOW_CONTRASTIVE_DATASET.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1441,
+      "sha256": "9f811beffdef2a73a9c7858f536281dcc9d10423d6415cc51dd656d8b68d8209",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIRED_WINDOW_SIDE_MODEL.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2213,
+      "sha256": "496a8b91c6aac963b4b711313b9c5372f2f701af0d6212f82eee4dcce08fad8b",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2190,
+      "sha256": "6b3ceef061366e54c03e404fa3c9fbebf4383eedc819a158796458c80757b455",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2937,
+      "sha256": "cb350883d0953a090e23c3ef22cd89eb9fa337fd29d137c116bc21dac11e6b0f",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1931,
+      "sha256": "60e30ff9a152d605878bd76fb0bbac640b8c48cfae4a6082798dd268af13f1ac",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 20312,
+      "sha256": "9500bc0fa8e8e4b8b67cbf24298a3bf4216d58c50bad8c03a238748d19a55c25",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PAIR_SIDE_CORRECTION_MULTISPLIT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1367,
+      "sha256": "91e9d045eb6e63e4309f7e830abc78445a75e1cac499de849f88e09d8ae86e5a",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PREDICTED_SIDE_FAILURE_TAXONOMY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 5169,
+      "sha256": "9830cb592e6b9c68da12d1a79a13190a3f51910a8bceff4969618360f5cebaa7",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3424,
+      "sha256": "7b03970b1fd89d62dc51583dd5cde08bcc40a694d2e9e5940d18faf9a37cdc99",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2769,
+      "sha256": "9fb51f885163139858924946db789747b25ac73e03e1f46785747a30143a7b95",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_PROTECTED_NUISANCE_PAIRWISE_ADAPTATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 5716,
+      "sha256": "39b3646f9d2de37cfe52c264e5220bed1321cf3e8bd879ee845757ca642c86b4",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2484,
+      "sha256": "ac163b4c1178830f340ccbf5f43bb1191a4139bbe4256d83e7469a5c60abcf2f",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_SIDE_INVERSION_PROJECT_HOLDOUT_EVIDENCE_CONDITIONED_GATE_FAILURE_ANALYSIS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1271,
+      "sha256": "69a92c1a982778dbc6cf9171f9afe9f14258f9b30fd4a3715e3e8c23fa305aa7",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK11_15.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 843,
+      "sha256": "7a8431c941bb4debe07ffb7102ab934cbb428937b4169f649116c9355a966822",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_SIDE_INVERSION_REVIEW_QUEUE_RANK16_20.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 842,
+      "sha256": "669462cf8d576edfe961ab07c65403eaeda05a8d706b984302896955760a07a9",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_SIDE_INVERSION_SAFE_FLIP_GATE_PROJECT_HOLDOUT_TOP5_EVIDENCE_CONDITIONED.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2095,
+      "sha256": "2c787eb92031a1d2e7e49e4bd9afabb196a33b240f5b9a855667b7eacd5f2c90",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1352,
+      "sha256": "a8f0c49cb4c35aa81cce2fb0c5c9dd58f9623aaa2676963cca714d3f1c49c6f4",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_TIME_DISJOINT_COMPOSITE_STRESS.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2041,
+      "sha256": "369e0d67898c0f6ec308b8d5573e3535946ecdd98db4088e60beefc23c8c47bb",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_TIME_DISJOINT_DIRECT_TRAIN.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1222,
+      "sha256": "7ceec545dc53eaab5e272d9a3651df49d732b7ceabe593b3d141c4e29e32ff3b",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_TIME_DISJOINT_PAIR_DIFF_SPLIT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1019,
+      "sha256": "a66864028fad1e4dcb0a80a772bf37ed1c6d92b440e040acc33bc13e7ef2e41e",
+      "tracked": true
+    },
+    {
+      "path": "reports/PRIMEVUL_TIME_DISJOINT_TRANSFER.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1256,
+      "sha256": "c06ce457190d934cee6f3a07707404e4b07e0140871eb66a92df854fcd7693c4",
+      "tracked": true
+    },
+    {
+      "path": "reports/QWEN_LABEL_ONLY_SWAP_VS_STRUCTURAL_SWAP.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4074,
+      "sha256": "f21ccd63dcf77bfcacb30a870fe20f6d124569764b59fbea2ba4c31c4ac1f12e",
+      "tracked": true
+    },
+    {
+      "path": "reports/QWEN_POLARITY_ONLY_SWAP_VS_STRUCTURAL_SWAP.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 7577,
+      "sha256": "bbe8ffa36964c55356add52023771c8e84a1404fee5bb3351fde1795a83bddb7",
+      "tracked": true
+    },
+    {
+      "path": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 5006,
+      "sha256": "c23190376a542ca6fa8db2834fa5bec42372efa00cf075619d48390d4d48e1ad",
+      "tracked": true
+    },
+    {
+      "path": "reports/QWEN_SIDE_SWAP_POSITIONAL_INDEPENDENCE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4288,
+      "sha256": "efe2a3b84d88f5e9366c5eef07ea58a4eafca87377261e89e9471fa71c94157e",
+      "tracked": true
+    },
+    {
+      "path": "reports/QWEN_SIDE_SWAP_TERMINAL_PHRASE_INTERACTION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 4169,
+      "sha256": "67fce39afb5fb11490bd6907004a0c7cb9eba001d196dbb85488b648bf97f13c",
+      "tracked": true
+    },
+    {
+      "path": "reports/READOUT_ABLATION.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2464,
+      "sha256": "3cc088f6512db6382e1fee28bbea55abd5e0047dff95410b2db09bedf60834bb",
+      "tracked": true
+    },
+    {
+      "path": "reports/READOUT_CONFIRMATORY.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2811,
+      "sha256": "b158a6aa0cc88c3eb989679dea5ce836fa609feff5c58985888e5159cc0c98c3",
+      "tracked": true
+    },
+    {
+      "path": "reports/RELATIONAL_BENCHMARK_V2.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 3509,
+      "sha256": "bebf749fdd3b6363c1706a41e00abf61a8d17fbdcb2e62982c9baf87786ef0c8",
+      "tracked": true
+    },
+    {
+      "path": "reports/REPAIR_ANTISYMMETRIC_RESULT_V1.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 13956,
+      "sha256": "011b01ade0bfb96307eb202485337de3074bfeb3015e674b6d1fe55ab4c621df",
+      "tracked": true
+    },
+    {
+      "path": "reports/SOURCE_AWARE_EXPERT_MIXTURE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1009,
+      "sha256": "673ac86eaecdf37fe176e3c467d94808ea02eb7f67936bd38c42a6b838fa6e61",
+      "tracked": true
+    },
+    {
+      "path": "reports/THREE_SOURCE_ADAPTER_MIXTURE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 1151,
+      "sha256": "c03a354e830529182f0ec3a2cbe7788e24c671223e14bcc12d9f0b53c82cdfd4",
+      "tracked": true
+    },
+    {
+      "path": "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2975,
+      "sha256": "e79e5e4d186c2ffb6a479de4c19f373684f2d49cf5eebdf7c4e891d57a5d53dc",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/learned_content_router_stability.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 4878,
+      "sha256": "b6621f1e9048733a98f1f0ba77a4f71004b649f9bef64c3a97117f36ce216f92",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/learned_router_claim_boundary.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 2483,
+      "sha256": "65a4d0dc1d491239a606d96c290e38729ae32b12fc8b99224b5dc191bccd4dd8",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/patch_review_demo_ui.png",
+      "reason": "superseded report or report illustration",
+      "bytes": 680470,
+      "sha256": "0ae7c4c3551cba65c2cfc6f247c6e37f8bca830751705c481655488c2ab453a6",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/patch_review_demo_ui.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 6590,
+      "sha256": "74878fb75c654e954dad6b33e37737455c8dddd5b787bfb9117dbe21e3511042",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/primevul_main_results.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 11389,
+      "sha256": "93b34d5c95060cd51316efa9f03f99e50e745423b96f9d643c5514334cc97ebf",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/primevul_manual_evidence_audit_loop.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 3635,
+      "sha256": "92dbd05eeea854b744dfa2f28c79db0caf470881093424c9c00e54a5a0fc5d11",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/primevul_pair_coupled_significance.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 4822,
+      "sha256": "59297c86dc10f86d2099b81197b7fef5606ca0dca2ec0dd3842a3a56fc66737d",
+      "tracked": true
+    },
+    {
+      "path": "reports/assets/primevul_progressive_controls.svg",
+      "reason": "superseded report or report illustration",
+      "bytes": 9787,
+      "sha256": "026aa6dbc7bd87f97639fefb8fadb6d59e100eb4c0566fd267f673021487ba74",
+      "tracked": true
+    },
+    {
+      "path": "reports/templates/external_model_report_card.md",
+      "reason": "superseded report or report illustration",
+      "bytes": 2260,
+      "sha256": "e48b0cc5f19c25a07e1ebf3de157c4999ea9ef7f818ad83a999692c39249be65",
+      "tracked": true
+    },
+    {
+      "path": "scripts/build_paper_mechanism_figures.py",
+      "reason": "generator dedicated to removed paper packet",
+      "bytes": 11985,
+      "sha256": "a21c81c22213a7f87d1f6080b356806b5b13e75b56a4cb6ca3b12d2c70862e75",
+      "tracked": true
+    },
+    {
+      "path": "scripts/build_workshop_draft_pdf.py",
+      "reason": "generator dedicated to removed paper packet",
+      "bytes": 8632,
+      "sha256": "670af5b2f38120eb086304eb9eb0951be1d2f8955372e9728f3db8f461918daa",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_current_workshop_target_shortlist.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4615,
+      "sha256": "3e6dc21e92ebf8b4e78b4c2cdfbc0136bd79b1148251323c4571d8a6dd41f84e",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_experiment_completeness_audit.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3550,
+      "sha256": "04fbac2b9498de554310532f01c09d76f3949dab2b11e6005434c22116f4bae3",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_external_model_report_card.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 1852,
+      "sha256": "b8e1b91a66425ca92e1bf5ae7e3335477f69557f97786d680dd6a2d3e94864f6",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_external_review_packet.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3297,
+      "sha256": "96b9a4a0bb31d68bac7a8b7146aec127d4c18573201ee81df6849e2ca6f292a9",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_paper_artifacts.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3475,
+      "sha256": "44a7f8bbb2f1948b67918bfe193bc528ae97f0504009732bf382dcb870dc2ff9",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_paper_citation_polish.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4727,
+      "sha256": "4c14a7aaea4b5e6a3fa1687a5e0039f5e54f1891577534f1d995ea0769704165",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_paper_draft_alignment.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4435,
+      "sha256": "a75a5c187468dfe0152d1a78dc703eac8642f9ca7cb1cbb1859d77ded0e321b6",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_paper_mechanism_figures.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3724,
+      "sha256": "f22a302de1817010600f1e2e0ef6888adecbc9ca01a980fce11b679c0956abf9",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_paper_readiness_audit.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3605,
+      "sha256": "88e733fcef11c91457e951f65a99a8fe88b90fe0393101916f252f7086368739",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_phd_top_lab_application_readiness_audit.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4523,
+      "sha256": "43b4daf044c08de3cdd7e67545b1986493de0852e2153b0131b308f224c7d67f",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_preprint_metadata_responsible_use.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5578,
+      "sha256": "308a4043673cb8ac991aacee88fa7f1e585de0217ecf1660841822e1dfec5b9c",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_preprint_preparation_plan.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5410,
+      "sha256": "faaa459fe15a22e624b79082532bae19ccb487859ecbb1889a741a516201d8ec",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_repair_evidence_consolidation.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4091,
+      "sha256": "e802f5f82865dc046fb5d410ec542abf4bedd5a7863081fa4e01b5ce012aa6ae",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_reviewer_readiness_audit.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3408,
+      "sha256": "5e9e3a0ac16ea4b48a3471c771c09a3093b7c9bd47873bb331b28cb52b093f6d",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_build_smoke_report.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3205,
+      "sha256": "f78c28e14bb8ef1d4d1e903af8629b935caee9377378514e3f405fa44a7fd0c4",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_draft_skeleton.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3883,
+      "sha256": "9198701c6b6694359aab680666ac393ae2514a72b5e17455c17045a570777f07",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_draft_v0.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4915,
+      "sha256": "a3c5e438ccd13c58064ff3d8a88b86b4700ce882a851a39378916a8f7d2bf1f8",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_draft_v0_readiness_audit.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4051,
+      "sha256": "01dd46307682405ed3107fd41ec885b0f865fa3deb1558e73e28c6a71fee8ae1",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_draft_v1.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5524,
+      "sha256": "aa56119d5a3d88f080a5f0be7e806ef460452aed2ae44f9ece4f07dbdec2de7c",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_pdf_build_path.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5032,
+      "sha256": "717076a34b8cec63569ac885d6b3058c7f5d6bfa317b68d0a20a1613695282ce",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_pdf_inspection_checklist.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4230,
+      "sha256": "fd3d33879c47c6a5238b2f8fd6fbdf598893d5ad2454639f37f4bd1de4676d7b",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_pdf_toolchain_docs.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5518,
+      "sha256": "a68a6dd137877be60c33e57d4f217c6864c609edf6c44c1acf91c9b9e7a7a81f",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_preprint_targeting_plan.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 5938,
+      "sha256": "77d80a67c8b88675d146f5d0447778df1be8cbe5d7cbf826ca22f33ce9fd2b43",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_short_paper_outline.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4827,
+      "sha256": "5482b3f9cba90d97aea40615150f3e99f3aa350141fc7635017b6dd12236a42d",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_weasyprint_hardening_validation_report.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3859,
+      "sha256": "8ca39f2aeb311a6d53b4a8102ca679f62e97fdc6f43e5ec29d6f23df75561607",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_weasyprint_msys2_install_report.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4244,
+      "sha256": "b841df2f48a3ddb56e21f43206dc8bf8a614bc2c53b36373e1d0cdfb016da94b",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_weasyprint_msys2_resolved_report.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 4156,
+      "sha256": "b880e8e0f496df1808fcbbc64528e14c06d6fd665a17733bbb68746c90bebf6d",
+      "tracked": true
+    },
+    {
+      "path": "tests/test_workshop_weasyprint_validation_report.py",
+      "reason": "tests solely for retired paper or narrative surface",
+      "bytes": 3669,
+      "sha256": "fe529bf77cb3488f77ebf517b25ee95415d203b9695a2f72ce6ae864fc53723c",
+      "tracked": true
+    },
+    {
+      "path": "build/workshop_draft_v1.pdf",
+      "reason": "rendered withdrawn paper draft",
+      "bytes": 95280,
+      "sha256": "9e7599f749cc29ff73c82120183e255e592f68a61b35123e1fcb357381a0ad67",
+      "tracked": false
+    },
+    {
+      "path": "build/workshop_draft_v1_4page.pdf",
+      "reason": "rendered withdrawn paper draft",
+      "bytes": 43767,
+      "sha256": "04040e6f28a5d006a93f711cd730c8f6f5f65fd55185b51a40a5baeb431cf6d3",
+      "tracked": false
+    },
+    {
+      "path": "build/workshop_draft_v1_4page_singlecol.pdf",
+      "reason": "rendered withdrawn paper draft",
+      "bytes": 43155,
+      "sha256": "73c748f45b166a2c1435a9e4480f239aafd5911b95d750ccea55d25dc46bca6c",
+      "tracked": false
+    },
+    {
+      "path": "reproducibility/ARTIFACT_BUNDLE.md",
+      "reason": "superseded release instructions",
+      "bytes": 5294,
+      "sha256": "5889ed5178dd4a7c3fc945b5c363df8f238afa7a42deafac99adbc4daff25a02",
+      "tracked": true
+    },
+    {
+      "path": "reproducibility/GITHUB_EXTERNAL_GENERALIZATION_RELEASE_NOTES.md",
+      "reason": "superseded release instructions",
+      "bytes": 1266,
+      "sha256": "ea30927325cfde481ed779b6c0d93ce26f1a77241f46043b8f5dc822aa99e1b3",
+      "tracked": true
+    },
+    {
+      "path": "reproducibility/GITHUB_RELEASE_NOTES.md",
+      "reason": "superseded release instructions",
+      "bytes": 1445,
+      "sha256": "8733a673593355cbc1c16fd0b28be7f947cefd399df3f51bbd7c40f58c13c7f4",
+      "tracked": true
+    },
+    {
+      "path": "reproducibility/RELEASE_CHECKLIST.md",
+      "reason": "superseded release instructions",
+      "bytes": 3270,
+      "sha256": "4f55114799be43b0fa03c462d6c2f240e1c93b75a308e34e02d035e5721fd24f",
+      "tracked": true
+    }
+  ],
+  "retired_manifest_entries": {
+    "reproducibility/cross_model_relational_audit_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "cross_model_report_markdown",
+        "path": "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
+        "sha256": "a2da20434a072cc9a4ba0c99d1c023d57589b4126cbbc18947832f7182cbf5d9",
+        "bytes": 3430
+      }
+    ],
+    "reproducibility/external_generalization_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "learned_content_router_stability_summary",
+        "path": "reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md",
+        "sha256": "511cff75abffc2dffef4a6a2bc19a0c640db0125d0502fa014175aed32191e5c",
+        "bytes": 2449,
+        "note": "Reviewer-facing summary of char/token/diff-line source-router stability checks."
+      },
+      {
+        "list": "generated_artifacts",
+        "role": "learned_content_router_stability_figure",
+        "path": "reports/assets/learned_content_router_stability.svg",
+        "sha256": "b6621f1e9048733a98f1f0ba77a4f71004b649f9bef64c3a97117f36ce216f92",
+        "bytes": 4878,
+        "note": "SVG figure for char/token/diff-line source-router stability checks."
+      },
+      {
+        "list": "generated_artifacts",
+        "role": "learned_router_claim_boundary_figure",
+        "path": "reports/assets/learned_router_claim_boundary.svg",
+        "sha256": "65a4d0dc1d491239a606d96c290e38729ae32b12fc8b99224b5dc191bccd4dd8",
+        "bytes": 2483,
+        "note": "SVG figure for the learned source-router claim-boundary summary."
+      }
+    ],
+    "reproducibility/frozen_backbone_readout_control_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "control_report_markdown",
+        "path": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
+        "sha256": "8e1a9cfc11334d8f39619e0acd7b3ba3e0bc364ec28009116f7505485bedbc5c",
+        "bytes": 3015
+      }
+    ],
+    "reproducibility/joint_pairwise_selective_calibration_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "selective_calibration_markdown",
+        "path": "reports/PRIMEVUL_JOINT_PAIRWISE_SELECTIVE_CALIBRATION.md",
+        "sha256": "81495e0262739b6311eac782496f26c3dba5a3f96af8690ff185d570430b39a6",
+        "bytes": 2203
+      }
+    ],
+    "reproducibility/nuisance_pairwise_adaptation_pilot_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "baseline_counterfactual_markdown",
+        "path": "reports/PRIMEVUL_COUNTERFACTUAL_SYNTHETIC_JOINT_CLEAN_IDENTIFIER.md",
+        "sha256": "269d91331f0d4adacf269dc492ccb6686e0e1756f1d5f887b44979e626f23052",
+        "bytes": 1789
+      },
+      {
+        "list": "generated_artifacts",
+        "role": "adapted_counterfactual_markdown",
+        "path": "reports/PRIMEVUL_COUNTERFACTUAL_NUISANCE_JOINT.md",
+        "sha256": "896a72bc0844069570be483a321b95ff1f0d9f0ab2e31cabd9ff2a92e96ae3e2",
+        "bytes": 1789
+      },
+      {
+        "list": "generated_artifacts",
+        "role": "paired_comparison_markdown",
+        "path": "reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md",
+        "sha256": "396cc23ce4ce7ff859f31583cd33c6c9228bf0a638fb8ee62300af9900ede5aa",
+        "bytes": 1338
+      }
+    ],
+    "reproducibility/primevul_evidence_coupled_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "pair_evidence_localization_markdown",
+        "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
+        "sha256": "9500bc0fa8e8e4b8b67cbf24298a3bf4216d58c50bad8c03a238748d19a55c25",
+        "bytes": 20312
+      }
+    ],
+    "reproducibility/qwen_relational_mechanism_audit_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "mechanism_audit_markdown",
+        "path": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
+        "sha256": "c23190376a542ca6fa8db2834fa5bec42372efa00cf075619d48390d4d48e1ad",
+        "bytes": 5006
+      }
+    ],
+    "reproducibility/readout_ablation_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "ablation_report_markdown",
+        "path": "reports/READOUT_ABLATION.md",
+        "sha256": "3cc088f6512db6382e1fee28bbea55abd5e0047dff95410b2db09bedf60834bb",
+        "bytes": 2464
+      }
+    ],
+    "reproducibility/readout_confirmatory_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "confirmatory_report_markdown",
+        "path": "reports/READOUT_CONFIRMATORY.md",
+        "sha256": "b158a6aa0cc88c3eb989679dea5ce836fa609feff5c58985888e5159cc0c98c3",
+        "bytes": 2811
+      }
+    ],
+    "reproducibility/veripatch_rr_qwen15b_smoke_manifest.json": [
+      {
+        "list": "generated_artifacts",
+        "role": "evaluation_markdown",
+        "path": "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
+        "sha256": "9701029e184d2f55c8f7a945ea4a7af78bdd086f7084ad2c93e2b425f2468b86",
+        "bytes": 2894
+      }
+    ]
+  },
+  "retained_evidence_policy": "Existing JSON/CSV evidence and input/prediction/checkpoint bytes are retained for audit; historical conclusions are not current claims.",
+  "retired_test_functions": {
+    "test_decoder_stress_report.py": [
+      "test_decoder_stress_report_artifacts_exist",
+      "test_decoder_stress_report_keeps_claim_boundary"
+    ],
+    "test_decoder_failure_case_audit.py": [
+      "test_decoder_failure_audit_report_artifacts_exist",
+      "test_decoder_failure_audit_report_keeps_claim_boundary"
+    ],
+    "test_release_metadata.py": [
+      "test_release_metadata_files_exist",
+      "test_release_notes_keep_artifact_boundary",
+      "test_release_body_is_draft_only_and_keeps_boundary",
+      "test_readme_links_release_metadata"
+    ],
+    "test_codebert_label_polarity_replication.py": [
+      "test_report_exists_and_is_indexed",
+      "test_no_overreaching_claims_in_report",
+      "test_report_states_behavioral_two_architecture_boundary",
+      "test_report_referenced_paths_resolve",
+      "test_audit_marks_replication_done"
+    ],
+    "test_nuisance_transfer_report.py": [
+      "test_runtime_summary_confirms_no_transformation_introduced_truncation",
+      "test_readme_and_results_index_reference_existing_nuisance_transfer_artifacts",
+      "test_repair_result_report_references_nuisance_transfer_section",
+      "test_preregistration_doc_marks_criterion_five_as_failed"
+    ],
+    "test_crossvul_polarity_gold_confound.py": [
+      "test_report_exists_and_is_indexed",
+      "test_report_has_dataset_analysis_claim_boundary",
+      "test_report_states_the_stronger_confound_finding_with_caution",
+      "test_report_referenced_paths_resolve",
+      "test_experiment_completeness_audit_marks_confound_resolved"
+    ]
+  },
+  "deletion_method": "Explicit file patches for tracked text; explicit literal paths for four binary outputs. A broad shell deletion was rejected and was not executed.",
+  "cache_cleanup": {
+    "directories": [
+      ".tmp_test_runs",
+      "src/vrf/__pycache__",
+      "scripts/__pycache__",
+      "tests/__pycache__"
+    ],
+    "status": "blocked_by_policy_retained",
+    "note": "Automatic approval rejected recursive cache deletion with blocked by policy. No cache deletion executed."
+  },
+  "validation": {
+    "full_local_pytest": "371 passed in 14.82s",
+    "external_smoke_manifest": "3/3 passed",
+    "historical_evidence": "181 files unchanged by SHA256",
+    "known_unresolved_issue": "frozen-readout train-cache report hash mismatch remains visible"
+  }
+}

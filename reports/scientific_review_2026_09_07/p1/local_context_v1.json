@@ -1,0 +1,16 @@
+{
+  "status": "LOCAL_CONTEXT_PASS_COMPLETED",
+  "units": 18,
+  "original_case_clusters": 14,
+  "units_with_partial_context": 9,
+  "clusters_with_partial_context": 5,
+  "external_requests": 0,
+  "new_labels": false,
+  "artifact_sha256": {
+    "data/annotation/p1_context_v1/packets.json": "7f772715aa3555de669518bb8ff1eed004dd1d0a274093add0451fa970ac7395",
+    "reports/scientific_review_2026_09_07/p1/ai_source_v3_context_queue.json": "1d9db4cfdb7b4b733fcca5141b99f6b722365cef4e33bb930f610890e117c59a",
+    "reports/scientific_review_2026_09_07/p1/ai_source_v3_acceptance.json": "6b824484dce342686a9343119ec21ef0f97afbac319909c8a2a7dc038936b030",
+    "data/annotation/p1_source_repair_v3/recovery_details.json": "8793f4f8556e6ecd9808a4b23d3c159c85b1be87481b18fefa8c5d72a5b3032b"
+  },
+  "boundary": "Selected excerpts from pinned cached files; no claim of complete call-graph recovery. Missing full-file provenance remains explicit."
+}

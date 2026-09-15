@@ -1,0 +1,140 @@
+{
+  "annotation_source": "current_assistant",
+  "execution_mode": "existing_conversation",
+  "independent_blind_review": false,
+  "upstream_direction_visible": true,
+  "reading_scope": "Displayed source and targeted change review; helpers and upstream execution not verified",
+  "observed_pairs": 12,
+  "quarantined_components": 12,
+  "quarantined_pairs": 51,
+  "selection_sha256": "1d4b8ad77c769ea4572724634102c08f77e1f1283caf39b9b41d56d9091b31fc",
+  "parent_manifest_sha256": "55079bb9c7fbb586629df3810d9d0ac470f9431700f4cb5c2704f3f879041d9c",
+  "policy": "Conservatively reserve every audited component from training; this does not prove all reserved pairs invalid or unreviewed pairs correct.",
+  "statuses": {
+    "suspected_repair_defect": 1,
+    "needs_context": 10,
+    "shared_risk": 1
+  },
+  "rows": [
+    {
+      "pair_key": "pilot-v1::01afd86281140461286d980a",
+      "status": "suspected_repair_defect",
+      "source_side": "after",
+      "start_line": 95,
+      "end_line": 108,
+      "input_sha256": "7379ae7a17a702975d371f157e7a02282868111b345f8284193001001ec1dbcd",
+      "observation": "members is a dict but iteration supplies keys to ban_user; stale user_id is also used for bookkeeping. Missing helper contract prevents confirming repaired safety.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::ac26873fb495b6f71c29c3f0",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 66,
+      "end_line": 84,
+      "input_sha256": "79464355085a7864ea84f63ee78e85c46372294745287e76ad5f0e92ab89f6da",
+      "observation": "Auth parsing and encoding change requires toString serialization and caller trust boundary; raw auth fields alone do not certify an exploit.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::9a5d668e4832be92fc52f235",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 70,
+      "end_line": 86,
+      "input_sha256": "f6350bbc35949751ad51674b36d3419a5a96607d9602d4d41339fab607fb71c7",
+      "observation": "Storage helpers and token comparison change together; their implementations and session binding are missing.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::acd545b9801a6009ec712ebe",
+      "status": "needs_context",
+      "source_side": "after",
+      "start_line": 31,
+      "end_line": 37,
+      "input_sha256": "77c5a720a48920efc7a87297c6165bf7d15c3ee97fdf126057ca8f1b1bac47d3",
+      "observation": "ImportedDump gets an extra filter, but field provenance, filter semantics and exposure route are not shown.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::f89cf1645c99e73ecf4b413f",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 14,
+      "end_line": 31,
+      "input_sha256": "68119dd668adbfe94de08a824f4d98e591a107c5160e102fd5f1bd65a91208cf",
+      "observation": "Both paths use escaping; dialect syntax changes do not by themselves prove that one candidate is vulnerable.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::265b98defeea9952bdf9405a",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 12,
+      "end_line": 23,
+      "input_sha256": "68f835f7ecef83095da70d9a4f86089525b5f1351f2b1575d29739884c40b5c3",
+      "observation": "Broader permission predicate guards support export; role mapping and contents are needed to establish confidentiality impact.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::dd07ac50d7c5322e03f12267",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 2,
+      "end_line": 5,
+      "input_sha256": "4f9c4aa15a87a44a82d488c459f7d8cc25c7b1f8584e3ce6ea9b3af13f61fa2b",
+      "observation": "Missing option terminator is suspicious, but ValidateURL may already reject option-like strings and runcmd behavior is absent.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::ad6122bd1d379e9886722bf8",
+      "status": "shared_risk",
+      "source_side": "after",
+      "start_line": 7,
+      "end_line": 12,
+      "input_sha256": "25b221e3b4c6b99a6366d2e197587edfcfb4b25a6a914e7ca7cd341f5fe0bac6",
+      "observation": "Both variants test HasPrefix(allowlistEntry, requestedOrg), allowing org abc for entry abcdef/* under ordinary organization semantics. Changing only empty-list policy does not repair this prefix mismatch.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::5d1c30c4b1bf6504cf053010",
+      "status": "needs_context",
+      "source_side": "after",
+      "start_line": 2,
+      "end_line": 3,
+      "input_sha256": "110205ba0110740f5dec4c2d6740a3ee4e3a9b19d755d25996e5e8ce033e3621",
+      "observation": "Before embeds key_name in SQL; after parameterizes but prepends its parameter before any lhs parameters. SQL compiler ordering and attacker control require verification.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::7d34dd86f06e3b095f18dfbf",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 2,
+      "end_line": 6,
+      "input_sha256": "ac1a61f0a55961a424eb75d0cbbf2653441c5a7451baad5754a019051aa9bbf7",
+      "observation": "Prototype-property recursion is suspicious; isObject and mixinDeep behavior are needed to assess the actual pollution paths and completeness of the fix.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::48610a1cd41ce95fa2c72106",
+      "status": "needs_context",
+      "source_side": "after",
+      "start_line": 42,
+      "end_line": 59,
+      "input_sha256": "2dac8f424f2c00006a3e21019b2d087e82d8519996a2e372bd4be08b02cfa4e7",
+      "observation": "New rsync argument validator and insertion position affect safety; its implementation and accepted command shape are absent.",
+      "label_promoted_to_gold": false
+    },
+    {
+      "pair_key": "pilot-v1::fe0a3c40c122961b802400fc",
+      "status": "needs_context",
+      "source_side": "before",
+      "start_line": 3,
+      "end_line": 8,
+      "input_sha256": "a2fd1ca39720235ad396367524c5559ba27f141042aec5fd375b71fba40adbfb",
+      "observation": "Only update-success bookkeeping changes. A security consequence requires the endpoint-label updater and observer retry behavior.",
+      "label_promoted_to_gold": false
+    }
+  ]
+}

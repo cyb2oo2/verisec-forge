@@ -1,0 +1,106 @@
+{
+  "rejected_snapshot_examples": 1617,
+  "status": "ok",
+  "scope": "deltasecommits_pair_diff_dataset",
+  "source": {
+    "hf_dataset": "rufimelo/DeltaSecommits",
+    "license": "mit",
+    "input_rows": 2516,
+    "selected_pairs": 17,
+    "selected_pair_rows": 34,
+    "extensions": [
+      "c",
+      "cc",
+      "cpp"
+    ]
+  },
+  "labels": {
+    "safe": 17,
+    "vulnerable": 17
+  },
+  "unique_pair_count": 17,
+  "unique_projects": 12,
+  "unique_vulnerabilities": 14,
+  "extension_counts": {
+    "c": 24,
+    "cc": 8,
+    "cpp": 2
+  },
+  "cwe_top20": [
+    [
+      "CWE-119",
+      8
+    ],
+    [
+      "CWE-125",
+      6
+    ],
+    [
+      "CWE-476",
+      4
+    ],
+    [
+      "CWE-787",
+      4
+    ],
+    [
+      "CWE-369",
+      2
+    ],
+    [
+      "CWE-189",
+      2
+    ],
+    [
+      "CWE-20",
+      2
+    ],
+    [
+      "CWE-399",
+      2
+    ],
+    [
+      "CWE-120",
+      2
+    ],
+    [
+      "CWE-416",
+      2
+    ]
+  ],
+  "changed_line_buckets": {
+    "00-02": 34
+  },
+  "pair_text_length": {
+    "p50": 821,
+    "p90": 1115,
+    "max": 1202
+  },
+  "protocol": {
+    "text_mode": "diff_only",
+    "eval_fraction": 0.2,
+    "seed": 20260519,
+    "split_policy": "pair-key disjoint random split"
+  },
+  "split": {
+    "train": {
+      "rows": 28,
+      "safe": 14,
+      "vulnerable": 14,
+      "pair_keys": 14
+    },
+    "eval": {
+      "rows": 6,
+      "safe": 3,
+      "vulnerable": 3,
+      "pair_keys": 3
+    }
+  },
+  "outputs": {
+    "all": "data/processed/secure_code_deltasecommits_pair_diff_cpp_all_syntax_v3.jsonl",
+    "train": "data/processed/secure_code_deltasecommits_pair_diff_cpp_train_syntax_v3.jsonl",
+    "eval": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_syntax_v3.jsonl",
+    "json": "reports/scientific_review_2026_09_07/p1/delta_syntax_build.json",
+    "markdown": null
+  }
+}

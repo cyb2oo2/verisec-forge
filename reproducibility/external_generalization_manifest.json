@@ -315,32 +315,11 @@
       "note": "Multi-seed pair-group subsampling stability report for learned diff-body source routing."
     },
     {
-      "role": "learned_content_router_stability_summary",
-      "path": "reports/LEARNED_CONTENT_ROUTER_STABILITY_SUMMARY.md",
-      "sha256": "511cff75abffc2dffef4a6a2bc19a0c640db0125d0502fa014175aed32191e5c",
-      "bytes": 2449,
-      "note": "Reviewer-facing summary of char/token/diff-line source-router stability checks."
-    },
-    {
-      "role": "learned_content_router_stability_figure",
-      "path": "reports/assets/learned_content_router_stability.svg",
-      "sha256": "b6621f1e9048733a98f1f0ba77a4f71004b649f9bef64c3a97117f36ce216f92",
-      "bytes": 4878,
-      "note": "SVG figure for char/token/diff-line source-router stability checks."
-    },
-    {
       "role": "learned_router_claim_boundary_report",
       "path": "reports/secure_code_learned_router_claim_boundary_v1.json",
       "sha256": "14a95d8880e86b837042e851ffc8b597e8c3ee86ec42abaf7e01d4863d8b06b1",
       "bytes": 1642,
       "note": "Reviewer-facing claim-boundary summary for learned source routing."
-    },
-    {
-      "role": "learned_router_claim_boundary_figure",
-      "path": "reports/assets/learned_router_claim_boundary.svg",
-      "sha256": "65a4d0dc1d491239a606d96c290e38729ae32b12fc8b99224b5dc191bccd4dd8",
-      "bytes": 2483,
-      "note": "SVG figure for the learned source-router claim-boundary summary."
     }
   ],
   "expected": {
@@ -379,5 +358,6 @@
     "This manifest makes external-generalization and source-routing local artifacts auditable by path, byte size, row count, and SHA256.",
     "It does not include model checkpoints; reports can be audited from materialized predictions and metadata.",
     "It is manifest-backed reproducibility, not yet a public fresh-clone bundle unless packaged and uploaded with the bundle workflow."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

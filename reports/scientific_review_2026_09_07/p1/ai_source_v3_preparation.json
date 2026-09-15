@@ -1,0 +1,16 @@
+{
+  "status": "AI_REQUESTS_PREPARED_NOT_ANNOTATED",
+  "cases": 32,
+  "annotation_source": "ai",
+  "human_review_required": false,
+  "model_calls": 0,
+  "source_sha256": "f2fd94787974aed3da25727039852173ef0444230c25069419120501ebe0f2e2",
+  "template_sha256": "cab5bda9f52169b68160828367de57acfbc6c4d65e2f9a304b672fc350dc71bd",
+  "bundle": "data/annotation/p1_ai_source_v3",
+  "hashes": {
+    "cases.json": "f2fd94787974aed3da25727039852173ef0444230c25069419120501ebe0f2e2",
+    "requests.jsonl": "56ed3f0555c9ab96de4c84c53760b3b2eab0c3be4c5f531daefaef985f0a902c",
+    "response_schema.json": "ff8e119d3950aa367ac3fca69022da1a9951cb279c59ba71f14d0389bca649ea",
+    "run_metadata_template.json": "8c12073678edfb51ae95c5625c66d446c64f03378727ef5cf8f0a81bcc585b8a"
+  }
+}

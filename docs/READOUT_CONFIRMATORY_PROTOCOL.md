@@ -1,3 +1,5 @@
+> Historical protocol record. Superseded result interpretations and removed report paths below refer to the pre-cleanup checkout 09b41f7f46c03196de558f4754e7bab0778ed458. This document is not current evidence or authorization to run experiments. Consult the [current review](../reports/scientific_review_2026_09_07/REVIEW.md).
+
 # Independent Readout Confirmatory Protocol
 
 ## Frozen Discovery Boundary

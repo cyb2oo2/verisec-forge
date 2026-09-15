@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
 from datasets import load_dataset
 
 from vrf.io_utils import ensure_parent, write_json, write_jsonl
+from vrf.source_integrity import match_patch_functions
 
 
 def _text(value: Any) -> str:
@@ -74,18 +75,18 @@ def build_pair_text(candidate: dict[str, Any], counterpart: dict[str, Any]) -> s
 
 def pair_rows_from_example(example: dict[str, Any], *, example_index: int) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    vul_funcs = list(example.get("vul_func") or [])
-    fix_funcs = list(example.get("fix_func") or [])
-    for func_index, (vul_func, fix_func) in enumerate(zip(vul_funcs, fix_funcs)):
+    matches, _ = match_patch_functions(example)
+    for func_index, vul_func, fix_func, pairing in matches:
         vul_code = _text(vul_func.get("snippet"))
         fix_code = _text(fix_func.get("snippet"))
         if not vul_code or not fix_code:
             continue
-        pair_key = f"patcheval-{example_index}-{func_index}"
+        pair_key = f"patcheval-v2-{example_index}-{func_index}"
         cwe = _first_cwe(example.get("cwe_info"))
         base = {
             "source_dataset": "ByteDance/PatchEval",
             "pair_key": pair_key,
+            "source_pair_key": f"patcheval-{example_index}-{func_index}",
             "vulnerability_id": _text(example.get("cve_id")),
             "cve": _text(example.get("cve_id")),
             "cwe": cwe,
@@ -96,6 +97,9 @@ def pair_rows_from_example(example: dict[str, Any], *, example_index: int) -> li
             "cve_description": _text(example.get("cve_description")),
             "vul_patch": _text(example.get("vul_patch")),
             "file_path": _text(vul_func.get("file_path") or fix_func.get("file_path")),
+            "pairing_validation": pairing,
+            "source_before_id": vul_func.get("id"),
+            "source_after_id": fix_func.get("id"),
         }
         vulnerable = {
             **base,
@@ -215,26 +219,36 @@ def main() -> int:
     parser.add_argument("--dataset", default="ByteDance/PatchEval")
     parser.add_argument("--eval-fraction", type=float, default=0.2)
     parser.add_argument("--seed", type=int, default=20260519)
-    parser.add_argument("--all-output", default="data/processed/secure_code_patcheval_pair_diff_all_metadata.jsonl")
-    parser.add_argument("--train-output", default="data/processed/secure_code_patcheval_pair_diff_train_metadata.jsonl")
-    parser.add_argument("--eval-output", default="data/processed/secure_code_patcheval_pair_diff_eval_metadata.jsonl")
-    parser.add_argument("--json-output", default="reports/secure_code_patcheval_pair_diff_dataset_v1.json")
-    parser.add_argument("--md-output", default="reports/PATCHEVAL_PAIR_DIFF_DATASET.md")
+    parser.add_argument("--all-output", default="data/processed/secure_code_patcheval_pair_diff_all_verified_v2.jsonl")
+    parser.add_argument("--train-output", default="data/processed/secure_code_patcheval_pair_diff_train_verified_v2.jsonl")
+    parser.add_argument("--eval-output", default="data/processed/secure_code_patcheval_pair_diff_eval_verified_v2.jsonl")
+    parser.add_argument("--json-output", default="reports/scientific_review_2026_09_07/p1/patcheval_verified_build.json")
+    parser.add_argument("--md-output", default=None)
     args = parser.parse_args()
+    for name in (args.all_output, args.train_output, args.eval_output, args.json_output, args.md_output):
+        if name and (ROOT / name).exists():
+            raise FileExistsError(f"Refusing to overwrite dataset evidence: {name}")
 
     examples = [dict(row) for row in load_dataset(args.dataset, split="train")]
     args.input_examples = len(examples)
     rows: list[dict[str, Any]] = []
+    rejections = Counter()
     for index, example in enumerate(examples):
+        _, rejected = match_patch_functions(example)
+        rejections.update(r["reason"] for r in rejected)
         rows.extend(pair_rows_from_example(example, example_index=index))
     train_rows, eval_rows = split_by_pair_key(rows, eval_fraction=args.eval_fraction, seed=args.seed)
     summary = build_summary(rows, train_rows, eval_rows, args)
+    summary["pairing_rejections"] = dict(rejections)
+    summary["validation_boundary"] = "Unique file and parsed function identity; semantic security labels remain provisional."
+    summary["id_schema"] = "patcheval-v2; legacy prediction IDs cannot join"
 
     write_jsonl(ROOT / args.all_output, rows)
     write_jsonl(ROOT / args.train_output, train_rows)
     write_jsonl(ROOT / args.eval_output, eval_rows)
     write_json(ROOT / args.json_output, summary)
-    ensure_parent(ROOT / args.md_output).write_text(render_report(summary), encoding="utf-8")
+    if args.md_output:
+        ensure_parent(ROOT / args.md_output).write_text(render_report(summary), encoding="utf-8")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     return 0
 

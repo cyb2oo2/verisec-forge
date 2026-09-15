@@ -1,0 +1,19 @@
+{
+  "status": "PASS_FOR_HUMAN_REVIEW",
+  "construction": {
+    "status": "ok",
+    "cases": 36,
+    "prompts": 432
+  },
+  "human_completed": {
+    "r1": 0,
+    "r2": 0
+  },
+  "known_unique_code_count": 5586,
+  "external_near_clone_hits": [],
+  "between_case_near_clone_hits": [],
+  "screen_definition": "5 lexical token shingles; Jaccard >= .8 or smaller-set containment >= .9 with >=20 shingles",
+  "boundary": "Lexical heuristic only, not semantic clone exclusion or pretraining evidence.",
+  "new_model_inference": false,
+  "model_inference_allowed": false
+}

@@ -1,0 +1,224 @@
+{
+  "audit_date": "2026-09-07",
+  "source_commit": "09b41f7f46c03196de558f4754e7bab0778ed458",
+  "scope": "Local artifact reanalysis and code counterexamples; not fresh model inference or independent confirmation",
+  "input_integrity": {
+    "audit": {
+      "path": "data/processed/secure_code_qwen_mechanism_polarity_only_swap_audit_v1.jsonl",
+      "rows": 1800,
+      "sha256": "8adff04083dc4b74bdebed8e02c964b8841c16dfb271e719b6c58100d1fb3b29",
+      "duplicate_ids": 0
+    },
+    "baseline": {
+      "path": "outputs/secure_code_qwen_mechanism_polarity_only_swap_audit_v1_predictions_1024.jsonl",
+      "rows": 1800,
+      "sha256": "9997e283d6e412df3e8cb16673005b96ca4288d995f198e01946ac0ea0655652",
+      "duplicate_ids": 0,
+      "missing_ids": 0,
+      "extra_ids": 0
+    },
+    "repaired": {
+      "path": "outputs/secure_code_repair_antisymmetric_polarity_audit_predictions_1024.jsonl",
+      "rows": 1800,
+      "sha256": "d2d136d2dfdf465b6acf0642d7ad991d1301ab8b431545c9558e271c6518819f",
+      "duplicate_ids": 0,
+      "missing_ids": 0,
+      "extra_ids": 0
+    },
+    "nuisance": {
+      "path": "data/processed/secure_code_nuisance_transfer_audit_v1_runtime1024.jsonl",
+      "rows": 6000,
+      "sha256": "053b20f60089570c4959c54584322b1f7012891b7bb4558b08ee316bbfba6107",
+      "duplicate_ids": 0
+    }
+  },
+  "source_pair_counts": {
+    "primevul": 200,
+    "deltasecommits": 200,
+    "patcheval": 200
+  },
+  "pooled_repair": {
+    "baseline_antisymmetric_accuracy": 0.7066666666666667,
+    "repaired_antisymmetric_accuracy": 0.7333333333333333,
+    "baseline_n": 600,
+    "repaired_n": 600,
+    "fine_tuning_delta_over_null": 0.026666666666666616,
+    "mcnemar": {
+      "n_pairs": 600,
+      "fixed": 21,
+      "broken": 5,
+      "net": 16,
+      "p_value": 0.002493917942047119
+    }
+  },
+  "exploratory_source_breakdown": {
+    "deltasecommits": {
+      "baseline_antisymmetric_accuracy": 0.545,
+      "repaired_antisymmetric_accuracy": 0.6,
+      "baseline_n": 200,
+      "repaired_n": 200,
+      "fine_tuning_delta_over_null": 0.05499999999999994,
+      "mcnemar": {
+        "n_pairs": 200,
+        "fixed": 14,
+        "broken": 3,
+        "net": 11,
+        "p_value": 0.012725830078125
+      }
+    },
+    "patcheval": {
+      "baseline_antisymmetric_accuracy": 0.74,
+      "repaired_antisymmetric_accuracy": 0.76,
+      "baseline_n": 200,
+      "repaired_n": 200,
+      "fine_tuning_delta_over_null": 0.020000000000000018,
+      "mcnemar": {
+        "n_pairs": 200,
+        "fixed": 4,
+        "broken": 0,
+        "net": 4,
+        "p_value": 0.125
+      }
+    },
+    "primevul": {
+      "baseline_antisymmetric_accuracy": 0.835,
+      "repaired_antisymmetric_accuracy": 0.84,
+      "baseline_n": 200,
+      "repaired_n": 200,
+      "fine_tuning_delta_over_null": 0.0050000000000000044,
+      "mcnemar": {
+        "n_pairs": 200,
+        "fixed": 3,
+        "broken": 2,
+        "net": 1,
+        "p_value": 1.0
+      }
+    }
+  },
+  "raw_repair_gate": {
+    "metrics": {
+      "canonical_accuracy": 0.6616666666666666,
+      "polarity_only_accuracy": 0.345,
+      "side_swap_accuracy": 0.6666666666666666,
+      "polarity_flip_rate": 0.4866666666666667,
+      "polarity_probability_gap": 0.42328005115618,
+      "relation_violation_rate": 0.48916666666666664,
+      "marginal_conditioned_violation_baseline": 0.5,
+      "canonical_model_a_rate": 0.6683333333333333,
+      "relation_rows": 1200
+    },
+    "criteria_passed": {
+      "canonical_non_inferiority": true,
+      "polarity_invariance": false,
+      "violation_below_baseline": true,
+      "no_degeneracy": false
+    },
+    "all_applicable_passed": false
+  },
+  "nuisance_visibility": {
+    "canonical__context_window": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 26,
+      "input_exceeds_cap": 26
+    },
+    "canonical__diff_algorithm_histogram": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 29
+    },
+    "canonical__diff_algorithm_myers_header": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 28
+    },
+    "canonical__split_view": {
+      "rows": 600,
+      "zero_critical_lines": 600,
+      "reported_critical_truncation": 0,
+      "input_exceeds_cap": 27
+    },
+    "canonical__whitespace_comment": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 28
+    },
+    "side_swap__context_window": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 26,
+      "input_exceeds_cap": 26
+    },
+    "side_swap__diff_algorithm_histogram": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 28
+    },
+    "side_swap__diff_algorithm_myers_header": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 28
+    },
+    "side_swap__split_view": {
+      "rows": 600,
+      "zero_critical_lines": 600,
+      "reported_critical_truncation": 0,
+      "input_exceeds_cap": 27
+    },
+    "side_swap__whitespace_comment": {
+      "rows": 600,
+      "zero_critical_lines": 0,
+      "reported_critical_truncation": 28,
+      "input_exceeds_cap": 28
+    }
+  },
+  "null_sensitivity": {
+    "baseline": {
+      "current_pooled": 0.5,
+      "relation_stratified": 0.49395555555555554
+    },
+    "repaired": {
+      "current_pooled": 0.5,
+      "relation_stratified": 0.4935472222222222
+    }
+  },
+  "synthetic_counterexamples": {
+    "mixed_relation_null": 0.5,
+    "stratified_relation_null": 0.0,
+    "tie_forward": {
+      "p": true
+    },
+    "tie_reverse": {
+      "p": false
+    },
+    "duplicate_prediction_join": "B"
+  },
+  "manifest_check": {
+    "status": "failed",
+    "artifact_count": 45,
+    "counts": {
+      "ok": 44,
+      "mismatch": 1
+    },
+    "failures": [
+      {
+        "path": "reports/secure_code_frozen_readout_control_train_cache_v1.json",
+        "role": "train_cache_report",
+        "status": "mismatch",
+        "expected_sha256": "22b45a854004be6bf46f413d0eb8d2a8ed236043ea6b4f697a6c7bc87e452060",
+        "actual_sha256": "d9ae496c2ab8d7abd3e92c37ee2350336f7dea2f514a0e3c85c0a8796c871733",
+        "expected_bytes": 1180,
+        "actual_bytes": 1182,
+        "expected_rows": null,
+        "actual_rows": null,
+        "source_manifest": "reproducibility/frozen_backbone_readout_control_manifest.json",
+        "message": "sha256, bytes"
+      }
+    ]
+  }
+}

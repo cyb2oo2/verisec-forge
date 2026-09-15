@@ -25,6 +25,7 @@ import math
 from typing import Any
 
 from vrf.relational_evaluation import marginal_conditioned_violation_baseline
+from vrf.prediction_validation import unique_rows, validate_mapping
 
 __all__ = [
     "evaluate_repair_criteria",
@@ -42,9 +43,9 @@ _SIDE_SWAP = "side_swap"
 
 def _norm(value: Any) -> str | None:
     text = str(value).upper()
-    if text.startswith("A"):
+    if text in {"A", "A_RISKIER"}:
         return "A"
-    if text.startswith("B"):
+    if text in {"B", "B_RISKIER"}:
         return "B"
     return None
 
@@ -59,6 +60,9 @@ def _by_pair(
     predictions: dict[str, dict[str, Any]],
     variant: str,
 ) -> dict[str, dict[str, Any]]:
+    unique_rows(audit_rows)
+    selected = [r for r in audit_rows if r.get("audit_variant") == variant]
+    validate_mapping(predictions, [r["id"] for r in selected])
     out: dict[str, dict[str, Any]] = {}
     for row in audit_rows:
         if row.get("audit_variant") != variant:
@@ -66,19 +70,32 @@ def _by_pair(
         prediction = predictions.get(str(row["id"]))
         if prediction is None:
             continue
-        out[str(row["pair_key"])] = {
+        key = _pair_key(row)
+        if key in out:
+            raise ValueError(f"duplicate pair variant: {key}, {variant}")
+        out[key] = {
             "pred": _norm(prediction.get("predicted_riskier_side")),
             "prob_a": prediction.get("probability_a"),
             "gold": _norm(row.get("gold_riskier_side")),
+            "dataset": row.get("dataset", "unknown"),
         }
     return out
 
 
 def _accuracy(pairs: dict[str, dict[str, Any]]) -> float | None:
-    scored = [p for p in pairs.values() if p["pred"] and p["gold"]]
+    scored = list(pairs.values())
+    if any(p["gold"] is None for p in scored):
+        raise ValueError("missing or invalid gold label")
     if not scored:
         return None
     return sum(p["pred"] == p["gold"] for p in scored) / len(scored)
+
+
+def _pair_key(row):
+    key = row.get("pair_key")
+    if not isinstance(key, str) or not key.strip():
+        raise ValueError("pair_key must be a nonempty string")
+    return f"{row['dataset']}::{key}" if row.get("dataset") else key
 
 
 def evaluate_repair_criteria(
@@ -98,6 +115,11 @@ def evaluate_repair_criteria(
     canonical = _by_pair(audit_rows, predictions, _CANONICAL)
     polarity = _by_pair(audit_rows, predictions, _POLARITY)
     side_swap = _by_pair(audit_rows, predictions, _SIDE_SWAP)
+
+    if not canonical or canonical.keys() != polarity.keys() or canonical.keys() != side_swap.keys():
+        raise ValueError("repair criteria require complete canonical/polarity/swap coverage")
+    if any(p["pred"] is None for group in (canonical, polarity, side_swap) for p in group.values()):
+        raise ValueError("repair criteria require forced A/B predictions")
 
     canonical_acc = _accuracy(canonical)
     polarity_acc = _accuracy(polarity)
@@ -128,6 +150,7 @@ def evaluate_repair_criteria(
             interventions.append(
                 {
                     "expected_relation": "invariant",
+                    "dataset": canonical[k]["dataset"],
                     "base_prediction": canonical[k]["pred"],
                     "transformed_prediction": polarity[k]["pred"],
                     "base_protocol_valid": True,
@@ -141,6 +164,7 @@ def evaluate_repair_criteria(
             interventions.append(
                 {
                     "expected_relation": "equivariant_swap",
+                    "dataset": canonical[k]["dataset"],
                     "base_prediction": canonical[k]["pred"],
                     "transformed_prediction": side_swap[k]["pred"],
                     "base_protocol_valid": True,
@@ -232,6 +256,8 @@ def independent_inference_relation_violation(
     """
     canonical = _by_pair(audit_rows, predictions, canonical_variant)
     side_swap = _by_pair(audit_rows, predictions, side_swap_variant)
+    if canonical.keys() != side_swap.keys():
+        raise ValueError("incomplete canonical/swap pair coverage")
     interventions = []
     for key in canonical:
         if key not in side_swap:
@@ -242,6 +268,7 @@ def independent_inference_relation_violation(
         interventions.append(
             {
                 "expected_relation": "equivariant_swap",
+                "dataset": canonical[key]["dataset"],
                 "base_prediction": canonical[key]["pred"],
                 "transformed_prediction": side_swap[key]["pred"],
                 "base_protocol_valid": True,
@@ -280,6 +307,9 @@ def antisymmetric_inference_correctness(
     only empirical question is whether its accuracy differs between two
     models scored on the same pairs.
     """
+    unique_rows(audit_rows)
+    selected = [r for r in audit_rows if r.get("audit_variant") in (canonical_variant, side_swap_variant)]
+    validate_mapping(predictions, [r["id"] for r in selected])
     scores: dict[tuple[str, str], float] = {}
     gold: dict[str, str] = {}
     for row in audit_rows:
@@ -288,8 +318,10 @@ def antisymmetric_inference_correctness(
             continue
         prediction = predictions.get(str(row["id"]))
         if prediction is None or prediction.get("probability_b") is None:
-            continue
-        pair_key = str(row["pair_key"])
+            raise ValueError(f"missing probability_b: {row['id']}")
+        pair_key = _pair_key(row)
+        if (pair_key, variant) in scores:
+            raise ValueError("duplicate pair variant")
         scores[(pair_key, variant)] = _logit(prediction["probability_b"])
         if variant == canonical_variant:
             gold_side = _norm(row.get("gold_riskier_side"))
@@ -297,6 +329,7 @@ def antisymmetric_inference_correctness(
                 gold[pair_key] = gold_side
 
     correct: dict[str, bool] = {}
+    ties = 0
     for pair_key, gold_side in gold.items():
         if (pair_key, canonical_variant) in scores and (
             pair_key,
@@ -306,11 +339,17 @@ def antisymmetric_inference_correctness(
                 scores[(pair_key, canonical_variant)]
                 - scores[(pair_key, side_swap_variant)]
             )
-            predicted_side = "B" if score > 0 else "A"
+            ties += score == 0
+            predicted_side = None if score == 0 else ("B" if score > 0 else "A")
             correct[pair_key] = predicted_side == gold_side
+        else:
+            raise ValueError(f"incomplete canonical/swap pair: {pair_key}")
+    if len(scores) != 2 * len(gold):
+        raise ValueError("unpaired renderings or missing canonical gold")
     n = len(correct)
     accuracy = sum(correct.values()) / n if n else None
-    return {"n": n, "accuracy": accuracy, "correct_by_pair": correct}
+    return {"n": n, "accuracy": accuracy, "correct_by_pair": correct,
+            "ties": ties, "tie_policy": "abstain_counted_incorrect", "forced_coverage": (n - ties) / n if n else None}
 
 
 def exact_mcnemar(
@@ -323,7 +362,9 @@ def exact_mcnemar(
     Only discordant pairs (fixed + broken) carry information; concordant pairs
     (both right or both wrong) do not affect the test.
     """
-    keys = [key for key in baseline_correct if key in repaired_correct]
+    if baseline_correct.keys() != repaired_correct.keys():
+        raise ValueError("McNemar requires identical paired populations")
+    keys = list(baseline_correct)
     fixed = sum(1 for key in keys if not baseline_correct[key] and repaired_correct[key])
     broken = sum(1 for key in keys if baseline_correct[key] and not repaired_correct[key])
     discordant = fixed + broken
@@ -374,6 +415,11 @@ def compare_antisymmetric_inference(
     return {
         "baseline_antisymmetric_accuracy": baseline["accuracy"],
         "repaired_antisymmetric_accuracy": repaired["accuracy"],
+        "baseline_ties": baseline["ties"],
+        "repaired_ties": repaired["ties"],
+        "tie_policy": baseline["tie_policy"],
+        "baseline_forced_coverage": baseline["forced_coverage"],
+        "repaired_forced_coverage": repaired["forced_coverage"],
         "baseline_n": baseline["n"],
         "repaired_n": repaired["n"],
         "fine_tuning_delta_over_null": fine_tuning_delta,

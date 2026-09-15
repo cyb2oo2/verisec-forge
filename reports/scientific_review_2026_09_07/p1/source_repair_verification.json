@@ -1,0 +1,43 @@
+{
+  "status": "VERIFIED_NO_KNOWN_EXPOSURE_HITS",
+  "units": 32,
+  "downloaded_evidence_files": 30,
+  "prompts": 64,
+  "known_code_count": 5586,
+  "project_hits": [],
+  "lexical_clone_hits": [],
+  "generated_datasets": [
+    {
+      "path": "data/processed/secure_code_patcheval_pair_diff_all_verified_v2.jsonl",
+      "sha256": "feac4f3e019baa1e29a459975afd5279b78831e63583957a69b501aeed896af4",
+      "rows": 2012
+    },
+    {
+      "path": "data/processed/secure_code_patcheval_pair_diff_eval_verified_v2.jsonl",
+      "sha256": "05686b79e797e4643991fa5f0fc37eddea668bf0cd5bbeb19b74744afa8a090f",
+      "rows": 402
+    },
+    {
+      "path": "data/processed/secure_code_patcheval_pair_diff_train_verified_v2.jsonl",
+      "sha256": "a8f08910ecff1a7c3c1b093f00f890a6e906c3b23395636424a4b27ee058d387",
+      "rows": 1610
+    },
+    {
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_all_syntax_v3.jsonl",
+      "sha256": "86f6b2b5aa79033fd521cd62afb75755f100f68d7e57b89996196d78384c6a8f",
+      "rows": 34
+    },
+    {
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_syntax_v3.jsonl",
+      "sha256": "f96bbbd7c56d11d949c6e75851b06277e30f37e1028c6c6096b57f72767f8ecb",
+      "rows": 6
+    },
+    {
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_train_syntax_v3.jsonl",
+      "sha256": "401fbefc39102608ab31ff25e3e448b3c388a19258748bcb35baeffa9b3d32a9",
+      "rows": 28
+    }
+  ],
+  "inference_performed": false,
+  "boundary": "Structural/source-byte verification only. Lexical heuristic misses semantic clones; foundation pretraining remains unknown."
+}

@@ -68,8 +68,8 @@ Evaluate:
 
 The bundled smoke set is a small sanity check for external integration. It is
 not a benchmark result and should not be used to claim model quality. Full
-VeriPatch-RR claims require model-specific runtime materialization and the
-retained benchmark reports.
+VeriPatch-RR claims require model-specific runtime materialization and resolution
+of the measurement issues in the [current review](../reports/scientific_review_2026_09_07/REVIEW.md).
 
 The checked-in smoke artifact uses distilgpt2 runtime accounting only as a
 small adapter sanity check. It is not tokenizer-neutral and must not be used

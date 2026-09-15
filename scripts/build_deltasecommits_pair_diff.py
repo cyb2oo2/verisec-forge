@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
 from datasets import load_dataset
 
 from vrf.io_utils import ensure_parent, write_json, write_jsonl
+from vrf.source_integrity import snippet_check
 
 
 DEFAULT_EXTENSIONS = ("c", "cc", "cpp")
@@ -53,13 +54,8 @@ def changed_line_bucket(pair_text: str) -> str:
 
 
 def normalize_code_for_diff(code: str) -> str:
-    """DeltaSecommits snapshots are often single-line; expand C-like separators for readable diffs."""
-    code = _safe_text(code)
-    if code.count("\n") > 2:
-        return code
-    expanded = re.sub(r"([{};])", r"\1\n", code)
-    lines = [line.strip() for line in expanded.splitlines() if line.strip()]
-    return "\n".join(lines) + ("\n" if lines else "")
+    """Preserve strings/comments. Formatting cannot recover missing source."""
+    return _safe_text(code)
 
 
 def unified_pair_diff(candidate_code: str, counterpart_code: str) -> str:
@@ -114,12 +110,19 @@ def pair_rows_from_example(example: dict[str, Any], *, index: int, text_mode: st
     secure_code = _safe_text(example.get("after_version"))
     if not vulnerable_code or not secure_code:
         return []
+    language = "cpp" if _safe_text(example.get("file_extension")) in {"cpp", "cc", "cxx"} else "c"
+    before_quality, after_quality = snippet_check(vulnerable_code, language), snippet_check(secure_code, language)
+    if not before_quality.get("ok") or not after_quality.get("ok") or before_quality["name"] != after_quality["name"]:
+        return []
 
-    pair_key = f"deltasecommits-{index}"
+    pair_key = f"deltasecommits-v3-{index}"
     cwe = normalize_cwe(example)
     base = {
         "source_dataset": "DeltaSecommits",
+        "source_validation": {"before": before_quality, "after": after_quality,
+                              "boundary": "Syntax and matching identity only; no semantic label certification."},
         "pair_key": pair_key,
+        "source_pair_key": f"deltasecommits-{index}",
         "vulnerability_id": _safe_text(example.get("vuln_id")),
         "cve": _safe_text(example.get("vuln_id")),
         "cwe": cwe,
@@ -175,12 +178,14 @@ def build_rows(
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     selected_examples: list[dict[str, Any]] = []
     pair_rows: list[dict[str, Any]] = []
+    rejected_examples = 0
     for index, example in enumerate(dataset_rows):
         extension = _safe_text(example.get("file_extension")).lower().lstrip(".")
         if extension not in extensions:
             continue
         rows = pair_rows_from_example(example, index=index, text_mode=text_mode)
         if not rows:
+            rejected_examples += 1
             continue
         selected_examples.append(example)
         pair_rows.extend(rows)
@@ -191,6 +196,7 @@ def build_rows(
     cwe_counts = Counter(str(row.get("cwe") or "unknown") for row in pair_rows)
     prompt_lengths = sorted(len(str(row.get("pair_text") or "")) for row in pair_rows)
     summary = {
+        "rejected_snapshot_examples": rejected_examples,
         "status": "ok",
         "scope": "deltasecommits_pair_diff_dataset",
         "source": {
@@ -291,12 +297,15 @@ def main() -> int:
     parser.add_argument("--text-mode", default="diff_only", choices=["diff_only", "diff_no_metadata", "diff_localized"])
     parser.add_argument("--eval-fraction", type=float, default=0.2)
     parser.add_argument("--seed", type=int, default=20260519)
-    parser.add_argument("--all-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_all_metadata.jsonl")
-    parser.add_argument("--train-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_train_metadata.jsonl")
-    parser.add_argument("--eval-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_metadata.jsonl")
-    parser.add_argument("--json-output", default="reports/secure_code_deltasecommits_pair_diff_dataset_v1.json")
-    parser.add_argument("--md-output", default="reports/DELTASECCOMMITS_PAIR_DIFF_DATASET.md")
+    parser.add_argument("--all-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_all_syntax_v3.jsonl")
+    parser.add_argument("--train-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_train_syntax_v3.jsonl")
+    parser.add_argument("--eval-output", default="data/processed/secure_code_deltasecommits_pair_diff_cpp_eval_syntax_v3.jsonl")
+    parser.add_argument("--json-output", default="reports/scientific_review_2026_09_07/p1/delta_syntax_build.json")
+    parser.add_argument("--md-output", default=None)
     args = parser.parse_args()
+    for name in (args.all_output, args.train_output, args.eval_output, args.json_output, args.md_output):
+        if name and (ROOT / name).exists():
+            raise FileExistsError(f"Refusing to overwrite dataset evidence: {name}")
 
     dataset_rows = [dict(row) for row in load_dataset(args.dataset, split="train")]
     extensions = {item.strip().lower().lstrip(".") for item in args.extensions.split(",") if item.strip()}
@@ -324,7 +333,8 @@ def main() -> int:
     write_jsonl(ROOT / args.train_output, train_rows)
     write_jsonl(ROOT / args.eval_output, eval_rows)
     write_json(ROOT / args.json_output, summary)
-    ensure_parent(ROOT / args.md_output).write_text(render_report(summary), encoding="utf-8")
+    if args.md_output:
+        ensure_parent(ROOT / args.md_output).write_text(render_report(summary), encoding="utf-8")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     return 0
 

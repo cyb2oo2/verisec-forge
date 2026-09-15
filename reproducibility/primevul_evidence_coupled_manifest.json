@@ -44,12 +44,6 @@
       "bytes": 67807
     },
     {
-      "role": "pair_evidence_localization_markdown",
-      "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md",
-      "sha256": "9500bc0fa8e8e4b8b67cbf24298a3bf4216d58c50bad8c03a238748d19a55c25",
-      "bytes": 20312
-    },
-    {
       "role": "pair_evidence_localization_rows",
       "path": "outputs/secure_code_primevul_pair_evidence_localization_v1.jsonl",
       "sha256": "e3feae87689b85b0cd05e1550322b5ce1aca13b26172523e3afeffc112c68ca7",
@@ -494,5 +488,6 @@
     "The hunk candidates, paired eval rows, model predictions, and generated JSONL artifacts are intentionally not committed because data/processed and outputs are gitignored.",
     "Pseudo-label localization is a diagnostic layer, not human evidence-span supervision.",
     "The confident inversion set is selected from current model failures and should be used for calibration or hard-negative mining, not as an independent benchmark split."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

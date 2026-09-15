@@ -2,6 +2,8 @@
 
 VeriSec Forge / VeriPatch-RR | Public summary, September 10, 2026
 
+**Publication update, September 15:** the repository now includes the reviewed measurement/source-repair implementation and the full scientific record. Statements below about a documentation-only publication describe the original September 10 snapshot. Research data and weights remain external; see the [current README](../../README.md) and [reproduction scope](../../REPRODUCIBILITY.md).
+
 This summary reflects the September 7 scientific review and its subsequent local updates. It supersedes the interpretation of earlier headline tables, paper drafts, and project narratives. The [full Chinese review](REVIEW_ZH.md) preserves the update history; [snapshot.json](snapshot.json) contains aggregate measurements and hashes of the source reports.
 
 ## Research question and completed work

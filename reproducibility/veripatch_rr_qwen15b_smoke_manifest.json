@@ -38,12 +38,6 @@
       "path": "reports/secure_code_veripatch_rr_qwen15b_smoke_evaluation.json",
       "sha256": "618a982075fb32cf1a6566c374f68a57f3b7b09557c7a6391e6a72dceb43e56d",
       "bytes": 144024
-    },
-    {
-      "role": "evaluation_markdown",
-      "path": "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
-      "sha256": "9701029e184d2f55c8f7a945ea4a7af78bdd086f7084ad2c93e2b425f2468b86",
-      "bytes": 2894
     }
   ],
   "expected": {
@@ -57,5 +51,6 @@
     "This is one PrimeVul-trained Qwen 1.5B checkpoint, not a cross-model conclusion.",
     "The manifest reproduces evaluation from stored runtime rows and predictions, not GPU inference.",
     "The raw runtime and prediction artifacts remain gitignored and are not yet in the public release bundle."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

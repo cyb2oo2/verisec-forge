@@ -62,28 +62,10 @@
       "bytes": 6341
     },
     {
-      "role": "baseline_counterfactual_markdown",
-      "path": "reports/PRIMEVUL_COUNTERFACTUAL_SYNTHETIC_JOINT_CLEAN_IDENTIFIER.md",
-      "sha256": "269d91331f0d4adacf269dc492ccb6686e0e1756f1d5f887b44979e626f23052",
-      "bytes": 1789
-    },
-    {
-      "role": "adapted_counterfactual_markdown",
-      "path": "reports/PRIMEVUL_COUNTERFACTUAL_NUISANCE_JOINT.md",
-      "sha256": "896a72bc0844069570be483a321b95ff1f0d9f0ab2e31cabd9ff2a92e96ae3e2",
-      "bytes": 1789
-    },
-    {
       "role": "paired_comparison_json",
       "path": "reports/secure_code_primevul_nuisance_pairwise_adaptation_pilot_v1.json",
       "sha256": "77c2791067a8790dac199b4405055870389d8084d66672b4f0a8bcb61bbd9af4",
       "bytes": 2431
-    },
-    {
-      "role": "paired_comparison_markdown",
-      "path": "reports/PRIMEVUL_NUISANCE_PAIRWISE_ADAPTATION_PILOT.md",
-      "sha256": "396cc23ce4ce7ff859f31583cd33c6c9228bf0a638fb8ee62300af9900ede5aa",
-      "bytes": 1338
     }
   ],
   "expected": {
@@ -98,5 +80,6 @@
     "This is a 375-pair pilot adaptation, not a full-scale training result.",
     "The manifest reproduces report statistics from stored predictions, not GPU training.",
     "Padding robustness improves strongly, but untargeted metadata and side-order relations regress slightly."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

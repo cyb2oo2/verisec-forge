@@ -5,6 +5,8 @@ import random
 from collections import Counter, defaultdict
 from typing import Any
 
+from vrf.prediction_validation import prediction_index, unique_rows
+
 
 VALID_LABELS = {"A", "B", "INSUFFICIENT_CONTEXT"}
 FORCED_LABELS = {"A", "B"}
@@ -91,10 +93,9 @@ def marginal_conditioned_violation_baseline(
     with base A-rate ``p`` and transformed A-rate ``q`` succeeds with
     ``p*q + (1-p)*(1-q)``; for ``equivariant_swap`` (success = flipped answer)
     it succeeds with ``p*(1-q) + (1-p)*q``. The baseline violation rate is one
-    minus that. A model whose observed violation rate sits at this baseline is
-    statistically indistinguishable from two independent classifiers -- exactly
-    the side-swap failure signature -- so relational claims should report the
-    observed rate next to this number, not in isolation.
+    minus that. Marginals are computed within source, relation and family.
+    Matching this baseline alone does not establish independence or an absence
+    of semantic information. Report uncertainty in the observed-minus-null gap.
     """
     scored = [
         row
@@ -102,27 +103,69 @@ def marginal_conditioned_violation_baseline(
         if row["expected_relation"] in {"invariant", "equivariant_swap"}
         and row["base_protocol_valid"]
         and row["transformed_protocol_valid"]
+        and row["base_prediction"] in FORCED_LABELS
+        and row["transformed_prediction"] in FORCED_LABELS
     ]
     if not scored:
         return {"baseline_violation_rate": None, "n": 0, "base_a_rate": None,
                 "transformed_a_rate": None}
     n = len(scored)
+    # Condition on each relation and transformation family before combining.
+    groups = defaultdict(list)
+    for row in scored:
+        groups[(row.get("dataset", "unknown"), row["expected_relation"],
+                row.get("transformation_family", "unspecified"))].append(row)
+    expected_violations = 0.0
+    strata = []
+    for (dataset, relation, family), group in sorted(groups.items()):
+        p = sum(r["base_prediction"] == "A" for r in group) / len(group)
+        q = sum(r["transformed_prediction"] == "A" for r in group) / len(group)
+        agreement = p * q + (1 - p) * (1 - q)
+        violation = 1 - agreement if relation == "invariant" else agreement
+        expected_violations += len(group) * violation
+        strata.append({"dataset": dataset, "relation": relation, "family": family,
+                       "n": len(group), "baseline_violation_rate": violation})
     base_a = sum(row["base_prediction"] == "A" for row in scored) / n
     trans_a = sum(row["transformed_prediction"] == "A" for row in scored) / n
     invariant_share = sum(
         row["expected_relation"] == "invariant" for row in scored
     ) / n
-    agree = base_a * trans_a + (1 - base_a) * (1 - trans_a)
-    disagree = 1.0 - agree
-    # Per-relation success under independence; mix by the relation composition.
-    success = invariant_share * agree + (1 - invariant_share) * disagree
     return {
-        "baseline_violation_rate": 1.0 - success,
+        "baseline_violation_rate": expected_violations / n,
+        "strata": strata,
+        "baseline_definition": "dataset_relation_family_conditioned_v2",
         "n": n,
         "base_a_rate": base_a,
         "transformed_a_rate": trans_a,
         "invariant_share": invariant_share,
     }
+
+
+def relation_gap_bootstrap(rows, *, iterations=2000, seed=42):
+    """Paired-cluster CI for null minus observed violation, on forced A/B rows.
+
+    Recompute both marginals and observed violation inside every resample.
+    Positive gaps indicate excess consistency, not security understanding.
+    """
+    valid = [r for r in rows if r["expected_relation"] in {"invariant", "equivariant_swap"}
+             and r["base_protocol_valid"] and r["transformed_protocol_valid"]
+             and r["base_prediction"] in FORCED_LABELS and r["transformed_prediction"] in FORCED_LABELS]
+    def gap(sample):
+        baseline = marginal_conditioned_violation_baseline(sample)["baseline_violation_rate"]
+        violation = 1 - sum(r["relation_success"] for r in sample) / len(sample)
+        return baseline - violation
+    grouped = defaultdict(list)
+    for r in valid:
+        grouped[(r.get("dataset", "unknown"), r["pair_key"])].append(r)
+    keys = sorted(grouped)
+    rng = random.Random(seed)
+    samples = [gap([row for key in rng.choices(keys, k=len(keys)) for row in grouped[key]])
+               for _ in range(iterations)] if keys else []
+    return {"gap": gap(valid) if valid else None, "rows": len(valid), "total_rows": len(rows),
+            "pair_groups": len(keys), "iterations": iterations,
+            "ci95_low": percentile(samples, .025) if samples else None,
+            "ci95_high": percentile(samples, .975) if samples else None,
+            "population": "protocol_valid_forced_A_B", "cluster_key": "dataset::pair_key"}
 
 
 def context_pressure_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -223,7 +266,8 @@ def join_predictions(
     benchmark_rows: list[dict[str, Any]],
     prediction_rows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
-    predictions = {str(row["id"]): row for row in prediction_rows}
+    benchmark_index = unique_rows(benchmark_rows)
+    predictions = prediction_index(prediction_rows, benchmark_index)
     missing = [
         str(row["id"])
         for row in benchmark_rows
@@ -414,6 +458,9 @@ def _scope_summary(
         ),
         "by_template": templates,
         "pair_cluster_bootstrap": bootstrap,
+        "relation_gap_bootstrap": relation_gap_bootstrap(
+            relation_rows, iterations=bootstrap_iterations, seed=bootstrap_seed
+        ),
     }
 
 

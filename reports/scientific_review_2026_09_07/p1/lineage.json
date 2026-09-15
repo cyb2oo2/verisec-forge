@@ -1,0 +1,116 @@
+{
+  "status": "LOCAL_CHAIN_TRACED_WITH_HISTORICAL_GAPS",
+  "stages": [
+    {
+      "path": "checkpoints/cls_secure_code_primevul_qwen15bcoder_lora_pair_diff_only_3000_v1",
+      "task_type": "SEQ_CLS",
+      "base_model_reference": "C:\\Users\\cyb\\.cache\\huggingface\\hub\\models--Qwen--Qwen2.5-Coder-1.5B-Instruct\\snapshots\\2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "current_file_hashes": {
+        "adapter_config.json": "17cbb6bac16ff7702d05cbeecdc0026f2a1b55794e90f29f1d9649022230d976",
+        "adapter_model.safetensors": "d598ad04e1058bdf276ba631fa3957d0965c88da88b97f1d8092b093deb58469",
+        "chat_template.jinja": "8aa40ce145adb73cb3a75194dc0224702a95850ec5275cabb728496bbd749fc6",
+        "README.md": "6f541a7a597fce60bb034f0e06bc84668518cad6cde1a7eda7eda5f69afbc234",
+        "tokenizer.json": "c47a17a5ec1c2cdadb68a727e1fa12b6ff89fd89a67b136eda88b4c91d267714",
+        "tokenizer_config.json": "c840c5f3ef8e0a68a7f4b8b98bc3518fe07203b8c94aa68e37ac1275a8860472",
+        "training_args.bin": "da68092d9cdf17442485b089b7e6e380c8bfdcda5e5a8e78dd083e31b9cc6c7e"
+      },
+      "historical_data_weight_binding": "not_attested"
+    },
+    {
+      "path": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+      "task_type": "SEQ_CLS",
+      "base_model_reference": "C:\\Users\\cyb\\.cache\\huggingface\\hub\\models--Qwen--Qwen2.5-Coder-1.5B-Instruct\\snapshots\\2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "current_file_hashes": {
+        "adapter_config.json": "98b7d64deb5dbfc4c35a9606cac685b7e2a04252a6dc4e20cb9e7e4f7b4ff74f",
+        "adapter_model.safetensors": "b498460e033e56bb4f6945776a3932748fdb537639ce0a8d5a17ad803c2a0241",
+        "chat_template.jinja": "8aa40ce145adb73cb3a75194dc0224702a95850ec5275cabb728496bbd749fc6",
+        "README.md": "6f541a7a597fce60bb034f0e06bc84668518cad6cde1a7eda7eda5f69afbc234",
+        "tokenizer.json": "51e62e7f03178cb93eb7728dca2bfc5be275edcf4ae7235d2c7b8e9771fad212",
+        "tokenizer_config.json": "b4e9ef68cc74d05c07a30f55ef3237f4875d8dd7ef1ebbf699d77ad3c0b9714f",
+        "training_args.bin": "5ecad1a3b551f0e4ca34842125349d6d27195681852a2b4633866750d0301405"
+      },
+      "historical_data_weight_binding": "not_attested"
+    },
+    {
+      "path": "checkpoints/cls_secure_code_primevul_repair_antisymmetric_qwen15b_lora_v1",
+      "task_type": "SEQ_CLS",
+      "base_model_reference": "C:\\Users\\cyb\\.cache\\huggingface\\hub\\models--Qwen--Qwen2.5-Coder-1.5B-Instruct\\snapshots\\2e1fd397ee46e1388853d2af2c993145b0f1098a",
+      "current_file_hashes": {
+        "adapter_config.json": "8be2d6b3e3fb60d3ff5af1bbf8e1deed375686ec4845efcaa5795e19556e74f2",
+        "adapter_model.safetensors": "258e036e88ee0514fc1bdbf3275187004e787e8b724bacc36a533a0f84bc7aaf",
+        "chat_template.jinja": "8aa40ce145adb73cb3a75194dc0224702a95850ec5275cabb728496bbd749fc6",
+        "README.md": "6f541a7a597fce60bb034f0e06bc84668518cad6cde1a7eda7eda5f69afbc234",
+        "tokenizer.json": "51e62e7f03178cb93eb7728dca2bfc5be275edcf4ae7235d2c7b8e9771fad212",
+        "tokenizer_config.json": "b4e9ef68cc74d05c07a30f55ef3237f4875d8dd7ef1ebbf699d77ad3c0b9714f",
+        "training_args.bin": "7eb14d0cf4ed3fe50a91bb2de1f3cbf5c60dbf99708327b3fee1826e80813d29"
+      },
+      "historical_data_weight_binding": "not_attested"
+    }
+  ],
+  "configs": {
+    "configs/research_primevul_joint_pairwise_qwen15b_v1.json": "cda3cd3473eec3da38a200da7bf31cb920d3ddd1ea1561f8fc797e2295524d21",
+    "configs/research_primevul_joint_pairwise_repair_antisymmetric_v1.json": "c2bc4f7a801a00cd2c9a5e4001c1fdcb4decaabc082b088003d75afc0a0553b8"
+  },
+  "known_input_evidence": {
+    "data/processed/secure_code_primevul_joint_side_choice_eval_v1.jsonl": {
+      "sha256": "9ec1b6644be2156b8e1c4613bad13871046a3ed9e7dd51a5f06d75406d969b31",
+      "rows": 1654,
+      "unknown_project_rows": 0
+    },
+    "data/processed/secure_code_primevul_joint_side_choice_train_v1.jsonl": {
+      "sha256": "2e0638cd746c24a6ece603bad5dfcf174e3bed58e677a3940334d5c3e4d8cbc8",
+      "rows": 6000,
+      "unknown_project_rows": 0
+    },
+    "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_dedup_metadata.jsonl": {
+      "sha256": "7bc138be4e24fdd91d2d7d9ba2b03e6c57df287ad31e3ff3b76656c4713c7bb9",
+      "rows": 1792,
+      "unknown_project_rows": 0
+    },
+    "data/processed/secure_code_primevul_pair_diff_only_eval_balanced_1800_metadata.jsonl": {
+      "sha256": "ba2efb30bae53e393798622fb2f906deca2a27c3e3c5ec626be0475150d999c9",
+      "rows": 1800,
+      "unknown_project_rows": 0
+    },
+    "data/processed/secure_code_primevul_pair_diff_only_train_balanced_3000_metadata.jsonl": {
+      "sha256": "3df4651802396654f17fa62ad4f285369b8cd3913339fc4864f8c24f660daae9",
+      "rows": 3000,
+      "unknown_project_rows": 0
+    }
+  },
+  "dataset_reconstruction": {
+    "train_rows_equal": true,
+    "eval_rows_equal": true
+  },
+  "excluded_project_count": 729,
+  "gaps": [
+    "original base-stage CLI and immutable training input manifest unavailable",
+    "current hashes do not prove which bytes historical training consumed",
+    "foundation-model pretraining exposure unknown"
+  ],
+  "new_model_inference": false,
+  "backbone": {
+    "local_path": "C:\\Users\\cyb\\.cache\\huggingface\\hub\\models--Qwen--Qwen2.5-Coder-1.5B-Instruct\\snapshots\\2e1fd397ee46e1388853d2af2c993145b0f1098a",
+    "snapshot_revision": "2e1fd397ee46e1388853d2af2c993145b0f1098a",
+    "current_file_hashes": {
+      ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "config.json": "88f9a17863c05fb313515d2ff74b1098e0c35579f99068e32beda00618508ae0",
+      "generation_config.json": "1a628a5775bc69cde01c6749a531150ca4d3189652c618a174f7077923acf3b1",
+      "LICENSE": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "model.safetensors": "c1b9b30e907950516ba3c646bdf570d8084c25a6410a0cdca80cf04b11bc13a8",
+      "README.md": "a8504fd3e1247c90e4fe640d84df963237134bf29db02b0de7d502eed6c93c33",
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "tokenizer_config.json": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "supporting_evidence_hashes": {
+    "scripts/train_joint_pairwise_classifier.py": "ca7f5e23ef3314c2f103744321d9dbddaa2038573b2e26134fee55f3e3fb4204",
+    "scripts/train_antisymmetric_repair.py": "0f0fe645e351a46d23695faae6b189a0a7c1dd6b780e3646c24c6ea3530a861d",
+    "scripts/build_joint_side_choice_dataset.py": "43d33001922c77daeca07bbbb84ab1c5be638655eca33751538166c4524e1407",
+    "reports/secure_code_primevul_joint_pairwise_qwen15b_lora_v1_report.json": "f05f98218ef5179cd93c170b3566057cd37da7337165ec91cb75e05ef0afbf12",
+    "reports/secure_code_primevul_joint_side_choice_dataset_v1.json": "242c4c8ef70873691b0703fd35f55227bec0196c25a093e9d70706ff346c0212",
+    "reports/repair_train_status_v1.json": "97d1d2bfa95264fb3186782b92aa63ff8bbdfa59b4816c57a9f2ed9b08d5a544"
+  }
+}

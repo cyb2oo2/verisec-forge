@@ -1,50 +1,151 @@
 {
   "sections": [
     {
-      "title": "Application Entry Points",
-      "description": "Reviewer-facing narrative and reproducibility entry points.",
+      "title": "Current Scientific Review",
+      "description": "The sole current result narrative and its frozen reanalysis snapshot.",
       "entries": [
-        { "label": "README", "path": "README.md", "required": true },
-        { "label": "Application Packet", "path": "docs/APPLICATION_PACKET.md", "required": true },
-        { "label": "Application Focus", "path": "docs/APPLICATION_FOCUS.md", "required": true },
-        { "label": "Project Story", "path": "PROJECT_STORY.md", "required": true },
-        { "label": "Reproducibility Guide", "path": "REPRODUCIBILITY.md", "required": true }
+        {
+          "label": "Scientific Review 2026-09-07",
+          "path": "reports/scientific_review_2026_09_07/REVIEW.md",
+          "required": true
+        },
+        {
+          "label": "Audit Snapshot",
+          "path": "reports/scientific_review_2026_09_07/audit_results.json",
+          "required": true
+        },
+        {
+          "label": "P0 Measurement Reanalysis",
+          "path": "reports/scientific_review_2026_09_07/p0/results.json",
+          "required": true
+        },
+        {
+          "label": "P1 Feasibility",
+          "path": "reports/scientific_review_2026_09_07/p1/feasibility.json",
+          "required": true
+        },
+        {
+          "label": "P1 Lineage",
+          "path": "reports/scientific_review_2026_09_07/p1/lineage.json",
+          "required": true
+        },
+        {
+          "label": "P1 Review Readiness",
+          "path": "reports/scientific_review_2026_09_07/p1/review_readiness.json",
+          "required": true
+        },
+        {
+          "label": "P1 AI Annotation Preparation",
+          "path": "reports/scientific_review_2026_09_07/p1/ai_annotation_preparation.json",
+          "required": true
+        },
+        {
+          "label": "P1 Design Reaudit",
+          "path": "reports/scientific_review_2026_09_07/p1/design_reaudit.json",
+          "required": true
+        },
+        {
+          "label": "P1 Assistant Diagnostic Decisions",
+          "path": "reports/scientific_review_2026_09_07/p1/assistant_annotation_decisions_v1.json",
+          "required": true
+        },
+        {
+          "label": "P1 Source Repair v3",
+          "path": "reports/scientific_review_2026_09_07/p1/source_repair_v3.json",
+          "required": true
+        },
+        {
+          "label": "P1 Source Verification",
+          "path": "reports/scientific_review_2026_09_07/p1/source_repair_verification.json",
+          "required": true
+        }
       ]
     },
     {
-      "title": "PrimeVul Paired-Diff Mainline",
-      "description": "Shortcut controls, pair-coupled decoding, and statistical support.",
+      "title": "Operating Documents",
+      "description": "Current task, evidence and reproduction contracts.",
       "entries": [
-        { "label": "Final Submission Statistics", "path": "reports/FINAL_SUBMISSION_STATISTICS.md", "required": true },
-        { "label": "Progressive Controls", "path": "reports/PRIMEVUL_PROGRESSIVE_CONTROLS.md", "required": true },
-        { "label": "Main Results", "path": "reports/PRIMEVUL_MAIN_RESULTS.md", "required": true },
-        { "label": "Pair-Coupled Router", "path": "reports/PRIMEVUL_PAIR_COUPLED_ROUTER.md", "required": true },
-        { "label": "Pair-Coupled Multi-Split Balanced", "path": "reports/PRIMEVUL_PAIR_COUPLED_MULTISPLIT_BALANCED.md", "required": true },
-        { "label": "Pair-Coupled Significance", "path": "reports/PRIMEVUL_PAIR_COUPLED_SIGNIFICANCE.md", "required": true }
+        {
+          "label": "README",
+          "path": "README.md",
+          "required": true
+        },
+        {
+          "label": "Evidence Policy",
+          "path": "docs/EVIDENCE_HIERARCHY.md",
+          "required": true
+        },
+        {
+          "label": "Task Definition",
+          "path": "docs/TASK_FORMULATION.md",
+          "required": true
+        },
+        {
+          "label": "Code Map",
+          "path": "docs/ARCHITECTURE.md",
+          "required": true
+        },
+        {
+          "label": "Reproducibility",
+          "path": "REPRODUCIBILITY.md",
+          "required": true
+        },
+        {
+          "label": "CI Testing Strategy",
+          "path": "docs/CI_TESTING_STRATEGY.md",
+          "required": true
+        },
+        {
+          "label": "External Adapter",
+          "path": "docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md",
+          "required": true
+        },
+        {
+          "label": "Human Annotation",
+          "path": "docs/HUMAN_PATCH_PAIR_ANNOTATION_PROTOCOL.md",
+          "required": true
+        },
+        {
+          "label": "P1 Diagnostic Protocol",
+          "path": "docs/BINDING_SEMANTICS_P1_PROTOCOL.md",
+          "required": true
+        },
+        {
+          "label": "P1 Blind Review Handoff",
+          "path": "docs/P1_BLIND_REVIEW_HANDOFF.md",
+          "required": true
+        },
+        {
+          "label": "P1 AI Annotation Template",
+          "path": "docs/P1_AI_ANNOTATION_TEMPLATE.md",
+          "required": true
+        },
+        {
+          "label": "P1 AI Execution Design",
+          "path": "docs/P1_AI_EXECUTION_DESIGN.md",
+          "required": true
+        },
+        {
+          "label": "P1 Source Repair Workflow",
+          "path": "docs/P1_SOURCE_REPAIR.md",
+          "required": true
+        }
       ]
     },
     {
-      "title": "External Generalization And Routing",
-      "description": "Disjoint PrimeVul stress tests, external datasets, and bounded source-aware routing.",
+      "title": "Audit Trail",
+      "description": "Historical evidence is retained for verification, not endorsed as current results.",
       "entries": [
-        { "label": "CVE-Disjoint Eval", "path": "reports/PRIMEVUL_CVE_DISJOINT_EVAL.md", "required": true },
-        { "label": "Project-Disjoint Stress Eval", "path": "reports/PRIMEVUL_DISJOINT_STRESS_EVAL.md", "required": true },
-        { "label": "Time-Disjoint Comparison", "path": "reports/PRIMEVUL_TIME_DISJOINT_COMPARISON.md", "required": true },
-        { "label": "DeltaSecommits Expert Eval", "path": "reports/DELTASECCOMMITS_DELTA_ONLY_PAIR_DIFF_EVAL.md", "required": true },
-        { "label": "PatchEval Multi-Seed Adapter", "path": "reports/PATCHEVAL_ADAPTER_MULTISEED.md", "required": true },
-        { "label": "Three-Source Adapter Mixture", "path": "reports/THREE_SOURCE_ADAPTER_MIXTURE.md", "required": true },
-        { "label": "Learned Router Claim Boundary", "path": "reports/LEARNED_ROUTER_CLAIM_BOUNDARY.md", "required": true }
-      ]
-    },
-    {
-      "title": "Evidence-Coupled Audit",
-      "description": "Evidence localization and side-inversion diagnostics retained as bounded audit evidence.",
-      "entries": [
-        { "label": "Pair Evidence Localization", "path": "reports/PRIMEVUL_PAIR_EVIDENCE_LOCALIZATION.md", "required": true },
-        { "label": "Predicted-Side Hunk Scorer", "path": "reports/PRIMEVUL_PREDICTED_SIDE_HUNK_SCORER.md", "required": true },
-        { "label": "Side-Inversion Gate Summary", "path": "reports/PRIMEVUL_SIDE_INVERSION_GATE_SUMMARY.md", "required": true },
-        { "label": "Manual Adjudication Status Dashboard", "path": "reports/PRIMEVUL_MANUAL_ADJUDICATION_STATUS_DASHBOARD.md", "required": true },
-        { "label": "AI Adjudication Summary", "path": "reports/PRIMEVUL_AI_ADJUDICATION_SUMMARY.md", "required": true }
+        {
+          "label": "Historical Evidence Inventory",
+          "path": "reports/evidence_inventory.json",
+          "required": true
+        },
+        {
+          "label": "Cleanup Inventory",
+          "path": "reports/scientific_review_2026_09_07/cleanup_manifest.json",
+          "required": true
+        }
       ]
     }
   ]

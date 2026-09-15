@@ -27,27 +27,6 @@ def _strip_quoted_spans(text: str) -> str:
     return re.sub(r'"[^"]*"', "", text)
 
 
-def test_report_exists_and_is_indexed():
-    assert REPORT_PATH.exists()
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    index = (ROOT / "reports/RESULTS_INDEX.md").read_text(encoding="utf-8")
-    assert "reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md" in readme
-    assert "reports/CODEBERT_LABEL_POLARITY_MECHANISM_REPLICATION.md" in index
-
-
-def test_no_overreaching_claims_in_report():
-    text = _strip_quoted_spans(REPORT_PATH.read_text(encoding="utf-8")).lower()
-    for phrase in FORBIDDEN_PHRASES:
-        assert phrase not in text, f"found unquoted '{phrase}' in report"
-
-
-def test_report_states_behavioral_two_architecture_boundary():
-    normalized = " ".join(REPORT_PATH.read_text(encoding="utf-8").split()).lower()
-    assert "behavioral evidence rather than an internal mechanistic explanation" in normalized
-    # broader than one, not general
-    assert "two architectures is broader than one, not general" in normalized
-
-
 def test_json_artifact_well_formed_with_expected_counts():
     payload = json.loads(JSON_PATH.read_text(encoding="utf-8"))
     assert payload["status"] == "ok"
@@ -80,18 +59,3 @@ def test_json_includes_crossvul_confound_aware_check():
     agreement = cv["model_vs_crude_polarity_shortcut"]["canonical"]["agreement"]
     # CodeBERT should track the crude shortcut heavily on CrossVul (compare Qwen ~0.92)
     assert agreement > 0.8
-
-
-def test_report_referenced_paths_resolve():
-    text = REPORT_PATH.read_text(encoding="utf-8")
-    pattern = re.compile(r"`((?:reports|docs|src|scripts)/[A-Za-z0-9_./-]+\.(?:md|json|py))`")
-    for relative_path in set(pattern.findall(text)):
-        assert (ROOT / relative_path).exists(), relative_path
-
-
-def test_audit_marks_replication_done():
-    audit = " ".join(
-        (ROOT / "docs/EXPERIMENT_COMPLETENESS_AUDIT.md").read_text(encoding="utf-8").split()
-    ).lower()
-    assert "reports/codebert_label_polarity_mechanism_replication.md" in audit
-    assert "label-only/polarity-only replication (a, b, e) | **done**" in audit

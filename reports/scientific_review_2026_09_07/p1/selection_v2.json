@@ -1,0 +1,64 @@
+{
+  "status": "READY_FOR_HUMAN_REVIEW_NOT_INFERENCE",
+  "source_counts": {
+    "patcheval": 12,
+    "primevul": 12,
+    "deltasecommits": 12
+  },
+  "design_validation": {
+    "status": "ok",
+    "cases": 36,
+    "prompts": 432
+  },
+  "rejections": {
+    "deltasecommits:known_training_eval_or_prior_audit_project": 1571,
+    "patcheval:overlength": 202,
+    "primevul:known_training_eval_or_prior_audit_project": 4143,
+    "patcheval:known_training_eval_or_prior_audit_project": 498,
+    "primevul:overlength": 55,
+    "patcheval:quota": 614,
+    "patcheval:selected_project_or_code": 16,
+    "patcheval:invalid_code": 1,
+    "deltasecommits:quota": 36,
+    "primevul:quota": 21,
+    "deltasecommits:selected_project_or_code": 13,
+    "patcheval:known_content_overlap": 1,
+    "deltasecommits:overlength": 2,
+    "primevul:selected_project_or_code": 2
+  },
+  "source_pools": {
+    "primevul": {
+      "path": "data/processed/secure_code_primevul_paired_metadata.jsonl",
+      "sha256": "1ca08c161d4611de40052e89d35c1af85214456f67ca3fc23b9e54618c750d74",
+      "eligible_pairs": 4233,
+      "skipped_groups": 204
+    },
+    "deltasecommits": {
+      "path": "data/processed/secure_code_deltasecommits_pair_diff_cpp_all_metadata_v2.jsonl",
+      "sha256": "cfd3aa6e7023c20675f2815505ed73538d5fc672025c1fe7299bf5c1144ddd99",
+      "eligible_pairs": 1634,
+      "skipped_groups": 0
+    },
+    "patcheval": {
+      "path": "data/processed/secure_code_patcheval_pair_diff_all_metadata.jsonl",
+      "sha256": "c57a2243512e43125b27279491d3519b1c3092c9dcc2a9fffdd8bdd066a709e4",
+      "eligible_pairs": 1344,
+      "skipped_groups": 0
+    }
+  },
+  "independence_scope": "No project alias or whitespace-normalized code overlap with enumerated local inputs and prior audit; historical gaps remain.",
+  "near_clone_screen": "not_performed",
+  "foundation_pretraining_disjoint": "unknown",
+  "runtime": "existing joint tokenizer, plain input, add_special_tokens=True, max_length=1024",
+  "bundle": "data/annotation/binding_semantics_p1_v2",
+  "bundle_hashes": {
+    "model_prompts.json": "4cd4ff05f4d694b9145daa38119a20a0b9b06cafc45cbb227a0a46ef21ca76d9",
+    "PRIVATE_keys.json": "8b10ade5e31010d455753cbab42386d09826d5672e8ebf1b485fa9cd516fe4b3",
+    "PRIVATE_provenance.json": "56506fc791dd0d6bd7ae1e8816f6338778456edc6df5e4e21227ad41467b7bfa",
+    "review_r1.json": "c7793fc8baa754ad8091479d3fa6f6b3638ee4307cc6e67ab560efd37d57b69d",
+    "review_r2.json": "e08bce8e521e23a52440d13437f2b29d334a9e72d514363b51157a6e1ffd4156"
+  },
+  "model_inference_allowed": false,
+  "human_annotations_completed": 0,
+  "selection_amendment": "Expanded pools and pre-outcome exposure/length filters; v1 retained, no predictions used."
+}

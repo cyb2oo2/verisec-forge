@@ -1,3 +1,4 @@
+import pytest
 from vrf.repair_evaluation import evaluate_repair_criteria
 
 
@@ -104,14 +105,13 @@ def test_antisymmetric_inference_correctness_content_tracking_model():
     assert all(result["correct_by_pair"].values())
 
 
-def test_antisymmetric_inference_correctness_ignores_rows_missing_probability_b():
+def test_antisymmetric_inference_correctness_rejects_missing_predictions():
     from vrf.repair_evaluation import antisymmetric_inference_correctness
 
     audit = [_antisym_row("p0", "canonical", "A"), _antisym_row("p0", "side_swap", "A")]
     preds = {"p0::canonical": {"id": "p0::canonical", "probability_b": 0.1}}  # side_swap missing
-    result = antisymmetric_inference_correctness(audit, preds)
-    assert result["n"] == 0
-    assert result["accuracy"] is None
+    with pytest.raises(ValueError, match="coverage mismatch"):
+        antisymmetric_inference_correctness(audit, preds)
 
 
 def test_exact_mcnemar_matches_known_primevul_and_crossvul_counts():

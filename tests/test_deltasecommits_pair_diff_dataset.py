@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import pytest
+pytest.importorskip("tree_sitter")
+
 from scripts.build_deltasecommits_pair_diff import build_rows, split_by_pair_key, normalize_code_for_diff
 
 
@@ -31,12 +34,12 @@ def test_deltasecommits_builder_creates_balanced_pair_rows() -> None:
     assert "--- paired_counterpart\n+++ candidate\n@@" in rows[0]["pair_text"]
 
 
-def test_deltasecommits_builder_expands_single_line_c_like_snapshots() -> None:
+def test_deltasecommits_builder_preserves_single_line_source() -> None:
     normalized = normalize_code_for_diff("int f(){return 1;}")
 
     assert "{" in normalized
     assert "return 1;" in normalized
-    assert normalized.count("\n") >= 3
+    assert normalized == "int f(){return 1;}"
 
 
 def test_deltasecommits_split_is_pair_key_disjoint() -> None:

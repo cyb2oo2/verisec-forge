@@ -176,23 +176,3 @@ def test_audit_decoder_failure_cases_cli_writes_artifacts(tmp_path: Path) -> Non
     markdown = output_md.read_text(encoding="utf-8")
     assert report["summary"]["distorted_identity_rows"] == 2
     assert "Gold labels are used only to audit consequences" in markdown
-
-
-def test_decoder_failure_audit_report_artifacts_exist() -> None:
-    assert REPORT.exists()
-    assert MARKDOWN.exists()
-    assert REPORT.read_text(encoding="utf-8").strip()
-    assert MARKDOWN.read_text(encoding="utf-8").strip()
-
-
-def test_decoder_failure_audit_report_keeps_claim_boundary() -> None:
-    report = json.loads(REPORT.read_text(encoding="utf-8"))
-    markdown = MARKDOWN.read_text(encoding="utf-8")
-
-    assert report["summary"]["identity_rows"] == 1200
-    assert report["summary"]["distorted_identity_rows"] > 0
-    assert "correct_to_wrong" in report["summary"]["flip_outcome_counts"]
-    assert "wrong_to_correct" in report["summary"]["flip_outcome_counts"]
-    assert "Gold labels are used only after the fact" in report["claim_boundary"]
-    assert "does not claim improved model reasoning" in markdown
-    assert "not as a standalone model quality result" in markdown

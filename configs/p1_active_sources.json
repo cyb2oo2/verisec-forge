@@ -1,0 +1,22 @@
+{
+  "version": "source-v3",
+  "status": "LOCAL_CONTEXT_REVIEW_COMPLETED",
+  "training_data_expansion_status": "READY_FOR_WEAK_SUPERVISION_PILOT",
+  "training_data_expansion_manifest": "reports/scientific_review_2026_09_07/p1/training_pilot_v1_release.json",
+  "training_pilot_config": "configs/research_patcheval_training_pilot_v1.json",
+  "context_manifest": "reports/scientific_review_2026_09_07/p1/local_context_v1.json",
+  "context_review": "reports/scientific_review_2026_09_07/p1/ai_context_v1_review.json",
+  "annotation_acceptance": "reports/scientific_review_2026_09_07/p1/ai_source_v3_acceptance.json",
+  "annotation_responses": "data/annotation/p1_assistant_source_v3/responses.jsonl",
+  "annotation_metadata": "data/annotation/p1_assistant_source_v3/metadata.json",
+  "next_context_queue": "reports/scientific_review_2026_09_07/p1/context_v1_remaining_queue.json",
+  "source_manifest": "reports/scientific_review_2026_09_07/p1/source_repair_v3.json",
+  "verification": "reports/scientific_review_2026_09_07/p1/source_repair_verification.json",
+  "annotation_manifest": "reports/scientific_review_2026_09_07/p1/ai_source_v3_preparation.json",
+  "annotation_requests": "data/annotation/p1_ai_source_v3/requests.jsonl",
+  "annotation_bindings": "data/annotation/p1_reannotation_inputs_v3/PRIVATE_binding.json",
+  "legacy_annotations_applicable": false,
+  "training_authorized_by_this_config": false,
+  "evaluation_contract_frozen": false,
+  "primary_scope": "Security-only diagnostic; source case remains the clustering unit"
+}

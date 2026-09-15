@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from vrf.relational_benchmark import changed_line_occurrences, insert_before_diff
+from vrf.prediction_validation import unique_rows
 
 
 def _encode(tokenizer: Any, text: str, *, add_special_tokens: bool) -> list[int]:
@@ -172,7 +173,23 @@ def runtime_accounting(
     truncation_side: str,
     add_special_tokens: bool,
     transformation_char_spans: list[dict[str, int]] | None = None,
+    changed_occurrences: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    if max_length <= 0 or truncation_side not in {"left", "right"}:
+        raise ValueError("invalid runtime truncation configuration")
+    if changed_occurrences is None and "Split-view diff from" in text:
+        raise ValueError("split-view requires renderer-supplied changed occurrences")
+    occurrences = changed_line_occurrences(text) if changed_occurrences is None else changed_occurrences
+    if not occurrences:
+        raise ValueError("unknown visibility: no changed occurrences; cannot certify fully visible")
+    previous_end = -1
+    for occurrence in occurrences:
+        start, end = occurrence["char_start"], occurrence["char_end"]
+        if not (isinstance(start, int) and isinstance(end, int) and 0 <= start < end <= len(text)):
+            raise ValueError("invalid changed occurrence offsets")
+        if start < previous_end or text[start:end] != occurrence["text"]:
+            raise ValueError("changed occurrence text/offset mismatch")
+        previous_end = end
     token_ids, offsets = _offsets(
         tokenizer, text, add_special_tokens=add_special_tokens
     )
@@ -180,7 +197,7 @@ def runtime_accounting(
         len(token_ids), max_length=max_length, truncation_side=truncation_side
     )
     visibility = _occurrence_visibility(
-        changed_line_occurrences(text),
+        occurrences,
         offsets,
         visible_start=visible_start,
         visible_end=visible_end,
@@ -199,6 +216,8 @@ def runtime_accounting(
         "truncation_side": truncation_side,
         "add_special_tokens": add_special_tokens,
         "offset_mapping_quality": "exact_fast_tokenizer",
+        "visibility_status": "measured_changed_lines",
+        "occurrence_source": "renderer" if changed_occurrences is not None else "unified_diff_markers",
         "token_count": len(token_ids),
         "visible_token_start": visible_start,
         "visible_token_end": visible_end,
@@ -223,11 +242,15 @@ def materialize_runtime_rows(
     truncation_side: str = "right",
     add_special_tokens: bool = True,
 ) -> list[dict[str, Any]]:
+    unique_rows(benchmark_rows)
     bases = {
         str(row["base_id"]): row
         for row in benchmark_rows
         if row["expected_relation"] == "identity"
     }
+    identity_rows = [r for r in benchmark_rows if r["expected_relation"] == "identity"]
+    if len(bases) != len(identity_rows):
+        raise ValueError("duplicate identity base_id; each transformation family needs its own base")
     base_accounting_cache: dict[str, dict[str, Any]] = {}
     output = []
     for row in benchmark_rows:
@@ -257,6 +280,7 @@ def materialize_runtime_rows(
                 "transformation_char_spans",
                 transformation_char_spans,
             ),
+            changed_occurrences=row.get("rendered_changed_occurrences"),
         )
         if row["expected_relation"] == "identity":
             base_accounting = accounting
@@ -272,6 +296,7 @@ def materialize_runtime_rows(
                 max_length=max_length,
                 truncation_side=truncation_side,
                 add_special_tokens=add_special_tokens,
+                changed_occurrences=bases[str(row["base_id"])].get("rendered_changed_occurrences"),
             )
                 base_accounting_cache[str(row["base_id"])] = base_accounting
         output.append(

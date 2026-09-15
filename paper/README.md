@@ -1,31 +1,5 @@
-# Paper 1 Draft Packet
+# Paper status
 
-This directory contains the paper-facing version of the VeriPatch-RR story.
-It intentionally summarizes the retained research line instead of listing
-every historical experiment.
+Pre-review drafts, figures and build reports were removed because they propagated conclusions challenged by the [current review](../reports/scientific_review_2026_09_07/REVIEW.md). There is no submission-ready manuscript.
 
-## Files
-
-- [abstract.md](abstract.md): short abstract draft.
-- [outline.md](outline.md): section-level paper structure.
-- [main_claims.md](main_claims.md): thesis, contributions, and claim
-  boundaries.
-- [tables/main_results.md](tables/main_results.md): compact main-results
-  table.
-- [figures/figure1_problem.svg](figures/figure1_problem.svg): pointwise
-  accuracy versus relational consistency.
-- [figures/figure2_veripatch_rr.svg](figures/figure2_veripatch_rr.svg):
-  benchmark design.
-- [figures/figure3_mechanism_decomposition.svg](figures/figure3_mechanism_decomposition.svg):
-  readout mechanism decomposition.
-- [figures/figure4_discovery_confirmation.svg](figures/figure4_discovery_confirmation.svg):
-  discovery to confirmation to frozen-control chain.
-
-## Current Boundary
-
-Paper 1 should stop at the measurement and mechanism claim:
-
-> Endpoint robustness can be controlled by readout design, but side-order
-> relational reasoning remains unresolved.
-
-Antisymmetric side-order architectures are a separate follow-up line.
+[References](references.md) remain a bibliography starting point, not a current novelty review. Rebuild a paper after measurement, data attribution, raw-versus-projected inference and provenance are reconciled. Tracked originals remain in Git history.

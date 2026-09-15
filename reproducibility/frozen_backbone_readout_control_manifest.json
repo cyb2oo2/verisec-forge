@@ -122,12 +122,6 @@
       "bytes": 16758
     },
     {
-      "role": "control_report_markdown",
-      "path": "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
-      "sha256": "8e1a9cfc11334d8f39619e0acd7b3ba3e0bc364ec28009116f7505485bedbc5c",
-      "bytes": 3015
-    },
-    {
       "role": "terminal_seed7_training_report",
       "path": "reports/secure_code_frozen_readout_control_terminal_seed7_training_report.json",
       "sha256": "bfd8d705f8aef84caa3d31bd3023b9964e469a35446ff5d987bd51bf0cc64b34",
@@ -218,5 +212,6 @@
     "The bundle reproduces matched-head training and analysis from cached frozen representations.",
     "The 1.5B backbone checkpoint is not included; regenerating feature caches requires the recorded base revision and LoRA adapter.",
     "The control isolates pooling over one terminal-trained Qwen representation and does not establish broad model-family generality."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

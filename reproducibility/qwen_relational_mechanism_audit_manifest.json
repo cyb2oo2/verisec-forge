@@ -42,12 +42,6 @@
       "path": "reports/secure_code_qwen_mechanism_audit_v1.json",
       "sha256": "f327dd5f2b6829a859456ec2d1215cc9ae07a95566483b19a41dbd21cdc25dc1",
       "bytes": 93202
-    },
-    {
-      "role": "mechanism_audit_markdown",
-      "path": "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
-      "sha256": "c23190376a542ca6fa8db2834fa5bec42372efa00cf075619d48390d4d48e1ad",
-      "bytes": 5006
     }
   ],
   "expected": {
@@ -69,5 +63,6 @@
     "The binary checkpoint does not support abstention; context-pressure results are forced decisions.",
     "The manifest reproduces analysis from stored runtime rows and predictions, not GPU inference.",
     "The runtime and prediction artifacts remain gitignored until included in a public artifact bundle."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

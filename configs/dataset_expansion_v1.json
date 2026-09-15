@@ -1,0 +1,18 @@
+{
+  "version": "patcheval_training_pilot_v1",
+  "source": "data/processed/secure_code_patcheval_pair_diff_all_verified_v2.jsonl",
+  "output": "data/processed/patcheval_training_pilot_v1",
+  "seed": 20260909,
+  "max_seq_length": 4096,
+  "tokenizer_source": "checkpoints/cls_secure_code_primevul_joint_pairwise_qwen15b_lora_v1",
+  "split_fractions": {"train": 0.7, "validation": 0.15, "test": 0.15},
+  "minimum_pairs": {"train": 400, "validation": 60, "test": 60},
+  "minimum_projects": {"train": 10, "validation": 5, "test": 5},
+  "clone_shingle_size": 5,
+  "clone_jaccard_threshold": 0.8,
+  "label_source": "upstream_patch_direction_weak_supervision",
+  "scope": "Engineering pilot readiness only; thresholds are not a statistical power guarantee",
+  "training_requested": false,
+  "exclude_all_original_p1_projects": true,
+  "old_research_checkpoint_initialization_allowed": false
+}

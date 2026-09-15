@@ -50,14 +50,8 @@ def test_experiment_registry_covers_public_system_reports() -> None:
     }
 
     required_paths = {
-        "reports/RELATIONAL_BENCHMARK_V2.md",
-        "reports/VERIPATCH_RR_QWEN15B_SMOKE.md",
-        "reports/CROSS_MODEL_RELATIONAL_AUDIT.md",
-        "reports/CROSS_MODEL_REPLICATION.md",
-        "reports/QWEN_RELATIONAL_MECHANISM_AUDIT.md",
-        "reports/READOUT_ABLATION.md",
-        "reports/READOUT_CONFIRMATORY.md",
-        "reports/FROZEN_BACKBONE_READOUT_CONTROL.md",
+        "reports/scientific_review_2026_09_07/REVIEW.md",
+        "reports/scientific_review_2026_09_07/audit_results.json",
         "docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md",
         "docs/CI_TESTING_STRATEGY.md",
         "reproducibility/veripatch_external_smoke_manifest.json",

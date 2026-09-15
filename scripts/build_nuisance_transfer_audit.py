@@ -8,7 +8,7 @@ then renders each of the five held-out nuisance families
 (`src/vrf/nuisance_transfer.py`) as a canonical + side-swap audit row pair. No
 model is run and no training happens here -- this is evaluation-dataset
 construction only, per `docs/REPAIR_EXPERIMENT_PREREGISTRATION.md`'s
-still-unrun nuisance-transform transfer leg.
+nuisance-transform transfer leg; v2 fixes measurement metadata only.
 """
 
 from __future__ import annotations
@@ -27,8 +27,8 @@ for path in (SRC, ROOT):
 
 from vrf.io_utils import write_json, write_jsonl
 from vrf.qwen_mechanism_audit import audit_row
-from vrf.relational_benchmark import pair_metadata, sample_representative
-from vrf.nuisance_transfer import NUISANCE_FAMILIES, build_nuisance_rows
+from vrf.relational_benchmark import pair_metadata, sample_representative, swap_pair
+from vrf.nuisance_transfer import NUISANCE_FAMILIES, build_nuisance_rows, split_view_occurrences
 
 from scripts.build_relational_benchmark_v2 import DEFAULT_SOURCES, load_pairs, parse_source
 
@@ -59,11 +59,11 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument(
         "--output",
-        default="data/processed/secure_code_nuisance_transfer_audit_v1.jsonl",
+        default="data/processed/secure_code_nuisance_transfer_audit_v2.jsonl",
     )
     parser.add_argument(
         "--summary-output",
-        default="reports/secure_code_nuisance_transfer_audit_dataset_v1.json",
+        default="reports/scientific_review_2026_09_07/nuisance_dataset_v2.json",
     )
     args = parser.parse_args()
 
@@ -101,6 +101,14 @@ def main() -> int:
                 )
             )
 
+    pairs_by_key = {(p.dataset, p.pair_key): p for p in base_pairs}
+    for row in rows:
+        row["base_id"] = f"audit::{row['dataset']}::{row['pair_key']}::canonical__{row['audit_family']}"
+        if row["audit_family"] == "split_view":
+            pair = pairs_by_key[row["dataset"], row["pair_key"]]
+            if row["expected_relation"] != "identity":
+                pair = swap_pair(pair)
+            row["rendered_changed_occurrences"] = split_view_occurrences(pair, row["text"])
     write_jsonl(ROOT / args.output, rows)
     summary = {
         "status": "ok" if not build_errors else "partial",
@@ -114,7 +122,7 @@ def main() -> int:
         "note": (
             "Not part of the original polarity-only-swap audit's training/"
             "evaluation loop. Reuses the identical 600 base pairs (verified "
-            "pair_key match) for direct comparability to the #54 PrimeVul "
+            "pair_key match) for direct comparability to the mixed-source "
             "in-distribution numbers."
         ),
     }

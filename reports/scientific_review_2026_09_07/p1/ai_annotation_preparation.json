@@ -1,0 +1,16 @@
+{
+  "status": "AI_REQUESTS_PREPARED_NOT_ANNOTATED",
+  "cases": 36,
+  "annotation_source": "ai",
+  "human_review_required": false,
+  "model_calls": 0,
+  "source_sha256": "c7793fc8baa754ad8091479d3fa6f6b3638ee4307cc6e67ab560efd37d57b69d",
+  "template_sha256": "6aa3055b7b86e8ab0d0685d0a9405a3842f5587be3fa990b823448c38c7f116c",
+  "bundle": "data/annotation/binding_semantics_p1_ai_v1",
+  "hashes": {
+    "cases.json": "bd7f2fe6734b53d59de68e40a5289b9e5907fdf472b599e332ac44f5af1acbae",
+    "requests.jsonl": "9d02f40e82091fc9fad36dcb380f98a6a72415ee629d5fa0f7010dc97cbb8ced",
+    "response_schema.json": "ff8e119d3950aa367ac3fca69022da1a9951cb279c59ba71f14d0389bca649ea",
+    "run_metadata_template.json": "8c12073678edfb51ae95c5625c66d446c64f03378727ef5cf8f0a81bcc585b8a"
+  }
+}

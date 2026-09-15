@@ -92,12 +92,6 @@
       "bytes": 14493
     },
     {
-      "role": "confirmatory_report_markdown",
-      "path": "reports/READOUT_CONFIRMATORY.md",
-      "sha256": "b158a6aa0cc88c3eb989679dea5ce836fa609feff5c58985888e5159cc0c98c3",
-      "bytes": 2811
-    },
-    {
       "role": "terminal_seed7_training_report",
       "path": "reports/secure_code_readout_confirmatory_qwen15b_terminal_seed7_training_report.json",
       "sha256": "826b411d0b3dd2208b7c06402ac7622ef1b86897712f86e021468277de688e13",
@@ -185,5 +179,6 @@
     "Model checkpoints are local and are not included in Git or this manifest.",
     "This confirms readout-conditioned training behavior; a frozen-backbone pooling control remains future work.",
     "Endpoint robustness and side-order equivariance are separate capabilities."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

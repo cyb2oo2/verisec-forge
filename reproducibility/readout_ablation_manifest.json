@@ -66,12 +66,6 @@
       "bytes": 23020
     },
     {
-      "role": "ablation_report_markdown",
-      "path": "reports/READOUT_ABLATION.md",
-      "sha256": "3cc088f6512db6382e1fee28bbea55abd5e0047dff95410b2db09bedf60834bb",
-      "bytes": 2464
-    },
-    {
       "role": "terminal_training_report",
       "path": "reports/secure_code_primevul_readout_ablation_qwen15b_terminal_v1_report.json",
       "sha256": "6980c3ada183d22e73f57bb48e7abf903af3d4f11195d86219fb0362ce67b7d5",
@@ -125,5 +119,6 @@
     "This is a same-backbone readout intervention within one Qwen checkpoint family, not broad cross-model generalization.",
     "The manifest reproduces analysis from stored predictions, not GPU training.",
     "Local LoRA checkpoints are not included in this manifest or Git; rebuilding predictions requires the configured initialization checkpoint and GPU training commands."
-  ]
+  ],
+  "cleanup_note": "Retired narrative outputs removed on 2026-09-07. Original entries are in reports/scientific_review_2026_09_07/cleanup_manifest.json; retained evidence hashes unchanged."
 }

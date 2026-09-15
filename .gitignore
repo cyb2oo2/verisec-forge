@@ -17,6 +17,8 @@ build/
 models/
 .DS_Store
 .tmp_test_runs/
+reports/scientific_review_2026_09_07/audit_recheck.json
+data/processed/p0_measurement_v2/
 pytest-cache-files-*/
 configs/tmp_baseline_*.json
 data/raw/
