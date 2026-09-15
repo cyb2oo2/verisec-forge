@@ -6,7 +6,9 @@
 
 VeriSec Forge studies language-model assessment of paired code candidates. Its central question is whether a model tracks the relevant candidate across changes in order, labels, and presentation, and what an evaluation can legitimately tell us about security reasoning.
 
-**Current status: measurement validation, source-data repair, and preparation for a small weak-supervision pilot.** The September 7 scientific review, including its subsequent updates, supersedes earlier result narratives. No transferable learned repair or deployment-ready vulnerability detector is established.
+**Yibo Chen's work:** evaluation design, experiment integration, measurement and source repair, and reproducibility tooling, under the supervision of Prof. Yongzhuang Wei. See [contribution and attribution details](docs/CONTRIBUTIONS.md).
+
+**Current status: measurement validation and source-data repair within the audited scope; a weak-supervision dataset is prepared and awaits baseline training.** The September 7 scientific review, including its subsequent updates, supersedes earlier result narratives. No transferable learned repair or deployment-ready vulnerability detector is established.
 
 ## Start here
 
@@ -64,15 +66,22 @@ python -m venv .venv
 Activate with `.venv\Scripts\Activate.ps1` in PowerShell or `source .venv/bin/activate` on Linux/macOS, then:
 
 ```bash
-python -m pip install -e ".[dev,source-audit]"
+python -m pip install -e .
 python scripts/run_offline_demo.py --output outputs/offline-demo
+```
+
+For the full regression suite, additionally install the test dependencies (including CPU tensor operations, but no model weights):
+
+```bash
+python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -e ".[dev,source-audit]"
 python -m pytest -q
 python scripts/build_reproducibility_bundle.py --manifest reproducibility/veripatch_external_smoke_manifest.json --check-only
 ```
 
 Expected demo output: `status: ok`, `mode: MOCK_ONLY`, and paths to `predictions.jsonl` and `evaluation.json`. A constant-A fixture exercises the bundled smoke inputs and reporting. Its scores describe that fixture, **not an AI model**. Unfilled prediction templates are intentionally rejected; see the [adapter contract](docs/VERIPATCH_RR_EXTERNAL_ADAPTER.md).
 
-Core dependencies are FastAPI, Pydantic, and Uvicorn; verification uses pytest and pinned tree-sitter parsers from the `source-audit` extra. Model/training dependencies are optional and declared in [pyproject.toml](pyproject.toml). Research runs need separately acquired data and model/tokenizer weights; hosted inference may incur API charges. The quick start performs neither training nor hosted inference.
+Core dependencies are FastAPI, Pydantic, and Uvicorn. Full verification adds pytest, NumPy, PyTorch, datasets utilities, an HTTP test client, and pinned tree-sitter parsers. Model-training tooling is optional and declared in [pyproject.toml](pyproject.toml). Research runs need separately acquired data and model/tokenizer weights; hosted inference may incur API charges. The quick start performs neither training nor hosted inference.
 
 See the [CI testing strategy](docs/CI_TESTING_STRATEGY.md) and [reproduction guide](REPRODUCIBILITY.md) for verification scope. Software checks do not certify model quality or label correctness.
 

@@ -8,7 +8,7 @@ on:
 
 jobs:
   research-smoke:
-    name: Research smoke (${{ matrix.os }})
+    name: Research regression (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
