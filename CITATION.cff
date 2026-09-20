@@ -4,9 +4,7 @@ title: "VeriSec Forge: Relation-Preserving Secure Patch Reasoning"
 version: "0.1.0"
 type: software
 authors:
-  - family-names: "Chen"
-    given-names: "Yibo"
-    alias: "cyb2oo2"
+  - name: "cyb2oo2"
 repository-code: "https://github.com/cyb2oo2/verisec-forge"
 url: "https://github.com/cyb2oo2/verisec-forge"
 abstract: >

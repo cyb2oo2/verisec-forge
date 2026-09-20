@@ -6,7 +6,7 @@
 
 VeriSec Forge studies language-model assessment of paired code candidates. Its central question is whether a model tracks the relevant candidate across changes in order, labels, and presentation, and what an evaluation can legitimately tell us about security reasoning.
 
-**Yibo Chen's work:** evaluation design, experiment integration, measurement and source repair, and reproducibility tooling, under the supervision of Prof. Yongzhuang Wei. See [contribution and attribution details](docs/CONTRIBUTIONS.md).
+**Project scope:** evaluation design, experiment implementation and analysis, measurement and source repair, dataset preparation, and reproducibility tooling. See the [design and implementation record](docs/CONTRIBUTIONS.md).
 
 **Current status: measurement validation and source-data repair within the audited scope; a weak-supervision dataset is prepared and awaits baseline training.** The September 7 scientific review, including its subsequent updates, supersedes earlier result narratives. No transferable learned repair or deployment-ready vulnerability detector is established.
 
@@ -15,7 +15,7 @@ VeriSec Forge studies language-model assessment of paired code candidates. Its c
 - [Current research review: English summary](reports/public_review_2026_09_10/REVIEW.md)
 - [Full scientific review and update history: Chinese](reports/scientific_review_2026_09_07/REVIEW.md)
 - [Version and result status](docs/RESULT_STATUS.md)
-- [Personal contribution and upstream attribution](docs/CONTRIBUTIONS.md)
+- [Design and implementation record](docs/CONTRIBUTIONS.md)
 - [Machine-readable aggregate snapshot and source hashes](reports/public_review_2026_09_10/snapshot.json)
 
 The September 2026 review supersedes earlier narratives. This publication synchronizes reviewed measurement and source-repair code, preserves historical machine evidence, and retires obsolete prose. Source datasets, annotation inputs, tokenizer caches, and checkpoints are not bundled; full research reproduction still requires local artifacts.
@@ -39,11 +39,11 @@ The September 2026 review supersedes earlier narratives. This publication synchr
 | Raw repair evaluation | Original repair gate remains failed | Structural projection is separate from learned improvement |
 | Source repair | 32 function pairs / 27 cases; 64 bidirectional prompts verified | Multiple functions from one case remain clustered |
 | Exploratory AI review | After context review: 13 provisional single-side, 2 both-risk, 17 unclear | AI-authored diagnostics; neither independent human gold nor model accuracy |
-| Weak-supervision pilot | 571 train / 134 validation / 133 test pairs | Upstream patch-direction labels; no new training result |
+| Weak-supervision pilot | 571 train / 134 validation / 133 test pairs | Dataset-provided patch-direction labels; no new training result |
 
 The repair audit contains 200 pairs each from PrimeVul, DeltaSecommits, and PatchEval. Measurements reuse retained predictions; they are not a new confirmatory experiment. See [corrected P0 results](reports/scientific_review_2026_09_07/p0/results.json), [source repair](reports/scientific_review_2026_09_07/p1/source_repair_v3.json), and [pilot settings](docs/TRAINING_DATASET_PILOT.md).
 
-The pilot was prepared from 1,006 candidates: 117 failed input filters and 51 were quarantined through connected components after a 12-pair exploratory AI audit of training examples. The remaining 838 pairs are not individually verified gold. Validation and test retain upstream weak labels.
+The pilot was prepared from 1,006 candidates: 117 failed input filters and 51 were quarantined through connected components after a 12-pair exploratory AI audit of training examples. The remaining 838 pairs are not individually verified gold. Validation and test retain dataset-provided weak labels.
 
 ## Evidence limits
 
@@ -84,10 +84,6 @@ Expected demo output: `status: ok`, `mode: MOCK_ONLY`, and paths to `predictions
 Core dependencies are FastAPI, Pydantic, and Uvicorn. Full verification adds pytest, NumPy, PyTorch, datasets utilities, an HTTP test client, and pinned tree-sitter parsers. Model-training tooling is optional and declared in [pyproject.toml](pyproject.toml). Research runs need separately acquired data and model/tokenizer weights; hosted inference may incur API charges. The quick start performs neither training nor hosted inference.
 
 See the [CI testing strategy](docs/CI_TESTING_STRATEGY.md) and [reproduction guide](REPRODUCIBILITY.md) for verification scope. Software checks do not certify model quality or label correctness.
-
-## Personal contribution
-
-**Yibo Chen (cyb2oo2)** maintains this research under **Prof. Yongzhuang Wei (韦永壮)**. My project work covers evaluation design, experiment integration, source and measurement repair, data preparation, and reproducibility tooling. AI assistance was used for code and exploratory analysis; provisional AI annotations are explicitly distinguished from independent human evidence. [Contribution details and upstream credits](docs/CONTRIBUTIONS.md) separate this work from pretrained models, datasets, parsers, and infrastructure.
 
 ## Implementation map
 

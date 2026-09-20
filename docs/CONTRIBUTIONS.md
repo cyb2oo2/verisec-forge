@@ -1,20 +1,22 @@
-# Personal contribution and attribution
+# Design and implementation record
 
-**Yibo Chen (cyb2oo2)** maintains this research under **Prof. Yongzhuang Wei (韦永壮)**. Commit history records implementation changes; it does not establish unaided authorship of every line or independent validation of every result.
+The repository covers the research workflow from evaluation design and experiment implementation to measurement repair, source-data preparation, statistical analysis, and reproducible reporting.
 
-| Area | Work led and maintained by Yibo Chen | Dependencies and boundaries |
+| Area | Implemented work | Technical record |
 | --- | --- | --- |
-| Research design | Paired evaluation, presentation controls, claim boundaries, and iteration after measurement failures | Supervised research; behavioral results alone do not identify internal mechanisms |
-| Implementation | Evaluation pipeline, prediction checks, source accounting, source repair, dataset grouping, manifests, regression checks | AI coding assistance was used; ownership does not imply every line was written unaided |
-| Experiments and analysis | Experiment integration, retained-prediction reanalysis, data diagnostics, evidence organization | Upstream models and benchmarks; historical training differs from current data-only pilot preparation |
-| Annotation workflow | Source recovery, review organization, explicit unresolved-case accounting | Exploratory judgments are assistant-authored, not independent human labels; unavailable service-model metadata remains unknown |
+| Evaluation design | Paired code candidates, order and label transformations, controlled presentation, and explicit decision semantics | [Relational runtime](../src/vrf/relational_runtime.py) |
+| Experiment execution | Prediction identity and coverage validation, external-adapter contracts, and a small offline demonstration | [Prediction validation](../src/vrf/prediction_validation.py), [adapter contract](VERIPATCH_RR_EXTERNAL_ADAPTER.md) |
+| Measurement and analysis | Changed-line visibility accounting, tie handling, paired comparisons, and stratified pair-cluster bootstrap analysis | [Evaluation implementation](../src/vrf/relational_evaluation.py), [current review](../reports/public_review_2026_09_10/REVIEW.md) |
+| Source-data repair | Source extraction, function matching, source-aware identities, commit references, file hashes, and line provenance | [Source integrity](../src/vrf/source_integrity.py), [repair record](../reports/scientific_review_2026_09_07/p1/source_repair_v3.json) |
+| Dataset preparation | Bidirectional examples, grouped splits, overlap quarantine, and input/tokenizer checks | [Dataset implementation](../src/vrf/training_dataset.py), [pilot report](TRAINING_DATASET_PILOT.md) |
+| Reproducibility | Artifact manifests, evidence inventory, regression checks, CI, and result-status tracking | [Reproduction guide](../REPRODUCIBILITY.md), [result status](RESULT_STATUS.md) |
 
-## Upstream work
+## Data, models, and dependencies
 
-- **PrimeVul, DeltaSecommits, PatchEval:** upstream cases and patch-direction information. Source code belongs to its original projects. See [data documentation](../data/README.md) and [source provenance](../reports/scientific_review_2026_09_07/p1/source_repair_v3.json).
-- **Qwen and CodeBERT families:** upstream pretrained models used historically, not models pretrained by this project. Exact model and precision depend on each experiment's configuration and runtime record.
-- **Transformers, PEFT, datasets, Accelerate, TRL, PyTorch:** optional model/training infrastructure.
-- **tree-sitter and language grammars:** source parsing; syntax acceptance is not security validation.
-- **FastAPI, Pydantic, Uvicorn, pytest, GitHub Actions:** software and verification infrastructure.
+Experiments use PrimeVul, DeltaSecommits, and PatchEval cases with recorded source provenance. Historical model configurations use Qwen and CodeBERT families; exact model, precision, and settings are recorded per experiment. See the [data documentation](../data/README.md).
 
-See [dependencies](../pyproject.toml). Repository licensing does not replace upstream code, data, or model terms. The [scientific review](../reports/scientific_review_2026_09_07/REVIEW.md) documents AI assistance and provisional evidence; collaborators are not represented as independently endorsing these findings.
+Runtime, test, parsing, and optional training dependencies are declared in [pyproject.toml](../pyproject.toml). Data, source code, and model weights retain their respective license terms.
+
+## Experimental status
+
+Current results establish measurement and source-integrity checks within the audited scope. Exploratory AI annotations remain provisional. The weak-supervision pilot is prepared but has not produced a new training result. The [current review](../reports/public_review_2026_09_10/REVIEW.md) and [result-status record](RESULT_STATUS.md) define which measurements remain valid and which interpretations are unsupported or superseded.
